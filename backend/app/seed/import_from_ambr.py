@@ -20,6 +20,7 @@ Uso:
 import asyncio
 import os
 import re
+from datetime import datetime, timezone
 from typing import Any
 
 import httpx
@@ -31,6 +32,8 @@ from ..models import (
     CharacterTranslation,
     CharacterAscensionMaterial,
     CharacterAscensionPhase,
+    CharacterConstellation,
+    CharacterTalent,
     CharacterTalentPhase,
     Material,
     MaterialTranslation,
@@ -241,6 +244,8 @@ def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
         "max_def": max_def,
         "ascension_stat": STAT_MAP.get(raw.get("specialProp") or ""),
         "ascension_stat_value": None,
+        "release_date": _parse_release(raw.get("release")),
+        "voice_actors": (raw.get("fetter") or {}).get("cv"),
     }
 
 
@@ -327,6 +332,72 @@ def parse_talent(raw: dict[str, Any]) -> list[dict[str, Any]]:
         result.append({
             "talent_type": TALENT_ORDER[idx],
             "phases": phases,
+        })
+    return result
+
+
+def _parse_release(ts: Any) -> Any:
+    """Unix ts → date object."""
+    if not ts:
+        return None
+    try:
+        return datetime.fromtimestamp(int(ts), tz=timezone.utc).date()
+    except (TypeError, ValueError, OSError):
+        return None
+
+
+def parse_constellations(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    """Lista de C1..C6 com name/description/icon."""
+    consts = raw.get("constellation") or {}
+    if not isinstance(consts, dict):
+        return []
+    result: list[dict[str, Any]] = []
+    for key, c in consts.items():
+        if not isinstance(c, dict):
+            continue
+        level_raw = c.get("id")
+        if level_raw is None:
+            try:
+                level_raw = int(key)
+            except (TypeError, ValueError):
+                continue
+        try:
+            level = int(level_raw) + 1  # id é 0-indexed
+        except (TypeError, ValueError):
+            continue
+        if level < 1 or level > 6:
+            continue
+        result.append({
+            "level": level,
+            "name": c.get("name") or "",
+            "description": c.get("description"),
+            "icon": c.get("icon"),
+        })
+    result.sort(key=lambda x: x["level"])
+    return result
+
+
+def parse_talents_descriptive(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    """Extrai name/description/icon dos 3 talentos upáveis (os com costItems)."""
+    talent_map = raw.get("talent") or {}
+    if not isinstance(talent_map, dict):
+        return []
+    ordered: list[dict[str, Any]] = []
+    for key in sorted(talent_map.keys(), key=lambda x: int(x) if str(x).isdigit() else 9999):
+        t = talent_map.get(key) or {}
+        promote = t.get("promote") or {}
+        has_costs = any(
+            isinstance(p, dict) and p.get("costItems") for p in promote.values()
+        )
+        if has_costs:
+            ordered.append(t)
+    result: list[dict[str, Any]] = []
+    for idx, t in enumerate(ordered[:3]):
+        result.append({
+            "talent_type": TALENT_ORDER[idx],
+            "name": t.get("name") or "",
+            "description": t.get("description"),
+            "icon": t.get("icon"),
         })
     return result
 
@@ -517,6 +588,12 @@ async def main() -> None:
                 db.query(CharacterTalentPhase).filter_by(character_id=char.id).delete()
                 from ..models import CharacterTalentMaterial
                 db.query(CharacterTalentMaterial).filter_by(character_id=char.id).delete()
+                db.query(CharacterConstellation).filter_by(character_id=char.id).delete()
+                db.query(CharacterTalent).filter_by(character_id=char.id).delete()
+                for c in parse_constellations(en_raw):
+                    db.add(CharacterConstellation(character_id=char.id, **c))
+                for t in parse_talents_descriptive(en_raw):
+                    db.add(CharacterTalent(character_id=char.id, **t))
                 for phase in phases:
                     db.add(CharacterAscensionPhase(
                         character_id=char.id,

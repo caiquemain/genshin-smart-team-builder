@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import Character, Element, WeaponType, Language
+from ..models import Character, CharacterConstellation, CharacterTalent, Element, WeaponType, Language
 from ..schemas.character import (
     CharacterDetail,
     CharacterListResponse,
@@ -65,6 +65,25 @@ def get_character(
     if not char:
         raise HTTPException(status_code=404, detail="Character not found")
     data = resolve_character(db, char, lang)
+
+    consts = (
+        db.query(CharacterConstellation)
+        .filter(CharacterConstellation.character_id == char.id)
+        .order_by(CharacterConstellation.level)
+        .all()
+    )
+    talents = (
+        db.query(CharacterTalent)
+        .filter(CharacterTalent.character_id == char.id)
+        .all()
+    )
+    # Ordem: normal, skill, burst
+    from ..models import TalentType
+    order = {TalentType.NORMAL_ATTACK: 0, TalentType.ELEMENTAL_SKILL: 1, TalentType.ELEMENTAL_BURST: 2}
+    talents.sort(key=lambda t: order.get(t.talent_type, 99))
+
+    from ..schemas.character import ConstellationOut, TalentOut
+
     return CharacterDetail(
         slug=char.slug,
         name=data["name"],
@@ -85,4 +104,8 @@ def get_character(
         max_def=char.max_def,
         ascension_stat=char.ascension_stat,
         ascension_stat_value=char.ascension_stat_value,
+        release_date=char.release_date,
+        voice_actors=char.voice_actors,
+        constellations=[ConstellationOut.model_validate(c) for c in consts],
+        talents=[TalentOut.model_validate(t) for t in talents],
     )

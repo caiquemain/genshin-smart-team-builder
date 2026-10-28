@@ -14,6 +14,8 @@ from .character import (
     CharacterTranslation,
     CharacterAscensionMaterial,
     CharacterAscensionPhase,
+    CharacterConstellation,
+    CharacterTalent,
     CharacterTalentPhase,
     CharacterTalentMaterial,
 )
@@ -28,7 +30,7 @@ __all__ = [
     "Base", "Element", "WeaponType", "ArtifactSlot", "StatType",
     "MaterialCategory", "TalentType", "Region", "Language",
     "Character", "CharacterTranslation",
-    "CharacterAscensionMaterial", "CharacterAscensionPhase", "CharacterTalentPhase", "CharacterTalentMaterial",
+    "CharacterAscensionMaterial", "CharacterAscensionPhase", "CharacterConstellation", "CharacterTalent", "CharacterTalentPhase", "CharacterTalentMaterial",
     "Weapon", "WeaponAscensionMaterial",
     "ArtifactSet", "Material", "MaterialTranslation", "ElementalReaction",
     "Team", "TeamCharacter", "Guide",

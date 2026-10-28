@@ -1,6 +1,7 @@
 from sqlalchemy import (
-    Column, Integer, String, Float, ForeignKey, Text, UniqueConstraint
+    Column, Integer, String, Float, ForeignKey, Text, UniqueConstraint, Date
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from .base import (
     Base,
@@ -35,6 +36,8 @@ class Character(Base):
     max_def = Column(Integer, nullable=False)
     ascension_stat = Column(stat_type_enum)
     ascension_stat_value = Column(Float)
+    release_date = Column(Date)
+    voice_actors = Column(JSONB)
 
     translations = relationship(
         "CharacterTranslation",
@@ -55,6 +58,17 @@ class Character(Base):
     )
     ascension_materials = relationship(
         "CharacterAscensionMaterial",
+        back_populates="character",
+        cascade="all, delete-orphan",
+    )
+    constellations = relationship(
+        "CharacterConstellation",
+        back_populates="character",
+        cascade="all, delete-orphan",
+        order_by="CharacterConstellation.level",
+    )
+    talents = relationship(
+        "CharacterTalent",
         back_populates="character",
         cascade="all, delete-orphan",
     )
@@ -120,6 +134,46 @@ class CharacterTalentPhase(Base):
     mora = Column(Integer, nullable=False, default=0)
 
     character = relationship("Character", back_populates="talent_phases")
+
+
+class CharacterConstellation(Base):
+    __tablename__ = "character_constellations"
+    __table_args__ = (
+        UniqueConstraint("character_id", "level", name="uq_char_const_level"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    character_id = Column(
+        Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
+    )
+    level = Column(Integer, nullable=False)  # 1..6
+    name = Column(String(150), nullable=False)
+    description = Column(Text)
+    icon = Column(String(150))
+
+    character = relationship("Character", back_populates="constellations")
+
+
+class CharacterTalent(Base):
+    """Info descritiva de cada talento (nome, ícone, descrição).
+
+    Os custos de ascensão ficam em CharacterTalentPhase / CharacterTalentMaterial.
+    """
+    __tablename__ = "character_talents"
+    __table_args__ = (
+        UniqueConstraint("character_id", "talent_type", name="uq_char_talent_type"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    character_id = Column(
+        Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
+    )
+    talent_type = Column(talent_type_enum, nullable=False)
+    name = Column(String(150), nullable=False)
+    description = Column(Text)
+    icon = Column(String(150))
+
+    character = relationship("Character", back_populates="talents")
 
 
 class CharacterAscensionMaterial(Base):
