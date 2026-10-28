@@ -40,6 +40,20 @@ export interface CharacterListResponse {
   items: CharacterSummary[]
 }
 
+export interface Constellation {
+  level: number
+  name: string
+  description: string | null
+  icon: string | null
+}
+
+export interface Talent {
+  talent_type: 'normal_attack' | 'elemental_skill' | 'elemental_burst'
+  name: string
+  description: string | null
+  icon: string | null
+}
+
 export interface CharacterDetail extends CharacterSummary {
   title: string | null
   description: string | null
@@ -53,6 +67,10 @@ export interface CharacterDetail extends CharacterSummary {
   max_def: number
   ascension_stat: StatType | null
   ascension_stat_value: number | null
+  release_date: string | null
+  voice_actors: Record<string, string> | null
+  constellations: Constellation[]
+  talents: Talent[]
 }
 
 export interface AscensionMaterial {
