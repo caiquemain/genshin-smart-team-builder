@@ -170,3 +170,38 @@ export interface TeamCreate {
   author_name?: string
   character_slugs: string[]
 }
+
+// === Weapons ===
+export interface WeaponSummary {
+  slug: string
+  name: string
+  icon: string | null
+  rarity: number
+  weapon_type: 'sword' | 'claymore' | 'polearm' | 'bow' | 'catalyst'
+  base_atk: number
+  secondary_stat: StatType | null
+  secondary_stat_value: number | null
+}
+
+export interface WeaponDetail extends WeaponSummary {
+  description: string | null
+  passive_name: string | null
+  passive_description: string | null
+  passive_levels: Record<string, string> | null
+}
+
+export interface WeaponListResponse {
+  language: string
+  pagination: { total: number; limit: number; offset: number }
+  items: WeaponSummary[]
+}
+
+export interface WeaponAscensionResponse {
+  slug: string
+  from_level: number
+  to_level: number
+  phases_included: number[]
+  total_mora: number
+  materials: AscensionMaterial[]
+  phases: AscensionPhase[]
+}

@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
-import type { CharacterDetail, Constellation, Talent, Passive, TalentScalings } from '../types'
+import type { CharacterDetail, Constellation, Talent, Passive, TalentScalings, WeaponSummary } from '../types'
 import AscensionSection from '../components/AscensionSection'
 import TalentSection from '../components/TalentSection'
 
@@ -143,6 +143,7 @@ export default function CharacterDetailPage() {
   const { lang } = useLanguage()
   const [char, setChar] = useState<CharacterDetail | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [recommendedWeapons, setRecommendedWeapons] = useState<WeaponSummary[]>([])
   const [activeId, setActiveId] = useState<string>('visao-geral')
 
   useEffect(() => {
@@ -151,6 +152,14 @@ export default function CharacterDetailPage() {
     setError(null)
     api.getCharacter(slug, lang).then(setChar).catch((e) => setError(String(e)))
   }, [slug, lang])
+
+  // Buscar armas recomendadas quando o personagem carregar
+  useEffect(() => {
+    if (!char) return
+    api.listWeapons(lang, { weapon_type: char.weapon_type, limit: 50 })
+      .then((d) => setRecommendedWeapons(d.items))
+      .catch(() => setRecommendedWeapons([]))
+  }, [char?.weapon_type, lang])
 
   const basePassives = useMemo(
     () => (char?.passives ?? []).filter((p) => p.kind !== 'constellation_upgrade'),
@@ -319,6 +328,26 @@ export default function CharacterDetailPage() {
               </tbody>
             </table>
           </section>
+
+          {recommendedWeapons.length > 0 && (
+            <section id="armas" className="recommended-weapons-section char-section-anchor">
+              <h2>Armas ({char.weapon_type})</h2>
+              <div className="recommended-weapons-grid">
+                {recommendedWeapons.filter(w => w.rarity >= 4).slice(0, 12).map((w) => {
+                  const wImg = iconUrl(w.icon)
+                  return (
+                    <Link key={w.slug} to={`/weapons/${w.slug}`} className={`weapon-card-mini rarity-${w.rarity}`}>
+                      <div className="weapon-card-mini-icon">
+                        {wImg ? <img src={wImg} alt={w.name} loading="lazy" /> : <span>?</span>}
+                      </div>
+                      <div className="weapon-card-mini-name">{w.name}</div>
+                      <div className="weapon-card-mini-rarity">{'★'.repeat(w.rarity)}</div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </section>
+          )}
 
           <div id="ascensao" className="char-section-anchor">
             {char.slug && <AscensionSection slug={char.slug} />}

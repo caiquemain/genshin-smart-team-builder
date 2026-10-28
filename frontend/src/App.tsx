@@ -6,6 +6,8 @@ import CharactersPage from './pages/CharactersPage'
 import CharacterDetailPage from './pages/CharacterDetailPage'
 import ReactionsPage from './pages/ReactionsPage'
 import TeamsPage from './pages/TeamsPage'
+import WeaponsPage from './pages/WeaponsPage'
+import WeaponDetailPage from './pages/WeaponDetailPage'
 import TeamBuilderPage from './pages/TeamBuilderPage'
 import PlannerPage from './pages/PlannerPage'
 import './styles.css'
@@ -18,6 +20,7 @@ export default function App() {
           <Link to="/" className="brand">Genshin Smart Team Builder</Link>
           <div className="nav-links">
             <Link to="/">Personagens</Link>
+            <Link to="/weapons">Armas</Link>
             <Link to="/teams">Times</Link>
             <Link to="/planner">Planejador</Link>
             <Link to="/reactions">Reações</Link>
@@ -29,6 +32,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<CharactersPage />} />
             <Route path="/characters/:slug" element={<CharacterDetailPage />} />
+            <Route path="/weapons" element={<WeaponsPage />} />
+            <Route path="/weapons/:slug" element={<WeaponDetailPage />} />
             <Route path="/teams" element={<TeamsPage />} />
             <Route path="/teams/new" element={<TeamBuilderPage />} />
             <Route path="/planner" element={<PlannerPage />} />

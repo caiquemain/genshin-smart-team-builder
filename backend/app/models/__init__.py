@@ -20,7 +20,7 @@ from .character import (
     CharacterTalentPhase,
     CharacterTalentMaterial,
 )
-from .weapon import Weapon, WeaponAscensionMaterial
+from .weapon import Weapon, WeaponTranslation, WeaponAscensionMaterial, WeaponAscensionPhase
 from .artifact import ArtifactSet
 from .material import Material, MaterialTranslation
 from .reaction import ElementalReaction
@@ -32,7 +32,7 @@ __all__ = [
     "MaterialCategory", "TalentType", "Region", "Language",
     "Character", "CharacterTranslation",
     "CharacterAscensionMaterial", "CharacterAscensionPhase", "CharacterConstellation", "CharacterPassive", "CharacterTalent", "CharacterTalentPhase", "CharacterTalentMaterial",
-    "Weapon", "WeaponAscensionMaterial",
+    "Weapon", "WeaponTranslation", "WeaponAscensionMaterial", "WeaponAscensionPhase",
     "ArtifactSet", "Material", "MaterialTranslation", "ElementalReaction",
     "Team", "TeamCharacter", "Guide",
 ]

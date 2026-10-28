@@ -1905,3 +1905,313 @@ details.planner-warnings > div:last-child { padding-bottom: 12px; }
     width: 180px;
   }
 }
+
+/* ============================================================
+   WEAPONS — página de armas
+   ============================================================ */
+
+.filter-search {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  background: #1f2937;
+  color: #e8ecf2;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.filter-search::placeholder { color: #64748b; }
+
+/* Grid */
+.weapons-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  margin-top: 20px;
+}
+@media (min-width: 1600px) {
+  .weapons-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+.weapon-card {
+  position: relative;
+  padding: 18px 14px 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1a2130 0%, #131820 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.weapon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+/* Barra superior colorida por raridade */
+.weapon-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.weapon-card.rarity-1::before { background: linear-gradient(90deg, transparent, #8b8b8b, transparent); }
+.weapon-card.rarity-2::before { background: linear-gradient(90deg, transparent, #5fa860, transparent); }
+.weapon-card.rarity-3::before { background: linear-gradient(90deg, transparent, #5a8fd8, transparent); }
+.weapon-card.rarity-4::before { background: linear-gradient(90deg, transparent, #a35bd8, transparent); }
+.weapon-card.rarity-5::before { background: linear-gradient(90deg, transparent, #e0a647, transparent); }
+
+.weapon-card.rarity-5 { border-color: rgba(224, 166, 71, 0.15); }
+.weapon-card.rarity-4 { border-color: rgba(163, 91, 216, 0.15); }
+.weapon-card.rarity-5:hover { border-color: rgba(224, 166, 71, 0.5); }
+.weapon-card.rarity-4:hover { border-color: rgba(163, 91, 216, 0.5); }
+
+.weapon-card-rarity {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #fbbf24;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+.weapon-card.rarity-4 .weapon-card-rarity { color: #a35bd8; }
+.weapon-card.rarity-3 .weapon-card-rarity { color: #5a8fd8; }
+.weapon-card.rarity-2 .weapon-card-rarity { color: #5fa860; }
+.weapon-card.rarity-1 .weapon-card-rarity { color: #8b8b8b; }
+
+.weapon-card-icon {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.10) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.weapon-card-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+.weapon-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  min-height: 35px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.weapon-card-type {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.weapon-card-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.weapon-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+}
+.weapon-stat-label { color: #64748b; text-transform: capitalize; }
+.weapon-stat-value { color: #cbd5e1; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* === Weapon detail page === */
+.weapon-page { position: relative; }
+.weapon-hero {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  margin: 20px 0 32px;
+  position: relative;
+}
+.weapon-hero-glow {
+  position: absolute;
+  top: -60px; left: 30px;
+  width: 260px; height: 260px;
+  opacity: 0.15;
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+}
+.weapon-hero-icon {
+  position: relative;
+  z-index: 1;
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border: 3px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.weapon-hero-icon img { width: 100%; height: 100%; object-fit: contain; padding: 12px; }
+.weapon-hero-info { position: relative; z-index: 1; flex: 1; min-width: 0; }
+.weapon-hero-rarity { font-size: 16px; letter-spacing: 3px; margin-bottom: 4px; }
+.weapon-hero-info h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.weapon-hero-type {
+  font-size: 15px;
+  color: #94a3b8;
+  margin: 0 0 12px;
+  text-transform: capitalize;
+}
+.weapon-hero-desc {
+  color: #94a3b8;
+  line-height: 1.6;
+  font-size: 14px;
+  max-width: 720px;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.weapon-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.weapon-stat-card {
+  padding: 16px 20px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+}
+.weapon-stat-card-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.weapon-stat-card-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #e8ecf2;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.weapon-passive-section {
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #131820 0%, #0f1218 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+.passive-level-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.passive-level-tab {
+  min-width: 44px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #94a3b8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.passive-level-tab:hover { border-color: #7dd3fc; color: #7dd3fc; }
+.passive-level-tab.active {
+  background: #7dd3fc;
+  color: #0b0e13;
+  border-color: #7dd3fc;
+}
+.weapon-passive-desc {
+  font-size: 14px;
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* === Character detail: recommended weapons === */
+.recommended-weapons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+@media (min-width: 1600px) {
+  .recommended-weapons-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* Weapon card mini (na página do personagem) */
+.weapon-card-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.weapon-card-mini:hover {
+  border-color: #7dd3fc;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.weapon-card-mini.rarity-5 { border-color: rgba(224, 166, 71, 0.2); }
+.weapon-card-mini.rarity-4 { border-color: rgba(163, 91, 216, 0.2); }
+.weapon-card-mini-icon {
+  width: 72px; height: 72px;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+.weapon-card-mini-icon img { width: 100%; height: 100%; object-fit: contain; }
+.weapon-card-mini-name {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.weapon-card-mini-rarity {
+  font-size: 10px;
+  color: #fbbf24;
+  letter-spacing: 1px;
+}
+.weapon-card-mini.rarity-4 .weapon-card-mini-rarity { color: #a35bd8; }
+.weapon-card-mini.rarity-3 .weapon-card-mini-rarity { color: #5a8fd8; }

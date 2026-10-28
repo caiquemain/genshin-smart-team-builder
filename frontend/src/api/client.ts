@@ -1,5 +1,9 @@
 import type {
   AscensionCost,
+  WeaponSummary,
+  WeaponListResponse,
+  WeaponDetail,
+  WeaponAscensionResponse,
   CharacterDetail,
   CharacterListResponse,
   Enums,
@@ -42,6 +46,14 @@ export const api = {
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
+  listWeapons: (lang: LanguageCode, filters: { weapon_type?: string; rarity?: number; limit?: number } = {}) =>
+    request<WeaponListResponse>('/weapons', { lang, ...filters }),
+  getWeapon: (slug: string, lang: LanguageCode) =>
+    request<WeaponDetail>(`/weapons/${slug}`, { lang }),
+  getWeaponAscension: (slug: string, fromLevel: number, toLevel: number, lang: LanguageCode) =>
+    request<WeaponAscensionResponse>(`/weapons/${slug}/ascension`, {
+      from_level: fromLevel, to_level: toLevel, lang,
+    }),
   listTeams: (lang: LanguageCode) =>
     request<TeamListResponse>('/teams', { lang }),
   getTeam: (id: number, lang: LanguageCode) =>

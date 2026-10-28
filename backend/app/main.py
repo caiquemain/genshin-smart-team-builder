@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api import characters, reactions, meta, ascension, talents, teams
+from .api import characters, reactions, meta, ascension, talents, teams, weapons
 
 
 app = FastAPI(
@@ -20,6 +20,7 @@ app.include_router(meta.router)
 app.include_router(characters.router)
 app.include_router(ascension.router)
 app.include_router(talents.router)
+app.include_router(weapons.router)
 app.include_router(teams.router)
 app.include_router(reactions.router)
 
