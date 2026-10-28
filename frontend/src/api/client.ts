@@ -1,11 +1,14 @@
 import type {
   AscensionCost,
-  TalentCost,
   CharacterDetail,
   CharacterListResponse,
   Enums,
   LanguageCode,
   ReactionListResponse,
+  TalentCost,
+  TeamCreate,
+  TeamDetail,
+  TeamListResponse,
 } from '../types'
 
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
@@ -39,6 +42,23 @@ export const api = {
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
+  listTeams: (lang: LanguageCode) =>
+    request<TeamListResponse>('/teams', { lang }),
+  getTeam: (id: number, lang: LanguageCode) =>
+    request<TeamDetail>(`/teams/${id}`, { lang }),
+  createTeam: (payload: TeamCreate, lang: LanguageCode) =>
+    fetch(`${API_URL}/teams?lang=${lang}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<TeamDetail>
+    }),
+  deleteTeam: (id: number) =>
+    fetch(`${API_URL}/teams/${id}`, { method: 'DELETE' }).then((r) => {
+      if (!r.ok) throw new Error(`API ${r.status}`)
+    }),
   getAscensionCost: (slug: string, fromLevel: number, toLevel: number, lang: LanguageCode) =>
     request<AscensionCost>(`/characters/${slug}/ascension`, {
       from_level: fromLevel,

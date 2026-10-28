@@ -113,3 +113,28 @@ export interface TalentCost {
   grand_total_mora: number
   grand_total_materials: AscensionMaterial[]
 }
+
+export interface TeamMember {
+  position: number
+  character: CharacterSummary
+}
+
+export interface TeamDetail {
+  id: number
+  name: string
+  description: string | null
+  author_name: string | null
+  is_public: boolean
+  members: TeamMember[]
+}
+
+export interface TeamListResponse {
+  items: TeamDetail[]
+}
+
+export interface TeamCreate {
+  name: string
+  description?: string
+  author_name?: string
+  character_slugs: string[]
+}
