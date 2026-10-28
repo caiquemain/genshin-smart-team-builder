@@ -5,6 +5,7 @@ from ..database import get_db
 from ..models import (
     Character,
     CharacterAscensionMaterial,
+    CharacterAscensionPhase,
     Material,
     MaterialTranslation,
     Language,
@@ -18,12 +19,10 @@ from .deps import get_language
 
 router = APIRouter(prefix="/characters", tags=["ascension"])
 
-# Ascensão fase N leva o cap de UNLOCK_LEVELS[N-1] para UNLOCK_LEVELS[N]
 UNLOCK_LEVELS = [20, 40, 50, 60, 70, 80, 90]
 
 
 def phases_needed(from_level: int, to_level: int) -> list[int]:
-    """Quais fases de ascensão são necessárias para ir de from_level até to_level."""
     if from_level >= to_level:
         return []
     included = []
@@ -51,9 +50,10 @@ def get_ascension_cost(
     if not needed:
         return AscensionCostResponse(
             slug=slug, from_level=from_level, to_level=to_level,
-            phases_included=[], materials=[], phases=[],
+            phases_included=[], total_mora=0, materials=[], phases=[],
         )
 
+    # Materiais
     rows = (
         db.query(CharacterAscensionMaterial, Material)
         .join(Material, Material.id == CharacterAscensionMaterial.material_id)
@@ -64,7 +64,20 @@ def get_ascension_cost(
         .all()
     )
 
-    # Resolve traduções em 1 query para todos os materiais
+    # Fases (mora por fase)
+    phase_rows = (
+        db.query(CharacterAscensionPhase)
+        .filter(
+            CharacterAscensionPhase.character_id == char.id,
+            CharacterAscensionPhase.phase.in_(needed),
+        )
+        .order_by(CharacterAscensionPhase.phase)
+        .all()
+    )
+    phase_mora = {p.phase: p.mora for p in phase_rows}
+    total_mora = sum(phase_mora.values())
+
+    # Traduções
     material_ids = {mat.id for _, mat in rows}
     trans_map: dict[int, str] = {}
     if lang != Language.EN and material_ids:
@@ -99,7 +112,10 @@ def get_ascension_cost(
 
     phases_out = [
         AscensionPhaseOut(
-            phase=n, unlock_max_level=UNLOCK_LEVELS[n], materials=by_phase[n],
+            phase=n,
+            unlock_max_level=UNLOCK_LEVELS[n],
+            mora=phase_mora.get(n, 0),
+            materials=by_phase[n],
         )
         for n in needed
     ]
@@ -109,6 +125,7 @@ def get_ascension_cost(
         from_level=from_level,
         to_level=to_level,
         phases_included=needed,
+        total_mora=total_mora,
         materials=sorted(agg.values(), key=lambda m: (-(m.rarity or 0), m.name)),
         phases=phases_out,
     )

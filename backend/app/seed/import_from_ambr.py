@@ -25,6 +25,7 @@ from ..models import (
     Character,
     CharacterTranslation,
     CharacterAscensionMaterial,
+    CharacterAscensionPhase,
     Material,
     MaterialTranslation,
     Element,
@@ -352,14 +353,25 @@ async def ensure_material(
 async def upsert_ascension(
     client: httpx.AsyncClient, db: Session, char: Character, phases: list[dict[str, Any]]
 ) -> int:
-    """Recria as ligações de ascensão do personagem. Retorna o total de materiais usados."""
+    """Recria as ligações de ascensão + fases com mora. Retorna o total de materiais usados."""
     # Limpa as existentes para idempotência
     db.query(CharacterAscensionMaterial).filter(
         CharacterAscensionMaterial.character_id == char.id
     ).delete()
+    db.query(CharacterAscensionPhase).filter(
+        CharacterAscensionPhase.character_id == char.id
+    ).delete()
 
     used = 0
     for phase in phases:
+        # Fase (mora + unlock level) — 1 por promote_level
+        db.add(CharacterAscensionPhase(
+            character_id=char.id,
+            phase=phase["promote_level"],
+            unlock_max_level=phase["unlock_max_level"],
+            mora=phase["mora"],
+        ))
+        # Materiais da fase
         for ambr_id, qty in phase["items"].items():
             mat = await ensure_material(client, db, ambr_id)
             if not mat:
@@ -427,7 +439,8 @@ async def main() -> None:
             total_trans = db.query(CharacterTranslation).count()
             total_mats = db.query(Material).filter(Material.ambr_id.isnot(None)).count()
             total_asc = db.query(CharacterAscensionMaterial).count()
-            print(f"[ambr] concluído. Characters={total_chars}  Translations={total_trans}  Materials={total_mats}  AscensionLinks={total_asc}")
+            total_phases = db.query(CharacterAscensionPhase).count()
+            print(f"[ambr] concluído. Characters={total_chars}  Translations={total_trans}  Materials={total_mats}  AscensionLinks={total_asc}  Phases={total_phases}")
         finally:
             db.close()
 

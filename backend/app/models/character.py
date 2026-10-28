@@ -41,6 +41,12 @@ class Character(Base):
         back_populates="character",
         cascade="all, delete-orphan",
     )
+    ascension_phases = relationship(
+        "CharacterAscensionPhase",
+        back_populates="character",
+        cascade="all, delete-orphan",
+        order_by="CharacterAscensionPhase.phase",
+    )
     ascension_materials = relationship(
         "CharacterAscensionMaterial",
         back_populates="character",
@@ -71,6 +77,23 @@ class CharacterTranslation(Base):
     constellation_name = Column(String(100))
 
     character = relationship("Character", back_populates="translations")
+
+
+class CharacterAscensionPhase(Base):
+    __tablename__ = "character_ascension_phases"
+    __table_args__ = (
+        UniqueConstraint("character_id", "phase", name="uq_char_asc_phase"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    character_id = Column(
+        Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
+    )
+    phase = Column(Integer, nullable=False)
+    unlock_max_level = Column(Integer, nullable=False)
+    mora = Column(Integer, nullable=False, default=0)
+
+    character = relationship("Character", back_populates="ascension_phases")
 
 
 class CharacterAscensionMaterial(Base):

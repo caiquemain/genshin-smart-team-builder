@@ -13,6 +13,7 @@ class AscensionMaterialOut(BaseModel):
 class AscensionPhaseOut(BaseModel):
     phase: int
     unlock_max_level: int
+    mora: int
     materials: list[AscensionMaterialOut]
 
 
@@ -21,5 +22,6 @@ class AscensionCostResponse(BaseModel):
     from_level: int
     to_level: int
     phases_included: list[int]
+    total_mora: int
     materials: list[AscensionMaterialOut]
     phases: list[AscensionPhaseOut]
