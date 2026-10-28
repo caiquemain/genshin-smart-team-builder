@@ -1,5 +1,6 @@
 import type {
   AscensionCost,
+  TalentCost,
   CharacterDetail,
   CharacterListResponse,
   Enums,
@@ -43,5 +44,9 @@ export const api = {
       from_level: fromLevel,
       to_level: toLevel,
       lang,
+    }),
+  getTalentCost: (slug: string, na: number, es: number, eb: number, target: number, lang: LanguageCode) =>
+    request<TalentCost>(`/characters/${slug}/talents`, {
+      na, es, eb, target, lang,
     }),
 }

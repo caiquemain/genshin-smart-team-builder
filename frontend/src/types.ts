@@ -94,3 +94,22 @@ export interface Reaction {
 export interface ReactionListResponse {
   items: Reaction[]
 }
+
+export interface TalentPath {
+  from_level: number
+  target_level: number
+  levels_included: number[]
+  total_mora: number
+  materials: AscensionMaterial[]
+}
+
+export interface TalentCost {
+  slug: string
+  talents: {
+    normal_attack: TalentPath
+    elemental_skill: TalentPath
+    elemental_burst: TalentPath
+  }
+  grand_total_mora: number
+  grand_total_materials: AscensionMaterial[]
+}

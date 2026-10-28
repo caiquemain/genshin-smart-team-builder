@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import type { CharacterDetail } from '../types'
 import AscensionSection from '../components/AscensionSection'
+import TalentSection from '../components/TalentSection'
 
 export default function CharacterDetailPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -50,6 +51,7 @@ export default function CharacterDetailPage() {
       </table>
 
       {char.slug && <AscensionSection slug={char.slug} />}
+      {char.slug && <TalentSection slug={char.slug} />}
     </div>
   )
 }
