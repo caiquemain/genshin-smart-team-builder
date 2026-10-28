@@ -72,6 +72,11 @@ class Character(Base):
         back_populates="character",
         cascade="all, delete-orphan",
     )
+    passives = relationship(
+        "CharacterPassive",
+        back_populates="character",
+        cascade="all, delete-orphan",
+    )
     talent_materials = relationship(
         "CharacterTalentMaterial",
         back_populates="character",
@@ -172,8 +177,28 @@ class CharacterTalent(Base):
     name = Column(String(150), nullable=False)
     description = Column(Text)
     icon = Column(String(150))
+    scalings = Column(JSONB)
 
     character = relationship("Character", back_populates="talents")
+
+
+class CharacterPassive(Base):
+    __tablename__ = "character_passives"
+    __table_args__ = (
+        UniqueConstraint("character_id", "name", name="uq_char_passive_name"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    character_id = Column(
+        Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
+    )
+    name = Column(String(150), nullable=False)
+    description = Column(Text)
+    icon = Column(String(150))
+    kind = Column(String(50), default="passive")  # passive | constellation_upgrade
+    linked_constellations = Column(JSONB)
+
+    character = relationship("Character", back_populates="passives")
 
 
 class CharacterAscensionMaterial(Base):

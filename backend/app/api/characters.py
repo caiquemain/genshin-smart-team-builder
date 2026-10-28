@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import Character, CharacterConstellation, CharacterTalent, Element, WeaponType, Language
+from ..models import Character, CharacterConstellation, CharacterTalent, CharacterPassive, Element, WeaponType, Language
 from ..schemas.character import (
     CharacterDetail,
     CharacterListResponse,
@@ -82,7 +82,13 @@ def get_character(
     order = {TalentType.NORMAL_ATTACK: 0, TalentType.ELEMENTAL_SKILL: 1, TalentType.ELEMENTAL_BURST: 2}
     talents.sort(key=lambda t: order.get(t.talent_type, 99))
 
-    from ..schemas.character import ConstellationOut, TalentOut
+    passives = (
+        db.query(CharacterPassive)
+        .filter(CharacterPassive.character_id == char.id)
+        .all()
+    )
+
+    from ..schemas.character import ConstellationOut, TalentOut, PassiveOut
 
     return CharacterDetail(
         slug=char.slug,
@@ -108,4 +114,5 @@ def get_character(
         voice_actors=char.voice_actors,
         constellations=[ConstellationOut.model_validate(c) for c in consts],
         talents=[TalentOut.model_validate(t) for t in talents],
+        passives=[PassiveOut.model_validate(p) for p in passives],
     )

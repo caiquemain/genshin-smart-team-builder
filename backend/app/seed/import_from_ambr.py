@@ -33,6 +33,7 @@ from ..models import (
     CharacterAscensionMaterial,
     CharacterAscensionPhase,
     CharacterConstellation,
+    CharacterPassive,
     CharacterTalent,
     CharacterTalentPhase,
     Material,
@@ -402,6 +403,109 @@ def parse_talents_descriptive(raw: dict[str, Any]) -> list[dict[str, Any]]:
     return result
 
 
+def _format_param(value: Any, fmt: str) -> str:
+    """Formata um param pelo formato do Genshin: F1P, F1, P, F2P, etc."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    fmt = (fmt or "F1").upper()
+    is_pct = "P" in fmt
+    decimals = 1
+    if "F2" in fmt:
+        decimals = 2
+    elif "F0" in fmt:
+        decimals = 0
+    val = v * 100 if is_pct else v
+    text = f"{val:.{decimals}f}"
+    return f"{text}%" if is_pct else text
+
+
+def parse_scalings(raw: dict[str, Any]) -> dict[str, Any] | None:
+    """Extrai {level_str: [{label, value}, ...]} dos promote[] de um talento ativo.
+
+    Cada nível tem `description` (lista de 'Label|{paramN:FMT}') e `params` (lista de floats).
+    """
+    talent_map = raw.get("talent") or {}
+    if not isinstance(talent_map, dict):
+        return None
+
+    def _scalings_for_promote(promote: dict[str, Any]) -> dict[str, Any]:
+        import re as _re
+        scalings: dict[str, Any] = {}
+        for lvl_str, phase in promote.items():
+            if not isinstance(phase, dict):
+                continue
+            descs = phase.get("description") or []
+            params = phase.get("params") or []
+            if not isinstance(descs, list) or not isinstance(params, list):
+                continue
+            rows: list[dict[str, str]] = []
+            for d in descs:
+                if not isinstance(d, str) or not d.strip() or "|" not in d:
+                    continue
+                label, tmpl = d.split("|", 1)
+                # substitui {paramN:FMT} pelo valor
+                def repl(m: "_re.Match[str]") -> str:
+                    idx = int(m.group(1)) - 1
+                    fmt = m.group(2) or "F1"
+                    if 0 <= idx < len(params):
+                        return _format_param(params[idx], fmt)
+                    return "?"
+                value = _re.sub(r"\{param(\d+)(?::([A-Za-z0-9]+))?\}", repl, tmpl)
+                rows.append({"label": label.strip(), "value": value})
+            if rows:
+                scalings[lvl_str] = rows
+        return scalings
+
+    result: dict[str, Any] = {}
+    ordered_keys: list[tuple[str, dict[str, Any]]] = []
+    for key in sorted(talent_map.keys(), key=lambda x: int(x) if str(x).isdigit() else 9999):
+        t = talent_map.get(key) or {}
+        promote = t.get("promote") or {}
+        if not isinstance(promote, dict) or not promote:
+            continue
+        # só upáveis (com costItems em algum nível)
+        has_costs = any(
+            isinstance(p, dict) and p.get("costItems") for p in promote.values()
+        )
+        if has_costs:
+            ordered_keys.append((key, promote))
+    for idx, (key, promote) in enumerate(ordered_keys[:3]):
+        inner = _scalings_for_promote(promote)
+        if inner:
+            result[TALENT_ORDER[idx].value] = inner
+    return result or None
+
+
+def parse_passives(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    """Lista de passivos (type=2, sem promote). kind derivado de linkedConstellations."""
+    talent_map = raw.get("talent") or {}
+    if not isinstance(talent_map, dict):
+        return []
+    result: list[dict[str, Any]] = []
+    for key in sorted(talent_map.keys(), key=lambda x: int(x) if str(x).isdigit() else 9999):
+        t = talent_map.get(key) or {}
+        if t.get("type") != 2:
+            continue
+        promote = t.get("promote") or {}
+        if promote and any(isinstance(p, dict) and p.get("costItems") for p in promote.values()):
+            continue
+        name = t.get("name")
+        if not name:
+            continue
+        linked = t.get("linkedConstellations")
+        kind = "constellation_upgrade" if linked else "passive"
+        result.append({
+            "name": name,
+            "description": t.get("description"),
+            "icon": t.get("icon"),
+            "kind": kind,
+            "linked_constellations": linked,
+        })
+    return result
+
+
 def parse_material(raw: dict[str, Any], ambr_id: int) -> dict[str, Any] | None:
     name = raw.get("name")
     if not name:
@@ -590,10 +694,15 @@ async def main() -> None:
                 db.query(CharacterTalentMaterial).filter_by(character_id=char.id).delete()
                 db.query(CharacterConstellation).filter_by(character_id=char.id).delete()
                 db.query(CharacterTalent).filter_by(character_id=char.id).delete()
+                db.query(CharacterPassive).filter_by(character_id=char.id).delete()
                 for c in parse_constellations(en_raw):
                     db.add(CharacterConstellation(character_id=char.id, **c))
+                scalings_map = parse_scalings(en_raw) or {}
                 for t in parse_talents_descriptive(en_raw):
+                    t["scalings"] = scalings_map.get(t["talent_type"].value)
                     db.add(CharacterTalent(character_id=char.id, **t))
+                for p in parse_passives(en_raw):
+                    db.add(CharacterPassive(character_id=char.id, **p))
                 for phase in phases:
                     db.add(CharacterAscensionPhase(
                         character_id=char.id,

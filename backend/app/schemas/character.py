@@ -1,3 +1,4 @@
+from typing import Any
 from datetime import date
 from pydantic import BaseModel, ConfigDict
 from .common import Pagination
@@ -32,6 +33,17 @@ class TalentOut(BaseModel):
     name: str
     description: str | None = None
     icon: str | None = None
+    scalings: dict[str, list[dict[str, str]]] | None = None
+
+
+class PassiveOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    name: str
+    description: str | None = None
+    icon: str | None = None
+    kind: str
+    linked_constellations: Any = None
 
 
 class CharacterDetail(CharacterSummary):
@@ -51,6 +63,7 @@ class CharacterDetail(CharacterSummary):
     voice_actors: dict[str, str] | None = None
     constellations: list[ConstellationOut] = []
     talents: list[TalentOut] = []
+    passives: list[PassiveOut] = []
 
 
 class CharacterListResponse(BaseModel):
