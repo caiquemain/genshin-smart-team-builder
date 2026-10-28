@@ -110,26 +110,49 @@ def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
-def map_material_category(type_raw: str | None) -> MaterialCategory:
+def map_material_category(
+    type_raw: str | None, name: str | None = None
+) -> MaterialCategory:
+    """Categoriza com base no `type` cru do Project Amber + nome para desambiguar."""
     if not type_raw:
         return MaterialCategory.COMMON_DROP
     t = type_raw.lower()
+    n = (name or "").lower()
+
     if "local specialty" in t:
         return MaterialCategory.LOCAL_SPECIALTY
-    if "weekly boss" in t:
-        return MaterialCategory.WEEKLY_BOSS
-    if "crown" in t:
-        return MaterialCategory.CROWN
-    if "talent" in t and ("book" in t or "teaching" in t or "guide" in t or "philosoph" in t):
-        return MaterialCategory.TALENT_BOOK
-    if "weapon" in t and "ascension" in t:
-        return MaterialCategory.WEAPON_ASCENSION
     if "character ascension" in t:
         return MaterialCategory.ASCENSION_GEM
+    if "weapon ascension" in t:
+        return MaterialCategory.WEAPON_ASCENSION
+
+    # Enemy drops: "Character and Weapon Enhancement Material"
+    if "character and weapon enhancement" in t:
+        return MaterialCategory.COMMON_DROP
+
+    # Ores: "Weapon Enhancement Material"
+    if "weapon enhancement" in t or "enhancement ore" in t:
+        return MaterialCategory.WEAPON_EXP
+
+    # Talent Level-Up Material — books, weekly boss mats e Crown
+    if "talent" in t:
+        if "crown" in n or "coroa" in n:
+            return MaterialCategory.CROWN
+        return MaterialCategory.TALENT_BOOK
+
+    # Character Level-Up Material — boss drops (Hypostasis, Regisvine, etc.)
+    if "character level" in t or "character level-up" in t:
+        return MaterialCategory.BOSS_MATERIAL
+
+    if "weekly" in t:
+        return MaterialCategory.WEEKLY_BOSS
+
+    if "character experience" in t or "character exp" in t:
+        return MaterialCategory.CHARACTER_EXP
+
     if "boss" in t:
         return MaterialCategory.BOSS_MATERIAL
-    if "enhancement ore" in t or "experience" in t or "exp" in t:
-        return MaterialCategory.CHARACTER_EXP
+
     return MaterialCategory.COMMON_DROP
 
 
@@ -318,7 +341,7 @@ def parse_material(raw: dict[str, Any], ambr_id: int) -> dict[str, Any] | None:
         "ambr_id": ambr_id,
         "slug": slugify(name),
         "name": name,
-        "category": map_material_category(raw.get("type")),
+        "category": map_material_category(raw.get("type"), name),
         "type_raw": raw.get("type"),
         "rarity": raw.get("rank"),
         "icon": raw.get("icon"),
@@ -430,6 +453,13 @@ async def main() -> None:
             for mid in material_ids:
                 existing = db.query(Material).filter(Material.ambr_id == mid).one_or_none()
                 if existing:
+                    en_raw = (mats_raw.get(f"/{CANONICAL_LANG}/material/{mid}?vh={VH}") or {}).get("data") or {}
+                    if en_raw:
+                        refreshed = parse_material(en_raw, mid)
+                        if refreshed:
+                            for k, v in refreshed.items():
+                                if k not in ("slug", "ambr_id"):
+                                    setattr(existing, k, v)
                     material_by_ambr[mid] = existing
                     mat = existing
                 else:
