@@ -1,11 +1,13 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { LanguageProvider } from './context/LanguageContext'
 import LanguageSwitcher from './components/LanguageSwitcher'
+import ErrorBoundary from './components/ErrorBoundary'
 import CharactersPage from './pages/CharactersPage'
 import CharacterDetailPage from './pages/CharacterDetailPage'
 import ReactionsPage from './pages/ReactionsPage'
 import TeamsPage from './pages/TeamsPage'
 import TeamBuilderPage from './pages/TeamBuilderPage'
+import PlannerPage from './pages/PlannerPage'
 import './styles.css'
 
 export default function App() {
@@ -17,18 +19,22 @@ export default function App() {
           <div className="nav-links">
             <Link to="/">Personagens</Link>
             <Link to="/teams">Times</Link>
+            <Link to="/planner">Planejador</Link>
             <Link to="/reactions">Reações</Link>
             <LanguageSwitcher />
           </div>
         </nav>
         <main className="container">
+          <ErrorBoundary>
           <Routes>
             <Route path="/" element={<CharactersPage />} />
             <Route path="/characters/:slug" element={<CharacterDetailPage />} />
             <Route path="/teams" element={<TeamsPage />} />
             <Route path="/teams/new" element={<TeamBuilderPage />} />
+            <Route path="/planner" element={<PlannerPage />} />
             <Route path="/reactions" element={<ReactionsPage />} />
           </Routes>
+          </ErrorBoundary>
         </main>
       </BrowserRouter>
     </LanguageProvider>
