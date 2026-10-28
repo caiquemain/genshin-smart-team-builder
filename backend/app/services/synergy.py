@@ -188,12 +188,22 @@ def analyze_team(db: Session, slugs: list[str]) -> dict[str, Any]:
         breakdown.append({"factor": "2+ suportes/sub-DPS", "delta": 10})
 
     # Penalidades
-    if role_counts.get("dps", 0) == 4:
-        score -= 30
-        breakdown.append({"factor": "4 DPS — sem suporte/healer", "delta": -30})
-    elif role_counts.get("dps", 0) == 3 and not has_healer:
-        score -= 15
-        breakdown.append({"factor": "3 DPS sem healer", "delta": -15})
+    dps_count = role_counts.get("dps", 0)
+    sub_count = role_counts.get("sub", 0)
+    if dps_count == 4:
+        score -= 40
+        breakdown.append({"factor": "4 DPS competindo por field time", "delta": -40})
+    elif dps_count == 3:
+        score -= 25
+        breakdown.append({"factor": "3 DPS competindo por field time", "delta": -25})
+    elif dps_count == 2:
+        score -= 5
+        breakdown.append({"factor": "2 DPS on-field (aceitável)", "delta": -5})
+
+    # Nenhum sub-DPS com 2+ on-field DPS = todos querem campo, ninguém faz off-field
+    if dps_count >= 2 and sub_count == 0:
+        score -= 10
+        breakdown.append({"factor": "Sem sub-DPS (todos os DPS querem on-field)", "delta": -10})
 
     # Mono-elemento
     from collections import Counter
@@ -209,8 +219,12 @@ def analyze_team(db: Session, slugs: list[str]) -> dict[str, Any]:
     warnings: list[str] = []
     if not has_healer:
         warnings.append("Sem healer — sobreviver em conteúdo longo será difícil")
-    if role_counts.get("dps", 0) == 4:
+    if dps_count == 4:
         warnings.append("4 DPS no time — nenhum suporte para amplificar dano")
+    if dps_count >= 3:
+        warnings.append(f"{dps_count} DPS competindo por field time — apenas 1 fica em campo por vez")
+    if dps_count >= 2 and sub_count == 0:
+        warnings.append("Nenhum sub-DPS — todos os DPS querem ficar on-field, perde DPS off-field")
     if el_counts.most_common(1)[0][1] >= 3:
         warnings.append(f"Mono-elemento ({el_counts.most_common(1)[0][0]}) — perde muitas reações")
     if distinct_elements <= 1 and len(ordered) >= 2:
@@ -263,6 +277,22 @@ def analyze_team(db: Session, slugs: list[str]) -> dict[str, Any]:
             suggestions.append({
                 "slug": p.slug, "name": p.name, "icon": p.icon, "element": "pyro",
                 "reason": "Pyro viabiliza Vaporize (Pyro + Hydro)",
+            })
+
+    # Sugestão extra: sub-DPS se o time tem 2+ DPS e nenhum sub
+    if dps_count >= 2 and sub_count == 0:
+        sub_pool = (
+            db.query(Character)
+            .filter(Character.slug.in_(list(KNOWN_ROLES.keys())))
+            .all()
+        )
+        sub_chars = [c for c in sub_pool if KNOWN_ROLES.get(c.slug) == "sub"]
+        sub_chars.sort(key=lambda c: -(c.rarity or 0))
+        for sb in sub_chars[:2]:
+            el = sb.element.value if hasattr(sb.element, "value") else str(sb.element)
+            suggestions.append({
+                "slug": sb.slug, "name": sb.name, "icon": sb.icon, "element": el,
+                "reason": f"Sub-DPS {el} off-field — troca um DPS por dano passivo",
             })
 
     return {
