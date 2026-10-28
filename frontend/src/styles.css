@@ -1,0 +1,59 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #0f1218;
+  color: #e8ecf2;
+}
+a { color: #7dd3fc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 24px; border-bottom: 1px solid #1f2937;
+  background: #0b0e13;
+}
+.brand { font-weight: 700; color: #f1f5f9; }
+.nav-links { display: flex; gap: 16px; align-items: center; }
+.lang-switcher {
+  background: #1f2937; color: #e8ecf2; border: 1px solid #374151;
+  border-radius: 6px; padding: 4px 8px;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+h1 { margin-top: 0; }
+h2 { margin-top: 28px; }
+
+.filters { display: flex; gap: 12px; margin: 16px 0 24px; flex-wrap: wrap; }
+.filters select {
+  background: #1f2937; color: #e8ecf2; border: 1px solid #374151;
+  border-radius: 6px; padding: 6px 10px;
+}
+
+.grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.card {
+  display: block; background: #1f2937; border: 1px solid #374151;
+  border-radius: 10px; padding: 14px; color: #e8ecf2;
+  transition: transform 0.1s ease, border-color 0.1s ease;
+}
+.card:hover { transform: translateY(-2px); border-color: #7dd3fc; text-decoration: none; }
+.card-rarity { color: #fbbf24; font-size: 13px; }
+.card-emoji { font-size: 28px; margin: 6px 0; }
+.card-name { font-weight: 700; font-size: 16px; }
+.card-meta { color: #94a3b8; font-size: 12px; margin-top: 4px; text-transform: capitalize; }
+.card-region { color: #64748b; font-size: 11px; margin-top: 2px; text-transform: capitalize; }
+
+.status { color: #94a3b8; }
+.error { color: #f87171; }
+.back { display: inline-block; margin-bottom: 12px; }
+.subtitle { color: #94a3b8; font-style: italic; margin: 0 0 8px; }
+.meta { color: #94a3b8; text-transform: capitalize; }
+.description { max-width: 720px; line-height: 1.6; }
+
+table { border-collapse: collapse; margin-top: 12px; }
+table th, table td { text-align: left; padding: 8px 14px; border-bottom: 1px solid #1f2937; }
+table th { color: #94a3b8; font-weight: 600; }
+.stats th { width: 140px; }
