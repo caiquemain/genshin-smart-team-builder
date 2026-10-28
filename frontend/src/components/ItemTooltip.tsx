@@ -22,6 +22,7 @@ import {
   useRole,
   safePolygon,
 } from '@floating-ui/react'
+import { categoryInfo } from '../utils/categories'
 
 const RARITY_COLORS: Record<number, string> = {
   1: '#8b8b8b',
@@ -124,7 +125,7 @@ export default function ItemTooltip({
                 <div className="item-tooltip-stars" style={{ color: accent }}>
                   {'★'.repeat(rarity)}
                 </div>
-                <div className="item-tooltip-category">{formatCategory(data.category)}</div>
+                <div className="item-tooltip-category" style={{ color: categoryInfo(data.category).color }}>{categoryInfo(data.category).label}</div>
               </div>
             </div>
 

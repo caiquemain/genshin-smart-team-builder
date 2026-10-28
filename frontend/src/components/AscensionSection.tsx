@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import type { AscensionCost } from '../types'
 import ItemTooltip from './ItemTooltip'
+import { categoryInfo } from '../utils/categories'
 
 const LEVEL_OPTIONS = [1, 20, 40, 50, 60, 70, 80]
 const TARGET_LEVEL = 90
@@ -68,6 +69,7 @@ export default function AscensionSection({ slug }: { slug: string }) {
           <div className="ascension-grid">
             {data.materials.map((m) => {
               const img = iconUrl(m.icon)
+              const ci = categoryInfo(m.category)
               return (
                 <ItemTooltip
                   key={m.slug}
@@ -87,7 +89,13 @@ export default function AscensionSection({ slug }: { slug: string }) {
                     <div className="ascension-info">
                       <div className="ascension-name">{m.name}</div>
                       <div className="ascension-meta">
-                        {'★'.repeat(m.rarity ?? 0)} · {m.category.replace(/_/g, ' ')}
+                        <span className="stars">{'★'.repeat(m.rarity ?? 0)}</span>
+                        <span
+                          className="category-badge"
+                          style={{ color: ci.color, backgroundColor: ci.bg }}
+                        >
+                          {ci.label}
+                        </span>
                       </div>
                     </div>
                     <div className="ascension-qty">×{m.quantity}</div>
