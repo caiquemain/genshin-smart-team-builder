@@ -1,22 +1,12 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .database import engine
-from .models import Base
 from .api import characters, reactions, meta, ascension
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    yield
 
 
 app = FastAPI(
     title="Genshin Smart Team Builder API",
     version="0.2.0",
-    lifespan=lifespan,
 )
 
 app.add_middleware(
