@@ -1,9 +1,13 @@
-"""Importa personagens do Project Amber para o banco.
+"""Importa personagens do Project Amber com suporte multi-idioma.
 
 Endpoint base: https://gi.yatta.moe/api/v2
+Canonical (name/slug): en.
+Traduções: definidas em AMBR_LANGS (padrão: pt,es).
 
 Uso:
     docker compose exec backend python -m app.seed.import_from_ambr
+    AMBR_LANGS=pt,es,fr docker compose exec backend python -m app.seed.import_from_ambr
+    AMBR_MAX_CHARACTERS=0 docker compose exec backend python -m app.seed.import_from_ambr  # todos
 
 O ``vh`` (version hash) muda a cada patch. Se o endpoint retornar 404,
 atualize ``VH`` consultando o site do Project Amber.
@@ -17,15 +21,25 @@ import httpx
 from sqlalchemy.orm import Session
 
 from ..database import SessionLocal
-from ..models import Character, Element, WeaponType, StatType, Region
+from ..models import (
+    Character,
+    CharacterTranslation,
+    Element,
+    WeaponType,
+    StatType,
+    Region,
+    Language,
+)
 
 AMBR_BASE = "https://gi.yatta.moe"
 API_PATH = "/api/v2"
 VH = "32F2"
-LIST_LANG = "chs"     # IDs são os mesmos em qualquer idioma
-DETAIL_LANG = "en"    # nome/descrição em inglês (slug ASCII-safe)
 
-# Limite para a primeira execução controlada. Use AMBR_MAX_CHARACTERS=0 para todos.
+CANONICAL_LANG = "en"
+TRANSLATION_LANGS = [
+    s.strip() for s in os.getenv("AMBR_LANGS", "pt,es").split(",") if s.strip()
+]
+
 _max_raw = os.getenv("AMBR_MAX_CHARACTERS", "10")
 MAX_CHARACTERS = int(_max_raw) if _max_raw.isdigit() and int(_max_raw) > 0 else None
 REQUEST_DELAY = 0.3
@@ -95,18 +109,17 @@ async def fetch_json(client: httpx.AsyncClient, path: str) -> dict[str, Any] | N
 
 
 async def fetch_character_ids(client: httpx.AsyncClient) -> list[int]:
-    data = await fetch_json(client, f"/{LIST_LANG}/avatar?vh={VH}")
+    data = await fetch_json(client, f"/{CANONICAL_LANG}/avatar?vh={VH}")
     if not data:
         return []
     items = (data.get("data") or {}).get("items") or {}
     return sorted(int(k) for k in items.keys() if str(k).isdigit())
 
 
-def parse_character(raw: dict[str, Any]) -> dict[str, Any] | None:
+def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     name = raw.get("name")
     if not name:
         return None
-
     upgrade = raw.get("upgrade") or {}
     base_values: dict[str, float] = {}
     for p in upgrade.get("prop") or []:
@@ -116,12 +129,8 @@ def parse_character(raw: dict[str, Any]) -> dict[str, Any] | None:
     base_hp = int(round(base_values.get("FIGHT_PROP_BASE_HP", 0)))
     base_atk = int(round(base_values.get("FIGHT_PROP_BASE_ATTACK", 0)))
     base_def = int(round(base_values.get("FIGHT_PROP_BASE_DEFENSE", 0)))
+    max_hp, max_atk, max_def = base_hp, base_atk, base_def  # TODO: aplicar curva
 
-    # TODO: aplicar curva de crescimento (GROW_CURVE_*) para obter nível 90.
-    # Por ora, max_* = base_*.
-    max_hp, max_atk, max_def = base_hp, base_atk, base_def
-
-    fetter = raw.get("fetter") or {}
     birthday = raw.get("birthday") or []
     birthday_str = (
         f"{int(birthday[0]):02d}-{int(birthday[1]):02d}"
@@ -132,7 +141,6 @@ def parse_character(raw: dict[str, Any]) -> dict[str, Any] | None:
     element = ELEMENT_MAP.get((raw.get("element") or "").lower())
     weapon_type = WEAPON_MAP.get(raw.get("weaponType") or "")
     region = REGION_MAP.get((raw.get("region") or "").upper())
-
     if not element or not weapon_type:
         print(f"[ambr] pulando {name}: element={raw.get('element')} weapon={raw.get('weaponType')}")
         return None
@@ -140,8 +148,6 @@ def parse_character(raw: dict[str, Any]) -> dict[str, Any] | None:
     return {
         "name": name,
         "slug": slugify(name),
-        "title": fetter.get("title"),
-        "description": fetter.get("detail"),
         "rarity": raw.get("rank"),
         "element": element,
         "weapon_type": weapon_type,
@@ -155,17 +161,54 @@ def parse_character(raw: dict[str, Any]) -> dict[str, Any] | None:
         "max_def": max_def,
         "ascension_stat": STAT_MAP.get(raw.get("specialProp") or ""),
         "ascension_stat_value": None,
+    }
+
+
+def parse_translation(raw: dict[str, Any], lang_code: str) -> dict[str, Any] | None:
+    name = raw.get("name")
+    if not name:
+        return None
+    try:
+        lang_enum = Language(lang_code)
+    except ValueError:
+        return None
+    fetter = raw.get("fetter") or {}
+    return {
+        "language": lang_enum,
+        "name": name,
+        "title": fetter.get("title"),
+        "description": fetter.get("detail"),
         "constellation_name": fetter.get("constellation"),
     }
 
 
-def upsert_character(db: Session, payload: dict[str, Any]) -> str:
+def upsert_character(db: Session, payload: dict[str, Any]) -> Character:
     existing = db.query(Character).filter(Character.slug == payload["slug"]).one_or_none()
     if existing:
-        for key, value in payload.items():
-            setattr(existing, key, value)
+        for k, v in payload.items():
+            setattr(existing, k, v)
+        db.flush()
+        return existing
+    char = Character(**payload)
+    db.add(char)
+    db.flush()
+    return char
+
+
+def upsert_translation(db: Session, char: Character, payload: dict[str, Any]) -> str:
+    existing = (
+        db.query(CharacterTranslation)
+        .filter(
+            CharacterTranslation.character_id == char.id,
+            CharacterTranslation.language == payload["language"],
+        )
+        .one_or_none()
+    )
+    if existing:
+        for k, v in payload.items():
+            setattr(existing, k, v)
         return "updated"
-    db.add(Character(**payload))
+    db.add(CharacterTranslation(character_id=char.id, **payload))
     return "inserted"
 
 
@@ -177,22 +220,40 @@ async def main() -> None:
             return
         if MAX_CHARACTERS is not None:
             ids = ids[:MAX_CHARACTERS]
-        print(f"[ambr] {len(ids)} personagens a importar (de {len(ids)} selecionados)")
+        print(f"[ambr] {len(ids)} personagens | canônico={CANONICAL_LANG} | traduções={TRANSLATION_LANGS}")
 
         db = SessionLocal()
         try:
             for i, cid in enumerate(ids, 1):
-                raw = await fetch_json(client, f"/{DETAIL_LANG}/avatar/{cid}?vh={VH}")
+                raw = await fetch_json(client, f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}")
                 if not raw:
                     continue
-                payload = parse_character(raw.get("data") or {})
-                if payload:
-                    status = upsert_character(db, payload)
-                    print(f"[ambr] [{i}/{len(ids)}] {status}: {payload['name']} ({payload['slug']})")
+                payload = parse_canonical(raw.get("data") or {})
+                if not payload:
+                    continue
+
+                char = upsert_character(db, payload)
+                print(f"[ambr] [{i}/{len(ids)}] {char.slug} (canonical)")
+
+                for lang_code in TRANSLATION_LANGS:
+                    if lang_code == CANONICAL_LANG:
+                        continue
+                    raw_lang = await fetch_json(
+                        client, f"/{lang_code}/avatar/{cid}?vh={VH}"
+                    )
+                    if not raw_lang:
+                        continue
+                    trans = parse_translation(raw_lang.get("data") or {}, lang_code)
+                    if trans:
+                        status = upsert_translation(db, char, trans)
+                        print(f"[ambr]   ↳ {lang_code}: {status}")
+                    await asyncio.sleep(REQUEST_DELAY)
                 await asyncio.sleep(REQUEST_DELAY)
+
             db.commit()
             total = db.query(Character).count()
-            print(f"[ambr] concluído. Total de personagens no banco: {total}")
+            trans_total = db.query(CharacterTranslation).count()
+            print(f"[ambr] concluído. Characters={total}  Translations={trans_total}")
         finally:
             db.close()
 

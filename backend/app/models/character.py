@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Text
+from sqlalchemy import (
+    Column, Integer, String, Float, ForeignKey, Text, UniqueConstraint
+)
 from sqlalchemy.orm import relationship
 from .base import (
     Base,
@@ -7,6 +9,7 @@ from .base import (
     stat_type_enum,
     region_enum,
     talent_type_enum,
+    language_enum,
 )
 
 
@@ -14,10 +17,10 @@ class Character(Base):
     __tablename__ = "characters"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False, unique=True)
+    # Slug em inglês, ASCII, estável. Nunca traduzir.
     slug = Column(String(100), nullable=False, unique=True, index=True)
-    title = Column(String(200))
-    description = Column(Text)
+    # Nome canônico em inglês (fallback e âncora das traduções).
+    name = Column(String(100), nullable=False, unique=True)
     rarity = Column(Integer, nullable=False)
     element = Column(element_enum, nullable=False)
     weapon_type = Column(weapon_type_enum, nullable=False)
@@ -31,8 +34,12 @@ class Character(Base):
     max_def = Column(Integer, nullable=False)
     ascension_stat = Column(stat_type_enum)
     ascension_stat_value = Column(Float)
-    constellation_name = Column(String(100))
 
+    translations = relationship(
+        "CharacterTranslation",
+        back_populates="character",
+        cascade="all, delete-orphan",
+    )
     ascension_materials = relationship(
         "CharacterAscensionMaterial",
         back_populates="character",
@@ -44,6 +51,25 @@ class Character(Base):
         cascade="all, delete-orphan",
     )
     team_links = relationship("TeamCharacter", back_populates="character")
+
+
+class CharacterTranslation(Base):
+    __tablename__ = "character_translations"
+    __table_args__ = (
+        UniqueConstraint("character_id", "language", name="uq_character_lang"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    character_id = Column(
+        Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
+    )
+    language = Column(language_enum, nullable=False, index=True)
+    name = Column(String(150), nullable=False, index=True)
+    title = Column(String(200))
+    description = Column(Text)
+    constellation_name = Column(String(100))
+
+    character = relationship("Character", back_populates="translations")
 
 
 class CharacterAscensionMaterial(Base):

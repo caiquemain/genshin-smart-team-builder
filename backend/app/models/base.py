@@ -84,10 +84,34 @@ class Region(str, enum.Enum):
     OTHER = "other"
 
 
-element_enum = SAEnum(Element, native_enum=False, create_constraint=False, length=50)
-weapon_type_enum = SAEnum(WeaponType, native_enum=False, create_constraint=False, length=50)
-artifact_slot_enum = SAEnum(ArtifactSlot, native_enum=False, create_constraint=False, length=50)
-stat_type_enum = SAEnum(StatType, native_enum=False, create_constraint=False, length=50)
-material_category_enum = SAEnum(MaterialCategory, native_enum=False, create_constraint=False, length=50)
-talent_type_enum = SAEnum(TalentType, native_enum=False, create_constraint=False, length=50)
-region_enum = SAEnum(Region, native_enum=False, create_constraint=False, length=50)
+class Language(str, enum.Enum):
+    PT = "pt"
+    EN = "en"
+    ES = "es"
+    FR = "fr"
+    DE = "de"
+    JP = "jp"
+    KR = "kr"
+    CHS = "chs"
+    CHT = "cht"
+    RU = "ru"
+
+
+def _enum(enum_cls, length: int = 50):
+    return SAEnum(
+        enum_cls,
+        native_enum=False,
+        create_constraint=False,
+        length=length,
+        values_callable=lambda x: [e.value for e in x],
+    )
+
+
+element_enum = _enum(Element)
+weapon_type_enum = _enum(WeaponType)
+artifact_slot_enum = _enum(ArtifactSlot)
+stat_type_enum = _enum(StatType)
+material_category_enum = _enum(MaterialCategory)
+talent_type_enum = _enum(TalentType)
+region_enum = _enum(Region)
+language_enum = _enum(Language, length=10)

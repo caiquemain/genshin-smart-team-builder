@@ -7,9 +7,11 @@ from .base import (
     MaterialCategory,
     TalentType,
     Region,
+    Language,
 )
 from .character import (
     Character,
+    CharacterTranslation,
     CharacterAscensionMaterial,
     CharacterTalentMaterial,
 )
@@ -21,23 +23,11 @@ from .team import Team, TeamCharacter
 from .guide import Guide
 
 __all__ = [
-    "Base",
-    "Element",
-    "WeaponType",
-    "ArtifactSlot",
-    "StatType",
-    "MaterialCategory",
-    "TalentType",
-    "Region",
-    "Character",
-    "CharacterAscensionMaterial",
-    "CharacterTalentMaterial",
-    "Weapon",
-    "WeaponAscensionMaterial",
-    "ArtifactSet",
-    "Material",
-    "ElementalReaction",
-    "Team",
-    "TeamCharacter",
-    "Guide",
+    "Base", "Element", "WeaponType", "ArtifactSlot", "StatType",
+    "MaterialCategory", "TalentType", "Region", "Language",
+    "Character", "CharacterTranslation",
+    "CharacterAscensionMaterial", "CharacterTalentMaterial",
+    "Weapon", "WeaponAscensionMaterial",
+    "ArtifactSet", "Material", "ElementalReaction",
+    "Team", "TeamCharacter", "Guide",
 ]
