@@ -39,5 +39,6 @@ class MaterialTranslation(Base):
     language = Column(language_enum, nullable=False, index=True)
     name = Column(String(200), nullable=False, index=True)
     description = Column(Text)
+    source = Column(String(300))
 
     material = relationship("Material", back_populates="translations")

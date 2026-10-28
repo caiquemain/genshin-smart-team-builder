@@ -8,6 +8,8 @@ class AscensionMaterialOut(BaseModel):
     category: str
     rarity: int | None = None
     quantity: int
+    description: str | None = None
+    source: str | None = None
 
 
 class AscensionPhaseOut(BaseModel):

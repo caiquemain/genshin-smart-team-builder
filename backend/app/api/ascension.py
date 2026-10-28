@@ -77,9 +77,9 @@ def get_ascension_cost(
     phase_mora = {p.phase: p.mora for p in phase_rows}
     total_mora = sum(phase_mora.values())
 
-    # Traduções
+    # Traduções (name + description)
     material_ids = {mat.id for _, mat in rows}
-    trans_map: dict[int, str] = {}
+    trans_map: dict[int, tuple[str, str | None, str | None]] = {}
     if lang != Language.EN and material_ids:
         for t in (
             db.query(MaterialTranslation)
@@ -89,26 +89,33 @@ def get_ascension_cost(
             )
             .all()
         ):
-            trans_map[t.material_id] = t.name
+            trans_map[t.material_id] = (t.name, t.description, t.source)
 
     by_phase: dict[int, list[AscensionMaterialOut]] = {n: [] for n in needed}
     agg: dict[int, AscensionMaterialOut] = {}
 
-    for cam, mat in rows:
-        display = trans_map.get(mat.id, mat.name)
+    def build_item(mat, qty: int) -> AscensionMaterialOut:
+        trans = trans_map.get(mat.id)
+        if trans:
+            display, desc, src = trans
+            desc = desc or mat.description
+            src = src or mat.source
+        else:
+            display, desc, src = mat.name, mat.description, mat.source
         category = mat.category.value if hasattr(mat.category, "value") else str(mat.category)
-        item = AscensionMaterialOut(
+        return AscensionMaterialOut(
             slug=mat.slug, name=display, icon=mat.icon,
-            category=category, rarity=mat.rarity, quantity=cam.quantity,
+            category=category, rarity=mat.rarity, quantity=qty,
+            description=desc, source=src,
         )
+
+    for cam, mat in rows:
+        item = build_item(mat, cam.quantity)
         by_phase[cam.phase].append(item)
         if mat.id in agg:
             agg[mat.id].quantity += cam.quantity
         else:
-            agg[mat.id] = AscensionMaterialOut(
-                slug=mat.slug, name=display, icon=mat.icon,
-                category=category, rarity=mat.rarity, quantity=cam.quantity,
-            )
+            agg[mat.id] = build_item(mat, cam.quantity)
 
     phases_out = [
         AscensionPhaseOut(
