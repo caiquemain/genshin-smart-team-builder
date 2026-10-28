@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -39,64 +39,66 @@ function stripHtml(s: string | null | undefined): string {
     .replace(/<i>/g, '').replace(/<\/i>/g, '')
     .replace(/\\n/g, '\n')
     .replace(/\{param\d+:[^}]+\}/g, '···')
-}
-
-function TalentScalingsView({ scalings }: { scalings: TalentScalings }) {
-  const levels = Object.keys(scalings).sort((a, b) => Number(a) - Number(b))
-  const [level, setLevel] = useState(levels[0] ?? '1')
-  const rows = scalings[level] ?? []
-  if (levels.length === 0) return null
-  return (
-    <div className="talent-scalings">
-      <div className="scalings-header">
-        <span className="scalings-title">Escalonamento por nível</span>
-        <div className="scalings-levels">
-          {levels.map((l) => (
-            <button
-              key={l}
-              className={`scalings-level-btn ${l === level ? 'active' : ''}`}
-              onClick={() => setLevel(l)}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
-      </div>
-      <table className="scalings-table">
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i}>
-              <td>{r.label}</td>
-              <td className="scalings-value">{r.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
+    .trim()
 }
 
 function TalentCard({ talent }: { talent: Talent }) {
   const img = iconUrl(talent.icon)
   const hasSc = talent.scalings && Object.keys(talent.scalings).length > 0
+  const levels = useMemo(() => {
+    if (!talent.scalings) return []
+    return Object.keys(talent.scalings).sort((a, b) => Number(a) - Number(b))
+  }, [talent.scalings])
+  const [level, setLevel] = useState(levels[0] ?? '1')
+  const rows = talent.scalings?.[level] ?? []
+
   return (
-    <div className="talent-card">
-      <div className="talent-card-icon">
-        {img ? <img src={img} alt={talent.name} /> : <span>?</span>}
+    <div className="talent-card-v2">
+      <div className="talent-card-v2-header">
+        <div className="talent-card-v2-icon">
+          {img ? <img src={img} alt={talent.name} /> : <span>?</span>}
+        </div>
+        <div className="talent-card-v2-title">
+          <div className="talent-card-v2-type">{TALENT_LABELS[talent.talent_type]}</div>
+          <h3>{talent.name}</h3>
+        </div>
       </div>
-      <div className="talent-card-body">
-        <div className="talent-card-type">{TALENT_LABELS[talent.talent_type]}</div>
-        <div className="talent-card-name">{talent.name}</div>
-        {talent.description && (
-          <p className="talent-card-desc">{stripHtml(talent.description)}</p>
-        )}
-        {hasSc && (
-          <details className="talent-scalings-details">
-            <summary>Ver escalonamento por nível</summary>
-            <TalentScalingsView scalings={talent.scalings!} />
-          </details>
-        )}
-      </div>
+
+      {talent.description && (
+        <p className="talent-card-v2-desc">{stripHtml(talent.description)}</p>
+      )}
+
+      {hasSc && (
+        <details className="talent-card-v2-sc" open={false}>
+          <summary>
+            <span className="sc-label">Escalonamento por nível</span>
+            <span className="sc-hint">{levels.length} níveis</span>
+          </summary>
+          <div className="sc-body">
+            <div className="sc-level-tabs">
+              {levels.map((l) => (
+                <button
+                  key={l}
+                  className={`sc-level-tab ${l === level ? 'active' : ''}`}
+                  onClick={() => setLevel(l)}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+            <table className="sc-table">
+              <tbody>
+                {rows.map((r, i) => (
+                  <tr key={i}>
+                    <td>{r.label}</td>
+                    <td className="sc-val">{r.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )}
     </div>
   )
 }
@@ -104,15 +106,15 @@ function TalentCard({ talent }: { talent: Talent }) {
 function ConstellationCard({ c }: { c: Constellation }) {
   const img = iconUrl(c.icon)
   return (
-    <div className="const-card">
-      <div className="const-card-level">C{c.level}</div>
-      <div className="const-card-icon">
+    <div className="const-card-v2">
+      <div className="const-card-v2-badge">C{c.level}</div>
+      <div className="const-card-v2-icon">
         {img ? <img src={img} alt={c.name} /> : <span>?</span>}
       </div>
-      <div className="const-card-body">
-        <div className="const-card-name">{c.name}</div>
+      <div className="const-card-v2-body">
+        <h3>{c.name}</h3>
         {c.description && (
-          <p className="const-card-desc">{stripHtml(c.description)}</p>
+          <p>{stripHtml(c.description)}</p>
         )}
       </div>
     </div>
@@ -122,14 +124,14 @@ function ConstellationCard({ c }: { c: Constellation }) {
 function PassiveCard({ passive }: { passive: Passive }) {
   const img = iconUrl(passive.icon)
   return (
-    <div className="passive-card">
-      <div className="passive-card-icon">
+    <div className="passive-card-v2">
+      <div className="passive-card-v2-icon">
         {img ? <img src={img} alt={passive.name} /> : <span>?</span>}
       </div>
-      <div className="passive-card-body">
-        <div className="passive-card-name">{passive.name}</div>
+      <div className="passive-card-v2-body">
+        <h3>{passive.name}</h3>
         {passive.description && (
-          <p className="passive-card-desc">{stripHtml(passive.description)}</p>
+          <p>{stripHtml(passive.description)}</p>
         )}
       </div>
     </div>
@@ -141,6 +143,7 @@ export default function CharacterDetailPage() {
   const { lang } = useLanguage()
   const [char, setChar] = useState<CharacterDetail | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<string>('visao-geral')
 
   useEffect(() => {
     if (!slug) return
@@ -149,38 +152,70 @@ export default function CharacterDetailPage() {
     api.getCharacter(slug, lang).then(setChar).catch((e) => setError(String(e)))
   }, [slug, lang])
 
+  const basePassives = useMemo(
+    () => (char?.passives ?? []).filter((p) => p.kind !== 'constellation_upgrade'),
+    [char?.passives],
+  )
+
+  const sections = useMemo(() => {
+    if (!char) return []
+    return [
+      { id: 'visao-geral', label: 'Visão Geral' },
+      char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
+      basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
+      char.constellations.length > 0 && { id: 'constelacoes', label: 'Constelações' },
+      { id: 'stats', label: 'Stats' },
+      { id: 'ascensao', label: 'Ascensão' },
+      { id: 'talentos-custos', label: 'Custo de Talentos' },
+    ].filter(Boolean) as { id: string; label: string }[]
+  }, [char, basePassives])
+
+  // Scroll spy
+  useEffect(() => {
+    if (!char || sections.length === 0) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        if (visible.length > 0) setActiveId(visible[0].target.id)
+      },
+      { rootMargin: '-120px 0px -55% 0px', threshold: 0 },
+    )
+    sections.forEach((s) => {
+      const el = document.getElementById(s.id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [char, sections])
+
   if (error) return <p className="error">Erro: {error}</p>
   if (!char) return <p className="status">Carregando...</p>
 
   const img = iconUrl(char.icon)
   const releaseFmt = formatRelease(char.release_date)
-  const basePassives = char.passives.filter((p) => p.kind !== 'constellation_upgrade')
-
-  const sections = [
-    { id: 'visao-geral', label: 'Visão Geral' },
-    char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
-    basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
-    char.constellations.length > 0 && { id: 'constelacoes', label: 'Constelações' },
-    { id: 'stats', label: 'Stats' },
-    { id: 'ascensao', label: 'Ascensão' },
-    { id: 'talentos-custos', label: 'Custo de Talentos' },
-  ].filter(Boolean) as { id: string; label: string }[]
 
   return (
     <div className={`character-page element-${char.element}`}>
-      <Link to="/" className="back">← Voltar</Link>
-
       <div className="char-page-layout">
-        <aside className="char-toc">
-          <div className="char-toc-title">Nesta página</div>
-          <nav className="char-toc-list">
+        <aside className="char-toc-v2">
+          <div className="char-toc-v2-title">Nesta página</div>
+          <nav className="char-toc-v2-list">
             {sections.map((s) => (
-              <a key={s.id} href={`#${s.id}`} className="char-toc-link">{s.label}</a>
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className={`char-toc-v2-link ${activeId === s.id ? 'active' : ''}`}
+              >
+                {s.label}
+              </a>
             ))}
           </nav>
         </aside>
 
         <div>
+          <Link to="/" className="back">← Voltar</Link>
+
           <div id="visao-geral" className="char-hero char-section-anchor">
             <div className="char-hero-glow" />
             <div className="char-hero-avatar">
@@ -246,18 +281,18 @@ export default function CharacterDetailPage() {
           )}
 
           {char.talents.length > 0 && (
-            <section id="talentos-info" className="talents-info-section char-section-anchor">
+            <section id="talentos-info" className="talents-v2-section char-section-anchor">
               <h2>Talentos</h2>
-              <div className="talent-cards-grid">
+              <div className="talents-v2-list">
                 {char.talents.map((t) => <TalentCard key={t.talent_type} talent={t} />)}
               </div>
             </section>
           )}
 
           {basePassives.length > 0 && (
-            <section id="passivos" className="passives-section char-section-anchor">
+            <section id="passivos" className="passives-v2-section char-section-anchor">
               <h2>Passivos</h2>
-              <div className="passive-cards-grid">
+              <div className="passives-v2-grid">
                 {basePassives.map((p, i) => (
                   <PassiveCard key={`${p.name}-${i}`} passive={p} />
                 ))}
@@ -266,22 +301,24 @@ export default function CharacterDetailPage() {
           )}
 
           {char.constellations.length > 0 && (
-            <section id="constelacoes" className="constellations-section char-section-anchor">
+            <section id="constelacoes" className="consts-v2-section char-section-anchor">
               <h2>Constelações — {char.constellation_name}</h2>
-              <div className="const-cards-grid">
+              <div className="consts-v2-grid">
                 {char.constellations.map((c) => <ConstellationCard key={c.level} c={c} />)}
               </div>
             </section>
           )}
 
-          <h2 id="stats" className="char-section-anchor">Stats (nível 1)</h2>
-          <table className="stats">
-            <tbody>
-              <tr><th>HP</th><td>{char.base_hp}</td></tr>
-              <tr><th>ATK</th><td>{char.base_atk}</td></tr>
-              <tr><th>DEF</th><td>{char.base_def}</td></tr>
-            </tbody>
-          </table>
+          <section id="stats" className="char-section-anchor">
+            <h2>Stats (nível 1)</h2>
+            <table className="stats">
+              <tbody>
+                <tr><th>HP</th><td>{char.base_hp}</td></tr>
+                <tr><th>ATK</th><td>{char.base_atk}</td></tr>
+                <tr><th>DEF</th><td>{char.base_def}</td></tr>
+              </tbody>
+            </table>
+          </section>
 
           <div id="ascensao" className="char-section-anchor">
             {char.slug && <AscensionSection slug={char.slug} />}

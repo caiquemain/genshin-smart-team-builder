@@ -1453,3 +1453,455 @@ details.planner-warnings > div:last-child { padding-bottom: 12px; }
   margin: 0;
   white-space: pre-line;
 }
+
+/* ============================================================
+   LAYOUT V2 — página do personagem redesenhada
+   ============================================================ */
+
+/* Espaçamento entre seções */
+.character-page section,
+.character-page > div > div > section {
+  margin-bottom: 48px;
+}
+.character-page h2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* TOC v2 com scroll spy */
+.char-toc-v2 {
+  position: sticky;
+  top: 90px;
+  align-self: start;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  padding: 12px 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+@media (max-width: 1099px) {
+  .char-toc-v2 { display: none; }
+}
+.char-toc-v2-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #475569;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding: 0 16px 8px;
+}
+.char-toc-v2-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
+}
+.char-toc-v2-link {
+  display: block;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  position: relative;
+}
+.char-toc-v2-link:hover {
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+}
+.char-toc-v2-link.active {
+  color: var(--char-accent, #7dd3fc);
+  border-left-color: var(--char-accent, #7dd3fc);
+  background: color-mix(in srgb, var(--char-accent, #7dd3fc) 8%, transparent);
+  font-weight: 600;
+}
+
+/* Talentos — 1 coluna full width */
+.talents-v2-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.talent-card-v2 {
+  padding: 24px;
+  background: linear-gradient(135deg, #131820 0%, #0f1218 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 3px solid var(--char-accent, #1f2937);
+  border-radius: 12px;
+  position: relative;
+}
+.talent-card-v2-header {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.talent-card-v2-icon {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--char-accent, #fff) 25%, transparent) 0%,
+    transparent 70%
+  );
+  border: 1px solid color-mix(in srgb, var(--char-accent, #fff) 30%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.talent-card-v2-icon img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.talent-card-v2-title { flex: 1; min-width: 0; }
+.talent-card-v2-type {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--char-accent, #64748b);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.talent-card-v2-title h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #e8ecf2;
+  letter-spacing: -0.01em;
+}
+.talent-card-v2-desc {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin: 0 0 16px;
+  white-space: pre-line;
+}
+
+/* Escalonamento */
+.talent-card-v2-sc {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 14px;
+}
+.talent-card-v2-sc > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  list-style: none;
+  user-select: none;
+  transition: background 0.15s;
+}
+.talent-card-v2-sc > summary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.talent-card-v2-sc > summary::-webkit-details-marker { display: none; }
+.sc-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--char-accent, #7dd3fc);
+}
+.sc-label::before {
+  content: '▸ ';
+  display: inline-block;
+  transition: transform 0.15s;
+}
+.talent-card-v2-sc[open] > summary .sc-label::before {
+  transform: rotate(90deg);
+}
+.sc-hint {
+  font-size: 11px;
+  color: #64748b;
+}
+.sc-body { margin-top: 14px; }
+.sc-level-tabs {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.sc-level-tab {
+  min-width: 32px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #94a3b8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.sc-level-tab:hover {
+  color: var(--char-accent, #7dd3fc);
+  border-color: var(--char-accent, #7dd3fc);
+}
+.sc-level-tab.active {
+  background: var(--char-accent, #7dd3fc);
+  color: #0b0e13;
+  border-color: var(--char-accent, #7dd3fc);
+}
+.sc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.sc-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.sc-table tr:last-child { border-bottom: none; }
+.sc-table td {
+  padding: 6px 8px;
+  color: #cbd5e1;
+}
+.sc-table td.sc-val {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--char-accent, #fbbf24);
+  font-weight: 700;
+  width: 100px;
+}
+
+/* Passivos — 2 colunas */
+.passives-v2-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 800px) {
+  .passives-v2-grid { grid-template-columns: 1fr; }
+}
+.passive-card-v2 {
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, #131820 0%, #0f1218 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+.passive-card-v2-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--char-accent, #fff) 22%, transparent) 0%,
+    transparent 70%
+  );
+  border: 1px solid color-mix(in srgb, var(--char-accent, #fff) 30%, transparent);
+}
+.passive-card-v2-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.passive-card-v2-body { min-width: 0; flex: 1; }
+.passive-card-v2-body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--char-accent, #e8ecf2);
+  margin: 0 0 6px;
+}
+.passive-card-v2-body p {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* Constelações — 2 colunas */
+.consts-v2-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 14px;
+}
+@media (max-width: 800px) {
+  .consts-v2-grid { grid-template-columns: 1fr; }
+}
+.const-card-v2 {
+  position: relative;
+  padding: 18px;
+  background: linear-gradient(135deg, #1a1620 0%, #131820 100%);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 12px;
+  display: flex;
+  gap: 14px;
+}
+.const-card-v2-badge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.const-card-v2-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(251, 191, 36, 0.2) 0%, transparent 70%);
+  border: 2px solid rgba(251, 191, 36, 0.35);
+}
+.const-card-v2-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.const-card-v2-body { min-width: 0; flex: 1; padding-right: 36px; }
+.const-card-v2-body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fbbf24;
+  margin: 0 0 6px;
+}
+.const-card-v2-body p {
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* Responsivo: mobile */
+@media (max-width: 800px) {
+  .talent-card-v2 { padding: 18px; }
+  .talent-card-v2-icon { width: 56px; height: 56px; }
+  .talent-card-v2-title h3 { font-size: 18px; }
+  .char-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  .char-hero-meta { justify-content: center; }
+  .char-hero-info h1 { font-size: 32px; }
+  .voice-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   WIDE LAYOUT — aproveitamento de monitores grandes
+   ============================================================ */
+
+/* Bump global container (afeta todas as páginas, ainda confortável) */
+.container {
+  max-width: 1440px;
+}
+
+/* Character page: até 1800px — quase full width em 1920 */
+.container:has(.character-page) {
+  max-width: 1800px;
+}
+
+/* Ultra-wide: mais espaço ainda */
+@media (min-width: 1920px) {
+  .container:has(.character-page) {
+    max-width: 1900px;
+  }
+}
+
+/* Padding lateral maior em telas grandes */
+@media (min-width: 1400px) {
+  .container {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+/* TOC mais largo em telas grandes */
+@media (min-width: 1400px) {
+  .char-page-layout {
+    grid-template-columns: 240px 1fr;
+    gap: 48px;
+  }
+}
+
+/* Hero maior em wide */
+@media (min-width: 1400px) {
+  .char-hero-avatar {
+    width: 240px;
+    height: 240px;
+  }
+  .char-hero-info h1 {
+    font-size: 52px;
+  }
+  .char-hero-desc {
+    font-size: 15px;
+    max-width: 900px;
+  }
+  .char-hero-glow {
+    width: 400px;
+    height: 400px;
+    top: -120px;
+    left: 20px;
+  }
+}
+
+/* Info grid com 4 colunas fixas em wide */
+@media (min-width: 1400px) {
+  .char-info-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .voice-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Talentos com mais respiro em wide */
+@media (min-width: 1600px) {
+  .talent-card-v2 {
+    padding: 28px 32px;
+  }
+  .talent-card-v2-desc {
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+  .talent-card-v2-icon {
+    width: 80px;
+    height: 80px;
+  }
+  .talent-card-v2-title h3 {
+    font-size: 24px;
+  }
+  /* Escalonamento em 2 colunas dentro do card */
+  .sc-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .sc-level-tabs {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+  .sc-level-tab {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+/* Passivos e constelações em 2 colunas fixas em wide */
+@media (min-width: 1600px) {
+  .passives-v2-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .consts-v2-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Stats em wide: tabela mais larga */
+@media (min-width: 1400px) {
+  .stats {
+    max-width: 600px;
+  }
+  .stats th {
+    width: 180px;
+  }
+}
