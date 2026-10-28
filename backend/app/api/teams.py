@@ -6,6 +6,8 @@ from ..models import Character, Team, TeamCharacter, Language
 from ..schemas.team import TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
+from ..services.synergy import analyze_team
+from ..schemas.team_analysis import TeamAnalysisRequest, TeamAnalysisResponse
 from .deps import get_language
 
 router = APIRouter(prefix="/teams", tags=["teams"])
@@ -112,3 +114,11 @@ def delete_team(team_id: int, db: Session = Depends(get_db)) -> None:
         raise HTTPException(404, detail="Time não encontrado")
     db.delete(team)
     db.commit()
+
+@router.post("/analyze", response_model=TeamAnalysisResponse)
+def analyze(
+    payload: TeamAnalysisRequest,
+    db: Session = Depends(get_db),
+) -> TeamAnalysisResponse:
+    result = analyze_team(db, payload.character_slugs)
+    return TeamAnalysisResponse(**result)

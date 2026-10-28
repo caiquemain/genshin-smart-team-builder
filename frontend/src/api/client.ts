@@ -1,5 +1,6 @@
 import type {
   AscensionCost,
+  TeamAnalysisResponse,
   WeaponSummary,
   WeaponListResponse,
   WeaponDetail,
@@ -46,6 +47,15 @@ export const api = {
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
+  analyzeTeam: (slugs: string[], lang: LanguageCode) =>
+    fetch(`${API_URL}/teams/analyze?lang=${lang}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ character_slugs: slugs }),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<TeamAnalysisResponse>
+    }),
   listWeapons: (lang: LanguageCode, filters: { weapon_type?: string; rarity?: number; limit?: number } = {}) =>
     request<WeaponListResponse>('/weapons', { lang, ...filters }),
   getWeapon: (slug: string, lang: LanguageCode) =>

@@ -205,3 +205,40 @@ export interface WeaponAscensionResponse {
   materials: AscensionMaterial[]
   phases: AscensionPhase[]
 }
+
+// === Team Analysis ===
+export interface TeamMemberRole {
+  slug: string
+  name: string
+  icon: string | null
+  element: Element
+  role: 'dps' | 'sub' | 'support' | 'healer' | 'shielder'
+}
+
+export interface TeamReaction {
+  slug: string
+  name: string
+  effect: string | null
+}
+
+export interface TeamSuggestion {
+  slug: string
+  name: string
+  icon: string | null
+  element: Element | null
+  reason: string
+}
+
+export interface ScoreBreakdown {
+  factor: string
+  delta: number
+}
+
+export interface TeamAnalysisResponse {
+  score: number
+  roles: TeamMemberRole[]
+  reactions: TeamReaction[]
+  warnings: string[]
+  suggestions: TeamSuggestion[]
+  breakdown: ScoreBreakdown[]
+}
