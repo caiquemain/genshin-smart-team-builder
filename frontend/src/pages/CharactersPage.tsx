@@ -26,6 +26,7 @@ export default function CharactersPage() {
         element: element || undefined,
         weapon_type: weaponType || undefined,
         rarity: rarity ? Number(rarity) : undefined,
+        limit: 200,
       })
       .then((d) => { setData(d); setError(null) })
       .catch((e) => setError(String(e)))
