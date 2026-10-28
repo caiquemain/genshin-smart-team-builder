@@ -6,7 +6,9 @@ import type {
   ReactionListResponse,
 } from '../types'
 
-const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:8000'
+// Em dev local: Vite proxy encaminha /api → localhost:8000
+// Em Docker:   nginx proxy encaminha /api → backend:8000
+const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
 
 async function request<T>(path: string, params: Record<string, string | number | undefined> = {}): Promise<T> {
   const qs = new URLSearchParams()
