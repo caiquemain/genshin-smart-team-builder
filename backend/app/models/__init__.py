@@ -17,7 +17,7 @@ from .character import (
 )
 from .weapon import Weapon, WeaponAscensionMaterial
 from .artifact import ArtifactSet
-from .material import Material
+from .material import Material, MaterialTranslation
 from .reaction import ElementalReaction
 from .team import Team, TeamCharacter
 from .guide import Guide
@@ -28,6 +28,6 @@ __all__ = [
     "Character", "CharacterTranslation",
     "CharacterAscensionMaterial", "CharacterTalentMaterial",
     "Weapon", "WeaponAscensionMaterial",
-    "ArtifactSet", "Material", "ElementalReaction",
+    "ArtifactSet", "Material", "MaterialTranslation", "ElementalReaction",
     "Team", "TeamCharacter", "Guide",
 ]

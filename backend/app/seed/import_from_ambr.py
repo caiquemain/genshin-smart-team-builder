@@ -1,8 +1,8 @@
-"""Importa personagens do Project Amber com suporte multi-idioma.
+"""Importa personagens, materiais de ascensão e traduções do Project Amber.
 
 Endpoint base: https://gi.yatta.moe/api/v2
-Canonical (name/slug): en.
-Traduções: definidas em AMBR_LANGS (padrão: pt,es).
+
+Ordem de execução: por personagem → traduções → promote (ascensão) → materiais on-demand.
 
 Uso:
     docker compose exec backend python -m app.seed.import_from_ambr
@@ -24,11 +24,15 @@ from ..database import SessionLocal
 from ..models import (
     Character,
     CharacterTranslation,
+    CharacterAscensionMaterial,
+    Material,
+    MaterialTranslation,
     Element,
     WeaponType,
     StatType,
     Region,
     Language,
+    MaterialCategory,
 )
 
 AMBR_BASE = "https://gi.yatta.moe"
@@ -42,7 +46,7 @@ TRANSLATION_LANGS = [
 
 _max_raw = os.getenv("AMBR_MAX_CHARACTERS", "10")
 MAX_CHARACTERS = int(_max_raw) if _max_raw.isdigit() and int(_max_raw) > 0 else None
-REQUEST_DELAY = 0.3
+REQUEST_DELAY = 0.25
 HEADERS = {"User-Agent": "GenshinSmartTeamBuilder/0.1 (educational, fan-made)"}
 
 ELEMENT_MAP = {
@@ -97,6 +101,29 @@ def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
+def map_material_category(type_raw: str | None) -> MaterialCategory:
+    if not type_raw:
+        return MaterialCategory.COMMON_DROP
+    t = type_raw.lower()
+    if "local specialty" in t:
+        return MaterialCategory.LOCAL_SPECIALTY
+    if "weekly boss" in t:
+        return MaterialCategory.WEEKLY_BOSS
+    if "crown" in t:
+        return MaterialCategory.CROWN
+    if "talent" in t and ("book" in t or "teaching" in t or "guide" in t or "philosoph" in t):
+        return MaterialCategory.TALENT_BOOK
+    if "weapon" in t and "ascension" in t:
+        return MaterialCategory.WEAPON_ASCENSION
+    if "character ascension" in t:
+        return MaterialCategory.ASCENSION_GEM
+    if "boss" in t:
+        return MaterialCategory.BOSS_MATERIAL
+    if "enhancement ore" in t or "experience" in t or "exp" in t:
+        return MaterialCategory.CHARACTER_EXP
+    return MaterialCategory.COMMON_DROP
+
+
 async def fetch_json(client: httpx.AsyncClient, path: str) -> dict[str, Any] | None:
     url = f"{AMBR_BASE}{API_PATH}{path}"
     try:
@@ -129,7 +156,7 @@ def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     base_hp = int(round(base_values.get("FIGHT_PROP_BASE_HP", 0)))
     base_atk = int(round(base_values.get("FIGHT_PROP_BASE_ATTACK", 0)))
     base_def = int(round(base_values.get("FIGHT_PROP_BASE_DEFENSE", 0)))
-    max_hp, max_atk, max_def = base_hp, base_atk, base_def  # TODO: aplicar curva
+    max_hp, max_atk, max_def = base_hp, base_atk, base_def  # TODO: curva de nível 90
 
     birthday = raw.get("birthday") or []
     birthday_str = (
@@ -183,6 +210,64 @@ def parse_translation(raw: dict[str, Any], lang_code: str) -> dict[str, Any] | N
     }
 
 
+def parse_promote(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    """Retorna fases de ascensão: [{promote_level, unlock_max_level, mora, items}]."""
+    upgrade = raw.get("upgrade") or {}
+    phases = upgrade.get("promote") or []
+    result: list[dict[str, Any]] = []
+    for p in phases:
+        if not isinstance(p, dict):
+            continue
+        cost_items = p.get("costItems") or {}
+        if not cost_items:
+            continue
+        promote_level = p.get("promoteLevel")
+        if not promote_level:
+            continue
+        result.append({
+            "promote_level": int(promote_level),
+            "unlock_max_level": int(p.get("unlockMaxLevel") or 0),
+            "mora": int(p.get("coinCost") or 0),
+            "items": {int(k): int(v) for k, v in cost_items.items()},
+        })
+    result.sort(key=lambda x: x["promote_level"])
+    return result
+
+
+def parse_material(raw: dict[str, Any], ambr_id: int) -> dict[str, Any] | None:
+    name = raw.get("name")
+    if not name:
+        return None
+    source_list = raw.get("source") or []
+    first_source = source_list[0].get("name") if source_list and isinstance(source_list[0], dict) else None
+    return {
+        "ambr_id": ambr_id,
+        "slug": slugify(name),
+        "name": name,
+        "category": map_material_category(raw.get("type")),
+        "type_raw": raw.get("type"),
+        "rarity": raw.get("rank"),
+        "icon": raw.get("icon"),
+        "source": first_source,
+        "description": raw.get("description"),
+    }
+
+
+def parse_material_translation(raw: dict[str, Any], lang_code: str) -> dict[str, Any] | None:
+    name = raw.get("name")
+    if not name:
+        return None
+    try:
+        lang_enum = Language(lang_code)
+    except ValueError:
+        return None
+    return {
+        "language": lang_enum,
+        "name": name,
+        "description": raw.get("description"),
+    }
+
+
 def upsert_character(db: Session, payload: dict[str, Any]) -> Character:
     existing = db.query(Character).filter(Character.slug == payload["slug"]).one_or_none()
     if existing:
@@ -213,6 +298,84 @@ def upsert_translation(db: Session, char: Character, payload: dict[str, Any]) ->
     return "inserted"
 
 
+async def ensure_material(
+    client: httpx.AsyncClient, db: Session, ambr_id: int
+) -> Material | None:
+    existing = db.query(Material).filter(Material.ambr_id == ambr_id).one_or_none()
+    if existing:
+        return existing
+
+    raw = await fetch_json(client, f"/{CANONICAL_LANG}/material/{ambr_id}?vh={VH}")
+    if not raw:
+        return None
+    data = raw.get("data") or {}
+    payload = parse_material(data, ambr_id)
+    if not payload:
+        return None
+
+    # Dedupe de slug: se já existe (caso raro), usa sufixo
+    if db.query(Material).filter(Material.slug == payload["slug"]).one_or_none():
+        payload["slug"] = f"{payload['slug']}-{ambr_id}"
+
+    mat = Material(**payload)
+    db.add(mat)
+    db.flush()
+
+    for lang_code in TRANSLATION_LANGS:
+        if lang_code == CANONICAL_LANG:
+            continue
+        raw_lang = await fetch_json(
+            client, f"/{lang_code}/material/{ambr_id}?vh={VH}"
+        )
+        if not raw_lang:
+            continue
+        trans = parse_material_translation(raw_lang.get("data") or {}, lang_code)
+        if trans:
+            existing_t = (
+                db.query(MaterialTranslation)
+                .filter(
+                    MaterialTranslation.material_id == mat.id,
+                    MaterialTranslation.language == trans["language"],
+                )
+                .one_or_none()
+            )
+            if existing_t:
+                for k, v in trans.items():
+                    setattr(existing_t, k, v)
+            else:
+                db.add(MaterialTranslation(material_id=mat.id, **trans))
+        await asyncio.sleep(REQUEST_DELAY)
+
+    return mat
+
+
+async def upsert_ascension(
+    client: httpx.AsyncClient, db: Session, char: Character, phases: list[dict[str, Any]]
+) -> int:
+    """Recria as ligações de ascensão do personagem. Retorna o total de materiais usados."""
+    # Limpa as existentes para idempotência
+    db.query(CharacterAscensionMaterial).filter(
+        CharacterAscensionMaterial.character_id == char.id
+    ).delete()
+
+    used = 0
+    for phase in phases:
+        for ambr_id, qty in phase["items"].items():
+            mat = await ensure_material(client, db, ambr_id)
+            if not mat:
+                print(f"[ambr] material {ambr_id} não pôde ser importado; pulando")
+                continue
+            db.add(CharacterAscensionMaterial(
+                character_id=char.id,
+                material_id=mat.id,
+                quantity=qty,
+                phase=phase["promote_level"],
+            ))
+            used += 1
+            await asyncio.sleep(REQUEST_DELAY)
+    return used
+
+
 async def main() -> None:
     async with httpx.AsyncClient(headers=HEADERS, follow_redirects=True) as client:
         ids = await fetch_character_ids(client)
@@ -229,7 +392,8 @@ async def main() -> None:
                 raw = await fetch_json(client, f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}")
                 if not raw:
                     continue
-                payload = parse_canonical(raw.get("data") or {})
+                data = raw.get("data") or {}
+                payload = parse_canonical(data)
                 if not payload:
                     continue
 
@@ -249,12 +413,21 @@ async def main() -> None:
                         status = upsert_translation(db, char, trans)
                         print(f"[ambr]   ↳ {lang_code}: {status}")
                     await asyncio.sleep(REQUEST_DELAY)
+
+                phases = parse_promote(data)
+                if phases:
+                    db.flush()
+                    used = await upsert_ascension(client, db, char, phases)
+                    print(f"[ambr]   ↳ {len(phases)} fases de ascensão, {used} ligações")
+
                 await asyncio.sleep(REQUEST_DELAY)
 
             db.commit()
-            total = db.query(Character).count()
-            trans_total = db.query(CharacterTranslation).count()
-            print(f"[ambr] concluído. Characters={total}  Translations={trans_total}")
+            total_chars = db.query(Character).count()
+            total_trans = db.query(CharacterTranslation).count()
+            total_mats = db.query(Material).filter(Material.ambr_id.isnot(None)).count()
+            total_asc = db.query(CharacterAscensionMaterial).count()
+            print(f"[ambr] concluído. Characters={total_chars}  Translations={total_trans}  Materials={total_mats}  AscensionLinks={total_asc}")
         finally:
             db.close()
 

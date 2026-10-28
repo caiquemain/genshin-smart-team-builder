@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .database import engine
 from .models import Base
-from .api import characters, reactions, meta
+from .api import characters, reactions, meta, ascension
 
 
 @asynccontextmanager
@@ -28,6 +28,7 @@ app.add_middleware(
 
 app.include_router(meta.router)
 app.include_router(characters.router)
+app.include_router(ascension.router)
 app.include_router(reactions.router)
 
 
