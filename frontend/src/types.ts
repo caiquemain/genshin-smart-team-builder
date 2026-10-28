@@ -47,11 +47,24 @@ export interface Constellation {
   icon: string | null
 }
 
+export interface TalentScalings {
+  [level: string]: { label: string; value: string }[]
+}
+
 export interface Talent {
   talent_type: 'normal_attack' | 'elemental_skill' | 'elemental_burst'
   name: string
   description: string | null
   icon: string | null
+  scalings: TalentScalings | null
+}
+
+export interface Passive {
+  name: string
+  description: string | null
+  icon: string | null
+  kind: string
+  linked_constellations: unknown
 }
 
 export interface CharacterDetail extends CharacterSummary {
@@ -71,6 +84,7 @@ export interface CharacterDetail extends CharacterSummary {
   voice_actors: Record<string, string> | null
   constellations: Constellation[]
   talents: Talent[]
+  passives: Passive[]
 }
 
 export interface AscensionMaterial {
