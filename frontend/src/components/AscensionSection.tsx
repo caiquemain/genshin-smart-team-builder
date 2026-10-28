@@ -6,6 +6,11 @@ import type { AscensionCost } from '../types'
 
 const LEVEL_OPTIONS = [1, 20, 40, 50, 60, 70, 80]
 const TARGET_LEVEL = 90
+const MORA_ICON = 'UI_ItemIcon_202'
+
+function formatMora(n: number): string {
+  return n.toLocaleString('pt-BR')
+}
 
 export default function AscensionSection({ slug }: { slug: string }) {
   const { lang } = useLanguage()
@@ -78,8 +83,17 @@ export default function AscensionSection({ slug }: { slug: string }) {
               )
             })}
           </div>
+
+          <div className="ascension-mora">
+            <div className="ascension-mora-left">
+              <img className="ascension-mora-icon" src={iconUrl(MORA_ICON)!} alt="Mora" />
+              <span className="ascension-mora-label">Mora total</span>
+            </div>
+            <span className="ascension-mora-value">{formatMora(data.total_mora)}</span>
+          </div>
+
           <p className="ascension-mora-note">
-            Custo de Mora e materiais de talento virão na próxima iteração.
+            Materiais de talento virão na próxima iteração.
           </p>
         </>
       )}

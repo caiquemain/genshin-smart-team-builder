@@ -138,3 +138,29 @@ table th { color: #94a3b8; font-weight: 600; }
 .ascension-mora-note {
   margin-top: 16px; font-size: 13px; color: #64748b; font-style: italic;
 }
+
+.ascension-mora {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 20px; padding: 12px 16px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 8px;
+}
+.ascension-mora-label {
+  color: #cbd5e1; font-size: 14px; font-weight: 600;
+}
+.ascension-mora-value {
+  font-size: 22px; font-weight: 700; color: #fbbf24;
+  font-variant-numeric: tabular-nums;
+}
+
+.ascension-mora-left {
+  display: flex; align-items: center; gap: 12px;
+}
+.ascension-mora-icon {
+  width: 40px; height: 40px;
+  object-fit: contain;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  border-radius: 6px;
+  padding: 4px;
+}
