@@ -31,6 +31,7 @@ from ..models import (
     CharacterTranslation,
     CharacterAscensionMaterial,
     CharacterAscensionPhase,
+    CharacterTalentPhase,
     Material,
     MaterialTranslation,
     Element,
@@ -39,6 +40,7 @@ from ..models import (
     Region,
     Language,
     MaterialCategory,
+    TalentType,
 )
 
 AMBR_BASE = "https://gi.yatta.moe"
@@ -260,6 +262,52 @@ def parse_promote(raw: dict[str, Any]) -> list[dict[str, Any]]:
     return result
 
 
+TALENT_ORDER = [
+    TalentType.NORMAL_ATTACK,
+    TalentType.ELEMENTAL_SKILL,
+    TalentType.ELEMENTAL_BURST,
+]
+
+
+def parse_talent(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    """Extrai os 3 talentos upáveis (na ordem: normal, skill, burst).
+
+    Cada item retornado:
+      {talent_type, phases: [{level, mora, items: {ambr_id: qty}}, ...]}
+    """
+    talent_map = raw.get("talent") or {}
+    entries = []
+    for key in sorted(talent_map.keys(), key=lambda x: int(x) if str(x).isdigit() else 9999):
+        t = talent_map.get(key) or {}
+        promote = t.get("promote") or {}
+        phases = []
+        for lvl_str, phase in promote.items():
+            if not isinstance(phase, dict):
+                continue
+            cost_items = phase.get("costItems") or {}
+            if not cost_items:
+                continue
+            try:
+                lvl = int(lvl_str)
+            except (TypeError, ValueError):
+                continue
+            phases.append({
+                "level": lvl,
+                "mora": int(phase.get("coinCost") or 0),
+                "items": {int(k): int(v) for k, v in cost_items.items()},
+            })
+        if phases:
+            phases.sort(key=lambda p: p["level"])
+            entries.append(phases)
+    result = []
+    for idx, phases in enumerate(entries[:3]):
+        result.append({
+            "talent_type": TALENT_ORDER[idx],
+            "phases": phases,
+        })
+    return result
+
+
 def parse_material(raw: dict[str, Any], ambr_id: int) -> dict[str, Any] | None:
     name = raw.get("name")
     if not name:
@@ -355,12 +403,15 @@ async def main() -> None:
         print(f"[ambr] baixando {len(avatar_paths)} avatares em paralelo...")
         avatars_raw = await fetch_many(client, avatar_paths, sem, REQUEST_DELAY)
 
-        # Fase 3: extrair todos os ambr_ids únicos de materiais
+        # Fase 3: extrair ambr_ids únicos (ascensão + talentos)
         material_ids: set[int] = set()
         for cid in ids:
             en_data = (avatars_raw.get(f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}") or {}).get("data") or {}
             for phase in parse_promote(en_data):
                 material_ids.update(phase["items"].keys())
+            for talent in parse_talent(en_data):
+                for phase in talent["phases"]:
+                    material_ids.update(phase["items"].keys())
         print(f"[ambr] {len(material_ids)} materiais únicos para baixar")
 
         # Fase 4: materiais em paralelo
@@ -374,25 +425,43 @@ async def main() -> None:
         print("[ambr] persistindo no DB...")
         db = SessionLocal()
         try:
-            # 5a) Materiais
+            # 5a) Materiais (idempotente por ambr_id)
             material_by_ambr: dict[int, Material] = {}
             for mid in material_ids:
-                en_raw = (mats_raw.get(f"/{CANONICAL_LANG}/material/{mid}?vh={VH}") or {}).get("data") or {}
-                payload = parse_material(en_raw, mid)
-                if not payload:
-                    print(f"[ambr] material {mid} inválido; pulando")
-                    continue
-                if db.query(Material).filter(Material.slug == payload["slug"]).one_or_none():
-                    payload["slug"] = f"{payload['slug']}-{mid}"
-                mat = Material(**payload)
-                db.add(mat)
-                db.flush()
-                material_by_ambr[mid] = mat
+                existing = db.query(Material).filter(Material.ambr_id == mid).one_or_none()
+                if existing:
+                    material_by_ambr[mid] = existing
+                    mat = existing
+                else:
+                    en_raw = (mats_raw.get(f"/{CANONICAL_LANG}/material/{mid}?vh={VH}") or {}).get("data") or {}
+                    payload = parse_material(en_raw, mid)
+                    if not payload:
+                        print(f"[ambr] material {mid} inválido; pulando")
+                        continue
+                    if db.query(Material).filter(Material.slug == payload["slug"]).one_or_none():
+                        payload["slug"] = f"{payload['slug']}-{mid}"
+                    mat = Material(**payload)
+                    db.add(mat)
+                    db.flush()
+                    material_by_ambr[mid] = mat
 
                 for lang in TRANSLATION_LANGS:
                     lang_raw = (mats_raw.get(f"/{lang}/material/{mid}?vh={VH}") or {}).get("data") or {}
                     trans = parse_material_translation(lang_raw, lang)
-                    if trans:
+                    if not trans:
+                        continue
+                    existing_t = (
+                        db.query(MaterialTranslation)
+                        .filter(
+                            MaterialTranslation.material_id == mat.id,
+                            MaterialTranslation.language == trans["language"],
+                        )
+                        .one_or_none()
+                    )
+                    if existing_t:
+                        for k, v in trans.items():
+                            setattr(existing_t, k, v)
+                    else:
                         db.add(MaterialTranslation(material_id=mat.id, **trans))
 
             print(f"[ambr] {len(material_by_ambr)} materiais criados")
@@ -415,6 +484,9 @@ async def main() -> None:
                 phases = parse_promote(en_raw)
                 db.query(CharacterAscensionMaterial).filter_by(character_id=char.id).delete()
                 db.query(CharacterAscensionPhase).filter_by(character_id=char.id).delete()
+                db.query(CharacterTalentPhase).filter_by(character_id=char.id).delete()
+                from ..models import CharacterTalentMaterial
+                db.query(CharacterTalentMaterial).filter_by(character_id=char.id).delete()
                 for phase in phases:
                     db.add(CharacterAscensionPhase(
                         character_id=char.id,
@@ -432,12 +504,33 @@ async def main() -> None:
                                 phase=phase["promote_level"],
                             ))
 
+                for talent in parse_talent(en_raw):
+                    ttype = talent["talent_type"]
+                    for phase in talent["phases"]:
+                        db.add(CharacterTalentPhase(
+                            character_id=char.id,
+                            talent_type=ttype,
+                            level=phase["level"],
+                            mora=phase["mora"],
+                        ))
+                        for mid, qty in phase["items"].items():
+                            mat = material_by_ambr.get(mid)
+                            if mat:
+                                db.add(CharacterTalentMaterial(
+                                    character_id=char.id,
+                                    material_id=mat.id,
+                                    quantity=qty,
+                                    talent_type=ttype,
+                                    level=phase["level"],
+                                ))
+
             db.commit()
             total_chars = db.query(Character).count()
             total_trans = db.query(CharacterTranslation).count()
             total_mats = db.query(Material).filter(Material.ambr_id.isnot(None)).count()
             total_asc = db.query(CharacterAscensionMaterial).count()
             total_phases = db.query(CharacterAscensionPhase).count()
+            total_talent_phases = db.query(CharacterTalentPhase).count()
             print(
                 f"[ambr] concluído. Characters={total_chars}  Translations={total_trans}  "
                 f"Materials={total_mats}  AscensionLinks={total_asc}  Phases={total_phases}"

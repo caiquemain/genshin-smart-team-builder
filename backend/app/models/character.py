@@ -47,6 +47,12 @@ class Character(Base):
         cascade="all, delete-orphan",
         order_by="CharacterAscensionPhase.phase",
     )
+    talent_phases = relationship(
+        "CharacterTalentPhase",
+        back_populates="character",
+        cascade="all, delete-orphan",
+        order_by="CharacterTalentPhase.level",
+    )
     ascension_materials = relationship(
         "CharacterAscensionMaterial",
         back_populates="character",
@@ -94,6 +100,26 @@ class CharacterAscensionPhase(Base):
     mora = Column(Integer, nullable=False, default=0)
 
     character = relationship("Character", back_populates="ascension_phases")
+
+
+class CharacterTalentPhase(Base):
+    __tablename__ = "character_talent_phases"
+    __table_args__ = (
+        UniqueConstraint(
+            "character_id", "talent_type", "level",
+            name="uq_char_talent_phase",
+        ),
+    )
+
+    id = Column(Integer, primary_key=True)
+    character_id = Column(
+        Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
+    )
+    talent_type = Column(talent_type_enum, nullable=False)
+    level = Column(Integer, nullable=False)
+    mora = Column(Integer, nullable=False, default=0)
+
+    character = relationship("Character", back_populates="talent_phases")
 
 
 class CharacterAscensionMaterial(Base):
