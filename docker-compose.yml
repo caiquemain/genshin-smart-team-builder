@@ -17,6 +17,22 @@ services:
       timeout: 5s
       retries: 10
 
+  init:
+    build: ./backend
+    container_name: genshin_init
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-genshin}:${POSTGRES_PASSWORD:-genshin}@db:5432/${POSTGRES_DB:-genshin_db}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    # seed crítico (sem rede); import opcional (rede). Se import falhar, loga e segue.
+    command: >
+      sh -c "python -m app.seed.run
+      && (python -m app.seed.import_from_ambr || echo '[init] import_from_ambr falhou, continuando')"
+    restart: "no"
+
   backend:
     build: ./backend
     container_name: genshin_backend
@@ -28,6 +44,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      init:
+        condition: service_completed_successfully
     volumes:
       - ./backend:/app
 
