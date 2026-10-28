@@ -164,3 +164,103 @@ table th { color: #94a3b8; font-weight: 600; }
   border-radius: 6px;
   padding: 4px;
 }
+
+/* === Item tooltip (KQM-like) === */
+.item-tooltip {
+  max-width: 340px;
+  min-width: 260px;
+  padding: 16px;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  color: #e8ecf2;
+  font-size: 13px;
+  z-index: 9999;
+  pointer-events: auto;
+  animation: tooltip-fade 120ms ease-out;
+}
+@keyframes tooltip-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.item-tooltip-header {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.item-tooltip-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 2px solid;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.item-tooltip-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.item-tooltip-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+.item-tooltip-name {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.item-tooltip-stars {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.item-tooltip-category {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: capitalize;
+  margin-top: 2px;
+}
+
+.item-tooltip-description {
+  margin: 0 0 12px 0;
+  color: #cbd5e1;
+  line-height: 1.5;
+  font-size: 13px;
+  white-space: pre-line;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.item-tooltip-source {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  font-size: 12px;
+  white-space: pre-line;
+  word-break: break-word;
+}
+.item-tooltip-source-label {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.item-tooltip-arrow {
+  fill: #0b0e13;
+}

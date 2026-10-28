@@ -3,6 +3,7 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import type { AscensionCost } from '../types'
+import ItemTooltip from './ItemTooltip'
 
 const LEVEL_OPTIONS = [1, 20, 40, 50, 60, 70, 80]
 const TARGET_LEVEL = 90
@@ -68,18 +69,30 @@ export default function AscensionSection({ slug }: { slug: string }) {
             {data.materials.map((m) => {
               const img = iconUrl(m.icon)
               return (
-                <div key={m.slug} className="ascension-item">
-                  <div className="ascension-icon">
-                    {img ? <img src={img} alt={m.name} loading="lazy" /> : <span>?</span>}
-                  </div>
-                  <div className="ascension-info">
-                    <div className="ascension-name">{m.name}</div>
-                    <div className="ascension-meta">
-                      {'★'.repeat(m.rarity ?? 0)} · {m.category.replace(/_/g, ' ')}
+                <ItemTooltip
+                  key={m.slug}
+                  data={{
+                    name: m.name,
+                    icon: img,
+                    rarity: m.rarity,
+                    category: m.category,
+                    description: m.description,
+                    source: m.source,
+                  }}
+                >
+                  <div className="ascension-item">
+                    <div className="ascension-icon">
+                      {img ? <img src={img} alt={m.name} loading="lazy" /> : <span>?</span>}
                     </div>
+                    <div className="ascension-info">
+                      <div className="ascension-name">{m.name}</div>
+                      <div className="ascension-meta">
+                        {'★'.repeat(m.rarity ?? 0)} · {m.category.replace(/_/g, ' ')}
+                      </div>
+                    </div>
+                    <div className="ascension-qty">×{m.quantity}</div>
                   </div>
-                  <div className="ascension-qty">×{m.quantity}</div>
-                </div>
+                </ItemTooltip>
               )
             })}
           </div>

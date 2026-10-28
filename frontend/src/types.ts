@@ -62,11 +62,14 @@ export interface AscensionMaterial {
   category: string
   rarity: number | null
   quantity: number
+  description: string | null
+  source: string | null
 }
 
 export interface AscensionPhase {
   phase: number
   unlock_max_level: number
+  mora: number
   materials: AscensionMaterial[]
 }
 
@@ -75,6 +78,7 @@ export interface AscensionCost {
   from_level: number
   to_level: number
   phases_included: number[]
+  total_mora: number
   materials: AscensionMaterial[]
   phases: AscensionPhase[]
 }
