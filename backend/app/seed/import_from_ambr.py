@@ -1,16 +1,21 @@
-"""Importa personagens, materiais de ascensão e traduções do Project Amber.
+"""Importa personagens, materiais, ascensão e traduções do Project Amber.
+
+Estratégia: paralelização em 5 fases.
+
+  Fase 1 — lista de IDs de personagens (1 request)
+  Fase 2 — avatares em paralelo (N × 3 langs, Semaphore)
+  Fase 3 — extrai ambr_ids únicos de costItems
+  Fase 4 — materiais em paralelo (M × 3 langs, Semaphore)
+  Fase 5 — persistência no DB (serial, sem awaits)
+
+Isso reduz o import de ~140s (N+1 sequencial) para ~15-20s.
 
 Endpoint base: https://gi.yatta.moe/api/v2
 
-Ordem de execução: por personagem → traduções → promote (ascensão) → materiais on-demand.
-
 Uso:
     docker compose exec backend python -m app.seed.import_from_ambr
-    AMBR_LANGS=pt,es,fr docker compose exec backend python -m app.seed.import_from_ambr
-    AMBR_MAX_CHARACTERS=0 docker compose exec backend python -m app.seed.import_from_ambr  # todos
-
-O ``vh`` (version hash) muda a cada patch. Se o endpoint retornar 404,
-atualize ``VH`` consultando o site do Project Amber.
+    AMBR_MAX_CHARACTERS=0 docker compose exec backend python -m app.seed.import_from_ambr
+    AMBR_CONCURRENCY=12 docker compose exec backend python -m app.seed.import_from_ambr
 """
 import asyncio
 import os
@@ -47,7 +52,8 @@ TRANSLATION_LANGS = [
 
 _max_raw = os.getenv("AMBR_MAX_CHARACTERS", "10")
 MAX_CHARACTERS = int(_max_raw) if _max_raw.isdigit() and int(_max_raw) > 0 else None
-REQUEST_DELAY = 0.25
+CONCURRENCY = int(os.getenv("AMBR_CONCURRENCY", "8"))
+REQUEST_DELAY = float(os.getenv("AMBR_REQUEST_DELAY", "0.02"))
 HEADERS = {"User-Agent": "GenshinSmartTeamBuilder/0.1 (educational, fan-made)"}
 
 ELEMENT_MAP = {
@@ -136,6 +142,22 @@ async def fetch_json(client: httpx.AsyncClient, path: str) -> dict[str, Any] | N
         return None
 
 
+async def fetch_many(
+    client: httpx.AsyncClient,
+    paths: list[str],
+    sem: asyncio.Semaphore,
+    delay: float,
+) -> dict[str, dict[str, Any] | None]:
+    """Fetch paralelo de várias paths, respeitando semáforo e delay."""
+    async def _one(p: str) -> tuple[str, dict[str, Any] | None]:
+        async with sem:
+            await asyncio.sleep(delay)
+            return p, await fetch_json(client, p)
+
+    results = await asyncio.gather(*[_one(p) for p in paths])
+    return dict(results)
+
+
 async def fetch_character_ids(client: httpx.AsyncClient) -> list[int]:
     data = await fetch_json(client, f"/{CANONICAL_LANG}/avatar?vh={VH}")
     if not data:
@@ -143,6 +165,10 @@ async def fetch_character_ids(client: httpx.AsyncClient) -> list[int]:
     items = (data.get("data") or {}).get("items") or {}
     return sorted(int(k) for k in items.keys() if str(k).isdigit())
 
+
+# =============================================================
+# Parsers (puros, sem DB)
+# =============================================================
 
 def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     name = raw.get("name")
@@ -212,7 +238,6 @@ def parse_translation(raw: dict[str, Any], lang_code: str) -> dict[str, Any] | N
 
 
 def parse_promote(raw: dict[str, Any]) -> list[dict[str, Any]]:
-    """Retorna fases de ascensão: [{promote_level, unlock_max_level, mora, items}]."""
     upgrade = raw.get("upgrade") or {}
     phases = upgrade.get("promote") or []
     result: list[dict[str, Any]] = []
@@ -262,12 +287,19 @@ def parse_material_translation(raw: dict[str, Any], lang_code: str) -> dict[str,
         lang_enum = Language(lang_code)
     except ValueError:
         return None
+    sources = raw.get("source") or []
+    first_source = sources[0].get("name") if sources and isinstance(sources[0], dict) else None
     return {
         "language": lang_enum,
         "name": name,
         "description": raw.get("description"),
+        "source": first_source,
     }
 
+
+# =============================================================
+# Persistência (serial, sem awaits)
+# =============================================================
 
 def upsert_character(db: Session, payload: dict[str, Any]) -> Character:
     existing = db.query(Character).filter(Character.slug == payload["slug"]).one_or_none()
@@ -282,7 +314,7 @@ def upsert_character(db: Session, payload: dict[str, Any]) -> Character:
     return char
 
 
-def upsert_translation(db: Session, char: Character, payload: dict[str, Any]) -> str:
+def upsert_translation(db: Session, char: Character, payload: dict[str, Any]) -> None:
     existing = (
         db.query(CharacterTranslation)
         .filter(
@@ -294,145 +326,111 @@ def upsert_translation(db: Session, char: Character, payload: dict[str, Any]) ->
     if existing:
         for k, v in payload.items():
             setattr(existing, k, v)
-        return "updated"
-    db.add(CharacterTranslation(character_id=char.id, **payload))
-    return "inserted"
+    else:
+        db.add(CharacterTranslation(character_id=char.id, **payload))
 
 
-async def ensure_material(
-    client: httpx.AsyncClient, db: Session, ambr_id: int
-) -> Material | None:
-    existing = db.query(Material).filter(Material.ambr_id == ambr_id).one_or_none()
-    if existing:
-        return existing
-
-    raw = await fetch_json(client, f"/{CANONICAL_LANG}/material/{ambr_id}?vh={VH}")
-    if not raw:
-        return None
-    data = raw.get("data") or {}
-    payload = parse_material(data, ambr_id)
-    if not payload:
-        return None
-
-    # Dedupe de slug: se já existe (caso raro), usa sufixo
-    if db.query(Material).filter(Material.slug == payload["slug"]).one_or_none():
-        payload["slug"] = f"{payload['slug']}-{ambr_id}"
-
-    mat = Material(**payload)
-    db.add(mat)
-    db.flush()
-
-    for lang_code in TRANSLATION_LANGS:
-        if lang_code == CANONICAL_LANG:
-            continue
-        raw_lang = await fetch_json(
-            client, f"/{lang_code}/material/{ambr_id}?vh={VH}"
-        )
-        if not raw_lang:
-            continue
-        trans = parse_material_translation(raw_lang.get("data") or {}, lang_code)
-        if trans:
-            existing_t = (
-                db.query(MaterialTranslation)
-                .filter(
-                    MaterialTranslation.material_id == mat.id,
-                    MaterialTranslation.language == trans["language"],
-                )
-                .one_or_none()
-            )
-            if existing_t:
-                for k, v in trans.items():
-                    setattr(existing_t, k, v)
-            else:
-                db.add(MaterialTranslation(material_id=mat.id, **trans))
-        await asyncio.sleep(REQUEST_DELAY)
-
-    return mat
-
-
-async def upsert_ascension(
-    client: httpx.AsyncClient, db: Session, char: Character, phases: list[dict[str, Any]]
-) -> int:
-    """Recria as ligações de ascensão + fases com mora. Retorna o total de materiais usados."""
-    # Limpa as existentes para idempotência
-    db.query(CharacterAscensionMaterial).filter(
-        CharacterAscensionMaterial.character_id == char.id
-    ).delete()
-    db.query(CharacterAscensionPhase).filter(
-        CharacterAscensionPhase.character_id == char.id
-    ).delete()
-
-    used = 0
-    for phase in phases:
-        # Fase (mora + unlock level) — 1 por promote_level
-        db.add(CharacterAscensionPhase(
-            character_id=char.id,
-            phase=phase["promote_level"],
-            unlock_max_level=phase["unlock_max_level"],
-            mora=phase["mora"],
-        ))
-        # Materiais da fase
-        for ambr_id, qty in phase["items"].items():
-            mat = await ensure_material(client, db, ambr_id)
-            if not mat:
-                print(f"[ambr] material {ambr_id} não pôde ser importado; pulando")
-                continue
-            db.add(CharacterAscensionMaterial(
-                character_id=char.id,
-                material_id=mat.id,
-                quantity=qty,
-                phase=phase["promote_level"],
-            ))
-            used += 1
-            await asyncio.sleep(REQUEST_DELAY)
-    return used
-
+# =============================================================
+# Main
+# =============================================================
 
 async def main() -> None:
     async with httpx.AsyncClient(headers=HEADERS, follow_redirects=True) as client:
+        sem = asyncio.Semaphore(CONCURRENCY)
+
+        # Fase 1
         ids = await fetch_character_ids(client)
         if not ids:
             print("[ambr] nenhum personagem retornado; abortando.")
             return
         if MAX_CHARACTERS is not None:
             ids = ids[:MAX_CHARACTERS]
-        print(f"[ambr] {len(ids)} personagens | canônico={CANONICAL_LANG} | traduções={TRANSLATION_LANGS}")
+        all_langs = [CANONICAL_LANG] + TRANSLATION_LANGS
+        print(f"[ambr] {len(ids)} personagens | langs={all_langs} | concurrency={CONCURRENCY}")
 
+        # Fase 2: avatares em paralelo
+        avatar_paths = [
+            f"/{lang}/avatar/{cid}?vh={VH}" for cid in ids for lang in all_langs
+        ]
+        print(f"[ambr] baixando {len(avatar_paths)} avatares em paralelo...")
+        avatars_raw = await fetch_many(client, avatar_paths, sem, REQUEST_DELAY)
+
+        # Fase 3: extrair todos os ambr_ids únicos de materiais
+        material_ids: set[int] = set()
+        for cid in ids:
+            en_data = (avatars_raw.get(f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}") or {}).get("data") or {}
+            for phase in parse_promote(en_data):
+                material_ids.update(phase["items"].keys())
+        print(f"[ambr] {len(material_ids)} materiais únicos para baixar")
+
+        # Fase 4: materiais em paralelo
+        mat_paths = [
+            f"/{lang}/material/{mid}?vh={VH}" for mid in material_ids for lang in all_langs
+        ]
+        print(f"[ambr] baixando {len(mat_paths)} materiais em paralelo...")
+        mats_raw = await fetch_many(client, mat_paths, sem, REQUEST_DELAY)
+
+        # Fase 5: persistência serial
+        print("[ambr] persistindo no DB...")
         db = SessionLocal()
         try:
-            for i, cid in enumerate(ids, 1):
-                raw = await fetch_json(client, f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}")
-                if not raw:
+            # 5a) Materiais
+            material_by_ambr: dict[int, Material] = {}
+            for mid in material_ids:
+                en_raw = (mats_raw.get(f"/{CANONICAL_LANG}/material/{mid}?vh={VH}") or {}).get("data") or {}
+                payload = parse_material(en_raw, mid)
+                if not payload:
+                    print(f"[ambr] material {mid} inválido; pulando")
                     continue
-                data = raw.get("data") or {}
-                payload = parse_canonical(data)
+                if db.query(Material).filter(Material.slug == payload["slug"]).one_or_none():
+                    payload["slug"] = f"{payload['slug']}-{mid}"
+                mat = Material(**payload)
+                db.add(mat)
+                db.flush()
+                material_by_ambr[mid] = mat
+
+                for lang in TRANSLATION_LANGS:
+                    lang_raw = (mats_raw.get(f"/{lang}/material/{mid}?vh={VH}") or {}).get("data") or {}
+                    trans = parse_material_translation(lang_raw, lang)
+                    if trans:
+                        db.add(MaterialTranslation(material_id=mat.id, **trans))
+
+            print(f"[ambr] {len(material_by_ambr)} materiais criados")
+
+            # 5b) Personagens
+            for i, cid in enumerate(ids, 1):
+                en_raw = (avatars_raw.get(f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}") or {}).get("data") or {}
+                payload = parse_canonical(en_raw)
                 if not payload:
                     continue
-
                 char = upsert_character(db, payload)
-                print(f"[ambr] [{i}/{len(ids)}] {char.slug} (canonical)")
+                print(f"[ambr] [{i}/{len(ids)}] {char.slug}")
 
-                for lang_code in TRANSLATION_LANGS:
-                    if lang_code == CANONICAL_LANG:
-                        continue
-                    raw_lang = await fetch_json(
-                        client, f"/{lang_code}/avatar/{cid}?vh={VH}"
-                    )
-                    if not raw_lang:
-                        continue
-                    trans = parse_translation(raw_lang.get("data") or {}, lang_code)
+                for lang in TRANSLATION_LANGS:
+                    lang_raw = (avatars_raw.get(f"/{lang}/avatar/{cid}?vh={VH}") or {}).get("data") or {}
+                    trans = parse_translation(lang_raw, lang)
                     if trans:
-                        status = upsert_translation(db, char, trans)
-                        print(f"[ambr]   ↳ {lang_code}: {status}")
-                    await asyncio.sleep(REQUEST_DELAY)
+                        upsert_translation(db, char, trans)
 
-                phases = parse_promote(data)
-                if phases:
-                    db.flush()
-                    used = await upsert_ascension(client, db, char, phases)
-                    print(f"[ambr]   ↳ {len(phases)} fases de ascensão, {used} ligações")
-
-                await asyncio.sleep(REQUEST_DELAY)
+                phases = parse_promote(en_raw)
+                db.query(CharacterAscensionMaterial).filter_by(character_id=char.id).delete()
+                db.query(CharacterAscensionPhase).filter_by(character_id=char.id).delete()
+                for phase in phases:
+                    db.add(CharacterAscensionPhase(
+                        character_id=char.id,
+                        phase=phase["promote_level"],
+                        unlock_max_level=phase["unlock_max_level"],
+                        mora=phase["mora"],
+                    ))
+                    for mid, qty in phase["items"].items():
+                        mat = material_by_ambr.get(mid)
+                        if mat:
+                            db.add(CharacterAscensionMaterial(
+                                character_id=char.id,
+                                material_id=mat.id,
+                                quantity=qty,
+                                phase=phase["promote_level"],
+                            ))
 
             db.commit()
             total_chars = db.query(Character).count()
@@ -440,7 +438,10 @@ async def main() -> None:
             total_mats = db.query(Material).filter(Material.ambr_id.isnot(None)).count()
             total_asc = db.query(CharacterAscensionMaterial).count()
             total_phases = db.query(CharacterAscensionPhase).count()
-            print(f"[ambr] concluído. Characters={total_chars}  Translations={total_trans}  Materials={total_mats}  AscensionLinks={total_asc}  Phases={total_phases}")
+            print(
+                f"[ambr] concluído. Characters={total_chars}  Translations={total_trans}  "
+                f"Materials={total_mats}  AscensionLinks={total_asc}  Phases={total_phases}"
+            )
         finally:
             db.close()
 
