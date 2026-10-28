@@ -8,6 +8,7 @@ class CharacterSummary(BaseModel):
 
     slug: str
     name: str
+    icon: str | None = None
     rarity: int
     element: Element
     weapon_type: WeaponType

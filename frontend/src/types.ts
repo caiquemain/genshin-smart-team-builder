@@ -27,6 +27,7 @@ export interface Pagination {
 export interface CharacterSummary {
   slug: string
   name: string
+  icon: string | null
   rarity: number
   element: Element
   weapon_type: WeaponType
@@ -57,6 +58,7 @@ export interface CharacterDetail extends CharacterSummary {
 export interface Reaction {
   slug: string
   name: string
+  icon: string | null
   elements: string[]
   effect: string | null
   multiplier: number | null

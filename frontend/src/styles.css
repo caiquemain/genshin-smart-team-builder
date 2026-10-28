@@ -57,3 +57,30 @@ table { border-collapse: collapse; margin-top: 12px; }
 table th, table td { text-align: left; padding: 8px 14px; border-bottom: 1px solid #1f2937; }
 table th { color: #94a3b8; font-weight: 600; }
 .stats th { width: 140px; }
+
+.card-avatar {
+  width: 72px; height: 72px;
+  margin: 8px auto 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-avatar img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #334155 0%, #1f2937 100%);
+}
+.card-emoji { font-size: 32px; }
+.card-name { text-align: center; }
+
+.detail-header {
+  display: flex; gap: 24px; align-items: flex-start;
+  margin-bottom: 16px;
+}
+.detail-avatar {
+  width: 160px; height: 160px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #334155 0%, #1f2937 100%);
+  padding: 8px;
+}
+.detail-header h1 { margin: 0 0 6px 0; }

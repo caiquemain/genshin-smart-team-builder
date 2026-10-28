@@ -19,6 +19,7 @@ class Character(Base):
     id = Column(Integer, primary_key=True)
     # Slug em inglês, ASCII, estável. Nunca traduzir.
     slug = Column(String(100), nullable=False, unique=True, index=True)
+    icon = Column(String(150), index=True)
     # Nome canônico em inglês (fallback e âncora das traduções).
     name = Column(String(100), nullable=False, unique=True)
     rarity = Column(Integer, nullable=False)

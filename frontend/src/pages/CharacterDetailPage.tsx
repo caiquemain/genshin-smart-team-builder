@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
+import { iconUrl } from '../config'
 import type { CharacterDetail } from '../types'
 
 export default function CharacterDetailPage() {
@@ -23,9 +24,14 @@ export default function CharacterDetailPage() {
   return (
     <div>
       <Link to="/" className="back">← Voltar</Link>
-      <h1>{char.name}</h1>
-      {char.title && <p className="subtitle">{char.title}</p>}
-      <p className="meta">{'★'.repeat(char.rarity)} · {char.element} · {char.weapon_type}{char.region ? ` · ${char.region}` : ''}</p>
+      <div className="detail-header">
+        {iconUrl(char.icon) && <img className="detail-avatar" src={iconUrl(char.icon)!} alt={char.name} />}
+        <div>
+          <h1>{char.name}</h1>
+          {char.title && <p className="subtitle">{char.title}</p>}
+          <p className="meta">{'★'.repeat(char.rarity)} · {char.element} · {char.weapon_type}{char.region ? ` · ${char.region}` : ''}</p>
+        </div>
+      </div>
       {char.description && <p className="description">{char.description}</p>}
 
       <h2>Stats (nível 1)</h2>

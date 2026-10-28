@@ -148,6 +148,7 @@ def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     return {
         "name": name,
         "slug": slugify(name),
+        "icon": raw.get("icon"),
         "rarity": raw.get("rank"),
         "element": element,
         "weapon_type": weapon_type,

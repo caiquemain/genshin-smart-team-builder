@@ -41,6 +41,7 @@ def list_characters(
         items.append(CharacterSummary(
             slug=char.slug,
             name=data["name"],
+            icon=char.icon,
             rarity=char.rarity,
             element=char.element,
             weapon_type=char.weapon_type,
@@ -67,6 +68,7 @@ def get_character(
     return CharacterDetail(
         slug=char.slug,
         name=data["name"],
+        icon=char.icon,
         title=data["title"],
         description=data["description"],
         constellation_name=data["constellation_name"],
