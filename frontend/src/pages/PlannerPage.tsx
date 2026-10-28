@@ -9,16 +9,19 @@ import { tierOf, estimateResin, formatDays, formatResin, TIERS } from '../utils/
 import type {
   AscensionCost,
   TalentCost,
+  WeaponAscensionResponse,
   AscensionMaterial,
   CharacterSummary,
+  WeaponSummary,
 } from '../types'
 import type {
   SeelieData,
   SeelieCharacterGoal,
   SeelieTalentGoal,
+  SeelieWeaponGoal,
 } from '../types/seelie'
 
-const STORAGE_KEY = 'gsb.planner.v3'
+const STORAGE_KEY = 'gsb.planner.v4'
 
 const SLUG_ALIASES: Record<string, string> = {
   'shogun': 'raiden-shogun',
@@ -28,13 +31,15 @@ const SLUG_ALIASES: Record<string, string> = {
   'ayaka': 'kamisato-ayaka',
   'shinobu': 'kuki-shinobu',
   'mizuki': 'yumemizuki-mizuki',
-  'traveler_anemo': 'traveler',
-  'traveler_geo': 'traveler',
-  'traveler_electro': 'traveler',
-  'traveler_dendro': 'traveler',
-  'traveler_hydro': 'traveler',
-  'traveler_pyro': 'traveler',
-  'traveler_cryo': 'traveler',
+  'yunjin': 'yun-jin',
+}
+
+const WEAPON_ALIASES: Record<string, string> = {
+  'amenoma_kageuta_blade': 'amenoma-kageuchi',
+  'amenoma_kageuchi': 'amenoma-kageuchi',
+  'wavebreakers_fin': 'wavebreaker-s-fin',
+  'staff_of_homa': 'staff-of-homa',
+  'mailed_flower': 'mailed-flower',
 }
 
 interface AggregateMaterial {
@@ -49,12 +54,23 @@ interface AggregateMaterial {
   resin_estimate: number
 }
 
+interface WeaponBreakdown {
+  slug: string
+  name: string
+  icon: string | null
+  rarity: number
+  from_level: number
+  to_level: number
+  cost: WeaponAscensionResponse | null
+}
+
 interface CharBreakdown {
   slug: string
   name: string
   icon: string | null
   ascension: AscensionCost | null
   talents: TalentCost | null
+  weapons: WeaponBreakdown[]
   char_goal: SeelieCharacterGoal | null
   talent_goal: SeelieTalentGoal | null
 }
@@ -72,12 +88,26 @@ interface Plan {
   tier_groups: TierGroup[]
   warnings: string[]
   not_mapped: string[]
+  travelers_skipped: number
+  weapons_processed: number
+  weapons_skipped: number
 }
 
 function resolveSlug(seelieSlug: string, chars: Map<string, CharacterSummary>): string | null {
   if (chars.has(seelieSlug)) return seelieSlug
   const alias = SLUG_ALIASES[seelieSlug]
   if (alias && chars.has(alias)) return alias
+  return null
+}
+
+function resolveWeaponSlug(seelieSlug: string, weapons: Map<string, WeaponSummary>): string | null {
+  const aliased = WEAPON_ALIASES[seelieSlug]
+  if (aliased && weapons.has(aliased)) return aliased
+  if (weapons.has(seelieSlug)) return seelieSlug
+  const normalized = seelieSlug.replace(/_/g, '-')
+  if (weapons.has(normalized)) return normalized
+  const stripped = normalized.replace(/-(blade|bow|spear|claymore|catalyst|sword)$/, '')
+  if (weapons.has(stripped)) return stripped
   return null
 }
 
@@ -105,8 +135,6 @@ function mergeMats(target: Map<string, AggregateMaterial>, mats: AscensionMateri
 
 function MaterialCard({ material }: { material: AggregateMaterial }) {
   const img = iconUrl(material.icon)
-  const ci = categoryInfo(material.category)
-  const tier = tierOf(material.category)
   return (
     <ItemTooltip
       data={{
@@ -118,7 +146,7 @@ function MaterialCard({ material }: { material: AggregateMaterial }) {
         source: material.source,
       }}
     >
-      <div className="ascension-item tier-{tier.key}">
+      <div className="ascension-item">
         <div className="ascension-icon">
           {img ? <img src={img} alt={material.name} loading="lazy" /> : <span>?</span>}
         </div>
@@ -144,20 +172,31 @@ export default function PlannerPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [chars, setChars] = useState<Map<string, CharacterSummary>>(new Map())
+  const [weapons, setWeapons] = useState<Map<string, WeaponSummary>>(new Map())
   const [currentResin, setCurrentResin] = useState(200)
 
   useEffect(() => {
-    api.listCharacters(lang, { limit: 200 })
-      .then((d) => {
-        const m = new Map<string, CharacterSummary>()
-        d.items.forEach((c) => m.set(c.slug, c))
-        setChars(m)
+    Promise.all([
+      api.listCharacters(lang, { limit: 200 }),
+      api.listWeapons(lang, { limit: 300 }),
+    ])
+      .then(([charsRes, weaponsRes]) => {
+        const cm = new Map<string, CharacterSummary>()
+        charsRes.items.forEach((c) => cm.set(c.slug, c))
+        setChars(cm)
+        const wm = new Map<string, WeaponSummary>()
+        weaponsRes.items.forEach((w) => wm.set(w.slug, w))
+        setWeapons(wm)
       })
       .catch(() => {})
   }, [lang])
 
   useEffect(() => {
-    try { localStorage.removeItem('gsb.planner.v1'); localStorage.removeItem('gsb.planner.v2') } catch {}
+    try {
+      localStorage.removeItem('gsb.planner.v1')
+      localStorage.removeItem('gsb.planner.v2')
+      localStorage.removeItem('gsb.planner.v3')
+    } catch {}
     const saved = localStorage.getItem(STORAGE_KEY)
     if (!saved) return
     try {
@@ -192,8 +231,8 @@ export default function PlannerPage() {
 
   const handleCompute = async () => {
     if (!seelieData) return
-    if (chars.size === 0) {
-      setError('Lista de personagens ainda carregando. Aguarde 1s e tente de novo.')
+    if (chars.size === 0 || weapons.size === 0) {
+      setError('Dados ainda carregando. Aguarde 1s e tente de novo.')
       return
     }
     setLoading(true)
@@ -210,14 +249,18 @@ export default function PlannerPage() {
             g.skill.current < g.skill.goal ||
             g.burst.current < g.burst.goal),
       )
+      const weaponGoalsRaw = seelieData.goals.filter(
+        (g): g is SeelieWeaponGoal =>
+          g.type === 'weapon' &&
+          g.current.level < g.goal.level &&
+          g.character !== null,
+      )
 
       const warnings: string[] = []
       const notMapped = new Set<string>()
+      let travelersSkipped = 0
 
-      const weaponGoals = seelieData.goals.filter((g) => g.type === 'weapon')
       const artifactGoals = seelieData.goals.filter((g) => g.type === 'artifact')
-      if (weaponGoals.length > 0)
-        warnings.push(`${weaponGoals.length} goal(s) de arma ignorado(s) — armas ainda não importadas`)
       if (artifactGoals.length > 0)
         warnings.push(`${artifactGoals.length} goal(s) de artefato ignorado(s) — artefatos ainda não importados`)
 
@@ -225,26 +268,55 @@ export default function PlannerPage() {
         slug: string
         char_goal: SeelieCharacterGoal | null
         talent_goal: SeelieTalentGoal | null
+        weapon_goals: SeelieWeaponGoal[]
       }
       const bySlug = new Map<string, ResolvedGoal>()
 
       for (const g of charGoals) {
         const resolved = resolveSlug(g.character, chars)
-        if (!resolved) { notMapped.add(g.character); continue }
-        const cur = bySlug.get(resolved) ?? { slug: resolved, char_goal: null, talent_goal: null }
+        if (!resolved) {
+          if (g.character.startsWith('traveler')) travelersSkipped++
+          else notMapped.add(g.character)
+          continue
+        }
+        const cur = bySlug.get(resolved) ?? { slug: resolved, char_goal: null, talent_goal: null, weapon_goals: [] }
         cur.char_goal = g
         bySlug.set(resolved, cur)
       }
       for (const g of talentGoals) {
         const resolved = resolveSlug(g.character, chars)
-        if (!resolved) { notMapped.add(g.character); continue }
-        const cur = bySlug.get(resolved) ?? { slug: resolved, char_goal: null, talent_goal: null }
+        if (!resolved) {
+          if (g.character.startsWith('traveler')) travelersSkipped++
+          else notMapped.add(g.character)
+          continue
+        }
+        const cur = bySlug.get(resolved) ?? { slug: resolved, char_goal: null, talent_goal: null, weapon_goals: [] }
         cur.talent_goal = g
         bySlug.set(resolved, cur)
       }
 
+      // Weapon goals: resolve weapon slug + char slug
+      let weaponsProcessed = 0
+      let weaponsSkipped = 0
+      for (const g of weaponGoalsRaw) {
+        const charSlug = resolveSlug(g.character!, chars)
+        const weaponSlug = resolveWeaponSlug(g.weapon, weapons)
+        if (!charSlug || !weaponSlug) {
+          if (g.character!.startsWith('traveler')) travelersSkipped++
+          else notMapped.add(`${g.character}/${g.weapon}`)
+          weaponsSkipped++
+          continue
+        }
+        const cur = bySlug.get(charSlug) ?? { slug: charSlug, char_goal: null, talent_goal: null, weapon_goals: [] }
+        cur.weapon_goals.push({ ...g, weapon: weaponSlug })
+        bySlug.set(charSlug, cur)
+        weaponsProcessed++
+      }
+
+      // Fetch paralelo
       const ascMap = new Map<string, AscensionCost>()
       const talMap = new Map<string, TalentCost>()
+      const weaponAscMap = new Map<string, WeaponAscensionResponse>() // key: `${charSlug}::${weaponSlug}`
       const fetchJobs: Promise<void>[] = []
 
       for (const [slug, g] of bySlug.entries()) {
@@ -264,9 +336,18 @@ export default function PlannerPage() {
               .catch((e) => { warnings.push(`Talentos de ${slug} falhou: ${String(e)}`) }),
           )
         }
+        for (const wg of g.weapon_goals) {
+          const key = `${slug}::${wg.weapon}`
+          fetchJobs.push(
+            api.getWeaponAscension(wg.weapon, wg.current.level, wg.goal.level, lang)
+              .then((d) => { weaponAscMap.set(key, d) })
+              .catch((e) => { warnings.push(`Arma ${wg.weapon} falhou: ${String(e)}`) }),
+          )
+        }
       }
       await Promise.all(fetchJobs)
 
+      // Agrega
       const grand_mats = new Map<string, AggregateMaterial>()
       let grand_mora = 0
       const charBreakdowns: CharBreakdown[] = []
@@ -275,15 +356,34 @@ export default function PlannerPage() {
         const char = chars.get(slug)
         const ascension = ascMap.get(slug) ?? null
         const talents = talMap.get(slug) ?? null
+
+        const weaponBreakdowns: WeaponBreakdown[] = []
+        for (const wg of g.weapon_goals) {
+          const wInfo = weapons.get(wg.weapon)
+          const key = `${slug}::${wg.weapon}`
+          const cost = weaponAscMap.get(key) ?? null
+          weaponBreakdowns.push({
+            slug: wg.weapon,
+            name: wInfo?.name ?? wg.weapon,
+            icon: wInfo?.icon ?? null,
+            rarity: wInfo?.rarity ?? 4,
+            from_level: wg.current.level,
+            to_level: wg.goal.level,
+            cost,
+          })
+        }
+
         charBreakdowns.push({
           slug,
           name: char?.name ?? slug,
           icon: char?.icon ?? null,
           ascension,
           talents,
+          weapons: weaponBreakdowns,
           char_goal: g.char_goal,
           talent_goal: g.talent_goal,
         })
+
         if (ascension) {
           grand_mora += ascension.total_mora
           mergeMats(grand_mats, ascension.materials)
@@ -292,11 +392,19 @@ export default function PlannerPage() {
           grand_mora += talents.grand_total_mora
           mergeMats(grand_mats, talents.grand_total_materials)
         }
+        for (const wb of weaponBreakdowns) {
+          if (wb.cost) {
+            grand_mora += wb.cost.total_mora
+            mergeMats(grand_mats, wb.cost.materials)
+          }
+        }
       }
 
       charBreakdowns.sort((a, b) => {
-        const costA = (a.ascension?.total_mora ?? 0) + (a.talents?.grand_total_mora ?? 0)
-        const costB = (b.ascension?.total_mora ?? 0) + (b.talents?.grand_total_mora ?? 0)
+        const costA = (a.ascension?.total_mora ?? 0) + (a.talents?.grand_total_mora ?? 0) +
+          a.weapons.reduce((s, w) => s + (w.cost?.total_mora ?? 0), 0)
+        const costB = (b.ascension?.total_mora ?? 0) + (b.talents?.grand_total_mora ?? 0) +
+          b.weapons.reduce((s, w) => s + (w.cost?.total_mora ?? 0), 0)
         return costB - costA
       })
 
@@ -312,12 +420,17 @@ export default function PlannerPage() {
       const grand_resin = tierGroups.reduce((s, tg) => s + tg.resin_total, 0)
 
       const finalPlan: Plan = {
-        chars: charBreakdowns.filter((c) => c.ascension || c.talents),
+        chars: charBreakdowns.filter((c) =>
+          c.ascension || c.talents || c.weapons.length > 0
+        ),
         grand_mora,
         grand_resin,
         tier_groups: tierGroups,
         warnings,
         not_mapped: Array.from(notMapped).sort(),
+        travelers_skipped: travelersSkipped,
+        weapons_processed: weaponsProcessed,
+        weapons_skipped: weaponsSkipped,
       }
       setPlan(finalPlan)
     } catch (err) {
@@ -342,10 +455,6 @@ export default function PlannerPage() {
     const artifacts = seelieData.goals.filter((g) => g.type === 'artifact').length
     return { characters, talents, weapons, artifacts, inventory: seelieData.inventory?.length ?? 0 }
   }, [seelieData])
-
-  const daysRemaining = plan
-    ? formatDays(Math.max(0, plan.grand_resin - currentResin))
-    : null
 
   return (
     <div>
@@ -378,23 +487,23 @@ export default function PlannerPage() {
       {seelieData && summary && (
         <>
           <div className="import-summary">
-            <div><strong>{summary.characters}</strong> goals de personagem</div>
-            <div><strong>{summary.talents}</strong> goals de talento</div>
-            <div className="muted"><strong>{summary.weapons}</strong> armas <em>(ignoradas)</em></div>
+            <div><strong>{summary.characters}</strong> personagens</div>
+            <div><strong>{summary.talents}</strong> talentos</div>
+            <div><strong>{summary.weapons}</strong> armas</div>
             <div className="muted"><strong>{summary.artifacts}</strong> artefatos <em>(ignorados)</em></div>
-            <div><strong>{summary.inventory}</strong> itens no inventário</div>
+            <div><strong>{summary.inventory}</strong> itens</div>
           </div>
 
           <button
             className="btn-primary"
             onClick={handleCompute}
-            disabled={loading || chars.size === 0}
+            disabled={loading || chars.size === 0 || weapons.size === 0}
             style={{ marginTop: 16 }}
           >
             {loading
               ? 'Calculando...'
-              : chars.size === 0
-                ? 'Carregando personagens...'
+              : chars.size === 0 || weapons.size === 0
+                ? 'Carregando dados...'
                 : 'Calcular custo total'}
           </button>
         </>
@@ -404,11 +513,23 @@ export default function PlannerPage() {
 
       {plan && (
         <>
-          {plan.not_mapped.length > 0 && (
-            <div className="planner-notmapped">
-              <strong>⚠️ {plan.not_mapped.length} personagens não mapeados:</strong>{' '}
-              <span>{plan.not_mapped.join(', ')}</span>
+          {plan.travelers_skipped > 0 && (
+            <div className="planner-info">
+              <strong>ℹ️ {plan.travelers_skipped} goal(s) do Traveler ignorado(s)</strong>{' '}
+              — o Traveler tem dados próprios no Seelie e ainda não é suportado (feature futura).
             </div>
+          )}
+
+          {plan.not_mapped.length > 0 && (
+            <details className="planner-notmapped" open={plan.not_mapped.length <= 5}>
+              <summary>
+                <strong>⚠️ {plan.not_mapped.length} item(ns) não mapeados</strong>
+                <span className="notmapped-hint">{plan.not_mapped.length <= 5 ? '' : ' — clique para expandir'}</span>
+              </summary>
+              <div className="notmapped-list">
+                {plan.not_mapped.map((n, i) => <code key={i}>{n}</code>)}
+              </div>
+            </details>
           )}
 
           {plan.warnings.length > 0 && (
@@ -428,8 +549,12 @@ export default function PlannerPage() {
               <div className="planner-stat-value resin">{formatResin(plan.grand_resin)} ⚡</div>
             </div>
             <div className="planner-stat">
-              <div className="planner-stat-label">Personagens a melhorar</div>
+              <div className="planner-stat-label">Personagens</div>
               <div className="planner-stat-value">{plan.chars.length}</div>
+            </div>
+            <div className="planner-stat">
+              <div className="planner-stat-label">Armas processadas</div>
+              <div className="planner-stat-value">{plan.weapons_processed}</div>
             </div>
           </div>
 
@@ -469,30 +594,52 @@ export default function PlannerPage() {
             </details>
           ))}
 
-          <h2>Personagens ({plan.chars.length})</h2>
+          <h2>Por personagem ({plan.chars.length})</h2>
           <div className="planner-chars">
             {plan.chars.map((c) => {
               const img = iconUrl(c.icon)
-              const mora = (c.ascension?.total_mora ?? 0) + (c.talents?.grand_total_mora ?? 0)
-              const lines: string[] = []
-              if (c.char_goal) lines.push(`Nv. ${c.char_goal.current.level} → ${c.char_goal.goal.level}`)
-              if (c.talent_goal) {
-                const tg = c.talent_goal
-                lines.push(`Tal. ${tg.normal.current}/${tg.skill.current}/${tg.burst.current} → ${tg.normal.goal}/${tg.skill.goal}/${tg.burst.goal}`)
-              }
+              const mora = (c.ascension?.total_mora ?? 0) +
+                (c.talents?.grand_total_mora ?? 0) +
+                c.weapons.reduce((s, w) => s + (w.cost?.total_mora ?? 0), 0)
               return (
-                <Link key={c.slug} to={`/characters/${c.slug}`} className="planner-char">
-                  <div className="planner-char-icon">
-                    {img ? <img src={img} alt={c.name} /> : <span>?</span>}
-                  </div>
-                  <div className="planner-char-info">
-                    <div className="planner-char-name">{c.name}</div>
-                    {lines.map((l, i) => <div key={i} className="planner-char-meta">{l}</div>)}
-                    <div className="planner-char-cost">
-                      {mora > 0 ? `${formatResin(mora)} Mora` : 'sem upgrade'}
+                <div key={c.slug} className="planner-char-block">
+                  <Link to={`/characters/${c.slug}`} className="planner-char">
+                    <div className="planner-char-icon">
+                      {img ? <img src={img} alt={c.name} /> : <span>?</span>}
                     </div>
-                  </div>
-                </Link>
+                    <div className="planner-char-info">
+                      <div className="planner-char-name">{c.name}</div>
+                      {c.char_goal && <div className="planner-char-meta">Nv. {c.char_goal.current.level} → {c.char_goal.goal.level}</div>}
+                      {c.talent_goal && (
+                        <div className="planner-char-meta">
+                          Tal. {c.talent_goal.normal.current}/{c.talent_goal.skill.current}/{c.talent_goal.burst.current} → {c.talent_goal.normal.goal}/{c.talent_goal.skill.goal}/{c.talent_goal.burst.goal}
+                        </div>
+                      )}
+                      <div className="planner-char-cost">{mora > 0 ? `${formatResin(mora)} Mora` : 'sem upgrade'}</div>
+                    </div>
+                  </Link>
+                  {c.weapons.length > 0 && (
+                    <div className="planner-weapons">
+                      {c.weapons.map((w) => {
+                        const wImg = iconUrl(w.icon)
+                        const wMora = w.cost?.total_mora ?? 0
+                        return (
+                          <Link key={w.slug} to={`/weapons/${w.slug}`} className="planner-weapon-mini">
+                            <div className="planner-weapon-mini-icon">
+                              {wImg ? <img src={wImg} alt={w.name} /> : <span>?</span>}
+                            </div>
+                            <div className="planner-weapon-mini-info">
+                              <div className="planner-weapon-mini-name">{w.name}</div>
+                              <div className="planner-weapon-mini-meta">
+                                Nv. {w.from_level} → {w.to_level} · {formatResin(wMora)} Mora
+                              </div>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
               )
             })}
           </div>
