@@ -2359,3 +2359,97 @@ details.planner-notmapped[open] > summary {
   border-radius: 4px;
   color: #fca5a5;
 }
+
+/* === Inventory mapped UI === */
+.inventory-summary {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #131820 0%, #0f1218 100%);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  border-radius: 12px;
+  margin: 16px 0;
+}
+.inv-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+.inv-summary-item strong { color: #e8ecf2; font-size: 16px; }
+.inv-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+}
+.inv-icon.inv-done { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+.inv-icon.inv-partial { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.inv-icon.inv-info { background: rgba(125, 211, 252, 0.15); color: #7dd3fc; }
+
+.ascension-item.item-complete {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.06) 0%, #1f2937 100%);
+}
+.ascension-item.item-partial {
+  border-color: rgba(251, 191, 36, 0.2);
+}
+.item-check {
+  display: inline-block;
+  margin-left: 6px;
+  color: #4ade80;
+  font-weight: 700;
+  font-size: 12px;
+}
+.have-badge {
+  font-size: 10px;
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.ascension-qty-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.ascension-missing {
+  font-size: 10px;
+  color: #fbbf24;
+  font-weight: 600;
+}
+.ascension-done {
+  font-size: 10px;
+  color: #4ade80;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Material sem correspondência no inventário */
+.ascension-item.item-unmapped {
+  opacity: 0.85;
+}
+.item-unmapped-mark {
+  display: inline-block;
+  margin-left: 6px;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 50%;
+  cursor: help;
+  vertical-align: middle;
+}

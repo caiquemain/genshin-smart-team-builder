@@ -6,6 +6,7 @@ import { iconUrl } from '../config'
 import ItemTooltip from '../components/ItemTooltip'
 import { categoryInfo } from '../utils/categories'
 import { tierOf, estimateResin, formatDays, formatResin, TIERS } from '../utils/resin'
+import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
 import type {
   AscensionCost,
   TalentCost,
@@ -91,6 +92,10 @@ interface Plan {
   travelers_skipped: number
   weapons_processed: number
   weapons_skipped: number
+  inventory_resolved: Record<string, number>
+  inventory_stats: { mapped: number; unmapped: number; ambiguous: number; total: number }
+  materials_complete: number
+  materials_partial: number
 }
 
 function resolveSlug(seelieSlug: string, chars: Map<string, CharacterSummary>): string | null {
@@ -133,8 +138,11 @@ function mergeMats(target: Map<string, AggregateMaterial>, mats: AscensionMateri
   }
 }
 
-function MaterialCard({ material }: { material: AggregateMaterial }) {
+function MaterialCard({ material, have }: { material: AggregateMaterial; have: number }) {
   const img = iconUrl(material.icon)
+  const completed = have >= material.quantity
+  const missing = Math.max(0, material.quantity - have)
+  const unmapped = have === 0
   return (
     <ItemTooltip
       data={{
@@ -146,20 +154,36 @@ function MaterialCard({ material }: { material: AggregateMaterial }) {
         source: material.source,
       }}
     >
-      <div className="ascension-item">
+      <div className={`ascension-item ${completed ? 'item-complete' : have > 0 ? 'item-partial' : 'item-unmapped'}`}>
         <div className="ascension-icon">
           {img ? <img src={img} alt={material.name} loading="lazy" /> : <span>?</span>}
         </div>
         <div className="ascension-info">
-          <div className="ascension-name">{material.name}</div>
+          <div className="ascension-name">
+            {material.name}
+            {completed && <span className="item-check">✓</span>}
+            {unmapped && !completed && <span className="item-unmapped-mark" title="Sem correspondência no inventário do Seelie">?</span>}
+          </div>
           <div className="ascension-meta">
             <span className="stars">{'★'.repeat(material.rarity ?? 0)}</span>
-            {material.resin_estimate > 0 && (
-              <span className="resin-badge">≈{formatResin(material.resin_estimate)} ⚡</span>
+            {have > 0 && (
+              <span className="have-badge">
+                tem {have.toLocaleString('pt-BR')}
+              </span>
             )}
           </div>
         </div>
-        <div className="ascension-qty">×{material.quantity}</div>
+        <div className="ascension-qty-group">
+          <div className="ascension-qty">×{material.quantity}</div>
+          {!completed && (
+            <div className="ascension-missing">
+              falta {missing.toLocaleString('pt-BR')}
+            </div>
+          )}
+          {completed && (
+            <div className="ascension-done">completo</div>
+          )}
+        </div>
       </div>
     </ItemTooltip>
   )
@@ -408,6 +432,37 @@ export default function PlannerPage() {
         return costB - costA
       })
 
+      // === Inventário mapeado ===
+      const invRaw = (seelieData.inventory || []) as SeelieInventoryItem[]
+      const allMaterials: any[] = []
+      // Precisa de TODOS os materiais pra matching — fetch inicial via /materials se existir
+      // Por ora, usa os materiais que vieram no grand_mats
+      const invResult = resolveInventory(invRaw, allMaterials)
+
+      // Se resolveInventory não achar nada (allMaterials vazio), usa abordagem client-side:
+      // o usuário tem inventário mas não temos catálogo completo no client.
+      // Simplificação: mapeia direto por slug match usando os materiais do grand_mats.
+      const invResolved: Record<string, number> = {}
+      const invStats = { mapped: 0, unmapped: 0, ambiguous: 0, total: invRaw.length }
+      if (allMaterials.length === 0) {
+        // Fallback: match direto contra materiais do grand_mats
+        const matBySlug: Record<string, any> = {}
+        for (const m of grand_mats.values()) matBySlug[m.slug] = m
+        const matList = Object.values(matBySlug)
+        const direct = resolveInventory(invRaw, matList)
+        Object.assign(invResolved, direct.resolved)
+        invStats.mapped = Object.keys(direct.resolved).length
+        invStats.ambiguous = direct.ambiguous.length
+        invStats.unmapped = direct.unmapped.length
+        // Log detalhado
+        console.group('[Planner] Inventário mapeado')
+        console.log('Total bruto:', invRaw.length)
+        console.log('Mapeados:', Object.keys(direct.resolved).length, direct.resolved)
+        console.log('Ambíguos:', direct.ambiguous.length, direct.ambiguous)
+        console.log('Não mapeados:', direct.unmapped.length, direct.unmapped)
+        console.groupEnd()
+      }
+
       const allMats = Array.from(grand_mats.values())
       const tierGroups: TierGroup[] = TIERS.map((tier) => {
         const mats = allMats
@@ -418,6 +473,15 @@ export default function PlannerPage() {
       }).filter((tg) => tg.materials.length > 0)
 
       const grand_resin = tierGroups.reduce((s, tg) => s + tg.resin_total, 0)
+
+      // Estatísticas de completude (tem X / falta Y)
+      let materialsComplete = 0
+      let materialsPartial = 0
+      for (const m of allMats) {
+        const have = invResolved[m.slug] ?? 0
+        if (have >= m.quantity) materialsComplete++
+        else if (have > 0) materialsPartial++
+      }
 
       const finalPlan: Plan = {
         chars: charBreakdowns.filter((c) =>
@@ -431,6 +495,10 @@ export default function PlannerPage() {
         travelers_skipped: travelersSkipped,
         weapons_processed: weaponsProcessed,
         weapons_skipped: weaponsSkipped,
+        inventory_resolved: invResolved,
+        inventory_stats: invStats,
+        materials_complete: materialsComplete,
+        materials_partial: materialsPartial,
       }
       setPlan(finalPlan)
     } catch (err) {
@@ -558,6 +626,27 @@ export default function PlannerPage() {
             </div>
           </div>
 
+          {(plan.materials_complete > 0 || plan.materials_partial > 0 || plan.inventory_stats.total > 0) && (
+            <div className="inventory-summary">
+              <div className="inv-summary-item">
+                <span className="inv-icon inv-done">✓</span>
+                <span><strong>{plan.materials_complete}</strong> materiais completos</span>
+              </div>
+              <div className="inv-summary-item">
+                <span className="inv-icon inv-partial">◐</span>
+                <span><strong>{plan.materials_partial}</strong> em progresso</span>
+              </div>
+              <div className="inv-summary-item">
+                <span className="inv-icon inv-info">ℹ</span>
+                <span>
+                  {plan.inventory_stats.mapped} itens mapeados
+                  {plan.inventory_stats.ambiguous > 0 && ` · ${plan.inventory_stats.ambiguous} ambíguos`}
+                  {plan.inventory_stats.unmapped > 0 && ` · ${plan.inventory_stats.unmapped} sem match`}
+                </span>
+              </div>
+            </div>
+          )}
+
           <div className="resin-counter">
             <label>
               Resina atual:
@@ -589,7 +678,7 @@ export default function PlannerPage() {
                 </span>
               </summary>
               <div className="ascension-grid">
-                {tg.materials.map((m) => <MaterialCard key={m.slug} material={m} />)}
+                {tg.materials.map((m) => <MaterialCard key={m.slug} material={m} have={plan.inventory_resolved[m.slug] ?? 0} />)}
               </div>
             </details>
           ))}
