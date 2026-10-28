@@ -55,10 +55,33 @@ export interface CharacterDetail extends CharacterSummary {
   ascension_stat_value: number | null
 }
 
-export interface Reaction {
+export interface AscensionMaterial {
   slug: string
   name: string
   icon: string | null
+  category: string
+  rarity: number | null
+  quantity: number
+}
+
+export interface AscensionPhase {
+  phase: number
+  unlock_max_level: number
+  materials: AscensionMaterial[]
+}
+
+export interface AscensionCost {
+  slug: string
+  from_level: number
+  to_level: number
+  phases_included: number[]
+  materials: AscensionMaterial[]
+  phases: AscensionPhase[]
+}
+
+export interface Reaction {
+  slug: string
+  name: string
   elements: string[]
   effect: string | null
   multiplier: number | null

@@ -4,6 +4,7 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import type { CharacterDetail } from '../types'
+import AscensionSection from '../components/AscensionSection'
 
 export default function CharacterDetailPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -47,6 +48,8 @@ export default function CharacterDetailPage() {
           {char.constellation_name && <tr><th>Constelação</th><td>{char.constellation_name}</td></tr>}
         </tbody>
       </table>
+
+      {char.slug && <AscensionSection slug={char.slug} />}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import type {
+  AscensionCost,
   CharacterDetail,
   CharacterListResponse,
   Enums,
@@ -6,8 +7,6 @@ import type {
   ReactionListResponse,
 } from '../types'
 
-// Em dev local: Vite proxy encaminha /api → localhost:8000
-// Em Docker:   nginx proxy encaminha /api → backend:8000
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
 
 async function request<T>(path: string, params: Record<string, string | number | undefined> = {}): Promise<T> {
@@ -39,4 +38,10 @@ export const api = {
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
+  getAscensionCost: (slug: string, fromLevel: number, toLevel: number, lang: LanguageCode) =>
+    request<AscensionCost>(`/characters/${slug}/ascension`, {
+      from_level: fromLevel,
+      to_level: toLevel,
+      lang,
+    }),
 }
