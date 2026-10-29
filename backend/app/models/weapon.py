@@ -15,7 +15,8 @@ class Weapon(Base):
     rarity = Column(Integer, nullable=False)
     icon = Column(String(150), index=True)
     weapon_type = Column(weapon_type_enum, nullable=False)
-    base_atk = Column(Integer, nullable=False)
+    base_atk = Column(Integer, nullable=False)  # level 1
+    max_base_atk = Column(Integer)  # level 90
     secondary_stat = Column(stat_type_enum)
     secondary_stat_value = Column(Float)
     passive_name = Column(String(150))

@@ -2640,3 +2640,442 @@ details.planner-notmapped[open] > summary {
 }
 .breakdown-pos { color: #4ade80; font-weight: 700; min-width: 36px; text-align: right; }
 .breakdown-neg { color: #f87171; font-weight: 700; min-width: 36px; text-align: right; }
+
+/* ============================================================
+   ARTIFACTS — página de artefatos
+   ============================================================ */
+
+.artifacts-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  margin-top: 20px;
+}
+@media (min-width: 1600px) {
+  .artifacts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.artifact-card {
+  position: relative;
+  padding: 20px 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1a2130 0%, #131820 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.artifact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+.artifact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.artifact-card.rarity-3::before { background: linear-gradient(90deg, transparent, #5a8fd8, transparent); }
+.artifact-card.rarity-4::before { background: linear-gradient(90deg, transparent, #a35bd8, transparent); }
+.artifact-card.rarity-5::before { background: linear-gradient(90deg, transparent, #e0a647, transparent); }
+
+.artifact-card.rarity-5:hover { border-color: rgba(224, 166, 71, 0.5); }
+.artifact-card.rarity-4:hover { border-color: rgba(163, 91, 216, 0.5); }
+
+.artifact-card-icon {
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.10) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.artifact-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.artifact-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.artifact-card-rarity {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #fbbf24;
+  opacity: 0.9;
+}
+.artifact-card.rarity-4 .artifact-card-rarity { color: #a35bd8; }
+.artifact-card.rarity-3 .artifact-card-rarity { color: #5a8fd8; }
+
+/* === Artifact detail page === */
+.artifact-page { position: relative; }
+.artifact-hero {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  margin: 20px 0 32px;
+}
+.artifact-hero-icon {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border: 3px solid rgba(224, 166, 71, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.artifact-hero-icon img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+.artifact-hero-info { flex: 1; min-width: 0; }
+.artifact-hero-rarity {
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: #fbbf24;
+  margin-bottom: 4px;
+}
+.artifact-hero-info h1 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.artifact-hero-levels,
+.artifact-hero-source {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 4px 0;
+}
+.artifact-source-label {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+
+/* Bônus cards */
+.artifact-bonuses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.artifact-bonus-card {
+  padding: 20px 24px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  position: relative;
+}
+.artifact-bonus-card.bonus-2pc { border-left: 3px solid #7dd3fc; }
+.artifact-bonus-card.bonus-4pc { border-left: 3px solid #fbbf24; }
+.bonus-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.bonus-2pc .bonus-badge {
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+}
+.bonus-4pc .bonus-badge {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+.artifact-bonus-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #cbd5e1;
+}
+
+/* Pieces grid */
+.pieces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 14px;
+}
+.piece-card {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+}
+.piece-card-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(224, 166, 71, 0.15) 0%, transparent 70%);
+  border: 1px solid rgba(224, 166, 71, 0.25);
+}
+.piece-card-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.piece-card-body { min-width: 0; flex: 1; }
+.piece-card-slot {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.piece-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e8ecf2;
+  margin-bottom: 6px;
+}
+.piece-card-desc {
+  font-size: 12.5px;
+  color: #94a3b8;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* === Character detail: recommended artifacts === */
+.recommended-artifacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+@media (min-width: 1600px) {
+  .recommended-artifacts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+.artifact-card-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.artifact-card-mini:hover {
+  border-color: #7dd3fc;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.artifact-card-mini-icon {
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+.artifact-card-mini-icon img { width: 100%; height: 100%; object-fit: contain; }
+.artifact-card-mini-name {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* === Weapon Tooltip === */
+.weapon-tooltip {
+  max-width: 360px;
+  min-width: 280px;
+  padding: 14px;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  color: #e8ecf2;
+  font-size: 13px;
+  z-index: 9999;
+  animation: tooltip-fade 120ms ease-out;
+}
+.weapon-tooltip-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.weapon-tooltip-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 2px solid;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.weapon-tooltip-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.weapon-tooltip-title { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
+.weapon-tooltip-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+.weapon-tooltip-stars { font-size: 11px; letter-spacing: 1px; }
+.weapon-tooltip-type { font-size: 11px; color: #94a3b8; text-transform: capitalize; margin-top: 2px; }
+
+.weapon-tooltip-stats {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 10px;
+}
+.weapon-tooltip-stat { display: flex; flex-direction: column; gap: 2px; }
+.weapon-tooltip-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+.weapon-tooltip-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e8ecf2;
+  font-variant-numeric: tabular-nums;
+}
+
+.weapon-tooltip-passive {
+  padding-top: 8px;
+}
+.weapon-tooltip-passive-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fbbf24;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.weapon-tooltip-passive-r5 {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.weapon-tooltip-passive-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+.weapon-tooltip-arrow { fill: #0b0e13; }
+
+/* === Artifact Tooltip === */
+.artifact-tooltip {
+  max-width: 380px;
+  min-width: 300px;
+  padding: 14px;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  color: #e8ecf2;
+  font-size: 13px;
+  z-index: 9999;
+  animation: tooltip-fade 120ms ease-out;
+}
+.artifact-tooltip-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.artifact-tooltip-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.artifact-tooltip-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.artifact-tooltip-title { display: flex; flex-direction: column; gap: 2px; }
+.artifact-tooltip-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+.artifact-tooltip-stars { font-size: 11px; letter-spacing: 1px; }
+
+.artifact-tooltip-bonus {
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.artifact-tooltip-bonus.bonus-2pc { border-left: 2px solid #7dd3fc; }
+.artifact-tooltip-bonus.bonus-4pc { border-left: 2px solid #fbbf24; }
+.artifact-tooltip-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.bonus-2pc .artifact-tooltip-badge {
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+}
+.bonus-4pc .artifact-tooltip-badge {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+.artifact-tooltip-bonus p {
+  margin: 0;
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+.artifact-tooltip-arrow { fill: #0b0e13; }
+
+.weapon-tooltip-stat-lv1 {
+  display: block;
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 2px;
+  letter-spacing: 0;
+}

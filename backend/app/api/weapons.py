@@ -69,7 +69,10 @@ def list_weapons(
 
     items = []
     for w in rows:
-        name, _, _, _ = _resolve_translation(db, w, lang)
+        name, _, passive_name, _ = _resolve_translation(db, w, lang)
+        passive_r5 = None
+        if w.passive_levels and "4" in w.passive_levels:
+            passive_r5 = w.passive_levels["4"]
         items.append(WeaponSummary(
             slug=w.slug,
             name=name,
@@ -77,8 +80,11 @@ def list_weapons(
             rarity=w.rarity,
             weapon_type=w.weapon_type,
             base_atk=w.base_atk,
+            max_base_atk=w.max_base_atk,
             secondary_stat=w.secondary_stat,
             secondary_stat_value=w.secondary_stat_value,
+            passive_name=passive_name,
+            passive_description_r5=passive_r5,
         ))
 
     return WeaponListResponse(

@@ -179,8 +179,11 @@ export interface WeaponSummary {
   rarity: number
   weapon_type: 'sword' | 'claymore' | 'polearm' | 'bow' | 'catalyst'
   base_atk: number
+  max_base_atk: number | null
   secondary_stat: StatType | null
   secondary_stat_value: number | null
+  passive_name: string | null
+  passive_description_r5: string | null
 }
 
 export interface WeaponDetail extends WeaponSummary {
@@ -241,4 +244,36 @@ export interface TeamAnalysisResponse {
   warnings: string[]
   suggestions: TeamSuggestion[]
   breakdown: ScoreBreakdown[]
+}
+
+// === Artifacts ===
+export interface ArtifactSetSummary {
+  slug: string
+  name: string
+  icon: string | null
+  rarity_max: number
+  two_piece_bonus: string | null
+  four_piece_bonus: string | null
+}
+
+export interface ArtifactPieceSlot {
+  id: number
+  name: string
+  description: string | null
+  maxLevel: number
+  icon: string | null
+}
+
+export interface ArtifactSetDetail extends ArtifactSetSummary {
+  level_list: number[] | null
+  two_piece_bonus: string | null
+  four_piece_bonus: string | null
+  pieces: Record<string, ArtifactPieceSlot> | null
+  source: string | null
+}
+
+export interface ArtifactSetListResponse {
+  language: string
+  pagination: { total: number; limit: number; offset: number }
+  items: ArtifactSetSummary[]
 }

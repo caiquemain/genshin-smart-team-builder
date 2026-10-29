@@ -186,6 +186,23 @@ async def fetch_weapon_ids(client: httpx.AsyncClient) -> list[int]:
     return sorted(int(k) for k in items.keys() if str(k).isdigit())
 
 
+
+# Multiplicadores da curva de crescimento no nível 90.
+# Baseado no dataset do gcsim/genshin-optimizer + validação empírica contra armas com stats Lv.90 conhecidos.
+CURVE_M = {
+    "GROW_CURVE_ATTACK_101": 7.34,     # 3★ approx (Silver Sword, Cool Steel)
+    "GROW_CURVE_ATTACK_102": 8.31,     # 3★ (Traveler's Handy Sword, Halberd)
+    "GROW_CURVE_ATTACK_104": 6.31,     # 3★ (Skyrider Sword, Bloodtainted)
+    "GROW_CURVE_ATTACK_201": 8.3583,   # 4★ (The Flute, Royal, Lion's Roar, Favonius)
+    "GROW_CURVE_ATTACK_202": 9.3609,   # 4★ (Prototype Rancour, Sapwood)
+    "GROW_CURVE_ATTACK_203": 10.3043,  # 4★ (The Alley Flash, Wavebreaker's)
+    "GROW_CURVE_ATTACK_204": 7.2662,   # 4★ (Favonius Sword, Sacrificial, Amenoma)
+    "GROW_CURVE_ATTACK_301": 9.1714,   # 5★ (Skyward, Homa, Staff of Homa)
+    "GROW_CURVE_ATTACK_302": 10.2510,  # 5★ (Aquila, Mistsplitter, Absolution)
+    "GROW_CURVE_ATTACK_303": 11.2805,  # 5★ (Song of Broken Pines, Thousand Blazing)
+    "GROW_CURVE_ATTACK_304": 8.5326,   # 5★ (Primordial Jade Cutter, Key of Khaj-Nisut, Light of Foliar)
+}
+
 def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     name = raw.get("name")
     if not name:
@@ -201,6 +218,7 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     upgrade = raw.get("upgrade") or {}
     prop = upgrade.get("prop") or []
     base_atk = 0
+    base_atk_raw = 0.0  # float raw para cálculo de max_base_atk
     secondary_stat: StatType | None = None
     secondary_value: float | None = None
     for p in prop:
@@ -209,10 +227,27 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
         prop_type = p.get("propType")
         val = p.get("initValue") or 0
         if prop_type == "FIGHT_PROP_BASE_ATTACK":
+            base_atk_raw = float(val)
             base_atk = int(round(val))
         elif prop_type and prop_type in STAT_MAP:
             secondary_stat = STAT_MAP[prop_type]
             secondary_value = _format_number(prop_type, val)
+
+    # max_base_atk: base_atk * CURVE_M[curve] + addProps da fase 6
+    # addProps é cumulativo (fase 6 = total a aplicar), não somar todas as fases.
+    curve_type = None
+    for p in prop:
+        if isinstance(p, dict) and p.get("propType") == "FIGHT_PROP_BASE_ATTACK":
+            curve_type = p.get("type")
+            break
+    promote = upgrade.get("promote") or []
+    add6 = 0.0
+    for phase in promote:
+        if isinstance(phase, dict) and phase.get("promoteLevel") == 6:
+            add6 = float((phase.get("addProps") or {}).get("FIGHT_PROP_BASE_ATTACK", 0) or 0)
+            break
+    multiplier = CURVE_M.get(curve_type or "", 1.0)
+    max_base_atk = int(round(base_atk_raw * multiplier + add6)) if base_atk_raw else None
 
     # Affix (passivo)
     affix = raw.get("affix") or {}
@@ -233,6 +268,7 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
         "rarity": raw.get("rank"),
         "weapon_type": weapon_type,
         "base_atk": base_atk,
+        "max_base_atk": max_base_atk,
         "secondary_stat": secondary_stat,
         "secondary_stat_value": secondary_value,
         "icon": raw.get("icon"),

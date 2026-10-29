@@ -12,8 +12,11 @@ class WeaponSummary(BaseModel):
     rarity: int
     weapon_type: WeaponType
     base_atk: int
+    max_base_atk: int | None = None
     secondary_stat: StatType | None = None
     secondary_stat_value: float | None = None
+    passive_name: str | None = None
+    passive_description_r5: str | None = None
 
 
 class WeaponDetail(WeaponSummary):
