@@ -111,10 +111,15 @@ export default function WeaponTooltip({
               {weapon.secondary_stat && weapon.secondary_stat_value != null && (
                 <div className="weapon-tooltip-stat">
                   <span className="weapon-tooltip-stat-label">
-                    {formatStatLabel(weapon.secondary_stat)}
+                    {formatStatLabel(weapon.secondary_stat)} (Lv.90)
                   </span>
                   <span className="weapon-tooltip-stat-value">
-                    {formatStatValue(weapon.secondary_stat, weapon.secondary_stat_value)}
+                    {formatStatValue(weapon.secondary_stat, weapon.max_secondary_stat_value ?? weapon.secondary_stat_value)}
+                    {weapon.max_secondary_stat_value != null && weapon.max_secondary_stat_value !== weapon.secondary_stat_value && (
+                      <span className="weapon-tooltip-stat-lv1">
+                        Lv.1: {formatStatValue(weapon.secondary_stat, weapon.secondary_stat_value)}
+                      </span>
+                    )}
                   </span>
                 </div>
               )}

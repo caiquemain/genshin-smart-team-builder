@@ -83,6 +83,7 @@ def list_weapons(
             max_base_atk=w.max_base_atk,
             secondary_stat=w.secondary_stat,
             secondary_stat_value=w.secondary_stat_value,
+            max_secondary_stat_value=w.max_secondary_stat_value,
             passive_name=passive_name,
             passive_description_r5=passive_r5,
         ))
@@ -113,6 +114,7 @@ def get_weapon(
         base_atk=w.base_atk,
         secondary_stat=w.secondary_stat,
         secondary_stat_value=w.secondary_stat_value,
+        max_secondary_stat_value=w.max_secondary_stat_value,
         description=desc,
         passive_name=p_name,
         passive_description=p_desc,

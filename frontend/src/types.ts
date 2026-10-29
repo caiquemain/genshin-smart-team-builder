@@ -182,6 +182,7 @@ export interface WeaponSummary {
   max_base_atk: number | null
   secondary_stat: StatType | null
   secondary_stat_value: number | null
+  max_secondary_stat_value: number | null
   passive_name: string | null
   passive_description_r5: string | null
 }

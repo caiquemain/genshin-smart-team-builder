@@ -18,7 +18,8 @@ class Weapon(Base):
     base_atk = Column(Integer, nullable=False)  # level 1
     max_base_atk = Column(Integer)  # level 90
     secondary_stat = Column(stat_type_enum)
-    secondary_stat_value = Column(Float)
+    secondary_stat_value = Column(Float)  # Lv.1
+    max_secondary_stat_value = Column(Float)  # Lv.90
     passive_name = Column(String(150))
     passive_description = Column(Text)
     passive_levels = Column(JSONB)

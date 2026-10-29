@@ -15,6 +15,7 @@ class WeaponSummary(BaseModel):
     max_base_atk: int | None = None
     secondary_stat: StatType | None = None
     secondary_stat_value: float | None = None
+    max_secondary_stat_value: float | None = None
     passive_name: str | None = None
     passive_description_r5: str | None = None
 

@@ -190,6 +190,8 @@ async def fetch_weapon_ids(client: httpx.AsyncClient) -> list[int]:
 # Multiplicadores da curva de crescimento no nível 90.
 # Baseado no dataset do gcsim/genshin-optimizer + validação empírica contra armas com stats Lv.90 conhecidos.
 CURVE_M = {
+    "GROW_CURVE_CRITICAL_201": 4.5833,  # substats (4★) — HP%, ER, EM, Crit
+    "GROW_CURVE_CRITICAL_301": 4.5972,  # substats (5★) — HP%, CritDMG, EM, ER
     "GROW_CURVE_ATTACK_101": 7.34,     # 3★ approx (Silver Sword, Cool Steel)
     "GROW_CURVE_ATTACK_102": 8.31,     # 3★ (Traveler's Handy Sword, Halberd)
     "GROW_CURVE_ATTACK_104": 6.31,     # 3★ (Skyrider Sword, Bloodtainted)
@@ -221,6 +223,7 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     base_atk_raw = 0.0  # float raw para cálculo de max_base_atk
     secondary_stat: StatType | None = None
     secondary_value: float | None = None
+    secondary_curve: str | None = None
     for p in prop:
         if not isinstance(p, dict):
             continue
@@ -232,6 +235,7 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
         elif prop_type and prop_type in STAT_MAP:
             secondary_stat = STAT_MAP[prop_type]
             secondary_value = _format_number(prop_type, val)
+            secondary_curve = p.get("type")
 
     # max_base_atk: base_atk * CURVE_M[curve] + addProps da fase 6
     # addProps é cumulativo (fase 6 = total a aplicar), não somar todas as fases.
@@ -248,6 +252,13 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
             break
     multiplier = CURVE_M.get(curve_type or "", 1.0)
     max_base_atk = int(round(base_atk_raw * multiplier + add6)) if base_atk_raw else None
+
+    # max_secondary_stat_value: secondary_value_lv1 * curve_multiplier
+    # (mas secondary_value já passou por format, multiplica direto)
+    max_secondary: float | None = None
+    if secondary_value is not None and secondary_curve:
+        m = CURVE_M.get(secondary_curve, 1.0)
+        max_secondary = round(secondary_value * m, 2)
 
     # Affix (passivo)
     affix = raw.get("affix") or {}
@@ -271,6 +282,7 @@ def parse_weapon_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
         "max_base_atk": max_base_atk,
         "secondary_stat": secondary_stat,
         "secondary_stat_value": secondary_value,
+        "max_secondary_stat_value": max_secondary,
         "icon": raw.get("icon"),
         "passive_name": affix_data.get("name"),
         "passive_description": (affix_data.get("levels") or {}).get("0"),
