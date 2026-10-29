@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from .character import CharacterSummary
+from .build import CharacterBuild
 
 
 class TeamCreate(BaseModel):
@@ -12,6 +13,7 @@ class TeamCreate(BaseModel):
 class TeamMemberOut(BaseModel):
     position: int
     character: CharacterSummary
+    build: CharacterBuild | None = None
 
 
 class TeamDetail(BaseModel):

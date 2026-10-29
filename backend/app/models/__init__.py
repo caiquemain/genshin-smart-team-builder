@@ -25,6 +25,7 @@ from .artifact import ArtifactSet, ArtifactSetTranslation
 from .material import Material, MaterialTranslation
 from .reaction import ElementalReaction
 from .team import Team, TeamCharacter
+from .team_template import TeamTemplate
 from .guide import Guide
 
 __all__ = [
@@ -34,5 +35,5 @@ __all__ = [
     "CharacterAscensionMaterial", "CharacterAscensionPhase", "CharacterConstellation", "CharacterPassive", "CharacterTalent", "CharacterTalentPhase", "CharacterTalentMaterial",
     "Weapon", "WeaponTranslation", "WeaponAscensionMaterial", "WeaponAscensionPhase",
     "ArtifactSet", "ArtifactSetTranslation", "Material", "MaterialTranslation", "ElementalReaction",
-    "Team", "TeamCharacter", "Guide",
+    "Team", "TeamCharacter", "TeamTemplate", "Guide",
 ]

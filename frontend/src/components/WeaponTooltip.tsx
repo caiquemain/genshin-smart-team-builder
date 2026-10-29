@@ -1,4 +1,6 @@
-import { useRef, useState, type ReactNode } from 'react'
+import {
+  cloneElement, isValidElement, useRef, useState, type ReactElement, type ReactNode,
+} from 'react'
 import {
   autoUpdate, flip, FloatingArrow, FloatingPortal, arrow as floatingArrow,
   offset, shift, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole, safePolygon,
@@ -17,22 +19,16 @@ const WEAPON_TYPE_LABEL: Record<string, string> = {
 
 function stripHtml(s: string | null | undefined): string {
   if (!s) return ''
-  return s
-    .replace(/<color=[^>]+>/g, '').replace(/<\/color>/g, '')
-    .replace(/<i>/g, '').replace(/<\/i>/g, '')
-    .replace(/\\n/g, '\n')
-    .trim()
+  return s.replace(/<color=[^>]+>/g, '').replace(/<\/color>/g, '')
+    .replace(/<i>/g, '').replace(/<\/i>/g, '').replace(/\\n/g, '\n').trim()
 }
 
 export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSummary; children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
 
-  const { refs, floatingStyles, context } = useFloating({
-    open,
-    onOpenChange: setOpen,
-    placement: 'top',
-    whileElementsMounted: autoUpdate,
+  const { refs, floatingStyles, context, isPositioned } = useFloating({
+    open, onOpenChange: setOpen, placement: 'top', whileElementsMounted: autoUpdate,
     middleware: [offset(12), flip({ padding: 8 }), shift({ padding: 8 }), floatingArrow({ element: arrowRef })],
   })
 
@@ -45,33 +41,28 @@ export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSumm
   const accent = RARITY_COLORS[weapon.rarity] ?? RARITY_COLORS[1]
   const img = iconUrl(weapon.icon)
 
+  // cloneElement: ref + props de interação no filho REAL (não em span display:contents)
+  const child = isValidElement(children)
+    ? cloneElement(children as ReactElement<any>, {
+        ref: refs.setReference,
+        ...getReferenceProps(),
+      })
+    : children
+
   return (
     <>
-      <span ref={refs.setReference} {...getReferenceProps()} style={{ display: 'contents' }}>
-        {children}
-      </span>
+      {child}
       {open && (
         <FloatingPortal>
-          <div
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-            className="weapon-tooltip"
-          >
+          <div ref={refs.setFloating} style={{ ...floatingStyles, opacity: isPositioned ? 1 : 0, pointerEvents: isPositioned ? 'auto' : 'none' }} {...getFloatingProps()} className="weapon-tooltip">
             <div className="weapon-tooltip-header">
               <div className="weapon-tooltip-icon" style={{ borderColor: accent }}>
                 {img ? <img src={img} alt={weapon.name} /> : <span>?</span>}
               </div>
               <div className="weapon-tooltip-title">
-                <div className="weapon-tooltip-name" style={{ color: accent }}>
-                  {weapon.name}
-                </div>
-                <div className="weapon-tooltip-stars" style={{ color: accent }}>
-                  {'★'.repeat(weapon.rarity)}
-                </div>
-                <div className="weapon-tooltip-type">
-                  {WEAPON_TYPE_LABEL[weapon.weapon_type] ?? weapon.weapon_type}
-                </div>
+                <div className="weapon-tooltip-name" style={{ color: accent }}>{weapon.name}</div>
+                <div className="weapon-tooltip-stars" style={{ color: accent }}>{'★'.repeat(weapon.rarity)}</div>
+                <div className="weapon-tooltip-type">{WEAPON_TYPE_LABEL[weapon.weapon_type] ?? weapon.weapon_type}</div>
               </div>
             </div>
 
@@ -91,10 +82,7 @@ export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSumm
                     {formatStatLabel(weapon.secondary_stat)} (Lv.90)
                   </span>
                   <span className="weapon-tooltip-stat-value">
-                    {formatStatValue(
-                      weapon.secondary_stat,
-                      weapon.max_secondary_stat_value ?? weapon.secondary_stat_value,
-                    )}
+                    {formatStatValue(weapon.secondary_stat, weapon.max_secondary_stat_value ?? weapon.secondary_stat_value)}
                     {weapon.max_secondary_stat_value != null &&
                       weapon.max_secondary_stat_value !== weapon.secondary_stat_value && (
                         <span className="weapon-tooltip-stat-lv1">

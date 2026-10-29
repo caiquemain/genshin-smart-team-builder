@@ -157,7 +157,7 @@ export interface TeamDetail {
   description: string | null
   author_name: string | null
   is_public: boolean
-  members: TeamMember[]
+  members: TeamMemberWithBuild[]
 }
 
 export interface TeamListResponse {
@@ -277,4 +277,76 @@ export interface ArtifactSetListResponse {
   language: string
   pagination: { total: number; limit: number; offset: number }
   items: ArtifactSetSummary[]
+}
+
+// === Team Templates (KQM) ===
+export interface TeamTemplateSummary {
+  id: number
+  name: string
+  main_character: string
+  archetype: string
+  description: string | null
+  character_slugs: string[]
+  source: string | null
+  source_url: string | null
+}
+
+export interface TeamTemplateDetail extends TeamTemplateSummary {
+  artifact_set_slug: string | null
+  weapon_slug: string | null
+  notes: string | null
+  analysis: TeamAnalysisResponse | null
+}
+
+export interface TeamTemplateListResponse {
+  items: TeamTemplateSummary[]
+}
+
+export interface ArchetypeCount {
+  archetype: string
+  count: number
+}
+
+export interface ArchetypesResponse {
+  items: ArchetypeCount[]
+}
+
+// === Character Build (dentro de um time) ===
+export interface WeaponSlot {
+  weapon_slug: string | null
+  weapon_refinement: number | null
+  notes: string | null
+}
+
+export interface ArtifactSlot {
+  artifact_set_slug: string | null
+  notes: string | null
+}
+
+export interface ArtifactPair {
+  set1_slug: string | null
+  set2_slug: string | null
+  notes: string | null
+}
+
+export interface CharacterBuild {
+  weapons: WeaponSlot[]
+  artifacts_4pc: ArtifactSlot[]
+  artifacts_2pc: ArtifactPair[]
+  sands_stat: string | null
+  goblet_stat: string | null
+  circlet_stat: string | null
+  substat_priority: string[]
+  er_requirement: string | null
+  talent_priority: string | null
+  notes: string | null
+}
+
+export interface TeamBuildsUpdate {
+  builds: Record<number, CharacterBuild>
+}
+
+// Estende TeamMember com build
+export interface TeamMemberWithBuild extends TeamMember {
+  build: CharacterBuild | null
 }

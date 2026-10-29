@@ -1,20 +1,99 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
-import type { TeamDetail } from '../types'
+import { archetypeInfo } from '../utils/archetypes'
+import type { TeamDetail, TeamTemplateSummary, CharacterSummary } from '../types'
+
+const ARCHETYPE_ORDER = [
+  'hyperbloom', 'bloom', 'burgeon', 'quicken', 'aggravate', 'spread',
+  'vaporize', 'melt', 'freeze', 'overload', 'superconduct',
+  'hypercarry', 'national',
+]
+
+function TeamTemplateCard({
+  template,
+  chars,
+}: {
+  template: TeamTemplateSummary
+  chars: Map<string, CharacterSummary>
+}) {
+  const arch = archetypeInfo(template.archetype)
+  return (
+    <div className="template-card" style={{ borderLeftColor: arch.color }}>
+      <div className="template-card-header">
+        <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color }}>
+          {arch.emoji} {arch.label}
+        </div>
+      </div>
+      <Link to={`/teams/templates/${template.id}`} className="template-card-name">
+        {template.name}
+      </Link>
+      {template.description && (
+        <p className="template-card-desc">{template.description}</p>
+      )}
+      <div className="template-card-members">
+        {template.character_slugs.map((slug) => {
+          const c = chars.get(slug)
+          const img = c ? iconUrl(c.icon) : null
+          const isMain = slug === template.main_character
+          return (
+            <Link
+              key={slug}
+              to={`/characters/${slug}`}
+              className={`template-member ${isMain ? 'template-member-main' : ''}`}
+              title={c?.name ?? slug}
+            >
+              {img ? <img src={img} alt={c?.name ?? slug} /> : <span>?</span>}
+            </Link>
+          )
+        })}
+      </div>
+      <div className="template-card-actions">
+        <Link to={`/teams/templates/${template.id}`} className="btn-secondary">
+          Detalhes
+        </Link>
+        <Link to={`/teams/new?template_id=${template.id}`} className="btn-primary">
+          Usar →
+        </Link>
+      </div>
+      {template.source_url && (
+        <a
+          href={template.source_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="template-card-source"
+        >
+          Fonte: {template.source} ↗
+        </a>
+      )}
+    </div>
+  )
+}
 
 export default function TeamsPage() {
   const { lang } = useLanguage()
   const [teams, setTeams] = useState<TeamDetail[] | null>(null)
+  const [templates, setTemplates] = useState<TeamTemplateSummary[]>([])
+  const [chars, setChars] = useState<Map<string, CharacterSummary>>(new Map())
   const [error, setError] = useState<string | null>(null)
 
-  const load = () => {
-    api.listTeams(lang).then((d) => setTeams(d.items)).catch((e) => setError(String(e)))
-  }
-
-  useEffect(() => { load() }, [lang])
+  useEffect(() => {
+    Promise.all([
+      api.listTeams(lang),
+      api.listTemplates(),
+      api.listCharacters(lang, { limit: 200 }),
+    ])
+      .then(([t, tpl, c]) => {
+        setTeams(t.items)
+        setTemplates(tpl.items)
+        const cm = new Map<string, CharacterSummary>()
+        c.items.forEach((x) => cm.set(x.slug, x))
+        setChars(cm)
+      })
+      .catch((e) => setError(String(e)))
+  }, [lang])
 
   const handleDelete = async (id: number) => {
     if (!confirm('Apagar este time?')) return
@@ -26,6 +105,18 @@ export default function TeamsPage() {
     }
   }
 
+  const groupedTemplates = useMemo(() => {
+    const groups = new Map<string, TeamTemplateSummary[]>()
+    for (const t of templates) {
+      const arr = groups.get(t.archetype) ?? []
+      arr.push(t)
+      groups.set(t.archetype, arr)
+    }
+    return ARCHETYPE_ORDER
+      .filter((a) => groups.has(a))
+      .map((a) => ({ archetype: a, items: groups.get(a)! }))
+  }, [templates])
+
   return (
     <div>
       <div className="page-header">
@@ -34,49 +125,87 @@ export default function TeamsPage() {
       </div>
 
       {error && <p className="error">Erro: {error}</p>}
-      {!teams && !error && <p className="status">Carregando...</p>}
-      {teams && teams.length === 0 && (
-        <p className="status">Nenhum time criado ainda. <Link to="/teams/new">Crie o primeiro</Link>.</p>
+
+      {/* === Times recomendados (KQM) === */}
+      {templates.length > 0 && (
+        <section className="teams-section">
+          <h2 className="teams-section-title">
+            Times recomendados <span className="teams-section-badge">KQM</span>
+          </h2>
+          <p className="teams-section-sub">
+            Curados do Keqing Mains. Clique em "Usar" pra carregar no builder e editar.
+          </p>
+
+          {groupedTemplates.map((g) => {
+            const arch = archetypeInfo(g.archetype)
+            return (
+              <div key={g.archetype} className="template-archetype-group">
+                <div className="template-archetype-title">
+                  <span className="template-archetype-emoji">{arch.emoji}</span>
+                  <span style={{ color: arch.color }}>{arch.label}</span>
+                  <span className="template-archetype-count">{g.items.length}</span>
+                </div>
+                <div className="templates-grid">
+                  {g.items.map((t) => (
+                    <TeamTemplateCard key={t.id} template={t} chars={chars} />
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </section>
       )}
 
-      {teams && teams.length > 0 && (
-        <div className="teams-grid">
-          {teams.map((t) => (
-            <div key={t.id} className="team-card">
-              <div className="team-card-header">
-                <div>
-                  <h3>{t.name}</h3>
-                  {t.author_name && <p className="team-author">por {t.author_name}</p>}
+      {/* === Meus times === */}
+      <section className="teams-section">
+        <h2 className="teams-section-title">Meus times</h2>
+
+        {!teams && <p className="status">Carregando...</p>}
+        {teams && teams.length === 0 && (
+          <p className="status">
+            Você ainda não criou nenhum time. <Link to="/teams/new">Crie o primeiro</Link> ou use um template acima.
+          </p>
+        )}
+
+        {teams && teams.length > 0 && (
+          <div className="teams-grid">
+            {teams.map((t) => (
+              <div key={t.id} className="team-card">
+                <div className="team-card-header">
+                  <div>
+                    <h3>{t.name}</h3>
+                    {t.author_name && <p className="team-author">por {t.author_name}</p>}
+                  </div>
+                  <button
+                    className="btn-danger"
+                    onClick={() => handleDelete(t.id)}
+                    aria-label="Apagar time"
+                  >
+                    ✕
+                  </button>
                 </div>
-                <button
-                  className="btn-danger"
-                  onClick={() => handleDelete(t.id)}
-                  aria-label="Apagar time"
-                >
-                  ✕
-                </button>
+                {t.description && <p className="team-desc">{t.description}</p>}
+                <div className="team-members">
+                  {t.members.map((m) => {
+                    const img = iconUrl(m.character.icon)
+                    return (
+                      <Link
+                        key={m.position}
+                        to={`/characters/${m.character.slug}`}
+                        className="team-member"
+                        title={m.character.name}
+                      >
+                        {img ? <img src={img} alt={m.character.name} /> : <span>?</span>}
+                        <span className="team-member-name">{m.character.name}</span>
+                      </Link>
+                    )
+                  })}
+                </div>
               </div>
-              {t.description && <p className="team-desc">{t.description}</p>}
-              <div className="team-members">
-                {t.members.map((m) => {
-                  const img = iconUrl(m.character.icon)
-                  return (
-                    <Link
-                      key={m.position}
-                      to={`/characters/${m.character.slug}`}
-                      className="team-member"
-                      title={m.character.name}
-                    >
-                      {img ? <img src={img} alt={m.character.name} /> : <span>?</span>}
-                      <span className="team-member-name">{m.character.name}</span>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   )
 }

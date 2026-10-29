@@ -1,5 +1,9 @@
 import type {
   AscensionCost,
+  CharacterBuild,
+  TeamTemplateListResponse,
+  TeamTemplateDetail,
+  ArchetypesResponse,
   ArtifactSetListResponse,
   ArtifactSetDetail,
   TeamAnalysisResponse,
@@ -49,6 +53,10 @@ export const api = {
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
+  listTemplates: (filters: { archetype?: string; main_character?: string; character_slug?: string } = {}) =>
+    request<TeamTemplateListResponse>('/teams/templates', filters),
+  getTemplate: (id: number) => request<TeamTemplateDetail>(`/teams/templates/${id}`),
+  listArchetypes: () => request<ArchetypesResponse>('/teams/templates/archetypes'),
   listArtifacts: (lang: LanguageCode, filters: { rarity?: number; limit?: number } = {}) =>
     request<ArtifactSetListResponse>('/artifacts', { lang, ...filters }),
   getArtifact: (slug: string, lang: LanguageCode) =>
@@ -86,6 +94,15 @@ export const api = {
   deleteTeam: (id: number) =>
     fetch(`${API_URL}/teams/${id}`, { method: 'DELETE' }).then((r) => {
       if (!r.ok) throw new Error(`API ${r.status}`)
+    }),
+  updateTeamBuilds: (teamId: number, builds: Record<number, CharacterBuild>, lang: LanguageCode) =>
+    fetch(`${API_URL}/teams/${teamId}/builds?lang=${lang}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ builds }),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json()
     }),
   getAscensionCost: (slug: string, fromLevel: number, toLevel: number, lang: LanguageCode) =>
     request<AscensionCost>(`/characters/${slug}/ascension`, {

@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Text, UniqueConstraint
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from .base import Base
 
@@ -32,6 +33,7 @@ class TeamCharacter(Base):
         Integer, ForeignKey("characters.id", ondelete="CASCADE"), nullable=False
     )
     position = Column(Integer, nullable=False)
+    build_data = Column(JSONB)
 
     team = relationship("Team", back_populates="members")
     character = relationship("Character", back_populates="team_links")

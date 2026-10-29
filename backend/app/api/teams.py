@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import Character, Team, TeamCharacter, Language
 from ..schemas.team import TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse
+from ..schemas.build import CharacterBuild, TeamBuildsUpdate
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
 from ..services.synergy import analyze_team
@@ -24,6 +25,7 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
     member_out = []
     for tc, char in members:
         data = resolve_character(db, char, lang)
+        build = CharacterBuild(**tc.build_data) if tc.build_data else None
         member_out.append(TeamMemberOut(
             position=tc.position,
             character=CharacterSummary(
@@ -35,6 +37,7 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
                 weapon_type=char.weapon_type,
                 region=char.region,
             ),
+            build=build,
         ))
     return TeamDetail(
         id=team.id,
@@ -122,3 +125,30 @@ def analyze(
 ) -> TeamAnalysisResponse:
     result = analyze_team(db, payload.character_slugs)
     return TeamAnalysisResponse(**result)
+
+@router.put("/{team_id}/builds", response_model=TeamDetail)
+def update_team_builds(
+    team_id: int,
+    payload: TeamBuildsUpdate,
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+) -> TeamDetail:
+    team = db.query(Team).filter(Team.id == team_id).one_or_none()
+    if not team:
+        raise HTTPException(404, detail="Team not found")
+
+    for position, build in payload.builds.items():
+        tc = (
+            db.query(TeamCharacter)
+            .filter(
+                TeamCharacter.team_id == team_id,
+                TeamCharacter.position == position,
+            )
+            .one_or_none()
+        )
+        if tc:
+            tc.build_data = build.model_dump() if build else None
+
+    db.commit()
+    db.refresh(team)
+    return _build_detail(db, team, lang)
