@@ -7,6 +7,8 @@ import CharacterDetailPage from './pages/CharacterDetailPage'
 import ReactionsPage from './pages/ReactionsPage'
 import TeamsPage from './pages/TeamsPage'
 import WeaponsPage from './pages/WeaponsPage'
+import ArtifactsPage from './pages/ArtifactsPage'
+import ArtifactDetailPage from './pages/ArtifactDetailPage'
 import WeaponDetailPage from './pages/WeaponDetailPage'
 import TeamBuilderPage from './pages/TeamBuilderPage'
 import PlannerPage from './pages/PlannerPage'
@@ -21,6 +23,7 @@ export default function App() {
           <div className="nav-links">
             <Link to="/">Personagens</Link>
             <Link to="/weapons">Armas</Link>
+            <Link to="/artifacts">Artefatos</Link>
             <Link to="/teams">Times</Link>
             <Link to="/planner">Planejador</Link>
             <Link to="/reactions">Reações</Link>
@@ -34,6 +37,8 @@ export default function App() {
             <Route path="/characters/:slug" element={<CharacterDetailPage />} />
             <Route path="/weapons" element={<WeaponsPage />} />
             <Route path="/weapons/:slug" element={<WeaponDetailPage />} />
+            <Route path="/artifacts" element={<ArtifactsPage />} />
+            <Route path="/artifacts/:slug" element={<ArtifactDetailPage />} />
             <Route path="/teams" element={<TeamsPage />} />
             <Route path="/teams/new" element={<TeamBuilderPage />} />
             <Route path="/planner" element={<PlannerPage />} />

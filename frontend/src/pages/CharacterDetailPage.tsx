@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
-import { iconUrl } from '../config'
-import type { CharacterDetail, Constellation, Talent, Passive, TalentScalings, WeaponSummary } from '../types'
+import { iconUrl, artifactIconUrl } from '../config'
+import type { CharacterDetail, Constellation, Talent, Passive, TalentScalings, WeaponSummary, ArtifactSetSummary } from '../types'
 import AscensionSection from '../components/AscensionSection'
+import WeaponTooltip from '../components/WeaponTooltip'
+import ArtifactTooltip from '../components/ArtifactTooltip'
 import TalentSection from '../components/TalentSection'
 
 const TALENT_LABELS: Record<string, string> = {
@@ -144,6 +146,7 @@ export default function CharacterDetailPage() {
   const [char, setChar] = useState<CharacterDetail | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [recommendedWeapons, setRecommendedWeapons] = useState<WeaponSummary[]>([])
+  const [recommendedArtifacts, setRecommendedArtifacts] = useState<ArtifactSetSummary[]>([])
   const [activeId, setActiveId] = useState<string>('visao-geral')
 
   useEffect(() => {
@@ -160,6 +163,35 @@ export default function CharacterDetailPage() {
       .then((d) => setRecommendedWeapons(d.items))
       .catch(() => setRecommendedWeapons([]))
   }, [char?.weapon_type, lang])
+
+  // Buscar artefatos recomendados (heurística por elemento)
+  useEffect(() => {
+    if (!char) return
+    const element = String(char.element)  // garante string "pyro"
+    api.listArtifacts(lang, { rarity: 5, limit: 100 })
+      .then((d) => {
+        const RECOMMENDED_BY_ELEMENT: Record<string, string[]> = {
+          pyro: ['crimson-witch-of-flames', 'lavawalker', 'gilded-dreams'],
+          hydro: ['heart-of-depth', 'nymphs-dream', 'golden-troupe'],
+          electro: ['thundering-fury', 'thundersoother', 'gilded-dreams'],
+          cryo: ['blizzard-strayer', 'gladiators-finale'],
+          anemo: ['viridescent-venerer', 'desert-pavilion-chronicle'],
+          geo: ['archaic-petra', 'husk-of-opulent-dreams'],
+          dendro: ['deepwood-memories', 'gilded-dreams'],
+        }
+        const slugs = RECOMMENDED_BY_ELEMENT[element] || []
+        const matches = d.items.filter((a) => slugs.includes(a.slug))
+        const fallback = ['noblesse-oblige', 'tenacity-of-the-millelith', 'emblem-of-severed-fate']
+        const more = d.items.filter((a) => fallback.includes(a.slug) && !matches.some((m) => m.slug === a.slug))
+        const result = [...matches, ...more].slice(0, 6)
+        console.log('[artifacts debug]', { element, total_items: d.items.length, slugs_wanted: slugs, matches: matches.map(m => m.slug), fallback_count: more.length, final: result.map(r => r.slug) })
+        setRecommendedArtifacts(result)
+      })
+      .catch((err) => {
+        console.error('[artifacts debug] erro:', err)
+        setRecommendedArtifacts([])
+      })
+  }, [char?.element, lang])
 
   const basePassives = useMemo(
     () => (char?.passives ?? []).filter((p) => p.kind !== 'constellation_upgrade'),
@@ -336,13 +368,37 @@ export default function CharacterDetailPage() {
                 {recommendedWeapons.filter(w => w.rarity >= 4).slice(0, 12).map((w) => {
                   const wImg = iconUrl(w.icon)
                   return (
-                    <Link key={w.slug} to={`/weapons/${w.slug}`} className={`weapon-card-mini rarity-${w.rarity}`}>
-                      <div className="weapon-card-mini-icon">
-                        {wImg ? <img src={wImg} alt={w.name} loading="lazy" /> : <span>?</span>}
-                      </div>
-                      <div className="weapon-card-mini-name">{w.name}</div>
-                      <div className="weapon-card-mini-rarity">{'★'.repeat(w.rarity)}</div>
-                    </Link>
+                    <WeaponTooltip key={w.slug} weapon={w}>
+                      <Link to={`/weapons/${w.slug}`} className={`weapon-card-mini rarity-${w.rarity}`}>
+                        <div className="weapon-card-mini-icon">
+                          {wImg ? <img src={wImg} alt={w.name} loading="lazy" /> : <span>?</span>}
+                        </div>
+                        <div className="weapon-card-mini-name">{w.name}</div>
+                        <div className="weapon-card-mini-rarity">{'★'.repeat(w.rarity)}</div>
+                      </Link>
+                    </WeaponTooltip>
+                  )
+                })}
+              </div>
+            </section>
+          )}
+
+          {recommendedArtifacts.length > 0 && (
+            <section id="artefatos" className="recommended-artifacts-section char-section-anchor">
+              <h2>Artefatos recomendados</h2>
+              <div className="recommended-artifacts-grid">
+                {recommendedArtifacts.map((a) => {
+                  const aImg = artifactIconUrl(a.icon)
+                  return (
+                    <ArtifactTooltip key={a.slug} artifact={a}>
+                      <Link to={`/artifacts/${a.slug}`} className={`artifact-card-mini rarity-${a.rarity_max}`}>
+                        <div className="artifact-card-mini-icon">
+                          {aImg ? <img src={aImg} alt={a.name} loading="lazy" /> : <span>?</span>}
+                        </div>
+                        <div className="artifact-card-mini-name">{a.name}</div>
+                        <div className="weapon-card-mini-rarity">{'★'.repeat(a.rarity_max)}</div>
+                      </Link>
+                    </ArtifactTooltip>
                   )
                 })}
               </div>

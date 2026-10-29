@@ -1,5 +1,7 @@
 import type {
   AscensionCost,
+  ArtifactSetListResponse,
+  ArtifactSetDetail,
   TeamAnalysisResponse,
   WeaponSummary,
   WeaponListResponse,
@@ -47,6 +49,10 @@ export const api = {
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
+  listArtifacts: (lang: LanguageCode, filters: { rarity?: number; limit?: number } = {}) =>
+    request<ArtifactSetListResponse>('/artifacts', { lang, ...filters }),
+  getArtifact: (slug: string, lang: LanguageCode) =>
+    request<ArtifactSetDetail>(`/artifacts/${slug}`, { lang }),
   analyzeTeam: (slugs: string[], lang: LanguageCode) =>
     fetch(`${API_URL}/teams/analyze?lang=${lang}`, {
       method: 'POST',

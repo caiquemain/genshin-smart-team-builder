@@ -1,19 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react'
 import {
-  autoUpdate,
-  flip,
-  FloatingArrow,
-  FloatingPortal,
-  arrow as floatingArrow,
-  offset,
-  shift,
-  useDismiss,
-  useFloating,
-  useFocus,
-  useHover,
-  useInteractions,
-  useRole,
-  safePolygon,
+  autoUpdate, flip, FloatingArrow, FloatingPortal, arrow as floatingArrow,
+  offset, shift, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole, safePolygon,
 } from '@floating-ui/react'
 import { iconUrl } from '../config'
 import { formatStatLabel, formatStatValue } from '../utils/stats'
@@ -36,13 +24,7 @@ function stripHtml(s: string | null | undefined): string {
     .trim()
 }
 
-export default function WeaponTooltip({
-  weapon,
-  children,
-}: {
-  weapon: WeaponSummary
-  children: ReactNode
-}) {
+export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSummary; children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
 
@@ -51,12 +33,7 @@ export default function WeaponTooltip({
     onOpenChange: setOpen,
     placement: 'top',
     whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(12),
-      flip({ padding: 8 }),
-      shift({ padding: 8 }),
-      floatingArrow({ element: arrowRef }),
-    ],
+    middleware: [offset(12), flip({ padding: 8 }), shift({ padding: 8 }), floatingArrow({ element: arrowRef })],
   })
 
   const hover = useHover(context, { delay: { open: 150, close: 60 }, handleClose: safePolygon() })
@@ -103,7 +80,7 @@ export default function WeaponTooltip({
                 <span className="weapon-tooltip-stat-label">ATK Base (Lv.90)</span>
                 <span className="weapon-tooltip-stat-value">
                   {weapon.max_base_atk ?? weapon.base_atk}
-                  {weapon.max_base_atk != null && (
+                  {weapon.max_base_atk != null && weapon.max_base_atk !== weapon.base_atk && (
                     <span className="weapon-tooltip-stat-lv1">Lv.1: {weapon.base_atk}</span>
                   )}
                 </span>
@@ -114,12 +91,16 @@ export default function WeaponTooltip({
                     {formatStatLabel(weapon.secondary_stat)} (Lv.90)
                   </span>
                   <span className="weapon-tooltip-stat-value">
-                    {formatStatValue(weapon.secondary_stat, weapon.max_secondary_stat_value ?? weapon.secondary_stat_value)}
-                    {weapon.max_secondary_stat_value != null && weapon.max_secondary_stat_value !== weapon.secondary_stat_value && (
-                      <span className="weapon-tooltip-stat-lv1">
-                        Lv.1: {formatStatValue(weapon.secondary_stat, weapon.secondary_stat_value)}
-                      </span>
+                    {formatStatValue(
+                      weapon.secondary_stat,
+                      weapon.max_secondary_stat_value ?? weapon.secondary_stat_value,
                     )}
+                    {weapon.max_secondary_stat_value != null &&
+                      weapon.max_secondary_stat_value !== weapon.secondary_stat_value && (
+                        <span className="weapon-tooltip-stat-lv1">
+                          Lv.1: {formatStatValue(weapon.secondary_stat, weapon.secondary_stat_value)}
+                        </span>
+                      )}
                   </span>
                 </div>
               )}
@@ -132,21 +113,12 @@ export default function WeaponTooltip({
                   <span className="weapon-tooltip-passive-r5">R5</span>
                 </div>
                 {weapon.passive_description_r5 && (
-                  <p className="weapon-tooltip-passive-desc">
-                    {stripHtml(weapon.passive_description_r5)}
-                  </p>
+                  <p className="weapon-tooltip-passive-desc">{stripHtml(weapon.passive_description_r5)}</p>
                 )}
               </div>
             )}
 
-            <FloatingArrow
-              ref={arrowRef}
-              context={context}
-              width={14}
-              height={7}
-              tipRadius={2}
-              className="weapon-tooltip-arrow"
-            />
+            <FloatingArrow ref={arrowRef} context={context} width={14} height={7} tipRadius={2} className="weapon-tooltip-arrow" />
           </div>
         </FloatingPortal>
       )}
