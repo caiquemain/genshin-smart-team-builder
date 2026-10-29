@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md
 
 > Arquivo vivo de contexto do projeto. **Sempre atualizar** ao final de cada sessão.
-> Última atualização: **2026-10-29** — build editor + pickers visuais + fix de tooltip
+> Última atualização: **2026-10-29** — build editor + pickers + abas de referências, substitutos e combos
 
 ---
 
@@ -161,11 +161,13 @@ Meta:           GET /meta/enums
 - Team builder com drag-and-drop, 4 slots
 - Análise de sinergia em tempo real (score 0-100, roles, reações, warnings, sugestões)
 - ~40 templates KQM carregáveis via ?template_id
-- Editor de build por personagem:
-  - Multi-arma (BIS + F2P) com refino + notas por escolha
-  - Artefatos 4pc OU 2+2 (pares) com notas por escolha
-  - Main stats (sands/goblet/circlet) + substats ordenáveis
-  - ER requirement + talent priority + notas gerais
+- Editor de build por personagem (com abas):
+  - Aba Build: Multi-arma (BIS + F2P) com refino + notas por escolha
+  - Aba Build: Artefatos 4pc OU 2+2 (pares) com notas por escolha
+  - Aba Build: Main stats multi-select (tags) + substats ordenáveis
+  - Aba Referências: links úteis (KQM, YouTube, planilhas)
+  - Aba Substituições: trocar personagem ou mesma char com build diferente
+  - Aba Combos: rotações e strings de ataque
 - Pickers visuais de arma/artefato (grid, busca, tooltip, ESC)
 - Tooltips com isPositioned gate (sem flash no 0,0)
 - ESC fecha picker → editor → modal genérico
@@ -205,6 +207,7 @@ Contagens a preencher:
 
 - build_data é JSONB → schemas novos são backward-compatible (Pydantic extra='ignore')
 - Enums Postgres: sempre native_enum=False (evita conflito em migrations)
+- Main Stats no `CharacterBuild` são `list[str]` (ex: Cálice pode ter Cryo DMG e ATK%). Usa `field_validator(mode='before')` para converter dados antigos (string) em lista, evitando quebrar times já salvos.
 - i18n via LanguageContext (pt/en)
 - Tooltips usam FloatingPortal (renderiza no document.body) — não afetados por backdrop-filter dos modais
 - isPositioned é OBRIGATÓRIO em todo tooltip: aplica opacity:0 inline até o Floating UI calcular posição (evita flash no 0,0)
@@ -237,6 +240,8 @@ Contagens a preencher:
 
 **Feito:**
 - Schema CharacterBuild migrado: weapons[], artifacts_4pc[], artifacts_2pc[] (pares), cada slot com notes
+- Adicionado abas: Referências, Substituições e Combos
+- Main Stats alterado para multi-select (lista de strings) com retrocompatibilidade
 - WeaponPickerModal.tsx + ArtifactPickerModal.tsx (grid visual, busca, ESC, tooltip)
 - CharacterBuildEditor.tsx reescrito integrando pickers + notas inline + toggle 4pc/2+2
 - CSS novo: picker-*, build-item-*, build-pair-*, build-mode-*

@@ -70,7 +70,7 @@ export default function WeaponsPage() {
     api.listWeapons(lang, {
       weapon_type: weaponType || undefined,
       rarity: rarity ? Number(rarity) : undefined,
-      limit: 300,
+      limit: 200,
     })
       .then((d) => { setWeapons(d.items); setError(null) })
       .catch((e) => setError(String(e)))

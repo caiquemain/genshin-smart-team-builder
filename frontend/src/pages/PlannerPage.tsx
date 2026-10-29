@@ -202,7 +202,7 @@ export default function PlannerPage() {
   useEffect(() => {
     Promise.all([
       api.listCharacters(lang, { limit: 200 }),
-      api.listWeapons(lang, { limit: 300 }),
+      api.listWeapons(lang, { limit: 200 }),
     ])
       .then(([charsRes, weaponsRes]) => {
         const cm = new Map<string, CharacterSummary>()

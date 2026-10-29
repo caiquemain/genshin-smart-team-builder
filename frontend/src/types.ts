@@ -333,13 +333,16 @@ export interface CharacterBuild {
   weapons: WeaponSlot[]
   artifacts_4pc: ArtifactSlot[]
   artifacts_2pc: ArtifactPair[]
-  sands_stat: string | null
-  goblet_stat: string | null
-  circlet_stat: string | null
+  sands_stat: string[]
+  goblet_stat: string[]
+  circlet_stat: string[]
   substat_priority: string[]
   er_requirement: string | null
   talent_priority: string | null
   notes: string | null
+  references: BuildReference[]
+  substitutes: Substitute[]
+  combos: string[]
 }
 
 export interface TeamBuildsUpdate {
@@ -349,4 +352,16 @@ export interface TeamBuildsUpdate {
 // Estende TeamMember com build
 export interface TeamMemberWithBuild extends TeamMember {
   build: CharacterBuild | null
+}
+
+
+export interface BuildReference {
+  url: string
+  title: string | null
+}
+
+export interface Substitute {
+  character_slug: string | null
+  build_label: string | null
+  notes: string | null
 }

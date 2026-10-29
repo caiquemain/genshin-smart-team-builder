@@ -4,9 +4,11 @@ import { iconUrl, artifactIconUrl } from '../config'
 import { formatStatLabel } from '../utils/stats'
 import WeaponPickerModal from './WeaponPickerModal'
 import ArtifactPickerModal from './ArtifactPickerModal'
+import BuildReferencesEditor from './BuildReferencesEditor'
+import BuildSubstitutesEditor from './BuildSubstitutesEditor'
 import type {
   CharacterBuild, CharacterSummary, WeaponSummary, ArtifactSetSummary,
-  WeaponSlot, ArtifactSlot, ArtifactPair,
+  WeaponSlot, ArtifactSlot, ArtifactPair, BuildReference, Substitute,
 } from '../types'
 
 const SANDS_OPTIONS = ['hp_pct', 'atk_pct', 'def_pct', 'em', 'er']
@@ -28,13 +30,16 @@ const EMPTY_BUILD: CharacterBuild = {
   weapons: [],
   artifacts_4pc: [],
   artifacts_2pc: [],
-  sands_stat: null,
-  goblet_stat: null,
-  circlet_stat: null,
+  sands_stat: [],
+  goblet_stat: [],
+  circlet_stat: [],
   substat_priority: [],
   er_requirement: null,
   talent_priority: null,
   notes: null,
+  references: [],
+  substitutes: [],
+  combos: [],
 }
 
 type Picker =
@@ -61,6 +66,7 @@ export default function CharacterBuildEditor({
   const [weapons, setWeapons] = useState<WeaponSummary[]>([])
   const [artifacts, setArtifacts] = useState<ArtifactSetSummary[]>([])
   const [picker, setPicker] = useState<Picker | null>(null)
+  const [activeTab, setActiveTab] = useState<'build' | 'references' | 'substitutes' | 'combos'>('build')
   const [newSubstat, setNewSubstat] = useState('atk_pct')
   const [editingNotes, setEditingNotes] = useState<string | null>(null)
   const [artifactMode, setArtifactMode] = useState<'4pc' | '2+2'>(
@@ -70,7 +76,7 @@ export default function CharacterBuildEditor({
   // Carregar weapons/artifacts pra resolver nomes/ícones
   useEffect(() => {
     import('../api/client').then(({ api }) => {
-      api.listWeapons(lang, { weapon_type: character.weapon_type, limit: 300 })
+      api.listWeapons(lang, { weapon_type: character.weapon_type, limit: 200 })
         .then((d) => setWeapons(d.items)).catch(() => {})
       api.listArtifacts(lang, { rarity: 5, limit: 200 })
         .then((d) => setArtifacts(d.items)).catch(() => {})
@@ -385,6 +391,34 @@ export default function CharacterBuildEditor({
           </div>
 
           <div className="build-editor-body">
+            <div className="build-editor-tabs">
+              <button
+                className={`build-editor-tab ${activeTab === 'build' ? 'active' : ''}`}
+                onClick={() => setActiveTab('build')}
+              >
+                Build
+              </button>
+              <button
+                className={`build-editor-tab ${activeTab === 'references' ? 'active' : ''}`}
+                onClick={() => setActiveTab('references')}
+              >
+                Referências {build.references.length > 0 && <span className="tab-count">{build.references.length}</span>}
+              </button>
+              <button
+                className={`build-editor-tab ${activeTab === 'substitutes' ? 'active' : ''}`}
+                onClick={() => setActiveTab('substitutes')}
+              >
+                Substituições {build.substitutes.length > 0 && <span className="tab-count">{build.substitutes.length}</span>}
+              </button>
+              <button
+                className={`build-editor-tab ${activeTab === 'combos' ? 'active' : ''}`}
+                onClick={() => setActiveTab('combos')}
+              >
+                Combos {build.combos.length > 0 && <span className="tab-count">{build.combos.length}</span>}
+              </button>
+            </div>
+            {activeTab === 'build' && (
+            <>
             {/* === Armas === */}
             <section className="build-editor-section">
               <div className="build-section-header">
@@ -454,39 +488,44 @@ export default function CharacterBuildEditor({
             <section className="build-editor-section">
               <h3>Main stats</h3>
               <div className="build-editor-stats-grid">
-                <div>
-                  <label className="build-editor-label">Ampulheta</label>
-                  <select
-                    value={build.sands_stat ?? ''}
-                    onChange={(e) => setField('sands_stat', e.target.value || null)}
-                    className="build-editor-select"
-                  >
-                    <option value="">—</option>
-                    {SANDS_OPTIONS.map((s) => <option key={s} value={s}>{formatStatLabel(s)}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="build-editor-label">Cálice</label>
-                  <select
-                    value={build.goblet_stat ?? ''}
-                    onChange={(e) => setField('goblet_stat', e.target.value || null)}
-                    className="build-editor-select"
-                  >
-                    <option value="">—</option>
-                    {GOBLET_OPTIONS.map((s) => <option key={s} value={s}>{formatStatLabel(s)}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="build-editor-label">Coroa</label>
-                  <select
-                    value={build.circlet_stat ?? ''}
-                    onChange={(e) => setField('circlet_stat', e.target.value || null)}
-                    className="build-editor-select"
-                  >
-                    <option value="">—</option>
-                    {CIRCLET_OPTIONS.map((s) => <option key={s} value={s}>{formatStatLabel(s)}</option>)}
-                  </select>
-                </div>
+                {[
+                  { label: 'Ampulheta', field: 'sands_stat' as const, opts: SANDS_OPTIONS },
+                  { label: 'Cálice', field: 'goblet_stat' as const, opts: GOBLET_OPTIONS },
+                  { label: 'Coroa', field: 'circlet_stat' as const, opts: CIRCLET_OPTIONS },
+                ].map(({ label, field, opts }) => (
+                  <div key={field}>
+                    <label className="build-editor-label">{label}</label>
+                    <div className="build-tags">
+                      {build[field].map((val) => (
+                        <span key={val} className="build-tag">
+                          {formatStatLabel(val)}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const next = build[field].filter((v) => v !== val);
+                              setField(field, next);
+                            }}
+                          >✕</button>
+                        </span>
+                      ))}
+                    </div>
+                    <select
+                      value=""
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val && !build[field].includes(val)) {
+                          setField(field, [...build[field], val]);
+                        }
+                      }}
+                      className="build-editor-select"
+                    >
+                      <option value="">+ Adicionar stat...</option>
+                      {opts.filter((o) => !build[field].includes(o)).map((s) => (
+                        <option key={s} value={s}>{formatStatLabel(s)}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
               </div>
             </section>
 
@@ -558,6 +597,70 @@ export default function CharacterBuildEditor({
                 rows={3}
               />
             </section>
+          </>
+            )}
+            {activeTab === 'references' && (
+              <section className="build-editor-section">
+                <h3>Referências</h3>
+                <BuildReferencesEditor
+                  references={build.references}
+                  onChange={(refs) => setField('references', refs)}
+                />
+              </section>
+            )}
+            {activeTab === 'substitutes' && (
+              <section className="build-editor-section">
+                <h3>Substituições pro slot</h3>
+                <p className="build-editor-hint">
+                  Alternativas pra esse slot no time: outro personagem, ou a mesma personagem com build diferente.
+                </p>
+                <BuildSubstitutesEditor
+                  substitutes={build.substitutes}
+                  currentCharacterSlug={character.slug}
+                  onChange={(subs) => setField('substitutes', subs)}
+                />
+              </section>
+            )}
+            {activeTab === 'combos' && (
+              <section className="build-editor-section">
+                <h3>Combos / Rotação</h3>
+                <p className="build-editor-hint">
+                  Adicione os combos do guia (ex: tE N5Q N5D N5) ou a rotação do time.
+                </p>
+                <div className="combos-editor">
+                  {build.combos.length === 0 && (
+                    <p className="build-empty">Nenhum combo adicionado.</p>
+                  )}
+                  {build.combos.map((combo, i) => (
+                    <div key={i} className="combo-row">
+                      <input
+                        type="text"
+                        value={combo}
+                        onChange={(e) => {
+                          const next = [...build.combos];
+                          next[i] = e.target.value;
+                          setField('combos', next);
+                        }}
+                        className="build-editor-input"
+                        placeholder="Ex: tE N5Q N5D N5"
+                      />
+                      <button
+                        className="build-item-remove"
+                        onClick={() => setField('combos', build.combos.filter((_, idx) => idx !== i))}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    className="build-add-btn build-add-btn-block"
+                    onClick={() => setField('combos', [...build.combos, ''])}
+                  >
+                    + Adicionar combo
+                  </button>
+                </div>
+              </section>
+            )}
           </div>
 
           <div className="build-editor-footer">
