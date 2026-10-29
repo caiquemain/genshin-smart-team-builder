@@ -176,8 +176,8 @@ Meta:           GET /meta/enums
 ## 8. Em progresso / pendente
 
 - [x] Tooltips dos pickers (resolvido — era animation do CSS sobrescrevendo isPositioned)
-- [ ] Commit + push da sessão (ver §14)
-- [ ] Rodar psql com user correto (genshin) e preencher §9
+- [x] Commit + push da sessão (resolvido 2026-10-29 — commit eed34f0, origin/main)
+- [ ] Rodar psql com user correto (genshin) e preencher §9 (opcional, cosmético)
 
 ---
 
@@ -220,7 +220,7 @@ Contagens a preencher:
 3. CharacterBuild antigo (flat) é ignorado pelo extra='ignore' → times pré-migração voltam com weapons: [] (sem crash)
 4. Enums Postgres: sempre native_enum=False
 5. psql no container db: user é genshin, não postgres
-6. Commit desta sessão ainda não foi feito
+6. Feature de templates KQM e build editor foram commitados juntos em eed34f0 (templates estava no limbo antes)
 
 ---
 
@@ -245,18 +245,19 @@ Contagens a preencher:
 - Frontend rebuildado, healthy
 
 **Pendente imediato:**
-1. Commit + push desta sessão
-2. Rodar psql correto e preencher §9
+- Nenhum bloqueante — sessão fechada com commit eed34f0 em origin/main
 
 **Próximo passo (próxima sessão):**
-1. Confirmar que commit §14 foi feito
-2. Escolher roadmap A/B/C/D (sugestão: B primeiro)
+1. Escolher roadmap A/B/C/D (sugestão: B primeiro — fecha fluxo end-to-end do usuário)
+2. (Opcional) Rodar psql correto e preencher §9
 
 ---
 
 ## 14. Git — estado
 
 Branch: main
+
+**Commit desta sessão (feito):** `eed34f0 feat(templates+builds): KQM team templates system, visual weapon/artifact pickers, per-item build notes` (28 files, +4140/-223)
 
 Últimos commits antes desta sessão:
 
