@@ -189,7 +189,7 @@ async def fetch_weapon_ids(client: httpx.AsyncClient) -> list[int]:
 # Multiplicadores da curva de crescimento no nível 90.
 # Baseado no dataset do gcsim/genshin-optimizer + validação empírica contra armas com stats Lv.90 conhecidos.
 CURVE_M = {
-    "GROW_CURVE_CRITICAL_201": 4.5833,  # substats (4★) — HP%, ER, EM, Crit
+    "GROW_CURVE_CRITICAL_201": 4.5972,  # substats (4★) — HP%, ER, EM, Crit
     "GROW_CURVE_CRITICAL_301": 4.5972,  # substats (5★) — HP%, CritDMG, EM, ER
     "GROW_CURVE_ATTACK_101": 7.34,     # 3★ approx (Silver Sword, Cool Steel)
     "GROW_CURVE_ATTACK_102": 8.31,     # 3★ (Traveler's Handy Sword, Halberd)
