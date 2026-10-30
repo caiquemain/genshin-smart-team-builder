@@ -4,6 +4,7 @@ export interface SeelieCharacterGoal {
   current: { level: number; asc: number }
   goal: { level: number; asc: number }
   id: number
+  cons?: number
 }
 
 export interface SeelieTalentGoal {

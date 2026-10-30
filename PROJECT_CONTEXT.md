@@ -214,6 +214,8 @@ Contagens a preencher:
 - **Layout full-width condicional**: O componente `MainContent` em `App.tsx` usa `useLocation()` pra aplicar `container-wide` (max-width: 100%, 4 colunas) só em `/teams/:id`. Outras rotas mantêm `max-width: 1100px`.
 - **Fetch otimizado na TeamDetailPage**: Em vez de `GET /weapons?limit=200` (que falha por validação de teto), a página coleta os slugs em uso (`weapons`, `artifacts_4pc`, `artifacts_2pc`) e busca individualmente via `GET /weapons/{slug}` e `GET /artifacts/{slug}`.
 - **Schema retorno de arma**: O `WeaponDetail` no backend agora inclui `max_base_atk=w.max_base_atk` no construtor manual do endpoint `get_weapon` (estava faltando antes).
+- **Planner dividido em 2 rotas**: `/planner` (import + cálculo) e `/planner/characters` (cards). O `Plan` completo é serializado em `localStorage` após calcular pra evitar recalcular na navegação.
+- **Card de personagem extraído** para `components/PlannerCharacterCard.tsx` (reutilizável). Tipos compartilhados em `types/planner.ts`.
 - **Biblioteca de Ícones**: `lucide-react` instalada. Todos os emojis de UI foram trocados por SVGs.
 - **Animações CSS**: Uso extensivo de `@keyframes` para entrada em cascata (`slideUpFade`, `cardDeal`), hover transitions (`transform`, `box-shadow`) e pulsos (`pulseBorder`).
 - **Conic Gradient para Score**: O anel do score usa `conic-gradient` com uma variável CSS `--score` injetada via React.
@@ -307,6 +309,14 @@ Contagens a preencher:
 - Frontend: ícones oficiais dos elementos via CDN Yatta (UI_Buff_Element_Fire, Water, Electric, Ice, Wind, Rock, Grass)
 - Frontend: filtros em pill por tipo (Amplificadora, Transformativa, Dendro, Lunar, Stellar)
 
+**Feito (sessão atual):**
+- Planner reestruturado em 2 rotas (`/planner` + `/planner/characters`)
+- Criado `components/PlannerCharacterCard.tsx` com layout Genshin Track (portrait, talent bars, grid de materiais)
+- Criado `pages/PlannerCharactersPage.tsx` com filtro de elemento e link de volta
+- Tipos compartilhados em `types/planner.ts` (Plan, CharBreakdown, AggregateMaterial, TierGroup)
+- Adicionado `cons?: number` em `SeelieCharacterGoal` — C0 hardcoded → C{cons} real
+- Planner principal ganhou CTA 'Ver X personagens em detalhes' e save em localStorage
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -346,6 +356,14 @@ Contagens a preencher:
 - Frontend: ReactionsPage reescrita como tabela elegante (Reação | Elementos | Tipo | Efeito)
 - Frontend: ícones oficiais dos elementos via CDN Yatta (UI_Buff_Element_Fire, Water, Electric, Ice, Wind, Rock, Grass)
 - Frontend: filtros em pill por tipo (Amplificadora, Transformativa, Dendro, Lunar, Stellar)
+
+**Feito (sessão atual):**
+- Planner reestruturado em 2 rotas (`/planner` + `/planner/characters`)
+- Criado `components/PlannerCharacterCard.tsx` com layout Genshin Track (portrait, talent bars, grid de materiais)
+- Criado `pages/PlannerCharactersPage.tsx` com filtro de elemento e link de volta
+- Tipos compartilhados em `types/planner.ts` (Plan, CharBreakdown, AggregateMaterial, TierGroup)
+- Adicionado `cons?: number` em `SeelieCharacterGoal` — C0 hardcoded → C{cons} real
+- Planner principal ganhou CTA 'Ver X personagens em detalhes' e save em localStorage
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main

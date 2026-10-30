@@ -21,8 +21,18 @@ import type {
   SeelieTalentGoal,
   SeelieWeaponGoal,
 } from '../types/seelie'
+import { Calculator, Upload, Trash2, Zap, Coins, Users, Sword, FlaskConical, Flame, Droplets, Snowflake, Wind, Mountain, Leaf } from 'lucide-react'
 
 const STORAGE_KEY = 'gsb.planner.v4'
+
+const ELEMENT_COLORS: Record<string, string> = {
+  pyro: '#ff9c46', hydro: '#4cc2f1', electro: '#b398ff', cryo: '#93e2ff',
+  anemo: '#73ffd0', geo: '#f2c869', dendro: '#a5c83b',
+}
+const ELEMENT_ICONS: Record<string, any> = {
+  pyro: Flame, hydro: Droplets, electro: Zap, cryo: Snowflake,
+  anemo: Wind, geo: Mountain, dendro: Leaf,
+}
 
 const SLUG_ALIASES: Record<string, string> = {
   'shogun': 'raiden-shogun',
@@ -189,6 +199,14 @@ function MaterialCard({ material, have }: { material: AggregateMaterial; have: n
   )
 }
 
+// ============================================================
+// COMPONENTES: Card por personagem (estilo Genshin Track)
+// ============================================================
+
+
+
+
+
 export default function PlannerPage() {
   const { lang } = useLanguage()
   const [seelieData, setSeelieData] = useState<SeelieData | null>(null)
@@ -198,6 +216,7 @@ export default function PlannerPage() {
   const [chars, setChars] = useState<Map<string, CharacterSummary>>(new Map())
   const [weapons, setWeapons] = useState<Map<string, WeaponSummary>>(new Map())
   const [currentResin, setCurrentResin] = useState(200)
+  const [elementFilter, setElementFilter] = useState('')
 
   useEffect(() => {
     Promise.all([
@@ -501,6 +520,7 @@ export default function PlannerPage() {
         materials_partial: materialsPartial,
       }
       setPlan(finalPlan)
+      try { localStorage.setItem('gsb.planner.plan', JSON.stringify(finalPlan)) } catch {}
     } catch (err) {
       setError(String(err))
     } finally {
@@ -683,55 +703,14 @@ export default function PlannerPage() {
             </details>
           ))}
 
-          <h2>Por personagem ({plan.chars.length})</h2>
-          <div className="planner-chars">
-            {plan.chars.map((c) => {
-              const img = iconUrl(c.icon)
-              const mora = (c.ascension?.total_mora ?? 0) +
-                (c.talents?.grand_total_mora ?? 0) +
-                c.weapons.reduce((s, w) => s + (w.cost?.total_mora ?? 0), 0)
-              return (
-                <div key={c.slug} className="planner-char-block">
-                  <Link to={`/characters/${c.slug}`} className="planner-char">
-                    <div className="planner-char-icon">
-                      {img ? <img src={img} alt={c.name} /> : <span>?</span>}
-                    </div>
-                    <div className="planner-char-info">
-                      <div className="planner-char-name">{c.name}</div>
-                      {c.char_goal && <div className="planner-char-meta">Nv. {c.char_goal.current.level} → {c.char_goal.goal.level}</div>}
-                      {c.talent_goal && (
-                        <div className="planner-char-meta">
-                          Tal. {c.talent_goal.normal.current}/{c.talent_goal.skill.current}/{c.talent_goal.burst.current} → {c.talent_goal.normal.goal}/{c.talent_goal.skill.goal}/{c.talent_goal.burst.goal}
-                        </div>
-                      )}
-                      <div className="planner-char-cost">{mora > 0 ? `${formatResin(mora)} Mora` : 'sem upgrade'}</div>
-                    </div>
-                  </Link>
-                  {c.weapons.length > 0 && (
-                    <div className="planner-weapons">
-                      {c.weapons.map((w) => {
-                        const wImg = iconUrl(w.icon)
-                        const wMora = w.cost?.total_mora ?? 0
-                        return (
-                          <Link key={w.slug} to={`/weapons/${w.slug}`} className="planner-weapon-mini">
-                            <div className="planner-weapon-mini-icon">
-                              {wImg ? <img src={wImg} alt={w.name} /> : <span>?</span>}
-                            </div>
-                            <div className="planner-weapon-mini-info">
-                              <div className="planner-weapon-mini-name">{w.name}</div>
-                              <div className="planner-weapon-mini-meta">
-                                Nv. {w.from_level} → {w.to_level} · {formatResin(wMora)} Mora
-                              </div>
-                            </div>
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+          <a href="/planner/characters" className="planner-view-chars-cta">
+            <div className="planner-view-chars-icon">📋</div>
+            <div className="planner-view-chars-text">
+              <div className="planner-view-chars-title">Ver {plan.chars.length} personagens em detalhes</div>
+              <div className="planner-view-chars-desc">Cards com portrait, talentos, materiais e dias de farm por personagem</div>
+            </div>
+            <div className="planner-view-chars-arrow">→</div>
+          </a>
         </>
       )}
     </div>
