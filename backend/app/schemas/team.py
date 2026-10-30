@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, Field
 from .character import CharacterSummary
 from .build import CharacterBuild, Substitute
@@ -17,6 +18,25 @@ class TeamMemberOut(BaseModel):
     substitutes: list[Substitute] = []
 
 
+class TeamTierChar(BaseModel):
+    slug: str
+    name: str
+    tier: Optional[str] = None
+    value: Optional[int] = None
+
+
+class TeamTierInfo(BaseModel):
+    tier: Optional[str] = None
+    value: float = 0.0
+    filled: int = 0
+    missing: int = 0
+    char_tiers: list[TeamTierChar] = []
+
+
+class TeamPreviewTierPayload(BaseModel):
+    character_slugs: list[str]
+
+
 class TeamDetail(BaseModel):
     id: int
     name: str
@@ -26,6 +46,7 @@ class TeamDetail(BaseModel):
     members: list[TeamMemberOut]
 
 
+    team_tier: Optional[TeamTierInfo] = None
 class TeamListResponse(BaseModel):
     items: list[TeamDetail]
 

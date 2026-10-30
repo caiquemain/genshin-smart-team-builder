@@ -9,6 +9,7 @@ import SubstitutePickerModal from '../components/SubstitutePickerModal'
 import CharacterPickerModal from '../components/CharacterPickerModal'
 import CharacterBuildEditor from '../components/CharacterBuildEditor'
 import WeaponTooltip from '../components/WeaponTooltip'
+import TeamTierBadge from '../components/TeamTierBadge'
 import ArtifactTooltip from '../components/ArtifactTooltip'
 import type {
   TeamDetail, TeamAnalysisResponse, CharacterSummary,
@@ -101,7 +102,16 @@ export default function TeamDetailPage() {
     <div className="team-detail-page" data-element={mainElement}>
       <div className="team-detail-header">
         <Link to="/teams" className="team-detail-back">← Voltar para times</Link>
-        <h1 className="team-detail-title">{team.name}</h1>
+        <h1 className="team-detail-title">
+          {team.name}
+          <span style={{
+            marginLeft: 16,
+            verticalAlign: 'middle',
+            display: 'inline-block',
+          }}>
+            <TeamTierBadge teamTier={team.team_tier} size="lg" />
+          </span>
+        </h1>
         {team.description && <p className="team-detail-desc">{team.description}</p>}
         {team.author_name && <p className="team-detail-author">Por {team.author_name}</p>}
       </div>

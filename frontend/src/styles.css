@@ -10359,3 +10359,138 @@ body:has(.tierlist-page) .container {
   max-width: 100%;
   display: block;
 }
+
+/* ============================================================
+   TEAM TIER BADGE + TOOLTIP
+   ============================================================ */
+.team-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  border: 1.5px solid;
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+  user-select: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+.team-tier-badge:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.team-tier-badge--sm {
+  padding: 3px 8px;
+  font-size: 13px;
+  min-width: 32px;
+}
+.team-tier-badge--lg {
+  padding: 8px 18px;
+  font-size: 26px;
+  min-width: 64px;
+  border-radius: 12px;
+  line-height: 1;
+}
+.team-tier-badge--empty {
+  background: rgba(148, 163, 184, 0.08);
+  color: #64748b;
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+/* Tooltip */
+.team-tier-tooltip {
+  min-width: 240px;
+  max-width: 320px;
+  background-color: #0f1218;
+  background-image: linear-gradient(145deg, #1a1f2e, #0f1218);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+  color: #e8ecf2;
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 20000 !important;
+  transition: opacity 120ms ease-out;
+  pointer-events: auto;
+  isolation: isolate;
+}
+.team-tier-tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.team-tier-tooltip-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.team-tier-tooltip-tier {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-weight: 900;
+  font-size: 18px;
+  border: 1.5px solid;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.team-tier-tooltip-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.team-tier-tooltip-warn {
+  font-size: 11px;
+  color: #fbbf24;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  background: rgba(251, 191, 36, 0.08);
+  border-radius: 5px;
+}
+.team-tier-tooltip-chars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.team-tier-tooltip-char {
+  display: grid;
+  grid-template-columns: 1fr 40px 28px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+.team-tier-tooltip-char-name {
+  color: #cbd5e1;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.team-tier-tooltip-char-pill {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  border: 1px solid;
+  font-variant-numeric: tabular-nums;
+}
+.team-tier-tooltip-char-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #94a3b8;
+  font-weight: 700;
+}

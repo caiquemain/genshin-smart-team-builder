@@ -152,6 +152,21 @@ export interface TeamMember {
   character: CharacterSummary
 }
 
+export interface TeamTierChar {
+  slug: string
+  name: string
+  tier: string | null
+  value: number | null
+}
+
+export interface TeamTierInfo {
+  tier: string | null
+  value: number
+  filled: number
+  missing: number
+  char_tiers: TeamTierChar[]
+}
+
 export interface TeamDetail {
   id: number
   name: string
@@ -159,6 +174,7 @@ export interface TeamDetail {
   author_name: string | null
   is_public: boolean
   members: TeamMemberWithBuild[]
+  team_tier: TeamTierInfo | null
 }
 
 export interface TeamListResponse {

@@ -5,6 +5,7 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
+import TeamTierBadge from '../components/TeamTierBadge'
 import type { TeamDetail, TeamTemplateSummary, CharacterSummary } from '../types'
 
 const ARCHETYPE_ORDER = [
@@ -144,7 +145,12 @@ export default function TeamsPage() {
               <Link key={t.id} to={`/teams/${t.id}`} className="team-card" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div className="team-card-header">
                   <div>
-                    <h3>{t.name}</h3>
+                    <h3>
+                      {t.name}
+                      <span style={{ marginLeft: 10, verticalAlign: 'middle' }}>
+                        <TeamTierBadge teamTier={t.team_tier} size="sm" />
+                      </span>
+                    </h3>
                     {t.author_name && <p className="team-author">por {t.author_name}</p>}
                   </div>
                   <button

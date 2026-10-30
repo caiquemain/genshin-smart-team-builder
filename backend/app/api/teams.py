@@ -3,13 +3,17 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..models import CharacterBuildPreset,  Character, Team, TeamCharacter, Language
-from ..schemas.team import TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse, TeamMembersUpdate
+from ..schemas.team import (
+    TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse,
+    TeamMembersUpdate, TeamTierInfo, TeamTierChar, TeamPreviewTierPayload,
+)
 from ..schemas.build import CharacterBuild, TeamBuildsUpdate, Substitute
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
 from ..services.synergy import analyze_team
 from ..schemas.team_analysis import TeamAnalysisRequest, TeamAnalysisResponse
 from .deps import get_language
+from ..services.team_tier import fetch_char_tiers_batch, fetch_char_tiers_slugs, compute_team_tier
 
 router = APIRouter(prefix="/teams", tags=["teams"])
 
@@ -40,6 +44,18 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
             build=build,
             substitutes=tc.substitutes or [],
         ))
+    tier_map = fetch_char_tiers_batch(db, [team.id])
+    team_tier_data = tier_map.get(team.id)
+    team_tier = (
+        TeamTierInfo(
+            tier=team_tier_data["tier"],
+            value=team_tier_data["value"],
+            filled=team_tier_data["filled"],
+            missing=team_tier_data["missing"],
+            char_tiers=[TeamTierChar(**c) for c in team_tier_data["char_tiers"]],
+        )
+        if team_tier_data else None
+    )
     return TeamDetail(
         id=team.id,
         name=team.name,
@@ -47,6 +63,7 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
         author_name=team.author_name,
         is_public=team.is_public,
         members=member_out,
+        team_tier=team_tier,
     )
 
 
@@ -229,3 +246,25 @@ def update_slot_substitutes(
     db.commit()
     db.refresh(tc.team)
     return _build_detail(db, tc.team, lang)
+
+
+# ============================================================
+# TEAM TIER — preview (usado pelo TeamBuilderPage em tempo real)
+# ============================================================
+
+@router.post("/preview-tier", response_model=TeamTierInfo)
+def preview_tier(
+    payload: TeamPreviewTierPayload,
+    db: Session = Depends(get_db),
+) -> TeamTierInfo:
+    """Preview do tier do time sem persistir (TeamBuilder antes de salvar)."""
+    if not payload.character_slugs:
+        return TeamTierInfo()
+    data = fetch_char_tiers_slugs(db, payload.character_slugs)
+    return TeamTierInfo(
+        tier=data["tier"],
+        value=data["value"],
+        filled=data["filled"],
+        missing=data["missing"],
+        char_tiers=[TeamTierChar(**c) for c in data["char_tiers"]],
+    )
