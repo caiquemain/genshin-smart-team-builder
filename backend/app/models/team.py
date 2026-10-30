@@ -34,6 +34,8 @@ class TeamCharacter(Base):
     )
     position = Column(Integer, nullable=False)
     build_data = Column(JSONB)
+    preset_id = Column(Integer, ForeignKey("character_build_presets.id", ondelete="SET NULL"), nullable=True)
+    substitutes = Column(JSONB, nullable=True)
 
     team = relationship("Team", back_populates="members")
     character = relationship("Character", back_populates="team_links")

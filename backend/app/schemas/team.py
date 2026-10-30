@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from .character import CharacterSummary
-from .build import CharacterBuild
+from .build import CharacterBuild, Substitute
 
 
 class TeamCreate(BaseModel):
@@ -14,6 +14,7 @@ class TeamMemberOut(BaseModel):
     position: int
     character: CharacterSummary
     build: CharacterBuild | None = None
+    substitutes: list[Substitute] = []
 
 
 class TeamDetail(BaseModel):
@@ -27,3 +28,7 @@ class TeamDetail(BaseModel):
 
 class TeamListResponse(BaseModel):
     items: list[TeamDetail]
+
+
+class TeamMembersUpdate(BaseModel):
+    character_slugs: list[str]

@@ -352,6 +352,7 @@ export interface TeamBuildsUpdate {
 // Estende TeamMember com build
 export interface TeamMemberWithBuild extends TeamMember {
   build: CharacterBuild | null
+  substitutes: Substitute[]
 }
 
 
@@ -364,4 +365,12 @@ export interface Substitute {
   character_slug: string | null
   build_label: string | null
   notes: string | null
+}
+
+
+export interface BuildPreset {
+  id: number
+  character_slug: string
+  name: string
+  build_data: CharacterBuild
 }

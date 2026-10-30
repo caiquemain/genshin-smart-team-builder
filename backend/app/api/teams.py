@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import Character, Team, TeamCharacter, Language
-from ..schemas.team import TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse
-from ..schemas.build import CharacterBuild, TeamBuildsUpdate
+from ..models import CharacterBuildPreset,  Character, Team, TeamCharacter, Language
+from ..schemas.team import TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse, TeamMembersUpdate
+from ..schemas.build import CharacterBuild, TeamBuildsUpdate, Substitute
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
 from ..services.synergy import analyze_team
@@ -38,6 +38,7 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
                 region=char.region,
             ),
             build=build,
+            substitutes=tc.substitutes or [],
         ))
     return TeamDetail(
         id=team.id,
@@ -148,7 +149,83 @@ def update_team_builds(
         )
         if tc:
             tc.build_data = build.model_dump() if build else None
+            if position in payload.preset_ids:
+                tc.preset_id = payload.preset_ids[position]
+            else:
+                tc.preset_id = None
 
     db.commit()
     db.refresh(team)
     return _build_detail(db, team, lang)
+
+
+@router.put("/{team_id}/members", response_model=TeamDetail)
+def update_team_members(
+    team_id: int,
+    payload: TeamMembersUpdate,
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+) -> TeamDetail:
+    team = db.query(Team).filter(Team.id == team_id).one_or_none()
+    if not team:
+        raise HTTPException(404, detail="Team not found")
+
+    # Move todas as posições atuais pra valores temporários negativos (segurança da constraint)
+    current_by_pos = {tc.position: tc for tc in team.members}
+    for tc in team.members:
+        tc.position = -abs(tc.position) - 100
+    db.flush()
+
+    # Reconstrói os slots baseado na lista de slugs
+    for i, slug in enumerate(payload.character_slugs):
+        pos = i + 1
+        tc = current_by_pos.get(pos)
+        char = db.query(Character).filter(Character.slug == slug).one_or_none()
+        if not char:
+            raise HTTPException(404, detail=f"Character {slug} not found")
+
+        if tc:
+            # O slot já existe. Apenas trocamos o personagem e mantemos os substitutos!
+            if tc.character_id != char.id:
+                tc.character_id = char.id
+                preset = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).first()
+                tc.build_data = preset.build_data if preset else None
+            tc.position = pos
+        else:
+            # Cria um slot novo
+            tc = TeamCharacter(team_id=team_id, character_id=char.id, position=pos)
+            preset = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).first()
+            if preset:
+                tc.build_data = preset.build_data
+            db.add(tc)
+
+    # Deleta slots que sobraram se a lista for menor que o time atual
+    for pos, tc in current_by_pos.items():
+        if pos > len(payload.character_slugs):
+            db.delete(tc)
+
+    db.commit()
+    db.refresh(team)
+    return _build_detail(db, team, lang)
+
+
+@router.put("/{team_id}/slots/{position}/substitutes", response_model=TeamDetail)
+def update_slot_substitutes(
+    team_id: int,
+    position: int,
+    payload: list[Substitute],
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+) -> TeamDetail:
+    tc = (
+        db.query(TeamCharacter)
+        .filter(TeamCharacter.team_id == team_id, TeamCharacter.position == position)
+        .one_or_none()
+    )
+    if not tc:
+        raise HTTPException(404, detail="Slot not found")
+    
+    tc.substitutes = [s.model_dump() for s in payload]
+    db.commit()
+    db.refresh(tc.team)
+    return _build_detail(db, tc.team, lang)

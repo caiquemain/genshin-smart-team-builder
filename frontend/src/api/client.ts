@@ -1,4 +1,4 @@
-import type {
+import type { Substitute, BuildPreset,
   AscensionCost,
   CharacterBuild,
   TeamTemplateListResponse,
@@ -94,6 +94,36 @@ export const api = {
   deleteTeam: (id: number) =>
     fetch(`${API_URL}/teams/${id}`, { method: 'DELETE' }).then((r) => {
       if (!r.ok) throw new Error(`API ${r.status}`)
+    }),
+  listPresets: (characterSlug: string) => request<BuildPreset[]>(`/presets/${characterSlug}`),
+  createPreset: (payload: { character_slug: string, name: string, build_data: CharacterBuild }) =>
+    fetch(`${API_URL}/presets`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then((r) => {
+      if (!r.ok) throw new Error(`API ${r.status}`)
+      return r.json() as Promise<BuildPreset>
+    }),
+  deletePreset: (presetId: number) =>
+    fetch(`${API_URL}/presets/${presetId}`, { method: 'DELETE' }).then((r) => { if (!r.ok) throw new Error('Err') }),
+  updateSlotSubstitutes: (teamId: number, position: number, substitutes: Substitute[], lang: LanguageCode) =>
+    fetch(`${API_URL}/teams/${teamId}/slots/${position}/substitutes?lang=${lang}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(substitutes),
+    }).then((r) => {
+      if (!r.ok) throw new Error(`API ${r.status}`)
+      return r.json() as Promise<TeamDetail>
+    }),
+  updateTeamMembers: (teamId: number, characterSlugs: string[], lang: LanguageCode) =>
+    fetch(`${API_URL}/teams/${teamId}/members?lang=${lang}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ character_slugs: characterSlugs }),
+    }).then((r) => {
+      if (!r.ok) throw new Error(`API ${r.status}`)
+      return r.json() as Promise<TeamDetail>
     }),
   updateTeamBuilds: (teamId: number, builds: Record<number, CharacterBuild>, lang: LanguageCode) =>
     fetch(`${API_URL}/teams/${teamId}/builds?lang=${lang}`, {

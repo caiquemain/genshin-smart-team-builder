@@ -4801,3 +4801,352 @@ details.planner-notmapped[open] > summary {
 .combo-row input {
   font-family: monospace;
 }
+
+/* ============================================================
+   TEAM DETAIL PAGE
+   ============================================================ */
+.team-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+.team-detail-back {
+  display: inline-block;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.team-detail-back:hover { color: #7dd3fc; }
+.team-detail-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #e8ecf2;
+  margin: 0 0 8px;
+}
+.team-detail-desc {
+  color: #cbd5e1;
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+.team-detail-author {
+  color: #94a3b8;
+  font-size: 12px;
+  margin: 0 0 24px;
+}
+
+.team-detail-analysis {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+.team-score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(125, 211, 252, 0.1));
+  border: 2px solid rgba(74, 222, 128, 0.5);
+  flex-shrink: 0;
+}
+.score-value { font-size: 28px; font-weight: 800; color: #4ade80; line-height: 1; }
+.score-label { font-size: 11px; color: #94a3b8; }
+.analysis-content { flex: 1; }
+.analysis-group h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #7dd3fc;
+  margin: 0 0 8px;
+  letter-spacing: 0.5px;
+}
+.analysis-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.analysis-tag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+.analysis-tag.reaction {
+  background: rgba(224, 166, 71, 0.1);
+  border-color: rgba(224, 166, 71, 0.3);
+  color: #e0a647;
+}
+.analysis-warnings {
+  margin: 0;
+  padding-left: 20px;
+  color: #f87171;
+  font-size: 13px;
+}
+
+.team-detail-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+}
+.member-build-card {
+  background: #131820;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.member-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+.member-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.member-avatar img { width: 100%; height: 100%; object-fit: contain; }
+.member-avatar.rarity-5 { border: 2px solid rgba(224, 166, 71, 0.5); }
+.member-avatar.rarity-4 { border: 2px solid rgba(163, 91, 216, 0.5); }
+.member-info h3 { margin: 0 0 4px; font-size: 18px; color: #e8ecf2; }
+.member-meta { font-size: 12px; color: #94a3b8; text-transform: capitalize; }
+
+.member-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.build-section h4 {
+  font-size: 12px;
+  color: #e0a647;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.build-item-read {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.build-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.build-item-text { flex: 1; }
+.build-item-name { font-size: 13px; font-weight: 600; color: #e8ecf2; }
+.build-item-notes { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+.build-stats-read {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+.build-stats-read span { color: #94a3b8; font-weight: 600; }
+.build-extras-read {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #cbd5e1;
+  display: flex;
+  gap: 16px;
+}
+
+.build-accordions {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.build-accordion {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.build-accordion summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7dd3fc;
+}
+.accordion-list { margin: 8px 0 0; padding-left: 20px; font-size: 13px; color: #cbd5e1; }
+.accordion-list li { margin-bottom: 4px; }
+.accordion-list a { color: #e0a647; text-decoration: none; }
+.accordion-list a:hover { text-decoration: underline; }
+.accordion-list code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+.sub-notes { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+/* ============================================================
+   FIX VISUAL: Team Detail Page
+   ============================================================ */
+
+/* Impede que cards vazios estiquem verticalmente */
+.team-detail-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+/* Melhora visual do card do personagem */
+.member-build-card {
+  background: linear-gradient(180deg, #1a202c 0%, #131820 100%);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.member-build-card:hover {
+  border-color: rgba(125, 211, 252, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Melhora o header do card */
+.member-card-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  margin: -16px -16px 16px -16px;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Melhora a seção de análise */
+.team-detail-analysis {
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.08) 0%, rgba(19, 24, 32, 0.8) 100%);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-left: 4px solid #4ade80;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.team-score-badge {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+/* Melhora os accordions */
+.build-accordion {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.15s;
+}
+.build-accordion:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.build-accordion summary {
+  padding: 8px 0;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Seta customizada para o summary */
+.build-accordion summary::before {
+  content: '▶';
+  font-size: 10px;
+  color: #7dd3fc;
+  transition: transform 0.2s;
+}
+.build-accordion[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Esconde o marcador padrão do summary */
+.build-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.badge-main-dps {
+  background: rgba(224, 166, 71, 0.15);
+  color: #e0a647;
+  border: 1px solid rgba(224, 166, 71, 0.4);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Preset Actions Bar */
+.preset-actions-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.preset-actions-bar select {
+  flex: 1;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #7dd3fc;
+  font-weight: 600;
+}
+.preset-actions-bar button {
+  white-space: nowrap;
+}
+
+/* Substitute Picker Modal List */
+.substitute-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.substitute-card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  padding: 16px;
+}
+.substitute-card-header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.substitute-card-info {
+  flex: 1;
+}
+.substitute-card-notes {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 6px 0 0;
+  line-height: 1.5;
+}
+.badge-build-label {
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.picker-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+}
+
+.build-empty:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8ecf2;
+}

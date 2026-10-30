@@ -61,3 +61,4 @@ class CharacterBuild(BaseModel):
 
 class TeamBuildsUpdate(BaseModel):
     builds: dict[int, CharacterBuild] = Field(default_factory=dict)
+    preset_ids: dict[int, int] = Field(default_factory=dict)

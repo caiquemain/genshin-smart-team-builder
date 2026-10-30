@@ -37,3 +37,5 @@ __all__ = [
     "ArtifactSet", "ArtifactSetTranslation", "Material", "MaterialTranslation", "ElementalReaction",
     "Team", "TeamCharacter", "TeamTemplate", "Guide",
 ]
+
+from .build_preset import CharacterBuildPreset

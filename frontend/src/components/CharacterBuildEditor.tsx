@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
+import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
 import { formatStatLabel } from '../utils/stats'
 import WeaponPickerModal from './WeaponPickerModal'
 import ArtifactPickerModal from './ArtifactPickerModal'
 import BuildReferencesEditor from './BuildReferencesEditor'
-import BuildSubstitutesEditor from './BuildSubstitutesEditor'
 import type {
   CharacterBuild, CharacterSummary, WeaponSummary, ArtifactSetSummary,
-  WeaponSlot, ArtifactSlot, ArtifactPair, BuildReference, Substitute,
+  WeaponSlot, ArtifactSlot, ArtifactPair, BuildReference, Substitute, BuildPreset,
 } from '../types'
 
 const SANDS_OPTIONS = ['hp_pct', 'atk_pct', 'def_pct', 'em', 'er']
@@ -66,7 +66,9 @@ export default function CharacterBuildEditor({
   const [weapons, setWeapons] = useState<WeaponSummary[]>([])
   const [artifacts, setArtifacts] = useState<ArtifactSetSummary[]>([])
   const [picker, setPicker] = useState<Picker | null>(null)
-  const [activeTab, setActiveTab] = useState<'build' | 'references' | 'substitutes' | 'combos'>('build')
+  const [activeTab, setActiveTab] = useState<'build' | 'references' | 'combos'>('build')
+  const [presets, setPresets] = useState<BuildPreset[]>([])
+  const [isSavingPreset, setIsSavingPreset] = useState(false)
   const [newSubstat, setNewSubstat] = useState('atk_pct')
   const [editingNotes, setEditingNotes] = useState<string | null>(null)
   const [artifactMode, setArtifactMode] = useState<'4pc' | '2+2'>(
@@ -75,12 +77,13 @@ export default function CharacterBuildEditor({
 
   // Carregar weapons/artifacts pra resolver nomes/ícones
   useEffect(() => {
-    import('../api/client').then(({ api }) => {
+    // O api já está importado no topo
       api.listWeapons(lang, { weapon_type: character.weapon_type, limit: 200 })
         .then((d) => setWeapons(d.items)).catch(() => {})
       api.listArtifacts(lang, { rarity: 5, limit: 200 })
         .then((d) => setArtifacts(d.items)).catch(() => {})
-    })
+      api.listPresets(character.slug)
+        .then(setPresets).catch(() => {})
   }, [lang, character.weapon_type])
 
   // ESC fecha o modal principal (se não tem picker aberto)
@@ -405,12 +408,6 @@ export default function CharacterBuildEditor({
                 Referências {build.references.length > 0 && <span className="tab-count">{build.references.length}</span>}
               </button>
               <button
-                className={`build-editor-tab ${activeTab === 'substitutes' ? 'active' : ''}`}
-                onClick={() => setActiveTab('substitutes')}
-              >
-                Substituições {build.substitutes.length > 0 && <span className="tab-count">{build.substitutes.length}</span>}
-              </button>
-              <button
                 className={`build-editor-tab ${activeTab === 'combos' ? 'active' : ''}`}
                 onClick={() => setActiveTab('combos')}
               >
@@ -419,6 +416,44 @@ export default function CharacterBuildEditor({
             </div>
             {activeTab === 'build' && (
             <>
+            <div className="preset-actions-bar">
+              <select
+                className="build-editor-select"
+                onChange={(e) => {
+                  const preset = presets.find(p => p.id === Number(e.target.value))
+                  if (preset) setBuild(preset.build_data)
+                }}
+              >
+                <option value="">📚 Carregar da biblioteca...</option>
+                {presets.map(p => (
+                  <option key={p.id} value={p.id}>{p.name}</option>
+                ))}
+              </select>
+              <button
+                className="btn-secondary"
+                onClick={async () => {
+                  const name = prompt("Nome do preset (ex: BIS Freeze, F2P):")
+                  if (!name) return
+                  setIsSavingPreset(true)
+                  try {
+                    const newPreset = await api.createPreset({
+                      character_slug: character.slug,
+                      name,
+                      build_data: build
+                    })
+                    setPresets([...presets, newPreset])
+                    alert("Preset salvo!")
+                  } catch (err) {
+                    alert("Erro ao salvar preset.")
+                  } finally {
+                    setIsSavingPreset(false)
+                  }
+                }}
+                disabled={isSavingPreset}
+              >
+                💾 Salvar como Preset
+              </button>
+            </div>
             {/* === Armas === */}
             <section className="build-editor-section">
               <div className="build-section-header">
@@ -608,19 +643,7 @@ export default function CharacterBuildEditor({
                 />
               </section>
             )}
-            {activeTab === 'substitutes' && (
-              <section className="build-editor-section">
-                <h3>Substituições pro slot</h3>
-                <p className="build-editor-hint">
-                  Alternativas pra esse slot no time: outro personagem, ou a mesma personagem com build diferente.
-                </p>
-                <BuildSubstitutesEditor
-                  substitutes={build.substitutes}
-                  currentCharacterSlug={character.slug}
-                  onChange={(subs) => setField('substitutes', subs)}
-                />
-              </section>
-            )}
+            
             {activeTab === 'combos' && (
               <section className="build-editor-section">
                 <h3>Combos / Rotação</h3>

@@ -207,7 +207,10 @@ Contagens a preencher:
 
 - build_data é JSONB → schemas novos são backward-compatible (Pydantic extra='ignore')
 - Enums Postgres: sempre native_enum=False (evita conflito em migrations)
-- Main Stats no `CharacterBuild` são `list[str]` (ex: Cálice pode ter Cryo DMG e ATK%). Usa `field_validator(mode='before')` para converter dados antigos (string) em lista, evitando quebrar times já salvos.
+- Main Stats no `CharacterBuild` são `list[str]` (ex: Cálice pode ter Cryo DMG e ATK%). Usa `field_validator(mode='before')` para converter dados antigos (string) em lista.
+- **Slots vs Builds**: A Build é do Personagem (`CharacterBuildPreset`). Os Substitutos são do Slot do Time (`TeamCharacter.substitutes` JSONB). Trocar de personagem preserva o Slot e seus substitutos.
+- **Proteção de UniqueConstraint**: O endpoint `PUT /members` usa posições temporárias negativas (`-pos - 100`) antes de deletar/inserir, evitando erros de duplicidade.
+- **Auto-Preset**: Ao trocar o personagem de um slot, o backend busca o preset mais recente (`CharacterBuildPreset`) daquele char e aplica automaticamente no slot.
 - i18n via LanguageContext (pt/en)
 - Tooltips usam FloatingPortal (renderiza no document.body) — não afetados por backdrop-filter dos modais
 - isPositioned é OBRIGATÓRIO em todo tooltip: aplica opacity:0 inline até o Floating UI calcular posição (evita flash no 0,0)
@@ -242,6 +245,11 @@ Contagens a preencher:
 - Schema CharacterBuild migrado: weapons[], artifacts_4pc[], artifacts_2pc[] (pares), cada slot com notes
 - Adicionado abas: Referências, Substituições e Combos
 - Main Stats alterado para multi-select (lista de strings) com retrocompatibilidade
+- Criada a página `/teams/:id` (TeamDetailPage) com renderização de builds completas
+- Sistema de troca de personagens via `CharacterPickerModal`
+- Sistema de Presets (`character_build_presets`) para salvar e recarregar builds
+- Sistema de Substitutos por Slot (`TeamCharacter.substitutes` JSONB)
+- Modal visual `SubstitutePickerModal` com notas curadas da KQM
 - WeaponPickerModal.tsx + ArtifactPickerModal.tsx (grid visual, busca, ESC, tooltip)
 - CharacterBuildEditor.tsx reescrito integrando pickers + notas inline + toggle 4pc/2+2
 - CSS novo: picker-*, build-item-*, build-pair-*, build-mode-*
@@ -250,7 +258,7 @@ Contagens a preencher:
 - Frontend rebuildado, healthy
 
 **Pendente imediato:**
-- Nenhum bloqueante — sessão fechada com commit eed34f0 em origin/main
+- Nenhum bloqueante. Sessão concluída com sucesso. — sessão fechada com commit eed34f0 em origin/main
 
 **Próximo passo (próxima sessão):**
 1. Escolher roadmap A/B/C/D (sugestão: B primeiro — fecha fluxo end-to-end do usuário)

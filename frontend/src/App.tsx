@@ -11,6 +11,7 @@ import ArtifactsPage from './pages/ArtifactsPage'
 import ArtifactDetailPage from './pages/ArtifactDetailPage'
 import WeaponDetailPage from './pages/WeaponDetailPage'
 import TeamBuilderPage from './pages/TeamBuilderPage'
+import TeamDetailPage from './pages/TeamDetailPage'
 import TemplateDetailPage from './pages/TemplateDetailPage'
 import PlannerPage from './pages/PlannerPage'
 import './styles.css'
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/artifacts/:slug" element={<ArtifactDetailPage />} />
             <Route path="/teams" element={<TeamsPage />} />
             <Route path="/teams/new" element={<TeamBuilderPage />} />
+            <Route path="/teams/:id" element={<TeamDetailPage />} />
             <Route path="/teams/templates/:id" element={<TemplateDetailPage />} />
             <Route path="/planner" element={<PlannerPage />} />
             <Route path="/reactions" element={<ReactionsPage />} />
