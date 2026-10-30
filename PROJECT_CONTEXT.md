@@ -291,6 +291,13 @@ Contagens a preencher:
 - Preview do bônus 2pc no card (hover expande pra 2pc + 4pc)
 - Ícone de Sparkles na contagem de resultados
 
+**Feito (sessão atual):**
+- TeamsPage reorganizada: Meus Times em primeiro, templates KQM embaixo
+- Cards de time com glassmorphism, hover elevado, linha de acento azul e botão de lixeira Lucide
+- Card inteiro é `<Link>` pra `/teams/:id` (com preventDefault no delete)
+- Botão '+ Novo Time' com gradiente e ícone Plus
+- Empty state elegante quando não há times
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -314,6 +321,13 @@ Contagens a preencher:
 - Cards com glassmorphism, glow da raridade (5★ dourado, 4★ roxo, 3★ azul) e animação em cascata
 - Preview do bônus 2pc no card (hover expande pra 2pc + 4pc)
 - Ícone de Sparkles na contagem de resultados
+
+**Feito (sessão atual):**
+- TeamsPage reorganizada: Meus Times em primeiro, templates KQM embaixo
+- Cards de time com glassmorphism, hover elevado, linha de acento azul e botão de lixeira Lucide
+- Card inteiro é `<Link>` pra `/teams/:id` (com preventDefault no delete)
+- Botão '+ Novo Time' com gradiente e ícone Plus
+- Empty state elegante quando não há times
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Trash2, ArrowRight, Plus, Swords, Users } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
@@ -54,8 +55,8 @@ function TeamTemplateCard({
         <Link to={`/teams/templates/${template.id}`} className="btn-secondary">
           Detalhes
         </Link>
-        <Link to={`/teams/new?template_id=${template.id}`} className="btn-primary">
-          Usar →
+        <Link to={`/teams/new?template_id=${template.id}`} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          Usar <ArrowRight size={14} />
         </Link>
       </div>
       {template.source_url && (
@@ -121,10 +122,61 @@ export default function TeamsPage() {
     <div>
       <div className="page-header">
         <h1>Times</h1>
-        <Link to="/teams/new" className="btn-primary">+ Novo time</Link>
+        <Link to="/teams/new" className="btn-primary btn-new-team"><Plus size={18} /> Novo Time</Link>
       </div>
 
       {error && <p className="error">Erro: {error}</p>}
+
+      {/* === Meus times === */}
+      <section className="teams-section">
+        <h2 className="teams-section-title">Meus times</h2>
+
+        {!teams && <p className="status">Carregando...</p>}
+        {teams && teams.length === 0 && (
+          <p className="status">
+            Você ainda não criou nenhum time. <Link to="/teams/new">Crie o primeiro</Link> ou use um template acima.
+          </p>
+        )}
+
+        {teams && teams.length > 0 && (
+          <div className="teams-grid">
+            {teams.map((t) => (
+              <Link key={t.id} to={`/teams/${t.id}`} className="team-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="team-card-header">
+                  <div>
+                    <h3>{t.name}</h3>
+                    {t.author_name && <p className="team-author">por {t.author_name}</p>}
+                  </div>
+                  <button
+                    className="btn-danger"
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(t.id) }}
+                    aria-label="Apagar time"
+                    title="Apagar time"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+                {t.description && <p className="team-desc">{t.description}</p>}
+                <div className="team-members">
+                  {t.members.map((m) => {
+                    const img = iconUrl(m.character.icon)
+                    return (
+                      <span
+                        key={m.position}
+                        className="team-member"
+                        title={m.character.name}
+                      >
+                        {img ? <img src={img} alt={m.character.name} /> : <span>?</span>}
+                        <span className="team-member-name">{m.character.name}</span>
+                      </span>
+                    )
+                  })}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* === Times recomendados (KQM) === */}
       {templates.length > 0 && (
@@ -156,56 +208,7 @@ export default function TeamsPage() {
         </section>
       )}
 
-      {/* === Meus times === */}
-      <section className="teams-section">
-        <h2 className="teams-section-title">Meus times</h2>
-
-        {!teams && <p className="status">Carregando...</p>}
-        {teams && teams.length === 0 && (
-          <p className="status">
-            Você ainda não criou nenhum time. <Link to="/teams/new">Crie o primeiro</Link> ou use um template acima.
-          </p>
-        )}
-
-        {teams && teams.length > 0 && (
-          <div className="teams-grid">
-            {teams.map((t) => (
-              <div key={t.id} className="team-card">
-                <div className="team-card-header">
-                  <div>
-                    <h3>{t.name}</h3>
-                    {t.author_name && <p className="team-author">por {t.author_name}</p>}
-                  </div>
-                  <button
-                    className="btn-danger"
-                    onClick={() => handleDelete(t.id)}
-                    aria-label="Apagar time"
-                  >
-                    ✕
-                  </button>
-                </div>
-                {t.description && <p className="team-desc">{t.description}</p>}
-                <div className="team-members">
-                  {t.members.map((m) => {
-                    const img = iconUrl(m.character.icon)
-                    return (
-                      <Link
-                        key={m.position}
-                        to={`/characters/${m.character.slug}`}
-                        className="team-member"
-                        title={m.character.name}
-                      >
-                        {img ? <img src={img} alt={m.character.name} /> : <span>?</span>}
-                        <span className="team-member-name">{m.character.name}</span>
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      
     </div>
   )
 }
