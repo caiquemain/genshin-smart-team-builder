@@ -392,10 +392,10 @@ Arquivos modificados nesta sessão (a commitar):
 ## 17. Sessão 2026-10-30 — Tierlist Aggregator completo
 
 ### Estado final
-- **5 sites importados**: Genshin.gg (124), GenshinLab (127), Game8 (126), Mobalytics (126), Prydwen (127) = **630 entries**
+- **6 sites importados**: Genshin.gg (124), GenshinLab (127), Game8 (127), Mobalytics (126), Prydwen (127), GameWith (127) = **758 entries**
 - **127 chars únicos** na view (após merge de travelers Prydwen underscore→hyphen)
 - **Backend + frontend** consumindo `v_tierlist_consensus`
-- **GameWith** é o único site faltando (HTML não recebido)
+- **GameWith** importado via `curl` (HTML bloqueado, extraído do texto colado no chat)
 
 ### Escala master (6 tiers)
 
@@ -408,6 +408,7 @@ Regra: **topo→S+**, **fundo→D**, meio comprime agrupando.
 | Game8 | SS/S/A+/A/B/C/D (7) | SS→S+, S→S, A++A→A, B→B, C→C, D→D |
 | Mobalytics | S/A+/A/B+/B/C/D/E/F (9) | S→S+, A++A→S, B++B→A, C+D→B, E→C, F→D |
 | Prydwen | T0/T0.5/T1/T1.5/T2/T3/T4/T5 (8) | T0→S+, T0.5+T1→S, T1.5+T2→A, T3→B, T4→C, T5→D |
+| GameWith | SS/S/A/B/C/D (6) | 1:1 (igual GenshinLab) |
 
 ### Decisões arquiteturais
 
@@ -472,13 +473,13 @@ e5f6a7b8c9d0_add_tierlist_aggregator.py (encadeada após d4e5f6g7h8i9):
 | Item | Valor |
 |------|-------|
 | characters | 127 (120 + 7 travelers) |
-| tierlist_entries | 630 (5 sites) |
+| tierlist_entries | 758 (6 sites) |
 | v_tierlist_consensus | 127 chars únicos |
 | Órfãos em general | 3 (vesna, vodyanitsa, traveler-pyro) |
 
 ### Pendente (próxima sessão)
 
-1. **GameWith** — único site faltando. User vai mandar HTML. Pipeline idempotente: acrescentar parser no import_tierlists.sql e rodar de novo.
+1. ~~**GameWith**~~ — importado 2026-10-30. Todos os 6 sites estão no banco.
 2. **Roles 1:1** — user vai atribuir manualmente. Os 3 órfãos saem de general nessa passada.
 3. **Prydwen version** = 7.1-overall (não 7.1). Cosmético. Fix opcional: UPDATE tierlist_entries SET version='7.1' WHERE site_id=(prydwen) AND version='7.1-overall'.
 
@@ -503,3 +504,13 @@ curl -s "http://localhost:8000/tierlist?role=support" | jq '.items | length'    
 - **`SingleTierGrid`**: quando `tierFilter !== 'all'`, substitui o grid de 6 colunas por um grid flat `auto-fill` agrupado por `dominant_role` (Main DPS → Sub-DPS → Support → General), com sub-cabeçalhos e contador por role.
 - **Role visível nos cards**: `tierlist-tile-role` mostra role em uppercase pequeno abaixo do nome (grid) e destacado em azul na meta da lista.
 - **Fix de posição do tooltip**: `display: contents` no wrapper ref não gerava bounding box → `display: inline-block; width: fit-content`.
+
+
+### Adendo: GameWith (6ª fonte)
+
+- Importado 2026-10-30 via texto colado (curl bloqueou — só veio `<head>` de 7.5K)
+- 127 chars, escala SS/S/A/B/C/D (1:1, igual GenshinLab)
+- Distribuição: S+=30, S=31, A=22, B=24, C=8, D=12
+- `kuki-shinobu` não existia na seção A do Game8 (typo no import manual) — corrigido via INSERT pontual + adicionado no `import_tierlists.sql` pro próximo rerun
+- **Consenso final**: 123 chars com 6/6 sites, 4 chars com 5/6 (aloy sem Mobalytics; traveler-pyro/vesna/vodyanitsa sem Genshin.gg — todos legítimos)
+- HTML de referência em `backend/app/scripts/tierlist_raw/gamewith.html` (gitignored, só `<head>` — não serve pra reimportar, foi placeholder)
