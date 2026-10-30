@@ -10350,3 +10350,12 @@ body:has(.tierlist-page) .container {
 .tierlist-single-group .tierlist-single-grid {
   margin-top: 0;
 }
+
+/* Nome do card: trunca com ellipsis em vez de quebrar linha */
+.tierlist-tile-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
