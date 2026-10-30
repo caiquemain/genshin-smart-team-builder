@@ -439,3 +439,19 @@ Arquivos modificados nesta sessão (a commitar):
 - frontend/src/components/ArtifactTooltip.tsx (fix)
 - frontend/src/styles.css
 - PROJECT_CONTEXT.md (NOVO)
+
+
+---
+
+## 15. Discussão atual — Tierlist Aggregator
+
+**Contexto:** o usuário quer construir um **agregador de tierlists** que puxa dados de vários sites (KQM, Game8, Prydwen, Genshin.gg, etc) e consolida num único lugar.
+
+**Motivação relatada:** [o usuário vai explicar o porquê — preencher na próxima sessão]
+
+**Perguntas em aberto (a definir):**
+- Quais sites agregar?
+- Fonte dos dados: scraping, API, ou manual?
+- Consolidação: média das notas? votação? weight por site?
+- Onde exibir: página nova (`/tierlist`) ou dentro de cada personagem?
+- Atualização: manual, cron, ou on-demand?
