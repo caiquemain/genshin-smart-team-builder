@@ -284,6 +284,13 @@ Contagens a preencher:
 - Cards com glassmorphism, glow da raridade e animação em cascata
 - Ícones Lucide por tipo de arma (Sword/Shield/Swords/Target/Crosshair)
 
+**Feito (sessão atual):**
+- ArtifactsPage reescrita com filtros em Pill (Raridade + busca)
+- Tooltips (ArtifactTooltip) adicionados em cada card de artefato
+- Cards com glassmorphism, glow da raridade (5★ dourado, 4★ roxo, 3★ azul) e animação em cascata
+- Preview do bônus 2pc no card (hover expande pra 2pc + 4pc)
+- Ícone de Sparkles na contagem de resultados
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -300,6 +307,13 @@ Contagens a preencher:
 - Fix do cálculo: cards mostram `max_base_atk` (Lv.90) em vez de `base_atk` (Lv.1)
 - Cards com glassmorphism, glow da raridade e animação em cascata
 - Ícones Lucide por tipo de arma (Sword/Shield/Swords/Target/Crosshair)
+
+**Feito (sessão atual):**
+- ArtifactsPage reescrita com filtros em Pill (Raridade + busca)
+- Tooltips (ArtifactTooltip) adicionados em cada card de artefato
+- Cards com glassmorphism, glow da raridade (5★ dourado, 4★ roxo, 3★ azul) e animação em cascata
+- Preview do bônus 2pc no card (hover expande pra 2pc + 4pc)
+- Ícone de Sparkles na contagem de resultados
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main
