@@ -10051,3 +10051,302 @@ body:has(.tierlist-page) .container {
   width: 100% !important;
   padding: 24px 32px !important;
 }
+
+/* ============================================================
+   TIERLIST TOOLTIP — tooltip rica seguindo padrão do projeto
+   ============================================================ */
+.tierlist-tooltip {
+  min-width: 340px;
+  max-width: 420px;
+  background-color: #0f1218;
+  background-image: linear-gradient(145deg, #1a1f2e, #0f1218);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(125, 211, 252, 0.06);
+  color: #e8ecf2;
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 20000 !important;
+  transition: opacity 120ms ease-out;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
+.tierlist-tooltip-header {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tierlist-tooltip-portrait {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: radial-gradient(circle, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-weight: 800;
+}
+
+.tierlist-tooltip-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tierlist-tooltip-title {
+  min-width: 0;
+}
+
+.tierlist-tooltip-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: #e8ecf2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tierlist-tooltip-meta {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: capitalize;
+  margin-top: 2px;
+}
+
+.tierlist-tooltip-badge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  border: 1.5px solid;
+  font-variant-numeric: tabular-nums;
+}
+
+.tierlist-tooltip-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 14px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.tierlist-tooltip-label {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.tierlist-tooltip-value {
+  color: #e8ecf2;
+  font-weight: 700;
+}
+
+.tierlist-tooltip-sub {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.tierlist-tooltip-sites {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tierlist-tooltip-site {
+  display: grid;
+  grid-template-columns: 90px 44px 1fr 40px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 3px 4px;
+  border-radius: 5px;
+  transition: background 0.15s;
+}
+
+.tierlist-tooltip-site.outlier {
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.tierlist-tooltip-site-name {
+  color: #cbd5e1;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tierlist-tooltip-pill {
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  border: 1px solid;
+  font-variant-numeric: tabular-nums;
+}
+
+.tierlist-tooltip-bar {
+  height: 5px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tierlist-tooltip-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7dd3fc, #38bdf8);
+  border-radius: 3px;
+  transition: width 0.2s;
+}
+
+.tierlist-tooltip-score {
+  text-align: right;
+  color: #cbd5e1;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* Filtros em linha (role · tier · element) */
+.tierlist-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+.tierlist-filters .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tierlist-filters .filter-label {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* Role no card (grid) — pequeno, abaixo do nome */
+.tierlist-tile-role {
+  font-size: 9px;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+/* ============================================================
+   SINGLE TIER VIEW — quando tierFilter != 'all'
+   ============================================================ */
+.tierlist-single {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tierlist-single-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid;
+  font-weight: 800;
+}
+
+.tierlist-single-label {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+
+.tierlist-single-count {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.tierlist-single-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 14px;
+  padding: 20px;
+  background: rgba(30, 41, 59, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+/* Agrupamento por role dentro do tier único */
+.tierlist-single-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.tierlist-single-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.tierlist-single-group-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #e8ecf2;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.tierlist-single-group-header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
+}
+
+.tierlist-single-group-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 12px;
+  letter-spacing: 0;
+}
+
+/* Remover margem extra do grid dentro do grupo */
+.tierlist-single-group .tierlist-single-grid {
+  margin-top: 0;
+}
