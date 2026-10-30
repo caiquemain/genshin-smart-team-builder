@@ -1,53 +1,60 @@
 """Schemas de tierlist."""
-from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional
+from pydantic import BaseModel, Field
 
 
 class TierlistEntryImport(BaseModel):
     character_slug: str
-    role: str  # main-dps, sub-dps, support, healer, general
-    tier: str  # label do tier (SS, S, T0.5...)
-    source_url: str | None = None
+    role: str
+    tier: str
+    source_url: Optional[str] = None
 
 
 class TierlistImportPayload(BaseModel):
     site_slug: str
-    scale: list[str]  # ex: ["SS", "S", "A", "B", "C"]
-    version: str | None = None
-    entries: list[TierlistEntryImport] = Field(default_factory=list)
+    scale: list[str]
+    version: str
+    entries: list[TierlistEntryImport]
 
 
 class TierlistSiteOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
     slug: str
     name: str
     url: str
     scale_size: int
 
+    class Config:
+        from_attributes = True
+
 
 class TierlistEntryOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
     site_slug: str
     tier_label: str
+    tier_master: Optional[str] = None
     normalized_value: float
     role: str
-    version: str | None = None
-    source_url: str | None = None
+    version: Optional[str]
+    source_url: Optional[str]
 
 
 class AggregatedTier(BaseModel):
     character_slug: str
-    role: str
-    avg_score: float  # 0.0 - 1.0
+    dominant_role: str
+    consensus_tier: str
+    consensus_votes: int
+    tier_by_avg: str
+    avg_score: float
+    spread: float
+    tiers_voted: list[str]
     num_sites: int
-    tier_consolidated: str  # "S", "A", "B"...
-    entries: list[TierlistEntryOut] = Field(default_factory=list)
+    entries: list[TierlistEntryOut]
 
 
 class TierlistResponse(BaseModel):
-    role: str | None = None
-    items: list[AggregatedTier] = Field(default_factory=list)
+    role: Optional[str] = None
+    items: list[AggregatedTier]
 
 
 class CharacterTierlistResponse(BaseModel):
     character_slug: str
-    roles: list[AggregatedTier] = Field(default_factory=list)
+    roles: list[AggregatedTier]

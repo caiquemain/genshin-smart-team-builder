@@ -1,6 +1,8 @@
 """API de tierlist."""
+from collections import defaultdict
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import func
+from sqlalchemy import text
+from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import Session
 from typing import Optional
 
@@ -16,7 +18,6 @@ router = APIRouter(prefix="/tierlist", tags=["tierlist"])
 
 
 def _normalize(tier_index: int, scale_size: int) -> float:
-    """Normaliza pro intervalo 0.0 - 1.0 (rank-based, top-down)."""
     if scale_size <= 1:
         return 1.0
     return round(1.0 - (tier_index / (scale_size - 1)), 4)
@@ -24,30 +25,15 @@ def _normalize(tier_index: int, scale_size: int) -> float:
 
 @router.get("/sites", response_model=list[TierlistSiteOut])
 def list_sites(db: Session = Depends(get_db)):
-    """Lista os sites de tierlist disponíveis."""
     return db.query(TierlistSite).order_by(TierlistSite.slug).all()
 
 
 @router.post("/import")
 def import_tierlist(payload: TierlistImportPayload, db: Session = Depends(get_db)):
-    """Importa uma tierlist de um site (manual ou scraping).
-
-    Exemplo de payload:
-    {
-      "site_slug": "game8",
-      "scale": ["SS", "S", "A", "B", "C"],
-      "version": "5.8",
-      "entries": [
-        {"character_slug": "raiden-shogun", "role": "main-dps", "tier": "S"},
-        {"character_slug": "raiden-shogun", "role": "support", "tier": "S"}
-      ]
-    }
-    """
     site = db.query(TierlistSite).filter(TierlistSite.slug == payload.site_slug).one_or_none()
     if not site:
         raise HTTPException(404, detail=f"Site {payload.site_slug} não cadastrado")
 
-    # Atualiza scale_size se mudou
     if site.scale_size != len(payload.scale):
         site.scale_size = len(payload.scale)
 
@@ -55,7 +41,6 @@ def import_tierlist(payload: TierlistImportPayload, db: Session = Depends(get_db
     inserted = 0
     updated = 0
     invalid_tiers = set()
-    # Dedupe dentro do payload: se a mesma (char, role) aparecer 2x, last-wins
     deduped: dict[tuple[str, str], "TierlistEntryImport"] = {}
     for entry in payload.entries:
         deduped[(entry.character_slug, entry.role)] = entry
@@ -109,109 +94,88 @@ def import_tierlist(payload: TierlistImportPayload, db: Session = Depends(get_db
     }
 
 
-def _consolidate_tier(avg: float) -> str:
-    """Converte média normalizada em label legível."""
-    if avg >= 0.85: return "S+"
-    if avg >= 0.70: return "S"
-    if avg >= 0.55: return "A"
-    if avg >= 0.40: return "B"
-    if avg >= 0.20: return "C"
-    return "D"
+def _fetch_entries(db: Session, slugs: list[str]) -> dict[str, list[TierlistEntryOut]]:
+    if not slugs:
+        return {}
+    entries = (
+        db.query(TierlistEntry)
+        .filter(TierlistEntry.character_slug.in_(slugs))
+        .all()
+    )
+    out: dict[str, list[TierlistEntryOut]] = defaultdict(list)
+    for e in entries:
+        out[e.character_slug].append(TierlistEntryOut(
+            site_slug=e.site.slug,
+            tier_label=e.tier_label,
+            tier_master=e.tier_master,
+            normalized_value=e.normalized_value,
+            role=e.role,
+            version=e.version,
+            source_url=e.source_url,
+        ))
+    return out
+
+
+def _row_to_aggregated(row, entries_by_char) -> AggregatedTier:
+    slug = row["character_slug"]
+    return AggregatedTier(
+        character_slug=slug,
+        dominant_role=row["dominant_role"] or "general",
+        consensus_tier=row["consensus_tier"],
+        consensus_votes=row["consensus_votes"],
+        tier_by_avg=row["tier_by_avg"],
+        avg_score=round(row["avg_normalized"], 4),
+        spread=round(row["spread"], 4),
+        tiers_voted=list(row["tiers_voted"] or []),
+        num_sites=row["site_count"],
+        entries=entries_by_char.get(slug, []),
+    )
 
 
 @router.get("", response_model=TierlistResponse)
 def get_tierlist(
-    role: Optional[str] = Query(None, description="Filtrar por role"),
-    version: Optional[str] = Query(None, description="Filtrar por versão"),
+    role: Optional[str] = Query(None, description="Filtrar por role (main_dps, sub_dps, support, general)"),
     db: Session = Depends(get_db),
 ):
-    """Tierlist agregada (média ponderada igual de todos os sites)."""
-    query = db.query(
-        TierlistEntry.character_slug,
-        TierlistEntry.role,
-        func.avg(TierlistEntry.normalized_value).label("avg_score"),
-        func.count(TierlistEntry.id).label("num_sites"),
-    )
     if role:
-        query = query.filter(TierlistEntry.role == role)
-    if version:
-        query = query.filter(TierlistEntry.version == version)
-    rows = query.group_by(TierlistEntry.character_slug, TierlistEntry.role).all()
+        role = role.replace("-", "_")
 
-    items = []
-    for row in rows:
-        # Busca entries individuais
-        entries_q = db.query(TierlistEntry).filter(
-            TierlistEntry.character_slug == row.character_slug,
-            TierlistEntry.role == row.role,
+    try:
+        rows = db.execute(text("""
+            SELECT character_slug, dominant_role, consensus_tier, consensus_votes,
+                   tier_by_avg, avg_normalized, spread, tiers_voted, site_count
+            FROM v_tierlist_consensus
+            WHERE (:role IS NULL OR dominant_role = :role)
+            ORDER BY avg_normalized DESC
+        """), {"role": role}).mappings().all()
+    except ProgrammingError:
+        raise HTTPException(
+            500,
+            detail="View v_tierlist_consensus não encontrada. Rode backend/app/scripts/create_view.sql no banco.",
         )
-        if version:
-            entries_q = entries_q.filter(TierlistEntry.version == version)
-        entries = entries_q.all()
 
-        items.append(AggregatedTier(
-            character_slug=row.character_slug,
-            role=row.role,
-            avg_score=round(row.avg_score, 4),
-            num_sites=row.num_sites,
-            tier_consolidated=_consolidate_tier(row.avg_score),
-            entries=[
-                TierlistEntryOut(
-                    site_slug=e.site.slug,
-                    tier_label=e.tier_label,
-                    normalized_value=e.normalized_value,
-                    role=e.role,
-                    version=e.version,
-                    source_url=e.source_url,
-                ) for e in entries
-            ],
-        ))
+    slugs = [r["character_slug"] for r in rows]
+    entries_by_char = _fetch_entries(db, slugs)
 
-    # Ordena por score descendente
-    items.sort(key=lambda x: -x.avg_score)
-
+    items = [_row_to_aggregated(r, entries_by_char) for r in rows]
     return TierlistResponse(role=role, items=items)
 
 
 @router.get("/character/{slug}", response_model=CharacterTierlistResponse)
 def get_character_tierlist(slug: str, db: Session = Depends(get_db)):
-    """Todas as tiers de um personagem, agrupadas por role."""
-    roles = (
-        db.query(TierlistEntry.role)
-        .filter(TierlistEntry.character_slug == slug)
-        .distinct()
-        .all()
-    )
-    if not roles:
+    try:
+        row = db.execute(text("""
+            SELECT character_slug, dominant_role, consensus_tier, consensus_votes,
+                   tier_by_avg, avg_normalized, spread, tiers_voted, site_count
+            FROM v_tierlist_consensus
+            WHERE character_slug = :slug
+        """), {"slug": slug}).mappings().first()
+    except ProgrammingError:
+        raise HTTPException(500, detail="View v_tierlist_consensus não encontrada.")
+
+    if not row:
         raise HTTPException(404, detail=f"Sem tierlist para {slug}")
 
-    result = []
-    for (role,) in roles:
-        entries = (
-            db.query(TierlistEntry)
-            .filter(
-                TierlistEntry.character_slug == slug,
-                TierlistEntry.role == role,
-            )
-            .all()
-        )
-        avg = sum(e.normalized_value for e in entries) / len(entries)
-        result.append(AggregatedTier(
-            character_slug=slug,
-            role=role,
-            avg_score=round(avg, 4),
-            num_sites=len(entries),
-            tier_consolidated=_consolidate_tier(avg),
-            entries=[
-                TierlistEntryOut(
-                    site_slug=e.site.slug,
-                    tier_label=e.tier_label,
-                    normalized_value=e.normalized_value,
-                    role=e.role,
-                    version=e.version,
-                    source_url=e.source_url,
-                ) for e in entries
-            ],
-        ))
-
-    return CharacterTierlistResponse(character_slug=slug, roles=result)
+    entries_by_char = _fetch_entries(db, [slug])
+    aggregated = _row_to_aggregated(row, entries_by_char)
+    return CharacterTierlistResponse(character_slug=slug, roles=[aggregated])

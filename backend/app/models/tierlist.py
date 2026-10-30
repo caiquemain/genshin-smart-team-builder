@@ -42,6 +42,7 @@ class TierlistEntry(Base):
     # role values: "main-dps", "sub-dps", "support", "healer", "general"
     tier_label = Column(String(20), nullable=False)  # "SS", "S", "T0.5", etc
     tier_index = Column(Integer, nullable=False)  # 0 = topo, N = fundo
+    tier_master = Column(String(10), nullable=True)
     normalized_value = Column(Float, nullable=False)  # 0.0 - 1.0
     version = Column(String(20), nullable=True)  # "5.8", "7.1"
     source_url = Column(String(500), nullable=True)
