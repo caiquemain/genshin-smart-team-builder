@@ -270,8 +270,22 @@ Contagens a preencher:
 - Modal `SubstitutePickerModal` redesenhado como um grid de 5 cartas lado a lado (estilo Gacha)
 - Hover states elegantes em todas as cartas
 
+**Feito (sessão atual):**
+- Aplicado Glassmorphism e animações em cascata nos cards de personagens (`/`)
+- Título e nomes com gradientes metálicos
+- Substituição dos `<select>` nativos por filtros em 'Pill' (botões) com ícones coloridos
+- Cores de armas definidas (Sword = Prata, Claymore = Âmbar, Polearm = Vermelho, Bow = Verde, Catalyst = Roxo)
+- Glow e drop-shadow nos ícones dos filtros
+
 **Pendente imediato:**
 - Nenhum bloqueante.
+
+**Feito (sessão atual):**
+- Aplicado Glassmorphism e animações em cascata nos cards de personagens (`/`)
+- Título e nomes com gradientes metálicos
+- Substituição dos `<select>` nativos por filtros em 'Pill' (botões) com ícones coloridos
+- Cores de armas definidas (Sword = Prata, Claymore = Âmbar, Polearm = Vermelho, Bow = Verde, Catalyst = Roxo)
+- Glow e drop-shadow nos ícones dos filtros
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main
