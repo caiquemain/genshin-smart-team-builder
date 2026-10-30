@@ -514,3 +514,17 @@ curl -s "http://localhost:8000/tierlist?role=support" | jq '.items | length'    
 - `kuki-shinobu` não existia na seção A do Game8 (typo no import manual) — corrigido via INSERT pontual + adicionado no `import_tierlists.sql` pro próximo rerun
 - **Consenso final**: 123 chars com 6/6 sites, 4 chars com 5/6 (aloy sem Mobalytics; traveler-pyro/vesna/vodyanitsa sem Genshin.gg — todos legítimos)
 - HTML de referência em `backend/app/scripts/tierlist_raw/gamewith.html` (gitignored, só `<head>` — não serve pra reimportar, foi placeholder)
+
+
+### Adendo: Traveler element portraits (2026-10-30)
+
+- Yatta CDN só tem `UI_AvatarIcon_PlayerBoy`/`PlayerGirl` (base, sem variantes por elemento)
+- Mobalytics CDN tem os 7 portraits (`traveler-anemo.png`, etc) mas **bloqueia hotlink** com `Referer` (403)
+- Solução: baixados 7 PNGs (~780KB total) em `frontend/public/travelers/`, servidos localmente
+- `iconUrl()` em `config.ts` agora detecta:
+  - URL completa (`http://`/`https://`) → retorna direto
+  - Path absoluto (`/travelers/...`) → retorna direto
+  - Senão, concatena `ASSET_BASE` do Yatta (comportamento antigo)
+- Migration `e5f6a7b8c9d0` atualizada: INSERT dos travelers usa paths locais + UPDATE idempotente
+- `kuki-shinobu` faltava na seção A do Game8 no `import_tierlists.sql` (typo manual) — corrigido
+
