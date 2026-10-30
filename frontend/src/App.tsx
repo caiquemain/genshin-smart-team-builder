@@ -43,9 +43,12 @@ export default function App() {
 
 function MainContent() {
   const location = useLocation()
-  const isWidePage = location.pathname.startsWith('/teams/') && 
-                     location.pathname !== '/teams/new' && 
-                     !location.pathname.includes('/templates/')
+  const isWidePage = (
+    (location.pathname.startsWith('/teams/') && 
+     location.pathname !== '/teams/new' && 
+     !location.pathname.includes('/templates/'))
+    || location.pathname === '/tierlist'
+  )
 
   return (
     <main className={`container ${isWidePage ? 'container-wide' : ''}`}>

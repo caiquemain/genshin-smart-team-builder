@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md
 
 > Arquivo vivo de contexto do projeto. **Sempre atualizar** ao final de cada sessão.
-> Última atualização: **2026-10-29** — build editor + pickers + abas de referências, substitutos e combos
+> Última atualização: **2026-10-31** — Tierlist Aggregator (backend + frontend + 2 sites importados)
 
 ---
 
@@ -270,148 +270,54 @@ Contagens a preencher:
 - Fix flash no 0,0: isPositioned inline + animation → transition
 - Frontend rebuildado, healthy
 
-**Feito (sessão atual):**
-- Instalação e uso do `lucide-react` para substituir emojis na UI
-- Animações de entrada (glassmorphism, cards flutuantes)
-- Anel de Score animado com `conic-gradient`
-- Modal `SubstitutePickerModal` redesenhado como um grid de 5 cartas lado a lado (estilo Gacha)
-- Hover states elegantes em todas as cartas
+**Feito (sessão atual — 3 partes):**
 
-**Feito (sessão atual):**
-- Aplicado Glassmorphism e animações em cascata nos cards de personagens (`/`)
-- Título e nomes com gradientes metálicos
-- Substituição dos `<select>` nativos por filtros em 'Pill' (botões) com ícones coloridos
-- Cores de armas definidas (Sword = Prata, Claymore = Âmbar, Polearm = Vermelho, Bow = Verde, Catalyst = Roxo)
-- Glow e drop-shadow nos ícones dos filtros
-
-**Feito (sessão atual):**
-- WeaponsPage reescrita com filtros em Pill (tipo + raridade + busca)
-- Tooltips (WeaponTooltip) adicionados em cada card de arma
-- Fix do cálculo: cards mostram `max_base_atk` (Lv.90) em vez de `base_atk` (Lv.1)
-- Cards com glassmorphism, glow da raridade e animação em cascata
-- Ícones Lucide por tipo de arma (Sword/Shield/Swords/Target/Crosshair)
-
-**Feito (sessão atual):**
-- ArtifactsPage reescrita com filtros em Pill (Raridade + busca)
-- Tooltips (ArtifactTooltip) adicionados em cada card de artefato
-- Cards com glassmorphism, glow da raridade (5★ dourado, 4★ roxo, 3★ azul) e animação em cascata
-- Preview do bônus 2pc no card (hover expande pra 2pc + 4pc)
-- Ícone de Sparkles na contagem de resultados
-
-**Feito (sessão atual):**
-- TeamsPage reorganizada: Meus Times em primeiro, templates KQM embaixo
-- Cards de time com glassmorphism, hover elevado, linha de acento azul e botão de lixeira Lucide
-- Card inteiro é `<Link>` pra `/teams/:id` (com preventDefault no delete)
-- Botão '+ Novo Time' com gradiente e ícone Plus
-- Empty state elegante quando não há times
-
-**Feito (sessão atual):**
-- Backend: coluna `icon` em `elemental_reactions` + migration c3d4e5f6g7h8
-- Backend: seed idempotente (`Inserted N reactions + Mora if missing`)
-- Backend: expandido de 10 para 21 reações (Lunar e Stellar incluídas)
-- Backend: `/reactions` agora retorna `icon` (fix do construtor manual)
-- Frontend: ReactionsPage reescrita como tabela elegante (Reação | Elementos | Tipo | Efeito)
-- Frontend: ícones oficiais dos elementos via CDN Yatta (UI_Buff_Element_Fire, Water, Electric, Ice, Wind, Rock, Grass)
-- Frontend: filtros em pill por tipo (Amplificadora, Transformativa, Dendro, Lunar, Stellar)
-
-**Feito (sessão atual):**
-- Planner reestruturado em 2 rotas (`/planner` + `/planner/characters`)
-- Criado `components/PlannerCharacterCard.tsx` com layout Genshin Track (portrait, talent bars, grid de materiais)
-- Criado `pages/PlannerCharactersPage.tsx` com filtro de elemento e link de volta
-- Tipos compartilhados em `types/planner.ts` (Plan, CharBreakdown, AggregateMaterial, TierGroup)
-- Adicionado `cons?: number` em `SeelieCharacterGoal` — C0 hardcoded → C{cons} real
-- Planner principal ganhou CTA 'Ver X personagens em detalhes' e save em localStorage
-
-**Feito (sessão atual):**
-- Planner agora lê os **92 chars** do JSON (não filtra mais por pendência)
-- Badges premium: Inativo (pill escuro com lua) + Completo (selo verde pulsante)
-- Traduções PT/EN em badges, labels de talento e "Talentos em dia"
-- Filtros completos: elemento, status, pendência, ordenação
+**Parte 1 — Planner completo:**
+- `/planner` agora lê os **92 chars** do JSON (não filtra mais por pendência)
+- Badges premium (Inativo + Completo) com animações
+- Traduções PT/EN em badges, talentos, "Talentos em dia"
+- Filtros: elemento, status (pendente/completo/inativo), tipo de pendência, ordenação
 - Aliases de personagens (kazuha, sara, lanyan) e armas (the_flute, skyward_harp, the_widsith)
-- Travelers resolvidos via fallback (slug direto + ícone de elemento)
-- Ascension com `if (current < goal)` — evita 400 em chars maxados
+- Travelers via fallback (slug direto + ícone de elemento)
+- Ascension `if (current < goal)` — evita 400 em chars maxados
 
-**Feito (sessão atual):**
-- Modal de detalhes no `/planner/characters` (clicar no card abre)
-- Layout 2 colunas: esquerda (talentos + armas + summary) / direita (materiais por categoria)
-- Agrupamento de materiais: Ascensão / Talentos / Armas separados
-- i18n completo do modal (badges, labels de talentos, títulos de seção)
-- Cálculo de dias corrigido: só conta o que FALTA, Mora com fórmula especial
-- Mostra "Pronto" quando 0 dias restantes
-- ESC fecha, click fora fecha, botão Fechar
+**Parte 2 — Modal de detalhes do personagem:**
+- `PlannerCharacterModal.tsx` com **layout 2 colunas**:
+  - Esquerda: talentos + armas + summary (Mora + dias)
+  - Direita: materiais agrupados (Ascensão / Talentos / Armas)
+- **Cálculo de dias corrigido**: só conta o que falta, Mora com fórmula especial (`ceil(missing / 60000) * 20`), mostra "Pronto" quando 0
+- i18n completo (badges, labels de talentos, títulos de seção)
+- ESC / click-fora / botão Fechar
+- 88px de largura, `max-height: 88vh`
 
-**Pendente imediato:**
-- Nenhum bloqueante.
+**Parte 3 — Tierlist Aggregator (feature nova):**
+- Ver seção "🏆 Tierlist Aggregator" acima
+- Backend + frontend + 2 sites importados (Mobalytics + Prydwen)
+- 126 chars com consenso real (2 sites)
 
-**Feito (sessão atual):**
-- Aplicado Glassmorphism e animações em cascata nos cards de personagens (`/`)
-- Título e nomes com gradientes metálicos
-- Substituição dos `<select>` nativos por filtros em 'Pill' (botões) com ícones coloridos
-- Cores de armas definidas (Sword = Prata, Claymore = Âmbar, Polearm = Vermelho, Bow = Verde, Catalyst = Roxo)
-- Glow e drop-shadow nos ícones dos filtros
 
-**Feito (sessão atual):**
-- WeaponsPage reescrita com filtros em Pill (tipo + raridade + busca)
-- Tooltips (WeaponTooltip) adicionados em cada card de arma
-- Fix do cálculo: cards mostram `max_base_atk` (Lv.90) em vez de `base_atk` (Lv.1)
-- Cards com glassmorphism, glow da raridade e animação em cascata
-- Ícones Lucide por tipo de arma (Sword/Shield/Swords/Target/Crosshair)
 
-**Feito (sessão atual):**
-- ArtifactsPage reescrita com filtros em Pill (Raridade + busca)
-- Tooltips (ArtifactTooltip) adicionados em cada card de artefato
-- Cards com glassmorphism, glow da raridade (5★ dourado, 4★ roxo, 3★ azul) e animação em cascata
-- Preview do bônus 2pc no card (hover expande pra 2pc + 4pc)
-- Ícone de Sparkles na contagem de resultados
+**Pendente imediato (PRÓXIMA SESSÃO):**
 
-**Feito (sessão atual):**
-- TeamsPage reorganizada: Meus Times em primeiro, templates KQM embaixo
-- Cards de time com glassmorphism, hover elevado, linha de acento azul e botão de lixeira Lucide
-- Card inteiro é `<Link>` pra `/teams/:id` (com preventDefault no delete)
-- Botão '+ Novo Time' com gradiente e ícone Plus
-- Empty state elegante quando não há times
+1. **Coletar dados dos 3 sites faltantes** (Game8, GameWith, GenshinLab)
+   - Usuário deve abrir cada site no navegador
+   - `Ctrl+A` + `Ctrl+C` (copiar texto) **ou** `Ctrl+S` (salvar HTML)
+   - Colar no chat
+   - Eu extraio, aplico aliases e importo via `POST /tierlist/import`
 
-**Feito (sessão atual):**
-- Backend: coluna `icon` em `elemental_reactions` + migration c3d4e5f6g7h8
-- Backend: seed idempotente (`Inserted N reactions + Mora if missing`)
-- Backend: expandido de 10 para 21 reações (Lunar e Stellar incluídas)
-- Backend: `/reactions` agora retorna `icon` (fix do construtor manual)
-- Frontend: ReactionsPage reescrita como tabela elegante (Reação | Elementos | Tipo | Efeito)
-- Frontend: ícones oficiais dos elementos via CDN Yatta (UI_Buff_Element_Fire, Water, Electric, Ice, Wind, Rock, Grass)
-- Frontend: filtros em pill por tipo (Amplificadora, Transformativa, Dendro, Lunar, Stellar)
+2. **Escalas dos 3 sites:**
+   - Game8: SS / S / A / B / C (separado por role)
+   - GameWith: SS / S / A / B / C (separado por role)
+   - GenshinLab: SS / S / A / B / C / D (e talvez E/F, geral + por role)
 
-**Feito (sessão atual):**
-- Planner reestruturado em 2 rotas (`/planner` + `/planner/characters`)
-- Criado `components/PlannerCharacterCard.tsx` com layout Genshin Track (portrait, talent bars, grid de materiais)
-- Criado `pages/PlannerCharactersPage.tsx` com filtro de elemento e link de volta
-- Tipos compartilhados em `types/planner.ts` (Plan, CharBreakdown, AggregateMaterial, TierGroup)
-- Adicionado `cons?: number` em `SeelieCharacterGoal` — C0 hardcoded → C{cons} real
-- Planner principal ganhou CTA 'Ver X personagens em detalhes' e save em localStorage
+**Backlog anotado (não começar sem decidir):**
+- Página de itens (`/characters/:slug`, `/weapons/:slug`, `/artifacts/:slug`):
+  - Opções de editar
+  - Tooltips com resina (com sorte / sem sorte / média)
+- Sistema de usuário: login, times por conta, wishlist, histórico de pulls
+- Roadmap geral: Deploy público, Template Detail, expandir templates KQM
 
-**Feito (sessão atual):**
-- Planner agora lê os **92 chars** do JSON (não filtra mais por pendência)
-- Badges premium: Inativo (pill escuro com lua) + Completo (selo verde pulsante)
-- Traduções PT/EN em badges, labels de talento e "Talentos em dia"
-- Filtros completos: elemento, status, pendência, ordenação
-- Aliases de personagens (kazuha, sara, lanyan) e armas (the_flute, skyward_harp, the_widsith)
-- Travelers resolvidos via fallback (slug direto + ícone de elemento)
-- Ascension com `if (current < goal)` — evita 400 em chars maxados
 
-**Feito (sessão atual):**
-- Modal de detalhes no `/planner/characters` (clicar no card abre)
-- Layout 2 colunas: esquerda (talentos + armas + summary) / direita (materiais por categoria)
-- Agrupamento de materiais: Ascensão / Talentos / Armas separados
-- i18n completo do modal (badges, labels de talentos, títulos de seção)
-- Cálculo de dias corrigido: só conta o que FALTA, Mora com fórmula especial
-- Mostra "Pronto" quando 0 dias restantes
-- ESC fecha, click fora fecha, botão Fechar
-
-**Pendente imediato:**
-- Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main
-
-**Próximo passo (próxima sessão):**
-1. Escolher roadmap A/B/C/D (sugestão: B primeiro — fecha fluxo end-to-end do usuário)
-2. (Opcional) Rodar psql correto e preencher §9
 
 ---
 
@@ -455,3 +361,28 @@ Arquivos modificados nesta sessão (a commitar):
 - Consolidação: média das notas? votação? weight por site?
 - Onde exibir: página nova (`/tierlist`) ou dentro de cada personagem?
 - Atualização: manual, cron, ou on-demand?
+
+
+---
+
+## 16. ⏸️ ONDE PARAMOS (sessão 2026-10-31)
+
+### Estado do último build
+- Frontend: **healthy** (`docker compose ps frontend`)
+- Backend: **UP** (`curl http://localhost:8000/health`)
+- Banco: migrations aplicadas até `d4e5f6g7h8i9` (tierlists)
+- Git: último commit `aba9d87` (`fix(tierlist): normalize Mobalytics + Prydwen Overall to 'general' role`)
+
+### O que tá funcionando AGORA
+- ✅ Tierlist com **2 sites** (Mobalytics 126 + Prydwen 127)
+- ✅ Grid 6 colunas (S+/S/A/B/C/D) **full width** via `:has(.tierlist-page)`
+- ✅ 2 avatares grandes por linha (88-96px)
+- ✅ Hover mostra tooltip com score + detalhes
+- ✅ Filtro por role funciona (Todos=127, Geral=127, outros=0)
+
+### O que tá faltando
+- ❌ **3 sites vazios** (Game8, GameWith, GenshinLab) — **próximo passo**
+- ⏸️ Backlog: página de itens, sistema de usuário, deploy
+
+### Prompt para a próxima sessão
+> "Lê o PROJECT_CONTEXT.md e vamos importar os 3 sites faltantes do Tierlist. Vou mandar o texto ou HTML de cada um (Game8, GameWith, GenshinLab)."

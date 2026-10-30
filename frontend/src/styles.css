@@ -9194,3 +9194,860 @@ a.team-card {
   .tierlist-row-details { padding-left: 16px; }
   .tierlist-entry { grid-template-columns: 90px 50px 1fr 50px 24px; gap: 8px; }
 }
+
+/* TIERLIST: header com toggle + grid de colunas */
+.tierlist-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tierlist-view-toggle {
+  display: flex;
+  gap: 2px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 2px;
+}
+.tierlist-view-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s;
+}
+.tierlist-view-btn:hover { color: #cbd5e1; }
+.tierlist-view-btn.active {
+  background: #7dd3fc;
+  color: #0b0e13;
+}
+
+/* GRID de colunas */
+.tierlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.tierlist-col {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.tierlist-col-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 2px solid;
+  font-weight: 800;
+}
+.tierlist-col-label { font-size: 18px; letter-spacing: 0.5px; }
+.tierlist-col-count { font-size: 12px; opacity: 0.8; }
+.tierlist-col-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 64px);
+  gap: 6px;
+  padding: 12px;
+  justify-content: center;
+}
+.tierlist-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.15s;
+  background: rgba(0, 0, 0, 0.2);
+}
+.tierlist-tile:hover {
+  background: rgba(125, 211, 252, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+.tierlist-tile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tierlist-tile-avatar img { width: 100%; height: 100%; object-fit: contain; }
+.tierlist-tile-name {
+  font-size: 9px;
+  color: #cbd5e1;
+  text-align: center;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.tierlist-tile-score {
+  font-size: 9px;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+}
+
+/* LIST (fallback) */
+.tierlist-list-row {
+  display: grid;
+  grid-template-columns: 50px 40px 1fr auto 60px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.tierlist-list-row:hover { border-color: rgba(125, 211, 252, 0.3); }
+.tierlist-list-tier {
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  border: 1px solid currentColor;
+}
+.tierlist-list-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #334155 0%, #0f1218 100%);
+}
+.tierlist-list-avatar img { width: 100%; height: 100%; object-fit: contain; }
+.tierlist-list-info { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tierlist-list-name { font-weight: 700; color: #e8ecf2; font-size: 14px; }
+.tierlist-list-meta { font-size: 11px; color: #64748b; }
+.tierlist-list-sites { display: flex; gap: 8px; font-size: 11px; color: #94a3b8; text-transform: capitalize; }
+.tierlist-list-site strong { color: #7dd3fc; }
+.tierlist-list-score {
+  text-align: right;
+  font-weight: 800;
+  color: #e8ecf2;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   TIERLIST GRID — full width + colunas compactas (7-8 caber)
+   ============================================================ */
+
+/* Página ocupa quase tela toda */
+.tierlist-page {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 32px 20px !important;
+}
+
+.tierlist-header,
+.tierlist-sources,
+.premium-filters {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Grid: cada coluna pode ser bem mais estreita */
+.tierlist-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  gap: 10px !important;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* Coluna compacta */
+.tierlist-col-body {
+  grid-template-columns: repeat(auto-fill, 48px) !important;
+  gap: 4px !important;
+  padding: 8px !important;
+  justify-content: center;
+}
+
+/* Tile menor */
+.tierlist-tile {
+  padding: 2px !important;
+}
+.tierlist-tile-avatar {
+  width: 40px !important;
+  height: 40px !important;
+}
+.tierlist-tile-name {
+  font-size: 8px !important;
+  max-width: 48px !important;
+}
+.tierlist-tile-score {
+  font-size: 8px !important;
+}
+
+/* Header de coluna menor */
+.tierlist-col-header {
+  padding: 8px 10px !important;
+}
+.tierlist-col-label {
+  font-size: 16px !important;
+}
+.tierlist-col-count {
+  font-size: 11px !important;
+}
+
+/* Em telas grandes (>1600px), tiles podem voltar a ser 48px */
+@media (min-width: 1600px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(auto-fill, 52px) !important;
+  }
+  .tierlist-tile-avatar {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 9px !important;
+    max-width: 52px !important;
+  }
+}
+
+/* Se não couber tudo, mostra scroll horizontal suave */
+@media (max-width: 1400px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(7, minmax(140px, 1fr)) !important;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+}
+
+/* ============================================================
+   TIERLIST GRID V2 — 6 colunas, ícones grandes, tela toda
+   ============================================================ */
+
+/* Container: 100% sem limite */
+.tierlist-page {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 24px 16px !important;
+}
+.tierlist-header,
+.tierlist-sources,
+.premium-filters {
+  max-width: 100% !important;
+}
+
+/* Grid: 6 colunas lado a lado, ocupando 100% */
+.tierlist-grid {
+  display: grid !important;
+  grid-template-columns: repeat(6, 1fr) !important;
+  gap: 16px !important;
+  max-width: 100% !important;
+  margin: 0 auto;
+}
+
+/* Coluna: altura automática, ocupa toda a altura disponível */
+.tierlist-col {
+  min-height: 200px;
+  height: auto !important;
+}
+
+/* Body da coluna: ícones maiores em grid 3 colunas por linha */
+.tierlist-col-body {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important;
+  padding: 12px !important;
+  justify-content: stretch !important;
+}
+
+/* Tile maior */
+.tierlist-tile {
+  padding: 6px 4px !important;
+  gap: 4px !important;
+}
+.tierlist-tile-avatar {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 50%;
+}
+.tierlist-tile-name {
+  font-size: 11px !important;
+  max-width: 100% !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+.tierlist-tile-score {
+  font-size: 10px !important;
+  color: #94a3b8;
+}
+
+/* Header de coluna mais imponente */
+.tierlist-col-header {
+  padding: 12px 16px !important;
+  font-size: 20px !important;
+}
+.tierlist-col-label {
+  font-size: 22px !important;
+  letter-spacing: 1px;
+}
+.tierlist-col-count {
+  font-size: 13px !important;
+}
+
+/* Em telas muito grandes (1920+), ícones ficam ainda maiores */
+@media (min-width: 1800px) {
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+    padding: 16px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 72px !important;
+    height: 72px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 12px !important;
+  }
+  .tierlist-col-label {
+    font-size: 24px !important;
+  }
+  .tierlist-grid {
+    gap: 20px !important;
+  }
+}
+
+/* Em telas médias (1200-1599), reduz 1 coluna ou o tamanho do ícone */
+@media (max-width: 1600px) and (min-width: 1200px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 12px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    padding: 10px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 10px !important;
+  }
+}
+
+/* Mobile / tablet: 2 colunas */
+@media (max-width: 1199px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .tierlist-tile-avatar {
+    width: 52px !important;
+    height: 52px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .tierlist-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(auto-fill, 56px) !important;
+  }
+}
+
+/* ============================================================
+   TIERLIST V3: Full screen + ícones grandes
+   ============================================================ */
+
+/* Quando /tierlist herda .container-wide, libera 100% */
+.tierlist-page {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 24px 32px !important;
+}
+
+.tierlist-header,
+.tierlist-sources,
+.premium-filters {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Grid ocupa a largura toda disponível, 6 colunas equilibradas */
+.tierlist-grid {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Coluna com altura natural */
+.tierlist-col {
+  min-height: 200px;
+  height: auto !important;
+}
+
+/* Body com ícones GRANDES — 3 por linha em telas grandes */
+.tierlist-col-body {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 10px !important;
+  padding: 14px 10px !important;
+  justify-content: stretch !important;
+}
+
+/* Tile com ícone bem maior */
+.tierlist-tile {
+  padding: 8px 4px !important;
+  gap: 6px !important;
+}
+.tierlist-tile-avatar {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 50%;
+}
+.tierlist-tile-name {
+  font-size: 12px !important;
+  max-width: 100% !important;
+  font-weight: 700;
+}
+.tierlist-tile-score {
+  font-size: 11px !important;
+  color: #94a3b8;
+}
+
+/* Headers ainda maiores */
+.tierlist-col-header {
+  padding: 14px 18px !important;
+}
+.tierlist-col-label {
+  font-size: 24px !important;
+  letter-spacing: 1px;
+}
+.tierlist-col-count {
+  font-size: 14px !important;
+}
+
+/* Ultra-wide (1600+): 3 por linha, ícones 80px */
+@media (min-width: 1600px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    padding: 16px 12px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 13px !important;
+  }
+  .tierlist-tile-score {
+    font-size: 12px !important;
+  }
+  .tierlist-col-label {
+    font-size: 26px !important;
+  }
+}
+
+/* Ultrawide (1920+): 3 por linha, ícones 88px */
+@media (min-width: 1920px) {
+  .tierlist-tile-avatar {
+    width: 88px !important;
+    height: 88px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 14px !important;
+  }
+  .tierlist-grid {
+    gap: 28px !important;
+  }
+}
+
+/* Telas médias (1200-1599): 2 por linha, ícones 64px */
+@media (max-width: 1599px) and (min-width: 1200px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 11px !important;
+  }
+}
+
+/* Notebook pequeno: 3 colunas de tier */
+@media (max-width: 1199px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .tierlist-tile-avatar {
+    width: 56px !important;
+    height: 56px !important;
+  }
+}
+
+/* Mobile: 2 colunas de tier */
+@media (max-width: 768px) {
+  .tierlist-page {
+    padding: 16px 12px !important;
+  }
+  .tierlist-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 10px !important;
+  }
+}
+
+/* ============================================================
+   TIERLIST V3: Full screen + ícones grandes
+   ============================================================ */
+
+/* Quando /tierlist herda .container-wide, libera 100% */
+.tierlist-page {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 24px 32px !important;
+}
+
+.tierlist-header,
+.tierlist-sources,
+.premium-filters {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Grid ocupa a largura toda disponível, 6 colunas equilibradas */
+.tierlist-grid {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Coluna com altura natural */
+.tierlist-col {
+  min-height: 200px;
+  height: auto !important;
+}
+
+/* Body com ícones GRANDES — 3 por linha em telas grandes */
+.tierlist-col-body {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 10px !important;
+  padding: 14px 10px !important;
+  justify-content: stretch !important;
+}
+
+/* Tile com ícone bem maior */
+.tierlist-tile {
+  padding: 8px 4px !important;
+  gap: 6px !important;
+}
+.tierlist-tile-avatar {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 50%;
+}
+.tierlist-tile-name {
+  font-size: 12px !important;
+  max-width: 100% !important;
+  font-weight: 700;
+}
+.tierlist-tile-score {
+  font-size: 11px !important;
+  color: #94a3b8;
+}
+
+/* Headers ainda maiores */
+.tierlist-col-header {
+  padding: 14px 18px !important;
+}
+.tierlist-col-label {
+  font-size: 24px !important;
+  letter-spacing: 1px;
+}
+.tierlist-col-count {
+  font-size: 14px !important;
+}
+
+/* Ultra-wide (1600+): 3 por linha, ícones 80px */
+@media (min-width: 1600px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    padding: 16px 12px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 13px !important;
+  }
+  .tierlist-tile-score {
+    font-size: 12px !important;
+  }
+  .tierlist-col-label {
+    font-size: 26px !important;
+  }
+}
+
+/* Ultrawide (1920+): 3 por linha, ícones 88px */
+@media (min-width: 1920px) {
+  .tierlist-tile-avatar {
+    width: 88px !important;
+    height: 88px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 14px !important;
+  }
+  .tierlist-grid {
+    gap: 28px !important;
+  }
+}
+
+/* Telas médias (1200-1599): 2 por linha, ícones 64px */
+@media (max-width: 1599px) and (min-width: 1200px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 11px !important;
+  }
+}
+
+/* Notebook pequeno: 3 colunas de tier */
+@media (max-width: 1199px) {
+  .tierlist-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .tierlist-tile-avatar {
+    width: 56px !important;
+    height: 56px !important;
+  }
+}
+
+/* Mobile: 2 colunas de tier */
+@media (max-width: 768px) {
+  .tierlist-page {
+    padding: 16px 12px !important;
+  }
+  .tierlist-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 10px !important;
+  }
+}
+
+/* ============================================================
+   TIERLIST V4: 2 avatares por linha (bem maiores) + full width
+   ============================================================ */
+
+/* Força o <main> a ficar wide quando tem tierlist dentro */
+main.container:has(.tierlist-page) {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 24px 32px !important;
+}
+
+/* Cada coluna precisa caber 2 tiles + gap */
+.tierlist-col-body {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 14px !important;
+  padding: 16px 12px !important;
+}
+
+/* Tile: sem overflow, sem largura mínima forçada */
+.tierlist-tile {
+  min-width: 0 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  padding: 8px 4px !important;
+  gap: 6px !important;
+}
+
+/* Avatar GRANDE, mas sem estourar */
+.tierlist-tile-avatar {
+  width: 88px !important;
+  height: 88px !important;
+  max-width: 100% !important;
+  border-radius: 50%;
+}
+
+/* Nome: mesmo tamanho, sem cortar visualmente */
+.tierlist-tile-name {
+  font-size: 13px !important;
+  max-width: 100% !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tierlist-tile-score {
+  font-size: 11px !important;
+  color: #94a3b8;
+}
+
+/* Ultra-wide 1600+ já usa 88px */
+@media (min-width: 1600px) {
+  .tierlist-tile-avatar {
+    width: 88px !important;
+    height: 88px !important;
+  }
+}
+
+/* Ultrawide 1920+: avatares de 96px (2 por linha) */
+@media (min-width: 1920px) {
+  .tierlist-col-body {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    padding: 20px 14px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 96px !important;
+    height: 96px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 14px !important;
+  }
+  .tierlist-grid {
+    gap: 28px !important;
+  }
+}
+
+/* 1200-1599: 2 por linha com 72px */
+@media (max-width: 1599px) and (min-width: 1200px) {
+  .tierlist-col-body {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 12px 10px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 72px !important;
+    height: 72px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 12px !important;
+  }
+}
+
+/* 768-1199: 3 colunas de tier, 3 avatares por linha, 60px */
+@media (max-width: 1199px) {
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+/* Mobile: 3 avatares por linha, 52px */
+@media (max-width: 768px) {
+  main.container:has(.tierlist-page) {
+    padding: 16px 12px !important;
+  }
+  .tierlist-col-body {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+  .tierlist-tile-avatar {
+    width: 52px !important;
+    height: 52px !important;
+  }
+  .tierlist-tile-name {
+    font-size: 10px !important;
+  }
+}
+
+/* Fallback se :has() não funcionar: força o container via body */
+body:has(.tierlist-page) .container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 24px 32px !important;
+}
