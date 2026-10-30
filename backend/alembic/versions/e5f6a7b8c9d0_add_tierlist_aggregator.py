@@ -39,16 +39,30 @@ def upgrade() -> None:
     # 4. Travelers (7 variantes, stats placeholder — user vai refinar 1:1)
     op.execute("""
         INSERT INTO characters
-            (slug, name, rarity, element, weapon_type,
+            (slug, name, rarity, element, weapon_type, icon,
              base_hp, base_atk, base_def, max_hp, max_atk, max_def)
         VALUES
-            ('traveler-anemo',   'Traveler (Anemo)',   5, 'anemo',   'sword', 912, 18, 57, 10875, 212, 683),
-            ('traveler-geo',     'Traveler (Geo)',     5, 'geo',     'sword', 912, 18, 57, 10875, 212, 683),
-            ('traveler-electro', 'Traveler (Electro)', 5, 'electro', 'sword', 912, 18, 57, 10875, 212, 683),
-            ('traveler-dendro',  'Traveler (Dendro)',  5, 'dendro',  'sword', 912, 18, 57, 10875, 212, 683),
-            ('traveler-hydro',   'Traveler (Hydro)',   5, 'hydro',   'sword', 912, 18, 57, 10875, 212, 683),
-            ('traveler-pyro',    'Traveler (Pyro)',    5, 'pyro',    'sword', 912, 18, 57, 10875, 212, 683),
-            ('traveler-cryo',    'Traveler (Cryo)',    5, 'cryo',    'sword', 912, 18, 57, 10875, 212, 683)
+            ('traveler-anemo',   'Traveler (Anemo)',   5, 'anemo',   'sword',
+             '/travelers/traveler-anemo.png',
+             912, 18, 57, 10875, 212, 683),
+            ('traveler-geo',     'Traveler (Geo)',     5, 'geo',     'sword',
+             '/travelers/traveler-geo.png',
+             912, 18, 57, 10875, 212, 683),
+            ('traveler-electro', 'Traveler (Electro)', 5, 'electro', 'sword',
+             '/travelers/traveler-electro.png',
+             912, 18, 57, 10875, 212, 683),
+            ('traveler-dendro',  'Traveler (Dendro)',  5, 'dendro',  'sword',
+             '/travelers/traveler-dendro.png',
+             912, 18, 57, 10875, 212, 683),
+            ('traveler-hydro',   'Traveler (Hydro)',   5, 'hydro',   'sword',
+             '/travelers/traveler-hydro.png',
+             912, 18, 57, 10875, 212, 683),
+            ('traveler-pyro',    'Traveler (Pyro)',    5, 'pyro',    'sword',
+             '/travelers/traveler-pyro.png',
+             912, 18, 57, 10875, 212, 683),
+            ('traveler-cryo',    'Traveler (Cryo)',    5, 'cryo',    'sword',
+             '/travelers/traveler-cryo.png',
+             912, 18, 57, 10875, 212, 683)
         ON CONFLICT (name) DO NOTHING
     """)
 
@@ -135,6 +149,21 @@ def upgrade() -> None:
         LEFT JOIN consensus_tier ct ON ct.character_slug = a.character_slug
         LEFT JOIN dominant_role dr ON dr.character_slug = a.character_slug
         LEFT JOIN tiers_sorted ts ON ts.character_slug = a.character_slug
+    """)
+
+    # 6. Icons dos travelers (fix pontual: Yatta não tem variantes por elemento,
+    #    Mobalytics CDN tem. Idempotente — só atualiza quem não tem URL ainda.)
+    op.execute("""
+        UPDATE characters SET icon = CASE slug
+            WHEN 'traveler-anemo'   THEN '/travelers/traveler-anemo.png'
+            WHEN 'traveler-geo'     THEN '/travelers/traveler-geo.png'
+            WHEN 'traveler-electro' THEN '/travelers/traveler-electro.png'
+            WHEN 'traveler-dendro'  THEN '/travelers/traveler-dendro.png'
+            WHEN 'traveler-hydro'   THEN '/travelers/traveler-hydro.png'
+            WHEN 'traveler-pyro'    THEN '/travelers/traveler-pyro.png'
+            WHEN 'traveler-cryo'    THEN '/travelers/traveler-cryo.png'
+        END
+        WHERE slug LIKE 'traveler-%' AND (icon IS NULL OR icon NOT LIKE 'http%')
     """)
 
 
