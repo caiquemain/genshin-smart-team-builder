@@ -495,3 +495,11 @@ curl -s "http://localhost:8000/tierlist?role=support" | jq '.items | length'    
 - Não use e.tier_master via ORM sem adicionar no model — AttributeError. Já resolvido.
 - Slugs de Traveler: sempre hyphen (traveler-cryo), nunca underscore. Prydwen é a fonte do bug histórico.
 - consensus_tier (moda) e tier_by_avg (média) divergem em ~20% dos casos — é feature, não bug. Grid usa moda; tooltip mostra os dois. Ex: Furina → consensus=S+, by_avg=S (Mobalytics B+ puxa pra baixo).
+
+### UI Refinements (pós-importação)
+
+- **`TierlistTooltip.tsx`**: componente novo usando `@floating-ui/react` (padrão do projeto, `FloatingPortal`, `isPositioned`, `safePolygon`). Fundo opaco (`#0f1218`), cores dinâmicas por elemento (pyro/geo/etc no border e glow), breakdown dos 5 sites com barras e destaque em outliers.
+- **Filtros novos**: `tierFilter` (S+/S/A/B/C/D) e `elementFilter` (7 elementos). Filtragem 100% client-side sobre os 127 itens.
+- **`SingleTierGrid`**: quando `tierFilter !== 'all'`, substitui o grid de 6 colunas por um grid flat `auto-fill` agrupado por `dominant_role` (Main DPS → Sub-DPS → Support → General), com sub-cabeçalhos e contador por role.
+- **Role visível nos cards**: `tierlist-tile-role` mostra role em uppercase pequeno abaixo do nome (grid) e destacado em azul na meta da lista.
+- **Fix de posição do tooltip**: `display: contents` no wrapper ref não gerava bounding box → `display: inline-block; width: fit-content`.
