@@ -8,6 +8,7 @@ export interface TierlistSite {
 export interface TierlistEntry {
   site_slug: string
   tier_label: string
+  tier_master: string | null
   normalized_value: number
   role: string
   version: string | null
@@ -16,10 +17,14 @@ export interface TierlistEntry {
 
 export interface AggregatedTier {
   character_slug: string
-  role: string
+  dominant_role: string
+  consensus_tier: string
+  consensus_votes: number
+  tier_by_avg: string
   avg_score: number
+  spread: number
+  tiers_voted: string[]
   num_sites: number
-  tier_consolidated: string
   entries: TierlistEntry[]
 }
 

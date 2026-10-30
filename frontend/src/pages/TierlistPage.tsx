@@ -18,13 +18,12 @@ const resolveSlug = (slug: string): string => SLUG_ALIASES[slug] ?? slug
 const ROLES = [
   { key: 'all', label: 'Todos', labelEn: 'All' },
   { key: 'general', label: 'Geral', labelEn: 'General' },
-  { key: 'main-dps', label: 'Main DPS', labelEn: 'Main DPS' },
-  { key: 'sub-dps', label: 'Sub-DPS', labelEn: 'Sub-DPS' },
+  { key: 'main_dps', label: 'Main DPS', labelEn: 'Main DPS' },
+  { key: 'sub_dps', label: 'Sub-DPS', labelEn: 'Sub-DPS' },
   { key: 'support', label: 'Suporte', labelEn: 'Support' },
-  { key: 'healer', label: 'Healer', labelEn: 'Healer' },
 ]
 
-const TIER_ORDER = ['S+', 'S', 'A', 'B', 'C', 'D', 'E', 'F']
+const TIER_ORDER = ['S+', 'S', 'A', 'B', 'C', 'D']
 
 const TIER_COLORS: Record<string, { bg: string; text: string }> = {
   'S+': { bg: 'rgba(239, 68, 68, 0.15)', text: '#f87171' },
@@ -33,8 +32,6 @@ const TIER_COLORS: Record<string, { bg: string; text: string }> = {
   'B':  { bg: 'rgba(74, 222, 128, 0.15)', text: '#4ade80' },
   'C':  { bg: 'rgba(96, 165, 250, 0.15)', text: '#60a5fa' },
   'D':  { bg: 'rgba(148, 163, 184, 0.15)', text: '#94a3b8' },
-  'E':  { bg: 'rgba(120, 113, 108, 0.15)', text: '#a8a29e' },
-  'F':  { bg: 'rgba(87, 83, 78, 0.15)', text: '#78716c' },
 }
 
 function tierStyle(tier: string) {
@@ -50,12 +47,21 @@ function CharacterTile({
 }) {
   const img = char ? iconUrl(char.icon) : null
   const name = char?.name ?? item.character_slug
-  const siteDetails = item.entries.map((e) => `${e.site_slug}: ${e.tier_label}`).join(' · ')
+  const siteDetails = item.entries
+    .map((e) => `${e.site_slug}: ${e.tier_label}${e.tier_master ? '→' + e.tier_master : ''}`)
+    .join(' · ')
+  const tooltip =
+    `${name}\n` +
+    `Consenso: ${item.consensus_tier} (${item.consensus_votes}/${item.num_sites} sites)\n` +
+    `Média: ${item.tier_by_avg} (${item.avg_score.toFixed(2)})\n` +
+    `Spread: ${item.spread.toFixed(2)}\n` +
+    `Votaram: ${item.tiers_voted.join(', ')}\n\n` +
+    siteDetails
   return (
     <Link
       to={`/characters/${resolveSlug(item.character_slug)}`}
       className="tierlist-tile"
-      title={`${name}\n${item.tier_consolidated} (${item.avg_score.toFixed(2)})\n${siteDetails}`}
+      title={tooltip}
     >
       <div className="tierlist-tile-avatar">
         {img ? <img src={img} alt={name} loading="lazy" /> : <span>?</span>}
@@ -76,7 +82,7 @@ function TierlistGrid({
   const grouped = useMemo(() => {
     const g: Record<string, AggregatedTier[]> = {}
     for (const item of items) {
-      const t = item.tier_consolidated
+      const t = item.consensus_tier
       if (!g[t]) g[t] = []
       g[t].push(item)
     }
@@ -102,7 +108,7 @@ function TierlistGrid({
             <div className="tierlist-col-body">
               {grouped[tier].map((item) => (
                 <CharacterTile
-                  key={`${item.character_slug}-${item.role}`}
+                  key={item.character_slug}
                   item={item}
                   char={chars.get(resolveSlug(item.character_slug))}
                   lang={lang}
@@ -128,22 +134,24 @@ function TierlistList({
       {items.map((item) => {
         const char = chars.get(resolveSlug(item.character_slug))
         const img = char ? iconUrl(char.icon) : null
-        const style = tierStyle(item.tier_consolidated)
+        const style = tierStyle(item.consensus_tier)
         return (
           <Link
-            key={`${item.character_slug}-${item.role}`}
+            key={item.character_slug}
             to={`/characters/${resolveSlug(item.character_slug)}`}
             className="tierlist-list-row"
           >
             <span className="tierlist-list-tier" style={{ background: style.bg, color: style.text }}>
-              {item.tier_consolidated}
+              {item.consensus_tier}
             </span>
             <div className="tierlist-list-avatar">
               {img ? <img src={img} alt={char?.name} loading="lazy" /> : <span>?</span>}
             </div>
             <div className="tierlist-list-info">
               <span className="tierlist-list-name">{char?.name ?? item.character_slug}</span>
-              <span className="tierlist-list-meta">{item.num_sites} sites</span>
+              <span className="tierlist-list-meta">
+                {item.num_sites} sites · média {item.tier_by_avg} · spread {item.spread.toFixed(2)}
+              </span>
             </div>
             <div className="tierlist-list-sites">
               {item.entries.map((e) => (
@@ -173,8 +181,9 @@ export default function TierlistPage() {
   const load = async () => {
     setLoading(true)
     try {
+      const roleParam = roleFilter !== 'all' ? roleFilter : undefined
       const [tierlist, sitesData, charsData] = await Promise.all([
-        api.getTierlist(),
+        api.getTierlist(roleParam ? { role: roleParam } : {}),
         api.getTierlistSites(),
         api.listCharacters(lang, { limit: 200 }),
       ])
@@ -189,36 +198,21 @@ export default function TierlistPage() {
     }
   }
 
-  useEffect(() => { load() }, [lang])
+  useEffect(() => { load() }, [lang, roleFilter])
 
   const filtered = useMemo(() => {
     if (!data) return []
-    let list = data.items
-    if (roleFilter !== 'all') {
-      list = list.filter((i) => i.role === roleFilter)
-    }
-    // Se roleFilter='all', dedupe por char (pega maior score)
-    if (roleFilter === 'all') {
-      const byChar = new Map<string, AggregatedTier>()
-      for (const item of list) {
-        const existing = byChar.get(item.character_slug)
-        if (!existing || item.avg_score > existing.avg_score) {
-          byChar.set(item.character_slug, item)
-        }
-      }
-      list = Array.from(byChar.values())
-    }
-    return [...list].sort((a, b) => b.avg_score - a.avg_score)
-  }, [data, roleFilter])
+    return [...data.items].sort((a, b) => b.avg_score - a.avg_score)
+  }, [data])
 
   if (loading) return <p className="status">Carregando tierlist...</p>
   if (error) return <p className="status error">Erro: {error}</p>
 
   const byRoleCount = (data?.items ?? []).reduce<Record<string, number>>((acc, i) => {
-    acc[i.role] = (acc[i.role] || 0) + 1
+    acc[i.dominant_role] = (acc[i.dominant_role] || 0) + 1
     return acc
   }, {})
-  const allUnique = new Set((data?.items ?? []).map((i) => i.character_slug)).size
+  const allUnique = (data?.items ?? []).length
 
   return (
     <div className="tierlist-page">
