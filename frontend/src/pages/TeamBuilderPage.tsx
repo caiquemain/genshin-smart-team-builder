@@ -9,8 +9,9 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import CharacterBuildEditor from '../components/CharacterBuildEditor'
+import TeamTierBadge from '../components/TeamTierBadge'
 import type {
-  CharacterSummary, Enums, TeamAnalysisResponse, CharacterBuild,
+  CharacterSummary, Enums, TeamAnalysisResponse, CharacterBuild, TeamTierInfo,
 } from '../types'
 
 const SLOT_COUNT = 4
@@ -205,6 +206,7 @@ export default function TeamBuilderPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<TeamAnalysisResponse | null>(null)
+  const [previewTier, setPreviewTier] = useState<TeamTierInfo | null>(null)
   const [filterElement, setFilterElement] = useState('')
 
   useEffect(() => {
@@ -230,12 +232,17 @@ export default function TeamBuilderPage() {
       .catch((e) => setError(String(e)))
   }, [templateIdParam])
 
-  // Análise do time com debounce
+  // Análise do time + preview do tier com debounce (paralelo)
   useEffect(() => {
     const filled = slots.filter(Boolean) as string[]
-    if (filled.length === 0) { setAnalysis(null); return }
+    if (filled.length === 0) {
+      setAnalysis(null)
+      setPreviewTier(null)
+      return
+    }
     const t = setTimeout(() => {
       api.analyzeTeam(filled, lang).then(setAnalysis).catch(() => setAnalysis(null))
+      api.previewTier(filled).then(setPreviewTier).catch(() => setPreviewTier(null))
     }, 300)
     return () => clearTimeout(t)
   }, [slots, lang])
@@ -334,7 +341,10 @@ export default function TeamBuilderPage() {
   return (
     <div>
       <Link to="/teams" className="back">← Voltar para times</Link>
-      <h1>Novo time</h1>
+      <div className="team-builder-title-row">
+        <h1>Novo time</h1>
+        {previewTier && <TeamTierBadge teamTier={previewTier} size="lg" />}
+      </div>
 
       {templateInfo && (
         <div className="template-banner">

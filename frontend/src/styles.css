@@ -10494,3 +10494,14 @@ body:has(.tierlist-page) .container {
   color: #94a3b8;
   font-weight: 700;
 }
+
+/* Header do TeamBuilder com badge de tier */
+.team-builder-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.team-builder-title-row h1 {
+  margin: 0;
+}

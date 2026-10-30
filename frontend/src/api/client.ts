@@ -20,6 +20,7 @@ import type { Substitute, BuildPreset,
   TeamCreate,
   TeamDetail,
   TeamListResponse,
+  TeamTierInfo,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
 
@@ -101,6 +102,15 @@ export const api = {
   getTierlistSites: () => request<TierlistSite[]>('/tierlist/sites'),
   getCharacterTierlist: (slug: string) =>
     request<CharacterTierlistResponse>(`/tierlist/character/${slug}`),
+  previewTier: (characterSlugs: string[]) =>
+    fetch(`${API_URL}/teams/preview-tier`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ character_slugs: characterSlugs }),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<TeamTierInfo>
+    }),
   listPresets: (characterSlug: string) => request<BuildPreset[]>(`/presets/${characterSlug}`),
   createPreset: (payload: { character_slug: string, name: string, build_data: CharacterBuild }) =>
     fetch(`${API_URL}/presets`, {
