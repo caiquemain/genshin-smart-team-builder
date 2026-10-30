@@ -219,6 +219,8 @@ Contagens a preencher:
 - **Planner - fallback de travelers**: o banco não tem travelers individuais (traveler_anemo, etc), então `resolveSlug` retorna o slug mesmo sem estar no Map (fallback). O card renderiza com ícone do elemento e nome amigável "Traveler (Anemo)".
 - **Badges com contraste independente**: card inativo tem opacity 0.55 só em portrait/mats/talents/name, mas badge e nome ficam 100% visíveis (opacity multiplicativo quebrava).
 - **Lista de weapons no Planner**: usa `limit: 500` pra pegar todas (eram ~250 no banco).
+- **Modal em 2 colunas** (1200px) pra não ter scroll vertical exagerado. Categoria de materiais separada (ascensão/talentos/armas) com grid auto-fill 180px.
+- **Estimativa de resina baseada no que falta**: `missing = material.quantity - inventory[slug]`, não no total. Mora tem fórmula especial (`ceil(missing / 60000) * 20`).
 - **Biblioteca de Ícones**: `lucide-react` instalada. Todos os emojis de UI foram trocados por SVGs.
 - **Animações CSS**: Uso extensivo de `@keyframes` para entrada em cascata (`slideUpFade`, `cardDeal`), hover transitions (`transform`, `box-shadow`) e pulsos (`pulseBorder`).
 - **Conic Gradient para Score**: O anel do score usa `conic-gradient` com uma variável CSS `--score` injetada via React.
@@ -329,6 +331,15 @@ Contagens a preencher:
 - Travelers resolvidos via fallback (slug direto + ícone de elemento)
 - Ascension com `if (current < goal)` — evita 400 em chars maxados
 
+**Feito (sessão atual):**
+- Modal de detalhes no `/planner/characters` (clicar no card abre)
+- Layout 2 colunas: esquerda (talentos + armas + summary) / direita (materiais por categoria)
+- Agrupamento de materiais: Ascensão / Talentos / Armas separados
+- i18n completo do modal (badges, labels de talentos, títulos de seção)
+- Cálculo de dias corrigido: só conta o que FALTA, Mora com fórmula especial
+- Mostra "Pronto" quando 0 dias restantes
+- ESC fecha, click fora fecha, botão Fechar
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -385,6 +396,15 @@ Contagens a preencher:
 - Aliases de personagens (kazuha, sara, lanyan) e armas (the_flute, skyward_harp, the_widsith)
 - Travelers resolvidos via fallback (slug direto + ícone de elemento)
 - Ascension com `if (current < goal)` — evita 400 em chars maxados
+
+**Feito (sessão atual):**
+- Modal de detalhes no `/planner/characters` (clicar no card abre)
+- Layout 2 colunas: esquerda (talentos + armas + summary) / direita (materiais por categoria)
+- Agrupamento de materiais: Ascensão / Talentos / Armas separados
+- i18n completo do modal (badges, labels de talentos, títulos de seção)
+- Cálculo de dias corrigido: só conta o que FALTA, Mora com fórmula especial
+- Mostra "Pronto" quando 0 dias restantes
+- ESC fecha, click fora fecha, botão Fechar
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main

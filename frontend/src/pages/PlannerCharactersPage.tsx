@@ -5,6 +5,7 @@ import {
   Filter, ArrowUpDown,
 } from 'lucide-react'
 import PlannerCharacterCard from '../components/PlannerCharacterCard'
+import PlannerCharacterModal from '../components/PlannerCharacterModal'
 import type { Plan } from '../types/planner'
 
 const ELEMENT_COLORS: Record<string, string> = {
@@ -65,6 +66,7 @@ export default function PlannerCharactersPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [pendingFilter, setPendingFilter] = useState<PendingFilter>('all')
   const [sortBy, setSortBy] = useState<SortBy>('name')
+  const [selectedChar, setSelectedChar] = useState<any | null>(null)
 
   useEffect(() => {
     try {
@@ -214,14 +216,27 @@ export default function PlannerCharactersPage() {
       ) : (
         <div className="plan-chars-grid">
           {filtered.map((c) => (
-            <PlannerCharacterCard
+            <div
               key={c.slug}
-              char={c}
-              element={elementOf(c.slug)}
-              inventory={plan.inventory_resolved}
-            />
+              onClick={() => setSelectedChar(c)}
+              style={{ cursor: 'pointer' }}
+            >
+              <PlannerCharacterCard
+                char={c}
+                element={elementOf(c.slug)}
+                inventory={plan.inventory_resolved}
+              />
+            </div>
           ))}
         </div>
+      )}
+      {selectedChar && (
+        <PlannerCharacterModal
+          char={selectedChar}
+          element={elementOf(selectedChar.slug)}
+          inventory={plan.inventory_resolved}
+          onClose={() => setSelectedChar(null)}
+        />
       )}
     </div>
   )
