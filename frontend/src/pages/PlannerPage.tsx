@@ -22,6 +22,7 @@ import type {
   SeelieWeaponGoal,
 } from '../types/seelie'
 import { Calculator, Upload, Trash2, Zap, Coins, Users, Sword, FlaskConical, Flame, Droplets, Snowflake, Wind, Mountain, Leaf } from 'lucide-react'
+import type { AggregateMaterial, CharBreakdown, WeaponBreakdown, TierGroup, Plan } from '../types/planner'
 
 const STORAGE_KEY = 'gsb.planner.v4'
 
@@ -43,9 +44,15 @@ const SLUG_ALIASES: Record<string, string> = {
   'shinobu': 'kuki-shinobu',
   'mizuki': 'yumemizuki-mizuki',
   'yunjin': 'yun-jin',
+  'kazuha': 'kaedehara-kazuha',
+  'sara': 'kujou-sara',
+  'lanyan': 'lan-yan',
 }
 
 const WEAPON_ALIASES: Record<string, string> = {
+  'the_flute': 'the-flute',
+  'skyward_harp': 'skyward-harp',
+  'the_widsith': 'the-widsith',
   'amenoma_kageuta_blade': 'amenoma-kageuchi',
   'amenoma_kageuchi': 'amenoma-kageuchi',
   'wavebreakers_fin': 'wavebreaker-s-fin',
@@ -53,65 +60,18 @@ const WEAPON_ALIASES: Record<string, string> = {
   'mailed_flower': 'mailed-flower',
 }
 
-interface AggregateMaterial {
-  slug: string
-  name: string
-  icon: string | null
-  rarity: number | null
-  category: string
-  description: string | null
-  source: string | null
-  quantity: number
-  resin_estimate: number
-}
 
-interface WeaponBreakdown {
-  slug: string
-  name: string
-  icon: string | null
-  rarity: number
-  from_level: number
-  to_level: number
-  cost: WeaponAscensionResponse | null
-}
 
-interface CharBreakdown {
-  slug: string
-  name: string
-  icon: string | null
-  ascension: AscensionCost | null
-  talents: TalentCost | null
-  weapons: WeaponBreakdown[]
-  char_goal: SeelieCharacterGoal | null
-  talent_goal: SeelieTalentGoal | null
-}
 
-interface TierGroup {
-  tier: typeof TIERS[number]
-  materials: AggregateMaterial[]
-  resin_total: number
-}
 
-interface Plan {
-  chars: CharBreakdown[]
-  grand_mora: number
-  grand_resin: number
-  tier_groups: TierGroup[]
-  warnings: string[]
-  not_mapped: string[]
-  travelers_skipped: number
-  weapons_processed: number
-  weapons_skipped: number
-  inventory_resolved: Record<string, number>
-  inventory_stats: { mapped: number; unmapped: number; ambiguous: number; total: number }
-  materials_complete: number
-  materials_partial: number
-}
 
 function resolveSlug(seelieSlug: string, chars: Map<string, CharacterSummary>): string | null {
   if (chars.has(seelieSlug)) return seelieSlug
   const alias = SLUG_ALIASES[seelieSlug]
   if (alias && chars.has(alias)) return alias
+  // Fallback: travelers e chars conhecidos que ainda não estão no banco
+  // (retorna o slug mesmo sem estar no Map — o card renderiza com slug amigável)
+  if (seelieSlug.startsWith('traveler_')) return seelieSlug
   return null
 }
 
@@ -221,7 +181,7 @@ export default function PlannerPage() {
   useEffect(() => {
     Promise.all([
       api.listCharacters(lang, { limit: 200 }),
-      api.listWeapons(lang, { limit: 200 }),
+      api.listWeapons(lang, { limit: 500 }),
     ])
       .then(([charsRes, weaponsRes]) => {
         const cm = new Map<string, CharacterSummary>()
@@ -281,9 +241,9 @@ export default function PlannerPage() {
     setLoading(true)
     setError(null)
     try {
+      // TODOS os chars do JSON (inclusive os 100% completos)
       const charGoals = seelieData.goals.filter(
-        (g): g is SeelieCharacterGoal =>
-          g.type === 'character' && g.current.level < g.goal.level,
+        (g): g is SeelieCharacterGoal => g.type === 'character',
       )
       const talentGoals = seelieData.goals.filter(
         (g): g is SeelieTalentGoal =>
@@ -364,11 +324,17 @@ export default function PlannerPage() {
 
       for (const [slug, g] of bySlug.entries()) {
         if (g.char_goal) {
-          fetchJobs.push(
-            api.getAscensionCost(slug, g.char_goal.current.level, g.char_goal.goal.level, lang)
-              .then((d) => { ascMap.set(slug, d) })
-              .catch((e) => { warnings.push(`Ascensão de ${slug} falhou: ${String(e)}`) }),
-          )
+          // Só chama ascension se realmente precisa subir
+          const curLvl = g.char_goal.current.level
+          const goalLvl = g.char_goal.goal.level
+          if (curLvl < goalLvl) {
+            fetchJobs.push(
+              api.getAscensionCost(slug, curLvl, goalLvl, lang)
+                .then((d) => { ascMap.set(slug, d) })
+                .catch((e) => { warnings.push(`Ascensão de ${slug} falhou: ${String(e)}`) }),
+            )
+          }
+          // Se current >= goal, apenas marca "completo" (não chama API)
         }
         if (g.talent_goal) {
           const tg = g.talent_goal
@@ -416,9 +382,20 @@ export default function PlannerPage() {
           })
         }
 
+        // Nome amigável pra fallback (travelers, etc)
+        let displayName = char?.name
+        if (!displayName) {
+          if (slug.startsWith('traveler_')) {
+            const el = slug.replace('traveler_', '')
+            displayName = `Traveler (${el.charAt(0).toUpperCase() + el.slice(1)})`
+          } else {
+            displayName = slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+          }
+        }
+
         charBreakdowns.push({
           slug,
-          name: char?.name ?? slug,
+          name: displayName,
           icon: char?.icon ?? null,
           ascension,
           talents,
@@ -502,10 +479,32 @@ export default function PlannerPage() {
         else if (have > 0) materialsPartial++
       }
 
-      const finalPlan: Plan = {
-        chars: charBreakdowns.filter((c) =>
-          c.ascension || c.talents || c.weapons.length > 0
-        ),
+      
+      // Calcular flags de pendência e inatividade
+      const inactiveMap = seelieData.inactive as Record<string, boolean> || {}
+      for (const c of charBreakdowns) {
+        // Inativo: por slug (única forma confirmada)
+        c.is_inactive = !!inactiveMap[c.slug]
+
+        // Pendência de ascensão
+        c.has_ascension_pending = !!(c.char_goal && c.char_goal.current.level < c.char_goal.goal.level)
+
+        // Pendência de talento
+        c.has_talent_pending = !!(c.talent_goal && (
+          c.talent_goal.normal.current < c.talent_goal.normal.goal ||
+          c.talent_goal.skill.current < c.talent_goal.skill.goal ||
+          c.talent_goal.burst.current < c.talent_goal.burst.goal
+        ))
+
+        // Pendência de arma
+        c.has_weapon_pending = c.weapons.some((w) => w.from_level < w.to_level)
+
+        // Completo: sem nenhuma pendência
+        c.is_complete = !c.has_ascension_pending && !c.has_talent_pending && !c.has_weapon_pending
+      }
+
+const finalPlan: Plan = {
+        chars: charBreakdowns,
         grand_mora,
         grand_resin,
         tier_groups: tierGroups,

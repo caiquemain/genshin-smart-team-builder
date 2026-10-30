@@ -1,5 +1,17 @@
+import { Moon, Check, Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf } from 'lucide-react'
 import { iconUrl } from '../config'
+import { useLanguage } from '../context/LanguageContext'
 import type { AggregateMaterial, CharBreakdown } from '../types/planner'
+
+const ELEMENT_ICON_NAME: Record<string, string> = {
+  pyro: 'UI_Buff_Element_Fire',
+  hydro: 'UI_Buff_Element_Water',
+  electro: 'UI_Buff_Element_Electric',
+  cryo: 'UI_Buff_Element_Ice',
+  anemo: 'UI_Buff_Element_Wind',
+  geo: 'UI_Buff_Element_Rock',
+  dendro: 'UI_Buff_Element_Grass',
+}
 
 const ELEMENT_COLORS: Record<string, string> = {
   pyro: '#ff9c46', hydro: '#4cc2f1', electro: '#b398ff', cryo: '#93e2ff',
@@ -70,13 +82,13 @@ function PlanMaterialIcon({ material, have }: { material: AggregateMaterial; hav
   )
 }
 
-function PlanTalentBar({ label, current, goal }: { label: string; current: number | null; goal: number | null }) {
+function PlanTalentBar({ label, current, goal, lang }: { label: string; current: number | null; goal: number | null; lang: string }) {
   if (current == null || goal == null) return null
   if (current === goal) {
     return (
       <div className="plan-talent-row">
         <span className="plan-talent-label">{label}</span>
-        <span className="plan-talent-done">MAX</span>
+        <span className="plan-talent-done">{lang === 'en' ? 'MAX' : 'MÁX'}</span>
       </div>
     )
   }
@@ -101,7 +113,10 @@ export default function PlannerCharacterCard({
   element: string | undefined
   inventory: Record<string, number>
 }) {
-  const img = iconUrl(char.icon)
+  const { lang } = useLanguage()
+  const inactiveLabel = lang === 'en' ? 'Inactive' : 'Inativo'
+  // Fallback: se não tem ícone do char, usa ícone de elemento (travelers)
+  const img = iconUrl(char.icon) || (element ? iconUrl(ELEMENT_ICON_NAME[element]) : null)
   const mats = aggregateCharMaterials(char)
   const accent = element ? ELEMENT_COLORS[element] ?? '#7dd3fc' : '#7dd3fc'
   const charLevels = char.char_goal ? `${char.char_goal.current.level} → ${char.char_goal.goal.level}` : null
@@ -110,13 +125,27 @@ export default function PlannerCharacterCard({
   const resinTotal = mats.reduce((sum, m) => sum + m.resin_estimate, 0)
   const resinDays = Math.ceil(resinTotal / 180)
   return (
-    <div className="plan-char-card" style={{ '--char-accent': accent } as React.CSSProperties}>
+    <div
+      className={`plan-char-card ${char.is_inactive ? 'is-inactive' : ''} ${char.is_complete ? 'is-complete' : ''}`}
+      style={{ '--char-accent': accent } as React.CSSProperties}
+    >
       <div className="plan-char-header">
         <div className="plan-char-portrait">
           {img ? <img src={img} alt={char.name} /> : <span>?</span>}
           <div className="plan-char-portrait-gradient" />
           {charLevels && <span className="plan-char-lv">{charLevels}</span>}
           <span className="plan-char-c0">C{cons}</span>
+          {char.is_inactive && (
+            <span className="plan-char-badge plan-char-badge-inactive" title={inactiveLabel}>
+              <Moon size={11} strokeWidth={2.5} />
+              {inactiveLabel}
+            </span>
+          )}
+          {char.is_complete && !char.is_inactive && (
+            <span className="plan-char-badge plan-char-badge-complete" title="Completo">
+              <Check size={12} strokeWidth={3} />
+            </span>
+          )}
         </div>
         <div className="plan-char-info">
           <div className="plan-char-title-row">
@@ -127,12 +156,12 @@ export default function PlannerCharacterCard({
           </div>
           <div className="plan-char-talents">
             {talentsDone ? (
-              <p className="plan-char-talents-done">Talents caught up ✓</p>
+              <p className="plan-char-talents-done">{lang === 'en' ? 'Talents caught up' : 'Talentos em dia'} ✓</p>
             ) : (
               <>
-                <PlanTalentBar label="ATTACK" current={char.talent_goal!.normal.current} goal={char.talent_goal!.normal.goal} />
-                <PlanTalentBar label="SKILL" current={char.talent_goal!.skill.current} goal={char.talent_goal!.skill.goal} />
-                <PlanTalentBar label="BURST" current={char.talent_goal!.burst.current} goal={char.talent_goal!.burst.goal} />
+                <PlanTalentBar label="ATTACK" current={char.talent_goal!.normal.current} goal={char.talent_goal!.normal.goal} lang={lang} />
+                <PlanTalentBar label="SKILL" current={char.talent_goal!.skill.current} goal={char.talent_goal!.skill.goal} lang={lang} />
+                <PlanTalentBar label="BURST" current={char.talent_goal!.burst.current} goal={char.talent_goal!.burst.goal} lang={lang} />
               </>
             )}
           </div>

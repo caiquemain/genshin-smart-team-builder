@@ -31,6 +31,11 @@ export interface CharBreakdown {
   weapons: WeaponBreakdown[]
   char_goal: any | null
   talent_goal: any | null
+  is_inactive?: boolean
+  is_complete?: boolean
+  has_ascension_pending?: boolean
+  has_talent_pending?: boolean
+  has_weapon_pending?: boolean
 }
 
 export interface TierGroup {

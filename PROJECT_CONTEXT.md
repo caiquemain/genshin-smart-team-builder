@@ -216,6 +216,9 @@ Contagens a preencher:
 - **Schema retorno de arma**: O `WeaponDetail` no backend agora inclui `max_base_atk=w.max_base_atk` no construtor manual do endpoint `get_weapon` (estava faltando antes).
 - **Planner dividido em 2 rotas**: `/planner` (import + cálculo) e `/planner/characters` (cards). O `Plan` completo é serializado em `localStorage` após calcular pra evitar recalcular na navegação.
 - **Card de personagem extraído** para `components/PlannerCharacterCard.tsx` (reutilizável). Tipos compartilhados em `types/planner.ts`.
+- **Planner - fallback de travelers**: o banco não tem travelers individuais (traveler_anemo, etc), então `resolveSlug` retorna o slug mesmo sem estar no Map (fallback). O card renderiza com ícone do elemento e nome amigável "Traveler (Anemo)".
+- **Badges com contraste independente**: card inativo tem opacity 0.55 só em portrait/mats/talents/name, mas badge e nome ficam 100% visíveis (opacity multiplicativo quebrava).
+- **Lista de weapons no Planner**: usa `limit: 500` pra pegar todas (eram ~250 no banco).
 - **Biblioteca de Ícones**: `lucide-react` instalada. Todos os emojis de UI foram trocados por SVGs.
 - **Animações CSS**: Uso extensivo de `@keyframes` para entrada em cascata (`slideUpFade`, `cardDeal`), hover transitions (`transform`, `box-shadow`) e pulsos (`pulseBorder`).
 - **Conic Gradient para Score**: O anel do score usa `conic-gradient` com uma variável CSS `--score` injetada via React.
@@ -317,6 +320,15 @@ Contagens a preencher:
 - Adicionado `cons?: number` em `SeelieCharacterGoal` — C0 hardcoded → C{cons} real
 - Planner principal ganhou CTA 'Ver X personagens em detalhes' e save em localStorage
 
+**Feito (sessão atual):**
+- Planner agora lê os **92 chars** do JSON (não filtra mais por pendência)
+- Badges premium: Inativo (pill escuro com lua) + Completo (selo verde pulsante)
+- Traduções PT/EN em badges, labels de talento e "Talentos em dia"
+- Filtros completos: elemento, status, pendência, ordenação
+- Aliases de personagens (kazuha, sara, lanyan) e armas (the_flute, skyward_harp, the_widsith)
+- Travelers resolvidos via fallback (slug direto + ícone de elemento)
+- Ascension com `if (current < goal)` — evita 400 em chars maxados
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -364,6 +376,15 @@ Contagens a preencher:
 - Tipos compartilhados em `types/planner.ts` (Plan, CharBreakdown, AggregateMaterial, TierGroup)
 - Adicionado `cons?: number` em `SeelieCharacterGoal` — C0 hardcoded → C{cons} real
 - Planner principal ganhou CTA 'Ver X personagens em detalhes' e save em localStorage
+
+**Feito (sessão atual):**
+- Planner agora lê os **92 chars** do JSON (não filtra mais por pendência)
+- Badges premium: Inativo (pill escuro com lua) + Completo (selo verde pulsante)
+- Traduções PT/EN em badges, labels de talento e "Talentos em dia"
+- Filtros completos: elemento, status, pendência, ordenação
+- Aliases de personagens (kazuha, sara, lanyan) e armas (the_flute, skyward_harp, the_widsith)
+- Travelers resolvidos via fallback (slug direto + ícone de elemento)
+- Ascension com `if (current < goal)` — evita 400 em chars maxados
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main
