@@ -7,8 +7,18 @@ from ..models import (
     Base,
     ElementalReaction,
     Material,
+    TierlistSite,
     MaterialCategory,
 )
+
+
+TIERLIST_SITES = [
+    dict(slug="game8", name="Game8", url="https://game8.co/games/Genshin-Impact/archives/297499", scale_size=5),
+    dict(slug="gamewith", name="GameWith", url="https://gamewith.net/genshin-impact/article/show/21671", scale_size=5),
+    dict(slug="genshinlab", name="GenshinLab", url="https://genshinlab.com/tier-list/", scale_size=6),
+    dict(slug="prydwen", name="Prydwen", url="https://www.prydwen.gg/genshin/tier-list", scale_size=5),
+    dict(slug="mobalytics", name="Mobalytics", url="https://mobalytics.gg/genshin-impact/tier-list", scale_size=6),
+]
 
 
 REACTIONS = [
@@ -112,8 +122,16 @@ def seed() -> None:
                 description="Moeda universal usada em melhorias.",
             ))
 
+        # Seed de sites de tierlist (idempotente)
+        inserted_sites = 0
+        for site_data in TIERLIST_SITES:
+            exists = db.query(TierlistSite).filter(TierlistSite.slug == site_data["slug"]).first()
+            if not exists:
+                db.add(TierlistSite(**site_data))
+                inserted_sites += 1
+
         db.commit()
-        print(f"[seed] Inserted {inserted_reactions} reactions + Mora (if missing).")
+        print(f"[seed] Inserted {inserted_reactions} reactions + Mora (if missing) + {inserted_sites} tierlist sites.")
     finally:
         db.close()
 

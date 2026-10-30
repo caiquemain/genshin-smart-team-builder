@@ -21,6 +21,7 @@ import type { Substitute, BuildPreset,
   TeamDetail,
   TeamListResponse,
 } from '../types'
+import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
 
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
 
@@ -95,6 +96,11 @@ export const api = {
     fetch(`${API_URL}/teams/${id}`, { method: 'DELETE' }).then((r) => {
       if (!r.ok) throw new Error(`API ${r.status}`)
     }),
+  getTierlist: (params: { role?: string; version?: string } = {}) =>
+    request<TierlistResponse>('/tierlist', params),
+  getTierlistSites: () => request<TierlistSite[]>('/tierlist/sites'),
+  getCharacterTierlist: (slug: string) =>
+    request<CharacterTierlistResponse>(`/tierlist/character/${slug}`),
   listPresets: (characterSlug: string) => request<BuildPreset[]>(`/presets/${characterSlug}`),
   createPreset: (payload: { character_slug: string, name: string, build_data: CharacterBuild }) =>
     fetch(`${API_URL}/presets`, {
