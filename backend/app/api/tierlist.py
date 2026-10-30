@@ -55,8 +55,12 @@ def import_tierlist(payload: TierlistImportPayload, db: Session = Depends(get_db
     inserted = 0
     updated = 0
     invalid_tiers = set()
-
+    # Dedupe dentro do payload: se a mesma (char, role) aparecer 2x, last-wins
+    deduped: dict[tuple[str, str], "TierlistEntryImport"] = {}
     for entry in payload.entries:
+        deduped[(entry.character_slug, entry.role)] = entry
+
+    for (char_slug, role), entry in deduped.items():
         if entry.tier not in scale_map:
             invalid_tiers.add(entry.tier)
             continue
@@ -67,8 +71,8 @@ def import_tierlist(payload: TierlistImportPayload, db: Session = Depends(get_db
             db.query(TierlistEntry)
             .filter(
                 TierlistEntry.site_id == site.id,
-                TierlistEntry.character_slug == entry.character_slug,
-                TierlistEntry.role == entry.role,
+                TierlistEntry.character_slug == char_slug,
+                TierlistEntry.role == role,
                 TierlistEntry.version == payload.version,
             )
             .one_or_none()
@@ -82,8 +86,8 @@ def import_tierlist(payload: TierlistImportPayload, db: Session = Depends(get_db
         else:
             db.add(TierlistEntry(
                 site_id=site.id,
-                character_slug=entry.character_slug,
-                role=entry.role,
+                character_slug=char_slug,
+                role=role,
                 tier_label=entry.tier,
                 tier_index=tier_idx,
                 normalized_value=norm,
