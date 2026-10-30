@@ -277,6 +277,13 @@ Contagens a preencher:
 - Cores de armas definidas (Sword = Prata, Claymore = Âmbar, Polearm = Vermelho, Bow = Verde, Catalyst = Roxo)
 - Glow e drop-shadow nos ícones dos filtros
 
+**Feito (sessão atual):**
+- WeaponsPage reescrita com filtros em Pill (tipo + raridade + busca)
+- Tooltips (WeaponTooltip) adicionados em cada card de arma
+- Fix do cálculo: cards mostram `max_base_atk` (Lv.90) em vez de `base_atk` (Lv.1)
+- Cards com glassmorphism, glow da raridade e animação em cascata
+- Ícones Lucide por tipo de arma (Sword/Shield/Swords/Target/Crosshair)
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -286,6 +293,13 @@ Contagens a preencher:
 - Substituição dos `<select>` nativos por filtros em 'Pill' (botões) com ícones coloridos
 - Cores de armas definidas (Sword = Prata, Claymore = Âmbar, Polearm = Vermelho, Bow = Verde, Catalyst = Roxo)
 - Glow e drop-shadow nos ícones dos filtros
+
+**Feito (sessão atual):**
+- WeaponsPage reescrita com filtros em Pill (tipo + raridade + busca)
+- Tooltips (WeaponTooltip) adicionados em cada card de arma
+- Fix do cálculo: cards mostram `max_base_atk` (Lv.90) em vez de `base_atk` (Lv.1)
+- Cards com glassmorphism, glow da raridade e animação em cascata
+- Ícones Lucide por tipo de arma (Sword/Shield/Swords/Target/Crosshair)
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main

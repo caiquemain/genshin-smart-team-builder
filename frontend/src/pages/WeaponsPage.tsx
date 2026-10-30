@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Sword, Shield, Swords, Target, Crosshair, Star, Search } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
-import { categoryInfo } from '../utils/categories'
+import WeaponTooltip from '../components/WeaponTooltip'
 import type { WeaponSummary } from '../types'
 
-const WEAPON_TYPE_EMOJI: Record<string, string> = {
-  sword: '⚔️', claymore: '🗡️', polearm: '🔱', bow: '🏹', catalyst: '📖',
+const WEAPON_ICONS: Record<string, any> = {
+  sword: Sword, claymore: Shield, polearm: Swords, bow: Target, catalyst: Crosshair,
 }
-
-const WEAPON_TYPE_LABEL: Record<string, string> = {
+const WEAPON_LABEL: Record<string, string> = {
   sword: 'Espada', claymore: 'Espadão', polearm: 'Lança', bow: 'Arco', catalyst: 'Catalisador',
+}
+const WEAPON_COLORS: Record<string, string> = {
+  sword: '#e2e8f0', claymore: '#d97706', polearm: '#f87171', bow: '#4ade80', catalyst: '#c084fc',
 }
 
 function formatStatLabel(raw: string | null): string {
@@ -30,30 +33,45 @@ function formatStatValue(stat: string | null, value: number | null): string {
 
 function WeaponCard({ weapon }: { weapon: WeaponSummary }) {
   const img = iconUrl(weapon.icon)
-  return (
-    <Link to={`/weapons/${weapon.slug}`} className={`weapon-card rarity-${weapon.rarity}`}>
+  const Icon = WEAPON_ICONS[weapon.weapon_type]
+  const rarityColor = weapon.rarity === 5 ? '#e0a647' : weapon.rarity === 4 ? '#a35bd8' : weapon.rarity === 3 ? '#5a8fd8' : '#94a3b8'
+
+  // Fix: usa max (Lv.90) com fallback pro base (Lv.1)
+  const atk = weapon.max_base_atk ?? weapon.base_atk
+  const substat = weapon.max_secondary_stat_value ?? weapon.secondary_stat_value
+
+  const card = (
+    <Link
+      to={`/weapons/${weapon.slug}`}
+      className="weapon-card"
+      style={{ '--rarity-color': rarityColor } as React.CSSProperties}
+    >
+      <div className="weapon-card-glow" />
       <div className="weapon-card-rarity">{'★'.repeat(weapon.rarity)}</div>
       <div className="weapon-card-icon">
         {img ? <img src={img} alt={weapon.name} loading="lazy" /> : <span>?</span>}
       </div>
       <div className="weapon-card-name">{weapon.name}</div>
       <div className="weapon-card-type">
-        {WEAPON_TYPE_EMOJI[weapon.weapon_type]} {WEAPON_TYPE_LABEL[weapon.weapon_type]}
+        <Icon size={14} />
+        {WEAPON_LABEL[weapon.weapon_type]}
       </div>
       <div className="weapon-card-stats">
         <div className="weapon-stat">
-          <span className="weapon-stat-label">ATK base</span>
-          <span className="weapon-stat-value">{weapon.base_atk}</span>
+          <span className="weapon-stat-label">ATK (Lv.90)</span>
+          <span className="weapon-stat-value">{atk}</span>
         </div>
         {weapon.secondary_stat && (
           <div className="weapon-stat">
             <span className="weapon-stat-label">{formatStatLabel(weapon.secondary_stat)}</span>
-            <span className="weapon-stat-value">{formatStatValue(weapon.secondary_stat, weapon.secondary_stat_value)}</span>
+            <span className="weapon-stat-value">{formatStatValue(weapon.secondary_stat, substat)}</span>
           </div>
         )}
       </div>
     </Link>
   )
+
+  return <WeaponTooltip weapon={weapon}>{card}</WeaponTooltip>
 }
 
 export default function WeaponsPage() {
@@ -87,30 +105,74 @@ export default function WeaponsPage() {
     <div>
       <h1>Armas</h1>
 
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="Buscar arma..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="filter-search"
-        />
-        <select value={weaponType} onChange={(e) => setWeaponType(e.target.value)}>
-          <option value="">Tipo (todos)</option>
-          <option value="sword">Espada</option>
-          <option value="claymore">Espadão</option>
-          <option value="polearm">Lança</option>
-          <option value="bow">Arco</option>
-          <option value="catalyst">Catalisador</option>
-        </select>
-        <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
-          <option value="">Raridade (todas)</option>
-          <option value="5">5★</option>
-          <option value="4">4★</option>
-          <option value="3">3★</option>
-          <option value="2">2★</option>
-          <option value="1">1★</option>
-        </select>
+      <div className="premium-filters">
+        {/* Busca */}
+        <div className="filter-group" style={{ flex: '1 1 300px', maxWidth: 400 }}>
+          <span className="filter-label">Buscar</span>
+          <div className="premium-search">
+            <Search size={16} />
+            <input
+              type="text"
+              placeholder="Buscar arma pelo nome..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Tipo */}
+        <div className="filter-group">
+          <span className="filter-label">Tipo</span>
+          <div className="filter-pills">
+            {(['sword', 'claymore', 'polearm', 'bow', 'catalyst'] as const).map((w) => {
+              const Icon = WEAPON_ICONS[w]
+              const color = WEAPON_COLORS[w]
+              const isActive = weaponType === w
+              return (
+                <button
+                  key={w}
+                  className={`filter-pill ${isActive ? 'active' : ''}`}
+                  style={{ '--pill-color': color } as React.CSSProperties}
+                  onClick={() => setWeaponType(isActive ? '' : w)}
+                >
+                  <Icon size={16} />
+                  {WEAPON_LABEL[w]}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Raridade */}
+        <div className="filter-group">
+          <span className="filter-label">Raridade</span>
+          <div className="filter-pills">
+            {['5', '4', '3'].map((r) => {
+              const isActive = rarity === r
+              const color = r === '5' ? '#e0a647' : r === '4' ? '#a35bd8' : '#5a8fd8'
+              return (
+                <button
+                  key={r}
+                  className={`filter-pill ${isActive ? 'active' : ''}`}
+                  style={{ '--pill-color': color } as React.CSSProperties}
+                  onClick={() => setRarity(isActive ? '' : r)}
+                >
+                  <Star size={16} fill={isActive ? 'currentColor' : 'none'} />
+                  {r}★
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {(weaponType || rarity || search) && (
+          <button
+            className="clear-filters-btn"
+            onClick={() => { setWeaponType(''); setRarity(''); setSearch('') }}
+          >
+            Limpar Filtros
+          </button>
+        )}
       </div>
 
       {loading && <p className="status">Carregando...</p>}
