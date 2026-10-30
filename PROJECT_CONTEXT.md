@@ -211,6 +211,9 @@ Contagens a preencher:
 - **Slots vs Builds**: A Build é do Personagem (`CharacterBuildPreset`). Os Substitutos são do Slot do Time (`TeamCharacter.substitutes` JSONB). Trocar de personagem preserva o Slot e seus substitutos.
 - **Proteção de UniqueConstraint**: O endpoint `PUT /members` usa posições temporárias negativas (`-pos - 100`) antes de deletar/inserir, evitando erros de duplicidade.
 - **Auto-Preset**: Ao trocar o personagem de um slot, o backend busca o preset mais recente (`CharacterBuildPreset`) daquele char e aplica automaticamente no slot.
+- **Layout full-width condicional**: O componente `MainContent` em `App.tsx` usa `useLocation()` pra aplicar `container-wide` (max-width: 100%, 4 colunas) só em `/teams/:id`. Outras rotas mantêm `max-width: 1100px`.
+- **Fetch otimizado na TeamDetailPage**: Em vez de `GET /weapons?limit=200` (que falha por validação de teto), a página coleta os slugs em uso (`weapons`, `artifacts_4pc`, `artifacts_2pc`) e busca individualmente via `GET /weapons/{slug}` e `GET /artifacts/{slug}`.
+- **Schema retorno de arma**: O `WeaponDetail` no backend agora inclui `max_base_atk=w.max_base_atk` no construtor manual do endpoint `get_weapon` (estava faltando antes).
 - i18n via LanguageContext (pt/en)
 - Tooltips usam FloatingPortal (renderiza no document.body) — não afetados por backdrop-filter dos modais
 - isPositioned é OBRIGATÓRIO em todo tooltip: aplica opacity:0 inline até o Floating UI calcular posição (evita flash no 0,0)
@@ -257,8 +260,16 @@ Contagens a preencher:
 - Fix flash no 0,0: isPositioned inline + animation → transition
 - Frontend rebuildado, healthy
 
+**Feito (sessão atual):**
+- Layout da página `/teams/:id` expandido para 1850px+ com `container-wide`
+- Grid responsivo (4 colunas em telas >1600px)
+- Tooltips (`WeaponTooltip` e `ArtifactTooltip`) aplicados em todas as armas e artefatos exibidos
+- Fix do endpoint `get_weapon` para expor `max_base_atk`
+- Backfill de `max_base_atk` no banco para armas que estavam nulas
+- Correção de 565→542 para armas 5★ com Base ATK 44 (Aqua Simulacra, Splendor, etc.)
+
 **Pendente imediato:**
-- Nenhum bloqueante. Sessão concluída com sucesso. — sessão fechada com commit eed34f0 em origin/main
+- Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main
 
 **Próximo passo (próxima sessão):**
 1. Escolher roadmap A/B/C/D (sugestão: B primeiro — fecha fluxo end-to-end do usuário)

@@ -112,6 +112,7 @@ def get_weapon(
         rarity=w.rarity,
         weapon_type=w.weapon_type,
         base_atk=w.base_atk,
+        max_base_atk=w.max_base_atk,
         secondary_stat=w.secondary_stat,
         secondary_stat_value=w.secondary_stat_value,
         max_secondary_stat_value=w.max_secondary_stat_value,

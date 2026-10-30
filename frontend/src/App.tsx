@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
 import { LanguageProvider } from './context/LanguageContext'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -32,25 +32,36 @@ export default function App() {
             <LanguageSwitcher />
           </div>
         </nav>
-        <main className="container">
-          <ErrorBoundary>
-          <Routes>
-            <Route path="/" element={<CharactersPage />} />
-            <Route path="/characters/:slug" element={<CharacterDetailPage />} />
-            <Route path="/weapons" element={<WeaponsPage />} />
-            <Route path="/weapons/:slug" element={<WeaponDetailPage />} />
-            <Route path="/artifacts" element={<ArtifactsPage />} />
-            <Route path="/artifacts/:slug" element={<ArtifactDetailPage />} />
-            <Route path="/teams" element={<TeamsPage />} />
-            <Route path="/teams/new" element={<TeamBuilderPage />} />
-            <Route path="/teams/:id" element={<TeamDetailPage />} />
-            <Route path="/teams/templates/:id" element={<TemplateDetailPage />} />
-            <Route path="/planner" element={<PlannerPage />} />
-            <Route path="/reactions" element={<ReactionsPage />} />
-          </Routes>
-          </ErrorBoundary>
-        </main>
+        <MainContent />
       </BrowserRouter>
     </LanguageProvider>
+  )
+}
+
+function MainContent() {
+  const location = useLocation()
+  const isWidePage = location.pathname.startsWith('/teams/') && 
+                     location.pathname !== '/teams/new' && 
+                     !location.pathname.includes('/templates/')
+
+  return (
+    <main className={`container ${isWidePage ? 'container-wide' : ''}`}>
+      <ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<CharactersPage />} />
+        <Route path="/characters/:slug" element={<CharacterDetailPage />} />
+        <Route path="/weapons" element={<WeaponsPage />} />
+        <Route path="/weapons/:slug" element={<WeaponDetailPage />} />
+        <Route path="/artifacts" element={<ArtifactsPage />} />
+        <Route path="/artifacts/:slug" element={<ArtifactDetailPage />} />
+        <Route path="/teams" element={<TeamsPage />} />
+        <Route path="/teams/new" element={<TeamBuilderPage />} />
+        <Route path="/teams/:id" element={<TeamDetailPage />} />
+        <Route path="/teams/templates/:id" element={<TemplateDetailPage />} />
+        <Route path="/planner" element={<PlannerPage />} />
+        <Route path="/reactions" element={<ReactionsPage />} />
+      </Routes>
+      </ErrorBoundary>
+    </main>
   )
 }

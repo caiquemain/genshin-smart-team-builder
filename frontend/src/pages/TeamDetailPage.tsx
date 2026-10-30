@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api/client'
-import CharacterPickerModal from '../components/CharacterPickerModal'
-import SubstitutePickerModal from '../components/SubstitutePickerModal'
-import CharacterBuildEditor from '../components/CharacterBuildEditor'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
 import { formatStatLabel } from '../utils/stats'
+import SubstitutePickerModal from '../components/SubstitutePickerModal'
+import CharacterPickerModal from '../components/CharacterPickerModal'
+import CharacterBuildEditor from '../components/CharacterBuildEditor'
+import WeaponTooltip from '../components/WeaponTooltip'
+import ArtifactTooltip from '../components/ArtifactTooltip'
 import type {
   TeamDetail, TeamAnalysisResponse, CharacterSummary,
-  WeaponSummary, ArtifactSetSummary, TeamMemberWithBuild, CharacterBuild
+  WeaponSummary, ArtifactSetSummary, TeamMemberWithBuild
 } from '../types'
 
 export default function TeamDetailPage() {
@@ -21,32 +23,72 @@ export default function TeamDetailPage() {
   const [weapons, setWeapons] = useState<Map<string, WeaponSummary>>(new Map())
   const [artifacts, setArtifacts] = useState<Map<string, ArtifactSetSummary>>(new Map())
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [replacingMember, setReplacingMember] = useState<number | null>(null)
   const [showFallbackPicker, setShowFallbackPicker] = useState(false)
   const [editingBuild, setEditingBuild] = useState<TeamMemberWithBuild | null>(null)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!id) return
     setLoading(true)
-    Promise.all([
-      api.getTeam(Number(id), lang),
-      api.listCharacters(lang, { limit: 200 }),
-      api.listWeapons(lang, { limit: 200 }),
-      api.listArtifacts(lang, { limit: 200 }),
-    ])
-      .then(([t, c, w, a]) => {
+    
+    async function loadData() {
+      try {
+        // 1. Carrega o time
+        const t = await api.getTeam(Number(id), lang)
         setTeam(t)
-        setChars(new Map(c.items.map((x) => [x.slug, x])))
-        setWeapons(new Map(w.items.map((x) => [x.slug, x])))
-        setArtifacts(new Map(a.items.map((x) => [x.slug, x])))
 
-        // Dispara análise baseada nos slugs do time
+        // 2. Carrega todos os personagens (para resolver avatares dos substitutos)
+        const c = await api.listCharacters(lang, { limit: 100 })
+        setChars(new Map(c.items.map((x) => [x.slug, x])))
+
+        // 3. Coleta os slugs de armas e artefatos que estão sendo USADOS neste time
+        const weaponSlugs = new Set<string>()
+        const artifactSlugs = new Set<string>()
+        
+        t.members.forEach(m => {
+          if (m.build) {
+            m.build.weapons.forEach(w => { if (w.weapon_slug) weaponSlugs.add(w.weapon_slug) })
+            m.build.artifacts_4pc.forEach(a => { if (a.artifact_set_slug) artifactSlugs.add(a.artifact_set_slug) })
+            m.build.artifacts_2pc.forEach(p => {
+              if (p.set1_slug) artifactSlugs.add(p.set1_slug)
+              if (p.set2_slug) artifactSlugs.add(p.set2_slug)
+            })
+          }
+        })
+
+        // 4. Busca individualmente só as armas e artefatos usados
+        const wMap = new Map<string, WeaponSummary>()
+        await Promise.all(Array.from(weaponSlugs).map(async slug => {
+          try {
+            const w = await api.getWeapon(slug, lang)
+            wMap.set(slug, w)
+          } catch (e) { console.error("Arma não encontrada:", slug) }
+        }))
+        setWeapons(wMap)
+
+        const aMap = new Map<string, ArtifactSetSummary>()
+        await Promise.all(Array.from(artifactSlugs).map(async slug => {
+          try {
+            const a = await api.getArtifact(slug, lang)
+            aMap.set(slug, a)
+          } catch (e) { console.error("Artefato não encontrado:", slug) }
+        }))
+        setArtifacts(aMap)
+
+        // 5. Análise do time
         const slugs = t.members.map((m) => m.character.slug)
-        return api.analyzeTeam(slugs, lang).then(setAnalysis)
-      })
-      .catch((e) => setError(String(e)))
-      .finally(() => setLoading(false))
+        const an = await api.analyzeTeam(slugs, lang)
+        setAnalysis(an)
+
+      } catch (e) {
+        setError(String(e))
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    loadData()
   }, [id, lang])
 
   if (loading) return <div className="status" style={{ padding: 40, textAlign: 'center' }}>Carregando detalhes do time...</div>
@@ -104,7 +146,7 @@ export default function TeamDetailPage() {
           />
         ))}
       </div>
-      
+
       {replacingMember !== null && (() => {
         const member = team.members.find(m => m.position === replacingMember)
         if (!member) return null
@@ -130,13 +172,11 @@ export default function TeamDetailPage() {
           }
         }
 
-        // Se o slot tem substitutos configurados E não pedimos o fallback, abre o modal bonito
         if (!showFallbackPicker && member.substitutes && member.substitutes.length > 0) {
           return (
             <SubstitutePickerModal
               substitutes={member.substitutes}
               currentCharName={member.character.name}
-              currentCharSlug={member.character.slug}
               currentCharSlug={member.character.slug}
               onClose={() => setReplacingMember(null)}
               onSelect={handleReplace}
@@ -145,7 +185,6 @@ export default function TeamDetailPage() {
           )
         }
 
-        // Senão, abre a lista genérica
         return (
           <CharacterPickerModal
             title={`Substituir ${member.character.name}`}
@@ -155,8 +194,6 @@ export default function TeamDetailPage() {
           />
         )
       })()}
-
-      
 
       {editingBuild && (
         <CharacterBuildEditor
@@ -211,7 +248,6 @@ function MemberBuildCard({
           <button className="btn-secondary" onClick={onEditBuild} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             ⚙️ Build
           </button>
-
           {!isMainDps && (
             <button className="btn-secondary" onClick={onReplaceClick} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               🔄 Substituir
@@ -229,14 +265,13 @@ function MemberBuildCard({
         </div>
       ) : (
         <div className="member-card-body">
-          {/* ARMAS */}
           {b.weapons.length > 0 && (
             <div className="build-section">
               <h4>Armas</h4>
               {b.weapons.map((w, i) => {
                 const info = w.weapon_slug ? weapons.get(w.weapon_slug) : null
-                return (
-                  <div key={i} className="build-item-read">
+                const row = (
+                  <div className="build-item-read" style={{ cursor: 'help' }}>
                     <div className={`build-item-icon rarity-${info?.rarity ?? 1}`}>
                       {info ? <img src={iconUrl(info.icon)!} alt={info.name} /> : '?'}
                     </div>
@@ -248,18 +283,18 @@ function MemberBuildCard({
                     </div>
                   </div>
                 )
+                return info ? <WeaponTooltip key={i} weapon={info}>{row}</WeaponTooltip> : <div key={i}>{row}</div>
               })}
             </div>
           )}
 
-          {/* ARTEFATOS */}
           {(b.artifacts_4pc.length > 0 || b.artifacts_2pc.length > 0) && (
             <div className="build-section">
               <h4>Artefatos</h4>
               {b.artifacts_4pc.map((a, i) => {
                 const info = a.artifact_set_slug ? artifacts.get(a.artifact_set_slug) : null
-                return (
-                  <div key={`4pc-${i}`} className="build-item-read">
+                const row = (
+                  <div className="build-item-read" style={{ cursor: 'help' }}>
                     <div className={`build-item-icon rarity-${info?.rarity_max ?? 4}`}>
                       {info ? <img src={artifactIconUrl(info.icon)!} alt={info.name} /> : '?'}
                     </div>
@@ -269,22 +304,27 @@ function MemberBuildCard({
                     </div>
                   </div>
                 )
+                return info ? <ArtifactTooltip key={`4pc-${i}`} artifact={info}>{row}</ArtifactTooltip> : <div key={`4pc-${i}`}>{row}</div>
               })}
-              {b.artifacts_2pc.map((p, i) => (
-                <div key={`2pc-${i}`} className="build-item-read">
-                  <div className="build-item-icon" style={{ background: 'transparent' }}>2+2</div>
-                  <div className="build-item-text">
-                    <div className="build-item-name">
-                      {artifacts.get(p.set1_slug!)?.name ?? p.set1_slug} + {artifacts.get(p.set2_slug!)?.name ?? p.set2_slug}
+              {b.artifacts_2pc.map((p, i) => {
+                const s1 = p.set1_slug ? artifacts.get(p.set1_slug) : null
+                const s2 = p.set2_slug ? artifacts.get(p.set2_slug) : null
+                const row = (
+                  <div className="build-item-read" style={{ cursor: 'help' }}>
+                    <div className="build-item-icon" style={{ background: 'transparent' }}>2+2</div>
+                    <div className="build-item-text">
+                      <div className="build-item-name">
+                        {s1?.name ?? p.set1_slug} + {s2?.name ?? p.set2_slug}
+                      </div>
+                      {p.notes && <div className="build-item-notes">{p.notes}</div>}
                     </div>
-                    {p.notes && <div className="build-item-notes">{p.notes}</div>}
                   </div>
-                </div>
-              ))}
+                )
+                return s1 ? <ArtifactTooltip key={`2pc-${i}`} artifact={s1}>{row}</ArtifactTooltip> : <div key={`2pc-${i}`}>{row}</div>
+              })}
             </div>
           )}
 
-          {/* STATS */}
           {(b.sands_stat.length > 0 || b.goblet_stat.length > 0 || b.circlet_stat.length > 0) && (
             <div className="build-section">
               <h4>Main Stats</h4>
@@ -295,7 +335,7 @@ function MemberBuildCard({
               </div>
               {b.substat_priority.length > 0 && (
                 <div style={{ marginTop: 8 }}>
-                  <span style={{ color: '#94a3b8', fontSize: 12 }}>Substats:</span>{' '}
+                  <span style={{ color: '#94a3b8', fontSize: 14 }}>Substats:</span>{' '}
                   {b.substat_priority.map(formatStatLabel).join(' > ')}
                 </div>
               )}
@@ -308,7 +348,6 @@ function MemberBuildCard({
             </div>
           )}
 
-          {/* ACCORDIONS: Refs, Subs, Combos, Notas */}
           <div className="build-accordions">
             {b.combos.length > 0 && (
               <details className="build-accordion">
@@ -318,7 +357,6 @@ function MemberBuildCard({
                 </ul>
               </details>
             )}
-
             {b.references.length > 0 && (
               <details className="build-accordion">
                 <summary>Referências ({b.references.length})</summary>
@@ -336,7 +374,7 @@ function MemberBuildCard({
             {b.notes && (
               <details className="build-accordion">
                 <summary>Notas Gerais</summary>
-                <p style={{ margin: '8px 0 0', fontSize: 13, color: '#cbd5e1' }}>{b.notes}</p>
+                <p style={{ margin: '8px 0 0', fontSize: 14, color: '#cbd5e1' }}>{b.notes}</p>
               </details>
             )}
           </div>
