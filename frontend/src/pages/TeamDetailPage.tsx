@@ -95,8 +95,10 @@ export default function TeamDetailPage() {
   if (loading) return <div className="status" style={{ padding: 40, textAlign: 'center' }}>Carregando detalhes do time...</div>
   if (error || !team) return <div className="status error" style={{ padding: 40, textAlign: 'center' }}>Erro: {error || 'Time não encontrado'}</div>
 
+  const mainElement = team.members.find(m => m.position === 1)?.character.element || 'cryo'
+
   return (
-    <div className="team-detail-page">
+    <div className="team-detail-page" data-element={mainElement}>
       <div className="team-detail-header">
         <Link to="/teams" className="team-detail-back">← Voltar para times</Link>
         <h1 className="team-detail-title">{team.name}</h1>
@@ -238,7 +240,7 @@ function MemberBuildCard({
   const img = iconUrl(c.icon)
 
   return (
-    <div className="member-build-card">
+    <div className="member-build-card" data-element={c.element}>
       <div className="member-card-header">
         <div className={`member-avatar rarity-${c.rarity}`}>
           {img ? <img src={img} alt={c.name} /> : <span>?</span>}

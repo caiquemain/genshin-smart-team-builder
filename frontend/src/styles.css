@@ -5698,3 +5698,706 @@ body {
     max-width: 95vw !important;
   }
 }
+
+
+  50% { opacity: 0.25; }
+}
+
+/* ============================================================
+   DYNAMIC ELEMENTAL BACKGROUND
+   ============================================================ */
+
+body {
+  background: #0b0e13 !important;
+  overflow-x: hidden;
+}
+
+/* O container do time vai ditar a cor */
+.team-detail-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Aura no topo da página baseada no elemento */
+.team-detail-page::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at top,
+    var(--element-color, rgba(56, 189, 248, 0.15)) 0%,
+    transparent 70%
+  );
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.6;
+  filter: blur(40px);
+}
+
+/* Estrelas/Partículas no fundo global */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 10% 20%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 30% 70%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 50% 40%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 70% 80%, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 90% 10%, #ffffff, rgba(0,0,0,0));
+  background-size: 300px 300px;
+  opacity: 0.1;
+  animation: twinkle 4s infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.05; }
+  100% { opacity: 0.15; }
+}
+
+/* ============================================================
+   CORES DOS ELEMENTOS (Para o React usar)
+   ============================================================ */
+[data-element="cryo"]    { --element-color: rgba(147, 226, 255, 0.25); }
+[data-element="hydro"]   { --element-color: rgba(76, 194, 241, 0.25); }
+[data-element="pyro"]    { --element-color: rgba(255, 156, 70, 0.25); }
+[data-element="electro"] { --element-color: rgba(179, 152, 255, 0.25); }
+[data-element="anemo"]   { --element-color: rgba(115, 255, 208, 0.25); }
+[data-element="geo"]     { --element-color: rgba(242, 200, 105, 0.25); }
+[data-element="dendro"]  { --element-color: rgba(165, 200, 59, 0.25); }
+
+/* ============================================================
+   FIX DEFINITIVO: FUNDO ELEMENTAL VISÍVEL
+   ============================================================ */
+
+/* Fundo base do site com estrelas (visível em todas as páginas) */
+body {
+  background-color: #0b0e13 !important;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 20px 30px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 90px 40px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 160px 120px, rgba(255,255,255,0.4), transparent) !important;
+  background-size: 200px 200px !important;
+  background-attachment: fixed !important;
+}
+
+/* A aura do elemento aplicada DIRETO na página do time */
+.team-detail-page {
+  background: radial-gradient(
+    ellipse at 50% -10%, 
+    var(--element-color, rgba(147, 226, 255, 0.4)) 0%, 
+    transparent 70%
+  ) !important;
+  min-height: 100vh;
+}
+
+/* Cores dos elementos mais fortes e visíveis */
+[data-element="cryo"]    { --element-color: rgba(147, 226, 255, 0.35); }
+[data-element="hydro"]   { --element-color: rgba(76, 194, 241, 0.35); }
+[data-element="pyro"]    { --element-color: rgba(255, 156, 70, 0.35); }
+[data-element="electro"] { --element-color: rgba(179, 152, 255, 0.35); }
+[data-element="anemo"]   { --element-color: rgba(115, 255, 208, 0.35); }
+[data-element="geo"]     { --element-color: rgba(242, 200, 105, 0.35); }
+[data-element="dendro"]  { --element-color: rgba(165, 200, 59, 0.35); }
+
+/* ============================================================
+   POLIMENTO PREMIUM (AAA) — Tipografia, Avatares e Cards
+   ============================================================ */
+
+/* 1. Título do Time com Gradiente de Metal */
+.team-detail-title {
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  font-weight: 800;
+}
+
+/* 2. Nome dos Personagens com Gradiente */
+.member-info h3 {
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+/* 3. Avatares com borda dupla (Estilo Genshin) */
+.member-avatar {
+  position: relative;
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.8), 0 8px 16px rgba(0,0,0,0.4);
+  transition: all 0.3s;
+}
+.member-avatar.rarity-5 {
+  border-color: #e0a647;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.8), 0 0 15px rgba(224, 166, 71, 0.4);
+}
+.member-avatar.rarity-4 {
+  border-color: #a35bd8;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.8), 0 0 15px rgba(163, 91, 216, 0.4);
+}
+
+/* 4. Header do Card com cor do elemento */
+[data-element="cryo"] .member-card-header { background: linear-gradient(90deg, rgba(147, 226, 255, 0.1) 0%, transparent 100%) !important; }
+[data-element="hydro"] .member-card-header { background: linear-gradient(90deg, rgba(76, 194, 241, 0.1) 0%, transparent 100%) !important; }
+[data-element="pyro"] .member-card-header { background: linear-gradient(90deg, rgba(255, 156, 70, 0.1) 0%, transparent 100%) !important; }
+
+/* 5. Botões de Ação (Build, Substituir) */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+/* Ícone girando no hover do botão Build */
+.btn-secondary:hover svg {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}
+
+/* Ícone de substituição girando no hover */
+.member-card-header button:hover svg {
+  transform: rotate(180deg);
+  transition: transform 0.4s ease;
+}
+
+/* Efeito de brilho passando pelo botão (Shimmer) */
+.btn-secondary::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-25deg);
+  transition: all 0.5s;
+}
+.btn-secondary:hover::after {
+  left: 150%;
+}
+
+/* 6. Melhorar as tarjas/boxes das armas e artefatos */
+.build-item-read {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+.build-item-read:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   CARDS COM COR DO ELEMENTO
+   ============================================================ */
+
+/* Definindo a cor de acento de cada card baseada no elemento */
+.member-build-card[data-element="cryo"]    { --card-accent: #93e2ff; }
+.member-build-card[data-element="hydro"]   { --card-accent: #4cc2f1; }
+.member-build-card[data-element="pyro"]    { --card-accent: #ff9c46; }
+.member-build-card[data-element="electro"] { --card-accent: #b398ff; }
+.member-build-card[data-element="anemo"]   { --card-accent: #73ffd0; }
+.member-build-card[data-element="geo"]     { --card-accent: #f2c869; }
+.member-build-card[data-element="dendro"]  { --card-accent: #a5c83b; }
+
+/* A linha de acento no topo do card */
+.member-build-card {
+  position: relative;
+  overflow: hidden;
+}
+.member-build-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+/* Hover usa a cor do elemento */
+.member-build-card:hover {
+  border-color: var(--card-accent) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px color-mix(in srgb, var(--card-accent) 30%, transparent) !important;
+}
+.member-build-card:hover::before {
+  opacity: 1;
+}
+
+/* O header do card puxa a cor do elemento (sobrescreve o gradiente geral) */
+.member-build-card .member-card-header {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--card-accent) 15%, transparent) 0%, transparent 100%) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--card-accent) 20%, transparent);
+}
+
+/* O avatar ganha um anel com a cor do elemento */
+.member-avatar {
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.8), 0 0 15px color-mix(in srgb, var(--card-accent) 40%, transparent) !important;
+}
+
+/* O badge Main DPS usa a cor do elemento em vez de laranja fixo */
+.member-build-card .badge-main-dps {
+  background: color-mix(in srgb, var(--card-accent) 15%, transparent);
+  color: var(--card-accent);
+  border-color: color-mix(in srgb, var(--card-accent) 40%, transparent);
+}
+
+/* O título do card (nome) fica com um leve gradiente da cor do elemento */
+.member-info h3 {
+  background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--card-accent) 70%, #ffffff) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ============================================================
+   FIX: Header do Card com flex-wrap
+   ============================================================ */
+
+/* O header deve quebrar linha se não couber */
+.member-card-header {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  align-items: center !important;
+}
+
+/* O bloco de info (avatar + nome) não deve estourar */
+.member-card-header > div:nth-child(2) {
+  min-width: 0;
+  flex: 1 1 180px;
+}
+
+/* O bloco de botões vai pra linha de baixo se não couber */
+.member-card-header > div:last-child {
+  margin-left: auto !important;
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px !important;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Botões de ação mais compactos */
+.member-card-header .btn-secondary {
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  white-space: nowrap;
+}
+
+.member-card-header .btn-secondary svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* O nome do personagem menor pra caber */
+.member-info h3 {
+  font-size: 22px !important;
+}
+
+/* A meta (raridade, elemento) menor */
+.member-meta {
+  font-size: 13px !important;
+}
+
+/* Em telas largas, os botões ficam na mesma linha */
+@media (min-width: 1600px) {
+  .member-card-header > div:last-child {
+    margin-left: auto !important;
+  }
+}
+
+/* Em telas médias (cards de 2 colunas), botões vão pra linha de baixo */
+@media (max-width: 1599px) {
+  .member-card-header > div:last-child {
+    margin-left: 0 !important;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* ============================================================
+   PREMIUM HOME PAGE (CHARACTERS)
+   ============================================================ */
+
+/* 1. Título com Gradiente de Metal */
+h1 {
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  font-weight: 800;
+}
+
+/* 2. Filtros de Vidro */
+.filters select {
+  background: rgba(30, 41, 59, 0.6) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #e8ecf2 !important;
+  border-radius: 8px !important;
+  padding: 10px 16px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer;
+  font-weight: 600;
+}
+.filters select:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(30, 41, 59, 0.9) !important;
+  transform: translateY(-1px);
+}
+
+/* 3. O Card Base */
+.card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+  animation: cardDeal 0.5s ease-out backwards;
+}
+
+/* Animação em cascata (atraso progressivo para os primeiros 20 cards) */
+.card:nth-child(1) { animation-delay: 0.02s; }
+.card:nth-child(2) { animation-delay: 0.04s; }
+.card:nth-child(3) { animation-delay: 0.06s; }
+.card:nth-child(4) { animation-delay: 0.08s; }
+.card:nth-child(5) { animation-delay: 0.10s; }
+.card:nth-child(6) { animation-delay: 0.12s; }
+.card:nth-child(7) { animation-delay: 0.14s; }
+.card:nth-child(8) { animation-delay: 0.16s; }
+.card:nth-child(9) { animation-delay: 0.18s; }
+.card:nth-child(10) { animation-delay: 0.20s; }
+.card:nth-child(11) { animation-delay: 0.22s; }
+.card:nth-child(12) { animation-delay: 0.24s; }
+.card:nth-child(13) { animation-delay: 0.26s; }
+.card:nth-child(14) { animation-delay: 0.28s; }
+.card:nth-child(15) { animation-delay: 0.30s; }
+.card:nth-child(16) { animation-delay: 0.32s; }
+.card:nth-child(17) { animation-delay: 0.34s; }
+.card:nth-child(18) { animation-delay: 0.36s; }
+.card:nth-child(19) { animation-delay: 0.38s; }
+.card:nth-child(20) { animation-delay: 0.40s; }
+
+/* 4. Cores dos Elementos */
+.card.element-cryo    { --card-accent: #93e2ff; }
+.card.element-hydro   { --card-accent: #4cc2f1; }
+.card.element-pyro    { --card-accent: #ff9c46; }
+.card.element-electro { --card-accent: #b398ff; }
+.card.element-anemo   { --card-accent: #73ffd0; }
+.card.element-geo     { --card-accent: #f2c869; }
+.card.element-dendro  { --card-accent: #a5c83b; }
+
+/* Linha de acento no topo */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+  opacity: 0.4;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+/* 5. Hover do Card */
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--card-accent) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 20px color-mix(in srgb, var(--card-accent) 25%, transparent) !important;
+  z-index: 10;
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* 6. Avatar e Imagem */
+.card-avatar img {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.card:hover .card-avatar img {
+  transform: scale(1.1);
+}
+
+/* 7. Estrelas de Raridade */
+.card-rarity {
+  color: #fbbf24 !important;
+  text-shadow: 0 0 10px rgba(251,191,36,0.6);
+  z-index: 10;
+  font-weight: 700;
+}
+
+/* 8. Nome do Personagem */
+.card-name {
+  background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--card-accent) 70%, #ffffff) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: 800;
+}
+
+/* 9. Meta (elemento · arma) e Região */
+.card-meta {
+  color: var(--card-accent) !important;
+  opacity: 0.8;
+  font-weight: 600;
+}
+.card-region {
+  opacity: 0.6;
+}
+
+/* ============================================================
+   PREMIUM FILTERS (PILLS)
+   ============================================================ */
+
+.premium-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 24px 0 32px;
+  padding: 24px;
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  font-weight: 800;
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.filter-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e8ecf2;
+  transform: translateY(-2px);
+}
+
+/* Estado Ativo (Acende a cor do Elemento/Raridade) */
+.filter-pill.active {
+  background: color-mix(in srgb, var(--pill-color) 15%, transparent);
+  border-color: color-mix(in srgb, var(--pill-color) 60%, transparent);
+  color: var(--pill-color);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--pill-color) 20%, transparent);
+}
+
+.filter-pill.active:hover {
+  background: color-mix(in srgb, var(--pill-color) 25%, transparent);
+}
+
+/* Botão Limpar Filtros */
+.clear-filters-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  align-self: center;
+}
+.clear-filters-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .premium-filters {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .clear-filters-btn {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+/* ============================================================
+   PREMIUM FILTERS (PILLS)
+   ============================================================ */
+
+.premium-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 24px 0 32px;
+  padding: 24px;
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  font-weight: 800;
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.filter-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e8ecf2;
+  transform: translateY(-2px);
+}
+
+/* Estado Ativo (Acende a cor do Elemento/Raridade) */
+.filter-pill.active {
+  background: color-mix(in srgb, var(--pill-color) 15%, transparent);
+  border-color: color-mix(in srgb, var(--pill-color) 60%, transparent);
+  color: var(--pill-color);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--pill-color) 20%, transparent);
+}
+
+.filter-pill.active:hover {
+  background: color-mix(in srgb, var(--pill-color) 25%, transparent);
+}
+
+/* Botão Limpar Filtros */
+.clear-filters-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  align-self: center;
+}
+.clear-filters-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .premium-filters {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .clear-filters-btn {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+/* ============================================================
+   FILTROS: ÍCONES COLORIDOS MESMO INATIVOS
+   ============================================================ */
+
+/* O texto do pill continua cinza quando inativo */
+.filter-pill {
+  color: #94a3b8;
+}
+
+/* Mas o SVG (ícone) puxa a cor da variável! */
+.filter-pill svg {
+  color: var(--pill-color);
+  transition: all 0.2s ease;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pill-color) 30%, transparent));
+}
+
+/* No hover, o texto clareia e o ícone brilha mais */
+.filter-pill:hover {
+  color: #e8ecf2;
+}
+.filter-pill:hover svg {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--pill-color) 60%, transparent));
+  transform: scale(1.1);
+}
+
+/* Quando ativo, tudo (texto, borda, fundo) acende */
+.filter-pill.active {
+  color: var(--pill-color) !important;
+}
+.filter-pill.active svg {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--pill-color) 80%, transparent));
+  transform: scale(1.1);
+}
