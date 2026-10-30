@@ -1,3 +1,4 @@
+import { X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -51,7 +52,7 @@ export default function WeaponPickerModal({
               Mostrando apenas <strong>{character.weapon_type}</strong> · ESC fecha
             </div>
           </div>
-          <button className="picker-close" onClick={onClose} aria-label="Fechar">✕</button>
+          <button className="picker-close" onClick={onClose} aria-label="Fechar"><X size={18} /></button>
         </div>
 
         <div className="picker-search">

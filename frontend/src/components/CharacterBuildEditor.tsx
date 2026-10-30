@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Save, Library } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
@@ -424,7 +425,7 @@ export default function CharacterBuildEditor({
                   if (preset) setBuild(preset.build_data)
                 }}
               >
-                <option value="">📚 Carregar da biblioteca...</option>
+                <option value="">Carregar da biblioteca...</option>
                 {presets.map(p => (
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
@@ -451,7 +452,7 @@ export default function CharacterBuildEditor({
                 }}
                 disabled={isSavingPreset}
               >
-                💾 Salvar como Preset
+                <Save size={16} /> Salvar como Preset
               </button>
             </div>
             {/* === Armas === */}

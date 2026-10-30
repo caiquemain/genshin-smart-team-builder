@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
@@ -105,9 +106,14 @@ export default function TeamDetailPage() {
 
       {analysis && (
         <div className="team-detail-analysis">
-          <div className="team-score-badge">
-            <span className="score-value">{analysis.score}</span>
-            <span className="score-label">/ 100</span>
+          <div 
+            className="team-score-badge" 
+            style={{ '--score': analysis.score } as React.CSSProperties}
+          >
+            <div className="score-inner">
+              <span className="score-value">{analysis.score}</span>
+              <span className="score-label">/ 100</span>
+            </div>
           </div>
           <div className="analysis-content">
             {analysis.reactions.length > 0 && (
@@ -246,11 +252,11 @@ function MemberBuildCard({
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
           <button className="btn-secondary" onClick={onEditBuild} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            ⚙️ Build
+            <Settings size={16} /> Build
           </button>
           {!isMainDps && (
             <button className="btn-secondary" onClick={onReplaceClick} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              🔄 Substituir
+              <RefreshCw size={16} /> Substituir
             </button>
           )}
           <Link to={`/characters/${c.slug}`} className="btn-secondary">
@@ -351,7 +357,7 @@ function MemberBuildCard({
           <div className="build-accordions">
             {b.combos.length > 0 && (
               <details className="build-accordion">
-                <summary>Combos / Rotação ({b.combos.length})</summary>
+                <summary><Swords size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'text-bottom' }}/> Combos / Rotação ({b.combos.length})</summary>
                 <ul className="accordion-list combos-list">
                   {b.combos.map((c, i) => <li key={i}><code>{c}</code></li>)}
                 </ul>
@@ -359,7 +365,7 @@ function MemberBuildCard({
             )}
             {b.references.length > 0 && (
               <details className="build-accordion">
-                <summary>Referências ({b.references.length})</summary>
+                <summary><LinkIcon size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'text-bottom' }}/> Referências ({b.references.length})</summary>
                 <ul className="accordion-list">
                   {b.references.map((r, i) => (
                     <li key={i}>
@@ -373,7 +379,7 @@ function MemberBuildCard({
             )}
             {b.notes && (
               <details className="build-accordion">
-                <summary>Notas Gerais</summary>
+                <summary><FileText size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'text-bottom' }}/> Notas Gerais</summary>
                 <p style={{ margin: '8px 0 0', fontSize: 14, color: '#cbd5e1' }}>{b.notes}</p>
               </details>
             )}

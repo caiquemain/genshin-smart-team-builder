@@ -214,6 +214,9 @@ Contagens a preencher:
 - **Layout full-width condicional**: O componente `MainContent` em `App.tsx` usa `useLocation()` pra aplicar `container-wide` (max-width: 100%, 4 colunas) só em `/teams/:id`. Outras rotas mantêm `max-width: 1100px`.
 - **Fetch otimizado na TeamDetailPage**: Em vez de `GET /weapons?limit=200` (que falha por validação de teto), a página coleta os slugs em uso (`weapons`, `artifacts_4pc`, `artifacts_2pc`) e busca individualmente via `GET /weapons/{slug}` e `GET /artifacts/{slug}`.
 - **Schema retorno de arma**: O `WeaponDetail` no backend agora inclui `max_base_atk=w.max_base_atk` no construtor manual do endpoint `get_weapon` (estava faltando antes).
+- **Biblioteca de Ícones**: `lucide-react` instalada. Todos os emojis de UI foram trocados por SVGs.
+- **Animações CSS**: Uso extensivo de `@keyframes` para entrada em cascata (`slideUpFade`, `cardDeal`), hover transitions (`transform`, `box-shadow`) e pulsos (`pulseBorder`).
+- **Conic Gradient para Score**: O anel do score usa `conic-gradient` com uma variável CSS `--score` injetada via React.
 - i18n via LanguageContext (pt/en)
 - Tooltips usam FloatingPortal (renderiza no document.body) — não afetados por backdrop-filter dos modais
 - isPositioned é OBRIGATÓRIO em todo tooltip: aplica opacity:0 inline até o Floating UI calcular posição (evita flash no 0,0)
@@ -261,12 +264,14 @@ Contagens a preencher:
 - Frontend rebuildado, healthy
 
 **Feito (sessão atual):**
-- Layout da página `/teams/:id` expandido para 1850px+ com `container-wide`
-- Grid responsivo (4 colunas em telas >1600px)
-- Tooltips (`WeaponTooltip` e `ArtifactTooltip`) aplicados em todas as armas e artefatos exibidos
-- Fix do endpoint `get_weapon` para expor `max_base_atk`
-- Backfill de `max_base_atk` no banco para armas que estavam nulas
-- Correção de 565→542 para armas 5★ com Base ATK 44 (Aqua Simulacra, Splendor, etc.)
+- Instalação e uso do `lucide-react` para substituir emojis na UI
+- Animações de entrada (glassmorphism, cards flutuantes)
+- Anel de Score animado com `conic-gradient`
+- Modal `SubstitutePickerModal` redesenhado como um grid de 5 cartas lado a lado (estilo Gacha)
+- Hover states elegantes em todas as cartas
+
+**Pendente imediato:**
+- Nenhum bloqueante.
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main

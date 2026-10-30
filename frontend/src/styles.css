@@ -5358,3 +5358,343 @@ details.planner-notmapped[open] > summary {
   .member-build-card { padding: 20px; }
   .member-card-header { padding: 16px; margin: -20px -20px 16px -20px; }
 }
+
+/* ============================================================
+   PREMIUM UI — GLASSMORPHISM + ANIMAÇÕES
+   ============================================================ */
+
+/* Fundo da página com leve gradiente radial */
+body {
+  background: radial-gradient(circle at 50% -20%, #1e293b 0%, #0f1218 60%) fixed !important;
+}
+
+/* Animações Keyframes */
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseBorder {
+  0% { box-shadow: 0 0 0 0 rgba(224, 166, 71, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(224, 166, 71, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(224, 166, 71, 0); }
+}
+
+/* Cards com efeito de vidro e animação de entrada */
+.member-build-card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+/* Animação em cascata para os 4 cards */
+.member-build-card:nth-child(1) { animation-delay: 0.1s; }
+.member-build-card:nth-child(2) { animation-delay: 0.2s; }
+.member-build-card:nth-child(3) { animation-delay: 0.3s; }
+.member-build-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Efeito Hover no Card (Levanta e ganha borda azul) */
+.member-build-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(125, 211, 252, 0.1) !important;
+  border-color: rgba(125, 211, 252, 0.3) !important;
+}
+
+/* Header do card transparente para o blur funcionar */
+.member-card-header {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* ============================================================
+   ANEL DE SCORE ANIMADO
+   ============================================================ */
+.team-score-badge {
+  background: conic-gradient(
+    #4ade80 calc(var(--score) * 1%), 
+    rgba(255, 255, 255, 0.05) 0
+  ) !important;
+  padding: 6px;
+  box-shadow: 0 0 30px rgba(74, 222, 128, 0.2) !important;
+  border: none !important;
+  animation: slideUpFade 0.8s ease-out;
+}
+.score-inner {
+  width: 100%;
+  height: 100%;
+  background: #0f1218;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Deixa o número do Score com brilho neon */
+.score-value {
+  color: #4ade80;
+  text-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
+}
+
+/* ============================================================
+   MICRO-INTERAÇÕES E DETALHES
+   ============================================================ */
+
+/* Tooltips de armas/artefatos ganham uma transição suave no hover */
+.build-item-read {
+  transition: background 0.2s, transform 0.2s;
+  padding: 4px;
+  border-radius: 8px;
+}
+.build-item-read:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateX(4px);
+}
+
+/* Acordeões (Combos/Refs) mais bonitos */
+.build-accordion {
+  transition: all 0.3s ease;
+  border-left: 2px solid transparent;
+}
+.build-accordion[open] {
+  border-left-color: #7dd3fc;
+  background: rgba(125, 211, 252, 0.03);
+}
+.build-accordion summary {
+  transition: color 0.2s;
+}
+.build-accordion summary:hover {
+  color: #e8ecf2;
+}
+
+/* Badge Main DPS pulsando sutilmente */
+.badge-main-dps {
+  animation: pulseBorder 2s infinite;
+}
+
+/* Análise do time com fundo de vidro */
+.team-detail-analysis {
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.05) 0%, rgba(19, 24, 32, 0.7) 100%) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(74, 222, 128, 0.15) !important;
+  border-left: 4px solid #4ade80 !important;
+  animation: slideUpFade 0.5s ease-out backwards;
+}
+
+
+/* Alinhamento global para botões com ícones Lucide */
+.btn-secondary, .btn-primary, .picker-close, .build-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.picker-close {
+  padding: 0;
+}
+
+/* ============================================================
+   SUBSTITUTE PICKER — Card Selection Animation
+   ============================================================ */
+
+/* Grid das cartas */
+.substitute-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 10px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* Animação de entrada das cartas */
+@keyframes cardDeal {
+  from { opacity: 0; transform: translateY(40px) scale(0.9) rotateX(10deg); }
+  to { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
+}
+
+.substitute-card {
+  position: relative;
+  background: #1e2430;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  animation: cardDeal 0.5s ease-out backwards;
+  cursor: pointer;
+}
+
+/* Efeito Hover na carta */
+.substitute-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: #7dd3fc;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(125, 211, 252, 0.2);
+  z-index: 10;
+}
+
+/* Botão dentro da carta só aparece no hover */
+.substitute-card .apply-btn {
+  margin-top: auto;
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+.substitute-card:hover .apply-btn {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Topo da carta (Retrato do personagem) */
+.substitute-card-portrait {
+  height: 140px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #1e2430 100%);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.portrait-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+  background: radial-gradient(circle at center, var(--bg-color) 0%, transparent 70%);
+}
+.substitute-card:hover .portrait-bg {
+  opacity: 0.6;
+}
+.portrait-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+.substitute-card:hover .portrait-bg img {
+  transform: scale(1.15);
+}
+
+/* Cores de fundo por raridade */
+.rarity-bg-5 { --bg-color: #e0a647; }
+.rarity-bg-4 { --bg-color: #a35bd8; }
+
+/* Conteúdo da carta */
+.substitute-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+.substitute-card-title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+.substitute-card-title h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e8ecf2;
+  margin: 0;
+}
+.substitute-card-title .stars {
+  font-size: 12px;
+  margin-top: 2px;
+}
+.substitute-card-notes {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin: 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Badge da build (ex: C6 necessário) */
+.badge-build-label {
+  align-self: flex-start;
+  margin-bottom: 8px;
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+/* Atual character highlight */
+.substitute-card.current-char {
+  border-color: #4ade80;
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+}
+
+
+/* ============================================================
+   SUBSTITUTE PICKER — Modal Largo (5 cartas lado a lado)
+   ============================================================ */
+.substitute-picker-modal {
+  max-width: 1400px !important;
+  width: 95vw !important;
+}
+
+.substitute-picker-modal .picker-body {
+  padding: 24px;
+}
+
+.substitute-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  max-height: none !important;
+  overflow-y: visible !important;
+  padding: 4px;
+}
+
+/* Ajustes nas cartas pra ficarem mais compactas */
+.substitute-card-portrait {
+  height: 160px;
+}
+
+.substitute-card-content {
+  padding: 14px;
+}
+
+.substitute-card-title h4 {
+  font-size: 16px;
+}
+
+.substitute-card-notes {
+  font-size: 12px;
+  -webkit-line-clamp: 3;
+  margin: 6px 0;
+}
+
+.apply-btn {
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+}
+
+/* Em telas médias (notebook), volta pra 3 colunas */
+@media (max-width: 1300px) {
+  .substitute-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .substitute-picker-modal {
+    max-width: 1000px !important;
+  }
+}
+
+/* Em telas pequenas, 2 colunas */
+@media (max-width: 900px) {
+  .substitute-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .substitute-picker-modal {
+    max-width: 95vw !important;
+  }
+}

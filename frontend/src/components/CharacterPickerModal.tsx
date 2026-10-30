@@ -1,3 +1,4 @@
+import { X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -50,7 +51,7 @@ export default function CharacterPickerModal({
             <div className="picker-title">{title}</div>
             <div className="picker-subtitle">ESC fecha</div>
           </div>
-          <button className="picker-close" onClick={onClose} aria-label="Fechar">✕</button>
+          <button className="picker-close" onClick={onClose} aria-label="Fechar"><X size={18} /></button>
         </div>
         <div className="picker-search">
           <input
