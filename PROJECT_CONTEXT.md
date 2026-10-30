@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md
 
 > Arquivo vivo de contexto do projeto. **Sempre atualizar** ao final de cada sessão.
-> Última atualização: **2026-10-31** — Tierlist Aggregator (backend + frontend + 2 sites importados)
+> Última atualização: **2026-10-30** — Tierlist Aggregator completo (5 sites, view, backend, frontend)
 
 ---
 
@@ -386,3 +386,112 @@ Arquivos modificados nesta sessão (a commitar):
 
 ### Prompt para a próxima sessão
 > "Lê o PROJECT_CONTEXT.md e vamos importar os 3 sites faltantes do Tierlist. Vou mandar o texto ou HTML de cada um (Game8, GameWith, GenshinLab)."
+
+---
+
+## 17. Sessão 2026-10-30 — Tierlist Aggregator completo
+
+### Estado final
+- **5 sites importados**: Genshin.gg (124), GenshinLab (127), Game8 (126), Mobalytics (126), Prydwen (127) = **630 entries**
+- **127 chars únicos** na view (após merge de travelers Prydwen underscore→hyphen)
+- **Backend + frontend** consumindo `v_tierlist_consensus`
+- **GameWith** é o único site faltando (HTML não recebido)
+
+### Escala master (6 tiers)
+
+Regra: **topo→S+**, **fundo→D**, meio comprime agrupando.
+
+| Site | Escala original | Mapeamento pra master |
+|------|-----------------|------------------------|
+| Genshin.gg | S/A/B/C/D (5) | S→S+, S vazio, A→A, B→B, C→C, D→D |
+| GenshinLab | SS/S/A/B/C/D (6) | 1:1 |
+| Game8 | SS/S/A+/A/B/C/D (7) | SS→S+, S→S, A++A→A, B→B, C→C, D→D |
+| Mobalytics | S/A+/A/B+/B/C/D/E/F (9) | S→S+, A++A→S, B++B→A, C+D→B, E→C, F→D |
+| Prydwen | T0/T0.5/T1/T1.5/T2/T3/T4/T5 (8) | T0→S+, T0.5+T1→S, T1.5+T2→A, T3→B, T4→C, T5→D |
+
+### Decisões arquiteturais
+
+- **Roles — Genshin.gg é fonte única da verdade**: main_dps / sub_dps / support. Outros sites ficam com role='general' e não votam em role.
+- **Game8 comprime colunas**: pega o melhor tier entre Main DPS/Sub-DPS/Support, ignorando a coluna.
+- **Genshin.gg não vota em role pra Vesna/Vodyanitsa/Traveler(Pyro)**: 3 órfãos ficam em general. User vai reassinar 1:1.
+- **v_tierlist_consensus**: consensus_tier (moda), tier_by_avg (média com thresholds 0.9/0.7/0.5/0.3/0.1), spread (max-min), tiers_voted (array), dominant_role.
+
+### Backend
+
+**Endpoints atualizados** (backend/app/api/tierlist.py):
+- GET /tierlist — lê da view, 1 item por char. Query param role opcional.
+  Retorna AggregatedTier[]: { character_slug, dominant_role, consensus_tier, consensus_votes, tier_by_avg, avg_score, spread, tiers_voted, num_sites, entries[] }
+- GET /tierlist/character/{slug} — idem, 1 char
+- GET /tierlist/sites — inalterado
+- POST /tierlist/import — inalterado
+
+**Model** models/tierlist.py: adicionado tier_master = Column(String(10), nullable=True). Faltava — foi criado via ALTER TABLE direto e o ORM não conhecia.
+
+**Schemas** schemas/tierlist.py: AggregatedTier reescrito com campos novos; TierlistEntryOut ganhou tier_master.
+
+### Frontend
+
+**pages/TierlistPage.tsx** reescrita:
+- Grid 6 colunas: TIER_ORDER = ['S+','S','A','B','C','D'] (sem E/F)
+- Header de cada coluna = consensus_tier (moda), não tier_by_avg
+- Tooltip do tile (hover): consensus (N/5) · by_avg · spread · tiers_voted · breakdown por site
+- Filtros role: Todos / Geral / Main DPS / Sub-DPS / Support
+- Toggle grid/list
+- Removido dedupe manual no useMemo (backend já retorna único)
+
+**types/tierlist.ts** reescrito: AggregatedTier com campos novos.
+
+### Scripts (idempotentes)
+
+- backend/app/scripts/import_tierlists.sql — DELETE dos 4 sites (não toca Prydwen) + INSERT com tier_master calculado. Rodar a qualquer momento.
+- backend/app/scripts/create_view.sql — CREATE OR REPLACE VIEW v_tierlist_consensus.
+- backend/app/scripts/tierlist_raw/ — HTMLs brutos (gitignored).
+
+### Migration
+
+e5f6a7b8c9d0_add_tierlist_aggregator.py (encadeada após d4e5f6g7h8i9):
+- Adiciona tier_master (idempotente)
+- Fix game8.scale_size 5→7
+- Insere genshin-gg em tierlist_sites
+- Insere 7 travelers em characters
+- Cria v_tierlist_consensus
+- Tudo idempotente (IF NOT EXISTS, ON CONFLICT DO NOTHING, CREATE OR REPLACE)
+
+### Fixes aplicados nesta sessão
+
+1. ALTER TABLE tierlist_entries ADD COLUMN tier_master
+2. tierlist_sites.scale_size game8: 5→7 (estava errado)
+3. INSERT genshin-gg em tierlist_sites (não estava cadastrado)
+4. UPDATE Prydwen tier_master (mapping 8→6)
+5. Model ORM tier_master adicionado em models/tierlist.py (evitava AttributeError)
+6. Travelers criados no characters (7 registros, stats placeholder)
+7. Prydwen travelers underscore→hyphen (traveler_cryo → traveler-cryo) — estavam duplicando no grid
+
+### Contagens DB (fim da sessão)
+
+| Item | Valor |
+|------|-------|
+| characters | 127 (120 + 7 travelers) |
+| tierlist_entries | 630 (5 sites) |
+| v_tierlist_consensus | 127 chars únicos |
+| Órfãos em general | 3 (vesna, vodyanitsa, traveler-pyro) |
+
+### Pendente (próxima sessão)
+
+1. **GameWith** — único site faltando. User vai mandar HTML. Pipeline idempotente: acrescentar parser no import_tierlists.sql e rodar de novo.
+2. **Roles 1:1** — user vai atribuir manualmente. Os 3 órfãos saem de general nessa passada.
+3. **Prydwen version** = 7.1-overall (não 7.1). Cosmético. Fix opcional: UPDATE tierlist_entries SET version='7.1' WHERE site_id=(prydwen) AND version='7.1-overall'.
+
+### Como verificar
+
+curl -s "http://localhost:8000/tierlist" | jq '.items | length'                  # 127
+curl -s "http://localhost:8000/tierlist?role=general" | jq '.items | length'    # 3
+curl -s "http://localhost:8000/tierlist?role=main_dps" | jq '.items | length'   # 42
+curl -s "http://localhost:8000/tierlist?role=sub_dps" | jq '.items | length'    # 29
+curl -s "http://localhost:8000/tierlist?role=support" | jq '.items | length'    # 53
+
+### Armadilhas conhecidas (novas)
+
+- Não use e.tier_master via ORM sem adicionar no model — AttributeError. Já resolvido.
+- Slugs de Traveler: sempre hyphen (traveler-cryo), nunca underscore. Prydwen é a fonte do bug histórico.
+- consensus_tier (moda) e tier_by_avg (média) divergem em ~20% dos casos — é feature, não bug. Grid usa moda; tooltip mostra os dois. Ex: Furina → consensus=S+, by_avg=S (Mobalytics B+ puxa pra baixo).
