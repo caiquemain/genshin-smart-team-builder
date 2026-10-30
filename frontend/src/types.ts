@@ -121,6 +121,7 @@ export interface Reaction {
   elements: string[]
   effect: string | null
   multiplier: number | null
+  icon: string | null
 }
 
 export interface ReactionListResponse {

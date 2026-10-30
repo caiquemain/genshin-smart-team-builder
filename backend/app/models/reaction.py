@@ -12,3 +12,4 @@ class ElementalReaction(Base):
     elements = Column(JSONB, nullable=False)
     effect = Column(Text)
     multiplier = Column(Float)
+    icon = Column(String(150))  # ex: UI_Reaction_Vaporize

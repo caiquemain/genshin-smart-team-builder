@@ -10,6 +10,7 @@ class ReactionRead(BaseModel):
     elements: Any
     effect: str | None = None
     multiplier: float | None = None
+    icon: str | None = None
 
 
 class ReactionListResponse(BaseModel):

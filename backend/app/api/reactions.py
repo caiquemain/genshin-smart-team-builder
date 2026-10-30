@@ -18,6 +18,7 @@ def list_reactions(db: Session = Depends(get_db)) -> ReactionListResponse:
             elements=r.elements,
             effect=r.effect,
             multiplier=r.multiplier,
+            icon=r.icon,
         )
         for r in rows
     ]

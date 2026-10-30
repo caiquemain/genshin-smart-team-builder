@@ -298,6 +298,15 @@ Contagens a preencher:
 - Botão '+ Novo Time' com gradiente e ícone Plus
 - Empty state elegante quando não há times
 
+**Feito (sessão atual):**
+- Backend: coluna `icon` em `elemental_reactions` + migration c3d4e5f6g7h8
+- Backend: seed idempotente (`Inserted N reactions + Mora if missing`)
+- Backend: expandido de 10 para 21 reações (Lunar e Stellar incluídas)
+- Backend: `/reactions` agora retorna `icon` (fix do construtor manual)
+- Frontend: ReactionsPage reescrita como tabela elegante (Reação | Elementos | Tipo | Efeito)
+- Frontend: ícones oficiais dos elementos via CDN Yatta (UI_Buff_Element_Fire, Water, Electric, Ice, Wind, Rock, Grass)
+- Frontend: filtros em pill por tipo (Amplificadora, Transformativa, Dendro, Lunar, Stellar)
+
 **Pendente imediato:**
 - Nenhum bloqueante.
 
@@ -328,6 +337,15 @@ Contagens a preencher:
 - Card inteiro é `<Link>` pra `/teams/:id` (com preventDefault no delete)
 - Botão '+ Novo Time' com gradiente e ícone Plus
 - Empty state elegante quando não há times
+
+**Feito (sessão atual):**
+- Backend: coluna `icon` em `elemental_reactions` + migration c3d4e5f6g7h8
+- Backend: seed idempotente (`Inserted N reactions + Mora if missing`)
+- Backend: expandido de 10 para 21 reações (Lunar e Stellar incluídas)
+- Backend: `/reactions` agora retorna `icon` (fix do construtor manual)
+- Frontend: ReactionsPage reescrita como tabela elegante (Reação | Elementos | Tipo | Efeito)
+- Frontend: ícones oficiais dos elementos via CDN Yatta (UI_Buff_Element_Fire, Water, Electric, Ice, Wind, Rock, Grass)
+- Frontend: filtros em pill por tipo (Amplificadora, Transformativa, Dendro, Lunar, Stellar)
 
 **Pendente imediato:**
 - Nenhum bloqueante. — sessão fechada com commit eed34f0 em origin/main
