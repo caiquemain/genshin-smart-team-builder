@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md
 
 > Arquivo vivo de contexto do projeto. **Sempre atualizar** ao final de cada sessão.
-> Última atualização: **2026-10-30** — Tierlist Aggregator completo (5 sites, view, backend, frontend)
+> Última atualização: **2026-10-31** — Team tier badge em 3 páginas + live preview no builder
 
 ---
 
@@ -24,6 +24,7 @@ recursos de ascensão/talentos. Viés acadêmico (Ciência de Dados + Eng. de So
 | Container | Docker Compose | — |
 | Estilo | CSS puro (styles.css único) | — |
 | Tooltips | @floating-ui/react (FloatingPortal) | — |
+| Ícones | lucide-react (SVGs, sem emojis) | — |
 
 Portas (dev):
 - Frontend: http://localhost:8080
@@ -60,23 +61,24 @@ Conexão psql (user é genshin, NÃO postgres):
 
     genshin-smart-team-builder/
     ├── backend/
-    │   ├── alembic/versions/       → 13 migrations (ver §6)
+    │   ├── alembic/versions/       → 14 migrations (ver §6)
     │   └── app/
     │       ├── api/                → characters, teams, weapons, artifacts,
-    │       │                          reactions, templates, talents, ascension, meta
+    │       │                          reactions, templates, talents, ascension, meta, tierlist
     │       ├── models/             → artifact, base, character, guide, material,
-    │       │                          reaction, team, team_template, weapon
+    │       │                          reaction, team, team_template, weapon, tierlist
     │       ├── schemas/            → artifact, ascension, build, character, common,
     │       │                          reaction, talent, team, team_analysis,
-    │       │                          team_template, weapon
+    │       │                          team_template, weapon, tierlist
+    │       ├── scripts/            → import_tierlists.sql, create_view.sql
     │       ├── seed/               → seed crítico + import_from_ambr (opcional, rede)
-    │       └── services/           → lógica (synergy, planner, etc)
+    │       └── services/           → lógica (synergy, planner, team_tier, etc)
     ├── frontend/src/
     │   ├── api/                    → client.ts
     │   ├── components/             → (ver §5)
     │   ├── context/                → LanguageContext (i18n pt/en)
     │   ├── pages/                  → (ver §5)
-    │   ├── types/                  → WeaponSlot, ArtifactSlot, ArtifactPair, CharacterBuild
+    │   ├── types/                  → WeaponSlot, ArtifactSlot, ArtifactPair, CharacterBuild, tierlist
     │   ├── utils/                  → stats.ts
     │   └── styles.css
     ├── docker-compose.yml
@@ -99,9 +101,11 @@ Conexão psql (user é genshin, NÃO postgres):
 | /teams | TeamsPage | OK |
 | /teams/new | TeamBuilderPage (aceita ?template_id=X) | OK |
 | /teams/templates/:id | TemplateDetailPage | OK |
+| /teams/:id | TeamDetailPage | OK |
+| /tierlist | TierlistPage | OK |
 | /planner | PlannerPage | OK |
+| /planner/characters | PlannerCharactersPage | OK |
 | /reactions | ReactionsPage | OK |
-| /teams/:id | NÃO EXISTE (roadmap B) | PENDENTE |
 
 ### Componentes (frontend/src/components/)
 
@@ -113,7 +117,12 @@ Conexão psql (user é genshin, NÃO postgres):
 - ErrorBoundary.tsx
 - ItemTooltip.tsx
 - LanguageSwitcher.tsx
+- PlannerCharacterCard.tsx
+- PlannerCharacterModal.tsx
+- SubstitutePickerModal.tsx
 - TalentSection.tsx
+- **TeamTierBadge.tsx        ← NOVO 2026-10-31 (sm/lg, tooltip floating-ui)**
+- TierlistTooltip.tsx       ← NOVO 2026-10-30
 - WeaponPickerModal.tsx     ← NOVO 2026-10-29
 - WeaponTooltip.tsx         ← fix isPositioned 2026-10-29
 
@@ -128,9 +137,12 @@ Reactions:      GET /reactions
 Templates:      GET /templates/archetypes · GET /templates · GET /templates/{id}
 Teams:          POST /teams · GET /teams · GET /teams/{id} · DELETE /teams/{id}
                 POST /teams/analyze · PUT /teams/{id}/builds
+                **POST /teams/preview-tier** (NOVO 2026-10-31)
 Talents:        GET /talents/{slug}/talents
 Ascension:      GET /ascension/{slug}/ascension
 Meta:           GET /meta/enums
+Tierlist:       GET /tierlist · GET /tierlist/character/{slug} · GET /tierlist/sites
+                POST /tierlist/import
 
 ### Migrations (ordem)
 
@@ -146,20 +158,25 @@ Meta:           GET /meta/enums
 10. 0e8ca4668ed3_extend_artifact_sets_with_ambr_id_icon_
 11. 44bcf19fbbbf_team_templates_schema_v2
 12. fb1aa6e3f965_add_team_character_build_data_jsonb
+13. d4e5f6g7h8i9_tierlist_aggregator
+14. e5f6a7b8c9d0_add_tierlist_aggregator (tier_master, view, travelers)
 
 ### Fonte de dados
 - Seed crítico local (app.seed.run) — sem rede
 - app.seed.import_from_ambr — opcional, requer rede (falha → loga e segue)
 - Imagens: CDN Hoyoverse via iconUrl / artifactIconUrl (config.ts)
+- Travelers: portraits locais em `frontend/public/travelers/` (CDN Mobalytics bloqueia hotlink)
 
 ---
 
 ## 7. Features prontas
 
-- DB com characters / weapons / artifacts / reactions / materials / teams / templates
+- DB com characters / weapons / artifacts / reactions / materials / teams / templates / tierlists
 - Calculadora de ascensão + talentos
 - Team builder com drag-and-drop, 4 slots
 - Análise de sinergia em tempo real (score 0-100, roles, reações, warnings, sugestões)
+- **Team tier badge em 3 páginas** (`/teams` sm · `/teams/:id` lg · `/teams/new` lg ao vivo com debounce 300ms)
+- **`POST /teams/preview-tier`** — calcula tier do time sem persistir (usado pelo builder)
 - ~40 templates KQM carregáveis via ?template_id
 - Editor de build por personagem (com abas):
   - Aba Build: Multi-arma (BIS + F2P) com refino + notas por escolha
@@ -172,34 +189,44 @@ Meta:           GET /meta/enums
 - Tooltips com isPositioned gate (sem flash no 0,0)
 - ESC fecha picker → editor → modal genérico
 - i18n pt/en via LanguageContext
+- Tierlist Aggregator: 6 sites, 758 entries, 127 chars, view v_tierlist_consensus
+- Planner completo: 92 chars, badges, filtros, modal de detalhes (2 colunas)
 
 ---
 
 ## 8. Em progresso / pendente
 
 - [x] Tooltips dos pickers (resolvido — era animation do CSS sobrescrevendo isPositioned)
-- [x] Commit + push da sessão (resolvido 2026-10-29 — commit eed34f0, origin/main)
-- [ ] Rodar psql com user correto (genshin) e preencher §9 (opcional, cosmético)
+- [x] Commit + push da sessão 2026-10-29 (eed34f0)
+- [x] Team tier badge (2026-10-31 — f7f34d1 + ceb43c5)
+- [ ] Refinar roles 1:1 (127 chars) — destrava sinergia + tier do time mais precisos
+- [ ] Expandir templates KQM (~15 chars faltando)
+- [ ] Deploy público + README
+- [ ] Página de itens com resina tooltips
 
 ---
 
 ## 9. Banco de dados — contagens
 
-Pendente. Comando correto:
+| Item | Valor |
+|------|-------|
+| characters | 127 (120 + 7 travelers) |
+| weapons | ~250 |
+| artifact_sets | ? |
+| teams | ? |
+| tierlist_entries | 758 (6 sites) |
+| v_tierlist_consensus | 127 chars únicos |
+| Templates KQM | ~40 |
+
+Comando de conferência:
 
     docker compose exec -T db psql -U genshin -d genshin_db -c "
     SELECT 'characters' t, COUNT(*) FROM characters
     UNION ALL SELECT 'weapons', COUNT(*) FROM weapons
     UNION ALL SELECT 'artifact_sets', COUNT(*) FROM artifact_sets
-    UNION ALL SELECT 'teams', COUNT(*) FROM teams;
+    UNION ALL SELECT 'teams', COUNT(*) FROM teams
+    UNION ALL SELECT 'tierlist_entries', COUNT(*) FROM tierlist_entries;
     "
-
-Contagens a preencher:
-- Characters: ?
-- Weapons: ?
-- Artifact sets: ?
-- Teams: ?
-- Templates KQM: ~40
 
 ---
 
@@ -211,23 +238,23 @@ Contagens a preencher:
 - **Slots vs Builds**: A Build é do Personagem (`CharacterBuildPreset`). Os Substitutos são do Slot do Time (`TeamCharacter.substitutes` JSONB). Trocar de personagem preserva o Slot e seus substitutos.
 - **Proteção de UniqueConstraint**: O endpoint `PUT /members` usa posições temporárias negativas (`-pos - 100`) antes de deletar/inserir, evitando erros de duplicidade.
 - **Auto-Preset**: Ao trocar o personagem de um slot, o backend busca o preset mais recente (`CharacterBuildPreset`) daquele char e aplica automaticamente no slot.
-- **Layout full-width condicional**: O componente `MainContent` em `App.tsx` usa `useLocation()` pra aplicar `container-wide` (max-width: 100%, 4 colunas) só em `/teams/:id`. Outras rotas mantêm `max-width: 1100px`.
-- **Fetch otimizado na TeamDetailPage**: Em vez de `GET /weapons?limit=200` (que falha por validação de teto), a página coleta os slugs em uso (`weapons`, `artifacts_4pc`, `artifacts_2pc`) e busca individualmente via `GET /weapons/{slug}` e `GET /artifacts/{slug}`.
-- **Schema retorno de arma**: O `WeaponDetail` no backend agora inclui `max_base_atk=w.max_base_atk` no construtor manual do endpoint `get_weapon` (estava faltando antes).
-- **Planner dividido em 2 rotas**: `/planner` (import + cálculo) e `/planner/characters` (cards). O `Plan` completo é serializado em `localStorage` após calcular pra evitar recalcular na navegação.
-- **Card de personagem extraído** para `components/PlannerCharacterCard.tsx` (reutilizável). Tipos compartilhados em `types/planner.ts`.
-- **Planner - fallback de travelers**: o banco não tem travelers individuais (traveler_anemo, etc), então `resolveSlug` retorna o slug mesmo sem estar no Map (fallback). O card renderiza com ícone do elemento e nome amigável "Traveler (Anemo)".
-- **Badges com contraste independente**: card inativo tem opacity 0.55 só em portrait/mats/talents/name, mas badge e nome ficam 100% visíveis (opacity multiplicativo quebrava).
-- **Lista de weapons no Planner**: usa `limit: 500` pra pegar todas (eram ~250 no banco).
-- **Modal em 2 colunas** (1200px) pra não ter scroll vertical exagerado. Categoria de materiais separada (ascensão/talentos/armas) com grid auto-fill 180px.
-- **Estimativa de resina baseada no que falta**: `missing = material.quantity - inventory[slug]`, não no total. Mora tem fórmula especial (`ceil(missing / 60000) * 20`).
-- **Biblioteca de Ícones**: `lucide-react` instalada. Todos os emojis de UI foram trocados por SVGs.
-- **Animações CSS**: Uso extensivo de `@keyframes` para entrada em cascata (`slideUpFade`, `cardDeal`), hover transitions (`transform`, `box-shadow`) e pulsos (`pulseBorder`).
-- **Conic Gradient para Score**: O anel do score usa `conic-gradient` com uma variável CSS `--score` injetada via React.
+- **Layout full-width condicional**: O componente `MainContent` em `App.tsx` usa `useLocation()` pra aplicar `container-wide` (max-width: 100%) só em `/teams/:id` e `/tierlist`. Outras rotas mantêm `max-width: 1100px`.
+- **Fetch otimizado na TeamDetailPage**: coleta os slugs em uso (`weapons`, `artifacts_4pc`, `artifacts_2pc`) e busca individualmente via `GET /weapons/{slug}` e `GET /artifacts/{slug}`.
+- **Schema retorno de arma**: `WeaponDetail` inclui `max_base_atk=w.max_base_atk` no construtor manual do endpoint `get_weapon`.
+- **Planner dividido em 2 rotas**: `/planner` (import + cálculo) e `/planner/characters` (cards). `Plan` serializado em `localStorage`.
+- **Planner - fallback de travelers**: `resolveSlug` retorna o slug mesmo sem estar no Map.
+- **Badges com contraste independente**: opacity 0.55 só em portrait/mats/talents/name.
+- **Lista de weapons no Planner**: usa `limit: 500`.
+- **Estimativa de resina baseada no que falta**: `missing = material.quantity - inventory[slug]`. Mora: `ceil(missing / 60000) * 20`.
+- **Biblioteca de Ícones**: `lucide-react`. Todos os emojis de UI foram trocados por SVGs.
+- **Animações CSS**: `@keyframes` para `slideUpFade`, `cardDeal`, hover transitions, `pulseBorder`.
+- **Conic Gradient para Score**: `conic-gradient` com variável CSS `--score`.
+- **Team tier = média arredondada (half-up) dos tiers individuais** (S+=6…D=1). Lookup via `v_tierlist_consensus` → `consensus_tier` de cada char. 4 chars → média → tier do time.
+- **Preview-tier vs TeamDetail**: `POST /teams/preview-tier` recebe slugs e devolve `{tier, avg_score, breakdown}` sem tocar no banco. `team_tier` inline no `TeamDetail` é computado on-the-fly no GET.
 - i18n via LanguageContext (pt/en)
-- Tooltips usam FloatingPortal (renderiza no document.body) — não afetados por backdrop-filter dos modais
-- isPositioned é OBRIGATÓRIO em todo tooltip: aplica opacity:0 inline até o Floating UI calcular posição (evita flash no 0,0)
-- CSS dos tooltips: NUNCA usar animation de opacity — sobrescreve o opacity inline e reintroduz o flash. Usar transition: opacity 120ms ease-out
+- Tooltips usam FloatingPortal (renderiza no document.body) — não afetados por backdrop-filter
+- isPositioned é OBRIGATÓRIO em todo tooltip: `opacity:0` inline até Floating UI calcular posição
+- CSS dos tooltips: NUNCA usar animation de opacity — sobrescreve inline e reintroduz flash. Usar `transition: opacity 120ms ease-out`
 - Hierarquia z-index: modal base 10000 → picker 10100 → tooltip 20000 (!important)
 
 ---
@@ -236,88 +263,45 @@ Contagens a preencher:
 
 1. backdrop-filter em overlay quebra position:fixed de filhos → tooltips usam Portal
 2. animation: tooltip-fade sobrescreve opacity: isPositioned ? 1 : 0 → flash no 0,0. NÃO reintroduzir
-3. CharacterBuild antigo (flat) é ignorado pelo extra='ignore' → times pré-migração voltam com weapons: [] (sem crash)
+3. CharacterBuild antigo (flat) é ignorado pelo extra='ignore' → times pré-migração voltam com weapons: []
 4. Enums Postgres: sempre native_enum=False
 5. psql no container db: user é genshin, não postgres
-6. Feature de templates KQM e build editor foram commitados juntos em eed34f0 (templates estava no limbo antes)
+6. **Model ORM precisa declarar `tier_master`** — sem isso, `e.tier_master` dá AttributeError
+7. **Slugs de Traveler: sempre hyphen** (`traveler-cryo`), nunca underscore. Prydwen é a fonte do bug histórico
+8. **consensus_tier (moda) ≠ tier_by_avg (média) em ~20% dos casos** — é feature, não bug. Grid usa moda; tooltip mostra os dois
+9. **Team tier usa consensus_tier, não tier_by_avg** — assim o badge bate com a coluna do grid
+10. **`preview-tier` no builder: debounce de 300ms** — chamar em todo `onChange` mata o backend
 
 ---
 
 ## 12. Backlog / roadmap
 
-- (A) Expandir templates (~15 chars faltando: Mavuika, Citlali, Chasca, Nefer, Varessa, Ifa, Xilonen)
-- (B) Página /teams/:id com build completa (cards arma/set/stats)
+- (A) **Refinar roles 1:1** — atribuir role (main_dps/sub_dps/support) manualmente aos 127 chars. Destrava sinergia, tier do time, sugestões do builder
+- (B) Expandir templates KQM (~15 chars: Mavuika, Citlali, Chasca, Nefer, Varessa, Ifa, Xilonen)
 - (C) Deploy público + README (maior gap pra apresentação acadêmica)
-- (D) Refinar sinergia (mono-geo, mono-pyro como válidos)
+- (D) Página de itens (`/characters/:slug`, `/weapons/:slug`, `/artifacts/:slug`) com tooltips de resina
+- (E) Sistema de usuário (login, times por conta, wishlist, histórico de pulls)
+- (F) Refinar sinergia (mono-geo, mono-pyro como válidos)
 
 ---
 
-## 13. Última sessão (2026-10-29)
+## 13. Sessão 2026-10-29
 
 **Feito:**
 - Schema CharacterBuild migrado: weapons[], artifacts_4pc[], artifacts_2pc[] (pares), cada slot com notes
-- Adicionado abas: Referências, Substituições e Combos
-- Main Stats alterado para multi-select (lista de strings) com retrocompatibilidade
-- Criada a página `/teams/:id` (TeamDetailPage) com renderização de builds completas
+- Abas: Referências, Substituições e Combos
+- Main Stats → multi-select (`list[str]`) com retrocompatibilidade
+- Página `/teams/:id` (TeamDetailPage) com renderização de builds completas
 - Sistema de troca de personagens via `CharacterPickerModal`
-- Sistema de Presets (`character_build_presets`) para salvar e recarregar builds
+- Sistema de Presets (`character_build_presets`)
 - Sistema de Substitutos por Slot (`TeamCharacter.substitutes` JSONB)
-- Modal visual `SubstitutePickerModal` com notas curadas da KQM
-- WeaponPickerModal.tsx + ArtifactPickerModal.tsx (grid visual, busca, ESC, tooltip)
-- CharacterBuildEditor.tsx reescrito integrando pickers + notas inline + toggle 4pc/2+2
+- `SubstitutePickerModal` com notas curadas da KQM
+- `WeaponPickerModal.tsx` + `ArtifactPickerModal.tsx`
+- `CharacterBuildEditor.tsx` reescrito
 - CSS novo: picker-*, build-item-*, build-pair-*, build-mode-*
 - Fix z-index dos tooltips (20000)
 - Fix flash no 0,0: isPositioned inline + animation → transition
-- Frontend rebuildado, healthy
-
-**Feito (sessão atual — 3 partes):**
-
-**Parte 1 — Planner completo:**
-- `/planner` agora lê os **92 chars** do JSON (não filtra mais por pendência)
-- Badges premium (Inativo + Completo) com animações
-- Traduções PT/EN em badges, talentos, "Talentos em dia"
-- Filtros: elemento, status (pendente/completo/inativo), tipo de pendência, ordenação
-- Aliases de personagens (kazuha, sara, lanyan) e armas (the_flute, skyward_harp, the_widsith)
-- Travelers via fallback (slug direto + ícone de elemento)
-- Ascension `if (current < goal)` — evita 400 em chars maxados
-
-**Parte 2 — Modal de detalhes do personagem:**
-- `PlannerCharacterModal.tsx` com **layout 2 colunas**:
-  - Esquerda: talentos + armas + summary (Mora + dias)
-  - Direita: materiais agrupados (Ascensão / Talentos / Armas)
-- **Cálculo de dias corrigido**: só conta o que falta, Mora com fórmula especial (`ceil(missing / 60000) * 20`), mostra "Pronto" quando 0
-- i18n completo (badges, labels de talentos, títulos de seção)
-- ESC / click-fora / botão Fechar
-- 88px de largura, `max-height: 88vh`
-
-**Parte 3 — Tierlist Aggregator (feature nova):**
-- Ver seção "🏆 Tierlist Aggregator" acima
-- Backend + frontend + 2 sites importados (Mobalytics + Prydwen)
-- 126 chars com consenso real (2 sites)
-
-
-
-**Pendente imediato (PRÓXIMA SESSÃO):**
-
-1. **Coletar dados dos 3 sites faltantes** (Game8, GameWith, GenshinLab)
-   - Usuário deve abrir cada site no navegador
-   - `Ctrl+A` + `Ctrl+C` (copiar texto) **ou** `Ctrl+S` (salvar HTML)
-   - Colar no chat
-   - Eu extraio, aplico aliases e importo via `POST /tierlist/import`
-
-2. **Escalas dos 3 sites:**
-   - Game8: SS / S / A / B / C (separado por role)
-   - GameWith: SS / S / A / B / C (separado por role)
-   - GenshinLab: SS / S / A / B / C / D (e talvez E/F, geral + por role)
-
-**Backlog anotado (não começar sem decidir):**
-- Página de itens (`/characters/:slug`, `/weapons/:slug`, `/artifacts/:slug`):
-  - Opções de editar
-  - Tooltips com resina (com sorte / sem sorte / média)
-- Sistema de usuário: login, times por conta, wishlist, histórico de pulls
-- Roadmap geral: Deploy público, Template Detail, expandir templates KQM
-
-
+- Commit: `eed34f0`
 
 ---
 
@@ -325,67 +309,49 @@ Contagens a preencher:
 
 Branch: main
 
-**Commit desta sessão (feito):** `eed34f0 feat(templates+builds): KQM team templates system, visual weapon/artifact pickers, per-item build notes` (28 files, +4140/-223)
+**Commits desta sessão (2026-10-31):**
 
-Últimos commits antes desta sessão:
+    f7f34d1 feat(team-builder): live preview tier while building
+    ceb43c5 feat(team): team tier badge from tierlist consensus
 
+**Commit anterior (sessão 2026-10-30, Tierlist):**
+
+    aba9d87 fix(tierlist): normalize Mobalytics + Prydwen Overall to 'general' role
+
+**Commits históricos:**
+
+    eed34f0 feat(templates+builds): KQM team templates, pickers, per-item build notes
     44bc840 fix(weapons): EM flat scaling + precise crit curve for Lv.90 substats
     9cbb392 feat(ui): artifacts module, weapon/artifact tooltips, Lv.90 max stats
     fdbcbbf feat(weapons): compute max secondary stat at Lv.90
     f4312e7 feat(weapons): compute max base ATK at Lv.90
     0ed6611 fix(synergy): stronger penalty for 3+ on-field DPS
 
-Arquivos modificados nesta sessão (a commitar):
-- backend/app/schemas/build.py
-- frontend/src/types.ts
-- frontend/src/components/WeaponPickerModal.tsx (NOVO)
-- frontend/src/components/ArtifactPickerModal.tsx (NOVO)
-- frontend/src/components/CharacterBuildEditor.tsx (REESCRITO)
-- frontend/src/components/WeaponTooltip.tsx (fix)
-- frontend/src/components/ArtifactTooltip.tsx (fix)
-- frontend/src/styles.css
-- PROJECT_CONTEXT.md (NOVO)
+---
 
+## 15. Discussão — Tierlist Aggregator
+
+**Contexto:** agregador de tierlists que puxa dados de vários sites (KQM, Game8, Prydwen, Genshin.gg, GenshinLab, Mobalytics, GameWith) e consolida via view.
+
+**Consolidação:** `v_tierlist_consensus` expõe `consensus_tier` (moda), `tier_by_avg` (média), `spread`, `tiers_voted`, `dominant_role`.
+
+**Status:** ✅ completo. 6 sites, 758 entries, 127 chars. Ver §17.
 
 ---
 
-## 15. Discussão atual — Tierlist Aggregator
+## 16. ⏸️ ONDE PARAMOS (sessão 2026-10-30)
 
-**Contexto:** o usuário quer construir um **agregador de tierlists** que puxa dados de vários sites (KQM, Game8, Prydwen, Genshin.gg, etc) e consolida num único lugar.
+> ⚠️ **SUPERSEDED pela §18** — esta seção descreve o estado antes da feature de team tier. Mantida por histórico.
 
-**Motivação relatada:** [o usuário vai explicar o porquê — preencher na próxima sessão]
+### Estado do último build (na época)
+- Frontend: healthy
+- Backend: UP
+- Banco: migrations até `d4e5f6g7h8i9`
+- Git: `aba9d87`
 
-**Perguntas em aberto (a definir):**
-- Quais sites agregar?
-- Fonte dos dados: scraping, API, ou manual?
-- Consolidação: média das notas? votação? weight por site?
-- Onde exibir: página nova (`/tierlist`) ou dentro de cada personagem?
-- Atualização: manual, cron, ou on-demand?
-
-
----
-
-## 16. ⏸️ ONDE PARAMOS (sessão 2026-10-31)
-
-### Estado do último build
-- Frontend: **healthy** (`docker compose ps frontend`)
-- Backend: **UP** (`curl http://localhost:8000/health`)
-- Banco: migrations aplicadas até `d4e5f6g7h8i9` (tierlists)
-- Git: último commit `aba9d87` (`fix(tierlist): normalize Mobalytics + Prydwen Overall to 'general' role`)
-
-### O que tá funcionando AGORA
-- ✅ Tierlist com **2 sites** (Mobalytics 126 + Prydwen 127)
-- ✅ Grid 6 colunas (S+/S/A/B/C/D) **full width** via `:has(.tierlist-page)`
-- ✅ 2 avatares grandes por linha (88-96px)
-- ✅ Hover mostra tooltip com score + detalhes
-- ✅ Filtro por role funciona (Todos=127, Geral=127, outros=0)
-
-### O que tá faltando
-- ❌ **3 sites vazios** (Game8, GameWith, GenshinLab) — **próximo passo**
-- ⏸️ Backlog: página de itens, sistema de usuário, deploy
-
-### Prompt para a próxima sessão
-> "Lê o PROJECT_CONTEXT.md e vamos importar os 3 sites faltantes do Tierlist. Vou mandar o texto ou HTML de cada um (Game8, GameWith, GenshinLab)."
+### O que estava faltando
+- Roles 1:1
+- Prydwen version `7.1-overall` (cosmético)
 
 ---
 
@@ -393,13 +359,11 @@ Arquivos modificados nesta sessão (a commitar):
 
 ### Estado final
 - **6 sites importados**: Genshin.gg (124), GenshinLab (127), Game8 (127), Mobalytics (126), Prydwen (127), GameWith (127) = **758 entries**
-- **127 chars únicos** na view (após merge de travelers Prydwen underscore→hyphen)
+- **127 chars únicos** na view
 - **Backend + frontend** consumindo `v_tierlist_consensus`
-- **GameWith** importado via `curl` (HTML bloqueado, extraído do texto colado no chat)
+- **GameWith** importado via `curl` (HTML bloqueado, texto colado no chat)
 
 ### Escala master (6 tiers)
-
-Regra: **topo→S+**, **fundo→D**, meio comprime agrupando.
 
 | Site | Escala original | Mapeamento pra master |
 |------|-----------------|------------------------|
@@ -408,123 +372,61 @@ Regra: **topo→S+**, **fundo→D**, meio comprime agrupando.
 | Game8 | SS/S/A+/A/B/C/D (7) | SS→S+, S→S, A++A→A, B→B, C→C, D→D |
 | Mobalytics | S/A+/A/B+/B/C/D/E/F (9) | S→S+, A++A→S, B++B→A, C+D→B, E→C, F→D |
 | Prydwen | T0/T0.5/T1/T1.5/T2/T3/T4/T5 (8) | T0→S+, T0.5+T1→S, T1.5+T2→A, T3→B, T4→C, T5→D |
-| GameWith | SS/S/A/B/C/D (6) | 1:1 (igual GenshinLab) |
+| GameWith | SS/S/A/B/C/D (6) | 1:1 |
 
 ### Decisões arquiteturais
-
-- **Roles — Genshin.gg é fonte única da verdade**: main_dps / sub_dps / support. Outros sites ficam com role='general' e não votam em role.
-- **Game8 comprime colunas**: pega o melhor tier entre Main DPS/Sub-DPS/Support, ignorando a coluna.
-- **Genshin.gg não vota em role pra Vesna/Vodyanitsa/Traveler(Pyro)**: 3 órfãos ficam em general. User vai reassinar 1:1.
-- **v_tierlist_consensus**: consensus_tier (moda), tier_by_avg (média com thresholds 0.9/0.7/0.5/0.3/0.1), spread (max-min), tiers_voted (array), dominant_role.
-
-### Backend
-
-**Endpoints atualizados** (backend/app/api/tierlist.py):
-- GET /tierlist — lê da view, 1 item por char. Query param role opcional.
-  Retorna AggregatedTier[]: { character_slug, dominant_role, consensus_tier, consensus_votes, tier_by_avg, avg_score, spread, tiers_voted, num_sites, entries[] }
-- GET /tierlist/character/{slug} — idem, 1 char
-- GET /tierlist/sites — inalterado
-- POST /tierlist/import — inalterado
-
-**Model** models/tierlist.py: adicionado tier_master = Column(String(10), nullable=True). Faltava — foi criado via ALTER TABLE direto e o ORM não conhecia.
-
-**Schemas** schemas/tierlist.py: AggregatedTier reescrito com campos novos; TierlistEntryOut ganhou tier_master.
+- **Genshin.gg é fonte única da verdade para roles**: main_dps / sub_dps / support. Outros sites ficam com role='general'.
+- **Game8 comprime colunas**: pega o melhor tier entre Main DPS/Sub-DPS/Support.
+- **v_tierlist_consensus**: `consensus_tier` (moda), `tier_by_avg`, `spread`, `tiers_voted`, `dominant_role`.
 
 ### Frontend
+- `TierlistPage.tsx`: grid 6 colunas (S+/S/A/B/C/D), filtros role + tier + elemento, toggle grid/list, tooltip floating-ui
+- `TierlistTooltip.tsx`: breakdown por site, cores dinâmicas por elemento
+- `SingleTierGrid`: quando `tierFilter !== 'all'`, grid flat agrupado por role
 
-**pages/TierlistPage.tsx** reescrita:
-- Grid 6 colunas: TIER_ORDER = ['S+','S','A','B','C','D'] (sem E/F)
-- Header de cada coluna = consensus_tier (moda), não tier_by_avg
-- Tooltip do tile (hover): consensus (N/5) · by_avg · spread · tiers_voted · breakdown por site
-- Filtros role: Todos / Geral / Main DPS / Sub-DPS / Support
-- Toggle grid/list
-- Removido dedupe manual no useMemo (backend já retorna único)
+### Pendente (herdado)
+- **Roles 1:1** — 3 órfãos em general (vesna, vodyanitsa, traveler-pyro)
+- Prydwen version = `7.1-overall` (cosmético)
 
-**types/tierlist.ts** reescrito: AggregatedTier com campos novos.
+---
 
-### Scripts (idempotentes)
+## 18. Sessão 2026-10-31 — Team tier badge (3 páginas)
 
-- backend/app/scripts/import_tierlists.sql — DELETE dos 4 sites (não toca Prydwen) + INSERT com tier_master calculado. Rodar a qualquer momento.
-- backend/app/scripts/create_view.sql — CREATE OR REPLACE VIEW v_tierlist_consensus.
-- backend/app/scripts/tierlist_raw/ — HTMLs brutos (gitignored).
+### Estado final
+- **Backend**:
+  - `services/team_tier.py` com `compute_team_tier` (S+=6, S=5, A=4, B=3, C=2, D=1; média arredondada half-up)
+  - `team_tier` inline no `TeamDetail` (computado on-the-fly no GET)
+  - `POST /teams/preview-tier` — recebe `{character_slugs}`, retorna `{tier, avg_score, breakdown}` sem persistir
+- **Frontend**:
+  - `TeamTierBadge.tsx` (variantes sm/lg, tooltip floating-ui com breakdown por char)
+  - Preview **ao vivo** no `TeamBuilderPage` com **debounce de 300ms** no `POST /teams/preview-tier`
+  - Badge **sm no card** em `/teams`
+  - Badge **lg no título** em `/teams/:id`
+  - Badge **lg ao vivo** (preview) em `/teams/new`
 
-### Migration
+### Commits
+    f7f34d1 feat(team-builder): live preview tier while building
+    ceb43c5 feat(team): team tier badge from tierlist consensus
 
-e5f6a7b8c9d0_add_tierlist_aggregator.py (encadeada após d4e5f6g7h8i9):
-- Adiciona tier_master (idempotente)
-- Fix game8.scale_size 5→7
-- Insere genshin-gg em tierlist_sites
-- Insere 7 travelers em characters
-- Cria v_tierlist_consensus
-- Tudo idempotente (IF NOT EXISTS, ON CONFLICT DO NOTHING, CREATE OR REPLACE)
+### Algoritmo de tier do time
+- Pontuação por tier individual: **S+=6, S=5, A=4, B=3, C=2, D=1**
+- `team_tier = round_half_up(média dos 4 personagens)`
+- Lookup via `v_tierlist_consensus` → `consensus_tier` de cada char
+- **Validado**: Skirk Freeze (KQM) = **S+** — média 5.5: Skirk S (5) + Escoffier S (5) + Furina S+ (6) + Wriothesley S+ (6) = 22/4 = 5.5 → 6 → S+
+- **Score de sinergia continua separado** (65/100 no Skirk Freeze). Vai ser refinado quando os roles forem atribuídos 1:1.
 
-### Fixes aplicados nesta sessão
+### Cobertura do badge
+| Página | Variante | Fonte do tier |
+|--------|----------|---------------|
+| `/teams` | sm no card | `team_tier` inline do GET /teams |
+| `/teams/:id` | lg no título | `team_tier` inline do GET /teams/{id} |
+| `/teams/new` | lg ao vivo | POST /teams/preview-tier (debounce 300ms) |
 
-1. ALTER TABLE tierlist_entries ADD COLUMN tier_master
-2. tierlist_sites.scale_size game8: 5→7 (estava errado)
-3. INSERT genshin-gg em tierlist_sites (não estava cadastrado)
-4. UPDATE Prydwen tier_master (mapping 8→6)
-5. Model ORM tier_master adicionado em models/tierlist.py (evitava AttributeError)
-6. Travelers criados no characters (7 registros, stats placeholder)
-7. Prydwen travelers underscore→hyphen (traveler_cryo → traveler-cryo) — estavam duplicando no grid
+### Próximos passos (prioridades sugeridas)
+- **A. Refinar roles 1:1** (destrava sinergia + tier do time mais confiáveis) — recomendado
+- **B. Expandir KQM templates** (~15 chars: Mavuika, Citlali, Chasca, Nefer, Varessa, Ifa, Xilonen)
+- **C. Deploy público + README** (maior gap pra apresentação acadêmica)
+- **D. Página de itens** com resina tooltips
 
-### Contagens DB (fim da sessão)
-
-| Item | Valor |
-|------|-------|
-| characters | 127 (120 + 7 travelers) |
-| tierlist_entries | 758 (6 sites) |
-| v_tierlist_consensus | 127 chars únicos |
-| Órfãos em general | 3 (vesna, vodyanitsa, traveler-pyro) |
-
-### Pendente (próxima sessão)
-
-1. ~~**GameWith**~~ — importado 2026-10-30. Todos os 6 sites estão no banco.
-2. **Roles 1:1** — user vai atribuir manualmente. Os 3 órfãos saem de general nessa passada.
-3. **Prydwen version** = 7.1-overall (não 7.1). Cosmético. Fix opcional: UPDATE tierlist_entries SET version='7.1' WHERE site_id=(prydwen) AND version='7.1-overall'.
-
-### Como verificar
-
-curl -s "http://localhost:8000/tierlist" | jq '.items | length'                  # 127
-curl -s "http://localhost:8000/tierlist?role=general" | jq '.items | length'    # 3
-curl -s "http://localhost:8000/tierlist?role=main_dps" | jq '.items | length'   # 42
-curl -s "http://localhost:8000/tierlist?role=sub_dps" | jq '.items | length'    # 29
-curl -s "http://localhost:8000/tierlist?role=support" | jq '.items | length'    # 53
-
-### Armadilhas conhecidas (novas)
-
-- Não use e.tier_master via ORM sem adicionar no model — AttributeError. Já resolvido.
-- Slugs de Traveler: sempre hyphen (traveler-cryo), nunca underscore. Prydwen é a fonte do bug histórico.
-- consensus_tier (moda) e tier_by_avg (média) divergem em ~20% dos casos — é feature, não bug. Grid usa moda; tooltip mostra os dois. Ex: Furina → consensus=S+, by_avg=S (Mobalytics B+ puxa pra baixo).
-
-### UI Refinements (pós-importação)
-
-- **`TierlistTooltip.tsx`**: componente novo usando `@floating-ui/react` (padrão do projeto, `FloatingPortal`, `isPositioned`, `safePolygon`). Fundo opaco (`#0f1218`), cores dinâmicas por elemento (pyro/geo/etc no border e glow), breakdown dos 5 sites com barras e destaque em outliers.
-- **Filtros novos**: `tierFilter` (S+/S/A/B/C/D) e `elementFilter` (7 elementos). Filtragem 100% client-side sobre os 127 itens.
-- **`SingleTierGrid`**: quando `tierFilter !== 'all'`, substitui o grid de 6 colunas por um grid flat `auto-fill` agrupado por `dominant_role` (Main DPS → Sub-DPS → Support → General), com sub-cabeçalhos e contador por role.
-- **Role visível nos cards**: `tierlist-tile-role` mostra role em uppercase pequeno abaixo do nome (grid) e destacado em azul na meta da lista.
-- **Fix de posição do tooltip**: `display: contents` no wrapper ref não gerava bounding box → `display: inline-block; width: fit-content`.
-
-
-### Adendo: GameWith (6ª fonte)
-
-- Importado 2026-10-30 via texto colado (curl bloqueou — só veio `<head>` de 7.5K)
-- 127 chars, escala SS/S/A/B/C/D (1:1, igual GenshinLab)
-- Distribuição: S+=30, S=31, A=22, B=24, C=8, D=12
-- `kuki-shinobu` não existia na seção A do Game8 (typo no import manual) — corrigido via INSERT pontual + adicionado no `import_tierlists.sql` pro próximo rerun
-- **Consenso final**: 123 chars com 6/6 sites, 4 chars com 5/6 (aloy sem Mobalytics; traveler-pyro/vesna/vodyanitsa sem Genshin.gg — todos legítimos)
-- HTML de referência em `backend/app/scripts/tierlist_raw/gamewith.html` (gitignored, só `<head>` — não serve pra reimportar, foi placeholder)
-
-
-### Adendo: Traveler element portraits (2026-10-30)
-
-- Yatta CDN só tem `UI_AvatarIcon_PlayerBoy`/`PlayerGirl` (base, sem variantes por elemento)
-- Mobalytics CDN tem os 7 portraits (`traveler-anemo.png`, etc) mas **bloqueia hotlink** com `Referer` (403)
-- Solução: baixados 7 PNGs (~780KB total) em `frontend/public/travelers/`, servidos localmente
-- `iconUrl()` em `config.ts` agora detecta:
-  - URL completa (`http://`/`https://`) → retorna direto
-  - Path absoluto (`/travelers/...`) → retorna direto
-  - Senão, concatena `ASSET_BASE` do Yatta (comportamento antigo)
-- Migration `e5f6a7b8c9d0` atualizada: INSERT dos travelers usa paths locais + UPDATE idempotente
-- `kuki-shinobu` faltava na seção A do Game8 no `import_tierlists.sql` (typo manual) — corrigido
-
+### Prompt para a próxima sessão
+> "Lê o PROJECT_CONTEXT.md. Escolhi [A/B/C/D]. Bora."
