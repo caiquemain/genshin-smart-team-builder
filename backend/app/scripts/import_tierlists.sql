@@ -9,7 +9,7 @@ BEGIN;
 DELETE FROM tierlist_entries
 WHERE site_id IN (
     SELECT id FROM tierlist_sites
-    WHERE slug IN ('genshin-gg', 'genshinlab', 'game8', 'mobalytics')
+    WHERE slug IN ('genshin-gg', 'genshinlab', 'game8', 'mobalytics', 'gamewith')
 );
 
 -- 2. Temp table com dados brutos
@@ -367,6 +367,7 @@ INSERT INTO _tl_import (site_slug, character_slug, role, tier_label) VALUES
 ('game8','charlotte',NULL,'A'),
 ('game8','layla',NULL,'A'),
 ('game8','kirara',NULL,'A'),
+('game8','kuki-shinobu',NULL,'A'),
 -- B (22)
 ('game8','clorinde',NULL,'B'),
 ('game8','gaming',NULL,'B'),
@@ -574,12 +575,14 @@ SELECT
         WHEN 'genshinlab' THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END
         WHEN 'game8'      THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A+' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END
         WHEN 'mobalytics' THEN CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A+' THEN 1 WHEN 'A' THEN 2 WHEN 'B+' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 WHEN 'E' THEN 7 WHEN 'F' THEN 8 END
+        WHEN 'gamewith' THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END
     END,
     ROUND((1.0 - (CASE t.site_slug
         WHEN 'genshin-gg' THEN (CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A' THEN 1 WHEN 'B' THEN 2 WHEN 'C' THEN 3 WHEN 'D' THEN 4 END)::float / 4.0
         WHEN 'genshinlab' THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END)::float / 5.0
         WHEN 'game8'      THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A+' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END)::float / 6.0
         WHEN 'mobalytics' THEN (CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A+' THEN 1 WHEN 'A' THEN 2 WHEN 'B+' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 WHEN 'E' THEN 7 WHEN 'F' THEN 8 END)::float / 8.0
+        WHEN 'gamewith' THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END)::float / 5.0
     END))::numeric, 4)::float,
     '7.1',
     CASE t.site_slug
@@ -587,6 +590,7 @@ SELECT
         WHEN 'genshinlab' THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
         WHEN 'game8'      THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A+' THEN 'A' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
         WHEN 'mobalytics' THEN CASE t.tier_label WHEN 'S' THEN 'S+' WHEN 'A+' THEN 'S' WHEN 'A' THEN 'S' WHEN 'B+' THEN 'A' WHEN 'B' THEN 'A' WHEN 'C' THEN 'B' WHEN 'D' THEN 'B' WHEN 'E' THEN 'C' WHEN 'F' THEN 'D' END
+        WHEN 'gamewith' THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
     END
 FROM _tl_import t
 JOIN tierlist_sites s ON s.slug = t.site_slug
@@ -610,3 +614,79 @@ WHERE c.slug IS NULL
 ORDER BY t.site_slug, t.character_slug;
 
 COMMIT;
+
+-- ============================================================
+-- GAMEWITH (127 entries) — importado via texto (curl bloqueado)
+-- Escala: SS/S/A/B/C/D → S+/S/A/B/C/D (1:1, igual GenshinLab)
+-- ============================================================
+INSERT INTO _tl_import (site_slug, character_slug, role, tier_label) VALUES
+-- SS (30)
+('gamewith','varka',NULL,'SS'), ('gamewith','skirk',NULL,'SS'),
+('gamewith','flins',NULL,'SS'), ('gamewith','sandrone',NULL,'SS'),
+('gamewith','wriothesley',NULL,'SS'), ('gamewith','mavuika',NULL,'SS'),
+('gamewith','nefer',NULL,'SS'), ('gamewith','zibai',NULL,'SS'),
+('gamewith','vesna',NULL,'SS'), ('gamewith','columbina',NULL,'SS'),
+('gamewith','bennett',NULL,'SS'), ('gamewith','fischl',NULL,'SS'),
+('gamewith','sucrose',NULL,'SS'), ('gamewith','baizhu',NULL,'SS'),
+('gamewith','kaedehara-kazuha',NULL,'SS'), ('gamewith','furina',NULL,'SS'),
+('gamewith','yae-miko',NULL,'SS'), ('gamewith','durin',NULL,'SS'),
+('gamewith','yelan',NULL,'SS'), ('gamewith','ineffa',NULL,'SS'),
+('gamewith','lauma',NULL,'SS'), ('gamewith','nicole',NULL,'SS'),
+('gamewith','linnea',NULL,'SS'), ('gamewith','citlali',NULL,'SS'),
+('gamewith','xilonen',NULL,'SS'), ('gamewith','odette',NULL,'SS'),
+('gamewith','iansan',NULL,'SS'), ('gamewith','zhongli',NULL,'SS'),
+('gamewith','vodyanitsa',NULL,'SS'), ('gamewith','escoffier',NULL,'SS'),
+-- S (31)
+('gamewith','venti',NULL,'S'), ('gamewith','klee',NULL,'S'),
+('gamewith','cyno',NULL,'S'), ('gamewith','varesa',NULL,'S'),
+('gamewith','traveler-cryo',NULL,'S'), ('gamewith','yumemizuki-mizuki',NULL,'S'),
+('gamewith','arlecchino',NULL,'S'), ('gamewith','neuvillette',NULL,'S'),
+('gamewith','navia',NULL,'S'), ('gamewith','clorinde',NULL,'S'),
+('gamewith','gaming',NULL,'S'), ('gamewith','mualani',NULL,'S'),
+('gamewith','kinich',NULL,'S'), ('gamewith','chasca',NULL,'S'),
+('gamewith','lohen',NULL,'S'), ('gamewith','xiangling',NULL,'S'),
+('gamewith','xingqiu',NULL,'S'), ('gamewith','albedo',NULL,'S'),
+('gamewith','kuki-shinobu',NULL,'S'), ('gamewith','nilou',NULL,'S'),
+('gamewith','nahida',NULL,'S'), ('gamewith','emilie',NULL,'S'),
+('gamewith','chevreuse',NULL,'S'), ('gamewith','xianyun',NULL,'S'),
+('gamewith','prune',NULL,'S'), ('gamewith','jean',NULL,'S'),
+('gamewith','yaoyao',NULL,'S'), ('gamewith','sigewinne',NULL,'S'),
+('gamewith','qiqi',NULL,'S'), ('gamewith','sangonomiya-kokomi',NULL,'S'),
+('gamewith','lan-yan',NULL,'S'),
+-- A (22)
+('gamewith','kamisato-ayaka',NULL,'A'), ('gamewith','tartaglia',NULL,'A'),
+('gamewith','hu-tao',NULL,'A'), ('gamewith','raiden-shogun',NULL,'A'),
+('gamewith','lyney',NULL,'A'), ('gamewith','alhaitham',NULL,'A'),
+('gamewith','chiori',NULL,'A'), ('gamewith','ororon',NULL,'A'),
+('gamewith','mona',NULL,'A'), ('gamewith','diona',NULL,'A'),
+('gamewith','yun-jin',NULL,'A'), ('gamewith','shenhe',NULL,'A'),
+('gamewith','thoma',NULL,'A'), ('gamewith','illuga',NULL,'A'),
+('gamewith','aino',NULL,'A'), ('gamewith','layla',NULL,'A'),
+('gamewith','faruzan',NULL,'A'), ('gamewith','jahoda',NULL,'A'),
+('gamewith','alyosha',NULL,'A'), ('gamewith','kirara',NULL,'A'),
+('gamewith','charlotte',NULL,'A'), ('gamewith','barbara',NULL,'A'),
+-- B (24)
+('gamewith','diluc',NULL,'B'), ('gamewith','razor',NULL,'B'),
+('gamewith','noelle',NULL,'B'), ('gamewith','xiao',NULL,'B'),
+('gamewith','wanderer',NULL,'B'), ('gamewith','ganyu',NULL,'B'),
+('gamewith','eula',NULL,'B'), ('gamewith','arataki-itto',NULL,'B'),
+('gamewith','tighnari',NULL,'B'), ('gamewith','sethos',NULL,'B'),
+('gamewith','ifa',NULL,'B'), ('gamewith','beidou',NULL,'B'),
+('gamewith','rosaria',NULL,'B'), ('gamewith','lynette',NULL,'B'),
+('gamewith','sayu',NULL,'B'), ('gamewith','kujou-sara',NULL,'B'),
+('gamewith','gorou',NULL,'B'), ('gamewith','collei',NULL,'B'),
+('gamewith','traveler-pyro',NULL,'B'), ('gamewith','traveler-dendro',NULL,'B'),
+('gamewith','mika',NULL,'B'), ('gamewith','candace',NULL,'B'),
+('gamewith','kachina',NULL,'B'), ('gamewith','dori',NULL,'B'),
+-- C (8)
+('gamewith','keqing',NULL,'C'), ('gamewith','yoimiya',NULL,'C'),
+('gamewith','kamisato-ayato',NULL,'C'), ('gamewith','lisa',NULL,'C'),
+('gamewith','kaeya',NULL,'C'), ('gamewith','xinyan',NULL,'C'),
+('gamewith','dahlia',NULL,'C'), ('gamewith','dehya',NULL,'C'),
+-- D (12)
+('gamewith','ningguang',NULL,'D'), ('gamewith','chongyun',NULL,'D'),
+('gamewith','traveler-anemo',NULL,'D'), ('gamewith','kaveh',NULL,'D'),
+('gamewith','yanfei',NULL,'D'), ('gamewith','shikanoin-heizou',NULL,'D'),
+('gamewith','aloy',NULL,'D'), ('gamewith','traveler-hydro',NULL,'D'),
+('gamewith','freminet',NULL,'D'), ('gamewith','traveler-geo',NULL,'D'),
+('gamewith','traveler-electro',NULL,'D'), ('gamewith','amber',NULL,'D');
