@@ -1,16 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from ..database import get_db
-from ..models import Character, CharacterConstellation, CharacterTalent, CharacterPassive, Element, WeaponType, Language
+from ..models import (
+    Character, CharacterConstellation, CharacterTalent, CharacterPassive,
+    Element, WeaponType, Language, CharacterBuildPreset,
+    CharacterTalentTranslation, CharacterPassiveTranslation, CharacterConstellationTranslation,
+)
 from ..schemas.character import (
-    CharacterDetail,
-    CharacterListResponse,
-    CharacterSummary,
+    CharacterDetail, CharacterListResponse, CharacterSummary,
+    ConstellationOut, TalentOut, PassiveOut,
 )
 from ..schemas.common import Pagination
 from ..services.i18n import resolve_character
 from .deps import get_language
+from ..models import TalentType
 
 router = APIRouter(prefix="/characters", tags=["characters"])
 
@@ -39,13 +43,9 @@ def list_characters(
     for char in rows:
         data = resolve_character(db, char, lang)
         items.append(CharacterSummary(
-            slug=char.slug,
-            name=data["name"],
-            icon=char.icon,
-            rarity=char.rarity,
-            element=char.element,
-            weapon_type=char.weapon_type,
-            region=char.region,
+            slug=char.slug, name=data["name"], icon=char.icon,
+            rarity=char.rarity, element=char.element,
+            weapon_type=char.weapon_type, region=char.region,
         ))
 
     return CharacterListResponse(
@@ -53,6 +53,15 @@ def list_characters(
         pagination=Pagination(total=total, limit=limit, offset=offset),
         items=items,
     )
+
+
+def _pick_translation(obj, lang: Language):
+    if lang == Language.EN:
+        return obj
+    for t in obj.translations:
+        if t.language == lang:
+            return t
+    return obj
 
 
 @router.get("/{slug}", response_model=CharacterDetail)
@@ -68,51 +77,70 @@ def get_character(
 
     consts = (
         db.query(CharacterConstellation)
+        .options(joinedload(CharacterConstellation.translations))
         .filter(CharacterConstellation.character_id == char.id)
         .order_by(CharacterConstellation.level)
         .all()
     )
     talents = (
         db.query(CharacterTalent)
+        .options(joinedload(CharacterTalent.translations))
         .filter(CharacterTalent.character_id == char.id)
         .all()
     )
-    # Ordem: normal, skill, burst
-    from ..models import TalentType
     order = {TalentType.NORMAL_ATTACK: 0, TalentType.ELEMENTAL_SKILL: 1, TalentType.ELEMENTAL_BURST: 2}
     talents.sort(key=lambda t: order.get(t.talent_type, 99))
-
     passives = (
         db.query(CharacterPassive)
+        .options(joinedload(CharacterPassive.translations))
         .filter(CharacterPassive.character_id == char.id)
         .all()
     )
 
-    from ..schemas.character import ConstellationOut, TalentOut, PassiveOut
-
     return CharacterDetail(
-        slug=char.slug,
-        name=data["name"],
-        icon=char.icon,
-        title=data["title"],
-        description=data["description"],
+        slug=char.slug, name=data["name"], icon=char.icon,
+        title=data["title"], description=data["description"],
         constellation_name=data["constellation_name"],
-        rarity=char.rarity,
-        element=char.element,
-        weapon_type=char.weapon_type,
-        region=char.region,
-        birthday=char.birthday,
-        base_hp=char.base_hp,
-        base_atk=char.base_atk,
-        base_def=char.base_def,
-        max_hp=char.max_hp,
-        max_atk=char.max_atk,
-        max_def=char.max_def,
+        rarity=char.rarity, element=char.element, weapon_type=char.weapon_type,
+        region=char.region, birthday=char.birthday,
+        base_hp=char.base_hp, base_atk=char.base_atk, base_def=char.base_def,
+        max_hp=char.max_hp, max_atk=char.max_atk, max_def=char.max_def,
         ascension_stat=char.ascension_stat,
         ascension_stat_value=char.ascension_stat_value,
-        release_date=char.release_date,
-        voice_actors=char.voice_actors,
-        constellations=[ConstellationOut.model_validate(c) for c in consts],
-        talents=[TalentOut.model_validate(t) for t in talents],
-        passives=[PassiveOut.model_validate(p) for p in passives],
+        release_date=char.release_date, voice_actors=char.voice_actors,
+        constellations=[
+            ConstellationOut(
+                level=c.level,
+                name=_pick_translation(c, lang).name,
+                description=_pick_translation(c, lang).description,
+                icon=c.icon,
+            ) for c in consts
+        ],
+        talents=[
+            TalentOut(
+                talent_type=t.talent_type,
+                name=_pick_translation(t, lang).name,
+                description=_pick_translation(t, lang).description,
+                icon=t.icon, scalings=t.scalings,
+            ) for t in talents
+        ],
+        passives=[
+            PassiveOut(
+                name=_pick_translation(p, lang).name,
+                description=_pick_translation(p, lang).description,
+                icon=p.icon, kind=p.kind,
+                linked_constellations=p.linked_constellations,
+            ) for p in passives
+        ],
     )
+
+
+@router.get("/{slug}/build")
+def get_character_build(slug: str, db: Session = Depends(get_db)):
+    char = db.query(Character).filter(Character.slug == slug).one_or_none()
+    if not char:
+        raise HTTPException(status_code=404, detail="Character not found")
+    preset = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).first()
+    if not preset:
+        return None
+    return {"name": preset.name, "build_data": preset.build_data}

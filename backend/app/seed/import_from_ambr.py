@@ -45,6 +45,10 @@ from ..models import (
     Language,
     MaterialCategory,
     TalentType,
+    # NOVOS MODELOS DE TRADUÇÃO
+    CharacterTalentTranslation,
+    CharacterPassiveTranslation,
+    CharacterConstellationTranslation,
 )
 
 AMBR_BASE = "https://gi.yatta.moe"
@@ -129,31 +133,20 @@ def map_material_category(
         return MaterialCategory.ASCENSION_GEM
     if "weapon ascension" in t:
         return MaterialCategory.WEAPON_ASCENSION
-
-    # Enemy drops: "Character and Weapon Enhancement Material"
     if "character and weapon enhancement" in t:
         return MaterialCategory.COMMON_DROP
-
-    # Ores: "Weapon Enhancement Material"
     if "weapon enhancement" in t or "enhancement ore" in t:
         return MaterialCategory.WEAPON_EXP
-
-    # Talent Level-Up Material — books, weekly boss mats e Crown
     if "talent" in t:
         if "crown" in n or "coroa" in n:
             return MaterialCategory.CROWN
         return MaterialCategory.TALENT_BOOK
-
-    # Character Level-Up Material — boss drops (Hypostasis, Regisvine, etc.)
     if "character level" in t or "character level-up" in t:
         return MaterialCategory.BOSS_MATERIAL
-
     if "weekly" in t:
         return MaterialCategory.WEEKLY_BOSS
-
     if "character experience" in t or "character exp" in t:
         return MaterialCategory.CHARACTER_EXP
-
     if "boss" in t:
         return MaterialCategory.BOSS_MATERIAL
 
@@ -212,7 +205,7 @@ def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
     base_hp = int(round(base_values.get("FIGHT_PROP_BASE_HP", 0)))
     base_atk = int(round(base_values.get("FIGHT_PROP_BASE_ATTACK", 0)))
     base_def = int(round(base_values.get("FIGHT_PROP_BASE_DEFENSE", 0)))
-    max_hp, max_atk, max_def = base_hp, base_atk, base_def  # TODO: curva de nível 90
+    max_hp, max_atk, max_def = base_hp, base_atk, base_def
 
     birthday = raw.get("birthday") or []
     birthday_str = (
@@ -299,11 +292,6 @@ TALENT_ORDER = [
 
 
 def parse_talent(raw: dict[str, Any]) -> list[dict[str, Any]]:
-    """Extrai os 3 talentos upáveis (na ordem: normal, skill, burst).
-
-    Cada item retornado:
-      {talent_type, phases: [{level, mora, items: {ambr_id: qty}}, ...]}
-    """
     talent_map = raw.get("talent") or {}
     entries = []
     for key in sorted(talent_map.keys(), key=lambda x: int(x) if str(x).isdigit() else 9999):
@@ -338,7 +326,6 @@ def parse_talent(raw: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _parse_release(ts: Any) -> Any:
-    """Unix ts → date object."""
     if not ts:
         return None
     try:
@@ -348,7 +335,6 @@ def _parse_release(ts: Any) -> Any:
 
 
 def parse_constellations(raw: dict[str, Any]) -> list[dict[str, Any]]:
-    """Lista de C1..C6 com name/description/icon."""
     consts = raw.get("constellation") or {}
     if not isinstance(consts, dict):
         return []
@@ -363,7 +349,7 @@ def parse_constellations(raw: dict[str, Any]) -> list[dict[str, Any]]:
             except (TypeError, ValueError):
                 continue
         try:
-            level = int(level_raw) + 1  # id é 0-indexed
+            level = int(level_raw) + 1
         except (TypeError, ValueError):
             continue
         if level < 1 or level > 6:
@@ -379,7 +365,6 @@ def parse_constellations(raw: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def parse_talents_descriptive(raw: dict[str, Any]) -> list[dict[str, Any]]:
-    """Extrai name/description/icon dos 3 talentos upáveis (os com costItems)."""
     talent_map = raw.get("talent") or {}
     if not isinstance(talent_map, dict):
         return []
@@ -404,7 +389,6 @@ def parse_talents_descriptive(raw: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _format_param(value: Any, fmt: str) -> str:
-    """Formata um param pelo formato do Genshin: F1P, F1, P, F2P, etc."""
     try:
         v = float(value)
     except (TypeError, ValueError):
@@ -422,10 +406,6 @@ def _format_param(value: Any, fmt: str) -> str:
 
 
 def parse_scalings(raw: dict[str, Any]) -> dict[str, Any] | None:
-    """Extrai {level_str: [{label, value}, ...]} dos promote[] de um talento ativo.
-
-    Cada nível tem `description` (lista de 'Label|{paramN:FMT}') e `params` (lista de floats).
-    """
     talent_map = raw.get("talent") or {}
     if not isinstance(talent_map, dict):
         return None
@@ -445,7 +425,6 @@ def parse_scalings(raw: dict[str, Any]) -> dict[str, Any] | None:
                 if not isinstance(d, str) or not d.strip() or "|" not in d:
                     continue
                 label, tmpl = d.split("|", 1)
-                # substitui {paramN:FMT} pelo valor
                 def repl(m: "_re.Match[str]") -> str:
                     idx = int(m.group(1)) - 1
                     fmt = m.group(2) or "F1"
@@ -465,7 +444,6 @@ def parse_scalings(raw: dict[str, Any]) -> dict[str, Any] | None:
         promote = t.get("promote") or {}
         if not isinstance(promote, dict) or not promote:
             continue
-        # só upáveis (com costItems em algum nível)
         has_costs = any(
             isinstance(p, dict) and p.get("costItems") for p in promote.values()
         )
@@ -479,7 +457,6 @@ def parse_scalings(raw: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def parse_passives(raw: dict[str, Any]) -> list[dict[str, Any]]:
-    """Lista de passivos (type=2, sem promote). kind derivado de linkedConstellations."""
     talent_map = raw.get("talent") or {}
     if not isinstance(talent_map, dict):
         return []
@@ -674,6 +651,9 @@ async def main() -> None:
             # 5b) Personagens
             for i, cid in enumerate(ids, 1):
                 en_raw = (avatars_raw.get(f"/{CANONICAL_LANG}/avatar/{cid}?vh={VH}") or {}).get("data") or {}
+                pt_raw = (avatars_raw.get(f"/pt/avatar/{cid}?vh={VH}") or {}).get("data") or {}
+                es_raw = (avatars_raw.get(f"/es/avatar/{cid}?vh={VH}") or {}).get("data") or {}
+                
                 payload = parse_canonical(en_raw)
                 if not payload:
                     continue
@@ -695,14 +675,64 @@ async def main() -> None:
                 db.query(CharacterConstellation).filter_by(character_id=char.id).delete()
                 db.query(CharacterTalent).filter_by(character_id=char.id).delete()
                 db.query(CharacterPassive).filter_by(character_id=char.id).delete()
-                for c in parse_constellations(en_raw):
-                    db.add(CharacterConstellation(character_id=char.id, **c))
+
+                # --- CONSTELAÇÕES (com traduções) ---
+                consts_en = parse_constellations(en_raw)
+                consts_pt = parse_constellations(pt_raw) if "pt" in TRANSLATION_LANGS else []
+                consts_es = parse_constellations(es_raw) if "es" in TRANSLATION_LANGS else []
+                
+                for idx, c_en in enumerate(consts_en):
+                    c_obj = CharacterConstellation(character_id=char.id, **c_en)
+                    if idx < len(consts_pt):
+                        c_obj.translations.append(CharacterConstellationTranslation(
+                            language=Language.PT, name=consts_pt[idx]["name"], description=consts_pt[idx]["description"]
+                        ))
+                    if idx < len(consts_es):
+                        c_obj.translations.append(CharacterConstellationTranslation(
+                            language=Language.ES, name=consts_es[idx]["name"], description=consts_es[idx]["description"]
+                        ))
+                    db.add(c_obj)
+
+                # --- TALENTOS (com traduções) ---
                 scalings_map = parse_scalings(en_raw) or {}
-                for t in parse_talents_descriptive(en_raw):
-                    t["scalings"] = scalings_map.get(t["talent_type"].value)
-                    db.add(CharacterTalent(character_id=char.id, **t))
-                for p in parse_passives(en_raw):
-                    db.add(CharacterPassive(character_id=char.id, **p))
+                talents_en = parse_talents_descriptive(en_raw)
+                talents_pt = parse_talents_descriptive(pt_raw) if "pt" in TRANSLATION_LANGS else []
+                talents_es = parse_talents_descriptive(es_raw) if "es" in TRANSLATION_LANGS else []
+                
+                for t_en in talents_en:
+                    t_obj = CharacterTalent(character_id=char.id, **t_en)
+                    t_obj.scalings = scalings_map.get(t_en["talent_type"].value)
+                    
+                    for t_pt in talents_pt:
+                        if t_pt["talent_type"] == t_en["talent_type"]:
+                            t_obj.translations.append(CharacterTalentTranslation(
+                                language=Language.PT, name=t_pt["name"], description=t_pt["description"]
+                            ))
+                    for t_es in talents_es:
+                        if t_es["talent_type"] == t_en["talent_type"]:
+                            t_obj.translations.append(CharacterTalentTranslation(
+                                language=Language.ES, name=t_es["name"], description=t_es["description"]
+                            ))
+                    db.add(t_obj)
+
+                # --- PASSIVOS (com traduções) ---
+                passives_en = parse_passives(en_raw)
+                passives_pt = parse_passives(pt_raw) if "pt" in TRANSLATION_LANGS else []
+                passives_es = parse_passives(es_raw) if "es" in TRANSLATION_LANGS else []
+                
+                for idx, p_en in enumerate(passives_en):
+                    p_obj = CharacterPassive(character_id=char.id, **p_en)
+                    if idx < len(passives_pt):
+                        p_obj.translations.append(CharacterPassiveTranslation(
+                            language=Language.PT, name=passives_pt[idx]["name"], description=passives_pt[idx]["description"]
+                        ))
+                    if idx < len(passives_es):
+                        p_obj.translations.append(CharacterPassiveTranslation(
+                            language=Language.ES, name=passives_es[idx]["name"], description=passives_es[idx]["description"]
+                        ))
+                    db.add(p_obj)
+
+                # --- ASCENSÃO E MATERIAIS ---
                 for phase in phases:
                     db.add(CharacterAscensionPhase(
                         character_id=char.id,

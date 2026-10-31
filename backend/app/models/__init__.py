@@ -41,3 +41,10 @@ __all__ = [
 from .build_preset import CharacterBuildPreset
 
 from .tierlist import TierlistSite, TierlistEntry
+
+# Traduções de Talentos, Passivos e Constelações (adicionadas 2026-10-30)
+from .character import (
+    CharacterTalentTranslation,
+    CharacterPassiveTranslation,
+    CharacterConstellationTranslation,
+)
