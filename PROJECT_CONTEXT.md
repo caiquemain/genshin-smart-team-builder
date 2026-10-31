@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md
 
 > Arquivo vivo de contexto do projeto. **Sempre atualizar** ao final de cada sessão.
-> Última atualização: **2026-10-31** — Traduções i18n + Build KQM na página + refinamento de sinergia
+> Última atualização: **2026-10-31** — Tema Nod-Krai (Space UI) + Fundo animado
 
 ---
 
@@ -111,6 +111,7 @@ Conexão psql (user é genshin, NÃO postgres):
 - LanguageSwitcher.tsx
 - PlannerCharacterCard.tsx
 - PlannerCharacterModal.tsx
+- **SpaceBackground.tsx      ← NOVO 2026-10-31 (constelações + meteoros + parallax)**
 - SubstitutePickerModal.tsx
 - TalentSection.tsx
 - TeamTierBadge.tsx
@@ -122,7 +123,7 @@ Conexão psql (user é genshin, NÃO postgres):
 
 ## 6. Backend — endpoints
 
-- Characters: `GET /characters` · `GET /characters/{slug}` · **`GET /characters/{slug}/build`** (NOVO)
+- Characters: `GET /characters` · `GET /characters/{slug}` · `GET /characters/{slug}/build`
 - Weapons: `GET /weapons` · `GET /weapons/{slug}` · `GET /weapons/{slug}/ascension`
 - Artifacts: `GET /artifacts` · `GET /artifacts/{slug}`
 - Reactions: `GET /reactions`
@@ -172,8 +173,16 @@ Conexão psql (user é genshin, NÃO postgres):
 - Pickers visuais de arma/artefato
 - Tooltips com `isPositioned` gate + `buildNote`
 - i18n pt/en via LanguageContext
-- **Traduções PT/ES completas** de Talentos/Passivos/Constelações
-- **Build KQM na página do personagem** (armas, artefatos, stats, combos)
+- Traduções PT/ES completas de Talentos/Passivos/Constelações
+- Build KQM na página do personagem (armas, artefatos, stats, combos)
+- **Tema Nod-Krai (Space UI)**:
+  - Fundo escuro profundo (`#05060a`)
+  - Constelações SVG com 10 grupos espalhados, animação de "respirar" (`constellationBreath`)
+  - Meteoros caindo em `-45deg` com cauda luminosa, timing fluido (`meteorFall`)
+  - Estrelas em parallax (camadas `far` e `near` com `twinkle`)
+  - Brilho lunar (`space-moon`) suave no topo
+  - Cards com true **glassmorphism** (`backdrop-filter: blur(20px)`, fundo `rgba(15,23,42,0.25)`)
+  - Hover dos cards restaurado usando a cor do elemento (`var(--card-accent)`)
 - Tierlist Aggregator: 6 sites, 758 entries, 127 chars
 - Planner completo: 92 chars, filtros, modal 2 colunas
 
@@ -185,8 +194,9 @@ Conexão psql (user é genshin, NÃO postgres):
 - [x] Traduções Talentos/Passivos/Constelações
 - [x] Build KQM na página (piloto: Columbina)
 - [x] Refinar sinergia (Skirk/Furina/Escoffier/Vodyanitsa)
-- [ ] **Builds KQM manuais** para ~120 chars restantes (só Columbina tem preset)
-- [ ] Score de sinergia visível (temporariamente oculto — será refinado char a char)
+- [x] Tema Nod-Krai / Space UI com glassmorphism
+- [ ] **Builds KQM manuais** para ~120 chars restantes
+- [ ] Score de sinergia visível (refinar char a char)
 - [ ] Refinar roles 1:1 (127 chars)
 - [ ] Expandir templates KQM (~15 chars)
 - [ ] Deploy público + README
@@ -232,6 +242,12 @@ Conexão psql (user é genshin, NÃO postgres):
   - Frontend busca armas/artefatos por slug
   - Notas KQM vão no **tooltip** (`buildNote`), não no card
   - Card usa `--char-accent` (mesmo padrão de Talentos/Passivos/Constelações)
+- **SpaceBackground (Nod-Krai)**:
+  - React renderiza SVG (constelações) + `<span>` para meteoros
+  - CSS anima via `@keyframes` (`constellationBreath`, `meteorFall`, `twinkle`)
+  - Cards usam `backdrop-filter` (true glassmorphism)
+  - Hover usa `--card-accent` (elemento)
+  - Fundo é `#05060a` com gradiente radial sutil (sem quebras)
 - `isPositioned` obrigatório em todo tooltip (`opacity: 0` inline)
 - CSS dos tooltips: **nunca** `animation: opacity` — usar `transition`
 - z-index: modal 10000 → picker 10100 → tooltip 20000
@@ -255,6 +271,8 @@ Conexão psql (user é genshin, NÃO postgres):
 13. **Backend em Docker não pega mudanças automaticamente** — sempre `restart backend` após alterar `.py`
 14. **`joinedload(translations)` é obrigatório** — sem isso o N+1 estoura timeout
 15. **`alembic revision --autogenerate` cria migrations duplicadas** se rodar 2x sem `upgrade head`
+16. **Meteoros precisam de `-45deg` e cauda de `150px`** para ficarem fluidos
+17. **Cards com `rgba(..., 0.25)` + `blur(20px)`** funcionam só se `backdrop-filter` estiver presente (Safari precisa `-webkit-`)
 
 ---
 
@@ -293,6 +311,8 @@ Branch: `main`
 - `feat(i18n): traduções de talentos, passivos e constelações via Ambr`
 - `feat(character): build KQM integrada na página do personagem`
 - `feat(synergy): restrição de elemento (Skirk/Escoffier) + healer forte (Furina)`
+- `docs(context): atualizar PROJECT_CONTEXT.md`
+- `feat(ui): tema Nod-Krai com fundo animado (constelações, meteoros) e glassmorphism`
 
 **Commits anteriores:**
 - `f7f34d1` feat(team-builder): live preview tier while building
@@ -310,7 +330,7 @@ Branch: `main`
 
 ## 16. ⏸️ ONDE PARAMOS (sessão 2026-10-30)
 
-> SUPERSEDED pela §18/§19.
+> SUPERSEDED pela §18/§19/§20.
 
 ---
 
@@ -351,7 +371,7 @@ Branch: `main`
   - Card `.kqm-build-card` (fundo `#131820`, borda `var(--char-accent)`)
   - Seção de stats (Main Stats, Substats como badges, Requisitos, Combos)
   - Se não tem preset, cai no fallback heurístico (antigo)
-- `WeaponTooltip` e `ArtifactTooltip` aceitam prop `buildNote` (nota do KQM aparece dentro do tooltip)
+- `WeaponTooltip` e `ArtifactTooltip` aceitam prop `buildNote`
 - `stripHtml` melhorado: remove `<color>` e `{LINK#...}{/LINK}` mantendo conteúdo
 - `cleanDescription` remove duplicação nome+tipo do Yatta em PT/ES
 - Badges `.kqm-substat-badge` com setas `›` para prioridade de substats
@@ -370,10 +390,33 @@ Branch: `main`
 - Após `PUT /members`, dispara busca de assets (armas/artefatos novos) + `POST /analyze`
 - Análise atualiza na hora (sem precisar de F5)
 
+---
+
+## 20. Sessão 2026-10-31 — Tema Nod-Krai (Space UI)
+
+### Motivação
+O fundo antigo (baseado no `genshintrack.com`) tinha cards opacos que pareciam "mini-fundos" separados, e um céu noturno estático. O objetivo foi criar uma sensação de continuidade espacial e explorar o tema lunar da Columbina.
+
+### Implementado
+- **Componente `SpaceBackground.tsx`** (novo, montado no `App.tsx` antes do `<nav>`):
+  - 10 constelações SVG espalhadas com `polyline` + `circle`
+  - 14 meteoros `<span>` com `animationDelay` variado
+  - 2 camadas de estrelas com parallax (`far` / `near`)
+  - Lua suave (`space-moon`) no canto superior direito
+- **CSS refeito**:
+  - `body`: gradiente radial `#1a1533` → `#0a0e1a` → `#05060a`
+  - Cards com **true glassmorphism**: `rgba(15, 23, 42, 0.25)` + `backdrop-filter: blur(20px) saturate(140%)`
+  - Hover dos cards usa `var(--card-accent)` (cor do elemento)
+  - `.space-constellations` com `constellationBreath` (6s)
+  - `.meteor` com `meteorFall` (-45deg, cauda 150px, fade out suave)
+  - `.space-stars-far` / `.space-stars-near` com `twinkle` (parallax)
+  - Scrollbar customizada (lilás translúcido)
+
 ### Testado
-- `curl /characters/columbina?lang=pt` → talentos em PT ✅
-- Trocar Vodyanitsa por Barbara → sinergia penaliza (healer redundante) ✅
-- Build KQM da Columbina renderiza com imagens + tooltips ✅
+- Constelações aparecem em 10 pontos da tela (algumas cortadas nas bordas para dar profundidade)
+- Meteoros cruzam em ~6-8s cada, cauda luminosa, fade out no canto inferior esquerdo
+- Hover nos cards de personagem respeita cor do elemento (Pyro = laranja, Hydro = azul, etc.)
+- Fundo contínuo sem quebras visíveis entre cards
 
 ### Prompt para próxima sessão
-> "Lê o PROJECT_CONTEXT.md. Vamos popular builds KQM pros próximos chars: [X, Y, Z]."
+> "Lê o PROJECT_CONTEXT.md. Vamos popular builds KQM pros próximos chars: [Furina, Skirk, Neuvillette...]."
