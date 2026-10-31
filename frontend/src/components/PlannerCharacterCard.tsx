@@ -1,6 +1,8 @@
 import { Moon, Check, Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf } from 'lucide-react'
 import { iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
+import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
+import { estimateResinRange } from '../utils/resin'
 import type { AggregateMaterial, CharBreakdown } from '../types/planner'
 
 const ELEMENT_ICON_NAME: Record<string, string> = {
@@ -65,6 +67,7 @@ function PlanMaterialIcon({ material, have }: { material: AggregateMaterial; hav
   if (isComplete) displayQty = '✓'
   else if (have > 0) displayQty = isMora ? formatMoraShort(missing) : `-${missing}`
   else displayQty = isMora ? formatMoraShort(material.quantity) : String(material.quantity)
+  
   const rarityGrad: Record<number, string> = {
     1: 'linear-gradient(160deg,rgba(79,88,100,0.75) 0%,rgba(95,102,115,0.75) 39%,rgba(135,147,156,0.75) 100%)',
     2: 'linear-gradient(160deg,rgba(72,87,92,0.75) 0%,rgba(72,107,103,0.75) 39%,rgba(98,152,113,0.75) 100%)',
@@ -72,14 +75,33 @@ function PlanMaterialIcon({ material, have }: { material: AggregateMaterial; hav
     4: 'linear-gradient(160deg,rgba(89,84,130,0.75) 0%,rgba(120,102,157,0.75) 39%,rgba(183,133,201,0.75) 100%)',
     5: 'linear-gradient(160deg,rgba(105,84,83,0.75) 0%,rgba(161,112,78,0.75) 39%,rgba(228,171,82,0.75) 100%)',
   }
-  return (
-    <div className="plan-mat-icon" title={`${material.name}: ${material.quantity}${have > 0 ? ` (tem ${have})` : ''}`}>
+
+  const resinRange = estimateResinRange(
+    isMora ? 'mora' : material.category,
+    material.quantity,
+    have
+  )
+
+  const tooltipData: ItemTooltipData = {
+    name: material.name,
+    icon: img,
+    rarity: material.rarity,
+    category: isMora ? 'mora' : material.category,
+    description: material.description,
+    source: material.source,
+    resinRange,
+  }
+
+  const row = (
+    <div className="plan-mat-icon">
       <div className="plan-mat-icon-inner" style={{ background: rarityGrad[material.rarity ?? 1] }}>
         {img ? <img src={img} alt={material.name} loading="lazy" /> : <span>?</span>}
       </div>
       <span className={`plan-mat-qty ${isComplete ? 'complete' : have > 0 ? 'partial' : ''}`}>{displayQty}</span>
     </div>
   )
+
+  return <ItemTooltip data={tooltipData}>{row}</ItemTooltip>
 }
 
 function PlanTalentBar({ label, current, goal, lang }: { label: string; current: number | null; goal: number | null; lang: string }) {
@@ -115,7 +137,6 @@ export default function PlannerCharacterCard({
 }) {
   const { lang } = useLanguage()
   const inactiveLabel = lang === 'en' ? 'Inactive' : 'Inativo'
-  // Fallback: se não tem ícone do char, usa ícone de elemento (travelers)
   const img = iconUrl(char.icon) || (element ? iconUrl(ELEMENT_ICON_NAME[element]) : null)
   const mats = aggregateCharMaterials(char)
   const accent = element ? ELEMENT_COLORS[element] ?? '#7dd3fc' : '#7dd3fc'
@@ -124,6 +145,7 @@ export default function PlannerCharacterCard({
   const talentsDone = !char.talent_goal
   const resinTotal = mats.reduce((sum, m) => sum + m.resin_estimate, 0)
   const resinDays = Math.ceil(resinTotal / 180)
+  
   return (
     <div
       className={`plan-char-card ${char.is_inactive ? 'is-inactive' : ''} ${char.is_complete ? 'is-complete' : ''}`}

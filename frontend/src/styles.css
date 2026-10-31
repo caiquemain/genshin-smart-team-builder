@@ -11332,3 +11332,982 @@ h1, h2 {
   color: var(--card-accent, #e2e8f0) !important;
   text-shadow: 0 0 10px color-mix(in srgb, var(--card-accent, #a78bfa) 40%, transparent);
 }
+
+/* ============================================================
+   ItemTooltip — Bloco de Resina (Planner)
+   ============================================================ */
+
+.item-tooltip-resin {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.item-tooltip-resin-complete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 8px;
+  color: #4ade80;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.item-tooltip-resin-free {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  background: rgba(95, 168, 96, 0.08);
+  border: 1px solid rgba(95, 168, 96, 0.25);
+  border-radius: 8px;
+}
+.item-tooltip-resin-free span:first-child {
+  font-size: 13px;
+  font-weight: 700;
+  color: #86efac;
+}
+.item-tooltip-resin-free span:last-child {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.item-tooltip-resin-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7dd3fc;
+}
+.item-tooltip-resin-header span:nth-child(2) {
+  flex: 1;
+}
+.item-tooltip-resin-header span:last-child {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.item-tooltip-resin-runs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(125, 211, 252, 0.2);
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+.item-tooltip-resin-runs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 6px;
+  background: #0a0e1a;
+  text-align: center;
+}
+.item-tooltip-resin-runs > div.is-avg {
+  background: rgba(125, 211, 252, 0.1);
+}
+.item-tooltip-resin-runs span {
+  font-size: 10px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+.item-tooltip-resin-runs strong {
+  font-size: 15px;
+  color: #e2e8f0;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.item-tooltip-resin-runs small {
+  font-size: 10px;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-tooltip-resin-meta {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.item-tooltip-resin-warn {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 6px;
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Garantia de exibição do Tooltip de Itens */
+.item-tooltip {
+  z-index: 20000 !important;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  padding: 14px;
+  max-width: 320px;
+  transition: opacity 120ms ease-out;
+}
+
+/* ============================================================
+   PLANNER — Modo de Edição (2026-10-31)
+   ============================================================ */
+
+/* Ações no header do modal */
+.plan-modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: 8px;
+}
+.plan-modal-header-actions .btn-secondary,
+.plan-modal-header-actions .btn-primary {
+  padding: 8px 14px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Erro de save */
+.plan-modal-error {
+  margin: 0 28px;
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 13px;
+}
+
+/* Inputs do modo edição */
+.plan-modal-edit-goal {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(125, 211, 252, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-radius: 10px;
+}
+.plan-modal-edit-goal label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+.plan-modal-edit-goal input,
+.plan-modal-talent-edit input,
+.plan-modal-weapon-edit input {
+  width: 80px;
+  padding: 8px 10px;
+  background: #0a0e1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.plan-modal-edit-goal input:focus,
+.plan-modal-talent-edit input:focus,
+.plan-modal-weapon-edit input:focus {
+  outline: none;
+  border-color: #7dd3fc;
+  box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.15);
+}
+
+.plan-modal-edit-arrow {
+  color: #64748b;
+  font-weight: 700;
+  font-size: 16px;
+  padding-bottom: 8px;
+}
+
+/* Edição de talentos */
+.plan-modal-talent-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(125, 211, 252, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+.plan-modal-talent-edit .plan-modal-talent-label {
+  flex: 1;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Edição de armas */
+.plan-modal-weapon-edit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.plan-modal-weapon-edit .btn-secondary {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* Empty state no body */
+.plan-modal-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* ============================================================
+   WEAPON PICKER (Planner)
+   ============================================================ */
+
+.plan-weapon-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15000;
+  padding: 24px;
+  animation: fade-in 150ms ease-out;
+}
+.plan-weapon-picker {
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 960px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85);
+}
+.plan-weapon-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.plan-weapon-picker-header h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.plan-weapon-picker-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  text-transform: capitalize;
+}
+.plan-weapon-picker-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.plan-weapon-picker-search svg {
+  color: #64748b;
+  flex-shrink: 0;
+}
+.plan-weapon-picker-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #e2e8f0;
+  font-size: 14px;
+  outline: none;
+}
+.plan-weapon-picker-search input::placeholder {
+  color: #475569;
+}
+.plan-weapon-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 16px 24px 24px;
+  overflow-y: auto;
+}
+.plan-weapon-picker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: #e2e8f0;
+  font-family: inherit;
+}
+.plan-weapon-picker-item:hover {
+  border-color: rgba(125, 211, 252, 0.5);
+  background: rgba(125, 211, 252, 0.08);
+  transform: translateY(-2px);
+}
+.plan-weapon-picker-item.is-current {
+  border-color: #7dd3fc;
+  background: rgba(125, 211, 252, 0.15);
+  box-shadow: 0 0 15px rgba(125, 211, 252, 0.2);
+}
+.plan-weapon-picker-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.plan-weapon-picker-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.plan-weapon-picker-name {
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.plan-weapon-picker-stars {
+  font-size: 9px;
+  color: #fbbf24;
+  letter-spacing: 1px;
+}
+.plan-weapon-picker-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #64748b;
+  padding: 40px;
+  font-style: italic;
+}
+
+/* ============================================================
+   PLANNER MODAL — Espaçamento dos botões (FIX 2026-10-31)
+   ============================================================ */
+
+.plan-modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px !important;   /* era 8px, agora 12px */
+  margin-left: auto;
+  padding-left: 20px;
+}
+.plan-modal-header-actions .plan-modal-close {
+  margin-left: 4px;
+}
+
+/* ============================================================
+   LEVEL INPUT COM MARCOS (estilo Seelie)
+   ============================================================ */
+.plan-modal-level-input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.plan-modal-level-input > input {
+  width: 80px;
+  padding: 8px 10px;
+  background: #0a0e1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.plan-modal-milestones {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+.plan-modal-milestone {
+  min-width: 28px;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.plan-modal-milestone:hover {
+  color: #7dd3fc;
+  border-color: #7dd3fc;
+}
+.plan-modal-milestone.active {
+  background: #7dd3fc;
+  color: #0a0e1a;
+  border-color: #7dd3fc;
+}
+
+/* Meta do personagem em modo leitura */
+.plan-modal-goal-read {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(125, 211, 252, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Botão adicionar arma */
+.plan-modal-add-weapon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: rgba(125, 211, 252, 0.05);
+  border: 1px dashed rgba(125, 211, 252, 0.3);
+  border-radius: 10px;
+  color: #7dd3fc;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.plan-modal-add-weapon:hover {
+  background: rgba(125, 211, 252, 0.1);
+  border-color: #7dd3fc;
+  border-style: solid;
+}
+
+.plan-modal-empty-weapons {
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  font-style: italic;
+  padding: 8px 0;
+  margin: 0;
+}
+
+/* ============================================================
+   FIX: Header do modal sem position:absolute no close
+   ============================================================ */
+.plan-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px !important;
+  padding: 20px 28px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+.plan-modal-header-info {
+  flex: 1;
+  min-width: 0;
+}
+.plan-modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px !important;
+  flex-shrink: 0;
+}
+.plan-modal-header-actions .btn-secondary,
+.plan-modal-header-actions .btn-primary {
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+}
+.plan-modal-close {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   MARCOS DE ASCENSÃO
+   ============================================================ */
+.plan-modal-milestones-read {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+.milestone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 40px;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid;
+  transition: all 0.15s;
+}
+.milestone-chip.passed {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}
+.milestone-chip.active {
+  background: rgba(125, 211, 252, 0.15);
+  border-color: rgba(125, 211, 252, 0.5);
+  color: #7dd3fc;
+  box-shadow: 0 0 10px rgba(125, 211, 252, 0.2);
+}
+.milestone-chip.inactive {
+  background: rgba(15, 23, 42, 0.4);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #475569;
+}
+.milestone-summary {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+.milestone-summary strong {
+  color: #7dd3fc;
+}
+
+/* Milestone unmarked */
+.milestone-chip.unmarked {
+  background: rgba(15, 23, 42, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  cursor: pointer;
+}
+.milestone-chip.unmarked:hover {
+  border-color: rgba(125, 211, 252, 0.5);
+  color: #7dd3fc;
+}
+.milestone-chip:disabled {
+  cursor: default;
+}
+
+/* Weapon fixed "to" indicator */
+.plan-modal-weapon-fixed-to {
+  font-size: 13px;
+  font-weight: 700;
+  color: #7dd3fc;
+  font-variant-numeric: tabular-nums;
+  min-width: 50px;
+  text-align: center;
+}
+.plan-modal-weapon-fixed-to small {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Free material badge */
+.plan-modal-qty-free {
+  font-size: 10px;
+  color: #86efac;
+  background: rgba(74, 222, 128, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Ley Line summary e cards */
+.plan-modal-summary-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.plan-modal-leylines {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: rgba(125, 211, 252, 0.04);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  border-radius: 10px;
+}
+.plan-modal-leylines-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #7dd3fc;
+  margin: 0 0 10px;
+}
+.plan-modal-leylines-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.leyline-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(125, 211, 252, 0.15);
+  border-radius: 8px;
+}
+.leyline-card-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.leyline-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+.leyline-card-value {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   PLAN MODAL — TOP SUMMARY BAR
+   ============================================================ */
+.plan-modal-top-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.plan-top-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: #0d1117;
+}
+.plan-top-stat-icon {
+  flex-shrink: 0;
+}
+.plan-top-stat-icon.mora { color: #fbbf24; }
+.plan-top-stat-icon.resin { color: #7dd3fc; }
+.plan-top-stat-icon.xp { color: #a5b4fc; }
+.plan-top-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #64748b;
+  font-weight: 700;
+}
+.plan-top-stat-value {
+  font-size: 17px;
+  font-weight: 800;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.plan-top-stat-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   LEVEL INPUT COM SETAS
+   ============================================================ */
+.plan-modal-level-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.plan-level-step {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  color: #7dd3fc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.plan-level-step:hover:not(:disabled) {
+  background: rgba(125, 211, 252, 0.2);
+  border-color: #7dd3fc;
+}
+.plan-level-step:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.plan-modal-level-controls input {
+  width: 70px;
+  padding: 8px 10px;
+  background: #0a0e1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.plan-modal-level-controls input:focus {
+  outline: none;
+  border-color: #7dd3fc;
+  box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.15);
+}
+
+/* Botões de marco (maiores) */
+.plan-modal-milestones {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.plan-modal-milestone {
+  min-width: 40px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.plan-modal-milestone:hover {
+  color: #7dd3fc;
+  border-color: #7dd3fc;
+}
+.plan-modal-milestone.active {
+  background: #7dd3fc;
+  color: #0a0e1a;
+  border-color: #7dd3fc;
+}
+
+/* Constelação com setas */
+.plan-modal-cons-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.plan-modal-cons-step {
+  cursor: pointer;
+  color: #7dd3fc;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.12s;
+}
+.plan-modal-cons-step:hover {
+  background: rgba(125, 211, 252, 0.15);
+}
+.plan-modal-cons-input input {
+  width: 50px;
+  padding: 6px 8px;
+  background: #0a0e1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Milestone checkbox (com box dentro) */
+.milestone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 52px;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid;
+  transition: all 0.15s;
+  cursor: pointer;
+  background: rgba(15, 23, 42, 0.4);
+}
+.milestone-chip.passed {
+  background: rgba(74, 222, 128, 0.08);
+  border-color: rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+  cursor: default;
+}
+.milestone-chip.active {
+  background: rgba(125, 211, 252, 0.15);
+  border-color: rgba(125, 211, 252, 0.5);
+  color: #7dd3fc;
+  box-shadow: 0 0 10px rgba(125, 211, 252, 0.15);
+}
+.milestone-chip.unmarked {
+  background: rgba(15, 23, 42, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+.milestone-chip.unmarked:hover {
+  border-color: rgba(125, 211, 252, 0.5);
+  color: #7dd3fc;
+}
+.milestone-chip.inactive {
+  background: rgba(15, 23, 42, 0.2);
+  border-color: rgba(255, 255, 255, 0.05);
+  color: #475569;
+  cursor: default;
+}
+.milestone-chip:disabled { cursor: default; }
+.milestone-check {
+  font-size: 13px;
+}
+.milestone-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   WEAPON BLOCK
+   ============================================================ */
+.plan-modal-weapon {
+  padding: 14px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.plan-modal-weapon-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0;
+}
+.plan-modal-weapon-body {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.plan-modal-weapon-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+.plan-modal-weapon-actions .btn-secondary {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+.plan-modal-weapon-level-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.plan-modal-weapon-level-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+.plan-modal-weapon-fixed-to {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 14px;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  border-radius: 8px;
+  min-width: 90px;
+}
+.plan-modal-weapon-fixed-to strong {
+  font-size: 16px;
+  color: #7dd3fc;
+  font-variant-numeric: tabular-nums;
+}
+.plan-modal-weapon-fixed-to small {
+  font-size: 10px;
+  color: #64748b;
+}
+
+/* ============================================================
+   Toggle Ativo / Inativo (Planner)
+   ============================================================ */
+.plan-toggle-status {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid;
+  font-family: inherit;
+  min-width: 90px;
+}
+.plan-toggle-status.is-active {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.4);
+  color: #4ade80;
+}
+.plan-toggle-status.is-active:hover {
+  background: rgba(74, 222, 128, 0.2);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+}
+.plan-toggle-status.is-inactive {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.3);
+  color: #94a3b8;
+}
+.plan-toggle-status.is-inactive:hover {
+  background: rgba(148, 163, 184, 0.2);
+}

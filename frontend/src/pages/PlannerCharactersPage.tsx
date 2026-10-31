@@ -6,7 +6,11 @@ import {
 } from 'lucide-react'
 import PlannerCharacterCard from '../components/PlannerCharacterCard'
 import PlannerCharacterModal from '../components/PlannerCharacterModal'
+import { api } from '../api/client'
+import { useLanguage } from '../context/LanguageContext'
+import { recomputeAggregates } from '../utils/planner-recompute'
 import type { Plan } from '../types/planner'
+import type { WeaponSummary } from '../types'
 
 const ELEMENT_COLORS: Record<string, string> = {
   pyro: '#ff9c46', hydro: '#4cc2f1', electro: '#b398ff', cryo: '#93e2ff',
@@ -17,7 +21,6 @@ const ELEMENT_ICONS: Record<string, any> = {
   anemo: Wind, geo: Mountain, dendro: Leaf,
 }
 
-// Mapa de elementos (fallback quando o backend não tem)
 const ELEMENT_MAP: Record<string, string> = {
   hutao: 'pyro', yoimiya: 'pyro', diluc: 'pyro', klee: 'pyro',
   amber: 'pyro', xiangling: 'pyro', bennett: 'pyro', xinyan: 'pyro', yanfei: 'pyro',
@@ -58,51 +61,70 @@ function elementOf(slug: string): string | undefined {
 
 type StatusFilter = 'all' | 'pending' | 'complete' | 'inactive'
 type PendingFilter = 'all' | 'ascension' | 'talent' | 'weapon'
-type SortBy = 'name' | 'days' | 'rarity' | 'status'
+type SortBy = 'name' | 'days' | 'status'
 
 export default function PlannerCharactersPage() {
+  const { lang } = useLanguage()
   const [plan, setPlan] = useState<Plan | null>(null)
   const [elementFilter, setElementFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [pendingFilter, setPendingFilter] = useState<PendingFilter>('all')
-  const [sortBy, setSortBy] = useState<SortBy>('name')
+  // Padrão alterado para 'status' (Prioridade)
+  const [sortBy, setSortBy] = useState<SortBy>('status')
   const [selectedChar, setSelectedChar] = useState<any | null>(null)
+  const [weaponsMap, setWeaponsMap] = useState<Map<string, WeaponSummary>>(new Map())
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem('gsb.planner.plan')
       if (raw) setPlan(JSON.parse(raw))
     } catch {}
-  }, [])
+    api.listWeapons(lang, { limit: 500 })
+      .then((res) => {
+        const m = new Map<string, WeaponSummary>()
+        res.items.forEach((w) => m.set(w.slug, w))
+        setWeaponsMap(m)
+      })
+      .catch(() => {})
+  }, [lang])
+
+  const handleUpdate = (newChar: any) => {
+    if (!plan) return
+    const newChars = plan.chars.map((c) => c.slug === newChar.slug ? newChar : c)
+    const updated = recomputeAggregates({ ...plan, chars: newChars }, plan.inventory_resolved)
+    setPlan(updated)
+    setSelectedChar(newChar)
+    try { localStorage.setItem('gsb.planner.plan', JSON.stringify(updated)) } catch {}
+  }
 
   const filtered = useMemo(() => {
     if (!plan) return []
     let list = plan.chars.filter((c) => {
-      // Elemento
       if (elementFilter && elementOf(c.slug) !== elementFilter) return false
-
-      // Status
       if (statusFilter === 'pending' && c.is_complete) return false
       if (statusFilter === 'complete' && !c.is_complete) return false
       if (statusFilter === 'inactive' && !c.is_inactive) return false
-
-      // Tipo de pendência
       if (pendingFilter === 'ascension' && !c.has_ascension_pending) return false
       if (pendingFilter === 'talent' && !c.has_talent_pending) return false
       if (pendingFilter === 'weapon' && !c.has_weapon_pending) return false
-
       return true
     })
 
-    // Ordenação
+    // Lógica de Ordenação
     list = [...list].sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name)
+
       if (sortBy === 'status') {
+        // 0 = Ativo & Pendente
+        // 1 = Ativo & Completo
+        // 2 = Inativo
         const scoreA = a.is_inactive ? 2 : (a.is_complete ? 1 : 0)
         const scoreB = b.is_inactive ? 2 : (b.is_complete ? 1 : 0)
+
         if (scoreA !== scoreB) return scoreA - scoreB
-        return a.name.localeCompare(b.name)
+        return a.name.localeCompare(b.name) // Desempate alfabético
       }
+
       if (sortBy === 'days') {
         const daysA = a.is_inactive ? 0 : Math.ceil((a.ascension?.total_mora ?? 0) / 50_000)
         const daysB = b.is_inactive ? 0 : Math.ceil((b.ascension?.total_mora ?? 0) / 50_000)
@@ -139,16 +161,9 @@ export default function PlannerCharactersPage() {
         </p>
       </div>
 
-      {/* Filtros em linha */}
       <div className="planner-filters-row">
-        {/* Elementos */}
         <div className="plan-element-filter">
-          <button
-            className={`plan-element-pill ${elementFilter === '' ? 'active' : ''}`}
-            onClick={() => setElementFilter('')}
-          >
-            Todos
-          </button>
+          <button className={`plan-element-pill ${elementFilter === '' ? 'active' : ''}`} onClick={() => setElementFilter('')}>Todos</button>
           {Object.entries(ELEMENT_COLORS).map(([el, color]) => {
             const Icon = ELEMENT_ICONS[el]
             if (!Icon) return null
@@ -159,21 +174,15 @@ export default function PlannerCharactersPage() {
                 style={{ '--pill-color': color } as React.CSSProperties}
                 onClick={() => setElementFilter(elementFilter === el ? '' : el)}
               >
-                <Icon size={14} />
-                {el.charAt(0).toUpperCase() + el.slice(1)}
+                <Icon size={14} />{el.charAt(0).toUpperCase() + el.slice(1)}
               </button>
             )
           })}
         </div>
 
-        {/* Status */}
         <div className="planner-filter-group">
           <span className="planner-filter-label"><Filter size={14} /> Status</span>
-          <select
-            className="planner-filter-select"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-          >
+          <select className="planner-filter-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}>
             <option value="all">Todos</option>
             <option value="pending">Pendentes</option>
             <option value="complete">Completos</option>
@@ -181,14 +190,9 @@ export default function PlannerCharactersPage() {
           </select>
         </div>
 
-        {/* Tipo de pendência */}
         <div className="planner-filter-group">
           <span className="planner-filter-label"><Filter size={14} /> Pendência</span>
-          <select
-            className="planner-filter-select"
-            value={pendingFilter}
-            onChange={(e) => setPendingFilter(e.target.value as PendingFilter)}
-          >
+          <select className="planner-filter-select" value={pendingFilter} onChange={(e) => setPendingFilter(e.target.value as PendingFilter)}>
             <option value="all">Todos</option>
             <option value="ascension">Falta nível</option>
             <option value="talent">Falta talento</option>
@@ -196,16 +200,11 @@ export default function PlannerCharactersPage() {
           </select>
         </div>
 
-        {/* Ordenação */}
         <div className="planner-filter-group">
           <span className="planner-filter-label"><ArrowUpDown size={14} /> Ordem</span>
-          <select
-            className="planner-filter-select"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortBy)}
-          >
+          <select className="planner-filter-select" value={sortBy} onChange={(e) => setSortBy(e.target.value as SortBy)}>
+            <option value="status">Prioridade</option>
             <option value="name">Nome</option>
-            <option value="status">Status</option>
             <option value="days">Dias de farm</option>
           </select>
         </div>
@@ -216,26 +215,21 @@ export default function PlannerCharactersPage() {
       ) : (
         <div className="plan-chars-grid">
           {filtered.map((c) => (
-            <div
-              key={c.slug}
-              onClick={() => setSelectedChar(c)}
-              style={{ cursor: 'pointer' }}
-            >
-              <PlannerCharacterCard
-                char={c}
-                element={elementOf(c.slug)}
-                inventory={plan.inventory_resolved}
-              />
+            <div key={c.slug} onClick={() => setSelectedChar(c)} style={{ cursor: 'pointer' }}>
+              <PlannerCharacterCard char={c} element={elementOf(c.slug)} inventory={plan.inventory_resolved} />
             </div>
           ))}
         </div>
       )}
+
       {selectedChar && (
         <PlannerCharacterModal
           char={selectedChar}
           element={elementOf(selectedChar.slug)}
           inventory={plan.inventory_resolved}
           onClose={() => setSelectedChar(null)}
+          onUpdate={handleUpdate}
+          weaponsMap={weaponsMap}
         />
       )}
     </div>
