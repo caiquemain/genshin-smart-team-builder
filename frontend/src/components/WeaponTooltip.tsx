@@ -23,7 +23,11 @@ function stripHtml(s: string | null | undefined): string {
     .replace(/<i>/g, '').replace(/<\/i>/g, '').replace(/\\n/g, '\n').trim()
 }
 
-export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSummary; children: ReactNode }) {
+export default function WeaponTooltip({ 
+  weapon, children, buildNote 
+}: { 
+  weapon: WeaponSummary; children: ReactNode; buildNote?: string 
+}) {
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
 
@@ -41,7 +45,6 @@ export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSumm
   const accent = RARITY_COLORS[weapon.rarity] ?? RARITY_COLORS[1]
   const img = iconUrl(weapon.icon)
 
-  // cloneElement: ref + props de interação no filho REAL (não em span display:contents)
   const child = isValidElement(children)
     ? cloneElement(children as ReactElement<any>, {
         ref: refs.setReference,
@@ -103,6 +106,18 @@ export default function WeaponTooltip({ weapon, children }: { weapon: WeaponSumm
                 {weapon.passive_description_r5 && (
                   <p className="weapon-tooltip-passive-desc">{stripHtml(weapon.passive_description_r5)}</p>
                 )}
+              </div>
+            )}
+
+            {/* NOVO: Nota de Build do KQM */}
+            {buildNote && (
+              <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#e0a647', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>
+                  Nota de Build (KQM)
+                </div>
+                <p style={{ margin: 0, fontSize: 12, color: '#cbd5e1', lineHeight: 1.5 }}>
+                  {buildNote}
+                </p>
               </div>
             )}
 

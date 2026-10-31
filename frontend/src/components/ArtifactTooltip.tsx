@@ -12,7 +12,11 @@ const RARITY_COLORS: Record<number, string> = {
   3: '#5a8fd8', 4: '#a35bd8', 5: '#e0a647',
 }
 
-export default function ArtifactTooltip({ artifact, children }: { artifact: ArtifactSetSummary; children: ReactNode }) {
+export default function ArtifactTooltip({ 
+  artifact, children, buildNote 
+}: { 
+  artifact: ArtifactSetSummary; children: ReactNode; buildNote?: string 
+}) {
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
 
@@ -63,6 +67,18 @@ export default function ArtifactTooltip({ artifact, children }: { artifact: Arti
               <div className="artifact-tooltip-bonus bonus-4pc">
                 <span className="artifact-tooltip-badge">4 peças</span>
                 <p>{artifact.four_piece_bonus}</p>
+              </div>
+            )}
+
+            {/* NOVO: Nota de Build do KQM */}
+            {buildNote && (
+              <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#7dd3fc', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>
+                  Nota de Build (KQM)
+                </div>
+                <p style={{ margin: 0, fontSize: 12, color: '#cbd5e1', lineHeight: 1.5 }}>
+                  {buildNote}
+                </p>
               </div>
             )}
 
