@@ -30,55 +30,54 @@ export default function TeamDetailPage() {
   const [showFallbackPicker, setShowFallbackPicker] = useState(false)
   const [editingBuild, setEditingBuild] = useState<TeamMemberWithBuild | null>(null)
 
+  const fetchAssets = async (t: TeamDetail) => {
+    const weaponSlugs = new Set<string>()
+    const artifactSlugs = new Set<string>()
+    
+    t.members.forEach(m => {
+      if (m.build) {
+        m.build.weapons.forEach(w => { if (w.weapon_slug) weaponSlugs.add(w.weapon_slug) })
+        m.build.artifacts_4pc.forEach(a => { if (a.artifact_set_slug) artifactSlugs.add(a.artifact_set_slug) })
+        m.build.artifacts_2pc.forEach(p => {
+          if (p.set1_slug) artifactSlugs.add(p.set1_slug)
+          if (p.set2_slug) artifactSlugs.add(p.set2_slug)
+        })
+      }
+    })
+
+    const wMap = new Map<string, WeaponSummary>()
+    await Promise.all(Array.from(weaponSlugs).map(async slug => {
+      try {
+        const w = await api.getWeapon(slug, lang)
+        wMap.set(slug, w)
+      } catch (e) { console.error("Arma não encontrada:", slug) }
+    }))
+    setWeapons(wMap)
+
+    const aMap = new Map<string, ArtifactSetSummary>()
+    await Promise.all(Array.from(artifactSlugs).map(async slug => {
+      try {
+        const a = await api.getArtifact(slug, lang)
+        aMap.set(slug, a)
+      } catch (e) { console.error("Artefato não encontrado:", slug) }
+    }))
+    setArtifacts(aMap)
+  }
+
   useEffect(() => {
     if (!id) return
     setLoading(true)
     
     async function loadData() {
       try {
-        // 1. Carrega o time
         const t = await api.getTeam(Number(id), lang)
         setTeam(t)
 
-        // 2. Carrega todos os personagens (para resolver avatares dos substitutos)
         const c = await api.listCharacters(lang, { limit: 100 })
         setChars(new Map(c.items.map((x) => [x.slug, x])))
 
-        // 3. Coleta os slugs de armas e artefatos que estão sendo USADOS neste time
-        const weaponSlugs = new Set<string>()
-        const artifactSlugs = new Set<string>()
-        
-        t.members.forEach(m => {
-          if (m.build) {
-            m.build.weapons.forEach(w => { if (w.weapon_slug) weaponSlugs.add(w.weapon_slug) })
-            m.build.artifacts_4pc.forEach(a => { if (a.artifact_set_slug) artifactSlugs.add(a.artifact_set_slug) })
-            m.build.artifacts_2pc.forEach(p => {
-              if (p.set1_slug) artifactSlugs.add(p.set1_slug)
-              if (p.set2_slug) artifactSlugs.add(p.set2_slug)
-            })
-          }
-        })
+        await fetchAssets(t)
 
-        // 4. Busca individualmente só as armas e artefatos usados
-        const wMap = new Map<string, WeaponSummary>()
-        await Promise.all(Array.from(weaponSlugs).map(async slug => {
-          try {
-            const w = await api.getWeapon(slug, lang)
-            wMap.set(slug, w)
-          } catch (e) { console.error("Arma não encontrada:", slug) }
-        }))
-        setWeapons(wMap)
-
-        const aMap = new Map<string, ArtifactSetSummary>()
-        await Promise.all(Array.from(artifactSlugs).map(async slug => {
-          try {
-            const a = await api.getArtifact(slug, lang)
-            aMap.set(slug, a)
-          } catch (e) { console.error("Artefato não encontrado:", slug) }
-        }))
-        setArtifacts(aMap)
-
-        // 5. Análise do time
         const slugs = t.members.map((m) => m.character.slug)
         const an = await api.analyzeTeam(slugs, lang)
         setAnalysis(an)
@@ -104,11 +103,7 @@ export default function TeamDetailPage() {
         <Link to="/teams" className="team-detail-back">← Voltar para times</Link>
         <h1 className="team-detail-title">
           {team.name}
-          <span style={{
-            marginLeft: 16,
-            verticalAlign: 'middle',
-            display: 'inline-block',
-          }}>
+          <span style={{ marginLeft: 16, verticalAlign: 'middle', display: 'inline-block' }}>
             <TeamTierBadge teamTier={team.team_tier} size="lg" />
           </span>
         </h1>
@@ -117,16 +112,8 @@ export default function TeamDetailPage() {
       </div>
 
       {analysis && (
-        <div className="team-detail-analysis">
-          <div 
-            className="team-score-badge" 
-            style={{ '--score': analysis.score } as React.CSSProperties}
-          >
-            <div className="score-inner">
-              <span className="score-value">{analysis.score}</span>
-              <span className="score-label">/ 100</span>
-            </div>
-          </div>
+        <div className="team-detail-analysis" style={{ paddingLeft: 0 }}>
+          {/* O badge de Score (círculo) foi removido temporariamente */}
           <div className="analysis-content">
             {analysis.reactions.length > 0 && (
               <div className="analysis-group">
@@ -184,6 +171,9 @@ export default function TeamDetailPage() {
           try {
             const updated = await api.updateTeamMembers(team.id, newSlugs, lang)
             setTeam(updated)
+            await fetchAssets(updated)
+            const newAnalysis = await api.analyzeTeam(newSlugs, lang)
+            setAnalysis(newAnalysis)
           } catch (e) {
             console.error(e)
             alert("Erro ao salvar a substituição no servidor.")
