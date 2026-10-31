@@ -10801,3 +10801,534 @@ body:has(.tierlist-page) .container {
   font-size: 12px;
   font-weight: 900;
 }
+
+/* ============================================================
+   TEMA DA LUA (NOD-KRAI / COLUMBINA) - Overrides 2026-10-31
+   ============================================================ */
+
+/* 1. Fundo Base: Azul-noite profundo (quase preto) */
+body {
+  background-color: #05060a !important;
+  background-image: radial-gradient(ellipse at 50% -20%, #1e1b4b 0%, #0a0e1a 40%, #05060a 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* 2. O Brilho Lunar (Moon Glow) */
+body::before {
+  content: '';
+  position: fixed;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, rgba(99, 102, 241, 0.05) 40%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
+  animation: moonGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+  from { opacity: 0.8; transform: translateX(-50%) scale(1); }
+  to { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+/* 3. Estrelas Cintilantes (Upgrade das estrelas existentes) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(226, 232, 240, 0.8), transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(167, 139, 250, 0.6), transparent),
+    radial-gradient(2px 2px at 60% 40%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 80% 80%, rgba(226, 232, 240, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 10% 90%, rgba(167, 139, 250, 0.7), transparent);
+  background-size: 250px 250px, 350px 350px, 300px 300px, 400px 400px, 200px 200px;
+  opacity: 0.3;
+  animation: twinkle 6s infinite alternate ease-in-out;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0.3; }
+}
+
+/* 4. Remover o gradiente antigo da página de personagem para não brigar com o brilho da lua */
+.character-page {
+  background: none !important;
+}
+
+/* 5. Deixar os cards com efeito de vidro fosco (Glassmorphism) */
+.team-card, .member-build-card, .tierlist-col, .kqm-build-card {
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  border-color: rgba(167, 139, 250, 0.15) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Linha de acento no topo dos cards (opcional para dar um toque de magia) */
+.team-card::before, .member-build-card::before {
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.5), transparent) !important;
+}
+
+/* ============================================================
+   TEMA NOD-KRAI / LUA (V2) - Cards Suaves + Lua Etérea
+   ============================================================ */
+
+/* 1. Fundo: Azul-Noite Profundo */
+body {
+  background-color: #0b0e14 !important;
+  background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b0e14 60%, #05060a 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* 2. A Lua (CSS Puro) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 8vh;
+  right: 10vw;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f8fafc 40%, #cbd5e1 80%, #94a3b8 100%);
+  box-shadow: 0 0 80px 20px rgba(226, 232, 240, 0.15), inset -20px -20px 40px rgba(0,0,0,0.5);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.85;
+  animation: moonHover 10s ease-in-out infinite alternate;
+}
+
+@keyframes moonHover {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-20px); }
+}
+
+/* 3. Névoa Lunar (Aurora) e Estrelas Sutis */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(129, 140, 248, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(196, 181, 253, 0.1) 0%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 10% 20%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 40% 60%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(2px 2px at 70% 80%, rgba(255, 255, 255, 0.2), transparent);
+  background-size: 100% 100%, 100% 100%, 300px 300px, 200px 200px, 400px 400px;
+  opacity: 0.8;
+  animation: fogDrift 20s linear infinite alternate;
+}
+
+@keyframes fogDrift {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.05) translate(-20px, 10px); }
+}
+
+/* 4. Arredondar os Cards e Filtros (Para não parecer quadradão) */
+.card, 
+.team-card, 
+.member-build-card, 
+.tierlist-col, 
+.kqm-build-card,
+.premium-filters,
+.talent-card-v2,
+.passive-card-v2,
+.const-card-v2 {
+  border-radius: 24px !important;
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8)) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 5. Filtros (Pills) mais suaves */
+.premium-filters {
+  padding: 24px !important;
+}
+.filter-pill {
+  border-radius: 30px !important;
+  padding: 10px 18px !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.filter-pill:hover {
+  border-color: rgba(196, 181, 253, 0.5) !important;
+  box-shadow: 0 0 15px rgba(196, 181, 253, 0.2) !important;
+}
+
+/* 6. Grid de personagens com mais respiro */
+.grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  gap: 24px !important;
+  padding-bottom: 40px !important; /* Evita corte no fundo */
+}
+
+/* 7. Ajuste da Imagem dentro do card para não cortar */
+.card-avatar {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 16px;
+}
+.card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px; /* Borda suave na imagem */
+}
+
+/* 8. Remover o gradiente antigo de página */
+.character-page {
+  background: none !important;
+}
+
+/* 9. Deixar os textos mais brilhantes (Prata Lunar) */
+h1, h2, h3, .card-name {
+  color: #f1f5f9 !important;
+  text-shadow: 0 0 10px rgba(241, 245, 249, 0.2) !important;
+}
+.card-meta, .card-region, .team-desc {
+  color: #94a3b8 !important;
+}
+
+/* ============================================================
+   SPACE BACKGROUND — Nod-Krai / Columbina (v3)
+   ============================================================ */
+
+/* Fundo base contínuo (sem quebras) */
+body {
+  background: #05060a !important;
+  background-image: radial-gradient(ellipse 120% 80% at 50% 0%, #1a1533 0%, #0a0e1a 45%, #05060a 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* Remove os ::before e ::after antigos do body */
+body::before, body::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Container fixo do fundo */
+.space-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Camadas de estrelas (parallax + cintilação) */
+.space-layer {
+  position: absolute;
+  inset: -50%;
+  background-repeat: repeat;
+}
+
+.space-stars-far {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 60% 70%, rgba(196, 181, 253, 0.5), transparent),
+    radial-gradient(1px 1px at 80% 20%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 10% 50%, rgba(167, 139, 250, 0.5), transparent);
+  background-size: 400px 400px, 500px 500px, 450px 450px, 350px 350px, 550px 550px;
+  opacity: 0.6;
+  animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+.space-stars-near {
+  background-image:
+    radial-gradient(2px 2px at 25% 40%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 75% 60%, rgba(196, 181, 253, 0.8), transparent),
+    radial-gradient(2px 2px at 50% 15%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(2px 2px at 15% 75%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(2px 2px at 85% 30%, rgba(167, 139, 250, 0.7), transparent);
+  background-size: 600px 600px, 700px 700px, 800px 800px, 650px 650px, 750px 750px;
+  opacity: 0.8;
+  animation: twinkle 5s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.4; transform: translateY(0); }
+  100% { opacity: 0.9; transform: translateY(-10px); }
+}
+
+/* Constelações SVG */
+.space-constellations {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+}
+
+.constellation polyline {
+  fill: none;
+  stroke: rgba(196, 181, 253, 0.4);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 4 6;
+  animation: constellationBreath 6s ease-in-out infinite;
+}
+
+.constellation circle {
+  fill: rgba(226, 232, 240, 0.9);
+  filter: drop-shadow(0 0 3px rgba(196, 181, 253, 0.8));
+  animation: constellationBreath 6s ease-in-out infinite;
+}
+
+@keyframes constellationBreath {
+  0%, 100% { opacity: 0.4; stroke-opacity: 0.3; }
+  50% { opacity: 1; stroke-opacity: 0.7; }
+}
+
+/* Meteoros (estrelas cadentes) */
+.space-meteors {
+  position: absolute;
+  inset: 0;
+}
+
+.meteor {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+  animation: meteorFall 8s linear infinite;
+  opacity: 0;
+}
+
+.meteor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(196, 181, 253, 0.8), rgba(255, 255, 255, 0.9));
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+@keyframes meteorFall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-35deg);
+  }
+  5% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+    transform: translate(400px, 400px) rotate(-35deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(400px, 400px) rotate(-35deg);
+  }
+}
+
+/* Lua (suave, sem cortar) */
+.space-moon {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(248, 250, 252, 0.35) 0%, rgba(196, 181, 253, 0.15) 40%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  animation: moonGlow 10s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ============================================================
+   CARDS — GLASSMORPHISM REAL (fundo transparente + blur)
+   ============================================================ */
+
+.card,
+.team-card,
+.member-build-card,
+.tierlist-col,
+.kqm-build-card,
+.talent-card-v2,
+.passive-card-v2,
+.const-card-v2,
+.premium-filters,
+.weapon-card,
+.artifact-card,
+.team-detail-analysis {
+  background: rgba(15, 23, 42, 0.25) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Hover dos cards — borda lilás brilhando */
+.card:hover,
+.team-card:hover,
+.member-build-card:hover,
+.kqm-build-card:hover {
+  border-color: rgba(167, 139, 250, 0.4) !important;
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(167, 139, 250, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  transform: translateY(-3px);
+}
+
+/* Barra de acento no topo dos cards — tom lunar */
+.card::before {
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.6), transparent) !important;
+  opacity: 0.5;
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* O avatar do card ganha um glow suave */
+.card-avatar img {
+  filter: drop-shadow(0 4px 12px rgba(167, 139, 250, 0.2));
+  transition: filter 0.3s ease;
+}
+.card:hover .card-avatar img {
+  filter: drop-shadow(0 6px 20px rgba(167, 139, 250, 0.4));
+}
+
+/* Filtros (pills) mais suaves */
+.premium-filters {
+  padding: 20px 24px !important;
+}
+.filter-pill {
+  background: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 100px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  transition: all 0.2s ease !important;
+}
+.filter-pill:hover {
+  border-color: rgba(167, 139, 250, 0.5) !important;
+  background: rgba(167, 139, 250, 0.08) !important;
+  transform: translateY(-1px);
+}
+.filter-pill.active {
+  background: color-mix(in srgb, var(--pill-color) 20%, transparent) !important;
+  border-color: var(--pill-color) !important;
+  box-shadow: 0 0 15px color-mix(in srgb, var(--pill-color) 30%, transparent) !important;
+}
+
+/* Grid com respiro para não cortar */
+.grid {
+  padding: 8px 8px 60px !important;
+}
+
+/* Navbar transparente com blur */
+.nav {
+  background: rgba(5, 6, 10, 0.6) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.1) !important;
+}
+
+/* Textos com brilho lunar */
+h1, h2 {
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.15);
+}
+
+/* Scrollbar sutil */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.4);
+}
+
+/* ============================================================
+   FIX: ANIMAÇÃO DOS METEOROS MAIS FLUIDA
+   ============================================================ */
+.meteor {
+  /* Aumenta o tamanho da cabeça do meteoro para dar mais destaque */
+  width: 3px;
+  height: 3px;
+  box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.9);
+}
+
+.meteor::before {
+  /* Aumenta a cauda e muda a cor para um tom mais brilhante */
+  width: 150px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(196, 181, 253, 0.9), #ffffff);
+}
+
+@keyframes meteorFall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-45deg); /* Inclinação perfeita de 45 graus */
+  }
+  2% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  28% {
+    opacity: 0;
+    transform: translate(-800px, 800px) rotate(-45deg); /* Cai mais longe para sumir suavemente */
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-800px, 800px) rotate(-45deg);
+  }
+}
+
+/* ============================================================
+   FIX: HOVER DOS CARDS COM A COR DO ELEMENTO
+   ============================================================ */
+
+/* Redefine a borda transparente baseada no elemento */
+.card:hover,
+.team-card:hover,
+.member-build-card:hover,
+.kqm-build-card:hover,
+.weapon-card:hover,
+.artifact-card:hover {
+  border-color: var(--card-accent, rgba(167, 139, 250, 0.4)) !important;
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5), 0 0 30px color-mix(in srgb, var(--card-accent, #a78bfa) 25%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+/* A barra de acento no topo do card também usa a cor do elemento */
+.card::before {
+  background: linear-gradient(90deg, transparent, var(--card-accent, #a78bfa), transparent) !important;
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* A sombra do avatar no hover usa a cor do elemento */
+.card:hover .card-avatar img {
+  filter: drop-shadow(0 6px 20px color-mix(in srgb, var(--card-accent, #a78bfa) 50%, transparent));
+}
+
+/* O nome do card ganha um leve destaque na cor do elemento */
+.card:hover .card-name {
+  color: var(--card-accent, #e2e8f0) !important;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--card-accent, #a78bfa) 40%, transparent);
+}

@@ -2,6 +2,7 @@ import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-do
 import { LanguageProvider } from './context/LanguageContext'
 import LanguageSwitcher from './components/LanguageSwitcher'
 import ErrorBoundary from './components/ErrorBoundary'
+import SpaceBackground from './components/SpaceBackground'
 import CharactersPage from './pages/CharactersPage'
 import CharacterDetailPage from './pages/CharacterDetailPage'
 import ReactionsPage from './pages/ReactionsPage'
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
+        <SpaceBackground />
         <nav className="nav">
           <Link to="/" className="brand">Genshin Smart Team Builder</Link>
           <div className="nav-links">
