@@ -6,11 +6,12 @@ import {
 } from 'lucide-react'
 import PlannerCharacterCard from '../components/PlannerCharacterCard'
 import PlannerCharacterModal from '../components/PlannerCharacterModal'
-import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { recomputeAggregates } from '../utils/planner-recompute'
 import type { Plan } from '../types/planner'
 import type { WeaponSummary } from '../types'
+
+import { loadPlannerData, elementOf, pickLang } from '../utils/planner-data'
 
 const ELEMENT_COLORS: Record<string, string> = {
   pyro: '#ff9c46', hydro: '#4cc2f1', electro: '#b398ff', cryo: '#93e2ff',
@@ -19,44 +20,6 @@ const ELEMENT_COLORS: Record<string, string> = {
 const ELEMENT_ICONS: Record<string, any> = {
   pyro: Flame, hydro: Droplets, electro: Zap, cryo: Snowflake,
   anemo: Wind, geo: Mountain, dendro: Leaf,
-}
-
-const ELEMENT_MAP: Record<string, string> = {
-  hutao: 'pyro', yoimiya: 'pyro', diluc: 'pyro', klee: 'pyro',
-  amber: 'pyro', xiangling: 'pyro', bennett: 'pyro', xinyan: 'pyro', yanfei: 'pyro',
-  tohma: 'pyro', thoma: 'pyro', dehya: 'pyro', lyney: 'pyro',
-  gaming: 'pyro', arlecchino: 'pyro', mavuika: 'pyro', durin: 'pyro', nicole: 'pyro',
-  barbara: 'hydro', xingqiu: 'hydro', mona: 'hydro', tartaglia: 'hydro',
-  kokomi: 'hydro', ayato: 'hydro', yelan: 'hydro', nilou: 'hydro',
-  candace: 'hydro', neuvillette: 'hydro', furina: 'hydro', sigewinne: 'hydro',
-  mualani: 'hydro', columbina: 'hydro', vodyanitsa: 'hydro', aino: 'hydro', dahlia: 'hydro',
-  razor: 'electro', beidou: 'electro', lisa: 'electro', keqing: 'electro',
-  fischl: 'electro', shogun: 'electro', yae_miko: 'electro', kuki: 'electro',
-  shinobu: 'electro', sara: 'electro', dori: 'electro', cyno: 'electro',
-  clorinde: 'electro', ororon: 'electro', iansan: 'electro', varesa: 'electro',
-  ineffa: 'electro', flins: 'electro', alyosha: 'electro',
-  qiqi: 'cryo', kaeya: 'cryo', chongyun: 'cryo', ganyu: 'cryo', ayaka: 'cryo',
-  diona: 'cryo', rosaria: 'cryo', eula: 'cryo', shenhe: 'cryo', layla: 'cryo',
-  mika: 'cryo', wriothesley: 'cryo', charlotte: 'cryo', freminet: 'cryo',
-  citlali: 'cryo', skirk: 'cryo', escoffier: 'cryo', odette: 'cryo', lohen: 'cryo', sandrone: 'cryo',
-  chevreuse: 'pyro',
-  jean: 'anemo', sucrose: 'anemo', venti: 'anemo', xiao: 'anemo', kazuha: 'anemo',
-  sayu: 'anemo', heizou: 'anemo', wanderer: 'anemo', faruzan: 'anemo', lynette: 'anemo',
-  xianyun: 'anemo', chasca: 'anemo', ifa: 'anemo', lanyan: 'anemo',
-  mizuki: 'anemo', jahoda: 'anemo', varka: 'anemo', prune: 'anemo', vesna: 'anemo',
-  ningguang: 'geo', noelle: 'geo', zhongli: 'geo', albedo: 'geo', gorou: 'geo',
-  itto: 'geo', arataki_itto: 'geo', yunjin: 'geo', chiori: 'geo', navia: 'geo',
-  kachina: 'geo', xilonen: 'geo', zibai: 'geo', illuga: 'geo', linnea: 'geo',
-  traveler_anemo: 'anemo', traveler_geo: 'geo', traveler_electro: 'electro',
-  traveler_dendro: 'dendro', traveler_hydro: 'hydro', traveler_pyro: 'pyro', traveler_cryo: 'cryo',
-  collei: 'dendro', tighnari: 'dendro', nahida: 'dendro', baizhu: 'dendro',
-  kaveh: 'dendro', yaoyao: 'dendro', kirara: 'dendro', alhaitham: 'dendro',
-  kinich: 'dendro', emilie: 'dendro', nefer: 'dendro', lauma: 'dendro',
-}
-
-function elementOf(slug: string): string | undefined {
-  const normalized = slug.toLowerCase().replace(/-/g, '_')
-  return ELEMENT_MAP[normalized] ?? ELEMENT_MAP[slug]
 }
 
 type StatusFilter = 'all' | 'pending' | 'complete' | 'inactive'
@@ -69,7 +32,6 @@ export default function PlannerCharactersPage() {
   const [elementFilter, setElementFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [pendingFilter, setPendingFilter] = useState<PendingFilter>('all')
-  // Padrão alterado para 'status' (Prioridade)
   const [sortBy, setSortBy] = useState<SortBy>('status')
   const [selectedChar, setSelectedChar] = useState<any | null>(null)
   const [weaponsMap, setWeaponsMap] = useState<Map<string, WeaponSummary>>(new Map())
@@ -79,13 +41,14 @@ export default function PlannerCharactersPage() {
       const raw = localStorage.getItem('gsb.planner.plan')
       if (raw) setPlan(JSON.parse(raw))
     } catch {}
-    api.listWeapons(lang, { limit: 500 })
-      .then((res) => {
-        const m = new Map<string, WeaponSummary>()
-        res.items.forEach((w) => m.set(w.slug, w))
-        setWeaponsMap(m)
-      })
-      .catch(() => {})
+    
+    loadPlannerData().then((data) => {
+      const m = new Map<string, WeaponSummary>()
+      for (const [slug, w] of Object.entries(data.weapons)) {
+        m.set(slug, { slug, name: pickLang(w.name, lang), icon: w.icon, rarity: w.rarity, weapon_type: w.weapon_type as any } as any)
+      }
+      setWeaponsMap(m)
+    }).catch(() => {})
   }, [lang])
 
   const handleUpdate = (newChar: any) => {
@@ -100,7 +63,8 @@ export default function PlannerCharactersPage() {
   const filtered = useMemo(() => {
     if (!plan) return []
     let list = plan.chars.filter((c) => {
-      if (elementFilter && elementOf(c.slug) !== elementFilter) return false
+      const el = elementOf(c.slug)
+      if (elementFilter && el !== elementFilter) return false
       if (statusFilter === 'pending' && c.is_complete) return false
       if (statusFilter === 'complete' && !c.is_complete) return false
       if (statusFilter === 'inactive' && !c.is_inactive) return false
@@ -110,19 +74,14 @@ export default function PlannerCharactersPage() {
       return true
     })
 
-    // Lógica de Ordenação
     list = [...list].sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name)
 
       if (sortBy === 'status') {
-        // 0 = Ativo & Pendente
-        // 1 = Ativo & Completo
-        // 2 = Inativo
         const scoreA = a.is_inactive ? 2 : (a.is_complete ? 1 : 0)
         const scoreB = b.is_inactive ? 2 : (b.is_complete ? 1 : 0)
-
         if (scoreA !== scoreB) return scoreA - scoreB
-        return a.name.localeCompare(b.name) // Desempate alfabético
+        return a.name.localeCompare(b.name)
       }
 
       if (sortBy === 'days') {

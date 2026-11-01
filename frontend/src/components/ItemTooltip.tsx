@@ -22,7 +22,9 @@ import {
   useRole,
   safePolygon,
 } from '@floating-ui/react'
+import { Check } from 'lucide-react'
 import { categoryInfo } from '../utils/categories'
+import { formatResin, type ResinRange } from '../utils/resin'
 
 const RARITY_COLORS: Record<number, string> = {
   1: '#8b8b8b',
@@ -39,6 +41,7 @@ export interface ItemTooltipData {
   category: string
   description: string | null
   source: string | null
+  resinRange?: ResinRange
 }
 
 function formatCategory(cat: string): string {
@@ -47,8 +50,78 @@ function formatCategory(cat: string): string {
 
 function normalizeText(s: string | null | undefined): string | null {
   if (!s) return null
-  // Dois cenários: string com \n real, ou com "\\n" literal (escape duplo)
   return s.replace(/\\n/g, '\n').trim()
+}
+
+function ResinBlock({ range }: { range: ResinRange }) {
+  if (range.kind === 'complete') {
+    return (
+      <div className="item-tooltip-resin">
+        <div className="item-tooltip-resin-complete">
+          <Check size={14} />
+          <span>Já possui {range.quantity.toLocaleString('pt-BR')} na mochila</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (range.kind === 'mora') {
+    return (
+      <div className="item-tooltip-resin">
+        <div className="item-tooltip-resin-free">
+          <span>Farmável em qualquer atividade</span>
+          <span>Sem custo de resina</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (range.kind === 'free') {
+    return (
+      <div className="item-tooltip-resin">
+        <div className="item-tooltip-resin-free">
+          <span>Farmável grátis</span>
+          <span>Sem custo de resina</span>
+        </div>
+      </div>
+    )
+  }
+
+  const qtyLabel = range.have > 0 ? 'que falta' : 'no total'
+  return (
+    <div className="item-tooltip-resin">
+      <div className="item-tooltip-resin-header">
+        <span>{range.tier.emoji}</span>
+        <span>{range.tier.label}</span>
+        <span>{range.tier.resinPerRun} resina/run</span>
+      </div>
+      <div className="item-tooltip-resin-runs">
+        <div>
+          <span>Com sorte</span>
+          <strong>{range.minRuns} {range.minRuns === 1 ? 'run' : 'runs'}</strong>
+          <small>{formatResin(range.minResin)} resina</small>
+        </div>
+        <div className="is-avg">
+          <span>Média</span>
+          <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'}</strong>
+          <small>{formatResin(range.avgResin)} resina</small>
+        </div>
+        <div>
+          <span>Sem sorte</span>
+          <strong>{range.maxRuns} {range.maxRuns === 1 ? 'run' : 'runs'}</strong>
+          <small>{formatResin(range.maxResin)} resina</small>
+        </div>
+      </div>
+      <div className="item-tooltip-resin-meta">
+        Calculado para {qtyLabel} ({range.have > 0 ? range.quantity - range.have : range.quantity} un.)
+      </div>
+      {range.tier.key === 'weekly' && (
+        <div className="item-tooltip-resin-warn">
+          ⚠ Limitado a 1x por semana por boss
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function ItemTooltip({
@@ -61,7 +134,8 @@ export default function ItemTooltip({
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
 
-  const { refs, floatingStyles, context } = useFloating({
+  // ADICIONADO: isPositioned para evitar o flash no 0,0 e garantir o opacity 1
+  const { refs, floatingStyles, context, isPositioned } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: 'top',
@@ -83,10 +157,7 @@ export default function ItemTooltip({
   const role = useRole(context, { role: 'tooltip' })
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-    role,
+    hover, focus, dismiss, role,
   ])
 
   const rarity = data.rarity ?? 1
@@ -94,8 +165,6 @@ export default function ItemTooltip({
   const description = normalizeText(data.description)
   const source = normalizeText(data.source)
 
-  // Aplica ref + props de interação no filho REAL (não num span display:contents).
-  // Sem isso, o Floating UI calcula posição a partir de (0,0).
   const child = isValidElement(children)
     ? cloneElement(children as ReactElement<any>, {
         ref: refs.setReference,
@@ -110,7 +179,12 @@ export default function ItemTooltip({
         <FloatingPortal>
           <div
             ref={refs.setFloating}
-            style={floatingStyles}
+            style={{
+              ...floatingStyles,
+              opacity: isPositioned ? 1 : 0,
+              pointerEvents: isPositioned ? 'auto' : 'none',
+              zIndex: 20000,
+            }}
             {...getFloatingProps()}
             className="item-tooltip"
           >
@@ -130,6 +204,8 @@ export default function ItemTooltip({
             </div>
 
             {description && <p className="item-tooltip-description">{description}</p>}
+
+            {data.resinRange && <ResinBlock range={data.resinRange} />}
 
             {source && (
               <div className="item-tooltip-source">

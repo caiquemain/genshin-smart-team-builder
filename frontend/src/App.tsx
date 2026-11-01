@@ -17,6 +17,7 @@ import TemplateDetailPage from './pages/TemplateDetailPage'
 import PlannerPage from './pages/PlannerPage'
 import PlannerCharactersPage from './pages/PlannerCharactersPage'
 import TierlistPage from './pages/TierlistPage'
+import _DebugPage from './pages/_DebugPage' // <-- ADICIONADO
 import './styles.css'
 
 export default function App() {
@@ -70,6 +71,7 @@ function MainContent() {
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />
         <Route path="/tierlist" element={<TierlistPage />} />
         <Route path="/reactions" element={<ReactionsPage />} />
+        <Route path="/_debug" element={<_DebugPage />} /> {/* <-- ADICIONADO */}
       </Routes>
       </ErrorBoundary>
     </main>
