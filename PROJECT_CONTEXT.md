@@ -270,5 +270,159 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
   3. Inativos
   - Dentro de cada grupo: A-Z.
 
-### Prompt para próxima sessão
-> "Lê o PROJECT_CONTEXT.md. Vamos aplicar a mesma fonte de XP/Leylines (`xp-costs.ts`) na página de personagem (`AscensionSection` e `TalentSection`)."
+  ---
+
+## 22. Sessão 2026-11-01/02 — Planner 100% Offline, GOOD Import, AR/WL, Alquimia
+
+### Arquitetura de dados (FIM das 200 queries)
+
+- **`planner-data.json` estático** (1.6 MB, ~200 KB gzip) gerado por `backend/app/scripts/export_planner_data.py`.
+- Contém: 127 chars, 276 weapons, 509 materials, `global_max` (teto), `families` (alquimia).
+- **Frontend NÃO chama mais `/api/characters/.../ascension` nem `/talents`**. Tudo é lookup local via `utils/planner-compute.ts`.
+- Script roda manualmente quando o DB muda: `docker compose exec backend python -m app.scripts.export_planner_data`.
+- ⚠️ **Lição crítica**: NUNCA usar `joinedload` em múltiplas coleções (gerou 40M de rows e swap/OOM). **Sempre `selectinload`**.
+- ⚠️ **Rede de segurança**: `mem_limit: 3g` + `memswap_limit: 3g` no backend do docker-compose.
+- Script tem `--limit N` pra testar com 3 chars antes de rodar full.
+
+### Utils novos do frontend
+
+- `utils/planner-data.ts`: loader + cache em memória. `pickLang()` pra tradução.
+- `utils/slug-resolver.ts`: resolve `hutao`/`HuTao`/`hu-tao` → `hu-tao` via `normalize()` + aliases.
+- `utils/planner-compute.ts`: `computeAscensionCost`, `computeTalentCost`, `computeWeaponAscension` substituem as chamadas de API.
+- `utils/good-parser.ts` + `types/good.ts`: parseiam JSON do HoYoLAB.
+
+### Import GOOD + Merge (Planner v5)
+
+- UI tem **dois inputs**: Seelie (metas/inventário) e GOOD (estado atual).
+- **GOOD = fonte da verdade** pra `current.level`, `cons`, `talents`, `weapon equipped`.
+- **Seelie = fonte da verdade** pra `goal.level`, inventário, `inactive`, `ar`, `wl`.
+- **Storage v5**: `gsb.planner.v5 = { seelie, good }`. Migração automática de v4.
+- Se GOOD desatualizado (`GOOD.level < Seelie.current.level`), usa GOOD mesmo + warning.
+- Se GOOD tem arma diferente do Seelie, mantém a do Seelie.
+
+### Alquimia + Teto Global
+
+- `planner-data.json` tem `global_max` (máximo necessário pra 100% do jogo) e `families` (grupos 3:1).
+- `MaterialCard` mostra badges verdes ("Teto Global Atingido") ou azuis ("Conversível via Alquimia").
+- `MaterialGroupCard`: agrupa tiers da mesma família num card só, ordenado pela ordem do Seelie (`SEELIE_ORDER`).
+- Boss semanal + outras famílias especiais são renderizados **individualmente** (não agrupados), mas agrupados na ordenação por família.
+
+### AR / WL (World Level)
+
+- `SeelieData` ganhou `ar?: number` e `wl?: number` (vêm do JSON do Seelie).
+- `utils/xp-costs.ts`: tabela `LEYLINE_XP_BY_WL` e `LEYLINE_MORA_BY_WL`:
+  - WL 6-9: 122.500 XP / 60.000 Mora por run
+  - WL 0-5: valores menores (tabela completa no código)
+- `SettingsModal.tsx` permite editar AR e WL manualmente. Recalcula automaticamente.
+- `computeCharXp(from, to, wl)` e `computeMoraLeyline(mora, wl)` aceitam WL.
+- WL 9 **não altera** Ley Line (só garante 3 boss mats).
+
+### Ordem exata do Seelie
+
+- `SEELIE_ORDER` em `PlannerPage.tsx`: array com a ordem exata dos materiais no inventário do Seelie.
+- Agrupa por família (`families`) e ordena pelo índice no array.
+- Ordem: Elite (horn, chaos, prism...) → Comum (mask, scroll, slime...) → Boss Normal → Boss Semanal → Gema → Talento → Domínio.
+
+### Boss Normal vs Semanal
+
+- `planner-data.json` agora tem `is_weekly: true` nos 42 materiais dos 14 chefes semanais.
+- Detecção no Python: `source` do DB contém `"Challenge Reward"`.
+- 14 chefes detectados automaticamente: Wolf of the North, Stormterror, Azhdaha, Childe, Signora, Guardian of Eternity, Shouki no Kami, All-Devouring Narwhal, Guardian of Apep's Oasis, The Knave, Lord of Eroded Primal Fire, The Game Before the Gate, The Doctor, Il Dottore.
+- `recomputeAggregates` (planner-recompute.ts) faz a separação: `boss40` (normal) + `weekly` (semanal).
+
+---
+
+## 23. Sessão 2026-11-02 — Fix AMBR Import Traveler + Auditoria de Inventário
+
+### Bug do import AMBR (Traveler)
+
+- `import_from_ambr.py` descartava IDs compostos (`10000005-anemo`, etc.) porque usava `isdigit()`.
+- Fix em `fetch_character_ids`: aceitar IDs com hífen. Filtrar só Aether (`10000005-*`), ignorar Lumine (`10000007-*`) pra evitar duplicatas.
+- Fix em `parse_canonical`: aceitar `cid` opcional, forçar `name = "Traveler (Element)"` e `slug = "traveler-element"`.
+- Resultado: **39 talent materials por Traveler** (antes era 0).
+- `Manekin` e `Manekina` são ignorados (element=None, não são jogáveis).
+
+### Página de Auditoria (`/inventory`)
+
+- `InventoryAuditPage.tsx` em `frontend/src/pages/`.
+- Mostra todos os 509 materiais do `planner-data.json` numa tabela.
+- Colunas: Ícone, Slug, Nome (PT/EN), Categoria, Raridade, **Semanal?**, **Qtd no inventário**.
+- Ordenação por quantidade (maiores primeiro).
+- Filtros: busca por nome/slug, filtro por categoria, toggle "Só os que eu tenho".
+- Lê `plan.inventory_resolved` do localStorage. Se não tem plano, tenta ler `seelie.inventory` e fazer resolve na hora.
+- **Uso**: pra bater dados com a wiki quando algo parece faltar.
+
+### Editor de Item Inline
+
+- Antes era um modal global, virou editor por item.
+- Clicar no card do material abre `ItemEditModal.tsx` pra editar quantidade.
+- Em `MaterialGroupCard` (agrupado), o tooltip lista cada tier com botão "Editar".
+- `handleSaveItem(slug, qty)` atualiza `plan.inventory_resolved` e recalcula.
+
+### Bug pendente (RESOLVER ANTES DE VOLTAR)
+
+- `inventory-mapper.ts` só mapeava **111 de 528** itens do Seelie.
+- Causa: drops de mobs (`mask` tier 2 → `ominous-mask`) não eram traduzidos.
+- Fix tentativo: `resolveInventory(invRaw, catalog, families)` agora aceita o 3º parâmetro `families` e faz lookup `families[item.item][item.tier]`.
+- **Status**: `InventoryAuditPage.tsx` e `PlannerPage.tsx` já passam `data.families`.
+- **Verificar**: se ainda estiver em 111 itens, investigar o formato do `item` do Seelie (pode ter prefixos diferentes como `common_rare`, `wam`, etc).
+
+---
+
+## 24. Estado atual (2026-11-04)
+
+### Funcionalidades prontas
+- ✅ Planner 100% offline (planner-data.json)
+- ✅ Import Seelie + GOOD com merge v5
+- ✅ Alquimia 3:1 + Teto Global + Transmutação (Solvente)
+- ✅ AR/WL configurável
+- ✅ 14 chefes semanais detectados
+- ✅ Traveler com 39 talent mats
+- ✅ Página de auditoria `/inventory` — **443 slugs resolvidos, 0 unmapped**
+- ✅ Editor inline de quantidade por item
+
+### Correções da sessão 2026-11-03/04 (Inventory 100%)
+- **`inventory-mapper.ts`**: `SKIP_TYPES` (`xp`/`wep_xp`/`resin`), filtro `value > 0`,
+  workaround `l_bone` (Seelie duplica Frostnight nos tiers 0/1; só o tier 2 é
+  `lightless-bone` real). 111 → 443 slugs resolvidos.
+- **`InventoryAuditPage.tsx`**: NUNCA confia em `gsb.planner.plan.inventory_resolved`
+  (cache histórico). Sempre re-resolve do `gsb.planner.v5.seelie.inventory` bruto.
+  Loga `[audit]` com contagem de slugs/unmapped/ambiguous pra debug vivo.
+- **`export_planner_data.py`**: 38 → 162 famílias.
+  - `COMMON_MOB_FAMILIES`: 50 famílias
+  - `TALENT_FAMILIES`: 24 famílias × 3 tiers
+  - `WAM_FAMILIES`: 24 famílias × 4 tiers
+  - `FAMILY_KEY_ALIASES`: 14 (gemas base-curta, typos)
+  - `SINGLE_SLUG_ALIASES`: 35 (Signora, Doctor, chefes novos, locals)
+  - Fix: `rich-red-satin`→`rich-red-brocade`, typos `sentrys-`/`warriors-`/`dull-prism`/`polar-prism`
+
+### Lições críticas
+- **`docker compose cp` é perigoso de rodar de `backend/`** — cria `backend/frontend/`.
+  Sempre rodar do root (`cd ~/projects/genshin-smart-team-builder` primeiro).
+- **BuildKit cacheia o `COPY . .`** mesmo com `--no-cache` se o delta do context
+  for pequeno. Verificar sempre com `wc -c /usr/share/nginx/html/planner-data.json`.
+- **Seelie exports tem bugs**: `l_bone` triplicado, typos (`vayuda_turqoise`,
+  `mist_veiled_elixer`), `signora_flower`/`signora_wings`/`signora_heart` fora de ordem tier.
+
+### Pendências (próxima sessão)
+- [ ] **Item A**: `AscensionSection` + `TalentSection` com `xp-costs.ts` (mesmo padrão do Planner)
+- [ ] Builds KQM manuais (~120 chars)
+- [ ] Refinar roles 1:1 (127 chars)
+- [ ] Deploy público (Cloudflare Pages + Fly.io + Neon)
+
+### Git
+- Branch: `main`
+- Commits pendentes: 4 (AMBR+export, offline+utils, GOOD+alquimia, inventory+docs)
+
+---
+
+## 25. Prompt pra próxima sessão
+
+> "Lê o PROJECT_CONTEXT.md. A auditoria de inventário está 100% resolvida
+> (443 slugs, 0 unmapped). Agora queremos atacar o item A do roadmap:
+> aplicar `xp-costs.ts` (XP de personagem + XP de arma + Ley Lines)
+> nas seções `AscensionSection` e `TalentSection` da página de personagem,
+> igual já foi feito no Planner. Pra isso, manda os 5 arquivos:
+> `CharacterDetailPage.tsx`, `AscensionSection.tsx`, `TalentSection.tsx`,
+> `planner-compute.ts`, `xp-costs.ts`. Aí a gente faz o mesmo processo:
+> ler antes de chutar."

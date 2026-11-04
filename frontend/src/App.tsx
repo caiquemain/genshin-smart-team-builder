@@ -15,6 +15,7 @@ import TeamBuilderPage from './pages/TeamBuilderPage'
 import TeamDetailPage from './pages/TeamDetailPage'
 import TemplateDetailPage from './pages/TemplateDetailPage'
 import PlannerPage from './pages/PlannerPage'
+import InventoryAuditPage from './pages/InventoryAuditPage'
 import PlannerCharactersPage from './pages/PlannerCharactersPage'
 import TierlistPage from './pages/TierlistPage'
 import _DebugPage from './pages/_DebugPage' // <-- ADICIONADO
@@ -68,6 +69,7 @@ function MainContent() {
         <Route path="/teams/:id" element={<TeamDetailPage />} />
         <Route path="/teams/templates/:id" element={<TemplateDetailPage />} />
         <Route path="/planner" element={<PlannerPage />} />
+        <Route path="/inventory" element={<InventoryAuditPage />} />
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />
         <Route path="/tierlist" element={<TierlistPage />} />
         <Route path="/reactions" element={<ReactionsPage />} />
