@@ -19,6 +19,7 @@ import InventoryAuditPage from './pages/InventoryAuditPage'
 import PlannerCharactersPage from './pages/PlannerCharactersPage'
 import TierlistPage from './pages/TierlistPage'
 import _DebugPage from './pages/_DebugPage' // <-- ADICIONADO
+import BestiaryPage from './pages/BestiaryPage';
 import './styles.css'
 
 export default function App() {
@@ -34,6 +35,8 @@ export default function App() {
             <Link to="/artifacts">Artefatos</Link>
             <Link to="/teams">Times</Link>
             <Link to="/planner">Planejador</Link>
+          <Link to="/inventory">Inventário</Link>
+          <Link to="/bestiary">Bestiário</Link>
             <Link to="/tierlist">Tierlist</Link>
             <Link to="/reactions">Reações</Link>
             <LanguageSwitcher />
@@ -70,6 +73,7 @@ function MainContent() {
         <Route path="/teams/templates/:id" element={<TemplateDetailPage />} />
         <Route path="/planner" element={<PlannerPage />} />
         <Route path="/inventory" element={<InventoryAuditPage />} />
+        <Route path="/bestiary" element={<BestiaryPage />} />
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />
         <Route path="/tierlist" element={<TierlistPage />} />
         <Route path="/reactions" element={<ReactionsPage />} />
