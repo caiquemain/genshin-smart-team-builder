@@ -12311,3 +12311,346 @@ h1, h2 {
 .plan-toggle-status.is-inactive:hover {
   background: rgba(148, 163, 184, 0.2);
 }
+
+/* --- INVENTORY CARDS --- */
+.inventory-card {
+  background: rgba(30, 35, 45, 0.7);
+  backdrop-filter: blur(8px);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.inventory-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.inventory-card input[type=number]::-webkit-inner-spin-button, 
+.inventory-card input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.inventory-card input[type=number] {
+  -moz-appearance: textfield;
+}
+.inventory-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.inventory-tabs::-webkit-scrollbar {
+  display: none;
+}
+.inventory-tab {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-2);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.inventory-tab:hover {
+  color: var(--text-1);
+}
+.inventory-tab.active {
+  color: #b398ff;
+  border-bottom-color: #b398ff;
+}
+
+/* =========================================
+   INVENTORY (Estilo SEELIE)
+   ========================================= */
+
+:root {
+  --inv-bg-card: #1c1f26;
+  --inv-bg-card-hover: #232730;
+  --inv-bg-input: rgba(0, 0, 0, 0.4);
+  --inv-border: rgba(255, 255, 255, 0.08);
+  --inv-bar-red: #ef4444;
+  --inv-bar-yellow: #eab308;
+  --inv-bar-green: #22c55e;
+}
+
+.inv-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.inv-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--inv-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.inv-tabs::-webkit-scrollbar { display: none; }
+
+.inv-tab {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.inv-tab:hover { color: var(--text-1); }
+.inv-tab.active {
+  color: #b398ff;
+  border-bottom-color: #b398ff;
+}
+
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+}
+
+.inv-card {
+  width: 76px;
+  height: 104px;
+  background: var(--inv-bg-card);
+  border: 1px solid var(--inv-border);
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+}
+.inv-card:hover {
+  background: var(--inv-bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.inv-icon-box {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inv-icon-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 25%, rgba(255,255,255,0.2), transparent 70%);
+  pointer-events: none;
+}
+
+.inv-icon-img {
+  position: relative;
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+  z-index: 1;
+}
+
+.inv-badges {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  z-index: 2;
+}
+
+.inv-badge-complete {
+  background: var(--inv-bar-green);
+  border-radius: 50%;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.inv-badge-missing {
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 0 4px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.inv-progress-container {
+  width: 100%;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.inv-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.inv-progress-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 9px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.inv-input {
+  width: 100%;
+  height: 20px;
+  background: var(--inv-bg-input);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: white;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.inv-input:focus {
+  border-color: #b398ff;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Remover as setinhas do input number */
+.inv-input::-webkit-inner-spin-button,
+.inv-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.inv-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.inv-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.inv-card:hover .inv-tooltip {
+  opacity: 1;
+}
+
+/* ============================================================
+   INVENTORY PAGE — Full width como o Tierlist
+   ============================================================ */
+
+/* Garante que o main com container-wide fique 100% */
+main.container.container-wide.inventory-page {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 32px 40px 32px !important;
+}
+
+/* Em monitores ultra-wide, mais padding nas laterais */
+@media (min-width: 1920px) {
+  main.container.container-wide.inventory-page {
+    padding: 0 48px 60px 48px !important;
+  }
+}
+
+/* Em telas médias */
+@media (max-width: 1200px) {
+  main.container.container-wide.inventory-page {
+    padding: 0 24px 32px 24px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  main.container.container-wide.inventory-page {
+    padding: 0 16px 24px 16px !important;
+  }
+}
+
+/* ============================================================
+   INVENTORY PAGE — Full Width igual ao Tierlist
+   ============================================================ */
+
+/* Quando o App renderiza a página de inventário, o <main class="container"> pai perde o limite */
+main.container:has(.inventory-page) {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 40px !important;
+}
+
+/* Fallback caso o :has() não pegue no navegador antigo */
+body:has(.inventory-page) main.container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 40px !important;
+}
+
+/* Padding do Inventário */
+.inventory-page {
+  padding: 32px 0 60px 0;
+  width: 100%;
+}
+
+/* Ajuste do Grid para telas grandes (mais colunas) */
+@media (min-width: 1400px) {
+  .inventory-page .inventory-tabs {
+    gap: 8px;
+  }
+}
+
+/* Ajuste do Grid para telas médias */
+@media (max-width: 1200px) {
+  main.container:has(.inventory-page),
+  body:has(.inventory-page) main.container {
+    padding: 0 24px !important;
+  }
+}
+
+/* Ajuste do Grid para mobile */
+@media (max-width: 640px) {
+  main.container:has(.inventory-page),
+  body:has(.inventory-page) main.container {
+    padding: 0 16px !important;
+  }
+  .inventory-page {
+    padding: 16px 0 32px 0;
+  }
+}

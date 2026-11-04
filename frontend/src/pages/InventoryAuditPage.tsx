@@ -1,204 +1,235 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Search, ArrowLeft, Database, AlertCircle, CheckCircle2, Package } from 'lucide-react'
-import { useLanguage } from '../context/LanguageContext'
-import { loadPlannerData, pickLang, type PlannerMaterialData } from '../utils/planner-data'
-import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
-import { iconUrl } from '../config'
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Search, ArrowLeft, Database } from 'lucide-react';
+import {
+  loadPlannerData,
+  pickLang,
+  type PlannerData,
+  type PlannerMaterialData,
+} from '../utils/planner-data';
+import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper';
+import { InventoryMaterialCard } from '../components/InventoryMaterialCard';
+import { useLanguage } from '../context/LanguageContext';
 
-const RARITY_GRADIENTS: Record<number, string> = {
-  1: 'linear-gradient(160deg,rgba(79,88,100,0.75) 0%,rgba(95,102,115,0.75) 39%,rgba(135,147,156,0.75) 100%)',
-  2: 'linear-gradient(160deg,rgba(72,87,92,0.75) 0%,rgba(72,107,103,0.75) 39%,rgba(98,152,113,0.75) 100%)',
-  3: 'linear-gradient(160deg,rgba(81,84,116,0.75) 0%,rgba(80,104,135,0.75) 39%,rgba(75,160,180,0.75) 100%)',
-  4: 'linear-gradient(160deg,rgba(89,84,130,0.75) 0%,rgba(120,102,157,0.75) 39%,rgba(183,133,201,0.75) 100%)',
-  5: 'linear-gradient(160deg,rgba(105,84,83,0.75) 0%,rgba(161,112,78,0.75) 39%,rgba(228,171,82,0.75) 100%)',
-}
+const TABS = [
+  { id: 'all', label: 'Todos' },
+  { id: 'common', label: 'Comum' },
+  { id: 'elite', label: 'Elite' },
+  { id: 'domain', label: 'Domínio' },
+  { id: 'boss', label: 'Boss' },
+  { id: 'weekly', label: 'Semanal' },
+  { id: 'gem', label: 'Gema' },
+  { id: 'talent', label: 'Talento' },
+  { id: 'local', label: 'Local' },
+];
 
 export default function InventoryAuditPage() {
-  const { lang } = useLanguage()
-  const [materials, setMaterials] = useState<[string, PlannerMaterialData][]>([])
-  const [inventory, setInventory] = useState<Record<string, number>>({})
-  const [loading, setLoading] = useState(true)
-  const [search, setSearch] = useState('')
-  const [filterCategory, setFilterCategory] = useState('all')
-  const [onlyOwned, setOnlyOwned] = useState(false)
+  const { lang } = useLanguage();
+  const [data, setData] = useState<PlannerData | null>(null);
+  const [inventory, setInventory] = useState<Record<string, number>>({});
+  const [targets, setTargets] = useState<Record<string, number>>({});
+  const [activeTab, setActiveTab] = useState('all');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    loadPlannerData().then((data) => {
-      setMaterials(Object.entries(data.materials))
+    loadPlannerData().then((plannerData) => {
+      setData(plannerData);
 
-      // SEMPRE re-resolve a partir do Seelie bruto.
-      // NUNCA confia em plan.inventory_resolved — ele pode ter sido gerado
-      // com um families incompleto (bug histórico) e ficar congelado.
-      let parsedInv: Record<string, number> = {}
-      try {
-        const savedSeelie = localStorage.getItem('gsb.planner.v5')
-        if (savedSeelie) {
-          const v5 = JSON.parse(savedSeelie)
-          const invRaw: SeelieInventoryItem[] = v5?.seelie?.inventory ?? []
-          if (invRaw.length > 0) {
-            const catalog = Object.entries(data.materials).map(
-              ([slug, m]) => ({ ...m, slug }),
-            )
-            const result = resolveInventory(invRaw, catalog, data.families)
-            parsedInv = result.resolved
-
-            const totalQty = Object.values(parsedInv).reduce((a, b) => a + b, 0)
-            console.log(
-              `[audit] ${Object.keys(parsedInv).length} slugs · ${totalQty} itens · ` +
-              `${result.unmapped.length} unmapped · ${result.ambiguous.length} ambiguous`,
-            )
-            if (result.unmapped.length > 0) {
-              console.group('[audit] unmapped (item.item [tier] = valor)')
-              for (const e of result.unmapped) {
-                console.log(`${e.item} [tier ${e.tier}] = ${e.value}`)
-              }
-              console.groupEnd()
-            }
-          }
-        }
-      } catch (e) {
-        console.error('Erro ao ler inventário:', e)
+      const savedSeelie = localStorage.getItem('gsb.planner.v5');
+      if (savedSeelie) {
+        const v5 = JSON.parse(savedSeelie);
+        const invRaw: SeelieInventoryItem[] = v5?.seelie?.inventory || [];
+        const catalog = Object.entries(plannerData.materials).map(([slug, m]) => ({ ...m, slug }));
+        const resolved = resolveInventory(invRaw, catalog, plannerData.families);
+        setInventory(resolved.resolved);
       }
-      setInventory(parsedInv)
-      setLoading(false)
-    }).catch(() => setLoading(false))
-  }, [])
 
-  const categories = useMemo(() => {
-    const cats = new Set<string>()
-    materials.forEach(([_, m]) => cats.add(m.category))
-    return Array.from(cats).sort()
-  }, [materials])
+      const savedPlan = localStorage.getItem('gsb.planner.plan');
+      if (savedPlan) {
+        const plan = JSON.parse(savedPlan);
+        const targetMap: Record<string, number> = {};
+        if (plan.tier_groups) {
+          plan.tier_groups.forEach((group: any) => {
+            group.materials.forEach((mat: any) => {
+              targetMap[mat.slug] = (targetMap[mat.slug] || 0) + mat.quantity;
+            });
+          });
+        }
+        setTargets(targetMap);
+      }
+    });
+  }, []);
 
-  const filtered = useMemo(() => {
-    return materials
-      .filter(([slug, m]) => {
-        if (filterCategory !== 'all' && m.category !== filterCategory) return false
-        if (onlyOwned && (!inventory[slug] || inventory[slug] === 0)) return false
-        if (!search) return true
-        const q = search.toLowerCase()
-        const namePt = (m.name.pt || '').toLowerCase()
-        const nameEn = (m.name.en || '').toLowerCase()
-        return slug.toLowerCase().includes(q) || namePt.includes(q) || nameEn.includes(q)
-      })
-      .sort(([slugA], [slugB]) => {
-        const qtyA = inventory[slugA] || 0
-        const qtyB = inventory[slugB] || 0
-        if (qtyA !== qtyB) return qtyB - qtyA
-        return slugA.localeCompare(slugB)
-      })
-  }, [materials, search, filterCategory, inventory, onlyOwned])
+  const handleUpdateQty = (slug: string, newQty: number) => {
+    if (!data) return;
+    const savedSeelie = localStorage.getItem('gsb.planner.v5');
+    if (!savedSeelie) return;
+    const v5 = JSON.parse(savedSeelie);
+    const invRaw: SeelieInventoryItem[] = v5.seelie.inventory || [];
+    const catalog = Object.entries(data.materials).map(([s, m]) => ({ ...m, slug: s }));
 
-  const totalOwned = useMemo(() => {
-    return materials.filter(([slug]) => (inventory[slug] || 0) > 0).length
-  }, [materials, inventory])
+    let found = false;
+    for (const item of invRaw) {
+      const res = resolveInventory([item], catalog, data.families);
+      if (res.resolved[slug] !== undefined) {
+        item.value = newQty;
+        found = true;
+        break;
+      }
+    }
 
-  if (loading) return <div className="container" style={{ padding: 40 }}>Carregando catálogo...</div>
+    localStorage.setItem('gsb.planner.v5', JSON.stringify(v5));
+    const newResolved = resolveInventory(invRaw, catalog, data.families);
+    setInventory(newResolved.resolved);
+  };
+
+  const filteredMaterials = useMemo<[string, PlannerMaterialData][]>(() => {
+    if (!data) return [];
+
+    const slugToFamily: Record<string, string> = {};
+    Object.entries(data.families).forEach(([familyKey, slugs]) => {
+      slugs.forEach(slug => { slugToFamily[slug] = familyKey; });
+    });
+
+    const familyMinRarity: Record<string, number> = {};
+    Object.entries(data.families).forEach(([fam, slugs]) => {
+      const rarities = slugs.map(s => data.materials[s]?.rarity || 1);
+      familyMinRarity[fam] = Math.min(...rarities);
+    });
+
+    const familyStats: Record<string, { current: number, target: number }> = {};
+    Object.keys(data.families).forEach(fam => familyStats[fam] = { current: 0, target: 0 });
+
+    (Object.keys(data.materials) as string[]).forEach(slug => {
+      const fam = slugToFamily[slug] || slug;
+      if (!familyStats[fam]) familyStats[fam] = { current: 0, target: 0 };
+      familyStats[fam].current += inventory[slug] || 0;
+      familyStats[fam].target += targets[slug] || 0;
+    });
+
+    const items = (Object.entries(data.materials) as [string, PlannerMaterialData][]).filter(
+      ([slug, m]) => {
+        const namePt = pickLang(m.name, 'pt').toLowerCase();
+        if (search && !namePt.includes(search.toLowerCase()) && !slug.includes(search)) {
+          return false;
+        }
+
+        if (activeTab === 'all') return true;
+        if (activeTab === 'common') return m.category === 'common_drop' && (m.rarity || 0) === 1;
+        if (activeTab === 'elite') return m.category === 'common_drop' && (m.rarity || 0) >= 2;
+        if (activeTab === 'domain') return m.category === 'weapon_ascension';
+        if (activeTab === 'boss') return m.category === 'boss_material' && !m.is_weekly;
+        if (activeTab === 'weekly') return m.category === 'boss_material' && !!m.is_weekly;
+        if (activeTab === 'gem') return m.category === 'ascension_gem';
+        if (activeTab === 'talent') return m.category === 'talent_book';
+        if (activeTab === 'local') return m.category === 'local_specialty';
+        return false;
+      }
+    );
+
+    const getCategoryRank = (slug: string, m: PlannerMaterialData) => {
+      const fam = slugToFamily[slug];
+      const effectiveRarity = fam ? (familyMinRarity[fam] || 1) : (m.rarity || 1);
+
+      if (m.category === 'common_drop') return effectiveRarity === 1 ? 0 : 1;
+      if (m.category === 'weapon_ascension') return 2;
+      if (m.category === 'boss_material') return m.is_weekly ? 4 : 3;
+      if (m.category === 'ascension_gem') return 5;
+      if (m.category === 'talent_book') return 6;
+      if (m.category === 'local_specialty') return 7;
+      return 8;
+    };
+
+    return items.sort((a, b) => {
+      const [slugA, mA] = a;
+      const [slugB, mB] = b;
+
+      const rankCatA = getCategoryRank(slugA, mA);
+      const rankCatB = getCategoryRank(slugB, mB);
+      if (rankCatA !== rankCatB) return rankCatA - rankCatB;
+
+      const famA = slugToFamily[slugA] || slugA;
+      const famB = slugToFamily[slugB] || slugB;
+      const statsA = familyStats[famA];
+      const statsB = familyStats[famB];
+
+      const isPendingA = statsA.target > 0 && statsA.current < statsA.target;
+      const isPendingB = statsB.target > 0 && statsB.current < statsB.target;
+      const isCompleteA = statsA.target > 0 && statsA.current >= statsA.target;
+      const isCompleteB = statsB.target > 0 && statsB.current >= statsB.target;
+
+      const statusA = isPendingA ? 0 : (isCompleteA ? 1 : 2);
+      const statusB = isPendingB ? 0 : (isCompleteB ? 1 : 2);
+
+      if (statusA !== statusB) return statusA - statusB;
+
+      if (famA !== famB) return famA.localeCompare(famB);
+
+      return (mA.rarity || 0) - (mB.rarity || 0);
+    });
+
+  }, [data, activeTab, search, inventory, targets]);
+
+  if (!data) {
+    return <div className="container" style={{ padding: 40 }}>Carregando catálogo...</div>;
+  }
 
   return (
-    <div className="container" style={{ padding: '32px 24px' }}>
-
+    <div className="inventory-page">
       <div className="page-header" style={{ marginBottom: 24 }}>
         <div>
           <Link to="/planner" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-2)', textDecoration: 'none', marginBottom: 12 }}>
             <ArrowLeft size={16} /> Voltar ao Planner
           </Link>
           <h1 style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <Database size={32} /> Auditoria de Inventário
+            <Database size={32} /> Inventário
           </h1>
-          <p style={{ color: 'var(--text-2)' }}>
-            Exibindo <strong>{filtered.length}</strong> de <strong>{materials.length}</strong> itens no catálogo ·
-            <strong style={{ color: '#4ade80', marginLeft: 6 }}>{totalOwned}</strong> itens no seu inventário.
-          </p>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
-        <div className="plan-weapon-picker-search" style={{ flex: 1, minWidth: 300, margin: 0 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 24 }}>
+        <div className="plan-weapon-picker-search" style={{ width: '100%', margin: 0 }}>
           <Search size={16} />
-          <input
-            placeholder="Buscar por nome ou slug..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <input placeholder="Buscar por nome..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <select
-          className="planner-filter-select"
-          style={{ minWidth: 200 }}
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
-          <option value="all">Todas as categorias</option>
-          {categories.map(c => <option key={c} value={c}>{c}</option>)}
-        </select>
-        <button
-          className={`btn-secondary ${onlyOwned ? 'active' : ''}`}
-          onClick={() => setOnlyOwned(!onlyOwned)}
-          style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-        >
-          <Package size={16} /> Só os que eu tenho
-        </button>
+
+        <div className="inventory-tabs" style={{ display: 'flex', borderBottom: '1px solid var(--border)', overflowX: 'auto' }}>
+          {TABS.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`inventory-tab ${activeTab === tab.id ? 'active' : ''}`}
+              style={{
+                padding: '8px 16px',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: '2px solid transparent',
+                color: activeTab === tab.id ? '#b398ff' : 'var(--text-2)',
+                borderBottomColor: activeTab === tab.id ? '#b398ff' : 'transparent',
+                cursor: 'pointer',
+                fontWeight: 600
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div style={{ background: 'var(--surface-1)', borderRadius: 12, border: '1px solid var(--border)', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-          <thead style={{ background: 'var(--surface-2)', borderBottom: '1px solid var(--border)' }}>
-            <tr>
-              <th style={{ padding: 12, width: 50 }}>Ícone</th>
-              <th style={{ padding: 12 }}>Slug (ID)</th>
-              <th style={{ padding: 12 }}>Nome (PT / EN)</th>
-              <th style={{ padding: 12 }}>Categoria</th>
-              <th style={{ padding: 12 }}>Raridade</th>
-              <th style={{ padding: 12, textAlign: 'center' }}>Semanal?</th>
-              <th style={{ padding: 12, textAlign: 'right', width: 100 }}>Qtd</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map(([slug, m]) => {
-              const namePt = pickLang(m.name, 'pt')
-              const nameEn = pickLang(m.name, 'en')
-              const img = iconUrl(m.icon)
-              const qty = inventory[slug] || 0
-
-              return (
-                <tr key={slug} style={{ borderBottom: '1px solid var(--border)', opacity: qty === 0 ? 0.5 : 1 }}>
-                  <td style={{ padding: 12 }}>
-                    <div style={{ width: 40, height: 40, background: RARITY_GRADIENTS[m.rarity ?? 1], borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {img ? <img src={img} alt={slug} style={{ width: 32, height: 32 }} /> : '?'}
-                    </div>
-                  </td>
-                  <td style={{ padding: 12, fontFamily: 'monospace', fontSize: 13 }}>{slug}</td>
-                  <td style={{ padding: 12 }}>
-                    <div style={{ fontWeight: 'bold' }}>{namePt || nameEn}</div>
-                    {namePt && nameEn && namePt !== nameEn && <div style={{ fontSize: 12, color: 'var(--text-3)' }}>{nameEn}</div>}
-                  </td>
-                  <td style={{ padding: 12, fontSize: 13, color: 'var(--text-2)' }}>{m.category}</td>
-                  <td style={{ padding: 12 }}>
-                    <span style={{ color: '#e0a647', letterSpacing: 2 }}>{'★'.repeat(m.rarity ?? 1)}</span>
-                  </td>
-                  <td style={{ padding: 12, textAlign: 'center' }}>
-                    {m.is_weekly ? (
-                      <span title="Boss Semanal" style={{ color: '#b398ff', display: 'inline-flex' }}><CheckCircle2 size={18} /></span>
-                    ) : (
-                      <span title="Normal" style={{ color: 'var(--text-3)', display: 'inline-flex' }}><div style={{ width: 18, height: 18, borderRadius: '50%', border: '2px solid var(--text-3)' }} /></span>
-                    )}
-                  </td>
-                  <td style={{ padding: 12, textAlign: 'right', fontFamily: 'monospace', fontSize: 14, fontWeight: qty > 0 ? 'bold' : 'normal', color: qty > 0 ? 'var(--text-1)' : 'var(--text-3)' }}>
-                    {qty > 0 ? qty.toLocaleString('pt-BR') : '0'}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        {filtered.length === 0 && (
-          <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-3)' }}>
-            <AlertCircle size={32} style={{ marginBottom: 12 }} />
-            <p>Nenhum item encontrado com esses filtros.</p>
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px', paddingBottom: '40px' }}>
+        {filteredMaterials.map(([slug, m]) => (
+          <InventoryMaterialCard
+            key={slug}
+            material={{ ...m, slug }}
+            currentQty={inventory[slug] || 0}
+            targetQty={targets[slug] || 0}
+            onUpdateQty={handleUpdateQty}
+          />
+        ))}
+        {filteredMaterials.length === 0 && (
+          <p style={{ color: 'var(--text-3)', padding: 20 }}>Nenhum item encontrado.</p>
         )}
       </div>
     </div>
-  )
+  );
 }

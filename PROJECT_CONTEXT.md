@@ -426,3 +426,33 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 > `CharacterDetailPage.tsx`, `AscensionSection.tsx`, `TalentSection.tsx`,
 > `planner-compute.ts`, `xp-costs.ts`. Aí a gente faz o mesmo processo:
 > ler antes de chutar."
+
+---
+
+## 26. Sessão 2026-11-04 — Redesign da Página de Inventário + Descoberta API Yatta
+
+### Página de Inventário (`/inventory`) — Redesign Completo
+- **Layout Full-Width**: Agora a página usa o mesmo truque do `TierlistPage` (`main.container:has(.inventory-page)`) para quebrar o limite de largura do container principal e ocupar a tela toda.
+- **Cards de Item (`InventoryMaterialCard`)**:
+  - Visual repaginado: ícone, nome, meta, barra de progresso e controles de edição (`+` / `-` e input).
+  - Bordas roxas para destacar a área editável.
+  - Edição inline que reflete no `localStorage` (`gsb.planner.v5`) e recalcula na hora.
+- **Lógica de Barras**: O progresso das barras agora é calculado com base nas **metas do plano** (`plan.tier_groups`), não no `global_max` do jogo inteiro. Cores: verde (completo), amarelo (parcial), vermelho (faltando).
+- **Ordenação Hierárquica**: 
+  1. **Categoria**: Comum → Elite → Domínio → Boss → Semanal → Gema → Talento → Local.
+  2. **Status da Família**: Pendente → Completo → Resto.
+  3. **Agrupamento**: Itens da mesma família (ex: Máscaras, Pergaminhos) ficam lado a lado.
+  4. **Raridade**: Tier baixo para tier alto.
+- **Filtros (Tabs)**: Todos, Comum, Elite, Domínio, Boss, Semanal, Gema, Talento, Local.
+
+### Descoberta: API do Yatta (Project Amber)
+- Encontramos o endpoint exato para pegar a **chance de drop (drop rate)** de cada material por monstro.
+- Exemplo: `curl -s "https://gi.yatta.moe/api/v2/en/monster/21010101?vh=37F4" | jq '.data.entries."21010101".reward'`
+- **Retorno**: Contém o nome do item, raridade e o campo `count` (ex: `"0.42"` significa 42% de chance).
+- **Próximos passos planejados**:
+  - **(A)** Usar essas taxas para calcular "Kills Necessários" no `ItemTooltip` do Planner.
+  - **(B)** Criar uma nova página de **Bestiário** (`/bestiary`) com a lore dos monstros, seus drops e as porcentagens exatas.
+
+### Git
+- Branch: `main`
+- Status: Alterações no Inventário prontas para commit.
