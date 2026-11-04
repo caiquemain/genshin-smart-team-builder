@@ -180,22 +180,50 @@ async def fetch_many(
     return dict(results)
 
 
-async def fetch_character_ids(client: httpx.AsyncClient) -> list[int]:
+async def fetch_character_ids(client: httpx.AsyncClient) -> list[str]:
     data = await fetch_json(client, f"/{CANONICAL_LANG}/avatar?vh={VH}")
     if not data:
         return []
     items = (data.get("data") or {}).get("items") or {}
-    return sorted(int(k) for k in items.keys() if str(k).isdigit())
+    ids: list[str] = []
+    for k in items.keys():
+        ks = str(k)
+        if ks.isdigit():
+            ids.append(ks)
+        elif "-" in ks and ks.split("-", 1)[0].isdigit():
+            # Travelers elementais: só Aether (10000005-*), ignora Lumine (10000007-*)
+            if ks.startswith("10000005-"):
+                ids.append(ks)
+    return sorted(ids, key=lambda x: (int(x.split("-", 1)[0]), x))
 
 
 # =============================================================
 # Parsers (puros, sem DB)
 # =============================================================
 
-def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
+TRAVELER_NAMES = {
+    "anemo": "Anemo",
+    "geo": "Geo",
+    "electro": "Electro",
+    "dendro": "Dendro",
+    "hydro": "Hydro",
+    "pyro": "Pyro",
+    "cryo": "Cryo",
+}
+
+
+def parse_canonical(raw: dict[str, Any], cid: str | None = None) -> dict[str, Any] | None:
     name = raw.get("name")
     if not name:
         return None
+
+    variant = None
+    if cid and cid.startswith("10000005-"):
+        variant = cid.split("-", 1)[1]
+        if variant not in TRAVELER_NAMES:
+            print(f"[ambr] Traveler variant desconhecida: {cid}")
+            return None
+        name = f"Traveler ({TRAVELER_NAMES[variant]})"
     upgrade = raw.get("upgrade") or {}
     base_values: dict[str, float] = {}
     for p in upgrade.get("prop") or []:
@@ -221,9 +249,10 @@ def parse_canonical(raw: dict[str, Any]) -> dict[str, Any] | None:
         print(f"[ambr] pulando {name}: element={raw.get('element')} weapon={raw.get('weaponType')}")
         return None
 
+    slug = f"traveler-{variant}" if variant else slugify(name)
     return {
         "name": name,
-        "slug": slugify(name),
+        "slug": slug,
         "icon": raw.get("icon"),
         "rarity": raw.get("rank"),
         "element": element,
@@ -654,7 +683,7 @@ async def main() -> None:
                 pt_raw = (avatars_raw.get(f"/pt/avatar/{cid}?vh={VH}") or {}).get("data") or {}
                 es_raw = (avatars_raw.get(f"/es/avatar/{cid}?vh={VH}") or {}).get("data") or {}
                 
-                payload = parse_canonical(en_raw)
+                payload = parse_canonical(en_raw, cid)
                 if not payload:
                     continue
                 char = upsert_character(db, payload)
