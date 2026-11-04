@@ -26,6 +26,15 @@ type StatusFilter = 'all' | 'pending' | 'complete' | 'inactive'
 type PendingFilter = 'all' | 'ascension' | 'talent' | 'weapon'
 type SortBy = 'name' | 'days' | 'status'
 
+function readWL(): number {
+  try {
+    const raw = localStorage.getItem('gsb.planner.v5')
+    if (!raw) return 9
+    const parsed = JSON.parse(raw)
+    return parsed?.seelie?.wl ?? 9
+  } catch { return 9 }
+}
+
 export default function PlannerCharactersPage() {
   const { lang } = useLanguage()
   const [plan, setPlan] = useState<Plan | null>(null)
@@ -35,6 +44,7 @@ export default function PlannerCharactersPage() {
   const [sortBy, setSortBy] = useState<SortBy>('status')
   const [selectedChar, setSelectedChar] = useState<any | null>(null)
   const [weaponsMap, setWeaponsMap] = useState<Map<string, WeaponSummary>>(new Map())
+  const [wl] = useState<number>(() => readWL())
 
   useEffect(() => {
     try {
@@ -54,7 +64,7 @@ export default function PlannerCharactersPage() {
   const handleUpdate = (newChar: any) => {
     if (!plan) return
     const newChars = plan.chars.map((c) => c.slug === newChar.slug ? newChar : c)
-    const updated = recomputeAggregates({ ...plan, chars: newChars }, plan.inventory_resolved)
+    const updated = recomputeAggregates({ ...plan, chars: newChars }, plan.inventory_resolved, wl)
     setPlan(updated)
     setSelectedChar(newChar)
     try { localStorage.setItem('gsb.planner.plan', JSON.stringify(updated)) } catch {}
@@ -116,7 +126,7 @@ export default function PlannerCharactersPage() {
         <Link to="/planner" className="planner-back-link"><ArrowLeft size={16} /> Voltar ao Planner</Link>
         <h1><Users size={32} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }} /> Personagens do Planner</h1>
         <p className="planner-chars-subtitle">
-          {filtered.length} de {total} personagens · {pendingCount} pendentes · {completeCount} completos · {inactiveCount} inativos
+          {filtered.length} de {total} personagens · {pendingCount} pendentes · {completeCount} completos · {inactiveCount} inativos · WL {wl}
         </p>
       </div>
 
@@ -189,6 +199,7 @@ export default function PlannerCharactersPage() {
           onClose={() => setSelectedChar(null)}
           onUpdate={handleUpdate}
           weaponsMap={weaponsMap}
+          wl={wl}
         />
       )}
     </div>

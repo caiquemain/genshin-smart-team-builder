@@ -36,12 +36,13 @@ const RARITY_COLORS: Record<number, string> = {
 
 export interface ItemTooltipData {
   name: string
-  icon: string | null
-  rarity: number | null
+  icon?: string | null
+  rarity?: number | null
   category: string
-  description: string | null
-  source: string | null
+  description?: string | null
+  source?: string | null
   resinRange?: ResinRange
+  customFooter?: ReactNode
 }
 
 function formatCategory(cat: string): string {
@@ -134,7 +135,6 @@ export default function ItemTooltip({
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
 
-  // ADICIONADO: isPositioned para evitar o flash no 0,0 e garantir o opacity 1
   const { refs, floatingStyles, context, isPositioned } = useFloating({
     open,
     onOpenChange: setOpen,
@@ -211,6 +211,12 @@ export default function ItemTooltip({
               <div className="item-tooltip-source">
                 <span className="item-tooltip-source-label">Fonte</span>
                 <span>{source}</span>
+              </div>
+            )}
+
+            {data.customFooter && (
+              <div className="item-tooltip-custom-footer">
+                {data.customFooter}
               </div>
             )}
 

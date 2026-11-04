@@ -92,46 +92,25 @@ function LevelInput({ value, onChange, min = 1, max = 90 }: {
   return (
     <div className="plan-modal-level-input">
       <div className="plan-modal-level-controls">
-        <button
-          type="button"
-          className="plan-level-step"
-          onClick={() => onChange(Math.max(min, value - 1))}
-          disabled={value <= min}
-          aria-label="Diminuir"
-        >
+        <button type="button" className="plan-level-step" onClick={() => onChange(Math.max(min, value - 1))} disabled={value <= min} aria-label="Diminuir">
           <Minus size={16} />
         </button>
-        <input
-          type="number" min={min} max={max}
-          value={value}
-          onChange={(e) => onChange(Math.max(min, Math.min(max, +e.target.value || min)))}
-        />
-        <button
-          type="button"
-          className="plan-level-step"
-          onClick={() => onChange(Math.min(max, value + 1))}
-          disabled={value >= max}
-          aria-label="Aumentar"
-        >
+        <input type="number" min={min} max={max} value={value}
+          onChange={(e) => onChange(Math.max(min, Math.min(max, +e.target.value || min)))} />
+        <button type="button" className="plan-level-step" onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max} aria-label="Aumentar">
           <Plus size={16} />
         </button>
       </div>
       <div className="plan-modal-milestones">
         {LEVEL_MILESTONES.map((l) => (
-          <button
-            key={l} type="button"
-            className={`plan-modal-milestone ${value === l ? 'active' : ''}`}
-            onClick={() => onChange(l)}
-          >{l}</button>
+          <button key={l} type="button" className={`plan-modal-milestone ${value === l ? 'active' : ''}`} onClick={() => onChange(l)}>{l}</button>
         ))}
       </div>
     </div>
   )
 }
 
-function MilestoneCheckboxes({
-  current, goal, active, onChange, disabled,
-}: {
+function MilestoneCheckboxes({ current, goal, active, onChange, disabled }: {
   current: number; goal: number; active: number[]; onChange: (next: number[]) => void; disabled?: boolean
 }) {
   return (
@@ -142,10 +121,7 @@ function MilestoneCheckboxes({
         const isActive = active.includes(m)
         const isDisabled = passed || notReached || disabled
         return (
-          <button
-            key={m}
-            type="button"
-            disabled={isDisabled}
+          <button key={m} type="button" disabled={isDisabled}
             className={`milestone-chip ${passed ? 'passed' : notReached ? 'inactive' : isActive ? 'active' : 'unmarked'}`}
             onClick={() => {
               if (isDisabled) return
@@ -154,9 +130,7 @@ function MilestoneCheckboxes({
             }}
             title={passed ? 'Já passou desse nível' : notReached ? 'Meta não alcança esse marco' : isActive ? 'Clique para pular esta ascensão' : 'Clique para incluir esta ascensão'}
           >
-            <span className="milestone-check">
-              {passed ? '✓' : isActive ? '☑' : '☐'}
-            </span>
+            <span className="milestone-check">{passed ? '✓' : isActive ? '☑' : '☐'}</span>
             <span className="milestone-num">{m}</span>
           </button>
         )
@@ -168,7 +142,7 @@ function MilestoneCheckboxes({
 interface TalentDraft { current: number; goal: number }
 
 export default function PlannerCharacterModal({
-  char, element, inventory, onClose, onUpdate, weaponsMap,
+  char, element, inventory, onClose, onUpdate, weaponsMap, wl = 9,
 }: {
   char: CharBreakdown
   element: string | undefined
@@ -176,6 +150,7 @@ export default function PlannerCharacterModal({
   onClose: () => void
   onUpdate?: (newChar: CharBreakdown) => void
   weaponsMap?: Map<string, WeaponSummary>
+  wl?: number
 }) {
   const { lang } = useLanguage()
   const canEdit = !!onUpdate && !!weaponsMap
@@ -316,7 +291,7 @@ export default function PlannerCharacterModal({
   const curLevel = renderChar.char_goal?.current.level ?? 1
   const goalLevel = renderChar.char_goal?.goal.level ?? 90
 
-  const xp = getXpMaterials(renderChar)
+  const xp = getXpMaterials(renderChar, wl)
 
   const ascensionMats: AggregateMaterial[] = []
   if (renderChar.ascension) {
@@ -386,7 +361,7 @@ export default function PlannerCharacterModal({
 
   const currentMora = inventory['mora'] ?? 0
   const missingMora = Math.max(0, totalMora - currentMora)
-  const moraLeyline = computeMoraLeyline(missingMora)
+  const moraLeyline = computeMoraLeyline(missingMora, wl)
 
   const materialsResin = [...ascensionMats, ...talentMats, ...weaponMats].reduce((sum, m) => {
     if (m.slug.startsWith('__mora_') || m.slug.startsWith('__hero_wit') || m.slug.startsWith('__mystic_ore')) return sum
@@ -402,7 +377,6 @@ export default function PlannerCharacterModal({
   return (
     <div className="plan-modal-overlay" onClick={editing ? undefined : onClose}>
       <div className="plan-modal" onClick={(e) => e.stopPropagation()}>
-        {/* HEADER */}
         <div className="plan-modal-header">
           <div className="plan-modal-portrait" style={{ background: `color-mix(in srgb, ${accent} 25%, transparent)` }}>
             {img ? <img src={img} alt={char.name} /> : <span>?</span>}
@@ -413,7 +387,8 @@ export default function PlannerCharacterModal({
             <div className="plan-modal-meta">
               <span style={{ color: accent }}>{element ? element.charAt(0).toUpperCase() + element.slice(1) : ''}</span>
               <span>·</span><span>C{cons}</span><span>·</span>
-              <span>Nv. {curLevel} → {goalLevel}</span>
+              <span>Nv. {curLevel} → {goalLevel}</span><span>·</span>
+              <span>WL {wl}</span>
             </div>
             <div className="plan-modal-badges">
               {char.is_inactive && <span className="plan-modal-badge plan-modal-badge-inactive">Inativo</span>}
@@ -450,7 +425,6 @@ export default function PlannerCharacterModal({
           </div>
         </div>
 
-        {/* TOP SUMMARY BAR */}
         <div className="plan-modal-top-summary">
           <div className="plan-top-stat">
             <Coins size={16} className="plan-top-stat-icon mora" />
@@ -489,7 +463,6 @@ export default function PlannerCharacterModal({
 
         <div className="plan-modal-body">
           <div className="plan-modal-col-left">
-            {/* Meta única */}
             <section className="plan-modal-section">
               <h3 className="plan-modal-section-title"><Sparkles size={16} /> Nível & Meta</h3>
               {editing ? (
@@ -513,11 +486,7 @@ export default function PlannerCharacterModal({
                   </label>
                   <label>
                     <span>Status</span>
-                    <button
-                      type="button"
-                      className={`plan-toggle-status ${draftInactive ? 'is-inactive' : 'is-active'}`}
-                      onClick={() => setDraftInactive(!draftInactive)}
-                    >
+                    <button type="button" className={`plan-toggle-status ${draftInactive ? 'is-inactive' : 'is-active'}`} onClick={() => setDraftInactive(!draftInactive)}>
                       {draftInactive ? 'Inativo' : 'Ativo'}
                     </button>
                   </label>
@@ -531,21 +500,13 @@ export default function PlannerCharacterModal({
               )}
             </section>
 
-            {/* Marcos de Ascensão */}
             <section className="plan-modal-section">
               <h3 className="plan-modal-section-title"><Gem size={16} /> Ascensões</h3>
               {editing ? (
                 <>
-                  <MilestoneCheckboxes
-                    current={draftCurLevel}
-                    goal={draftGoalLevel}
-                    active={charActivePhases}
-                    onChange={setCharActivePhases}
-                  />
+                  <MilestoneCheckboxes current={draftCurLevel} goal={draftGoalLevel} active={charActivePhases} onChange={setCharActivePhases} />
                   <div className="milestone-summary">
-                    {charActivePhases.length === 0
-                      ? 'Nenhuma ascensão marcada — clique nos marcos para incluir.'
-                      : <>{charActivePhases.length} ascensão(ões) marcada(s): {charActivePhases.join(', ')}</>}
+                    {charActivePhases.length === 0 ? 'Nenhuma ascensão marcada — clique nos marcos para incluir.' : <>{charActivePhases.length} ascensão(ões) marcada(s): {charActivePhases.join(', ')}</>}
                   </div>
                 </>
               ) : (
@@ -564,7 +525,6 @@ export default function PlannerCharacterModal({
               )}
             </section>
 
-            {/* Talentos */}
             <section className="plan-modal-section">
               <h3 className="plan-modal-section-title"><Sparkles size={16} /> Talentos</h3>
               <div className="plan-modal-talents">
@@ -603,7 +563,6 @@ export default function PlannerCharacterModal({
               </div>
             </section>
 
-            {/* Armas */}
             <section className="plan-modal-section">
               <h3 className="plan-modal-section-title"><Sword size={16} /> Armas ({editing ? draftWeapons.length : renderChar.weapons.length})</h3>
               <div className="plan-modal-weapons">
@@ -625,8 +584,7 @@ export default function PlannerCharacterModal({
                       {editing && (
                         <div className="plan-modal-weapon-actions">
                           <button className="btn-secondary" onClick={() => setWeaponPickerIndex(i)}>Trocar</button>
-                          <button className="btn-secondary" style={{ color: '#f87171' }}
-                            onClick={() => setDraftWeapons((prev) => prev.filter((_, idx) => idx !== i))}>
+                          <button className="btn-secondary" style={{ color: '#f87171' }} onClick={() => setDraftWeapons((prev) => prev.filter((_, idx) => idx !== i))}>
                             <Trash2 size={12} />
                           </button>
                         </div>
@@ -637,12 +595,7 @@ export default function PlannerCharacterModal({
                         <div className="plan-modal-weapon-level-row">
                           <label>
                             <span>Nível atual</span>
-                            <LevelInput
-                              value={w.from_level}
-                              onChange={(v) => setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v } : p))}
-                              min={1}
-                              max={90}
-                            />
+                            <LevelInput value={w.from_level} onChange={(v) => setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v } : p))} min={1} max={90} />
                           </label>
                           <label>
                             <span>Meta</span>
@@ -652,12 +605,7 @@ export default function PlannerCharacterModal({
                             </div>
                           </label>
                         </div>
-                        <MilestoneCheckboxes
-                          current={w.from_level}
-                          goal={draftGoalLevel}
-                          active={weaponActivePhases[i] ?? []}
-                          onChange={(next) => setWeaponActivePhases((prev) => ({ ...prev, [i]: next }))}
-                        />
+                        <MilestoneCheckboxes current={w.from_level} goal={draftGoalLevel} active={weaponActivePhases[i] ?? []} onChange={(next) => setWeaponActivePhases((prev) => ({ ...prev, [i]: next }))} />
                       </div>
                     )}
                   </div>
