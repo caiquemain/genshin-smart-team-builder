@@ -50,6 +50,7 @@ export interface PlannerMaterialData {
   category: string
   description: LocalizedName
   source: LocalizedName
+  is_weekly?: boolean          // <-- NOVO
 }
 
 export interface PlannerData {
@@ -57,6 +58,8 @@ export interface PlannerData {
   characters: Record<string, PlannerCharacterData>
   weapons: Record<string, PlannerWeaponData>
   materials: Record<string, PlannerMaterialData>
+  global_max: Record<string, number>
+  families: Record<string, string[]>
 }
 
 const URL = '/planner-data.json'

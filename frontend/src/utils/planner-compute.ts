@@ -10,8 +10,8 @@ export interface ComputedMaterial {
   quantity: number
   description: string | null
   source: string | null
+  is_weekly?: boolean
 }
-
 interface ComputedPhase {
   phase: number
   unlock_max_level: number
@@ -66,6 +66,7 @@ function materialOf(
     quantity: qty,
     description: m ? pickLang(m.description, lang) : null,
     source: m ? pickLang(m.source, lang) : null,
+    is_weekly: m?.is_weekly,
   }
 }
 

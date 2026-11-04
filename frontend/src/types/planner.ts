@@ -1,5 +1,3 @@
-// Tipos compartilhados entre PlannerPage e PlannerCharactersPage
-
 export interface AggregateMaterial {
   slug: string
   name: string
@@ -10,6 +8,7 @@ export interface AggregateMaterial {
   source: string | null
   quantity: number
   resin_estimate: number
+  is_weekly?: boolean          // <-- NOVO
 }
 
 export interface WeaponBreakdown {

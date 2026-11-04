@@ -45,5 +45,8 @@ export type SeelieGoal =
 export interface SeelieData {
   goals: SeelieGoal[]
   inventory: unknown[]
+  inactive?: Record<string, boolean>
+  ar?: number
+  wl?: number
   [key: string]: unknown
 }

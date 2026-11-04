@@ -32,23 +32,57 @@ export const WEAPON_RARITY_MULT: Record<number, number> = {
 }
 
 // Valores de 1 item
-export const XP_BOOK_HERO = 20_000       // Hero's Wit
-export const XP_BOOK_ADVENTURER = 5_000  // Adventurer's Experience
-export const XP_BOOK_WANDERER = 1_000    // Wanderer's Advice
-
-export const MYSTIC_ORE_XP = 10_000      // Mystic Enhancement Ore
+export const XP_BOOK_HERO = 20_000
+export const XP_BOOK_ADVENTURER = 5_000
+export const XP_BOOK_WANDERER = 1_000
+export const MYSTIC_ORE_XP = 10_000
 
 // Mora por XP de level up (não é ascensão)
-export const CHAR_MORA_PER_XP = 0.2      // 1 mora a cada 5 XP
-export const WEAPON_MORA_PER_XP = 0.1    // 1 mora a cada 10 XP
-
-// Mora para forjar 1 Mystic Ore na fonte
+export const CHAR_MORA_PER_XP = 0.2
+export const WEAPON_MORA_PER_XP = 0.1
 export const FORGE_MORA_PER_ORE = 50
 
-// Ley Lines
-export const LEYLINE_XP_XP_PER_RUN = 130_000   // ~6-7 livros mistos por run
+// ============================================================
+// LEY LINES — VALORES POR WORLD LEVEL (tabela oficial)
+// Fonte: Fandom (Ley Line Outcrop) + guia de World Level.
+// WL 6 → 9 pagam o mesmo valor (teto do jogo).
+// ============================================================
+
+const LEYLINE_MORA_BY_WL: Record<number, number> = {
+  0: 12_000,
+  1: 20_000,
+  2: 28_000,
+  3: 36_000,
+  4: 44_000,
+  5: 52_000,
+  6: 60_000,
+  7: 60_000,
+  8: 60_000,
+  9: 60_000,
+}
+
+const LEYLINE_XP_BY_WL: Record<number, number> = {
+  0: 25_000,
+  1: 38_500,
+  2: 52_500,
+  3: 67_500,
+  4: 82_500,
+  5: 102_500,
+  6: 122_500,
+  7: 122_500,
+  8: 122_500,
+  9: 122_500,
+}
+
+export function getLeylineMoraPerRun(wl: number = 9): number {
+  return LEYLINE_MORA_BY_WL[wl] ?? LEYLINE_MORA_BY_WL[9]
+}
+
+export function getLeylineXpPerRun(wl: number = 9): number {
+  return LEYLINE_XP_BY_WL[wl] ?? LEYLINE_XP_BY_WL[9]
+}
+
 export const LEYLINE_XP_RESIN_PER_RUN = 20
-export const LEYLINE_MORA_MORA_PER_RUN = 60_000
 export const LEYLINE_MORA_RESIN_PER_RUN = 20
 
 export interface XpCost {
@@ -57,7 +91,6 @@ export interface XpCost {
   heroWits: number
   adventureBooks: number
   wandererBooks: number
-  // Para Ley Line de XP
   leylineRuns: number
   leylineResin: number
 }
@@ -71,9 +104,9 @@ export interface WeaponXpCost {
 
 /**
  * Calcula o custo de XP para subir um personagem de `from` até `to`.
- * Interpola linearmente dentro de cada faixa (ex: 55→65 divide a faixa 50→60 e 60→70).
+ * Interpola linearmente dentro de cada faixa.
  */
-export function computeCharXp(from: number, to: number): XpCost {
+export function computeCharXp(from: number, to: number, wl: number = 9): XpCost {
   if (from >= to) {
     return { xp: 0, moraLevelUp: 0, heroWits: 0, adventureBooks: 0, wandererBooks: 0, leylineRuns: 0, leylineResin: 0 }
   }
@@ -100,22 +133,20 @@ export function computeCharXp(from: number, to: number): XpCost {
   }
 
   const heroWits = Math.ceil(xp / XP_BOOK_HERO)
-  const leylineRuns = Math.ceil(xp / LEYLINE_XP_XP_PER_RUN)
+  const xpPerRun = getLeylineXpPerRun(wl)
+  const leylineRuns = Math.ceil(xp / xpPerRun)
 
   return {
     xp,
     moraLevelUp: mora,
     heroWits,
-    adventureBooks: 0,   // simplificado — usamos só Hero's Wit
+    adventureBooks: 0,
     wandererBooks: 0,
     leylineRuns,
     leylineResin: leylineRuns * LEYLINE_XP_RESIN_PER_RUN,
   }
 }
 
-/**
- * Calcula XP de arma considerando raridade.
- */
 export function computeWeaponXp(from: number, to: number, rarity: number): WeaponXpCost {
   if (from >= to) {
     return { xp: 0, moraLevelUp: 0, mysticOres: 0, forgeMora: 0 }
@@ -157,8 +188,9 @@ export function computeWeaponXp(from: number, to: number, rarity: number): Weapo
 /**
  * Calcula quantas runs de Ley Line of Wealth são necessárias pra X Mora.
  */
-export function computeMoraLeyline(mora: number): { runs: number; resin: number } {
+export function computeMoraLeyline(mora: number, wl: number = 9): { runs: number; resin: number } {
   if (mora <= 0) return { runs: 0, resin: 0 }
-  const runs = Math.ceil(mora / LEYLINE_MORA_MORA_PER_RUN)
+  const moraPerRun = getLeylineMoraPerRun(wl)
+  const runs = Math.ceil(mora / moraPerRun)
   return { runs, resin: runs * LEYLINE_MORA_RESIN_PER_RUN }
 }
