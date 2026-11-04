@@ -456,3 +456,26 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 ### Git
 - Branch: `main`
 - Status: Alterações no Inventário prontas para commit.
+
+---
+
+## 27. Sessão 2026-11-04 — Página de Bestiário
+
+### Novas Rotas e Páginas
+- **`/bestiary`** (`BestiaryPage.tsx`): Página com grid de todos os monstros, abas por tipo (Hilichurl, Boss, etc.) e busca por nome.
+- **Modal de Detalhes** (`BestiaryMonsterModal.tsx`): Abre ao clicar no card, mostrando lore completa, drops e porcentagens. Fecha com **ESC** ou clique fora.
+
+### Componentes Criados
+- **`BestiaryMonsterIcon.tsx`**: Resolve o path da imagem baseado no prefixo:
+  - `UI_MonsterIcon_*` → `/assets/UI/monster/` (Yatta)
+  - `UI_ItemIcon_*` → `/assets/UI/` (Yatta padrão)
+- **`BestiaryMonsterCard.tsx`**: Card do grid.
+- **`BestiaryMonsterTooltip.tsx`**: Tooltip no hover usando `@floating-ui/react` (igual ao `TierlistTooltip`). Mostra tipo, descrição curta (220 chars) e drops com %.
+
+### Correções Críticas (CSS / Imagens)
+- **Imagens quebradas**: O `iconUrl()` antigo não servia para monstros. Descobrimos via `curl` que o path correto do Yatta para monstros é `/assets/UI/monster/`. O `BestiaryMonsterIcon` agora faz a detecção automática pelo prefixo.
+- **Grid Desuniforme**: Adicionado `.bestiary-card-wrapper` com `height: 100%` e `display: flex` para igualar as alturas dos cards. O `.bestiary-card-name` ganhou `height: 38px` e `line-clamp: 2` para forçar sempre duas linhas, mantendo o alinhamento dos drops e ícones no rodapé.
+
+### Git
+- Branch: `main`
+- Commit: `feat(bestiary): implementa página de bestiário com tooltips, modal e grid uniforme`

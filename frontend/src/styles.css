@@ -180,8 +180,6 @@ table th { color: #94a3b8; font-weight: 600; }
   pointer-events: auto;
   transition: opacity 120ms ease-out;
 }
-to   { opacity: 1; transform: translateY(0); }
-}
 
 .item-tooltip-header {
   display: flex;
@@ -5700,8 +5698,6 @@ body {
 }
 
 
-  50% { opacity: 0.25; }
-}
 
 /* ============================================================
    DYNAMIC ELEMENTAL BACKGROUND
@@ -13058,4 +13054,39 @@ main.container:has(.bestiary-page) {
 
 .bestiary-card-drops {
   margin-top: auto; /* Empurra o texto de drops para o final do card */
+}
+
+/* ============================================================
+   FIRULAS: CURSORES DA PAIMON (EMERGENCY FOOD)
+   ============================================================ */
+
+/* Cursor Padrão (Seta) */
+body, .container, .grid, .tierlist-page, .bestiary-page {
+  cursor: url('/cursors/paimon-default.cur'), auto !important;
+}
+
+/* Cursor de Clique (Mãozinha) */
+a, button, select, input[type="submit"], input[type="button"],
+.card, .bestiary-card, .filter-pill, .inventory-tab, .plan-char-card {
+  cursor: url('/cursors/paimon-pointer.cur'), pointer !important;
+}
+
+/* Cursor de Texto */
+input[type="text"], input[type="number"], input[type="search"], textarea {
+  cursor: url('/cursors/paimon-text.cur'), text !important;
+}
+
+/* Cursor de Indisponível (Not Allowed) */
+button:disabled, .btn-primary:disabled, .disabled, [aria-disabled="true"] {
+  cursor: url('/cursors/paimon-not-allowed.cur'), not-allowed !important;
+}
+
+/* Cursor de Carregando (Busy) */
+.waiting, .loading, .ds-loading {
+  cursor: url('/cursors/paimon-wait.cur'), wait !important;
+}
+
+/* Cursor de Seleção/Precisão */
+input[type="range"], .crosshair {
+  cursor: url('/cursors/paimon-crosshair.cur'), crosshair !important;
 }
