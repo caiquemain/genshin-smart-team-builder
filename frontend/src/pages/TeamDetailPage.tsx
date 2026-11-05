@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText } from 'lucide-react'
+import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText, Download, ImageDown } from 'lucide-react'
+import { toPng } from 'html-to-image'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
@@ -11,6 +12,7 @@ import CharacterBuildEditor from '../components/CharacterBuildEditor'
 import WeaponTooltip from '../components/WeaponTooltip'
 import TeamTierBadge from '../components/TeamTierBadge'
 import ArtifactTooltip from '../components/ArtifactTooltip'
+import { KQMExportCard } from '../components/KQMExportCard'
 import type {
   TeamDetail, TeamAnalysisResponse, CharacterSummary,
   WeaponSummary, ArtifactSetSummary, TeamMemberWithBuild
@@ -29,6 +31,12 @@ export default function TeamDetailPage() {
   const [replacingMember, setReplacingMember] = useState<number | null>(null)
   const [showFallbackPicker, setShowFallbackPicker] = useState(false)
   const [editingBuild, setEditingBuild] = useState<TeamMemberWithBuild | null>(null)
+  
+  const [exportingMember, setExportingMember] = useState<TeamMemberWithBuild | null>(null)
+  const [talentIcons, setTalentIcons] = useState<{ normal?: string; skill?: string; burst?: string }>({})
+  const [talentsLoaded, setTalentsLoaded] = useState(false)
+  const exportRef = useRef<HTMLDivElement>(null)
+  const isExportingRef = useRef(false)
 
   const fetchAssets = async (t: TeamDetail) => {
     const weaponSlugs = new Set<string>()
@@ -50,7 +58,7 @@ export default function TeamDetailPage() {
       try {
         const w = await api.getWeapon(slug, lang)
         wMap.set(slug, w)
-      } catch (e) { console.error("Arma não encontrada:", slug) }
+      } catch (e) { console.error(e) }
     }))
     setWeapons(wMap)
 
@@ -59,7 +67,7 @@ export default function TeamDetailPage() {
       try {
         const a = await api.getArtifact(slug, lang)
         aMap.set(slug, a)
-      } catch (e) { console.error("Artefato não encontrado:", slug) }
+      } catch (e) { console.error(e) }
     }))
     setArtifacts(aMap)
   }
@@ -92,28 +100,124 @@ export default function TeamDetailPage() {
     loadData()
   }, [id, lang])
 
+  useEffect(() => {
+    if (exportingMember) {
+      setTalentIcons({})
+      setTalentsLoaded(false)
+      api.getCharacter(exportingMember.character.slug, lang).then((data) => {
+        const icons: any = {}
+        if (data.talents) {
+          data.talents.forEach((t) => {
+            if (t.talent_type === 'normal_attack') icons.normal = t.icon
+            if (t.talent_type === 'elemental_skill') icons.skill = t.icon
+            if (t.talent_type === 'elemental_burst') icons.burst = t.icon
+          })
+        }
+        setTalentIcons(icons)
+        setTalentsLoaded(true)
+      }).catch((err) => {
+        console.error(err)
+        setTalentsLoaded(true)
+      })
+    }
+  }, [exportingMember, lang])
+
+  useEffect(() => {
+    if (exportingMember && exportRef.current && talentsLoaded && !isExportingRef.current) {
+      isExportingRef.current = true;
+      const node = exportRef.current;
+      const images = Array.from(node.querySelectorAll('img'));
+      
+      const promises = images.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      });
+
+      Promise.all(promises).then(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            toPng(node, { 
+              pixelRatio: 2,
+              backgroundColor: '#0f1423',
+              skipFonts: true,
+            })
+              .then((dataUrl) => {
+                const link = document.createElement('a');
+                link.download = `${exportingMember.character.name}-build.png`;
+                link.href = dataUrl;
+                link.click();
+              })
+              .catch((err) => {
+                console.error("Erro ao gerar imagem", err);
+                alert("Erro ao gerar a imagem. Verifique o console.");
+              })
+              .finally(() => {
+                isExportingRef.current = false;
+                setExportingMember(null); 
+              });
+          });
+        });
+      });
+    }
+  }, [exportingMember, talentIcons, talentsLoaded]);
+
   if (loading) return <div className="status" style={{ padding: 40, textAlign: 'center' }}>Carregando detalhes do time...</div>
   if (error || !team) return <div className="status error" style={{ padding: 40, textAlign: 'center' }}>Erro: {error || 'Time não encontrado'}</div>
 
   const mainElement = team.members.find(m => m.position === 1)?.character.element || 'cryo'
+  const mainDpsMember = team.members.find(m => m.position === 1) || team.members[0]
 
   return (
     <div className="team-detail-page" data-element={mainElement}>
-      <div className="team-detail-header">
-        <Link to="/teams" className="team-detail-back">← Voltar para times</Link>
-        <h1 className="team-detail-title">
-          {team.name}
-          <span style={{ marginLeft: 16, verticalAlign: 'middle', display: 'inline-block' }}>
-            <TeamTierBadge teamTier={team.team_tier} size="lg" />
-          </span>
-        </h1>
-        {team.description && <p className="team-detail-desc">{team.description}</p>}
-        {team.author_name && <p className="team-detail-author">Por {team.author_name}</p>}
+      {exportingMember && (
+        <>
+          <div className="kqm-export-overlay">
+            <div className="spinner" />
+            <span>Gerando imagem...</span>
+          </div>
+          <KQMExportCard
+            ref={exportRef}
+            member={exportingMember}
+            teamMembers={team.members}
+            weapons={weapons}
+            artifacts={artifacts}
+            chars={chars}
+            mainElement={mainElement}
+            talentIcons={talentIcons}
+          />
+        </>
+      )}
+
+      <div className="team-detail-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20 }}>
+        <div>
+          <Link to="/teams" className="team-detail-back">← Voltar para times</Link>
+          <h1 className="team-detail-title">
+            {team.name}
+            <span style={{ marginLeft: 16, verticalAlign: 'middle', display: 'inline-block' }}>
+              <TeamTierBadge teamTier={team.team_tier} size="lg" />
+            </span>
+          </h1>
+          {team.description && <p className="team-detail-desc">{team.description}</p>}
+          {team.author_name && <p className="team-detail-author">Por {team.author_name}</p>}
+        </div>
+        
+        {/* BOTÃO GLOBAL DE EXPORTAR */}
+        {mainDpsMember && mainDpsMember.build && (
+          <button 
+            className="btn-export-hero" 
+            onClick={() => setExportingMember(mainDpsMember)}
+            data-element={mainElement}
+          >
+            <ImageDown size={20} /> Exportar Build
+          </button>
+        )}
       </div>
 
       {analysis && (
         <div className="team-detail-analysis" style={{ paddingLeft: 0 }}>
-          {/* O badge de Score (círculo) foi removido temporariamente */}
           <div className="analysis-content">
             {analysis.reactions.length > 0 && (
               <div className="analysis-group">
@@ -252,7 +356,7 @@ function MemberBuildCard({
           </div>
           <span className="member-meta">{'★'.repeat(c.rarity)} · {c.element} · {c.weapon_type}</span>
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
           <button className="btn-secondary" onClick={onEditBuild} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <Settings size={16} /> Build
           </button>

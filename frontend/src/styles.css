@@ -13090,3 +13090,693 @@ button:disabled, .btn-primary:disabled, .disabled, [aria-disabled="true"] {
 input[type="range"], .crosshair {
   cursor: url('/cursors/paimon-crosshair.cur'), crosshair !important;
 }
+
+
+/* ============================================================
+   KQM EXPORT CARD (Para gerar a imagem)
+   ============================================================ */
+
+
+.kqm-export-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 20% 10%, var(--kqm-glow, #b398ff) 0%, transparent 50%);
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.kqm-export-left {
+  position: relative;
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  background-color: #0f1423;
+}
+.kqm-logo-area {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: auto;
+}
+.kqm-logo-text {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--kqm-glow);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.kqm-logo-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.kqm-export-left {
+  position: relative;
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  background-color: #0f1423;
+}
+.kqm-char-info {
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+.kqm-char-info h1 {
+  font-size: 42px;
+  margin: 0 0 8px;
+  color: #fff;
+}
+.kqm-role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}
+.kqm-element-icon {
+  background: var(--kqm-glow);
+  color: #0f1423;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.kqm-stars {
+  color: #fbbf24;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.kqm-export-right {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1;
+}
+.kqm-section {
+  background: rgba(255, 255, 255, 0.05); /* Removido o backdrop-filter */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+}
+.kqm-section h2 {
+  font-size: 20px;
+  margin: 0 0 12px;
+  color: var(--kqm-glow);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 6px;
+}
+.kqm-row {
+  display: flex;
+  gap: 16px;
+}
+.kqm-row .kqm-section {
+  flex: 1;
+}
+
+.kqm-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.kqm-item-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 72px;
+  position: relative;
+}
+.kqm-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.kqm-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.kqm-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #1e293b;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.kqm-item-name {
+  font-size: 11px;
+  text-align: center;
+  color: #cbd5e1;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kqm-talent-box {
+  background: rgba(0,0,0,0.3);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 700;
+  color: #fff;
+}
+.kqm-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kqm-stats li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.stat-icon { font-size: 18px; }
+.kqm-substat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.kqm-substat-item {
+  font-size: 14px;
+  font-weight: 600;
+}
+.kqm-er-req {
+  margin-top: 12px;
+  padding: 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+.kqm-er-req strong { color: #fbbf24; }
+
+.kqm-synergies {
+  margin-top: auto;
+}
+.kqm-synergy-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.kqm-synergy-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  border: 2px solid var(--kqm-glow);
+  overflow: hidden;
+}
+.kqm-synergy-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.kqm-footer-text {
+  font-size: 10px;
+  color: #64748b;
+  text-align: right;
+  margin: 0;
+}
+
+.kqm-export-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #e2e8f0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(125, 211, 252, 0.2);
+  border-top-color: #7dd3fc;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.kqm-export-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1200px;
+  height: 900px;
+  z-index: 99998; /* Fica atrás do overlay, mas o navegador renderiza */
+  display: flex;
+  background-color: #0f1423;
+  background-image: linear-gradient(135deg, #0f1423 0%, #161c33 100%);
+  border: 4px solid var(--kqm-glow, #b398ff);
+  border-radius: 20px;
+  padding: 24px;
+  gap: 24px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #e2e8f0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* ============================================================
+   KQM EXPORT CARD - TALENT ICONS
+   ============================================================ */
+.kqm-talent-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 64px;
+}
+
+.kqm-talent-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.kqm-talent-icon-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.kqm-talent-arrow {
+  font-size: 20px;
+  color: var(--kqm-glow, #b398ff);
+  font-weight: 900;
+}
+
+.kqm-talent-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-transform: capitalize;
+}
+
+/* ============================================================
+   KQM EXPORT CARD - AJUSTES FINAIS (Splash Art + Sinergias)
+   ============================================================ */
+
+/* 1. Fundo do Card Esquerdo (Splash Art) */
+.kqm-export-left {
+  position: relative;
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  background-color: #0f1423;
+}
+.kqm-export-left {
+  position: relative;
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  background-color: #0f1423;
+}
+.kqm-char-info {
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+
+/* 2. Ícones de Status */
+.kqm-stats li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.stat-icon { 
+  color: var(--kqm-glow); 
+  flex-shrink: 0;
+}
+
+/* 3. Novas Sinergias */
+.kqm-synergy-main {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.kqm-synergy-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.kqm-synergy-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  border: 2px solid var(--char-color, #7dd3fc);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+/* Define a cor da borda baseada no elemento do membro */
+.kqm-synergy-card[data-element="cryo"] { --char-color: #93e2ff; }
+.kqm-synergy-card[data-element="hydro"] { --char-color: #4cc2f1; }
+.kqm-synergy-card[data-element="pyro"] { --char-color: #ff9c46; }
+.kqm-synergy-card[data-element="electro"] { --char-color: #b398ff; }
+.kqm-synergy-card[data-element="anemo"] { --char-color: #73ffd0; }
+.kqm-synergy-card[data-element="geo"] { --char-color: #f2c869; }
+.kqm-synergy-card[data-element="dendro"] { --char-color: #a5c83b; }
+
+.kqm-synergy-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.kqm-synergy-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+/* Substitutos */
+.kqm-substitutes-area {
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255,255,255,0.1);
+}
+.kqm-substitutes-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.kqm-substitutes-grid {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.kqm-sub-card {
+  position: relative;
+}
+.kqm-sub-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.2);
+  overflow: hidden;
+  position: relative;
+}
+.kqm-sub-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+/* Badge C6 / C2 */
+.kqm-sub-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #1e293b;
+  border-right: 1px solid var(--kqm-glow);
+  border-bottom: 1px solid var(--kqm-glow);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 4px 0 4px 0; /* Fita no canto */
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Efeito de Corte Diagonal para o +N */
+.kqm-sub-more {
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #cbd5e1;
+  /* Cria o corte diagonal */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+  /* Ajusta o padding para o texto não ficar no corte */
+  padding-left: 8px; 
+}
+
+.kqm-char-info-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(15,20,35,1) 0%, rgba(15,20,35,0.8) 20%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+.kqm-char-info {
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+
+/* ============================================================
+   AJUSTE FINAL: POSIÇÃO DA SPLASH ART NO CARD EXPORTADO
+   ============================================================ */
+.kqm-char-portrait {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: flex-end; /* Empurra a imagem para o fundo */
+  justify-content: center;
+}
+
+.kqm-char-portrait img {
+  width: 100%;
+  height: 110%; /* Dá um leve zoom para preencher melhor o espaço */
+  object-fit: contain; /* Mostra o corpo inteiro da personagem sem cortar */
+  object-position: bottom center; /* Alinha a base da imagem com a base do card */
+  transform: scale(1.05); /* Leve ajuste de escala para não ficar muito pequeno */
+  transform-origin: bottom center;
+}
+
+/* Garante que o gradiente escuro cubra apenas o rodapé para o texto ficar legível */
+.kqm-char-info-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(15,20,35,1) 0%, rgba(15,20,35,0.7) 25%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   CORREÇÃO DEFINITIVA: TAMANHO E POSIÇÃO DA SPLASH ART
+   ============================================================ */
+.kqm-char-portrait {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.kqm-char-portrait img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Ignora o fundo transparente e preenche o card */
+  object-position: top center !important; /* Foca na parte de cima (rosto) */
+  transform: scale(1.2) !important; /* Dá um zoom para ficar imponente */
+  transform-origin: top center !important;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+}
+
+/* O gradiente fica só embaixo para o nome aparecer */
+.kqm-char-info-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(15,20,35,1) 0%, rgba(15,20,35,0.8) 15%, transparent 50%) !important;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   CORREÇÃO DEFINITIVA: TAMANHO E POSIÇÃO DA SPLASH ART
+   ============================================================ */
+.kqm-char-portrait {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.kqm-char-portrait img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; 
+  object-position: top center !important; 
+  transform: scale(1.8) !important; /* AUMENTA A IMAGEM */
+  transform-origin: bottom center !important; /* Ancora no chão */
+}
+
+.kqm-char-info-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(15,20,35,1) 0%, rgba(15,20,35,0.8) 15%, transparent 50%) !important;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   CORREÇÃO FINAL: SPLASH ART ENQUADRADA (ROSTO E CORPO)
+   ============================================================ */
+.kqm-char-portrait {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.kqm-char-portrait img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Preenche o card */
+  object-position: top center !important; /* Garante que o rosto esteja no topo */
+  transform: scale(1.1) !important; /* Zoom leve para não deixar bordas vazias */
+  transform-origin: top center !important; /* O zoom puxa a partir do topo */
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.6));
+}
+
+/* O gradiente fica só no rodapé para ler o nome e o tipo */
+.kqm-char-info-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(15,20,35,1) 0%, rgba(15,20,35,0.8) 20%, transparent 60%) !important;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   BOTÃO GLOBAL DE EXPORTAR (HERO)
+   ============================================================ */
+.btn-export-hero {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f1423;
+  background: linear-gradient(135deg, var(--kqm-glow, #7dd3fc), #ffffff);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(125, 211, 252, 0.3);
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.btn-export-hero:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(125, 211, 252, 0.6);
+  background: linear-gradient(135deg, #ffffff, var(--kqm-glow, #7dd3fc));
+}
+.btn-export-hero:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ============================================================
+   EFEITO NOS TÍTULOS DO CARD KQM (BASEADO NO ELEMENTO)
+   ============================================================ */
+.kqm-section h2 {
+  position: relative;
+  color: #ffffff !important;
+  text-shadow: 0 0 12px var(--kqm-glow, #7dd3fc);
+  border-bottom: none !important;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+/* Cria uma linha brilhante gradiente embaixo do título */
+.kqm-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--kqm-glow, #7dd3fc), transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--kqm-glow, #7dd3fc);
+}

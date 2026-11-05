@@ -479,3 +479,63 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 ### Git
 - Branch: `main`
 - Commit: `feat(bestiary): implementa página de bestiário com tooltips, modal e grid uniforme`
+
+---
+
+## 28. Sessão 2026-11-04 — Firulas: Cursores da Paimon e Favicon
+
+### Cursores Customizados (Paimon)
+- Baixamos o pack **"Paimon or Emergency Food"** do site `rw-designer.com`.
+- Os arquivos `.cur` foram renomeados e movidos para `frontend/public/cursors/`:
+  - `paimon-default.cur` (Seta normal)
+  - `paimon-pointer.cur` (Mãozinha para links/botões)
+  - `paimon-text.cur` (Cursor de texto para inputs)
+  - `paimon-not-allowed.cur` (Para botões desabilitados)
+  - `paimon-wait.cur` (Para estados de loading)
+  - `paimon-crosshair.cur` (Para sliders/range)
+- O `styles.css` foi atualizado com as regras `cursor: url(...)` em escopo global, botões, inputs e estados de disabled/loading.
+- ⚠️ **Atenção**: Os cursores não funcionam em telas touch (mobile/tablet).
+
+### Favicon (Primogem SVG)
+- Devido a bloqueios de anti-bot da Wikia e do GitHub, o download de PNGs da Paimon falhava (retornava HTML).
+- **Solução**: Criamos um favicon nativo em **SVG** (`frontend/public/paimon-favicon.svg`) representando a Primogem (estrela dourada).
+- A tag `<link rel="icon" type="image/svg+xml" href="/paimon-favicon.svg?v=3" />` foi injetada no `<head>` do `index.html`.
+- O `?v=3` serve para forçar o navegador a ignorar o cache antigo do favicon.
+
+### Correção Crítica no CSS (Build do Vite)
+- O build do Docker estava falhando (`Unexpected }`) porque o `styles.css` tinha **chaves órfãs** sobrando de animações antigas.
+- Corrigimos removendo as linhas 184 e 5702 que continham fechamentos de chaves soltos.
+- **Lição**: Sempre que o Vite reclamar de CSS no Docker, verificar se não há `}` sobrando no arquivo.
+
+### Git
+- Branch: `main`
+- Commit: `feat(ui): adiciona cursores da Paimon, favicon SVG e finaliza bestiário`
+
+---
+
+## 29. Sessão 2026-11-05 — Exportação de Build (KQM Style) & Ícones Locais
+
+### Exportação de Card (KQM Style)
+- **`KQMExportCard.tsx`**: Componente oculto na DOM que gera um cartão 1200x900 usando `html-to-image`.
+- **`html-to-image`**: Biblioteca adicionada para converter o componente React em um PNG de alta resolução (`pixelRatio: 2`).
+- **Botão Global**: Agora o `TeamDetailPage` tem um botão "Exportar Build" no topo da página (com gradiente da cor do elemento). A exportação pega sempre o Main DPS do time.
+- **Efeitos Visuais**: Títulos do card (Armas, Artefatos, etc.) têm um brilho (`text-shadow` e gradiente linear) baseado na cor do elemento do personagem principal.
+
+### Arquitetura de Ícones Locais (Fim do CORS)
+- **O Problema**: O `html-to-image` travava ao tentar ler imagens externas da Yatta (CORS / Tainted Canvas).
+- **A Solução**: Baixamos todos os ícones (armas, artefatos, talentos, personagens) via script Python, convertemos para `.webp` (super leve) e salvamos em `frontend/public/icons/`.
+- **`config.ts`**: Atualizado para buscar as imagens em `/icons/` (local) em vez da URL da Yatta. Adicionado `?v=2` para quebrar o cache de imagens quebradas no navegador.
+- **Splash Arts**: Ficam em `frontend/public/splash_arts/{slug}.webp`, carregadas por cima do card exportado usando `object-fit: cover` e `object-position: top center`.
+
+### Travas de Segurança (Race Conditions)
+- **Download Duplo**: Adicionado `isExportingRef` no `TeamDetailPage` para garantir que o `toPng` rode apenas uma vez por clique.
+- **Ícones Faltando**: O state `talentsLoaded` impede que a exportação ocorra antes dos ícones dos talentos serem buscados na API. O `onError` do React troca imagens quebradas por um pixel transparente invisível, evitando que o `html-to-image` quebre.
+
+### Pendências / Próximos Passos
+- [ ] Alguns ícones de talentos e armas falharam no download da Yatta (aprox. 300). É preciso investigar os paths e adicionar fallbacks (ou aceitar que alguns ficarão invisíveis).
+- [ ] Polir o layout interno do `KQMExportCard` (espaçamento e alinhamento fino).
+- [ ] Implementar as "Sinergias em cartas" com o efeito de corte diagonal nos substitutos excedentes.
+
+### Git
+- Branch: `main`
+- Commit: `feat(export): implementa exportação de build estilo KQM e migra ícones para local`
