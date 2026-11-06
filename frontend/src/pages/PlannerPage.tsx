@@ -14,7 +14,8 @@ import type { GoodData } from '../types/good'
 import { 
   Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf,
   Coins, Users, Sword, Calculator, CheckCircle2, FlaskConical,
-  Settings, Pencil
+  Settings, Pencil, ClipboardList, AlertTriangle, Sprout,
+  Shield, Skull, CalendarDays, Gem, BookOpen, MapPin, Star
 } from 'lucide-react'
 import type { AggregateMaterial, CharBreakdown, WeaponBreakdown, TierGroup, Plan } from '../types/planner'
 
@@ -44,6 +45,17 @@ SEELIE_ORDER.forEach((key, index) => {
   SEELIE_ORDER_MAP.set(key, index);
   SEELIE_ORDER_MAP.set(key.replace(/-/g, '_'), index);
 });
+
+const TIER_ICONS: Record<string, React.ReactNode> = {
+  free: <Sprout size={18} />,
+  common: <Leaf size={18} />,
+  elite: <Shield size={18} />,
+  boss40: <Skull size={18} />,
+  weekly: <CalendarDays size={18} />,
+  gem: <Gem size={18} />,
+  talent: <BookOpen size={18} />,
+  local: <MapPin size={18} />,
+}
 
 function mergeMats(target: Map<string, AggregateMaterial>, mats: AscensionMaterial[]) {
   for (const m of mats) {
@@ -128,15 +140,15 @@ function MaterialCard({
         customFooter: (
           <>
             {isGlobalCapReached && (
-               <div style={{ marginTop: 12, padding: 8, background: 'rgba(34, 197, 94, 0.2)', borderLeft: '3px solid #22c55e', color: '#b9f8cf', fontSize: 12, borderRadius: 4 }}>
-                 <strong>✓ Teto Global Atingido ({globalMax})</strong><br/>
-                 Você já tem o suficiente para maximizar TODOS os personagens e armas do jogo. Pare de farmar!
+               <div style={{ marginTop: 12, padding: 8, background: 'rgba(34, 197, 94, 0.2)', borderLeft: '3px solid #22c55e', color: '#b9f8cf', fontSize: 12, borderRadius: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                 <CheckCircle2 size={14} />
+                 <div><strong>Teto Global Atingido ({globalMax})</strong><br/>Você já tem o suficiente para maximizar TODOS os personagens e armas do jogo. Pare de farmar!</div>
                </div>
             )}
             {canAlchemize && (
-               <div style={{ marginTop: 12, padding: 8, background: 'rgba(59, 130, 246, 0.2)', borderLeft: '3px solid #3b82f6', color: '#bfdbfe', fontSize: 12, borderRadius: 4 }}>
-                 <strong>🧪 {alchemyHintText}</strong><br/>
-                 {alchemyHintDesc}
+               <div style={{ marginTop: 12, padding: 8, background: 'rgba(59, 130, 246, 0.2)', borderLeft: '3px solid #3b82f6', color: '#bfdbfe', fontSize: 12, borderRadius: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                 <FlaskConical size={14} />
+                 <div><strong>{alchemyHintText}</strong><br/>{alchemyHintDesc}</div>
                </div>
             )}
           </>
@@ -236,13 +248,11 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
   const img = iconUrl(mainMat.icon)
   const familyName = sortedMats[sortedMats.length - 1].name.replace(/^(Danificada|Sagrada|Prateada|Dourada|Velha|Comum|Gasta)/i, '').trim() || sortedMats[0].name
 
-  // Cálculo de kills com alquimia em cadeia
   let familyKills = null
   if (bestiary && family) {
     const required: Record<string, number> = {}
     for (const m of mats) required[m.slug] = m.quantity
     
-    // Ordenar family do tier mais baixo para o mais alto (por rarity)
     const sortedFamily = [...family].sort((a, b) => {
       const matA = mats.find(m => m.slug === a)
       const matB = mats.find(m => m.slug === b)
@@ -287,15 +297,15 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
               })}
             </div>
             {isGlobalCapReached && (
-              <div style={{ padding: 8, background: 'rgba(34, 197, 94, 0.2)', borderLeft: '3px solid #22c55e', color: '#b9f8cf', fontSize: 12, borderRadius: 4 }}>
-                <strong>✓ Teto Global Atingido</strong><br/>
-                Você já tem o suficiente de todos os tiers desta família.
+              <div style={{ padding: 8, background: 'rgba(34, 197, 94, 0.2)', borderLeft: '3px solid #22c55e', color: '#b9f8cf', fontSize: 12, borderRadius: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <CheckCircle2 size={14} />
+                <div><strong>Teto Global Atingido</strong><br/>Você já tem o suficiente de todos os tiers desta família.</div>
               </div>
             )}
             {canAlchemize && (
-              <div style={{ padding: 8, background: 'rgba(59, 130, 246, 0.2)', borderLeft: '3px solid #3b82f6', color: '#bfdbfe', fontSize: 12, borderRadius: 4 }}>
-                <strong>🧪 Pode usar Alquimia</strong><br/>
-                Você tem tiers inferiores suficientes para craftar o que falta.
+              <div style={{ padding: 8, background: 'rgba(59, 130, 246, 0.2)', borderLeft: '3px solid #3b82f6', color: '#bfdbfe', fontSize: 12, borderRadius: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <FlaskConical size={14} />
+                <div><strong>Pode usar Alquimia</strong><br/>Você tem tiers inferiores suficientes para craftar o que falta.</div>
               </div>
             )}
           </div>
@@ -829,7 +839,11 @@ export default function PlannerPage() {
           {plan.warnings.length > 0 && (
             <details className="planner-warnings">
               <summary>{plan.warnings.length} aviso(s) — clique para expandir</summary>
-              {plan.warnings.map((w, i) => <div key={i}>⚠️ {w}</div>)}
+              {plan.warnings.map((w, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <AlertTriangle size={14} /> {w}
+                </div>
+              ))}
             </details>
           )}
 
@@ -849,7 +863,7 @@ export default function PlannerPage() {
           </div>
 
           <a href="/planner/characters" className="planner-view-chars-cta" style={{ marginTop: 24, marginBottom: 24 }}>
-            <div className="planner-view-chars-icon">📋</div>
+            <div className="planner-view-chars-icon" style={{ color: '#7dd3fc' }}><ClipboardList size={32} /></div>
             <div className="planner-view-chars-text">
               <div className="planner-view-chars-title">Ver {plan.chars.length} personagens em detalhes</div>
               <div className="planner-view-chars-desc">Cards com portrait, talentos, materiais e dias de farm por personagem</div>
@@ -879,7 +893,12 @@ export default function PlannerPage() {
                return (
                 <details key={tg.tier.key} className="tier-group" open>
                   <summary>
-                    <span className="tier-title"><span className="tier-emoji">{tg.tier.emoji}</span><span style={{ color: tg.tier.color }}>{tg.tier.label}</span></span>
+                    <span className="tier-title">
+                      <span className="tier-emoji" style={{ display: 'flex', alignItems: 'center' }}>
+                        {TIER_ICONS[tg.tier.key] || <Star size={18} />}
+                      </span>
+                      <span style={{ color: tg.tier.color }}>{tg.tier.label}</span>
+                    </span>
                     <span className="tier-meta">{groupedMats.length} grupo(s) {tg.resin_total > 0 && ` · ≈${formatResin(tg.resin_total)} ⚡`}</span>
                   </summary>
                   <div className="ascension-grid">

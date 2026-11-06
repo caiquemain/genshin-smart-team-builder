@@ -22,7 +22,7 @@ import {
   useRole,
   safePolygon,
 } from '@floating-ui/react'
-import { Check, Swords } from 'lucide-react'
+import { Check, Swords, AlertTriangle } from 'lucide-react'
 import { categoryInfo } from '../utils/categories'
 import { formatResin, type ResinRange } from '../utils/resin'
 
@@ -122,8 +122,8 @@ function ResinBlock({ range }: { range: ResinRange }) {
         Calculado para {qtyLabel} ({range.have > 0 ? range.quantity - range.have : range.quantity} un.)
       </div>
       {range.tier.key === 'weekly' && (
-        <div className="item-tooltip-resin-warn">
-          ⚠ Limitado a 1x por semana por boss
+        <div className="item-tooltip-resin-warn" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <AlertTriangle size={14} /> Limitado a 1x por semana por boss
         </div>
       )}
     </div>
