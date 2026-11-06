@@ -5,6 +5,8 @@ import { iconUrl } from '../config'
 import ItemTooltip from './ItemTooltip'
 import { categoryInfo } from '../utils/categories'
 import type { TalentCost } from '../types'
+import { computeMoraLeyline, getLeylineMoraPerRun } from '../utils/xp-costs'
+import { Coins } from 'lucide-react'
 
 const LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const TARGET = 10
@@ -25,6 +27,7 @@ export default function TalentSection({ slug }: { slug: string }) {
   const [na, setNa] = useState(1)
   const [es, setEs] = useState(1)
   const [eb, setEb] = useState(1)
+  const [wl, setWl] = useState(9)
   const [data, setData] = useState<TalentCost | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -39,6 +42,8 @@ export default function TalentSection({ slug }: { slug: string }) {
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
   }, [slug, na, es, eb, lang])
+
+  const moraLeyline = data ? computeMoraLeyline(data.grand_total_mora, wl) : { runs: 0, resin: 0 }
 
   return (
     <section className="talent-section">
@@ -64,6 +69,14 @@ export default function TalentSection({ slug }: { slug: string }) {
           Explosão Elemental:{' '}
           <select value={eb} onChange={(e) => setEb(Number(e.target.value))}>
             {LEVELS.map((l) => <option key={l} value={l}>{l}</option>)}
+          </select>
+        </label>
+        <label>
+          WL:{' '}
+          <select value={wl} onChange={(e) => setWl(Number(e.target.value))}>
+            {[0,1,2,3,4,5,6,7,8,9].map((l) => (
+              <option key={l} value={l}>WL {l}</option>
+            ))}
           </select>
         </label>
         <span className="talent-target">→ {TARGET}</span>
@@ -170,6 +183,18 @@ export default function TalentSection({ slug }: { slug: string }) {
             </div>
             <span className="talent-mora-value">{formatMora(data.grand_total_mora)}</span>
           </div>
+
+          <div className="talent-mora" style={{ marginTop: 12, borderColor: 'rgba(125, 211, 252, 0.3)', background: 'rgba(125, 211, 252, 0.05)' }}>
+            <div className="talent-mora-left">
+              <Coins size={24} color="#7dd3fc" />
+              <span className="talent-mora-label">Ley Line Mora (para cobrir a Mora)</span>
+            </div>
+            <span className="talent-mora-value" style={{ color: '#7dd3fc' }}>{moraLeyline.runs} runs</span>
+          </div>
+
+          <p className="talent-hint" style={{ marginTop: 8 }}>
+            {getLeylineMoraPerRun(wl).toLocaleString('pt-BR')} Mora por run · {moraLeyline.resin} resina total
+          </p>
         </>
       )}
     </section>
