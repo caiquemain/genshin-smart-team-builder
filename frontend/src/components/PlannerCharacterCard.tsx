@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react'
 import { Moon, Check, Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf } from 'lucide-react'
 import { iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
 import { estimateResinRange } from '../utils/resin'
+import { getBestiaryData, calculateKills } from '../utils/kills-compute'
+import type { BestiaryData } from '../types/bestiary'
 import type { AggregateMaterial, CharBreakdown } from '../types/planner'
 
 const ELEMENT_ICON_NAME: Record<string, string> = {
@@ -58,7 +61,7 @@ export function aggregateCharMaterials(c: CharBreakdown): AggregateMaterial[] {
   return Array.from(mats.values()).sort((a, b) => (b.rarity ?? 0) - (a.rarity ?? 0) || a.name.localeCompare(b.name))
 }
 
-function PlanMaterialIcon({ material, have }: { material: AggregateMaterial; have: number }) {
+function PlanMaterialIcon({ material, have, wl, bestiary }: { material: AggregateMaterial; have: number; wl: number; bestiary: BestiaryData | null }) {
   const isMora = material.slug === '__mora__'
   const img = isMora ? iconUrl('UI_ItemIcon_202') : iconUrl(material.icon)
   const missing = Math.max(0, material.quantity - have)
@@ -82,6 +85,8 @@ function PlanMaterialIcon({ material, have }: { material: AggregateMaterial; hav
     have
   )
 
+  const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
+
   const tooltipData: ItemTooltipData = {
     name: material.name,
     icon: img,
@@ -90,6 +95,7 @@ function PlanMaterialIcon({ material, have }: { material: AggregateMaterial; hav
     description: material.description,
     source: material.source,
     resinRange,
+    killsNeeded: killsData ? { monsterName: killsData.monsterName, kills: killsData.kills } : null,
   }
 
   const row = (
@@ -129,11 +135,12 @@ function PlanTalentBar({ label, current, goal, lang }: { label: string; current:
 }
 
 export default function PlannerCharacterCard({
-  char, element, inventory,
+  char, element, inventory, wl = 9,
 }: {
   char: CharBreakdown
   element: string | undefined
   inventory: Record<string, number>
+  wl?: number
 }) {
   const { lang } = useLanguage()
   const inactiveLabel = lang === 'en' ? 'Inactive' : 'Inativo'
@@ -145,6 +152,11 @@ export default function PlannerCharacterCard({
   const talentsDone = !char.talent_goal
   const resinTotal = mats.reduce((sum, m) => sum + m.resin_estimate, 0)
   const resinDays = Math.ceil(resinTotal / 180)
+  
+  const [bestiary, setBestiary] = useState<BestiaryData | null>(null)
+  useEffect(() => {
+    getBestiaryData().then(setBestiary)
+  }, [])
   
   return (
     <div
@@ -196,6 +208,8 @@ export default function PlannerCharacterCard({
               key={m.slug}
               material={m}
               have={m.slug === '__mora__' ? 0 : inventory[m.slug] ?? 0}
+              wl={wl}
+              bestiary={bestiary}
             />
           ))}
         </div>

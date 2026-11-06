@@ -4,6 +4,8 @@ import { iconUrl } from '../config'
 import ItemTooltip from '../components/ItemTooltip'
 import { tierOf, estimateResin, formatDays, formatResin, TIERS } from '../utils/resin'
 import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
+import { getBestiaryData, calculateKills, calculateFamilyKills } from '../utils/kills-compute'
+import type { BestiaryData } from '../types/bestiary'
 import type {
   AscensionCost, TalentCost, WeaponAscensionResponse, AscensionMaterial, CharacterSummary, WeaponSummary,
 } from '../types'
@@ -61,7 +63,7 @@ function mergeMats(target: Map<string, AggregateMaterial>, mats: AscensionMateri
 }
 
 function MaterialCard({ 
-  material, have, globalMax, inventory, family, solvents, isWeekly = false, onEdit
+  material, have, globalMax, inventory, family, solvents, isWeekly = false, onEdit, wl, bestiary
 }: { 
   material: AggregateMaterial
   have: number
@@ -71,6 +73,8 @@ function MaterialCard({
   solvents?: number
   isWeekly?: boolean
   onEdit: (slug: string) => void
+  wl: number
+  bestiary: BestiaryData | null
 }) {
   const img = iconUrl(material.icon)
   const missing = Math.max(0, material.quantity - have)
@@ -109,6 +113,8 @@ function MaterialCard({
     }
   }
 
+  const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
+
   return (
     <ItemTooltip 
       data={{ 
@@ -118,6 +124,7 @@ function MaterialCard({
         category: material.category, 
         description: material.description ?? undefined, 
         source: material.source ?? undefined,
+        killsNeeded: killsData ? { monsterName: killsData.monsterName, kills: killsData.kills, dropRate: killsData.dropRate } : null,
         customFooter: (
           <>
             {isGlobalCapReached && (
@@ -169,7 +176,7 @@ function MaterialCard({
   )
 }
 
-function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWeekly = false, onEdit }: {
+function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWeekly = false, onEdit, wl, bestiary }: {
   mats: AggregateMaterial[]
   inventory: Record<string, number>
   globalMax: Record<string, number>
@@ -177,6 +184,8 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
   solvents?: number
   isWeekly?: boolean
   onEdit: (slug: string) => void
+  wl: number
+  bestiary: BestiaryData | null
 }) {
   if (mats.length === 1 || isWeekly) {
     return (
@@ -192,6 +201,8 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
             solvents={solvents} 
             isWeekly={isWeekly} 
             onEdit={onEdit}
+            wl={wl}
+            bestiary={bestiary}
           />
         ))}
       </>
@@ -225,6 +236,22 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
   const img = iconUrl(mainMat.icon)
   const familyName = sortedMats[sortedMats.length - 1].name.replace(/^(Danificada|Sagrada|Prateada|Dourada|Velha|Comum|Gasta)/i, '').trim() || sortedMats[0].name
 
+  // Cálculo de kills com alquimia em cadeia
+  let familyKills = null
+  if (bestiary && family) {
+    const required: Record<string, number> = {}
+    for (const m of mats) required[m.slug] = m.quantity
+    
+    // Ordenar family do tier mais baixo para o mais alto (por rarity)
+    const sortedFamily = [...family].sort((a, b) => {
+      const matA = mats.find(m => m.slug === a)
+      const matB = mats.find(m => m.slug === b)
+      return (matA?.rarity ?? 0) - (matB?.rarity ?? 0)
+    })
+    
+    familyKills = calculateFamilyKills(sortedFamily, inventory, required, wl, bestiary)
+  }
+
   return (
     <ItemTooltip 
       data={{ 
@@ -232,8 +259,9 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
         icon: img ?? undefined, 
         rarity: mainMat.rarity ?? undefined, 
         category: mainMat.category, 
-        description: `Materiais da mesma família.`, 
+        description: `Materiais da mesma família. Cálculo de farm considera alquimia.`, 
         source: undefined,
+        killsNeeded: familyKills ? { monsterName: familyKills.monsterName, kills: familyKills.kills, dropRate: familyKills.dropRate } : null,
         customFooter: (
           <div style={{ marginTop: 12 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
@@ -356,6 +384,11 @@ export default function PlannerPage() {
   const [wl, setWl] = useState(9)
   const [showSettings, setShowSettings] = useState(false)
   const [editingItem, setEditingItem] = useState<string | null>(null)
+  const [bestiary, setBestiary] = useState<BestiaryData | null>(null)
+
+  useEffect(() => {
+    getBestiaryData().then(setBestiary)
+  }, [])
 
   useEffect(() => {
     loadPlannerData().then((data) => {
@@ -862,6 +895,8 @@ export default function PlannerPage() {
                           solvents={solvents}
                           isWeekly={tg.tier.key === 'weekly'}
                           onEdit={(slug) => setEditingItem(slug)}
+                          wl={wl}
+                          bestiary={bestiary}
                         />
                       )
                     })}

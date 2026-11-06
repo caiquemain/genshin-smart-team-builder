@@ -22,7 +22,7 @@ import {
   useRole,
   safePolygon,
 } from '@floating-ui/react'
-import { Check } from 'lucide-react'
+import { Check, Swords } from 'lucide-react'
 import { categoryInfo } from '../utils/categories'
 import { formatResin, type ResinRange } from '../utils/resin'
 
@@ -42,6 +42,11 @@ export interface ItemTooltipData {
   description?: string | null
   source?: string | null
   resinRange?: ResinRange
+  killsNeeded?: {
+    monsterName: string;
+    kills: number;
+    dropRate?: number;
+  } | null;
   customFooter?: ReactNode
 }
 
@@ -206,6 +211,23 @@ export default function ItemTooltip({
             {description && <p className="item-tooltip-description">{description}</p>}
 
             {data.resinRange && <ResinBlock range={data.resinRange} />}
+
+            {data.killsNeeded && data.killsNeeded.kills > 0 && (
+              <div className="item-tooltip-kills">
+                <div className="item-tooltip-kills-header">
+                  <Swords size={14} />
+                  <span>Farm de monstros</span>
+                </div>
+                <div className="item-tooltip-kills-body">
+                  Mate <strong>~{data.killsNeeded.kills}</strong> {data.killsNeeded.monsterName}
+                  {data.killsNeeded.dropRate !== undefined && (
+                    <div className="item-tooltip-kills-rate">
+                      Chance de drop: {data.killsNeeded.dropRate.toFixed(1)}%
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {source && (
               <div className="item-tooltip-source">

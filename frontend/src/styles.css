@@ -13780,3 +13780,43 @@ input[type="range"], .crosshair {
   border-radius: 2px;
   box-shadow: 0 0 8px var(--kqm-glow, #7dd3fc);
 }
+
+/* ============================================================
+   ITEM TOOLTIP — KILLS NECESSÁRIAS
+   ============================================================ */
+.item-tooltip-kills {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+.item-tooltip-kills-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.item-tooltip-kills-body {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+.item-tooltip-kills-body strong {
+  color: #fbbf24;
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 2px;
+}
+
+.item-tooltip-kills-rate {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+  font-weight: 500;
+}

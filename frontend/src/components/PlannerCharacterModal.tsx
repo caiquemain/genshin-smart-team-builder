@@ -7,7 +7,9 @@ import { iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import type { AggregateMaterial, CharBreakdown, WeaponBreakdown } from '../types/planner'
 import type { WeaponSummary } from '../types'
+import type { BestiaryData } from '../types/bestiary'
 import { estimateResin, estimateResinRange } from '../utils/resin'
+import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import { recomputeChar, getXpMaterials, type CharEdit } from '../utils/planner-recompute'
 import { computeMoraLeyline } from '../utils/xp-costs'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
@@ -50,7 +52,7 @@ function mergeMatsIntoMap(target: Map<string, AggregateMaterial>, mats: any[]) {
   }
 }
 
-function MaterialRow({ material, have, lang }: { material: AggregateMaterial; have: number; lang: string }) {
+function MaterialRow({ material, have, lang, wl, bestiary }: { material: AggregateMaterial; have: number; lang: string; wl: number; bestiary: BestiaryData | null }) {
   const img = iconUrl(material.icon)
   const isComplete = have >= material.quantity && material.quantity > 0
   const missing = Math.max(0, material.quantity - have)
@@ -58,11 +60,14 @@ function MaterialRow({ material, have, lang }: { material: AggregateMaterial; ha
   const isFree = material.category === 'character_exp' || material.category === 'weapon_exp'
   const resinRange = estimateResinRange(isMora ? 'mora' : material.category, material.quantity, have)
 
+  const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
+
   const tooltipData: ItemTooltipData = {
     name: material.name, icon: img, rarity: material.rarity,
     category: isMora ? 'mora' : material.category,
     description: material.description, source: material.source,
     resinRange,
+    killsNeeded: killsData ? { monsterName: killsData.monsterName, kills: killsData.kills, dropRate: killsData.dropRate } : null,
   }
 
   const row = (
@@ -175,6 +180,11 @@ export default function PlannerCharacterModal({
 
   const [charActivePhases, setCharActivePhases] = useState<number[]>([])
   const [weaponActivePhases, setWeaponActivePhases] = useState<Record<number, number[]>>({})
+
+  const [bestiary, setBestiary] = useState<BestiaryData | null>(null)
+  useEffect(() => {
+    getBestiaryData().then(setBestiary)
+  }, [])
 
   useEffect(() => {
     const validChar = ASCENSION_MILESTONES.filter((m) => m > draftCurLevel && m <= draftGoalLevel)
@@ -627,7 +637,7 @@ export default function PlannerCharacterModal({
               <section className="plan-modal-section">
                 <h3 className="plan-modal-section-title"><Gem size={16} /> Ascensão & XP</h3>
                 <div className="plan-modal-mats-grid">
-                  {ascensionMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} />)}
+                  {ascensionMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} wl={wl} bestiary={bestiary} />)}
                 </div>
               </section>
             )}
@@ -635,7 +645,7 @@ export default function PlannerCharacterModal({
               <section className="plan-modal-section">
                 <h3 className="plan-modal-section-title"><Sparkles size={16} /> Talentos</h3>
                 <div className="plan-modal-mats-grid">
-                  {talentMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} />)}
+                  {talentMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} wl={wl} bestiary={bestiary} />)}
                 </div>
               </section>
             )}
@@ -643,7 +653,7 @@ export default function PlannerCharacterModal({
               <section className="plan-modal-section">
                 <h3 className="plan-modal-section-title"><Sword size={16} /> Armas & XP</h3>
                 <div className="plan-modal-mats-grid">
-                  {weaponMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} />)}
+                  {weaponMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} wl={wl} bestiary={bestiary} />)}
                 </div>
               </section>
             )}
