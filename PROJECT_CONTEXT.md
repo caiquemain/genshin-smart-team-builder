@@ -556,3 +556,18 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 ### Correções
 - Tradução do `bestiary-data.json` para PT-BR.
 - Ícones de Mora e XP baixados e adicionados ao projeto.
+
+---
+
+## 32. Sessão 2026-11-05 — Página do Personagem Inteligente + Ícones de Talentos
+
+### Inteligência na Página do Personagem
+- **`AscensionSection.tsx`**: Integrado com `computeCharXp` e `computeMoraLeyline`. Mostra materiais de ascensão + Hero's Wit + Mora de level up + Ley Line XP + Ley Line Mora. Seletor de WL embutido.
+- **`TalentSection.tsx`**: Agora exibe a Ley Line de Mora necessária para cobrir o custo de talentos, com seletor de WL.
+
+### Assets
+- Baixados ~600 ícones de `UI_Talent_S_*` (constelações) e `UI_Talent_U_*` (passivas).
+- Criado `download_talents_passives.py` para manutenção.
+
+### UI
+- Emojis removidos do Planner em favor de ícones Lucide (`CheckCircle2`, `FlaskConical`, `AlertTriangle`, `Sprout`, `Leaf`, `Shield`, `Skull`, `CalendarDays`, `Gem`, `BookOpen`, `MapPin`, `ClipboardList`).
