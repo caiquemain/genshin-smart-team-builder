@@ -539,3 +539,20 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 ### Git
 - Branch: `main`
 - Commit: `feat(export): implementa exportação de build estilo KQM e migra ícones para local`
+
+---
+
+## 31. Sessão 2026-11-05 — Inteligência de Farm: Kills + Alquimia
+
+### Cálculo de Kills Necessárias
+- **`kills-compute.ts`**: Cruza o `bestiary-data.json` com os materiais do Planner.
+- **Nível do Mundo (WL)**: Ajusta a taxa de drop (WL 8/9 = 1.0x, menores reduzem).
+- **Alquimia em Cadeia**: `calculateFamilyKills` simula a conversão 3:1 dos tiers inferiores para os superiores antes de calcular as kills.
+
+### UI do Tooltip
+- **`ItemTooltip.tsx`**: Exibe a seção de "Farm de Monstros" com o nome do monstro (PT-BR), a quantidade estimada e a chance de drop.
+- **Integração**: Injetado no `PlannerPage` (grupos), `PlannerCharacterCard` e `PlannerCharacterModal`.
+
+### Correções
+- Tradução do `bestiary-data.json` para PT-BR.
+- Ícones de Mora e XP baixados e adicionados ao projeto.
