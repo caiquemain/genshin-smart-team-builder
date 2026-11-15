@@ -13,7 +13,6 @@ import ArtifactDetailPage from './pages/ArtifactDetailPage'
 import WeaponDetailPage from './pages/WeaponDetailPage'
 import TeamBuilderPage from './pages/TeamBuilderPage'
 import TeamDetailPage from './pages/TeamDetailPage'
-import TemplateDetailPage from './pages/TemplateDetailPage'
 import PlannerPage from './pages/PlannerPage'
 import InventoryAuditPage from './pages/InventoryAuditPage'
 import PlannerCharactersPage from './pages/PlannerCharactersPage'
@@ -70,7 +69,6 @@ function MainContent() {
         <Route path="/teams" element={<TeamsPage />} />
         <Route path="/teams/new" element={<TeamBuilderPage />} />
         <Route path="/teams/:id" element={<TeamDetailPage />} />
-        <Route path="/teams/templates/:id" element={<TemplateDetailPage />} />
         <Route path="/planner" element={<PlannerPage />} />
         <Route path="/inventory" element={<InventoryAuditPage />} />
         <Route path="/bestiary" element={<BestiaryPage />} />

@@ -30,7 +30,7 @@ function TeamTemplateCard({
           <ArchIcon size={14} /> {arch.label}
         </div>
       </div>
-      <Link to={`/teams/templates/${template.id}`} className="template-card-name">
+      <Link to={`/teams/new?template_id=${template.id}`} className="template-card-name">
         {template.name}
       </Link>
       {template.description && (
@@ -54,8 +54,8 @@ function TeamTemplateCard({
         })}
       </div>
       <div className="template-card-actions">
-        <Link to={`/teams/templates/${template.id}`} className="btn-secondary">
-          Detalhes
+        <Link to={`/teams/new?template_id=${template.id}`} className="btn-secondary">
+          Abrir no Builder
         </Link>
         <Link to={`/teams/new?template_id=${template.id}`} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           Usar <ArrowRight size={14} />

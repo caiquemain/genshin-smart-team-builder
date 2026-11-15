@@ -534,7 +534,7 @@ export default function CharacterDetailPage() {
                   return (
                     <Link
                       key={t.id}
-                      to={`/teams/templates/${t.id}`}
+                      to={`/teams/new?template_id=${t.id}`}
                       className="template-card"
                       style={{ borderLeftColor: arch.color }}
                     >
