@@ -571,3 +571,22 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 
 ### UI
 - Emojis removidos do Planner em favor de ícones Lucide (`CheckCircle2`, `FlaskConical`, `AlertTriangle`, `Sprout`, `Leaf`, `Shield`, `Skull`, `CalendarDays`, `Gem`, `BookOpen`, `MapPin`, `ClipboardList`).
+
+---
+
+## 33. Sessão 2026-11-15 — KQM Build, Stats por Nível e Times Relacionados
+
+### O que foi feito
+- **Importação KQM**: Parser e importador do KQM estão funcionando. O Skirk já tem a Build KQM completa (armas, artefatos, stats, talentos e combos) e 15 times relacionados.
+- **Nova Seção "Times com este personagem"**: Adicionada na página do personagem, listando os times do KQM que ele participa. O personagem atual é destacado em dourado.
+- **Stats por Ascensão**: Tabela gerada dinamicamente (`character-stats.json`) mostrando HP, ATK, DEF e Substat (Crit DMG, Crit Rate, etc) nos níveis 1, 20, 40, 50, 60, 70, 80 e 90.
+- **Main Stats & Talentos**: A Build KQM agora usa pills azuis para os valores e ícones circulares para a prioridade de talentos.
+- **Cursor Help**: Adicionado o cursor da Paimon "?" (`paimon-help.png`) para tooltips.
+
+### Dívida Técnica (Para Verificar no Lançamento)
+- [ ] **Fórmula de Stats**: O multiplicador `1.375` usado para calcular HP/ATK/DEF nos níveis de ascensão foi ajustado manualmente para o Skirk. Personagens com scaling diferente (ex: Nilou/HP, Noelle/DEF) podem ter pequenas divergências. **Precisa ser validado e ajustado contra os valores reais do jogo** para todos os 127 personagens.
+- [ ] **Tradução KQM**: As notas das armas e artefatos importados do KQM estão em inglês. Pode ser necessário traduzir futuramente.
+- [ ] **Imagens dos Times**: O fallback de imagens nos cards de time (na página do personagem) usa a API, mas vale conferir se todos os ícones estão resolvendo corretamente.
+
+### Git
+- Commit: `feat(character): KQM build import, stats table por nível e times relacionados`

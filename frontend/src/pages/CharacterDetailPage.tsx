@@ -4,16 +4,38 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
 import { formatStatLabel } from '../utils/stats'
-import type { CharacterDetail, Constellation, Talent, Passive, WeaponSummary, ArtifactSetSummary } from '../types'
+import type { CharacterDetail, Constellation, Talent, Passive, WeaponSummary, ArtifactSetSummary, TeamTemplateSummary } from '../types'
 import AscensionSection from '../components/AscensionSection'
 import WeaponTooltip from '../components/WeaponTooltip'
 import ArtifactTooltip from '../components/ArtifactTooltip'
 import TalentSection from '../components/TalentSection'
+import CharacterStatsTable from '../components/CharacterStatsTable'
+import { archetypeInfo } from '../utils/archetypes'
 
 const TALENT_LABELS: Record<string, string> = {
   normal_attack: 'Ataque Normal',
   elemental_skill: 'Habilidade Elemental',
   elemental_burst: 'Explosão Elemental',
+}
+
+// Mapeia "Skill > Burst" (texto do KQM) para os ícones dos talentos do char
+function talentPriorityToIcons(priority: string | null | undefined, talents: Talent[] | undefined) {
+  if (!priority || !talents) return null
+  const parts = priority.split('>').map((p) => p.trim().toLowerCase())
+  const iconMap: Record<string, Talent | undefined> = {
+    normal: talents.find((t) => t.talent_type === 'normal_attack'),
+    skill: talents.find((t) => t.talent_type === 'elemental_skill'),
+    burst: talents.find((t) => t.talent_type === 'elemental_burst'),
+  }
+  const resolved = parts
+    .map((p) => {
+      if (p.includes('normal')) return iconMap.normal
+      if (p.includes('skill')) return iconMap.skill
+      if (p.includes('burst')) return iconMap.burst
+      return undefined
+    })
+    .filter((t): t is Talent => !!t)
+  return resolved.length > 0 ? resolved : null
 }
 const LANG_LABELS: Record<string, string> = {
   EN: 'Inglês', JP: 'Japonês', KR: 'Coreano', CHS: 'Chinês',
@@ -143,6 +165,8 @@ export default function CharacterDetailPage() {
   const [kqmBuild, setKqmBuild] = useState<any>(null)
   const [kqmWeaponsInfo, setKqmWeaponsInfo] = useState<Map<string, WeaponSummary>>(new Map())
   const [kqmArtifactsInfo, setKqmArtifactsInfo] = useState<Map<string, ArtifactSetSummary>>(new Map())
+  const [characterTeams, setCharacterTeams] = useState<TeamTemplateSummary[]>([])
+  const [allChars, setAllChars] = useState<Map<string, any>>(new Map())
 
   useEffect(() => {
     if (!slug) return
@@ -152,6 +176,18 @@ export default function CharacterDetailPage() {
       .then(res => { if (!res.ok) throw new Error('404'); return res.json() })
       .then(data => setKqmBuild(data))
       .catch(() => setKqmBuild(null))
+
+    api.listTemplates({ character_slug: slug })
+      .then((res) => setCharacterTeams(res.items))
+      .catch(() => setCharacterTeams([]))
+
+    api.listCharacters(lang, { limit: 200 })
+      .then((res) => {
+        const map = new Map<string, any>()
+        res.items.forEach((c) => map.set(c.slug, c))
+        setAllChars(map)
+      })
+      .catch(() => {})
   }, [slug, lang])
 
   useEffect(() => {
@@ -215,6 +251,7 @@ export default function CharacterDetailPage() {
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
       char.constellations.length > 0 && { id: 'constelacoes', label: 'Constelações' },
+      { id: 'times', label: characterTeams.length > 0 ? `Times (${characterTeams.length})` : 'Times' },
       { id: 'stats', label: 'Stats' },
       { id: 'ascensao', label: 'Ascensão' },
       { id: 'talentos-custos', label: 'Custo de Talentos' },
@@ -226,13 +263,19 @@ export default function CharacterDetailPage() {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-        if (visible.length > 0) setActiveId(visible[0].target.id)
+        if (visible.length > 0) {
+          // Pega a seção mais próxima do topo (não a mais visível)
+          const topSection = visible.reduce((acc, cur) => 
+            Math.abs(cur.boundingClientRect.top) < Math.abs(acc.boundingClientRect.top) ? cur : acc
+          )
+          setActiveId(topSection.target.id)
+        }
       },
-      { rootMargin: '-120px 0px -55% 0px', threshold: 0 },
+      { rootMargin: '-100px 0px -70% 0px', threshold: [0, 0.5, 1] },
     )
     sections.forEach((s) => { const el = document.getElementById(s.id); if (el) observer.observe(el) })
     return () => observer.disconnect()
-  }, [char, sections])
+  }, [char, sections, characterTeams.length])
 
   if (error) return <p className="error">Erro: {error}</p>
   if (!char) return <p className="status">Carregando...</p>
@@ -354,7 +397,8 @@ export default function CharacterDetailPage() {
                           </div>
                           <div className="kqm-build-item-info">
                             <div className="kqm-build-item-name">
-                              {aInfo ? aInfo.name : a.artifact_set_slug.replace(/-/g, ' ')} (4pc)
+                              {aInfo ? aInfo.name : a.artifact_set_slug.replace(/-/g, ' ')}
+                              <span className="kqm-build-badge">4pc</span>
                             </div>
                           </div>
                         </div>
@@ -369,9 +413,26 @@ export default function CharacterDetailPage() {
                 <div className="kqm-build-stats">
                   <div className="kqm-build-stat-block">
                     <h5>Main Stats</h5>
-                    {kqmBuild.build_data.sands_stat?.length > 0 && <div className="kqm-build-stat-row"><span>Ampulheta:</span>{kqmBuild.build_data.sands_stat.map(formatStatLabel).join(' / ')}</div>}
-                    {kqmBuild.build_data.goblet_stat?.length > 0 && <div className="kqm-build-stat-row"><span>Cálice:</span>{kqmBuild.build_data.goblet_stat.map(formatStatLabel).join(' / ')}</div>}
-                    {kqmBuild.build_data.circlet_stat?.length > 0 && <div className="kqm-build-stat-row"><span>Coroa:</span>{kqmBuild.build_data.circlet_stat.map(formatStatLabel).join(' / ')}</div>}
+                    <div className="kqm-main-stats-list">
+                      {kqmBuild.build_data.sands_stat?.length > 0 && (
+                        <div className="kqm-main-stat-line">
+                          <span className="kqm-main-stat-label">Ampulheta</span>
+                          <span className="kqm-main-stat-pill">{kqmBuild.build_data.sands_stat.map(formatStatLabel).join(' / ')}</span>
+                        </div>
+                      )}
+                      {kqmBuild.build_data.goblet_stat?.length > 0 && (
+                        <div className="kqm-main-stat-line">
+                          <span className="kqm-main-stat-label">Cálice</span>
+                          <span className="kqm-main-stat-pill">{kqmBuild.build_data.goblet_stat.map(formatStatLabel).join(' / ')}</span>
+                        </div>
+                      )}
+                      {kqmBuild.build_data.circlet_stat?.length > 0 && (
+                        <div className="kqm-main-stat-line">
+                          <span className="kqm-main-stat-label">Coroa</span>
+                          <span className="kqm-main-stat-pill">{kqmBuild.build_data.circlet_stat.map(formatStatLabel).join(' / ')}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   
                   <div className="kqm-build-stat-block">
@@ -391,7 +452,27 @@ export default function CharacterDetailPage() {
                   <div className="kqm-build-stat-block">
                     <h5>Requisitos</h5>
                     {kqmBuild.build_data.er_requirement && <div className="kqm-build-stat-row"><span>ER:</span>{kqmBuild.build_data.er_requirement}</div>}
-                    {kqmBuild.build_data.talent_priority && <div className="kqm-build-stat-row"><span>Talentos:</span>{kqmBuild.build_data.talent_priority}</div>}
+                    {kqmBuild.build_data.talent_priority && (() => {
+                      const icons = talentPriorityToIcons(kqmBuild.build_data.talent_priority, char?.talents)
+                      if (!icons) {
+                        return <div className="kqm-build-stat-row"><span>Talentos:</span>{kqmBuild.build_data.talent_priority}</div>
+                      }
+                      return (
+                        <div className="kqm-talent-priority">
+                          <span className="kqm-talent-priority-label">Talentos</span>
+                          <div className="kqm-talent-priority-icons">
+                            {icons.map((t, i) => (
+                              <span key={i} className="kqm-talent-priority-item">
+                                {i > 0 && <span className="kqm-talent-priority-arrow">›</span>}
+                                <span className="kqm-talent-priority-icon" title={TALENT_LABELS[t.talent_type]}>
+                                  {t.icon ? <img src={iconUrl(t.icon)!} alt={TALENT_LABELS[t.talent_type]} /> : <span>?</span>}
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })()}
                   </div>
                 </div>
 
@@ -435,14 +516,57 @@ export default function CharacterDetailPage() {
           )}
 
           <section id="stats" className="char-section-anchor">
-            <h2>Stats (nível 1)</h2>
-            <table className="stats">
-              <tbody>
-                <tr><th>HP</th><td>{char.base_hp}</td></tr>
-                <tr><th>ATK</th><td>{char.base_atk}</td></tr>
-                <tr><th>DEF</th><td>{char.base_def}</td></tr>
-              </tbody>
-            </table>
+            <h2>Stats por Ascensão</h2>
+            <CharacterStatsTable slug={char.slug} />
+          </section>
+
+          <section id="times" className="char-section-anchor">
+            {characterTeams.length > 0 ? (
+              <>
+              <h2>Times com {char.name}</h2>
+              <p className="teams-section-sub" style={{ marginBottom: 16 }}>
+                {characterTeams.length} {characterTeams.length === 1 ? 'time encontrado' : 'times encontrados'} nos templates do KQM.
+              </p>
+              <div className="templates-grid">
+                {characterTeams.map((t) => {
+                  const arch = archetypeInfo(t.archetype)
+                  const ArchIcon = arch.icon
+                  return (
+                    <Link
+                      key={t.id}
+                      to={`/teams/templates/${t.id}`}
+                      className="template-card"
+                      style={{ borderLeftColor: arch.color }}
+                    >
+                      <div className="template-card-header">
+                        <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                          <ArchIcon size={14} /> {arch.label}
+                        </div>
+                      </div>
+                      <div className="template-card-name">{t.name}</div>
+                      <div className="template-card-members">
+                        {t.character_slugs.map((s) => (
+                          <span
+                            key={s}
+                            className={`template-member ${s === t.main_character ? 'template-member-main' : ''} ${s === slug ? 'is-current' : ''}`}
+                            title={allChars.get(s)?.name ?? s}
+                          >
+                            {(() => {
+                              const c = allChars.get(s)
+                              const img = c ? iconUrl(c.icon) : null
+                              return img ? <img src={img} alt={c?.name ?? s} /> : <span>?</span>
+                            })()}
+                          </span>
+                        ))}
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+              </>
+            ) : (
+              <p className="status" style={{ padding: 20 }}>Nenhum time encontrado com este personagem ainda.</p>
+            )}
           </section>
 
           <div id="ascensao" className="char-section-anchor">{char.slug && <AscensionSection slug={char.slug} />}</div>

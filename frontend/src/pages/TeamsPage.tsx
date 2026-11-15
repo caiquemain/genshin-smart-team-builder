@@ -22,11 +22,12 @@ function TeamTemplateCard({
   chars: Map<string, CharacterSummary>
 }) {
   const arch = archetypeInfo(template.archetype)
+  const ArchIcon = arch.icon
   return (
     <div className="template-card" style={{ borderLeftColor: arch.color }}>
       <div className="template-card-header">
         <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color }}>
-          {arch.emoji} {arch.label}
+          <ArchIcon size={14} /> {arch.label}
         </div>
       </div>
       <Link to={`/teams/templates/${template.id}`} className="template-card-name">
@@ -196,10 +197,11 @@ export default function TeamsPage() {
 
           {groupedTemplates.map((g) => {
             const arch = archetypeInfo(g.archetype)
+            const ArchIcon = arch.icon
             return (
               <div key={g.archetype} className="template-archetype-group">
                 <div className="template-archetype-title">
-                  <span className="template-archetype-emoji">{arch.emoji}</span>
+                  <ArchIcon size={20} color={arch.color} />
                   <span style={{ color: arch.color }}>{arch.label}</span>
                   <span className="template-archetype-count">{g.items.length}</span>
                 </div>
@@ -213,8 +215,6 @@ export default function TeamsPage() {
           })}
         </section>
       )}
-
-      
     </div>
   )
 }

@@ -1,0 +1,568 @@
+Skip to content
+KQM KQM Genshin
+Guides
+Theorycrafting
+KQM GITCG
+Events
+Discord
+Socials
+Contact Us
+Please link this guide if you use it as a reference for your own content. Unofficial translations must also link to the original.
+Skirk Quick Guide
+Updated for Version 7.1
+
+Skirk is a 5-star Cryo Sword character in Genshin Impact who either acts as an on-field Normal Attack DPS or a quickswap Burst DPS. Learn about Skirk’s best builds, best weapons, best artifacts, and best teams in this quick guide.
+
+Note that the information given may change if new discoveries are made. More extensive testing is in progress.
+
+Join our Discord to check on and participate in the theorycrafting process.
+
+New Content
+
+Vodyanitsa	Vodyanitsa is one of Skirk’s best teammates, comparable to both Furina and Escoffier in terms of utility. Vodyanitsa’s solo Hydro application can generate sufficient Void Rifts for Skirk, and she provides RES Shred and Additive Base DMG Bonus that heavily buff Skirk’s damage. Finally, she can hold Thrilling Tales of Dragon Slayers (TTDS), allowing her to further buff Skirk.
+
+In teams where Vodyanitsa can hold TTDS for Skirk, opting instead for Hymn of the Maelstrom is not a significant upgrade.
+
+Odette	Odette’s potential use in Skirk’s standard teams is limited as she cannot trigger Stellar Glimmer Reactions (except against enemies with an innate Elemental aura or shield). As such, she is generally not recommended as a teammate.
+
+Cryo Traveler	Similarly to Odette, the Traveler’s reliance on Stellar makes them a suboptimal teammate to on-field Skirk, who would usually prefer a buffer instead.
+
+4★ New Bough	New Bough is a 4-star banner-exclusive Sword released in Version 7.1. While Skirk cannot make use of the passive’s EM or Stellar-Glimmer buff in her standard teams, she does make use of its ATK% buff and maintain full stacks after 3s.
+
+However, this weapon at any refinement is strictly worse than R5 Finale of the Deep, assuming you can clear Finale’s Bond of Life. If your team does not have a sufficiently strong healer, New Bough outperforms Finale of the Deep.
+
+5★ Beyond the Chrysalis (Chrysalis)	Chrysalis is among one of Skirk’s best weapon options after Azurelight, as its passive provides Skirk with an extra 56% CRIT DMG on top of the Sword’s base stats. However, Azurelight is still significantly better, so it is recommended not to pull this weapon specifically for Skirk.
+
+5★ Whitelake Frostfeather, Exaiphanes Blade	Skirk cannot make use of Whitelake Frostfeather’s passive. Similarly, Exaiphanes Blade’s passive only works on Traveler.
+
+As such, these weapons perform similarly to other 5-star CRIT Swords: usually slightly better than Finale of the Deep, Skirk’s overall best 4-star option. It is not recommended to pull Whitelake Frostfeather for Skirk, and Traveler makes better use of Exaiphanes Blade than Skirk does.
+
+4★ Emberwell	Emberwell is a craftable Sword released in Version 7.0. It performs strictly worse than Finale of the Deep due to its EM secondary stat.
+
+4★ Heretic’s Molten Blade	Heretic’s Molten Blade is a Battle Pass–exclusive Sword released in Version 7.0. At R1 it is slightly worse than R5 Finale of the Deep, assuming you can clear Finale’s Bond of Life. R1 Heretic’s Molten Blade outperforms Finale of the Deep if the team does not have a sufficiently strong healer.
+
+R5 Heretic’s Molten Blade is a minor increase over R5 Finale of the Deep and performs comparably to 5-star CRIT stat sticks such as Absolution and Light of Foliar Incision.
+Infographic
+
+Credits to: laynnea, acerbus114, irokei, and KQM Staff
+
+Character Overview
+Pros
+Gorgeous animations with fast and snappy gameplay
+Ability to choose between two playstyles, which offers variety
+Strong early vertical-investment options with her C1, her C2, and R1 Azurelight
+Her strong baseline can be further enhanced with combos, giving her an extremely high skill ceiling.
+Cons
+Significantly lower damage output without Escoffier or Vodyanitsa
+Extremely inflexible team compositions, forcing her to use only Hydro and Cryo teammates or deactivate half of her kit
+Her A1 Passive is both a key part of her kit and hard-countered by enemies with an innate Pyro aura
+Optimized combos can be mechanically demanding and reliant on less controllable factors such as FPS
+Terrible pet sitter for primordial beasts or Fatui Harbingers.
+Playstyles
+On-Field DPS
+Skirk enters her Seven-Phase Flash state with her Tap Skill to dish out massive damage with her Normal Attacks. Against enemies with stall mechanics, Skirk can charge a regular Elemental Burst with her Hold Skill to use at the start of her field time along with her Tap Skill.
+
+Quickswap DPS
+Skirk can also play as a Burst-based quickswap DPS. She swaps in to use her Hold Skill, then nukes the enemy with her Burst, before swapping out to free up the field for a Cryo or Hydro on-field DPS.
+
+Talents
+Talent Priority
+Skill > Burst
+
+Skirk’s Skill makes up the majority of her damage in her on-field playstyle and should be leveled first. Her Burst should be prioritized in her quickswap playstyle. Leveling both eventually is recommended, regardless of playstyle. Although her Burst deals no damage while she is in her Skill state, it’s still worth leveling in teams where she wants to use a split rotation, and having the option to on-field if needed in quickswap teams can be helpful in a pinch. Though the scaling is marginal (1% per level), the Normal Attack DMG Bonus from Skirk’s special Burst also scales with her Burst level.
+
+While leveling Skirk to 90 is a pitiful damage increase relative to the cost, her damage share is large enough that it’s worth considering once you start running out of other things to improve.
+
+There is no need to level Skirk’s Normal Attack.
+
+Talent Overview
+Normal Attack
+Elemental Skill
+Elemental Burst
+Ascension 1 Passive
+Ascension 4 Passive
+Utility Passive
+ Normal Attack | Havoc: Sunder
+Talent Description
+
+Since Skirk’s Skill-state attacks scale with Skill levels, her Normal Attack Talent is unremarkable.
+
+Constellations
+Constellation 1
+Constellation 2
+Constellation 3
+Constellation 4
+Constellation 5
+Constellation 6
+ Constellation 1 | Far to Fall
+Constellation Description
+
+A solid boost to Skirk’s personal damage that benefits both her on-field and quickswap playstyles. The damage is considered Charged Attack damage, which means the Constellation neither benefits from nor deactivates 4pc Galleries’ DMG Bonus.
+
+C1 vs R1
+Obtaining R1 Azurelight is a larger DPS increase than obtaining Skirk’s C1 in nearly all circumstances. Skirk’s C1 should not be considered unless you already have Haran Geppaku Futsu, Primordial Jadecutter, Mistsplitter Reforged, or Beyond the Chrysalis, or if you intend to get her C2.
+
+Combos
+Combo Notation
+
+Skirk’s combos are very important to maximize her damage output. This is a complex part of Skirk’s kit, with a high skill ceiling for optimal combos. However, there are many combos with differing levels of damage output and execution difficulty. Combos can be reliant on factors such as click speed, timing, and even the game’s FPS. Compared to inconsistently and poorly executed combos, consistently executed combos can result in a damage increase comparable to gains from obtaining her C1 or even Azurelight.
+
+Attack Strings
+One of the biggest limitations to Skirk’s DPS is the amount of time her attack strings take to perform. Skirk’s N4 is relatively slow for the damage it provides, and Skirk’s N5 is also quite slow, though it has high scaling to offset the time taken. You should make sure to use Skirk’s special Elemental Burst as well as at least one Charged Attack to maintain Serpent’s Subtlety. There are three main attack strings to note.
+
+N5(D/C/CD/Q)	N5 is Skirk’s complete Normal Attack string. Poor timing or slower click speed leads to slower execution of the string and lower DPS.
+
+Her final Normal Attack animation can be canceled as soon as the hit lands. When timed correctly, this animation cancel allows Skirk to begin her next attack string sooner.
+
+Skirk can dash or use her special Elemental Burst to cancel the animation. A dash is the fastest, but a Charged Attack or using Skirk’s special Elemental Burst allow her to absorb Void Rifts. 
+N2(D/C/CD/Q)	N2 is a truncated Normal Attack string consisting of her first 2 Normal Attacks.
+
+Her second Normal Attack animation can be canceled as soon as the hit connects. However, make sure to cancel the string after the second hit lands—it is better to be a little slow than too fast. Executing the dash cancel too fast cancels the second Normal Attack before it can deal damage.
+
+N2D
+A dash cancel (N2D) is Skirk’s most efficient animation cancel and highest-DPS option, but it faces issues with dash cooldowns and Stamina.
+
+It is impossible to dash more than twice in a short period of time. As such, Skirk cannot chain more than 2[N2D] together as a third dash cannot be executed. Instead, after the second N2D, you should use a different cancel (e.g. N2Q or N2C) or a different Normal Attack string (e.g. N5 or N3W). If you can input a third dash, the execution is too slow for N2D to be a DPS increase over N5.
+N3W	N3W consists of 3 Normal Attacks and input of forward movement during the third Normal Attack. This string is commonly used after 2[N2D] as the highest DPS way of waiting out the dash cooldown.
+
+Make sure to release the forward input before executing another attack, as your string is only reset after the forward input finishes. You should release the forward walking input just as Skirk is about to visually land on the ground after her third Normal Attack.
+Full Combos
+There are more difficult and higher DPS Skirk combos than those listed here. However, they are beyond the scope of this Quick Guide.
+
+Example combos are listed from weakest to strongest. Click the combo to view a video demonstration.
+
+Note on C2+ Combos
+
+Skirk’s C2 provides her with more Serpent’s Subtlety and incentivizes using her Burst earlier in the rotation. This reduces her reliance on Void Rifts and slightly changes some of her combos.
+
+In a situation where you use Skirk’s Elemental Burst before her Tap Skill (Q tE) in the combos below, replace the Burst with a Charged Attack.
+
+hE Q	Skirk’s quickswap playstyle combo. Use this when Skirk is not the on-field DPS of the team.
+tE N5Q N5D N5(C/CD) N5	This is a very basic Skirk combo which can be performed properly with little to no practice.
+
+Execute Skirk’s full N5 attack string a total of 4 times, and use her special Elemental Burst and Charged Attack at the end of the first and third string respectively to absorb Void Rifts.
+tE N5D N2Q N5D N5(C/CD) N5
+
+C2+: tE N2Q N5D N5C N5D N5	This is Skirk’s recommended baseline combo. Compared to the easiest combo above, this one adds in two extra hits before canceling the attack string with her special Burst. This results in a decent damage increase.
+tE N5D N2Q 2[N5D] N2(C/CD) N5
+
+C2+: tE N2Q 2[N5D] N2C N5D N5	This combo is the same as the one above, but another N2 combo is added near the end. It can be performed reliably with some practice. This combo is reliant on mouse click speed or good timing. Depending on these factors, executing this combo may be more difficult than the two below while also yielding worse damage.
+tE 2[N2D] N2Q 2[2[N2D] N3W] N2D N2C N2D N3	Compared to the combo below, this combo is a little easier, less reliant on mouse click speed, and only slightly weaker. However, you must learn Skirk’s walk cancels to properly execute it. With slower execution, you can opt to skip the N2D before the N2C, at the cost of some damage.
+
+If you prefer, you can execute the final N2D N2C N2D N3 instead as N2C 2[N2D] N3.
+tE 2[N2D] N2Q 2[N2D] N5D N2D N2C 2[N2D] N5
+
+C2+: tE N2Q 2[N2D] N5D N2D N2C 2[N2D] N5D N2C N2	This combo aims to perform as many N2 strings as possible without utilizing walk cancels. With slower execution, you can opt to skip the N2D before the N2C, at the cost of some damage.
+
+This combo alternates between using her Burst and Charged Attack and finishing the full attack string when Skirk’s dash is on cooldown.
+
+This combo is difficult and only recommended if you wish to play Skirk at a relatively highly optimized level.
+Artifacts
+Artifact Stats
+
+Sands	
+Goblet	
+Circlet
+ATK%	Cryo DMG Bonus ≥ ATK%	CRIT > ATK%
+Stat Priority: CRIT > ATK% >>> Flat ATK
+
+A Cryo DMG Bonus Goblet usually outperforms an ATK% Goblet. However, a high amount of DMG Bonus from equipment and teammates can allow an ATK% Goblet to outperform. For example, a combination of Haran Geppaku Futsu or Calamity of Eshu, 4pc Galleries, Furina’s DMG Bonus, and a Natlan teammate holding 4pc Scroll.
+
+Skirk does not have ER requirements since she does not have traditional Energy.
+
+Artifact Sets
+Hover over artifact images for more information.
+
+
+4pc Finale of the Deep Galleries (Galleries)	4pc Galleries is Skirk’s signature artifact set. It performs on par with 4pc Marechaussee Hunter but is not reliant on Furina to maintain the 4pc set bonus.
+
+This artifact set is the generally recommended set for Skirk, as it performs well in all playstyles and doesn’t risk overcapping even with a CRIT Rate weapon.
+
+4pc Marechaussee Hunter (MH)	Skirk’s best artifact set for her on-field playstyle in teams with Furina. However, this set ties her to Furina and is difficult to use with a CRIT Rate weapon without overcapping. Notably, 4pc Galleries outperforms 4pc MH if Skirk holds Azurelight.
+
+This artifact set is subpar for split rotation or quickswap Skirk. 4pc MH can only stack on field, making it difficult to get all 3 CRIT Rate buffs in the short window of time before Skirk’s Elemental Burst lands.
+
+4pc Blizzard Strayer (BS)	Despite Blizzard Strayer slightly outperforming both Marechaussee and Galleries on paper, it’s unreliable due to its dependence on freezable enemies. This leaves its performance at the whim of HoYo’s endgame lineup choices, making it far less futureproof than the above options.
+
+Still, it’s a strong choice for anyone who has a set lying around and is confident they won’t face unfreezable enemies.
+
+Placeholder Options	4pc Gladiator’s Finale or 2pc Mixed Sets (Marechaussee Hunter, Cryo DMG Bonus, ATK%)
+
+Placeholder options while farming a 4pc Marechaussee or Galleries set for Skirk. Use whichever pieces have better stats. Note that 4pc Gladiator’s Finale performs poorly for quickswap Skirk
+Weapons
+If a weapon is not listed, it is generally not worth considering over R5 Finale of the Deep.
+
+Hover over weapon images for more information.
+
+
+5★ Azurelight	Azurelight is Skirk’s signature weapon and offers high Base ATK, a CRIT Rate secondary stat, and an additional 48% ATK and 40% CRIT DMG from its passive, which Skirk has no issue maintaining. While the gap between it and her other alternatives aren’t as large as with some recent characters, it still outperforms her next closest alternatives by a sizable margin.
+
+5★ Haran Geppaku Futsu (Haran), Primordial Jade Cutter (PJC), Beyond the Chrysalis, Mistsplitter Reforged 	Skirk’s best non-signature options. She makes good use of all of their passives, which puts them a sizable step up from other 5-star CRIT stat sticks. Haran’s passive focuses on Normal Attack damage and as such does not perform as well as the other 3 Swords for quickswap Skirk.
+
+Haran and PJC’s high CRIT Rate secondary stat make it difficult to not overcap with 4pc Marechaussee Hunter.
+
+4★ Calamity of Eshu (Eshu)	Eshu is Skirk’s best 4-star Sword for her on-field playstyle if a shield can be maintained. In such scenarios, it performs nearly as well as the 5-star options above and better than the 5-star options below. However, its passive is completely focused on Normal and Charged Attacks, so it is significantly worse than Finale of the Deep for quickswap Skirk.
+
+Note that Eshu was only obtainable during Version 5.2’s flagship event.
+
+Other 5★ CRIT Swords	There are two general kinds of 5-star CRIT Swords: those with passives Skirk can use and those with passives Skirk cannot use.
+
+Useful Passives
+Uraku Misugiri, Light of Foliar Incision, Absolution
+
+These Swords perform generally better than R5 Finale of the Deep, especially if Skirk holds 4pc Galleries.
+
+Useless Passives
+Exaiphanes Blade, Athame Artis, Splendor of Tranquil Waters, Whitelake Frostfeather, Lightbearing Moonshard
+
+These weapons perform similarly to R5 Finale of the Deep.
+
+Whether CRIT Swords with useless passives are better than R5 Finale of the Deep depends heavily on the team and gearing. In cases where the team offers a lot of ATK buffs (such as with TTDS), they may outperform but with marginal difference.
+
+5★ Summit Shaper, 4★ The Black Sword, 4★ Heretic’s Molten Blade (Heretic’s)	These Swords narrowly outperform R5 Finale of the Deep, depending on the situation. Without a shield, Summit Shaper is practically equivalent to R5 Finale of the Deep.
+
+Heretic’s is generally slightly better for Skirk than The Black Sword, but both require around R3 to surpass R5 Finale of the Deep.
+
+At their strongest (Summit Shaper with a shield, Heretic’s or The Black Sword at R5), they perform slightly better than 5-star CRIT stat sticks with unusable passives.
+
+4★ Finale of the Deep	Finale of the Deep is Skirk’s best freely accessible 4-star Sword by a large margin, even without sufficient healing. The requirement for a healer is usually mitigated by the fact that Skirk’s most common teammates, Furina, Escoffier, and Vodyanitsa, require a healer or are healers.
+
+Refinements are relatively important, with R5 providing a notable increase in damage (~7%) compared to R1.
+
+4★ Moonweaver’s Dawn	Moonweaver’s Dawn is Skirk’s best 4-star Sword for her quickswap playstyle. A free copy can be obtained through the Nod-Krai World Quest “Echoes of an Unfinished Past”, although further refinements can only be obtained when it is rate-up on a weapon banner. Since its passive only buffs Elemental Burst damage, it is not recommended for on-field Skirk.
+
+4★ New Bough	Without Stellar Glimmer, New Bough at any refinement is strictly worse than R5 Finale of the Deep. However, if Skirk is unable to clear her Bond of Life (e.g. from lack of a healer), New Bough outperforms Finale of the Deep at any refinement.
+
+As previously implied, refining New Bough does not provide as significant of a damage increase as refining Skirk’s other 4-star options, and the overall increase from R1 to R5 is about 3%.
+Teams
+Rotation Notation
+
+Teambuilding
+
+Skirk — Furina / Hydro Applier — Escoffier / Cryo — Vodyanitsa / Cryo / Hydro
+The vast majority of Skirk’s kit is locked to teams with only Hydro and Cryo characters, which leaves Freeze as her strongest team composition by far. Furina, Escoffier, and Vodyanitsa are her best teammate options.
+
+Skirk should run a healer if she is using Finale of the Deep or a shielder if she has Calamity of Eshu or Summit Shaper equipped in order to make full use of the weapons’ passives.
+
+On-field Skirk’s theoretical minimum rotation length is 20.5s (12.5s Skill duration and an 8s Skill cooldown). However, teams that have a TTDS holder such as Citlali, Charlotte, or Vodyanitsa should aim for 21s rotations as TTDS’s cooldown is effectively 21s, even though its text says 20s.
+
+Teammate Artifact Sets
+Skirk’s teammates generally focus on buffing her with 4pc Noblesse Oblige (NO), 4pc Scroll of Hero of Cinder City (Scroll), or 4pc Tenacity of the Millileth (TotM), even when they are off-field DPS characters.
+
+The dropdown below contains a table of possible support 4pc artifact sets for every notable teammate listed below in alphabetical order. It also notes who can hold TTDS. Most characters can hold 4pc NO or 4pc Scroll. If Citlali or Mualani is on the team, other characters should never hold 4pc Scroll. Characters that can effectively hold 4pc TotM should prioritize it over other support sets. Other exceptions are mentioned in the character’s description.
+
+Teammate 4pc Artifact Sets
+
+Notable Teammates
+These three units are vital to Skirk’s best teams.
+
+
+Escoffier	Escoffier offers a massive 55% Cryo and Hydro RES Shred, heals to keep the team alive and stack Furina’s Fanfare, and deals good personal damage. The majority of her damage also comes from her Skill, which Skirk’s Utility Passive buffs.
+
+Escoffier can hold 4pc TotM if no other holder is on the team. Otherwise, she generally holds 4pc Scroll or 4pc NO.
+
+Vodyanitsa	Vodyanitsa performs on par with Escoffier. She provides Cryo and Hydro RES Shred and two separate sets of Additive Base DMG Bonus scaling with her Max HP, boosting the damage of Skirk and off-field characters. Her RES Shred is tied to her Elemental Skill’s Talent level, which means she actually provides up to 31.5% RES Shred (at Talent Level 11 total before her C3) when factoring in Skirk’s Utility Passive.
+
+Vodyanitsa holds 4pc TotM to both increase her HP and provide 20% ATK to Skirk. As a Catalyst user, she can hold TTDS.
+
+Vodyanitsa can function as a solo Hydro but prefers a Hydro teammate. Double Hydro enables Hydro Resonance and decreases the reliance on Vodyanitsa to generate Void Rifts, which lets her go right before Skirk in the rotation. This allows her to pass TTDS’s buff as well as all 25 instances of her on-field Additive Base DMG Bonus to Skirk without other units consuming them.
+
+Furina	Furina provides plenty of DMG Bonus, can hold 4pc TotM to further buff Skirk, and deals off-field damage. In teams with Vodyanitsa, Furina ends up holding 4pc Scroll or 4pc Golden Troupe. Much like Escoffier, Furina’s damage also comes from her Skill and thus benefits from Skirk’s Utility Passive.
+
+The only caveat is that Furina requires a healer, but this is a non-issue in teams with Escoffier. She also functions with Vodyanitsa as a solo healer, but Vodyanitsa’s lack of teamwide and frontloaded healing can limit Fanfare generation.
+Hydro AppliersBuffersOther SupportsDual Carries
+Hydro Appliers
+In order to generate Void Rifts in her team, Skirk needs to consistently trigger Freeze (or other non-Melt Cryo-related reactions) throughout the rotation. As such, an off-field Hydro unit is required. Furina is usually by far the best option, but other characters (including Vodyanitsa) can work.
+
+Applying too much Hydro, such as using both Xingqiu and Yelan, can reduce Cryo Resonance uptime against unfreezable enemies, effectively losing the 15% CRIT Rate buff.
+
+
+Yelan	Yelan deals high off-field damage and offers a ramping DMG Bonus for the on-field character. She also enables Hydro Resonance to benefit both herself and any other HP-scaling Hydro unit, such as Furina or Vodyanitsa. In addition to being an excellent second Hydro option, Yelan can also be a competitive alternative to Furina for Escoffier-less players since she doesn’t require a healer.
+
+Xingqiu	Xingqiu serves as a cheaper Hydro alternative to Yelan. He offers off-field damage, interruption resistance, and damage mitigation, but lacks direct ways to buff Skirk’s damage. While the interruption resistance is of limited use to Skirk, the damage mitigation offers some extra comfort. He also enables Hydro Resonance and batteries any Hydro teammates.
+
+Columbina	Columbina is a subpar option due to her lack of relevant buffs and high opportunity cost on Skirk’s team (i.e. she performs better in Lunar-oriented teams). Nonetheless, she functions perfectly well as an off-field Hydro unit thanks to her personal damage and ability to hold TTDS.
+
+Columbina prefers to hold 4pc TotM as it also contributes to her personal damage. However, she can hold 4pc NO or 4pc Scroll as needed.
+
+C6 Candace	Before C6, Candace does not provide off-field Hydro application and cannot help Skirk generate Void Rifts while off-field. However, at C6, her Elemental Burst gains consistent Hydro application, which makes her a solid choice since Candace also grants ~30-40% Normal Attack DMG Bonus. This buff only lasts 12s, which means she ideally goes immediately before Skirk in the rotation. In teams without another Hydro applier, this can limit Void Rift generation.
+
+Aino	Aino is a free Hydro option obtainable by completing Act I of Nod-Krai’s Archon Quest.
+
+Aino does not provide anything of note except for her Hydro application, since her kit focuses on Lunar Reactions. Nonetheless, she is the option you should use if no other Hydro character in this list is available.
+Buffers
+These characters provide Skirk with buffs via their kit and gear.
+
+
+
+Citlali	Citlali acts as a Cryo buffer and shielder. She grants the full Cryo DMG% buff from 4pc Scroll, can hold TTDS (at the cost of lower shield HP) or Wandering Evenstar, and enables Eshu for Skirk with her shield.
+
+If paired with Escoffier, she requires a specific setup to both trigger 4pc Scroll and pass TTDS’s buff to Skirk.
+
+Shenhe	Shenhe is a powerful Cryo buffer. She offers her Icy Quill buff, Cryo DMG Bonus and RES Shred, and, depending on whether she uses her Tap or Hold Skill, Burst and Skill DMG Bonus or Normal and Charged Attack DMG Bonus.
+
+Mona	Mona is a Hydro Catalyst user who can hold TTDS and provide other buffs. Mona grants up to 60% DMG Bonus through her Burst’s Omen debuff, which can be extended through Freeze to cover more of Skirk’s damage window.
+
+Mona typically holds 4pc NO, but she can hold 4pc TotM if other support sets are already taken. However, 4pc TotM’s buff only has 8s of uptime as her Phantom of Fate lasts only 5s. Skirk’s teams do not run a second Hexerei character, so 4pc Celestial Gift is not usable.
+
+Mualani	Mualani acts as a buffer and battery in Skirk’s teams. She provides the full Cryo and Hydro DMG% buff of 4pc Scroll and holds TTDS. She can easily trigger 4pc Scroll against unfreezable enemies.
+
+She also generates 4–5 Hydro particles, which lets her battery other Hydro teammates like Furina or Yelan, and she enables Hydro Resonance for herself and any HP-scaling teammates. Additionally, her 6s Skill cooldown permits its use twice per rotation, drastically reducing her teammates’ ER requirements.
+
+Mualani comes with the high opportunity cost of relegating an on-field DPS to a support role.
+
+Dahlia	Dahlia’s shield enables Eshu for Skirk and provides some additional comfort even with Skirk’s high interruption resistance. However, because Dahlia mainly buffs Attack SPD, he only performs on par with the options above if you can fit in significantly more hits with Skirk during her field time.
+Other Supports
+These characters generally perform worse than the options above but still range from good to usable.
+
+
+Charlotte	Charlotte provides Cryo application and strong teamwide healing that quickly stacks Furina’s Fanfare. However, she has very high ER requirements while holding TTDS.
+
+Charlotte can hold 4pc TotM if no other teammate can. However, her Tap Skill lasts only 6s, leading to 9s of total uptime of the set’s buff.
+
+Layla	Layla’s main benefits come from her shield, which enables Eshu’s passive and provides further interruption resistance. She also provides Cryo application and a modest Normal and Charged Attack buff from her C4.
+
+Layla can hold 4pc TotM as her Skill reliably hits opponents when her shield is active.
+
+Rosaria	Rosaria provides a solid CRIT Rate buff as well as some personal damage. The consistent off-field Cryo application from her Elemental Burst can also help maintain uptime on Cryo Resonance.
+
+Mika	Mika offers healing to stack Furina’s Fanfare and an Attack SPD buff to let Skirk squeeze in more Normal Attacks. However, if you cannot make good use of the Attack SPD buff due to mechanical limitations, Charlotte functions better as a buffer and healer.
+
+Candace (<C6)	Even without C6, Candace can still be a solid buffing option, offering up to ~30-40% Normal Attack DMG Bonus. However, her buff duration is only 9s without her C6, limiting its effectiveness.
+
+Chongyun	Chongyun provides a small amount of Attack SPD and Cryo RES Shred, the latter being rare in Freeze teams with limited rosters. His C2 also provides cooldown reduction, which can enable split rotation Skirk among other niche uses. While Chongyun is generally worse than the options above, he offers a variety of buffs that make him an interesting budget option.
+
+Kokomi	Kokomi can hold TTDS to buff Skirk and heal, but she faces some issues to consider. She only heals the active character, which makes her worse at stacking Furina’s Fanfare than Charlotte. Moreover, she faces extremely high ER requirements to Burst every rotation, which practically limits her to 4pc TotM or 4pc Scroll.
+
+Barbara	Barbara can also hold TTDS to buff Skirk, but she has many issues that make her much worse than Charlotte.
+
+Her Skill has a 30s cooldown, which is far too long for Skirk’s preferred 21s rotation lengths with TTDS. As such, she uses her Skill and Burst every other rotation for healing. However, her Burst does not heal over time, which makes it impossible for Skirk to clear Finale’s Bond of Life every other rotation.
+
+Moreover, her Skill does not generate particles, leading to extremely high personal ER requirements that practically limit her to 4pc Scroll. Her lack of Hydro particles also increases teammate ER requirements.
+
+Sigewinne, Qiqi	Sigewinne offers teamwide healing to stack Fanfare and provides Additive Base DMG Bonus for off-field Skill damage, buffing Furina’s and Escoffier’s damage.
+
+Qiqi provides strong teamwide healing and high Cryo application, helping Skirk maintain Cryo Resonance’s CRIT Rate buff against unfreezable enemies. She requires completion of her Witch’s Revelation Quest to cast her Skill every rotation.
+
+Both Sigewinne and Qiqi can hold 4pc TotM.
+
+Diona	Diona offers both healing and shielding. However, her healing is limited to the active character, and both her healing output and shield HP are relatively lower than dedicated healers and shielders.
+
+Aside from enabling Calamity of Eshu, she does not provide any direct buffs to Skirk, making her worse than Layla if a shielder is needed, and worse than Charlotte if a healer is needed.
+
+Kaeya	Kaeya is a cheap option for players with limited rosters. Aside from his somewhat low personal damage, Kaeya offers no utility beyond Cryo application and particle generation.
+Dual Carries
+When played as a quickswap DPS, Skirk generally pairs with a second DPS that deals damage from on-field while Skirk’s Burst and Skill are on cooldown. Note that these teams are even more Escoffier-reliant than Skirk’s regular on-field teams and generally perform worse than focusing on a single carry instead.
+
+
+Neuvillette	Neuvillette’s high personal damage, flexible rotations, and strong synergy with Skirk’s best teammates make him an excellent pick for Skirk’s quickswap teams. Since he stacks Fanfare on his own, he also solves Skirk’s reliance on healers with Furina. Though, the team still strongly wants Escoffier for her damage and buffs.
+
+While Neuvillette can theoretically hold TTDS to buff Skirk since he benefits from the HP%, albeit less than CRIT, their optimal rotations rarely allow it.
+
+Ayaka	Ayaka is another strong dual-carry option thanks to her high personal damage. Since the majority of said damage is tied to her Burst, and her Cryo Infusion can be refreshed anytime with her dash, she also has no issue accommodating Skirk’s field-time requirements. Having both Skirk and Escoffier to battery her lowers her ER requirements to let her build even more for damage.
+
+Ganyu	Similar to Ayaka, Ganyu has the flexibility to swap in and out freely to deal damage while accommodating Skirk’s field-time requirements. Her Burst’s Cryo DMG Bonus also benefits both herself and Skirk. She can opt to either remain on-field to perform Charged Attacks and let Skirk Burst twice, or act as an off-field Burst DPS while Skirk takes the majority of the field time with her Tap Skill.
+
+Ayato, Childe	Other on-field Hydro DPS options for Skirk’s quickswap teams. Though weaker than the above alternatives for Skirk, they still offer fun gameplay and the damage is solid compared to their own other teams.
+
+Wriothesley	Skirk is a strong option for Wriothesley’s Freeze teams, but such teams are not recommended. He performs much better in Stellar-Conduct teams due to his Witch’s Revelation buffs.
+Example Teams
+This is not a comprehensive list of teams. The inclusion or exclusion of any given team does not necessarily reflect its power level.
+
+
+Skirk — Furina — Escoffier — Vodyanitsa
+Skirk’s standard premium team. Furina, Escoffier, and Vodyanitsa’s combined buffs maximize Skirk’s personal damage. While it is possible to alternate Escoffier’s and Vodyanitsa’s Bursts, this lowers Skirk’s damage output since rotations without Escoffier’s Burst have reduced Fanfare generation. Vodyanitsa prefers holding TTDS, but Hymn of the Maelstrom is DPS-neutral or a slight DPS loss in this team.
+
+This team has a slightly different rotation depending on your ping. At lower ping, you need to wait out Skirk’s 8s Skill cooldown and TTDS’s effective 21s cooldown.
+
+Sample Rotation (<250ms ping)
+Escoffier E N1¹ > Furina ED Q > Escoffier Q > Vodyanitsa E > Skirk tE combo
+
+Sample Rotation (>250ms ping)
+Furina ED Q > Escoffier EQ > Vodyanitsa E > Skirk tE combo
+
+¹You may collect your own particles on Escoffier or choose to funnel to Furina, depending on your ER requirements and ping.
+
+
+Skirk — Furina — Escoffier — Citlali / Mualani
+A team variant that gets the full buff from 4pc Scroll along with TTDS. Citlali never uses her Burst and focuses on building EM for shield strength (and buff strength at C1+). The rotation where Citlali gives TTDS to Skirk can be finicky, but Citlali can still trigger 4pc Scroll against Frozen enemies as long as there is an underlying Hydro aura. Mualani does not provide a shield but she drastically reduces Furina’s ER requirements in exchange.
+
+Sample Rotation (Citlali, TTDS to Escoffier)
+Furina ED Q > Citlali E N1 > Escoffier EQ > Skirk tE combo
+
+Sample Rotation (Citlali, TTDS to Skirk)
+Furina Q > Escoffier EQ > Furina E > Citlali (wait)¹ E > Skirk tE combo
+
+¹Wait for Furina’s Salon Members to hit the enemy so that Citlali can trigger 4pc Scroll with her Elemental Skill.
+
+Sample Rotation (Mualani)
+Furina ED Q > Escoffier EQ > Mualani E N1 E > Skirk tE combo > Mualani E N1 E¹
+
+¹Exiting Mualani’s Nightsoul state allows the cooldown to start ticking slightly earlier than simply switching off her.
+
+
+Skirk — Furina — Escoffier — Mona / Shenhe / Yelan
+A team variant without Vodyanitsa. All variants are straightforward and function similarly. Mona performs especially well against Freezable enemies as Freeze extends the duration of her Omen. Shenhe uses her Hold Skill in order to provide an additional 15% Normal DMG Bonus to Skirk, as well as two extra Icy Quills. Yelan provides her own personal damage along with a ramping DMG% buff for Skirk.
+
+Sample Rotation (Mona)
+(Skirk tE N1)¹ > Furina ED Q > Escoffier EQ > Mona EQ² > Skirk tE combo
+
+Sample Rotation (Shenhe)
+(Skirk tE N1)¹ > Furina ED Q > Escoffier EQ > Shenhe hEQ > Skirk tE combo
+
+Sample Rotation (Yelan)
+(Skirk tE N1)¹ > Furina ED Q > Escoffier EQ > Yelan EQ > Skirk tE combo
+
+
+¹First rotation only, and only if Skirk needs extra Void Rift generation.
+²Skip Mona’s Skill if the team can meet their ER requirements without it.
+
+
+Skirk — Furina — Charlotte — Vodyanitsa
+A team variant without Escoffier. Charlotte can hold Favonius Codex while Vodyanitsa holds TTDS. This lets Charlotte cast her Elemental Burst every rotation, though her ER requirements are still high.
+
+Sample Rotation
+Furina ED Q > Charlotte E N1 Q > Vodyanitsa E > Skirk tE combo
+
+
+Skirk — Vodyanitsa — Escoffier — Mona
+Skirk’s strongest team without Furina. Mona should hold TTDS to buff Skirk, which opens up weapon options for Vodyanitsa. In this team, TTDS and Prototype Amber perform roughly the same, while Hymn of the Maelstrom is DPS-positive.
+
+Sample Rotation (Vodyanitsa and Mona TTDS)
+Vodyanitsa E > Escoffier E N1 > Mona E Q > Skirk tE combo > (Skirk N4 / Vodyanitsa Q)¹
+
+Sample Rotation (Only Mona TTDS)
+Vodyanitsa (Q)² E > Escoffier (Q)² E N1 > Mona E Q > Skirk tE combo (N4)²
+
+¹There is downtime to fill for TTDS’s and Skirk’s Skill cooldown. Skirk can use Physical Normal Attacks with the exact number needed depending on execution speed and ping; or, Vodyanitsa can use her Burst if available.
+²Skip the first rotation. Alternate between Vodyanitsa’s and Escoffier’s Bursts every rotation; do not perform both in the same rotation. If neither Burst is available, Skirk can perform a Physical N4 after her combo.
+
+
+Skirk — Xingqiu — Rosaria — Vodyanitsa
+A team variant without Furina or Escoffier. Xingqiu provides Hydro Resonance and some personal damage, while Rosaria’s CRIT Rate buff pairs nicely with Vodyanitsa’s Additive Base DMG Bonus.
+
+Sample Rotation
+Xingqiu ED Q N1 > Rosaria E Q N1 > Vodyanitsa E > Skirk tE combo
+
+
+Skirk — Vodyanitsa — Rosaria — Dahlia
+Another team variant without Furina or Escoffier. Dahlia provides an Attack SPD buff, Hydro Resonance, and a shield, which also enables Eshu’s passive.
+
+Sample Rotation
+Dahlia E > Rosaria EQ > Dahlia (E)¹Q > Vodyanitsa E > Skirk tE combo
+
+¹If Dahlia holds and triggers Sacrificial Sword.
+
+
+Skirk — C6 Candace — Escoffier — Dahlia
+A team without Furina or Vodyanitsa. Dahlia and Candace’s respective buffs scale with their HP, so Hydro Resonance is appreciated. Additionally, Candace’s Hydro application is slow enough not to interfere much with Cryo Resonance uptime. This team does not function if Candace is not C6, as pre-C6 Candace does not provide off-field Hydro application.
+
+Sample Rotation
+Candace E N2 > Escoffier E (Q / N2)¹ > Dahlia E Q > Candace E Q > Skirk tE combo
+
+¹Burst on Escoffier if it is available, otherwise do an N2.
+
+
+Skirk — Xingqiu — Escoffier — Charlottel
+Another team variant without Furina or Vodyanitsa. Xingqiu provides the necessary Hydro application for the team to function, while Charlotte can hold TTDS.
+
+If Escoffier does not hold Symphonist of Scents, she does not need to use her Burst. Instead, Charlotte can use her Burst every rotation while holding 4pc NO, but this results in higher ER requirements for her.
+
+Sample Rotation (Charlotte Burst Every Rotation)
+Xingqiu ED Q N1 > Escoffier E N1 > Charlotte E N1 Q N1 > Skirk tE combo
+
+Sample Rotation (Charlotte Burst Every Other)
+Xingqiu ED Q N1 > Escoffier E N1 (Q N1)¹ > Charlotte E N1 (Q N1)¹ > Skirk tE combo
+
+¹Alternate between Escoffier and Charlotte’s Bursts every rotation.
+
+
+Skirk — Furina — Chongyun — Charlotte
+A decent team variant without Escoffier or Vodyanitsa. Chongyun batteries Charlotte, allowing her to hold TTDS and 4pc NO with reasonable ER requirements. He also provides partial uptime on his 10% Cryo RES Shred to slightly boost damage.
+
+Sample Rotation (Chongyun on Favonius)
+Chongyun Q > Furina ED Q > Chongyun E > Charlotte E N1 Q > Skirk tE combo
+
+Sample Rotation (Chongyun on Other Weapon)
+Furina ED Q > Chongyun Q E > Charlotte E N1 Q > Skirk tE combo
+
+
+Skirk — Yelan — Rosaria — Xingqiu
+A team variant with Yelan. Double Hydro increases Yelan’s personal damage at the cost of Cryo Resonance if the enemy can be Frozen. Rosaria has manageable ER requirements and provides a CRIT Rate buff to Skirk. This team does not have a healer and may perform poorly if Skirk holds Finale of the Deep. Rosaria should be replaced with Layla if Skirk holds Calamity of Eshu or Summit Shaper.
+
+Sample Rotation
+Rosaria E¹ > Xingqiu ED Q N1 > Yelan EQ N1 > Rosaria EQ > Skirk tE combo
+
+¹First rotation only.
+
+
+Skirk — Yelan — Rosaria — Charlotte
+A different team variant with Yelan. This one sacrifices Hydro Resonance in exchange for a healer to clear Skirk’s Bond of Life from Finale of the Deep. Rosaria funnels particles to Yelan (preferably with Favonius Lance), bringing Yelan’s ER requirements down to a reasonable level.
+
+Sample Rotation (Beidou)
+Rosaria E > Yelan EQ > Rosaria Q > Charlotte E N1 Q > Skirk tE combo
+
+Limited Roster Alternatives
+These teams are meant for newer players whose limited roster prevents them from using the teams above; as such, the teams below result in lower damage output.
+
+
+Skirk — Xingqiu — Chongyun — Charlotte
+Sample Rotation
+Xingqiu ED Q N1 > Chongyun Q E > Charlotte E N1 Q¹ N1 > Skirk tE combo
+
+¹Catch both Chongyun and Charlotte’s Elemental Skill particles after Charlotte’s Burst to lower her ER requirements.
+
+
+Skirk — Aino — Chongyun — Layla
+Sample Rotation
+Chongyun E > Aino EQ > Chongyun Q > Layla Q N1 E > Skirk tE combo
+
+
+Skirk — Xingqiu — Rosaria — Layla
+Sample Rotation
+Xingqiu ED Q N1 > Rosaria EQ N1 > Layla Q N1 E > Skirk tE combo
+
+Sample Rotation
+Xingqiu ED Q N1 > Layla Q N1 E > Rosaria EQ N1 > Skirk tE combo
+
+Credits
+7.1 Updater: puppy7777
+7.1 Contributors: irokei, caxia5
+5.7 Release Contributors: caramielle., sew, lesterberne, PJelJr, plumetra, lostguide
+
+Team images made with the KQM portrait generator.
+
+Table of Contents
+New Content
+Infographic
+Character Overview
+Playstyles
+Talents
+Constellations
+Combos
+Artifacts
+Artifact Stats
+Artifact Sets
+Weapons
+Teams
+Teambuilding
+Teammate Artifact Sets
+Notable Teammates
+Example Teams
+Limited Roster Alternatives
+Credits
+^
+© 2026 KQM
+Website built by ~ Yami
+Other things I built :)
+
+Yuri Translations
+Asian Novel Translation Tool
+ChatGPT AI tool
+Novel Recommendations
+AI SEO Content Writer
+Guides and content - KQM contributors and staff
+
+Website Feedback on KQM Discord- Click Here || Cookie Policy
+
+© All rights reserved by HoYoverse. Other properties belong to their respective owners.

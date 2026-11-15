@@ -13820,3 +13820,279 @@ input[type="range"], .crosshair {
   margin-top: 4px;
   font-weight: 500;
 }
+
+/* Badge de "4pc" nos artefatos da Build KQM */
+.kqm-build-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  background: rgba(125, 211, 252, 0.1);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  color: #7dd3fc;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  vertical-align: middle;
+}
+
+/* ============================================================
+   KQM Build: Armas e Artefatos com o mesmo estilo dos substats
+   ============================================================ */
+.kqm-build-item {
+  background: rgba(125, 211, 252, 0.05) !important;
+  border: 1px solid rgba(125, 211, 252, 0.2) !important;
+  border-radius: 8px !important;
+  transition: all 0.15s ease;
+}
+
+.kqm-build-item:hover {
+  background: rgba(125, 211, 252, 0.1) !important;
+  border-color: rgba(125, 211, 252, 0.4) !important;
+  transform: translateX(2px);
+}
+
+/* Badge de 4pc no mesmo estilo do substats */
+.kqm-build-badge {
+  background: rgba(125, 211, 252, 0.12) !important;
+  border: 1px solid rgba(125, 211, 252, 0.3) !important;
+  color: #7dd3fc !important;
+}
+
+/* ============================================================
+   Main Stats: pills no mesmo estilo dos substats
+   ============================================================ */
+.kqm-main-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.kqm-main-stat-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.kqm-main-stat-label {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(125, 211, 252, 0.12);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  color: #7dd3fc;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 72px;
+  justify-content: center;
+}
+
+.kqm-main-stat-value {
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   Talent Priority com ícones
+   ============================================================ */
+.kqm-talent-priority {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.kqm-talent-priority-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kqm-talent-priority-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kqm-talent-priority-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kqm-talent-priority-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.15s ease;
+}
+
+.kqm-talent-priority-icon:hover {
+  background: rgba(125, 211, 252, 0.15);
+  border-color: rgba(125, 211, 252, 0.5);
+  transform: scale(1.08);
+}
+
+.kqm-talent-priority-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.kqm-talent-priority-arrow {
+  color: #7dd3fc;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   FIX: Main Stats — pill no VALOR (não no label)
+   ============================================================ */
+.kqm-main-stat-label {
+  display: inline-block;
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  padding: 0 !important;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 72px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.kqm-main-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(125, 211, 252, 0.12);
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  color: #7dd3fc;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.kqm-main-stat-value {
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   Talent Priority: ícones maiores
+   ============================================================ */
+.kqm-talent-priority-icon {
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.kqm-talent-priority-arrow {
+  font-size: 18px !important;
+}
+
+/* ============================================================
+   Cursor HELP (?) da Paimon
+   ============================================================ */
+[title], abbr[title], .help, [data-tooltip] {
+  cursor: url('/cursors/paimon-help.cur'), help !important;
+}
+
+/* Cursor help mais abrangente: title, style inline, e classes do projeto */
+[title],
+[style*="cursor: help"],
+[style*="cursor:help"],
+.ascension-item[style*="help"],
+.kqm-build-item[style*="help"] {
+  cursor: url('/cursors/paimon-help.cur'), help !important;
+}
+
+/* FIX: cursor help via PNG (fallback seguro) */
+.kqm-build-item,
+.kqm-build-item *,
+[title],
+[style*="cursor: help"],
+[style*="cursor:help"] {
+  cursor: url('/cursors/paimon-help.png') 4 4, help !important;
+}
+
+/* ============================================================
+   Character Stats Table (stats por ascensão)
+   ============================================================ */
+.char-stats-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.char-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.char-stats-table thead {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.char-stats-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #64748b;
+  font-weight: 800;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.char-stats-table td {
+  padding: 10px 16px;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-variant-numeric: tabular-nums;
+}
+
+.char-stats-table tbody tr {
+  transition: background 0.15s;
+}
+
+.char-stats-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.char-stats-table tbody tr.is-max {
+  background: rgba(125, 211, 252, 0.08);
+  border-left: 3px solid #7dd3fc;
+}
+
+.char-stats-table tbody tr.is-max td {
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+.level-cell {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.substat-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

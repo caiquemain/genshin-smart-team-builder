@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { AlertTriangle } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
@@ -63,6 +64,7 @@ export default function TemplateDetailPage() {
   if (!template) return <p className="status">Carregando...</p>
 
   const arch = archetypeInfo(template.archetype)
+  const ArchIcon = arch.icon
   const weapon = template.weapon_slug ? weapons.get(template.weapon_slug) : null
   const artifact = template.artifact_set_slug ? artifacts.get(template.artifact_set_slug) : null
   const analysis = template.analysis
@@ -72,8 +74,8 @@ export default function TemplateDetailPage() {
       <Link to="/teams" className="back">← Times</Link>
 
       <div className="template-detail-hero" style={{ borderColor: `${arch.color}40` }}>
-        <div className="template-detail-arch" style={{ background: `${arch.color}20`, color: arch.color }}>
-          {arch.emoji} {arch.label}
+        <div className="template-detail-arch" style={{ background: `${arch.color}20`, color: arch.color, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <ArchIcon size={16} /> {arch.label}
         </div>
         <h1>{template.name}</h1>
         {template.description && <p className="template-detail-desc">{template.description}</p>}
@@ -132,7 +134,9 @@ export default function TemplateDetailPage() {
 
           {analysis.warnings.length > 0 && (
             <div className="analysis-section">
-              <div className="analysis-section-title">⚠️ Alertas</div>
+              <div className="analysis-section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <AlertTriangle size={14} /> Alertas
+              </div>
               <div className="analysis-warnings">
                 {analysis.warnings.map((w, i) => (
                   <div key={i} className="warning-line">{w}</div>
