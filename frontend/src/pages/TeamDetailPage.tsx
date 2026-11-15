@@ -216,31 +216,6 @@ export default function TeamDetailPage() {
         )}
       </div>
 
-      {analysis && (
-        <div className="team-detail-analysis" style={{ paddingLeft: 0 }}>
-          <div className="analysis-content">
-            {analysis.reactions.length > 0 && (
-              <div className="analysis-group">
-                <h4>Reações Ativas</h4>
-                <div className="analysis-tags">
-                  {analysis.reactions.map((r: any, i: number) => (
-                    <span key={i} className="analysis-tag reaction">{r.name || r}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-            {analysis.warnings.length > 0 && (
-              <div className="analysis-group">
-                <h4>Avisos</h4>
-                <ul className="analysis-warnings">
-                  {analysis.warnings.map((w, i) => <li key={i}>{w}</li>)}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       <div className="team-detail-members">
         {team.members.map((member) => (
           <MemberBuildCard

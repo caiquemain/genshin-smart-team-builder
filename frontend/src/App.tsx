@@ -14,6 +14,7 @@ import WeaponDetailPage from './pages/WeaponDetailPage'
 import TeamBuilderPage from './pages/TeamBuilderPage'
 import TeamDetailPage from './pages/TeamDetailPage'
 import PlannerPage from './pages/PlannerPage'
+import RosterPage from './pages/RosterPage'
 import InventoryAuditPage from './pages/InventoryAuditPage'
 import PlannerCharactersPage from './pages/PlannerCharactersPage'
 import TierlistPage from './pages/TierlistPage'
@@ -70,6 +71,7 @@ function MainContent() {
         <Route path="/teams/new" element={<TeamBuilderPage />} />
         <Route path="/teams/:id" element={<TeamDetailPage />} />
         <Route path="/planner" element={<PlannerPage />} />
+        <Route path="/roster" element={<RosterPage />} />
         <Route path="/inventory" element={<InventoryAuditPage />} />
         <Route path="/bestiary" element={<BestiaryPage />} />
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />

@@ -81,109 +81,6 @@ function TeamSlot({ index, char, hasBuild }: { index: number; char: CharacterSum
   )
 }
 
-function TeamAnalysisPanel({
-  analysis,
-  onAddSuggestion,
-  currentSlugs,
-}: {
-  analysis: TeamAnalysisResponse | null
-  onAddSuggestion: (slug: string) => void
-  currentSlugs: Set<string>
-}) {
-  if (!analysis || analysis.roles.length === 0) return null
-  const color = scoreColor(analysis.score)
-
-  return (
-    <section className="analysis-panel">
-      <div className="analysis-header">
-        <h2>Análise do time</h2>
-        <div className="analysis-score" style={{ color }}>
-          {analysis.score}<span className="score-max">/100</span>
-          <span className="score-label">{scoreLabel(analysis.score)}</span>
-        </div>
-      </div>
-      <div className="score-bar">
-        <div className="score-bar-fill" style={{ width: `${analysis.score}%`, background: color }} />
-      </div>
-
-      <div className="analysis-roles">
-        {analysis.roles.map((r) => (
-          <div key={r.slug} className={`role-chip role-${r.role}`}>
-            <span className="role-emoji">{ROLE_EMOJI[r.role]}</span>
-            <span className="role-name">{r.name}</span>
-            <span className="role-badge">{ROLE_LABEL[r.role]}</span>
-          </div>
-        ))}
-      </div>
-
-      {analysis.reactions.length > 0 && (
-        <div className="analysis-section">
-          <div className="analysis-section-title">Reações viáveis</div>
-          <div className="reactions-pills">
-            {analysis.reactions.map((r) => (
-              <span key={r.slug} className="reaction-pill">{r.name}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {analysis.warnings.length > 0 && (
-        <div className="analysis-section">
-          <div className="analysis-section-title">⚠️ Alertas</div>
-          <div className="analysis-warnings">
-            {analysis.warnings.map((w, i) => <div key={i} className="warning-line">{w}</div>)}
-          </div>
-        </div>
-      )}
-
-      {analysis.suggestions.length > 0 && (
-        <div className="analysis-section">
-          <div className="analysis-section-title">💡 Sugestões</div>
-          <div className="suggestions-list">
-            {analysis.suggestions
-              .filter((s) => !currentSlugs.has(s.slug))
-              .map((s) => {
-                const img = iconUrl(s.icon)
-                return (
-                  <div key={s.slug} className="suggestion-card">
-                    <div className="suggestion-icon">
-                      {img ? <img src={img} alt={s.name} /> : <span>?</span>}
-                    </div>
-                    <div className="suggestion-body">
-                      <div className="suggestion-name">{s.name}</div>
-                      <div className="suggestion-reason">{s.reason}</div>
-                    </div>
-                    <button
-                      className="suggestion-add"
-                      onClick={() => onAddSuggestion(s.slug)}
-                      disabled={currentSlugs.size >= 4}
-                    >
-                      + Adicionar
-                    </button>
-                  </div>
-                )
-              })}
-          </div>
-        </div>
-      )}
-
-      <details className="analysis-breakdown">
-        <summary>Ver detalhes do score</summary>
-        <div className="breakdown-list">
-          {analysis.breakdown.map((b, i) => (
-            <div key={i} className="breakdown-row">
-              <span className={b.delta > 0 ? 'breakdown-pos' : 'breakdown-neg'}>
-                {b.delta > 0 ? '+' : ''}{b.delta}
-              </span>
-              <span>{b.factor}</span>
-            </div>
-          ))}
-        </div>
-      </details>
-    </section>
-  )
-}
-
 export default function TeamBuilderPage() {
   const { lang } = useLanguage()
   const navigate = useNavigate()
@@ -420,12 +317,6 @@ export default function TeamBuilderPage() {
         </div>
 
         {error && <p className="error">Erro: {error}</p>}
-
-        <TeamAnalysisPanel
-          analysis={analysis}
-          onAddSuggestion={addToFirstEmpty}
-          currentSlugs={usedSlugs}
-        />
 
         <h2>Escolha os personagens</h2>
         <p className="builder-hint">Arraste um card para um slot, ou clique para adicionar no próximo espaço vazio. Clique em ⚙ num slot pra configurar a build.</p>
