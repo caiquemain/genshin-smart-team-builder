@@ -26,12 +26,29 @@ CHAR_ALIASES = {
     "kamisatoayato": "kamisato-ayato",
     "kujousara": "kujou-sara",
     "kukishinobu": "kuki-shinobu",
+    "shinobu": "kuki-shinobu",
     "raidenshogun": "raiden-shogun",
     "sangonomiyakokomi": "sangonomiya-kokomi",
     "shikanoinheizou": "shikanoin-heizou",
     "aratakiitto": "arataki-itto",
     "yaemiko": "yae-miko",
     "yumemizukimizuki": "yumemizuki-mizuki",
+    "kokomi": "sangonomiya-kokomi",
+    "kazuha": "kaedehara-kazuha",
+    "itto": "arataki-itto",
+    "ayaka": "kamisato-ayaka",
+    "ayato": "kamisato-ayato",
+    "heizou": "shikanoin-heizou",
+    "mizuki": "yumemizuki-mizuki",
+    "sara": "kujou-sara",
+    "shogun": "raiden-shogun",
+    "raiden": "raiden-shogun",
+}
+
+# Placeholders que aparecem nos times do KQM e NÃO são personagens
+SKIP_SLUGS = {
+    "flex", "pyro", "hydro", "cryo", "electro", "anemo", "geo", "dendro",
+    "any", "none", "flexible", "utility", "healer", "shield", "buffer",
 }
 
 # Regras de detecção de arquétipo (ordem importa: mais específico primeiro)
@@ -82,16 +99,33 @@ def normalize_slug(slug: str) -> str:
 
 
 
+def _canon_name(s: str) -> str:
+    """Normaliza apostrofos tipograficos (U+2018/2019) para ASCII + lowercase."""
+    if not s:
+        return ""
+    return s.replace("\u2019", "'").replace("\u2018", "'").lower()
+
+
+def _name_filter(column, target: str):
+    """SQL filter que canonicaliza apostrofos tipograficos na coluna antes de comparar."""
+    canon_col = func.lower(
+        func.replace(func.replace(column, "\u2019", "'"), "\u2018", "'")
+    )
+    return canon_col == target
+
+
 def resolve_weapon(db, slug, name):
     w = db.query(Weapon).filter(Weapon.slug == slug).first()
     if w: return w
-    return db.query(Weapon).filter(func.lower(Weapon.name) == name.lower()).first()
+    if not name: return None
+    return db.query(Weapon).filter(_name_filter(Weapon.name, _canon_name(name))).first()
 
 
 def resolve_artifact(db, slug, name):
     a = db.query(ArtifactSet).filter(ArtifactSet.slug == slug).first()
     if a: return a
-    return db.query(ArtifactSet).filter(func.lower(ArtifactSet.name) == name.lower()).first()
+    if not name: return None
+    return db.query(ArtifactSet).filter(_name_filter(ArtifactSet.name, _canon_name(name))).first()
 
 
 def resolve_character(db, slug):
@@ -146,8 +180,9 @@ def import_build(db, data, warnings):
 def import_teams(db, teams, source_url, warnings):
     imported = 0
     for t in teams:
-        # Normaliza slugs via aliases ANTES de tentar resolver
-        normalized = [normalize_slug(s) for s in t["character_slugs"]]
+        # Filtra placeholders e normaliza slugs
+        cleaned = [s for s in t["character_slugs"] if s not in SKIP_SLUGS]
+        normalized = [normalize_slug(s) for s in cleaned]
         valid = [s for s in normalized if resolve_character(db, s)]
         for s in normalized:
             if s not in valid:

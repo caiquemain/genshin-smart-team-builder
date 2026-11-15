@@ -1,0 +1,138 @@
+{
+  "character_slug": "furina",
+  "build": {
+    "name": "KQM Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 4,
+          "notes": "Furina’s signature weapon gives her many stats that maximize her personal damage (provided her ER requirements are met). However, her personal DPS increase may not be that impactful compared to the benefits provided by Favonius Sword or Key of Khaj-N"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 4,
+          "notes": "If Furina’s ER requirements are already met, she can make good use of Chiori’s signature weapon due to its high CRIT DMG stat and Skill DMG% passive. Its performance improves in teams with Geo units who can deal Geo damage, notably Xilonen or Navia."
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 4,
+          "notes": "Primordial Jade Cutter is the next best option after her signature weapon and Uraku in terms of personal damage, granting a hefty amount of CRIT Rate and some HP%."
+        },
+        {
+          "weapon_slug": "key-of-khaj-nisut",
+          "weapon_name": "Key of Khaj-Nisut",
+          "rarity": 4,
+          "notes": "Key of Khaj-Nisut packs a huge amount of HP%, which is still highly beneficial for her personal damage. It also provides a large partywide EM buff thanks to Furina’s high Max HP, which can make it a strong (if not the best) option for team damage in "
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom Sworn",
+          "rarity": 4,
+          "notes": "Freedom Sworn is a great high-investment weapon for Furina in teams with ATK-scaling, Normal or Charged Attack damage dealers who don’t care for EM. Its passive activates after Furina triggers 2 reactions, which can be from off-field."
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "Favonius Sword is the ever-reliable solution to meet team ER requirements. However, it greatly decreases Furina’s typically high personal damage output, which makes it undesirable in teams where Furina would otherwise deal a notable amount of damage."
+        },
+        {
+          "weapon_slug": "serenity-s-call",
+          "weapon_name": "Serenity’s Call",
+          "rarity": 4,
+          "notes": "Serenity’s Call is a very notable option for Furina’s damage. It is exceptionally good when the team has Moonsign: Ascendant Gleam, Furina has high ER requirements, and her personal damage is important. It performs similarly to Festering Desire witho"
+        },
+        {
+          "weapon_slug": "festering-desire",
+          "weapon_name": "Festering Desire",
+          "rarity": 4,
+          "notes": "Festering Desire is a strong option for players who acquired it all the way back in Version 1.2. Its combination of Skill buffs and ER make it quite formidable on Furina."
+        },
+        {
+          "weapon_slug": "fleuve-cendre-ferryman",
+          "weapon_name": "Fleuve Cendre Ferryman",
+          "rarity": 4,
+          "notes": "Fleuve Cendre Ferryman is a solid option for Furina and is essentially a lesser version of Festering Desire. It can be acquired for free through Fontaine’s Fishing Association."
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 4,
+          "notes": "A cheap CRIT stat stick if you do not have the above options and are not willing to fish. Harbinger of Dawn’s passive can only be maintained with high, continuous teamwide healing, such as with Kokomi’s Burst. With its passive up, it becomes comparab"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "CRIT stat stick (ver nota do guia)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "CRIT stat stick (ver nota do guia)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "4pc Golden Troupe is by far Furina’s best set for her personal damage since the vast majority of her damage comes from her Ousia-aligned Skill’s Salon Members. An HP% Goblet is generally recommended when using this set."
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "4pc Tenacity of the Millelith effectively provides a permanent 20% ATK buff; however, it does greatly decrease Furina’s damage output."
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "4pc Scroll or 4pc SMS may be used in teams where Furina’s damage share is low and her teammates don’t benefit from 4pc TotM’s ATK% buff."
+        },
+        {
+          "artifact_set_slug": "silken-moon-s-serenade",
+          "artifact_set_name": "Silken Moon’s Serenade",
+          "notes": "4pc Scroll or 4pc SMS may be used in teams where Furina’s damage share is low and her teammates don’t benefit from 4pc TotM’s ATK% buff."
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "4pc Marechaussee Hunter is a decent option with Furina’s C6 unlocked. Since 4pc MH’s stacks do not stack nor refresh when off-field, C6 Furina may not always prefer this set if she swaps off-field after using her enhanced Normal Attacks."
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "artifact_set_slug": "mixed-sets",
+          "artifact_set_name": "Mixed Sets",
+          "notes": "2pc Bonuses: HP%, ER%, Hydro DMG%, Skill DMG%"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "hp_pct",
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_dmg",
+        "crit_rate",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": null
+    }
+  }
+}

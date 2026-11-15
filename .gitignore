@@ -21,3 +21,7 @@ frontend/.vite/
 
 # Tierlist raw HTMLs (baixados manualmente, pesados)
 backend/app/scripts/tierlist_raw/*.html
+
+# Session 34 temp files
+*.bak
+backend/data/parsed/*-only/

@@ -51,6 +51,24 @@
           "weapon_name": "Heretic’s Molten Blade",
           "rarity": 4,
           "notes": "These Swords narrowly outperform R5 Finale of the Deep, depending on the situation. Without a shield, Summit Shaper is practically equivalent to R5 Finale of the Deep."
+        },
+        {
+          "weapon_slug": "finale-of-the-deep",
+          "weapon_name": "Finale of the Deep",
+          "rarity": 4,
+          "notes": "Finale of the Deep is Skirk’s best freely accessible 4-star Sword by a large margin, even without sufficient healing. The requirement for a healer is usually mitigated by the fact that Skirk’s most common teammates, Furina, Escoffier, and Vodyanitsa,"
+        },
+        {
+          "weapon_slug": "moonweaver-s-dawn",
+          "weapon_name": "Moonweaver’s Dawn",
+          "rarity": 4,
+          "notes": "Moonweaver’s Dawn is Skirk’s best 4-star Sword for her quickswap playstyle. A free copy can be obtained through the Nod-Krai World Quest “Echoes of an Unfinished Past”, although further refinements can only be obtained when it is rate-up on a weapon "
+        },
+        {
+          "weapon_slug": "new-bough",
+          "weapon_name": "New Bough",
+          "rarity": 4,
+          "notes": "Without Stellar Glimmer, New Bough at any refinement is strictly worse than R5 Finale of the Deep. However, if Skirk is unable to clear her Bond of Life (e.g. from lack of a healer), New Bough outperforms Finale of the Deep at any refinement."
         }
       ],
       "artifacts_4pc": [

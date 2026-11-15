@@ -590,3 +590,46 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 
 ### Git
 - Commit: `feat(character): KQM build import, stats table por nível e times relacionados`
+
+### Dívida Técnica Adicionada em 2026-11-15
+- [ ] **Análise de time imprecisa**: A seção "Análise do time" (score 0-100, warnings, sugestões) foi **removida da UI** (modal de template + TeamDetailPage) por ser imprecisa — um time KQM premium como `Skirk — Furano — Escoffier — Vodyanitsa` aparecia como "20/100 RUIM". O backend ainda calcula (`POST /teams/analyze`), mas a UI não exibe mais. **Para retornar ao roadmap**, o serviço de análise (`backend/app/services/synergy.py` ou similar) precisa ser reescrito com base nos arquétipos reais do KQM (Freeze, Hyperbloom, Vaporize...) em vez de uma pontuação genérica.
+
+---
+
+## 34. Sessão 2026-11-15 (continuação) — Importação Furina + Parser multi-layout
+
+### O que foi feito
+- **Furina importada**: Build `KQM Build` com 12 armas · 5 sets 4pc · 1 set 2pc · stats completos (sands HP%/ER%, goblet HP%/Hydro, circlet CRIT Rate/CRIT DMG) · substats ER > CRIT DMG = CRIT Rate > HP% · talent `Burst > Skill`.
+- **19 TeamTemplates da Furina**: A KQM lista 5 seções `Example Teams` (uma principal + 4 dentro de arquétipos Vaporize/Freeze/Electro-Charged/Quickbloom). O parser agora coleta todas — antes só a última sobrevivia.
+- **Build `Build Oficial` da Furina coexistiu** sem conflito (nome diferente de `KQM Build`).
+- **Skirk intacta**: Build `KQM Build` continua com 8 armas · 3 4pc · 9 combos (não foi reimportada).
+
+### Estado do banco
+- `CharacterBuildPreset`: Skirk (1) + Furina (2)
+- `TeamTemplate`: 34 total (15 Skirk + 19 Furina)
+
+### Parser — 3 layouts suportados
+`parse_kqm_guide.py` agora lida com:
+1. **Tiered** — `5★ Name\tDesc` (Skirk)
+2. **Flat** — `Name\tDesc` sem marcador de raridade (Furina)
+3. **Slash** — `A / B / C / D` numa linha (categoria "CRIT Swords")
+
+### Bugs corrigidos nesta sessão
+**`parse_kqm_guide.py`:**
+- `parse_stat_cell`: trata `" or "` (`HP% or ER%`) e `=` (`CRIT DMG = CRIT Rate`) como separadores
+- `parse_talent_priority`: aceita `≥` e `=` além de `>`
+- `parse_teams`: usa `find_all_sections` para coletar TODAS as seções `Example Teams`
+- `parse_teams`: filtro `PLACEHOLDER_SLUGS` remove templates (`Furina — Pyro — ... — Flex/Healer`)
+- `parse_artifacts`: split de `4pc Set A / 4pc Set B` na mesma linha
+- `parse_weapons`: fallback `_parse_weapons_flat` quando nenhum bloco tiered é encontrado
+
+**`import_kqm.py`:**
+- `resolve_weapon` / `resolve_artifact`: canonicalizam apóstrofo tipográfico U+2019 (`'`) vs ASCII (`'`) antes de comparar por nome — resolveu `Silken Moon's Serenade`
+
+### Dívida Técnica Adicionada em 2026-11-15 (continuação)
+- [ ] **`detect_archetype` incompleto**: Não cobre vaporize, electro-charged, mono hydro, mono geo nem quickbloom. 9 de 34 TeamTemplates (26%) ficam `unknown` ou parcialmente errados. Expandir heurística com regras por elemento (2+ pyro → vaporize, 2+ electro + hydro → EC, 3+ mesmo elemento → mono X).
+- [ ] **Convenções de slug inconsistentes no seed**: `Weapon.slug` mantém `-s-` para apóstrofo (`serenity-s-call`), `ArtifactSet.slug` remove (`silken-moons-serenade`). Workaround atual: `_canon_name` + `_name_filter` no `import_kqm.py`. Fix definitivo: padronizar geração de slug num script único de seed.
+- [ ] **Combos em prosa (Furina)**: Furina não tem seção `Combos` no KQM — as rotações estão como `Sample Rotation` dentro de cada time. Parser retorna `[]` corretamente, mas UI perde essa informação. Avaliar extrair como `rotation_notes` por time no futuro.
+
+### Git (pendente)
+- Commit sugerido: `feat(import): Furina KQM build + parser multi-layout + slug apostrophe fix`

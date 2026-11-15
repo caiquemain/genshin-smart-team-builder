@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """
 parse_kqm_guide.py — Converte um guia .txt do KQM em JSON estruturado.
+
+Suporta dois layouts de Weapons:
+  - Tiered: "5★ Name\tDesc" (Skirk)
+  - Flat:   "Name\tDesc"     (Furina, sem marcador de raridade)
+
+Times: coleta TODAS as seções "Example Teams" (Furina tem 5).
 """
 import argparse
 import json
@@ -69,13 +75,16 @@ def trim_at_toc(text: str) -> str:
     return text[:idx] if idx != -1 else text
 
 
+_SECTION_PATTERN = re.compile(
+    r'^(' + '|'.join(re.escape(h) for h in SECTION_HEADERS) + r')\s*$',
+    re.MULTILINE,
+)
+
+
 def split_sections(text: str) -> dict[str, str]:
+    """Retorna um dict com a ÚLTIMA ocorrência de cada header (legado)."""
     text = trim_at_toc(text)
-    pattern = re.compile(
-        r'^(' + '|'.join(re.escape(h) for h in SECTION_HEADERS) + r')\s*$',
-        re.MULTILINE,
-    )
-    matches = list(pattern.finditer(text))
+    matches = list(_SECTION_PATTERN.finditer(text))
     sections = {}
     for i, m in enumerate(matches):
         start = m.end()
@@ -84,33 +93,56 @@ def split_sections(text: str) -> dict[str, str]:
     return sections
 
 
+def find_all_sections(text: str, header: str) -> list[str]:
+    """Retorna TODAS as ocorrências de um header (ex: 'Example Teams' repetido)."""
+    text = trim_at_toc(text)
+    matches = list(_SECTION_PATTERN.finditer(text))
+    results = []
+    for i, m in enumerate(matches):
+        if m.group(1) != header:
+            continue
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        results.append(text[start:end].strip())
+    return results
+
+
 # ===== WEAPONS =====
 WEAPON_BLOCK = re.compile(
     r'^(?P<tier>[1-5])★[ \t]+(?P<names>[^\n]+?)(?:\t+| {2,})(?P<desc>.+?)(?=\n[1-5]★|\n\n|\Z)',
     re.MULTILINE | re.DOTALL,
 )
 
-# Detecta "4★ Name" dentro da lista de nomes (mistura de raridades)
 INLINE_TIER = re.compile(r'(?<![0-9])([1-5])★\s*')
 
+# Fallback "Flat": Name\tDesc sem marcador de raridade (Furina)
+FLAT_WEAPON_LINE = re.compile(
+    r'^(?P<name>[A-Z][^\t\n]+?)\t+(?P<desc>[A-Za-z].+?)(?=\n[A-Z][^\t\n]{2,60}\t|\Z)',
+    re.MULTILINE | re.DOTALL,
+)
 
-def parse_weapons(section: str) -> list[dict]:
+# Linha "A / B / C / D" (categoria "CRIT Swords" da Furina)
+SLASH_WEAPONS = re.compile(
+    r'^(?P<list>[A-Z][^\t\n]+?(?:\s*/\s*[A-Z][^\t\n]+?){2,})\s*$',
+    re.MULTILINE,
+)
+
+
+def _parse_weapons_tiered(section: str) -> list[dict]:
     weapons = []
     for m in WEAPON_BLOCK.finditer(section):
         block_tier = int(m.group("tier"))
         desc = collapse_ws(m.group("desc"))[:250]
         names_raw = m.group("names")
 
-        # Verifica se há raridades inline (ex: "Summit Shaper, 4★ The Black Sword")
-        inline_matches = list(INLINE_TIER.finditer(names_raw))
-        if inline_matches:
-            # Divide por posição dos marcadores de raridade
-            for i, im in enumerate(inline_matches):
+        inline = list(INLINE_TIER.finditer(names_raw))
+        if inline:
+            for i, im in enumerate(inline):
                 tier = int(im.group(1))
                 start = im.end()
-                end = inline_matches[i + 1].start() if i + 1 < len(inline_matches) else len(names_raw)
-                segment = names_raw[start:end].strip().rstrip(',').strip()
-                for raw in split_respecting_parens(segment):
+                end = inline[i + 1].start() if i + 1 < len(inline) else len(names_raw)
+                seg = names_raw[start:end].strip().rstrip(',').strip()
+                for raw in split_respecting_parens(seg):
                     clean = clean_weapon_name(raw)
                     slug = to_slug(clean)
                     if slug and len(clean) > 2:
@@ -134,6 +166,47 @@ def parse_weapons(section: str) -> list[dict]:
     return weapons
 
 
+def _parse_weapons_flat(section: str) -> list[dict]:
+    """Formato Furina: 'WeaponName\\tDesc...' — sem 'N★'."""
+    weapons, seen = [], set()
+
+    # 1) Linhas "Name\tDesc"
+    for m in FLAT_WEAPON_LINE.finditer(section):
+        clean = clean_weapon_name(m.group("name").strip())
+        slug = to_slug(clean)
+        if not slug or len(clean) < 3 or slug in seen:
+            continue
+        seen.add(slug)
+        weapons.append({
+            "weapon_slug": slug,
+            "weapon_name": strip_parentheses(clean),
+            "rarity": 4,  # raridade desconhecida neste layout
+            "notes": collapse_ws(m.group("desc"))[:250],
+        })
+
+    # 2) Linha "A / B / C / D" (CRIT Swords)
+    for m in SLASH_WEAPONS.finditer(section):
+        for name in re.split(r'\s*/\s*', m.group("list")):
+            clean = clean_weapon_name(name.strip())
+            slug = to_slug(clean)
+            if not slug or len(clean) < 3 or slug in seen:
+                continue
+            seen.add(slug)
+            weapons.append({
+                "weapon_slug": slug,
+                "weapon_name": strip_parentheses(clean),
+                "rarity": 5,
+                "notes": "CRIT stat stick (ver nota do guia)",
+            })
+
+    return weapons
+
+
+def parse_weapons(section: str) -> list[dict]:
+    tiered = _parse_weapons_tiered(section)
+    return tiered if tiered else _parse_weapons_flat(section)
+
+
 # ===== ARTIFACTS =====
 ARTIFACT_LINE = re.compile(
     r'^(?P<pieces>[24])pc[ \t]+(?P<name>[^\n]+?)(?:\t+| {2,})(?P<desc>.+?)(?=\n[24]pc|\n\n|\Z)',
@@ -145,11 +218,19 @@ def parse_artifacts(section: str) -> tuple[list, list]:
     four, two = [], []
     for m in ARTIFACT_LINE.finditer(section):
         pieces = int(m.group("pieces"))
-        name = strip_parentheses(m.group("name"))
-        slug = to_slug(name)
         desc = collapse_ws(m.group("desc"))[:250]
-        entry = {"artifact_set_slug": slug, "artifact_set_name": name, "notes": desc}
-        (four if pieces == 4 else two).append(entry)
+        raw_name = m.group("name")
+        # Separa "Set A / 4pc Set B (SMS)"
+        for sub in re.split(r'\s*/\s*(?=[24]pc\s)', raw_name):
+            sub = re.sub(r'^[24]pc\s+', '', sub).strip()
+            if not sub:
+                continue
+            name = strip_parentheses(sub)
+            slug = to_slug(name)
+            if not slug:
+                continue
+            entry = {"artifact_set_slug": slug, "artifact_set_name": name, "notes": desc}
+            (four if pieces == 4 else two).append(entry)
     return four, two
 
 
@@ -159,7 +240,7 @@ STAT_ALIASES = {
     "hp%": "hp_pct", "hp": "hp_pct", "flat hp": "hp_pct",
     "def%": "def_pct", "def": "def_pct",
     "em": "em", "elemental mastery": "em",
-    "er": "er", "energy recharge": "er",
+    "er": "er", "energy recharge": "er", "er%": "er", "energy recharge%": "er", "em%": "em",
     "crit rate": "crit_rate",
     "crit dmg": "crit_dmg", "crit damage": "crit_dmg",
     "cryo dmg": "cryo_dmg", "cryo dmg bonus": "cryo_dmg",
@@ -186,6 +267,8 @@ def to_stat_keys(raw: str) -> list[str]:
 
 def parse_stat_cell(cell: str) -> list[str]:
     cell = re.sub(r'[≥>≈~=]', ',', cell)
+    # "HP% or ER%" / "CRIT Rate or CRIT DMG" → virar lista
+    cell = re.sub(r'\s+or\s+', ',', cell, flags=re.IGNORECASE)
     result = []
     for p in cell.split(','):
         p = strip_parentheses(p.strip())
@@ -226,7 +309,7 @@ def parse_stats(section: str) -> dict:
     for line in lines:
         if "Stat Priority:" in line:
             raw = line.split("Stat Priority:")[1]
-            raw = re.sub(r'[>]+', ',', raw)
+            raw = re.sub(r'[>=]+', ',', raw)
             for p in raw.split(','):
                 p = strip_parentheses(p.strip())
                 for k in to_stat_keys(p):
@@ -237,34 +320,55 @@ def parse_stats(section: str) -> dict:
     return result
 
 
+# Palavras que NÃO são nomes de talento
+TALENT_INVALID_WORDS = {
+    "since", "the", "this", "for", "if", "a", "an", "and", "but", "with",
+    "without", "leveling", "you", "your", "her", "his", "their", "their",
+    "these", "those", "note", "however", "while", "when", "as", "at", "by",
+    "from", "of", "to", "in", "on", "over", "under", "level", "levels",
+}
+
+VALID_TALENTS = {"normal", "skill", "burst"}
+
+
 def parse_talent_priority(section: str) -> str | None:
+    # 1) "Normal > Skill > Burst" / "Burst ≥ Skill = ..."
     m = re.search(
-        r'Talent Priority[\s\n]+([A-Z][A-Za-z]+(?:\s*>\s*[A-Z][A-Za-z]+)+)',
+        r'(Normal(?: Attack)?|Skill|Burst)'
+        r'(?:\s*[>≥=]\s*(Normal(?: Attack)?|Skill|Burst)){1,2}',
         section,
+        re.IGNORECASE,
     )
     if m:
-        return re.sub(r'\s*>\s*', ' > ', m.group(1).strip())
-    m2 = re.search(r'Talent Priority[\s\n]+([A-Z][A-Za-z]+)', section)
-    return m2.group(1).strip() if m2 else None
+        full = m.group(0)
+        full = re.sub(r'Normal\s*Attack', 'Normal', full, flags=re.IGNORECASE)
+        full = re.sub(r'\s*[>≥=]\s*', ' > ', full)
+        return full
+
+    # 2) Fallback: "Talent Priority" seguido de algo válido
+    m2 = re.search(
+        r'Talent Priority[\s\n]+([A-Z][A-Za-z]+(?:\s*[>≥=]\s*[A-Z][A-Za-z]+)*)',
+        section,
+    )
+    if m2:
+        candidate = m2.group(1).strip()
+        first_word = candidate.split()[0].lower()
+        if first_word in TALENT_INVALID_WORDS:
+            return None
+        if not any(t in candidate.lower() for t in VALID_TALENTS):
+            return None
+        return candidate
+
+    return None
 
 
 # ===== COMBOS =====
-# Combos que começam com letra ou "C2+:", e contém apenas tokens de combo
 COMBO_PREFIX = re.compile(r'^(?:C\d+\+?:\s*)?')
-COMBO_TOKEN = re.compile(r'^(?:[a-zA-Z]|[Nn]\d|[QEChHtE]\d?(?:\([^)]+\))?|\[|\]|\d|D|/)')
-
-COMBO_RAW = re.compile(
-    r'^(?:C\d+\+?:\s*)?(?P<combo>[a-zA-Z][a-zA-Z0-9 /()\[\]:+]{2,80}?)(?:\t+|$)(?P<desc>.*?)$',
-    re.MULTILINE,
-)
-
-# Tokens válidos de combo do KQM
 VALID_COMBO_TOKEN = re.compile(r'(tE|hE|N\d|N\d\(|Q\b|E\b|D\b|C\d|\[|\])')
 
 
 def parse_combos(section: str) -> list[str]:
     combos = []
-    # Frases que começam com palavras comuns (não são combos)
     NOISE_PREFIXES = (
         "note ", "notes ", "click ", "if ", "you ", "this ", "these ",
         "the ", "a ", "an ", "while ", "for ", "use ", "make ", "when ",
@@ -283,10 +387,8 @@ def parse_combos(section: str) -> list[str]:
             continue
         if not re.match(r'^[a-zA-Z]', combo):
             continue
-        # Bloqueia frases que começam com palavras comuns
         if combo.lower().startswith(NOISE_PREFIXES):
             continue
-        # Heurística: no máximo 2 palavras longas em inglês/português
         if len(re.findall(r'\b[a-z]{4,}\b', combo.lower())) > 2:
             continue
         if combo not in combos:
@@ -295,10 +397,19 @@ def parse_combos(section: str) -> list[str]:
 
 
 # ===== TEAMS =====
+DASH = '[—–]'  # em-dash ou en-dash
+
 TEAM_LINE = re.compile(
-    r'^(?P<team>[A-Z][a-zA-Z]+[^\n]*?—[^\n]*—[^\n]*—[^\n]+)$',
+    rf'^(?P<team>[A-Z][a-zA-Z]+[^\n]*?{DASH}[^\n]*{DASH}[^\n]*{DASH}[^\n]+)$',
     re.MULTILINE,
 )
+
+# Templates do KQM ("Furina — Pyro — Pyro/Hydro — Flex/Healer")
+PLACEHOLDER_SLUGS = {
+    "flex", "healer", "buffer", "shielder", "subdps", "maindps",
+    "pyro", "hydro", "cryo", "electro", "anemo", "geo", "dendro",
+    "character", "dps", "support",
+}
 
 
 def parse_teams(*sections: str) -> list[dict]:
@@ -306,12 +417,14 @@ def parse_teams(*sections: str) -> list[dict]:
     teams, seen = [], set()
     for m in TEAM_LINE.finditer(text):
         raw = m.group("team")
-        parts = [p.strip() for p in re.split(r'\s*—\s*', raw) if p.strip()]
+        parts = [p.strip() for p in re.split(rf'\s*{DASH}\s*', raw) if p.strip()]
         if not (3 <= len(parts) <= 4):
             continue
         primary = [clean_char_name(p.split('/')[0].strip()) for p in parts]
         slugs = [to_slug(p) for p in primary if to_slug(p)]
         if len(slugs) < 3:
+            continue
+        if any(s in PLACEHOLDER_SLUGS for s in slugs):
             continue
         key = tuple(sorted(slugs))
         if key in seen:
@@ -323,6 +436,18 @@ def parse_teams(*sections: str) -> list[dict]:
             "raw_line": collapse_ws(raw),
         })
     return teams
+
+
+def _dedup_teams(teams: list[dict]) -> list[dict]:
+    seen = set()
+    out = []
+    for t in teams:
+        key = tuple(sorted(t["character_slugs"]))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(t)
+    return out
 
 
 def parse_guide(text: str, char_slug: str) -> dict:
@@ -342,22 +467,26 @@ def parse_guide(text: str, char_slug: str) -> dict:
     )
     combos = parse_combos(combos_section)[:10]
 
-    teams = parse_teams(
-        sections.get("Example Teams", ""),
-        sections.get("Limited Roster Alternatives", ""),
-    )
+    # NEW: coleta TODAS as seções "Example Teams" (Furina tem 5)
+    all_teams = []
+    for sec in find_all_sections(text, "Example Teams"):
+        all_teams.extend(parse_teams(sec))
+    for sec in find_all_sections(text, "Limited Roster Alternatives"):
+        all_teams.extend(parse_teams(sec))
+    teams = _dedup_teams(all_teams)
 
     print(f"   [debug] talent_priority={talent_priority!r}")
     print(f"   [debug] sands={stats['sands']} goblet={stats['goblet']} circlet={stats['circlet']}")
     print(f"   [debug] substats={stats['substats']}")
     print(f"   [debug] combos={combos}")
+    print(f"   [debug] Example Teams seções encontradas: {len(find_all_sections(text, 'Example Teams'))}")
 
     return {
         "character_slug": char_slug,
         "build": {
             "name": "KQM Build",
             "build_data": {
-                "weapons": weapons[:8],
+                "weapons": weapons[:12],
                 "artifacts_4pc": four[:5],
                 "artifacts_2pc": two[:5],
                 "sands_stat": stats["sands"],
