@@ -749,3 +749,58 @@ Layouts cobertos:
 
 1. **Escalar para todos os personagens** (parser robusto em 4 layouts; agora é só colar `.txt` e rodar).
 2. **Atacar `detect_archetype`** (agora com 87 times, ~26% `unknown` fica muito visível no filtro de `/teams`).
+
+---
+
+## 39. Sessão 2026-11-16 — Team customizado por guia (`--create-team`)
+
+### O que foi feito
+- **Flag `--create-team`** no `import_kqm.py`: cria 1 `Team` customizável por guia (main = char importado, flex = outros 3 do primeiro time do KQM).
+- **Naming**: `"{CharName} — Principal"` (opção B). Sem "KQM" no nome; atribuição em `description` + `references`.
+- **Parser extrai `references`**: `{url, title}` com link do KQM.
+- **Parser extrai `weapon_refinement`**: regex `\bR([1-5])\b` na `notes`. Default 1.
+
+### Estado do banco
+5 `Team`s customizados:
+
+| id | nome | origem |
+|---|---|---|
+| 4 | 'Skirk Freeze (KQM)' | manual (via curl externo) — preservado |
+| 6 | 'Skirk — Principal' | auto |
+| 8 | 'Arlecchino — Principal' | auto |
+| 10 | 'Furina — Principal' | auto |
+| 11 | 'Neuvillette — Principal' | auto |
+
+Cada com 4 `TeamCharacter`s, main com build completa + `references`, flex com preset (se existir) ou vazio, `substitutes=[]` (user preenche manualmente).
+
+### Bugs corrigidos
+1. `Team`/`TeamCharacter` faltando no import do `import_kqm.py` (NameError).
+2. `from app.models import (...)` multi-linha corrompido por regex mal feito.
+3. `create_team_from_build` sem `normalize_slug` → `kazuha` virava flex inválido. Fix: normalize + skip placeholders.
+
+### Decisões de design
+- **Duplicata entre guias**: `Furina — Principal` e `Neuvillette — Principal` compartilham os mesmos 4 chars (mains diferentes). Mantidos ambos (opção A).
+- **`--create-team` default OFF** — imports existentes leves.
+- **`substitutes` sempre vazio** — KQM não estrutura alternativas por slot de forma confiável; user preenche.
+
+---
+
+## 40. Sessão 2026-11-16 — Sync chars 5.5+ (Mitya, Valeriy)
+
+### O que foi feito
+- **AMBR sync**: `docker compose exec -e AMBR_MAX_CHARACTERS=0 backend python -m app.seed.import_from_ambr` → 127 → **129 chars** (Mitya, Valeriy).
+- **26 icons baixados** via scripts existentes:
+  - `download_missing.py` → 2 AvatarIcon + 4 Skill_E/S
+  - `download_talents_passives.py` → 20 constelações/passivas (Mitya C1-C6 + passivas, Valeriy C1-C6 + passivas)
+- **Routine de sync pós-AMBR** (documentada para futuras versões):
+  1. `docker compose exec -e AMBR_MAX_CHARACTERS=0 backend python -m app.seed.import_from_ambr`
+  2. `python3 download_missing.py`
+  3. `python3 download_talents_passives.py`
+  4. `docker compose exec backend python -m app.scripts.export_planner_data`
+  5. `python3 download_assets.py`
+  6. `docker compose build --no-cache frontend && docker compose up -d frontend`
+
+### Dívida Técnica
+- [ ] **`enrich_substitutes.py` não implementado**: os 4 auto teams (`id=6,8,10,11`) têm `substitutes=[]`. Precisa criar script que preenche por elemento (mesmo elemento, não-DPS, SUPPORT primeiro). Ficou pra próxima sessão.
+- [ ] **`download_talents.py`**: hardcoded com 3 icons (Skill_A_01, Skill_E_SkirkNew_01, Skill_S_SkirkNew_01). Redundante (download_missing cobre).
+- [ ] **`?v=2` no `iconUrl()`**: cache do browser não invalida quando arquivos novos são adicionados. Bump pra `?v=3` quando próximo lote de assets chegar.
