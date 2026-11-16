@@ -633,3 +633,24 @@ O Planner antes só calculava Materiais de Ascensão e Talentos. Agora ele calcu
 
 ### Git (pendente)
 - Commit sugerido: `feat(import): Furina KQM build + parser multi-layout + slug apostrophe fix`
+
+---
+
+## 35. Sessão 2026-11-15 (continuação) — Fix de slugs no roster
+
+### Bug corrigido
+`useRoster` comparava slugs brutos entre DB (`kuki-shinobu`, `kamisato-ayaka`, `hu-tao`) e GOOD/Seelie (`shinobu`, `ayaka`, `hutao`) — sem normalização. Personagens com prefixo de sobrenome ou nome composto não marcavam como "possuídos". Sintoma reportado: Kuki e Ayaka apareciam como "não tenho" mesmo estando no Seelie.
+
+### Fix
+- `normKey()`: lowercase + remove não-alfanumérico + aplica `CHAR_ALIASES`
+- `CHAR_ALIASES`: mapeia formas curtas (`ayaka`, `kazuha`, `shinobu`, `kokomi`, `raiden`, `sara`, `heizou`, `yae`, `itto`, `ayato`) para a forma canônica concatenada
+- `useEffect` normaliza `good` map e `seelieSlugs` ao carregar
+- `get()` normaliza o slug consultado antes de buscar
+- `ownedCount` normaliza tudo antes de somar
+- Manual continua salvo em slug **bruto** (não quebra dados antigos)
+
+### Validado (10/10)
+kuki-shinobu, kamisato-ayaka, hu-tao, kaedehara-kazuha, sangonomiya-kokomi, raiden-shogun, kujou-sara, shikanoin-heizou, yun-jin, lan-yan — todos agora casam com GOOD/Seelie.
+
+### Dívida Técnica nova
+- [ ] **Alinhar backend e frontend**: `CHAR_ALIASES` está duplicado em `import_kqm.py` (backend) e `roster.ts` (frontend). Avaliar extrair para JSON compartilhado (`shared/aliases.json`) ou endpoint `/api/aliases`.
