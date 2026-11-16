@@ -134,7 +134,13 @@
         "N2C",
         "N3C"
       ],
-      "notes": null
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/arlecchino/",
+          "title": "KQM Arlecchino Guide"
+        }
+      ]
     }
   }
 }

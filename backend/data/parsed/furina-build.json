@@ -132,7 +132,13 @@
       "er_requirement": null,
       "talent_priority": "Burst > Skill",
       "combos": [],
-      "notes": null
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/furina/",
+          "title": "KQM Furina Guide"
+        }
+      ]
     }
   }
 }

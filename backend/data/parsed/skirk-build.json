@@ -119,7 +119,13 @@
         "tE 2[N2D] N2Q 2[N2D] N5D N2D N2C 2[N2D] N5",
         "tE N2Q 2[N2D] N5D N2D N2C 2[N2D] N5D N2C N2"
       ],
-      "notes": null
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/skirk/",
+          "title": "KQM Skirk Guide"
+        }
+      ]
     }
   }
 }
