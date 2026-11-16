@@ -6,6 +6,28 @@ import type { GoodData } from '../types/good'
 const STORAGE_KEY = 'gsb.roster.v1'
 const PLANNER_KEY = 'gsb.planner.v5'
 
+// Alias: forma curta ou alternativa -> chave canônica (já normalizada, sem separadores)
+const CHAR_ALIASES: Record<string, string> = {
+  'ayaka': 'kamisatoayaka',
+  'ayato': 'kamisatoayato',
+  'kazuha': 'kaedeharakazuha',
+  'kokomi': 'sangonomiyakokomi',
+  'raiden': 'raidenshogun',
+  'shogun': 'raidenshogun',
+  'shinobu': 'kukishinobu',
+  'kuki': 'kukishinobu',
+  'yae': 'yaemiko',
+  'miko': 'yaemiko',
+  'itto': 'aratakiitto',
+  'sara': 'kujousara',
+  'heizou': 'shikanoinheizou',
+}
+
+function normKey(s: string): string {
+  const k = (s || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+  return CHAR_ALIASES[k] || k
+}
+
 export interface RosterEntry {
   owned: boolean
   cons: number
@@ -51,13 +73,16 @@ export function useRoster(): Roster {
       try {
         const parsed = JSON.parse(planner)
         if (parsed?.good) {
-          setGood(parseGoodData(parsed.good as GoodData))
+          const raw = parseGoodData(parsed.good as GoodData)
+          const normalized = new Map<string, GoodCharState>()
+          raw.forEach((v, k) => normalized.set(normKey(k), v))
+          setGood(normalized)
         }
         if (parsed?.seelie?.goals) {
           const slugs = new Set<string>()
           for (const g of parsed.seelie.goals) {
             if (g.type === 'character' && g.character) {
-              slugs.add(g.character)
+              slugs.add(normKey(g.character))
             }
           }
           setSeelieSlugs(slugs)
@@ -67,17 +92,17 @@ export function useRoster(): Roster {
   }, [])
 
   const get = (slug: string): OwnedChar => {
-    // Manual SEMPRE sobrescreve
-    const m = manual.get(slug)
+    const nk = normKey(slug)
+    // Manual: tenta slug bruto (DB) e normalizado — preserva dados antigos
+    const m = manual.get(slug) || manual.get(nk)
     if (m) {
       return { owned: m.owned, cons: m.cons, source: 'manual' }
     }
-    // GOOD > Seelie
-    const g = good.get(slug)
+    const g = good.get(nk)
     if (g) {
       return { owned: true, cons: g.cons, source: 'good' }
     }
-    if (seelieSlugs.has(slug)) {
+    if (seelieSlugs.has(nk)) {
       return { owned: true, cons: 0, source: 'seelie' }
     }
     return { owned: false, cons: 0, source: 'unknown' }
@@ -101,13 +126,31 @@ export function useRoster(): Roster {
     })
   }
 
-  // Conta total de "owned" (manual + good + seelie)
+  // Conta total de "owned" — normaliza tudo antes de contar
   let ownedCount = 0
   if (manual.size > 0 || good.size > 0 || seelieSlugs.size > 0) {
     const all = new Set<string>()
-    manual.forEach((v, k) => { if (v.owned) all.add(k) })
-    good.forEach((_, k) => { if (!manual.has(k) || manual.get(k)!.owned) all.add(k) })
-    seelieSlugs.forEach(k => { if (!manual.has(k) && !good.has(k)) all.add(k) })
+
+    // Manual: normaliza e preserva flag "owned"
+    const manualOwnedNorm = new Map<string, boolean>()
+    manual.forEach((v, k) => {
+      const nk = normKey(k)
+      manualOwnedNorm.set(nk, v.owned)
+      if (v.owned) all.add(nk)
+    })
+
+    // GOOD: conta se manual não negou explicitamente
+    good.forEach((_, k) => {
+      const nk = normKey(k)
+      if (!manualOwnedNorm.has(nk) || manualOwnedNorm.get(nk)) all.add(nk)
+    })
+
+    // Seelie: conta se não está em manual nem em GOOD
+    seelieSlugs.forEach(k => {
+      const nk = normKey(k)
+      if (!manualOwnedNorm.has(nk) && !good.has(nk)) all.add(nk)
+    })
+
     ownedCount = all.size
   }
 
