@@ -11,6 +11,8 @@ import ArtifactTooltip from '../components/ArtifactTooltip'
 import TalentSection from '../components/TalentSection'
 import CharacterStatsTable from '../components/CharacterStatsTable'
 import { archetypeInfo } from '../utils/archetypes'
+import { useRoster } from '../utils/roster'
+import { CheckCircle2, XCircle, RotateCcw, Pencil } from 'lucide-react'
 
 const TALENT_LABELS: Record<string, string> = {
   normal_attack: 'Ataque Normal',
@@ -167,6 +169,8 @@ export default function CharacterDetailPage() {
   const [kqmArtifactsInfo, setKqmArtifactsInfo] = useState<Map<string, ArtifactSetSummary>>(new Map())
   const [characterTeams, setCharacterTeams] = useState<TeamTemplateSummary[]>([])
   const [allChars, setAllChars] = useState<Map<string, any>>(new Map())
+  const roster = useRoster()
+  const [showRosterEditor, setShowRosterEditor] = useState(false)
 
   useEffect(() => {
     if (!slug) return
@@ -282,6 +286,7 @@ export default function CharacterDetailPage() {
 
   const img = iconUrl(char.icon)
   const releaseFmt = formatRelease(char.release_date)
+  const ownership = slug ? roster.get(slug) : null
 
   return (
     <div className={`character-page element-${char.element}`}>
@@ -312,6 +317,72 @@ export default function CharacterDetailPage() {
                 <span className="char-tag">⚔️ {char.weapon_type}</span>
                 {char.region && <span className="char-tag">📍 {char.region}</span>}
               </div>
+
+              {ownership && (
+                <div className="char-roster-status">
+                  <span className={`char-roster-pill ${ownership.owned ? 'owned' : 'not-owned'} source-${ownership.source}`}>
+                    {ownership.owned ? (
+                      <>
+                        <CheckCircle2 size={16} />
+                        <span>Tenho{ownership.cons > 0 ? ` · C${ownership.cons}` : ''}</span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle size={16} />
+                        <span>{ownership.source === 'manual' ? 'Não tenho (manual)' : 'Não tenho'}</span>
+                      </>
+                    )}
+                    {ownership.owned && ownership.source !== 'manual' && (
+                      <small className="char-roster-source">{ownership.source === 'good' ? 'GOOD' : 'Seelie'}</small>
+                    )}
+                  </span>
+                  <button
+                    className="char-roster-edit-btn"
+                    onClick={() => setShowRosterEditor(v => !v)}
+                  >
+                    <Pencil size={14} />
+                    <span>{ownership.source === 'manual' ? 'Editar' : ownership.owned ? 'Personalizar' : 'Marcar'}</span>
+                  </button>
+                </div>
+              )}
+
+              {showRosterEditor && ownership && slug && (
+                <div className="char-roster-editor">
+                  <label className="char-roster-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={ownership.owned}
+                      onChange={(e) => roster.set(slug, { owned: e.target.checked, cons: e.target.checked ? ownership.cons : 0 })}
+                    />
+                    <span>Eu tenho este personagem</span>
+                  </label>
+                  {ownership.owned && (
+                    <div className="char-roster-cons">
+                      <span>Constelação:</span>
+                      <div className="cons-pills">
+                        {[0, 1, 2, 3, 4, 5, 6].map((n) => (
+                          <button
+                            key={n}
+                            className={`cons-pill ${ownership.cons === n ? 'active' : ''}`}
+                            onClick={() => roster.set(slug, { owned: true, cons: n })}
+                          >
+                            C{n}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {ownership.source === 'manual' && (
+                    <button
+                      className="char-roster-reset"
+                      onClick={() => { roster.remove(slug); setShowRosterEditor(false) }}
+                    >
+                      <RotateCcw size={14} />
+                      <span>Remover override (voltar a usar Seelie/GOOD)</span>
+                    </button>
+                  )}
+                </div>
+              )}
               {char.description && <p className="char-hero-desc">{stripHtml(char.description)}</p>}
             </div>
           </div>
