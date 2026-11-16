@@ -42,7 +42,10 @@ export interface OwnedChar {
 export interface Roster {
   get: (slug: string) => OwnedChar
   set: (slug: string, entry: RosterEntry) => void
+  setMany: (slugs: string[], entry: RosterEntry) => void
   remove: (slug: string) => void
+  clearAll: () => void
+  refresh: () => void
   all: Map<string, RosterEntry>
   hasGoodOrSeelie: boolean
   ownedCount: number
@@ -52,6 +55,7 @@ export function useRoster(): Roster {
   const [manual, setManual] = useState<Map<string, RosterEntry>>(new Map())
   const [good, setGood] = useState<Map<string, GoodCharState>>(new Map())
   const [seelieSlugs, setSeelieSlugs] = useState<Set<string>>(new Set())
+  const [refreshTick, setRefreshTick] = useState(0)
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
@@ -89,7 +93,7 @@ export function useRoster(): Roster {
         }
       } catch {}
     }
-  }, [])
+  }, [refreshTick])
 
   const get = (slug: string): OwnedChar => {
     const nk = normKey(slug)
@@ -116,6 +120,22 @@ export function useRoster(): Roster {
       return next
     })
   }
+
+  const setMany = (slugs: string[], entry: RosterEntry) => {
+    setManual(prev => {
+      const next = new Map(prev)
+      for (const slug of slugs) next.set(slug, entry)
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(Object.fromEntries(next))) } catch {}
+      return next
+    })
+  }
+
+  const clearAll = () => {
+    setManual(new Map())
+    try { localStorage.removeItem(STORAGE_KEY) } catch {}
+  }
+
+  const refresh = () => setRefreshTick(t => t + 1)
 
   const remove = (slug: string) => {
     setManual(prev => {
@@ -159,7 +179,10 @@ export function useRoster(): Roster {
   return {
     get,
     set,
+    setMany,
     remove,
+    clearAll,
+    refresh,
     all: manual,
     hasGoodOrSeelie: good.size > 0 || seelieSlugs.size > 0,
     ownedCount,
