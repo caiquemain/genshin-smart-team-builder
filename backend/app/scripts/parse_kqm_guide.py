@@ -518,6 +518,12 @@ def parse_guide(text: str, char_slug: str) -> dict:
     print(f"   [debug] combos={combos}")
     print(f"   [debug] Example Teams seções encontradas: {len(find_all_sections(text, 'Example Teams'))}")
 
+    kqm_url = f"https://keqingmains.com/{char_slug}/"
+    references = [{
+        "url": kqm_url,
+        "title": f"KQM {char_slug.replace('-', ' ').title()} Guide",
+    }]
+
     return {
         "character_slug": char_slug,
         "build": {
@@ -534,6 +540,7 @@ def parse_guide(text: str, char_slug: str) -> dict:
                 "talent_priority": talent_priority,
                 "combos": combos,
                 "notes": None,
+                "references": references,
             },
         },
         "teams": teams,
