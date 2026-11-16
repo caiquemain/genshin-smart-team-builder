@@ -679,3 +679,21 @@ kuki-shinobu, kamisato-ayaka, hu-tao, kaedehara-kazuha, sangonomiya-kokomi, raid
 
 ### Dívida Técnica nova
 - [ ] **`buildIndexes` não é global**: só roda em `PlannerPage` e `_DebugPage`. Ideal: mover para um `PlannerProvider` (context) que carrega o planner-data uma vez, ou fazer `buildIndexes` lazy/idempotente dentro de `parseGoodData` lendo de `localStorage`. Workaround atual: fallback `normKey` (cobre os casos comuns mas perde mapeamento PT/EN do `charIndex`).
+
+---
+
+## 37. Sessão 2026-11-15 (continuação) — Roster v2 + atalhos + fix do céu
+
+### O que foi feito
+- **Roster v2**: design premium (cards com glow por elemento), filtros ricos (elemento/raridade/arma/status), bulk actions (marcar visíveis, marcar 4★, desmarcar, limpar overrides), upload GOOD drag-and-drop.
+- **Seletor de constelação**: trigger compacto `C{n}` no card que abre popover com pills C0–C6 legíveis (antes era grid de 7 mini-pills ilegível no card de 140px). Fecha ao clicar fora, z-index do card sobe (`has-cons-open`) para o popover não ser cortado pelos vizinhos.
+- **Atalhos de teclado no `/roster`**: `/` foca busca, `?` abre painel de atalhos, Tab navega cards, `←→`/`↑↓` navegam, `0-6` definem constelação, `Espaço`/`Enter` toggle owned, `Backspace`/`Delete` remove override, `Esc` blur/fecha painel.
+- **Link "Meu Roster" na nav**: adicionado entre Personagens e Armas (rota `/roster` já existia mas o link faltava).
+
+### Bugs corrigidos
+- **Estrelas cadentes invertidas**: cauda estava em `right: 100%` (esquerda da cabeça) com gradient `90deg` (branco na direita) + movimento `translate(-800, 800)` (baixo-esquerda). Visualmente a cauda "liderava" e a cabeça parecia estar embaixo. Fix: `left: 100%` + `270deg` nos dois blocos `.meteor::before` — cauda agora segue a cabeça.
+- **Popover de constelação cortado**: `.roster-card` com `overflow: hidden` cortava o popover. Fix: `overflow: visible` + classe `.has-cons-open` no card com `z-index: 50` (popover com `z-index: 9999`).
+
+### Notas
+- Duplicata no link "Meu Roster" (patch rodou 2x no `App.tsx`) — removida manualmente.
+- Bulk actions + upload GOOD cobrem o caso de usuário novo sem GOOD/Seelie (marca 4★ de uma vez, depois só os 5★).
