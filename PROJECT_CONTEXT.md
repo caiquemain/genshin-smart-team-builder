@@ -697,3 +697,55 @@ kuki-shinobu, kamisato-ayaka, hu-tao, kaedehara-kazuha, sangonomiya-kokomi, raid
 ### Notas
 - Duplicata no link "Meu Roster" (patch rodou 2x no `App.tsx`) — removida manualmente.
 - Bulk actions + upload GOOD cobrem o caso de usuário novo sem GOOD/Seelie (marca 4★ de uma vez, depois só os 5★).
+
+---
+
+## 38. Sessão 2026-11-15 (continuação) — Stress-test parser + Arlecchino/Neuvillette
+
+### Parser validado em 4 layouts
+
+| Char | Armas | 4pc | Combos | Times | Sands | Talent |
+|---|---|---|---|---|---|---|
+| skirk | 11 | 3 | 9 | 15 | `atk_pct` | `Skill > Burst` |
+| furina | 12 | 5 | 0 | 19 | `hp_pct, er` | `Burst > Skill` |
+| arlecchino | 12 | 5 | 4 | 23 | `atk_pct, em` | `Burst > Skill` |
+| neuvillette | 12 | 3 | 0 | 31 | `hp_pct` | `Burst > Skill` |
+
+Layouts cobertos:
+- **Skirk**: tiered `5★ Name\tDesc`
+- **Furina**: flat `Name\tDesc` + 5 seções Example Teams
+- **Arlecchino**: híbrido + `Combo Notation` com TAB
+- **Neuvillette**: flat + 6 Example Teams + categorias `Recommended 5★ Options\tSurf's Up, ...`
+
+### Bugs corrigidos no parser
+
+1. **Arlecchino zerava combos**: `Combo Notation` faltava no `or` chain. Fix: adicionado.
+2. **`N2C and N3C` virava 1 combo**: split de `" and "` adicionado.
+3. **Headers de categoria lidos como arma**: `Recommended 5-Star Options\tSurf's Up, Nocturne's...` era 1 arma chamada "Recommended...". Fix: `WEAPON_CATEGORY_HEADER` regex + expandir cada arma da **1ª linha** do desc (o resto é parágrafo explicativo).
+4. **`4pc A, 4pc B` concatenados**: split por `/` não pegava vírgula. Fix: `[,/]` no split de artifacts.
+
+### Bugs corrigidos no importador
+
+1. **`import re` faltando**: crashava com `PLACEHOLDER_PATTERN`.
+2. **Aliases de chars**:
+   - `dendro-traveler` → `traveler-dendro` (e todos os elementos)
+   - `core-*`/`secondary-*` são placeholders → `PLACEHOLDER_PATTERN` skippa
+3. **Aliases de armas/sets separados**:
+   - `WEAPON_ALIASES`: `symphonist-of-scent` → `symphonist-of-scents`, `jadefall-splendor` → `jadefall-s-splendor`
+   - `ARTIFACT_ALIASES`: `night-of-the-sky-s-unveiling` → `night-of-the-skys-unveiling`
+4. **Dedup de times entre guias**: mesmo time com ordem de chars diferente (Furina+Neuv+Kazuha+Xilonen) duplicava porque dedup era só por `name`. Fix: dedup adicional por `tuple(sorted(character_slugs))`. Duplicata conhecida deletada manualmente.
+
+### Estado final do banco
+
+- `CharacterBuildPreset`: Skirk, Furina, Arlecchino, Neuvillette
+- `TeamTemplate`: **87** (era 34 antes da sessão) — **zero duplicatas**
+
+### Dívida Técnica nova
+
+- [ ] **Flex merge**: quando um time aparece em 2 guias com flex diferente (ex: Pyro Traveler no guia da Furina vs Lisa no do Neuvillette), só uma versão é mantida. Merge é ideal mas parser não extrai flex estruturado.
+- [ ] **Dedup O(N²)**: para 1000+ teams vai ficar lento. Cache de `set(canonical_keys)` antes do loop.
+
+### Próximos passos sugeridos
+
+1. **Escalar para todos os personagens** (parser robusto em 4 layouts; agora é só colar `.txt` e rodar).
+2. **Atacar `detect_archetype`** (agora com 87 times, ~26% `unknown` fica muito visível no filtro de `/teams`).
