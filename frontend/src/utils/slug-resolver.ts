@@ -21,6 +21,11 @@ function normalize(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]/g, '')
 }
 
+// Exportado para uso como fallback quando charIndex ainda não está populado
+export function normKey(s: string): string {
+  return normalize(s || '')
+}
+
 let charIndex: Map<string, string> | null = null
 let weaponIndex: Map<string, string> | null = null
 

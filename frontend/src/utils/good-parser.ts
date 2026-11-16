@@ -1,5 +1,5 @@
 import type { GoodData } from '../types/good'
-import { resolveCharSlug, resolveWeaponSlug } from './slug-resolver'
+import { resolveCharSlug, resolveWeaponSlug, normKey } from './slug-resolver'
 
 export interface GoodCharState {
   level: number
@@ -11,10 +11,13 @@ export interface GoodCharState {
 
 export function parseGoodData(data: GoodData): Map<string, GoodCharState> {
   const map = new Map<string, GoodCharState>()
-  
+
   // 1. Mapeia personagens
-  for (const c of data.characters) {
-    const slug = resolveCharSlug(c.key)
+  const characters = Array.isArray(data?.characters) ? data.characters : []
+  for (const c of characters) {
+    // Fallback: se buildIndexes ainda nao rodou, resolveCharSlug retorna null.
+    // normKey normaliza (lowercase, sem separadores) e o get() do roster normaliza igual.
+    const slug = resolveCharSlug(c.key) || normKey(c.key)
     if (!slug) continue
     map.set(slug, {
       level: c.level,
@@ -30,10 +33,11 @@ export function parseGoodData(data: GoodData): Map<string, GoodCharState> {
   }
 
   // 2. Mapeia armas (se equipadas em algum personagem)
-  for (const w of data.weapons) {
+  const weapons = Array.isArray(data?.weapons) ? data.weapons : []
+  for (const w of weapons) {
     if (!w.location) continue
-    const charSlug = resolveCharSlug(w.location)
-    const weaponSlug = resolveWeaponSlug(w.key)
+    const charSlug = resolveCharSlug(w.location) || normKey(w.location)
+    const weaponSlug = resolveWeaponSlug(w.key) || normKey(w.key)
     if (charSlug && weaponSlug) {
       const state = map.get(charSlug)
       if (state) {

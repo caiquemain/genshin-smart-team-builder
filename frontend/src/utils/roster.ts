@@ -102,7 +102,7 @@ export function useRoster(): Roster {
     if (g) {
       return { owned: true, cons: g.cons, source: 'good' }
     }
-    if (seelieSlugs.has(nk)) {
+    if (good.size === 0 && seelieSlugs.has(nk)) {
       return { owned: true, cons: 0, source: 'seelie' }
     }
     return { owned: false, cons: 0, source: 'unknown' }
@@ -145,11 +145,13 @@ export function useRoster(): Roster {
       if (!manualOwnedNorm.has(nk) || manualOwnedNorm.get(nk)) all.add(nk)
     })
 
-    // Seelie: conta se não está em manual nem em GOOD
-    seelieSlugs.forEach(k => {
-      const nk = normKey(k)
-      if (!manualOwnedNorm.has(nk) && !good.has(nk)) all.add(nk)
-    })
+    // Seelie: so conta se GOOD estiver vazio (GOOD e fonte da verdade)
+    if (good.size === 0) {
+      seelieSlugs.forEach(k => {
+        const nk = normKey(k)
+        if (!manualOwnedNorm.has(nk)) all.add(nk)
+      })
+    }
 
     ownedCount = all.size
   }
