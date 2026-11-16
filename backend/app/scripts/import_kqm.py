@@ -9,6 +9,7 @@ Uso:
 import argparse
 import json
 from pathlib import Path
+import re
 
 from sqlalchemy import func
 from app.database import SessionLocal
@@ -18,6 +19,18 @@ from app.models import (
 )
 # Aliases para corrigir nomes "sujos" do KQM
 CHAR_ALIASES = {
+    # Travelers (KQM usa "{elemento}-traveler", DB usa "traveler-{elemento}")
+    "dendro-traveler": "traveler-dendro",
+    "anemo-traveler": "traveler-anemo",
+    "geo-traveler": "traveler-geo",
+    "electro-traveler": "traveler-electro",
+    "hydro-traveler": "traveler-hydro",
+    "pyro-traveler": "traveler-pyro",
+    "cryo-traveler": "traveler-cryo",
+    # Typos do KQM
+    "symphonist-of-scent": "symphonist-of-scents",
+    "night-of-the-sky-s-unveiling": "night-of-the-skys-unveiling",
+    # Originais
     "charlottel": "charlotte",
     "charlottell": "charlotte",
     "hutao": "hu-tao",
@@ -45,11 +58,25 @@ CHAR_ALIASES = {
     "raiden": "raiden-shogun",
 }
 
+# Aliases especificos de armas (slug -> slug no DB)
+WEAPON_ALIASES = {
+    "symphonist-of-scent": "symphonist-of-scents",  # KQM omitiu o 's' final
+    "jadefall-splendor": "jadefall-s-splendor",     # KQM sem apostrofo
+}
+
+# Aliases especificos de sets (slug -> slug no DB)
+ARTIFACT_ALIASES = {
+    "night-of-the-sky-s-unveiling": "night-of-the-skys-unveiling",
+}
+
 # Placeholders que aparecem nos times do KQM e NÃO são personagens
 SKIP_SLUGS = {
     "flex", "pyro", "hydro", "cryo", "electro", "anemo", "geo", "dendro",
     "any", "none", "flexible", "utility", "healer", "shield", "buffer",
 }
+
+# Placeholders do KQM tipo "Core Dendro", "Secondary Hydro"
+PLACEHOLDER_PATTERN = re.compile(r'^(?:core|secondary)-')
 
 # Regras de detecção de arquétipo (ordem importa: mais específico primeiro)
 ARCHETYPE_RULES = [
@@ -117,6 +144,10 @@ def _name_filter(column, target: str):
 def resolve_weapon(db, slug, name):
     w = db.query(Weapon).filter(Weapon.slug == slug).first()
     if w: return w
+    aliased = WEAPON_ALIASES.get(slug)
+    if aliased:
+        w = db.query(Weapon).filter(Weapon.slug == aliased).first()
+        if w: return w
     if not name: return None
     return db.query(Weapon).filter(_name_filter(Weapon.name, _canon_name(name))).first()
 
@@ -124,6 +155,10 @@ def resolve_weapon(db, slug, name):
 def resolve_artifact(db, slug, name):
     a = db.query(ArtifactSet).filter(ArtifactSet.slug == slug).first()
     if a: return a
+    aliased = ARTIFACT_ALIASES.get(slug)
+    if aliased:
+        a = db.query(ArtifactSet).filter(ArtifactSet.slug == aliased).first()
+        if a: return a
     if not name: return None
     return db.query(ArtifactSet).filter(_name_filter(ArtifactSet.name, _canon_name(name))).first()
 
@@ -181,7 +216,10 @@ def import_teams(db, teams, source_url, warnings):
     imported = 0
     for t in teams:
         # Filtra placeholders e normaliza slugs
-        cleaned = [s for s in t["character_slugs"] if s not in SKIP_SLUGS]
+        cleaned = [
+    s for s in t["character_slugs"]
+    if s not in SKIP_SLUGS and not PLACEHOLDER_PATTERN.match(s)
+]
         normalized = [normalize_slug(s) for s in cleaned]
         valid = [s for s in normalized if resolve_character(db, s)]
         for s in normalized:
@@ -193,6 +231,17 @@ def import_teams(db, teams, source_url, warnings):
         name = t["raw_line"][:150]
         if db.query(TeamTemplate).filter(TeamTemplate.name == name).first():
             continue
+        # Dedup por slugs canonicos (previne duplicata entre guias diferentes)
+        if valid:
+            canonical = tuple(sorted(valid))
+            dup = None
+            for et in db.query(TeamTemplate).all():
+                if tuple(sorted(et.character_slugs or [])) == canonical:
+                    dup = et
+                    break
+            if dup:
+                warnings.append(f"[team] Duplicado (slugs={canonical}) — ja existe id={dup.id}")
+                continue
 
         archetype = detect_archetype(valid)
 

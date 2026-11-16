@@ -127,6 +127,13 @@ SLASH_WEAPONS = re.compile(
     re.MULTILINE,
 )
 
+# Headers de categoria do KQM: "Recommended 5-Star Options	Surf's Up, ..."
+WEAPON_CATEGORY_HEADER = re.compile(
+    r'\b(?:recommended|other|alternative|notable|best|good|top|f2p|budget|craftable|event|battle\s*pass|crit)\b'
+    r'.*\b(?:options?|alternatives?|picks?|weapons?|swords?|bows?|catalysts?|polearms?|claymores?)\b',
+    re.IGNORECASE,
+)
+
 
 def _parse_weapons_tiered(section: str) -> list[dict]:
     weapons = []
@@ -172,7 +179,29 @@ def _parse_weapons_flat(section: str) -> list[dict]:
 
     # 1) Linhas "Name\tDesc"
     for m in FLAT_WEAPON_LINE.finditer(section):
-        clean = clean_weapon_name(m.group("name").strip())
+        raw_name = m.group("name").strip()
+        desc = m.group("desc").strip()
+        clean = clean_weapon_name(raw_name)
+
+        # Header de categoria: "Recommended 5-Star Options\tSurf's Up, Nocturne's..."
+        if WEAPON_CATEGORY_HEADER.search(clean):
+            # So a 1a linha do desc contem a lista (o resto eh paragrafo explicativo)
+            first_line = re.split(r'\n+', desc.strip())[0]
+            for name in re.split(r'\s*[,/]\s*', first_line):
+                name = re.sub(r'\s*\([^)]*\)\s*$', '', name).strip()
+                clean_name = clean_weapon_name(name)
+                slug = to_slug(clean_name)
+                if slug and len(clean_name) > 2 and slug not in seen:
+                    seen.add(slug)
+                    weapons.append({
+                        "weapon_slug": slug,
+                        "weapon_name": strip_parentheses(clean_name),
+                        "rarity": 5,
+                        "notes": "Listado em categoria do KQM",
+                    })
+            continue
+
+        # Caminho normal
         slug = to_slug(clean)
         if not slug or len(clean) < 3 or slug in seen:
             continue
@@ -180,8 +209,8 @@ def _parse_weapons_flat(section: str) -> list[dict]:
         weapons.append({
             "weapon_slug": slug,
             "weapon_name": strip_parentheses(clean),
-            "rarity": 4,  # raridade desconhecida neste layout
-            "notes": collapse_ws(m.group("desc"))[:250],
+            "rarity": 4,
+            "notes": collapse_ws(desc)[:250],
         })
 
     # 2) Linha "A / B / C / D" (CRIT Swords)
@@ -220,8 +249,8 @@ def parse_artifacts(section: str) -> tuple[list, list]:
         pieces = int(m.group("pieces"))
         desc = collapse_ws(m.group("desc"))[:250]
         raw_name = m.group("name")
-        # Separa "Set A / 4pc Set B (SMS)"
-        for sub in re.split(r'\s*/\s*(?=[24]pc\s)', raw_name):
+        # Separa "Set A / 4pc Set B" OU "Set A, 4pc Set B"
+        for sub in re.split(r'\s*[,/]\s*(?=[24]pc\s)', raw_name):
             sub = re.sub(r'^[24]pc\s+', '', sub).strip()
             if not sub:
                 continue
@@ -391,6 +420,13 @@ def parse_combos(section: str) -> list[str]:
             continue
         if len(re.findall(r'\b[a-z]{4,}\b', combo.lower())) > 2:
             continue
+        # Split "N2C and N3C" em 2 combos
+        if ' and ' in combo.lower():
+            for part in re.split(r'\s+and\s+', combo, flags=re.IGNORECASE):
+                part = part.strip()
+                if part and part not in combos:
+                    combos.append(part)
+            continue
         if combo not in combos:
             combos.append(combo)
     return combos
@@ -464,6 +500,7 @@ def parse_guide(text: str, char_slug: str) -> dict:
         sections.get("Full Combos", "")
         or sections.get("Attack Strings", "")
         or sections.get("Combos", "")
+        or sections.get("Combo Notation", "")
     )
     combos = parse_combos(combos_section)[:10]
 
