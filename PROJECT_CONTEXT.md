@@ -654,3 +654,28 @@ kuki-shinobu, kamisato-ayaka, hu-tao, kaedehara-kazuha, sangonomiya-kokomi, raid
 
 ### Dívida Técnica nova
 - [ ] **Alinhar backend e frontend**: `CHAR_ALIASES` está duplicado em `import_kqm.py` (backend) e `roster.ts` (frontend). Avaliar extrair para JSON compartilhado (`shared/aliases.json`) ou endpoint `/api/aliases`.
+
+---
+
+## 36. Sessão 2026-11-15 (continuação) — Badge de posse no personagem + fix de GOOD vs Seelie
+
+### O que foi feito
+- **Badge de posse no `CharacterDetailPage`**: mostra `Tenho · C{N} GOOD/Seelie` (verde) ou `Não tenho` (cinza), com botão "Personalizar" que abre editor inline (checkbox + pills C0–C6 + botão "Remover override").
+- **`useRoster` integrado na página do personagem**: badge reativo (usa o mesmo hook do `/roster` e do `TeamTemplateModal`).
+- **Ícones Lucide**: `CheckCircle2` (posse), `XCircle` (não tenho), `Pencil` (personalizar), `RotateCcw` (remover override) — sem emojis, seguindo a convenção do projeto.
+
+### Bugs corrigidos
+1. **GOOD vs Seelie — precedência errada**: `useRoster` caía no Seelie mesmo quando o GOOD estava presente, inflando o contador (92 vs 74) e marcando como "tenho" chars que o usuário só **planeja** pegar (Seelie é planejador, GOOD é fonte da verdade).
+   - Fix: `get()` só cai no Seelie se `good.size === 0`. `ownedCount` idem.
+2. **`parseGoodData` retornava Map vazio**: `resolveCharSlug` dependia de `buildIndexes` (só chamado em `PlannerPage.tsx:405` e `_DebugPage.tsx:19`). Em `/characters/:slug` direto, `charIndex` era `null` → resolver retornava `null` → todos os 74 chars skipados → Map vazio → Aino (e todos) caíam no Seelie.
+   - Fix: fallback `|| normKey(...)` em `good-parser.ts` (characters + weapons + weaponSlug). `normKey` exportado do `slug-resolver.ts` (lowercase + remove separadores).
+3. **Defensive arrays**: `parseGoodData` agora usa `Array.isArray(data?.characters)` e `Array.isArray(data?.weapons)` — não estoura se o GOOD estiver incompleto.
+4. **`catch {}` silencioso**: trocado por `catch (e) { console.error(...) }` no `useEffect` do `useRoster` (para erros de parse não passarem em branco).
+
+### Validado
+- Aino: `Tenho · C2 GOOD` (antes: `Tenho Seelie` — errado)
+- `/roster` contador: **74 / 127** (antes: 92 — inflado pelo Seelie)
+- Kuki, Ayaka, Hu Tao: continuam `Tenho · GOOD` ✅
+
+### Dívida Técnica nova
+- [ ] **`buildIndexes` não é global**: só roda em `PlannerPage` e `_DebugPage`. Ideal: mover para um `PlannerProvider` (context) que carrega o planner-data uma vez, ou fazer `buildIndexes` lazy/idempotente dentro de `parseGoodData` lendo de `localStorage`. Workaround atual: fallback `normKey` (cobre os casos comuns mas perde mapeamento PT/EN do `charIndex`).
