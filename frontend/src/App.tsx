@@ -31,6 +31,7 @@ export default function App() {
           <Link to="/" className="brand">Genshin Smart Team Builder</Link>
           <div className="nav-links">
             <Link to="/">Personagens</Link>
+            <Link to="/roster">Meu Roster</Link>
             <Link to="/weapons">Armas</Link>
             <Link to="/artifacts">Artefatos</Link>
             <Link to="/teams">Times</Link>
