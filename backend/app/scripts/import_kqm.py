@@ -16,6 +16,7 @@ from app.database import SessionLocal
 from app.models import (
     Character, Weapon, ArtifactSet,
     CharacterBuildPreset, TeamTemplate,
+    Team, TeamCharacter,
 )
 # Aliases para corrigir nomes "sujos" do KQM
 CHAR_ALIASES = {
@@ -167,6 +168,108 @@ def resolve_character(db, slug):
     return db.query(Character).filter(Character.slug == slug).first()
 
 
+def _extract_refinement(notes: str | None) -> int:
+    """Extrai 'R5'/'R1' do notes. Default 1."""
+    if not notes:
+        return 1
+    m = re.search(r'\bR([1-5])\b', notes)
+    return int(m.group(1)) if m else 1
+
+
+def _normalize_build_data(db, raw_bd, warnings):
+    """Normaliza build_data do JSON (resolve slugs de armas/sets, extrai refinement)."""
+    bd = dict(raw_bd)
+
+    valid_w = []
+    for w in bd.get("weapons", []):
+        r = resolve_weapon(db, w["weapon_slug"], w.get("weapon_name", ""))
+        if r:
+            valid_w.append({
+                "weapon_slug": r.slug,
+                "weapon_refinement": _extract_refinement(w.get("notes")),
+                "notes": w.get("notes"),
+            })
+        else:
+            warnings.append(f"[team-custom] Arma não encontrada: {w['weapon_slug']}")
+    bd["weapons"] = valid_w
+
+    valid_a = []
+    for a in bd.get("artifacts_4pc", []):
+        r = resolve_artifact(db, a["artifact_set_slug"], a.get("artifact_set_name", ""))
+        if r:
+            valid_a.append({"artifact_set_slug": r.slug, "notes": a.get("notes")})
+        else:
+            warnings.append(f"[team-custom] Set não encontrado: {a['artifact_set_slug']}")
+    bd["artifacts_4pc"] = valid_a
+
+    return bd
+
+
+def create_team_from_build(db, char, raw_bd, teams, source_url, warnings):
+    """Cria Team customizável a partir do guia KQM. Retorna True se criou."""
+    if not teams:
+        warnings.append(f"[team-custom] {char.slug}: sem times no guia")
+        return False
+
+    # Escolhe time: main_character == char.slug, senão primeiro
+    chosen = next((t for t in teams if t.get("main_character") == char.slug), None) or teams[0]
+
+    # Resolve chars válidos (aplica CHAR_ALIASES + skip placeholders)
+    valid_chars = []
+    for slug in chosen.get("character_slugs", []):
+        slug = normalize_slug(slug)
+        if slug in SKIP_SLUGS or PLACEHOLDER_PATTERN.match(slug):
+            continue
+        c = resolve_character(db, slug)
+        if c:
+            valid_chars.append(c)
+    if len(valid_chars) < 2:
+        warnings.append(f"[team-custom] {char.slug}: time inválido ({len(valid_chars)} chars)")
+        return False
+
+    # Nome (opção B)
+    team_name = f"{char.name} — Principal"
+    if db.query(Team).filter(Team.name == team_name).first():
+        warnings.append(f"[team-custom] Team '{team_name}' já existe (skip)")
+        return False
+
+    # Normaliza build_data do main char
+    main_bd = _normalize_build_data(db, raw_bd, warnings)
+    main_bd["references"] = [{"url": source_url, "title": f"KQM {char.name} Guide"}]
+    main_bd["substitutes"] = []
+
+    # Cria Team
+    team = Team(
+        name=team_name,
+        description=f"Build importada do KQM — {source_url}",
+        is_public=True,
+    )
+    db.add(team)
+    db.flush()
+
+    for i, c in enumerate(valid_chars, start=1):
+        if c.id == char.id:
+            char_bd = main_bd
+        else:
+            # Flex: usa preset existente se tiver, senão vazio
+            preset = db.query(CharacterBuildPreset).filter(
+                CharacterBuildPreset.character_id == c.id,
+            ).first()
+            char_bd = dict(preset.build_data) if preset and preset.build_data else {}
+            if isinstance(char_bd, dict) and "references" not in char_bd:
+                char_bd["references"] = []
+
+        db.add(TeamCharacter(
+            team_id=team.id,
+            character_id=c.id,
+            position=i,
+            build_data=char_bd,
+            substitutes=[],
+        ))
+
+    return True
+
+
 def import_build(db, data, warnings):
     slug = data["character_slug"]
     char = resolve_character(db, slug)
@@ -183,7 +286,7 @@ def import_build(db, data, warnings):
         if r:
             valid_w.append({
                 "weapon_slug": r.slug,
-                "weapon_refinement": 1,
+                "weapon_refinement": _extract_refinement(w.get("notes")),
                 "notes": w.get("notes"),
             })
         else:
@@ -261,6 +364,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("input", type=Path)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--create-team", action="store_true",
+                    help="Cria 1 Team customizado por guia (o mais canônico)")
     args = ap.parse_args()
 
     db = SessionLocal()
@@ -284,6 +389,35 @@ def main():
         except Exception as e:
             warnings.append(f"[{f.name}] {e}")
 
+    custom_teams = 0
+    if args.create_team:
+        # Coleta teams_json por slug
+        teams_by_slug = {}
+        for f in sorted(args.input.glob("*-teams.json")):
+            slug = f.stem.replace("-teams", "")
+            try:
+                teams_by_slug[slug] = json.loads(f.read_text(encoding="utf-8"))
+            except Exception:
+                teams_by_slug[slug] = []
+
+        # Cria 1 Team por build
+        for f in sorted(args.input.glob("*-build.json")):
+            slug = f.stem.replace("-build", "")
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+                char = resolve_character(db, slug)
+                if not char:
+                    warnings.append(f"[team-custom] {slug}: character não encontrado")
+                    continue
+                raw_bd = data["build"]["build_data"]
+                source_url = f"https://keqingmains.com/{slug}/"
+                if create_team_from_build(
+                    db, char, raw_bd, teams_by_slug.get(slug, []), source_url, warnings,
+                ):
+                    custom_teams += 1
+            except Exception as e:
+                warnings.append(f"[{f.name}] team-custom: {e}")
+
     if args.dry_run:
         db.rollback()
         print("🔎 DRY RUN — nada foi salvo")
@@ -291,7 +425,8 @@ def main():
         db.commit()
         print("✅ Salvo no banco")
 
-    print(f"   Builds: {builds} · Times: {teams}")
+    suffix = f" · Teams customizados: {custom_teams}" if args.create_team else ""
+    print(f"   Builds: {builds} · Times: {teams}{suffix}")
     if warnings:
         print(f"   ⚠️  {len(warnings)} aviso(s):")
         for w in warnings[:15]:
