@@ -804,3 +804,41 @@ Cada com 4 `TeamCharacter`s, main com build completa + `references`, flex com pr
 - [ ] **`enrich_substitutes.py` não implementado**: os 4 auto teams (`id=6,8,10,11`) têm `substitutes=[]`. Precisa criar script que preenche por elemento (mesmo elemento, não-DPS, SUPPORT primeiro). Ficou pra próxima sessão.
 - [ ] **`download_talents.py`**: hardcoded com 3 icons (Skill_A_01, Skill_E_SkirkNew_01, Skill_S_SkirkNew_01). Redundante (download_missing cobre).
 - [ ] **`?v=2` no `iconUrl()`**: cache do browser não invalida quando arquivos novos são adicionados. Bump pra `?v=3` quando próximo lote de assets chegar.
+
+
+---
+
+## 41. Sessao 2026-11-18 — Automacao de sync (update_game_data.py)
+
+### O que foi feito
+- **update_game_data.py**: orquestrador unico pra sync pos-versao. 6 passos idempotentes:
+  1. **AMBR sync** (-e AMBR_MAX_CHARACTERS=0) — chars novos do jogo
+  2. **Inventario DB vs FS** — calcula o que falta em frontend/public/icons/
+  3. **Downloads via scripts existentes** (download_missing, download_talents_passives, download_assets, export_planner_data)
+  4. **Rede de seguranca** — se scripts deixaram gaps, baixa direto do Yatta/Enka (nao depende de planner-data.json)
+  5. **Cache bump** — auto-incrementa ?v=N no config.ts
+  6. **Rebuild frontend** (docker compose build --no-cache)
+- **update.sh**: wrapper (./update.sh = python3 update_game_data.py)
+- **Flags**: --dry-run, --check-only, --skip-ambr, --skip-downloads, --no-rebuild, --force
+
+### Caso de uso
+Saiu versao nova do Genshin? Roda `./update.sh`. Pronto, tudo sincronizado em ~30-60s.
+
+So verificar (read-only): `python3 update_game_data.py --check-only`
+- Exit 0 = tudo OK
+- Exit 1 = N faltando
+
+### Fix do backend/frontend/ (root cause)
+- **Problema:** export_planner_data() rodando dentro do container (WORKDIR=/app = host backend/) criava backend/frontend/public/planner-data.json (lixo) toda execucao.
+- **Fix:** export_planner_data() do automator agora move o arquivo pro lugar certo + limpa o diretorio backend/frontend/ stray.
+- **Validado:** rodando --force, o log mostra "planner-data.json movido" e `ls backend/frontend/` retorna "No such file or directory".
+
+### Bugs que o automator expos
+- **export_planner_data.py** nao inclui Local Specialties + Boss Materials de chars 5.x recentes (Fairy Wormwood, Kristallfold, Shattered Stability Anchor estavam no DB+Yatta mas nao no JSON).
+- **Rede de seguranca** no passo 3.5 cobre esse gap sem depender do export.
+
+### Divida Tecnica
+- [ ] enrich_substitutes.py (sessao 39) ainda nao implementado — 4 auto teams (id=6,8,10,11) com substitutes=[].
+- [ ] download_talents.py redundante (hardcoded 3 icons do Skirk).
+- [ ] export_planner_data.py incluir Local Specialties + Boss Materials de 5.x.
+- [ ] planner-data.json gera diff a cada execucao do ./update.sh mesmo sem mudanca real (timestamp interno). Considerar hash/diff-check antes de escrever.
