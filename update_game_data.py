@@ -129,8 +129,28 @@ def run_download_script(name):
 
 
 def export_planner_data():
+    """Roda export dentro do container e move pro lugar certo se cair errado.
+
+    O export_planner_data.py escreve em 'frontend/public/planner-data.json'
+    relativo ao cwd. Como o backend roda com WORKDIR=/app (mount ./backend),
+    o arquivo cai em backend/frontend/ no host. Movemos pra frente.
+    """
+    import shutil
+
     run(["docker", "compose", "exec", "-T", "backend",
          "python", "-m", "app.scripts.export_planner_data"])
+
+    wrong = ROOT / "backend" / "frontend" / "public" / "planner-data.json"
+    right = ROOT / "frontend" / "public" / "planner-data.json"
+
+    if wrong.exists():
+        right.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(wrong), str(right))
+        # Remove o diretório stray inteiro
+        shutil.rmtree(str(ROOT / "backend" / "frontend"), ignore_errors=True)
+        print(f"   ✅ planner-data.json movido para {right.relative_to(ROOT)}")
+    elif right.exists():
+        print(f"   ✅ planner-data.json já no lugar certo")
 
 
 def bump_cache():
