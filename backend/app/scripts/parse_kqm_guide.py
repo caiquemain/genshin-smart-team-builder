@@ -144,6 +144,18 @@ def _parse_weapons_tiered(section: str) -> list[dict]:
 
         inline = list(INLINE_TIER.finditer(names_raw))
         if inline:
+            prefix = names_raw[:inline[0].start()].strip().rstrip(',').strip()
+            if prefix:
+                for raw in split_respecting_parens(prefix):
+                    clean = clean_weapon_name(raw)
+                    slug = to_slug(clean)
+                    if slug and len(clean) > 2:
+                        weapons.append({
+                            "weapon_slug": slug,
+                            "weapon_name": strip_parentheses(clean),
+                            "rarity": block_tier,
+                            "notes": desc,
+                        })
             for i, im in enumerate(inline):
                 tier = int(im.group(1))
                 start = im.end()
