@@ -842,3 +842,37 @@ So verificar (read-only): `python3 update_game_data.py --check-only`
 - [ ] download_talents.py redundante (hardcoded 3 icons do Skirk).
 - [ ] export_planner_data.py incluir Local Specialties + Boss Materials de 5.x.
 - [ ] planner-data.json gera diff a cada execucao do ./update.sh mesmo sem mudanca real (timestamp interno). Considerar hash/diff-check antes de escrever.
+
+
+---
+
+## 42. Sessao 2026-11-18 — enrich_substitutes + README
+
+### O que foi feito
+- **enrich_substitutes.py**: preenche TeamCharacter.substitutes por elemento.
+  - **DPS_SLUGS hardcoded** (verificado, nao chute): Hydro (neuvillette, mualani, ayato), Pyro (arlecchino, hu-tao, yoimiya, lyney, klee, diluc, gaming, mavuika, yanfei), Cryo (skirk, wriothesley, ganyu, ayaka, eula, freminet), Electro (clorinde, cyno, sethos, razor), Anemo (xiao, wanderer, heizou), Geo (itto, navia, ningguang), Dendro (alhaitham, tighnari, kinich), Mixed (chasca, varesa).
+  - **SUPPORT_SLUGS**: ordena buffers/healers primeiro nas alternatives.
+  - **Regras**: slot 1 (main) nunca substitui; DPS conhecido nunca substitui; flex/support ganha ate 8 alternatives do mesmo elemento.
+  - **Flags**: --team-ids, --skip-ids, --dry-run.
+
+### Validado nos 4 auto teams
+- id=6 (Skirk): 24 subs
+- id=8 (Arlecchino): 24 subs
+- id=10 (Furina): 16 subs — pos 2 Neuvillette com 0 (DPS!)
+- id=11 (Neuvillette): 24 subs
+
+**Caso critico validado:** Neuvillette em Furina - Principal ficou com subs=0 (DPS Hydro, nao faz sentido sugerir outro Hydro).
+
+### README — secao "Como atualizar"
+Documentado:
+- ./update.sh (sync completo, 30-60s)
+- Flags do update_game_data.py
+- Troubleshooting (AMBR 404, backend/frontend/ lixo, icone nao baixa)
+- Como importar guias KQM (parse_kqm_guide + import_kqm --create-team)
+- Como enriquecer substitutes em times existentes
+
+### Divida Tecnica
+- [ ] enrich_substitutes.py — DPS_SLUGS hardcoded. Quando sairem novos DPS, precisa atualizar. Considerar detectar via KQM guides (main_character) quando cobertura ficar suficiente.
+- [ ] export_planner_data.py incluir Local Specialties + Boss Materials de 5.x
+- [ ] download_talents.py redundante (hardcoded 3 icons do Skirk)
+- [ ] planner-data.json gera diff sem mudanca real (timestamp interno)
