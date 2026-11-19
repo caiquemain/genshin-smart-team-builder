@@ -1,0 +1,355 @@
+/* artifacts.css — Artifacts catalog & detail page */
+
+/* ============================================================
+   ARTIFACTS — página de artefatos
+   ============================================================ */
+
+.artifacts-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  margin-top: 20px;
+}
+@media (min-width: 1600px) {
+  .artifacts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.artifact-card {
+  position: relative;
+  padding: 20px 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1a2130 0%, #131820 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.artifact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+.artifact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.artifact-card.rarity-3::before { background: linear-gradient(90deg, transparent, #5a8fd8, transparent); }
+.artifact-card.rarity-4::before { background: linear-gradient(90deg, transparent, #a35bd8, transparent); }
+.artifact-card.rarity-5::before { background: linear-gradient(90deg, transparent, #e0a647, transparent); }
+
+.artifact-card.rarity-5:hover { border-color: rgba(224, 166, 71, 0.5); }
+.artifact-card.rarity-4:hover { border-color: rgba(163, 91, 216, 0.5); }
+
+.artifact-card-icon {
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.10) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.artifact-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.artifact-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.artifact-card-rarity {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #fbbf24;
+  opacity: 0.9;
+}
+.artifact-card.rarity-4 .artifact-card-rarity { color: #a35bd8; }
+.artifact-card.rarity-3 .artifact-card-rarity { color: #5a8fd8; }
+
+/* === Artifact detail page === */
+.artifact-page { position: relative; }
+.artifact-hero {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  margin: 20px 0 32px;
+}
+.artifact-hero-icon {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border: 3px solid rgba(224, 166, 71, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.artifact-hero-icon img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+.artifact-hero-info { flex: 1; min-width: 0; }
+.artifact-hero-rarity {
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: #fbbf24;
+  margin-bottom: 4px;
+}
+.artifact-hero-info h1 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.artifact-hero-levels,
+.artifact-hero-source {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 4px 0;
+}
+.artifact-source-label {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+
+/* Bônus cards */
+.artifact-bonuses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.artifact-bonus-card {
+  padding: 20px 24px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  position: relative;
+}
+.artifact-bonus-card.bonus-2pc { border-left: 3px solid #7dd3fc; }
+.artifact-bonus-card.bonus-4pc { border-left: 3px solid #fbbf24; }
+.bonus-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.bonus-2pc .bonus-badge {
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+}
+.bonus-4pc .bonus-badge {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+.artifact-bonus-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #cbd5e1;
+}
+
+/* Pieces grid */
+.pieces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 14px;
+}
+.piece-card {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  background: #131820;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+}
+.piece-card-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(224, 166, 71, 0.15) 0%, transparent 70%);
+  border: 1px solid rgba(224, 166, 71, 0.25);
+}
+.piece-card-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.piece-card-body { min-width: 0; flex: 1; }
+.piece-card-slot {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.piece-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e8ecf2;
+  margin-bottom: 6px;
+}
+.piece-card-desc {
+  font-size: 12.5px;
+  color: #94a3b8;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ============================================================
+   ARTIFACTS PAGE PREMIUM
+   ============================================================ */
+
+.artifacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+/* Card do artefato com Glassmorphism */
+.artifact-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px;
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 16px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  animation: cardDeal 0.5s ease-out backwards;
+}
+
+.artifact-card-glow {
+  position: absolute;
+  top: 15%;
+  width: 60%;
+  height: 40%;
+  background: radial-gradient(circle, var(--rarity-color) 0%, transparent 70%);
+  opacity: 0.15;
+  filter: blur(20px);
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+
+.artifact-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--rarity-color) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 25px color-mix(in srgb, var(--rarity-color) 30%, transparent) !important;
+  z-index: 10;
+}
+.artifact-card:hover .artifact-card-glow {
+  opacity: 0.4;
+}
+
+/* Ícone do artefato */
+.artifact-card-icon {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  margin-bottom: 12px;
+}
+.artifact-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+.artifact-card:hover .artifact-card-icon img {
+  transform: scale(1.1);
+}
+
+/* Estrelas de raridade no topo */
+.artifact-card-rarity {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--rarity-color);
+  font-weight: 700;
+  z-index: 1;
+}
+
+/* Nome do artefato */
+.artifact-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  color: #e8ecf2;
+  margin-bottom: 12px;
+  z-index: 1;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--rarity-color) 60%, #ffffff) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Bônus 2pc resumido */
+.artifact-card-bonuses {
+  width: 100%;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 1;
+}
+.artifact-card-bonus {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #94a3b8;
+}
+.artifact-bonus-badge {
+  flex-shrink: 0;
+  background: rgba(125, 211, 252, 0.1);
+  color: #7dd3fc;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.artifact-bonus-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

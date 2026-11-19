@@ -1,0 +1,458 @@
+/* tooltips.css — Floating tooltips (Item, Weapon, Artifact, Resin & Kills) */
+
+/* === Item tooltip (KQM-like) === */
+.item-tooltip {
+  max-width: 340px;
+  min-width: 260px;
+  padding: 16px;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  color: #e8ecf2;
+  font-size: 13px;
+  z-index: 9999;
+  pointer-events: auto;
+  transition: opacity 120ms ease-out;
+}
+
+.item-tooltip-header {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.item-tooltip-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 2px solid;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.item-tooltip-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.item-tooltip-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+.item-tooltip-name {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.item-tooltip-stars {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.item-tooltip-category {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: capitalize;
+  margin-top: 2px;
+}
+
+.item-tooltip-description {
+  margin: 0 0 12px 0;
+  color: #cbd5e1;
+  line-height: 1.5;
+  font-size: 13px;
+  white-space: pre-line;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.item-tooltip-source {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  font-size: 12px;
+  white-space: pre-line;
+  word-break: break-word;
+}
+.item-tooltip-source-label {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.item-tooltip-arrow {
+  fill: #0b0e13;
+}
+
+/* === Weapon Tooltip === */
+.weapon-tooltip {
+  max-width: 360px;
+  min-width: 280px;
+  padding: 14px;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  color: #e8ecf2;
+  font-size: 13px;
+  z-index: 9999;
+  transition: opacity 120ms ease-out;
+}
+.weapon-tooltip-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.weapon-tooltip-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 2px solid;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.weapon-tooltip-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.weapon-tooltip-title { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
+.weapon-tooltip-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+.weapon-tooltip-stars { font-size: 11px; letter-spacing: 1px; }
+.weapon-tooltip-type { font-size: 11px; color: #94a3b8; text-transform: capitalize; margin-top: 2px; }
+
+.weapon-tooltip-stats {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 10px;
+}
+.weapon-tooltip-stat { display: flex; flex-direction: column; gap: 2px; }
+.weapon-tooltip-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+.weapon-tooltip-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e8ecf2;
+  font-variant-numeric: tabular-nums;
+}
+
+.weapon-tooltip-passive {
+  padding-top: 8px;
+}
+.weapon-tooltip-passive-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fbbf24;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.weapon-tooltip-passive-r5 {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.weapon-tooltip-passive-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+.weapon-tooltip-arrow { fill: #0b0e13; }
+
+/* === Artifact Tooltip === */
+.artifact-tooltip {
+  max-width: 380px;
+  min-width: 300px;
+  padding: 14px;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  color: #e8ecf2;
+  font-size: 13px;
+  z-index: 9999;
+  transition: opacity 120ms ease-out;
+}
+.artifact-tooltip-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.artifact-tooltip-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid;
+  background: radial-gradient(circle at center, #334155 0%, #0f1218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.artifact-tooltip-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.artifact-tooltip-title { display: flex; flex-direction: column; gap: 2px; }
+.artifact-tooltip-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+.artifact-tooltip-stars { font-size: 11px; letter-spacing: 1px; }
+
+.artifact-tooltip-bonus {
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.artifact-tooltip-bonus.bonus-2pc { border-left: 2px solid #7dd3fc; }
+.artifact-tooltip-bonus.bonus-4pc { border-left: 2px solid #fbbf24; }
+.artifact-tooltip-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.bonus-2pc .artifact-tooltip-badge {
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+}
+.bonus-4pc .artifact-tooltip-badge {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+.artifact-tooltip-bonus p {
+  margin: 0;
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+.artifact-tooltip-arrow { fill: #0b0e13; }
+
+.weapon-tooltip-stat-lv1 {
+  display: block;
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 2px;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   ItemTooltip — Bloco de Resina (Planner)
+   ============================================================ */
+
+.item-tooltip-resin {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.item-tooltip-resin-complete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 8px;
+  color: #4ade80;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.item-tooltip-resin-free {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  background: rgba(95, 168, 96, 0.08);
+  border: 1px solid rgba(95, 168, 96, 0.25);
+  border-radius: 8px;
+}
+.item-tooltip-resin-free span:first-child {
+  font-size: 13px;
+  font-weight: 700;
+  color: #86efac;
+}
+.item-tooltip-resin-free span:last-child {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.item-tooltip-resin-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7dd3fc;
+}
+.item-tooltip-resin-header span:nth-child(2) {
+  flex: 1;
+}
+.item-tooltip-resin-header span:last-child {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.item-tooltip-resin-runs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(125, 211, 252, 0.2);
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+.item-tooltip-resin-runs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 6px;
+  background: #0a0e1a;
+  text-align: center;
+}
+.item-tooltip-resin-runs > div.is-avg {
+  background: rgba(125, 211, 252, 0.1);
+}
+.item-tooltip-resin-runs span {
+  font-size: 10px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+.item-tooltip-resin-runs strong {
+  font-size: 15px;
+  color: #e2e8f0;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.item-tooltip-resin-runs small {
+  font-size: 10px;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-tooltip-resin-meta {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.item-tooltip-resin-warn {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 6px;
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Garantia de exibição do Tooltip de Itens */
+.item-tooltip {
+  z-index: 20000 !important;
+  background: linear-gradient(180deg, #131820 0%, #0b0e13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  padding: 14px;
+  max-width: 320px;
+  transition: opacity 120ms ease-out;
+}
+
+/* ============================================================
+   ITEM TOOLTIP — KILLS NECESSÁRIAS
+   ============================================================ */
+.item-tooltip-kills {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+.item-tooltip-kills-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.item-tooltip-kills-body {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+.item-tooltip-kills-body strong {
+  color: #fbbf24;
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 2px;
+}
+
+.item-tooltip-kills-rate {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Badge de "4pc" nos artefatos da Build KQM */
+.kqm-build-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  background: rgba(125, 211, 252, 0.1);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  color: #7dd3fc;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  vertical-align: middle;
+}
