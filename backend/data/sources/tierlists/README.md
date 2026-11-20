@@ -11,7 +11,7 @@ Use nomes versionados para manter histórico por patch (ex.: `7.2.txt`, `7.2.htm
 | `genshinlab/` | GenshinLab (`genshinlab.com/tier-list/`) | 6 níveis (`SS`..`D`) | `7.2.txt` (parser `.txt` ativo) |
 | `game8/` | Game8 (`game8.co`) | 7 níveis (`SS`..`D`) + 3 roles | `7.2.txt` (parser `.txt` ativo) |
 | `mobalytics/` | Mobalytics (`mobalytics.gg`) | 9 níveis (`S`..`F`) | `7.2.txt` (parser `.txt` ativo) |
-| `gamewith/` | GameWith (`gamewith.net`) | 6 níveis (`SS`..`D`) | `7.1.csv` |
+| `gamewith/` | GameWith (`gamewith.net`) | 6 níveis (`SS`..`D`) | `7.2.txt` (parser `.txt` ativo) |
 | `prydwen/` | Prydwen Overall (`prydwen.gg/genshin/tier-list`) | 8 níveis (`T0`..`T5`) | `7.2.txt` (parser `.txt` ativo) |
 | `icy-veins/` | Icy Veins (`icy-veins.com/genshin-impact/tier-list`) | 6 níveis (`S+`..`D`) + 3 roles | `7.2.txt` (parser `.txt` ativo) |
 | `yshelper-abyss/` | YS Helper — Spiral Abyss (`YS Abyss`) · *aba Abismo* | 5 níveis (`S+`..`C`) + `% uso` | `7.2.html` (parser `.html` ativo) |

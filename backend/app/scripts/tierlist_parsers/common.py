@@ -34,7 +34,7 @@ CHARACTER_SLUG_ALIASES: dict[str, str] = {
 }
 
 _TRAVELER_PREFIX_RE = re.compile(
-    r"^(anemo|geo|electro|dendro|hydro|pyro|cryo)\s+traveler$",
+    r"^(anemo|geo|electro|dendro|hydro|pyro|cryo)\s+(?:traveler|t\.?)$",
     re.IGNORECASE,
 )
 _TRAVELER_PAREN_RE = re.compile(

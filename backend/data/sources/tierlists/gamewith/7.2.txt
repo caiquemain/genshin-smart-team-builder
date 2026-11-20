@@ -1,0 +1,5596 @@
+GameWith - Your Source of the Latest Game Guides & News
+Genshin
+Genshin Impact Wiki Guide & Tips
+Search the site
+
+Main Menu
+Mitya
+Valeriy
+Snezhnaya
+Latest News
+Character List
+Tier List
+Redeem Code
+Banners
+All Weapons
+others
+Article Menu
+Event News
+Latest Update
+Updates & Latest News
+Genshin Redeem Codes
+Shadow Realm Treasure Vault
+Traveler's Gun (FPS)
+Shadow Wingdrop
+Snezhnaya Shrine of Depths
+Colorful Crystal (Mitya Only)
+Featured Characters
+Mitya
+Valeriy
+Anastasya (Tsaritsa)
+Character Guide
+Characters By Rarity
+5 Stars
+4 Stars
+Characters By Roles
+DPS	Support	Sustain
+On-Field	Off-Field
+Characters By Element
+AnemoAnemo	HydroHydro
+PyroPyro	ElectroElectro
+DendroDendro	CryoCryo
+GeoGeo
+Characters By Nation
+Mondstadt
+Liyue
+Inazuma
+Sumeru
+Fontaine
+Natlan
+Nod-Krai
+Snezhnaya
+5★ Characters
+AnemoAnemo
+Anemo TravelerAnemo Traveler	ChascaChasca
+JeanJean	Kaedehara KazuhaKaedehara Kazuha
+MizukiMizuki	VarkaVarka
+VentiVenti	WandererWanderer
+XianyunXianyun	XiaoXiao
+VesnaVesna	
+HydroHydro
+ChildeChilde	ColumbinaColumbina
+FurinaFurina	Hydro TravelerHydro Traveler
+Kamisato AyatoAyato	MonaMona
+MualaniMualani	NeuvilletteNeuvillette
+NilouNilou	KokomiKokomi
+SigewinneSigewinne	YelanYelan
+VodyanitsaVodyanitsa	
+GeoGeo
+AlbedoAlbedo	Arataki IttoArataki Itto
+ChioriChiori	Geo TravelerGeo Traveler
+LinneaLinnea	NaviaNavia
+XilonenXilonen	ZhongliZhongli
+ZibaiZibai
+ElectroElectro
+ClorindeClorinde	CynoCyno
+Electro TravelerElectro Traveler	FlinsFlins
+IneffaIneffa	KeqingKeqing
+Raiden ShogunRaiden Shogun	VaresaVaresa
+Yae MikoYae Miko	MityaMitya
+DendroDendro
+AlhaithamAlhaitham	BaizhuBaizhu
+Dendro TravelerDendro Traveler	EmilieEmilie
+KinichKinich	LaumaLauma
+NahidaNahida	NeferNefer
+TighnariTighnari
+PyroPyro
+ArlecchinoArlecchino	DehyaDehya
+DilucDiluc	DurinDurin
+Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika
+NicoleNicole	Pyro TravelerPyro Traveler
+YoimiyaYoimiya
+CryoCryo
+AloyAloy	CitlaliCitlali
+EscoffierEscoffier	EulaEula
+GanyuGanyu	Kamisato AyakaKamisato Ayaka
+LohenLohen	QiqiQiqi
+SandroneSandrone	ShenheShenhe
+SkirkSkirk	WriothesleyWriothesley
+4★ Characters
+AnemoAnemo
+IfaIfa	JahodaJahoda
+Lan YanLan Yan	LynetteLynette
+PrunePrune	SayuSayu
+Shikanoin HeizouShikanoin Heizou	SucroseSucrose
+HydroHydro
+AinoAino	BarbaraBarbara
+CandaceCandace	DahliaDahlia
+XingqiuXingqiu
+GeoGeo
+GorouGorou	IllugaIlluga
+KachinaKachina	NingguangNingguang
+NoelleNoelle	Yun JinYun Jin
+ElectroElectro
+BeidouBeidou	DoriDori
+FischlFischl	IansanIansan
+Kujou SaraKujou Sara	Kuki ShinobuKuki Shinobu
+LisaLisa	OroronOroron
+RazorRazor	SethosSethos
+AlyoshaAlyosha	ValeriyValeriy
+DendroDendro
+ColleiCollei	KavehKaveh
+KiraraKirara	YaoyaoYaoyao
+PyroPyro
+AmberAmber	BennettBennett
+ChevreuseChevreuse	GamingGaming
+ThomaThoma	XianglingXiangling
+XinyanXinyan	YanfeiYanfei
+CryoCryo
+CharlotteCharlotte	ChongyunChongyun
+DionaDiona	FreminetFreminet
+KaeyaKaeya	LaylaLayla
+MikaMika	RosariaRosaria
+Unreleased Characters
+DanicaDanica	NoyNoy
+TsaritsaTsaritsa
+Map Guide
+Mondstadt
+Anemoculus
+Anemoculus	Shrine of Depths
+Shrine of Depths
+Calla Lily
+Calla Lily	Cecilia
+Cecilia
+Dandelion Seed
+Dandelion Seed	Philanemo Mushroom
+Philanemo Mushroom
+Small Lamp Grass
+Small Lamp Grass	Valberry
+Valberry
+Windwheel Aster
+Windwheel Aster	Wolfhook
+Wolfhook
+Liyue
+Geoculus
+Geoculus	Shrine of Depths
+Shrine of Depths
+Cor Lapis
+Cor Lapis	Glaze Lily
+Glaze Lily
+Jueyun Chili
+Jueyun Chili	Noctilucous Jade
+Noctilucous Jade
+Qingxin
+Qingxin	Silk Flower
+Silk Flower
+Starconch
+Starconch	Violetgrass
+Violetgrass
+Inazuma
+Electroculus
+Electroculus	Shrine of Depths
+Shrine of Depths
+Amakumo Fruit
+Amakumo Fruit	Crystal Marrow
+Crystal Marrow
+Dendrobium
+Dendrobium	Fluorescent Fungus
+Fluorescent Fungus
+Naku Weed
+Naku Weed	Onikabuto
+Onikabuto
+Sakura Bloom
+Sakura Bloom	Sango Pearl
+Sango Pearl
+Sea Ganoderma
+Sea Ganoderma
+Sumeru
+Dendroculus
+Dendroculus	Shrine of Depths
+Shrine of Depths
+Henna Berry
+Henna Berry	Kalpalata Lotus
+Kalpalata Lotus
+Mourning Flower
+Mourning Flower	Nilotpala Lotus
+Nilotpala Lotus
+Padisarah
+Padisarah	Rukkhashava Mushroom
+Rukkhashava Mushroom
+Sand Grease Pupa
+Sand Grease Pupa	Scarab
+Scarab
+Trishiraite
+Trishiraite
+Fontaine
+Hydroculus
+Hydroculus	Shrine of Depths
+Shrine of Depths
+Beryl Conch
+Beryl Conch	Lakelight Lily
+Lakelight Lily
+Lumidouce Bell
+Lumidouce Bell	Quenepa Berry
+Quenepa Berry
+Rainbow Rose
+Rainbow Rose	Spring of the First Dewdrop
+Spring of the First Dewdrop
+Subdetection Unit
+Subdetection Unit
+Natlan
+Pyroculus
+Pyroculus	Shrine of Depths
+Shrine of Depths
+Saurian Claw Succulent
+Saurian Claw Succulent	Quenepa Berry
+Quenepa Berry
+Sprayfeather Gill
+Sprayfeather Gill	Brilliant Chrysanthemum
+Brilliant Chrysanthemum
+Withering Purpurbloom
+Withering Purpurbloom	Glowing Hornshroom
+Glowing Hornshroom
+Dracolite
+Dracolite	Skysplit Gembloom
+Skysplit Gembloom
+Nod-Krai
+Lunoculus	Shrine Of Depths
+Portable Bearing
+Portable Bearing	Moonfall Silver
+Moonfall Silver
+Frostlamp Flower
+Frostlamp Flower	Pine Amber
+Pine Amber
+Winter Icelea
+Winter Icelea	Teardrop of the Moon
+Teardrop of the Moon
+Snezhnaya
+Cryoculus	Shrine Of Depths
+Frostfairy Flower
+Frostfairy Flower	Flockingweed
+Flockingweed
+Golden Fern
+Frostlamp Flower	
+Weapons
+SwordSword	ClaymoreClaymore
+PolearmPolearm	CatalystCatalyst
+BowBow
+Forum
+Multiplayer Forum (UID Exchange)
+Friend Code Exchange Forum
+Character Builds & Weapons Forum
+Teapot Traveling Merchant Friends Exchange Forum
+
+GameWith Genshin Impact Wiki Guide & Tips Best Characters Tier List (7.2 Update)
+Genshin Impact | Best Characters Tier List (7.2 Update)
+Last Updated: November 15, 2026 10:35 AM
+
+749
+See latest comments
+Genshin Impact | Best Characters Tier List (7.2 Update) - GameWith
+Hot Topic
+
+Featured Characters
+Mitya: Best Build / Best Teams / Materials / Signature Weapon / Gacha Banner
+Valeriy: Best Build / Best Teams / Materials
+Upcoming Character: Anastasya / Danica
+Recommended Articles
+New! Key Items: Cryoculus / Shadow Wingdrop
+New! Specialties: Kristallfold / Fairy Wormwood
+Genshin Word Game: Guess Today's Character!
+【Tool】Character Completion Tracker!
+Redeem Codes for Genshin Impact!
+Post
+Share
+Share
+Best Character Tier List for November 2026 for Genshin Impact. See the strongest meta characters, latest character tier, best characters for version 7.2 Mitya and Vodyanitsa Tier.
+
+Table of Contents
+
+Rank Changes & Updates
+Character Tier List
+Detailed Tier Explanations
+User Tier Polls
+Ranking Related Guide
+Character Tier ListCharacter
+Tier List	Best Team BuildBest Team
+Build	Weapon Tier ListWeapon
+Tier List
+Other Recommended Guide
+List of All Characters
+List of New & Upcoming Characters
+Latest Rank Changes to the Tier List & Notable Characters
+Current Featured Characters
+Featured Characters
+MityaMitya	DPS: SS Support: SS
+- A flexible Electro Stellar-Conduct DPS who fights On-Field with his special Charged Attack or supports from Off-Field.
+- Raises the party's Elemental Mastery with his Steady State Detection Core.
+Guides:
+Best Build / Best Teams / Gacha Banner / Ascension Materials
+ValeriyValeriy	Support: A Sustain: A
+- An Electro shielder whose Offensive Directive boosts Electro and Stellar-Conduct DMG.
+- Mitya's best 4-star teammate, protecting him while he attacks in place.
+Guides:
+Best Build / Best Teams / Ascension Materials
+Rank Change History & Adjustments
+Date	Change Details
+11/4	Added Mitya and Valeriy to Tiers.
+9/23	Added Vesna, Vodyanitsa to the tiers.
+8/12	Added Odette, Cryo Traveler, and Alyosha to the tiers.
+Adjusted tiers based on Stellar Reaction buffs.
+4/8	Added Linnea to Tiers.
+Further Change History
+Best Character Tier List Summary Table
+For Role Description & Basis, check below: Role Explanation
+
+On-Field
+Off-Field
+DPS
+Support
+Sustain
+Pyro
+Hydro
+Cryo
+Electro
+Anemo
+Geo
+Dendro
+TierSS
+Tier1
+VarkaC0
+Varka
+SkirkC0
+Skirk
+FlinsC0
+Flins
+SandroneC0
+Sandrone
+WriothesleyC1
+Wriothesley
+MavuikaC0
+Mavuika
+NeferC0
+Nefer
+ZibaiC0
+Zibai
+VesnaC0
+Vesna
+MityaC
+Mitya
+TierS
+Tier2
+VentiC0
+Venti
+KleeC1
+Klee
+CynoC1
+Cyno
+VaresaC0
+Varesa
+Cryo T.C3
+Cryo T.
+MizukiC1
+Mizuki
+ArlecchinoC0
+Arlecchino
+NeuvilletteC0
+Neuvillette
+NaviaC1
+Navia
+ClorindeC1
+Clorinde
+GamingC6
+Gaming
+MualaniC0
+Mualani
+KinichC0
+Kinich
+ChascaC0
+Chasca
+LohenC0
+Lohen
+TierA
+Tier3
+AyakaC1
+Ayaka
+ChildeC1
+Childe
+Hu TaoC1
+Hu Tao
+RaidenC0
+Raiden
+LyneyC1
+Lyney
+AlhaithamC0
+Alhaitham
+ColumbinaC0
+Columbina
+TierB
+Tier4
+DilucC1
+Diluc
+RazorC6
+Razor
+NoelleC6
+Noelle
+XiaoC1
+Xiao
+WandererC1
+Wanderer
+GanyuC1
+Ganyu
+EulaC1
+Eula
+IttoC1
+Itto
+TighnariC1
+Tighnari
+SethosC6
+Sethos
+IfaC6
+Ifa
+TierC
+Tier5
+MonaC1
+Mona
+KeqingC1
+Keqing
+KokomiC1
+Kokomi
+YoimiyaC1
+Yoimiya
+AyatoC1
+Ayato
+Lan YanC6
+Lan Yan
+TierD
+Tier6
+NingguangC6
+Ningguang
+ChongyunC6
+Chongyun
+Anemo T.C6
+Anemo T.
+KavehC6
+Kaveh
+YanfeiC6
+Yanfei
+HeizouC6
+Heizou
+AloyC0
+Aloy
+Hydro T.C6
+Hydro T.
+FreminetC6
+Freminet
+Role Explanation & Tier Basis
+Role Explanation
+Character Top Tier Rankings With Evaluations
+The character explanations are found at their highest rank. For example, if Albedo's Highest Ranking is A, he will be placed in the A Tab.
+
+SS
+S
+A
+B
+C
+D
+SS (Tier 1)
+Baizhu Tier ImageBaizhu
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Outstanding heals and ability to buff Dendro reaction makes him a powerful support.
+- Shields provide resistance making him amazing for characters like Cyno that needs resistance to interruption and off-field Dendro.
+- Off-field Dendro is very minimal and considered as a bonus most of the time.
+- C1 and C2 gives more energy and Dendro infliction.
+Bennett Tier ImageBennett
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Extremely flexible and can fit any team comp easily.
+- When played correctly, he can easily add 1000 ATK to your team.
+- Easy to build Burst since there is no RNG aspect needed to maximize his buff.
+- Without C1, his buff has HP restriction.
+Citlali Tier ImageCitlali
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Unique support that can boost Hydro and Pyro damage through her passive.
+- Good Cryo sub-DPS that scales on EM, allowing for higher reaction damage.
+Columbina Tier ImageColumbina
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+A	SS	-
+- Amazing as a Lunar reaction support and helps apply Hydro to trigger reactions. Columbina also enables Lunar-Charged, Lunar-Bloom and Lunar-Crystallize to happen.
+- Can be used as On-Fielder as well since she has innate Hydro infusion on her attacks.
+Durin Tier ImageDurin
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- A powerful Sub-DPS that is able to shred various elemental resistance of enemies.
+- Easy to use and fits multiple teams.
+Escoffier Tier ImageEscoffier
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	S	-
+- Full potential is in Cryo/Hydro only teams but is great as a standalone character for healing.
+- Can be built as sub-DPS or healer easily since her damage and healing both scale on her Attack.
+Fischl Tier ImageFischl
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- One of the best character to use for Aggravate reaction.
+- Provides huge damage, energy and frequent Electro attacks even at C0.
+- At C6, Fischl gives more coordinated Electro DMG furthering her personal damage and sub-DPS potential.
+Flins Tier ImageFlins
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- An Electro DPS specializing in Lunar-Charged reactions.
+- Enables the Lunar-Charged reaction for the team and deals direct Lunar-Charged DMG.
+- Synergizes well with Ineffa, as they both boost its damage.
+Furina Tier ImageFurina
+DPS	Support	Sustain
+SS	SS	C
+On-Field	Off-Field	-
+-	SS	-
+- Powerful Sub-DPS and can provide a high amount of DMG buff for the team.
+- Also acts as a healer but you will sacrifice the damage from Skill.
+- As a Sub-DPS, she drains the life of the whole team so AoE healers is a must.
+- Works amazing at various comps.
+- With C2, the amount of DMG bonus it gives increases.
+Iansan Tier ImageIansan
+DPS	Support	Sustain
+-	SS	D
+On-Field	Off-Field	-
+-	S	-
+- Amazing side-grade to Bennett providing powerful ATK buff and weaker healing.
+- Can be used at various team comps.
+- Can wield Scrolls Set or Noblessed Oblige with ease furthering her buffing.
+Ineffa Tier ImageIneffa
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	SS	-
+- An Electro Sub-DPS and Shielder that can enable Electro-Charged to CRIT and deal more damage.
+- Due to the split scaling needed for her (both Elemental Mastery and ATK is needed), she can be somewhat difficult to build since you also have to focus on her CRIT stats due to how Lunar-Charged works.
+Kaedehara Kazuha Tier ImageKaedehara Kazuha
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Greatly increase Elemental DMG Bonus and reduce resistance of enemies with Viridescent Venerer.
+- Can easily gather enemies using Elemental Skill.
+- Elemental Burst can inflict the absorbed Element which is great for reaction teams.
+- C2 gives additional Elemental Mastery to the team.
+Lauma Tier ImageLauma
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+Tier description is being prepared!
+Linnea Tier ImageLinnea
+DPS	Support	Sustain
+SS	-	S
+On-Field	Off-Field	-
+-	SS	-
+- Deals high, consistent damage and can also inflict powerful burst damage with her Elemental Skill.
+- Provides buffs, healing, and decent personal damage, making her a valuable upgrade for various teams, not just those centered around Zibai.
+- Excellent for mining ores in the overworld.
+Mavuika Tier ImageMavuika
+DPS	Support	Sustain
+SS	S	-
+On-Field	Off-Field	-
+SS	S	-
+- Amazing Pyro DPS that utilizes the Nightsoul consumption of teammates.
+- Can apply Pyro damage off-field using tap Skill.
+- Her Elemental Burst can be used to buff the damage dealt of the active character.
+Mitya Tier ImageMitya
+DPS	Support	Sustain
+SS	SS	-
+On-Field	Off-Field	-
+SS	SS	-
+Tier description is being prepared!
+Nefer Tier ImageNefer
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Lunar-Bloom DPS that can deal powerful damage with her Shadow attacks.
+- Reliant on Ascendant Gleam for buffs but can do amazingly in a good team comp.
+Nicole Tier ImageNicole
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- Consolidates the sustain and buffing roles into a single slot.
+- Provides a valuable teamwide ATK buff, ideal for teams with multiple ATK-scaling damage dealers.
+- Her durable shield prevents interruptions, allowing the on-field DPS to execute their full damage combo.
+- A direct upgrade for Hexerei teams, especially when paired with Durin.
+Odette Tier ImageOdette
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- An amazing support for Stellar Glimmer reactions, helping apply Cryo to trigger them. Odette also enables Stellar-Conduct and Stellar-Swirl.
+- Also provides off-field damage with decent DPS.
+Sandrone Tier ImageSandrone
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Dedicated Stellar-Conduct On-Field DPS with long-range Cryo attacks
+- Performance is comparable to Lunar DPSes but her team is still likely to gain new teammate upgrades.
+- Since the cooldown of her Skill is so short, she has no issues with uptime.
+Skirk Tier ImageSkirk
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Great On-Field DPS for Cryo teams.
+- Has a wide range for her AoE Normal Attacks in Seven-Phase Flash mode.
+- Reliant on teamates to give her stacks to increase her damage.
+Sucrose Tier ImageSucrose
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Buffs Elemental Mastery of Swirled Element.
+- Has decent but inconsistent crowd control.
+- C1 is very important because of her high Elemental Burst cost.
+- C6 makes her competitive to top-class buffers like Kazuha and is better than him in Hexerei teams.
+Varka Tier ImageVarka
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A Powerful DPS and exploration character weilds 2 Elements: Anemo & PECH.- He features several team-building constraints that, when satisfied, grant him a 100% damage boost.- Amazing for exploration especially when paired with Mondstadt characters.
+Vesna Tier ImageVesna
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A dedicated Stellar Swirl On-Field DPS with competitive damage when played in her best teams.
+- Her playstyle is extremely mobile and has good AoE.
+Vodyanitsa Tier ImageVodyanitsa
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- A Hydro/Cryo support that can buff Stellar Swirl as well.
+- Provides healing, resistance shred and Elemental DMG. Buffs and healing scale on her Max HP.
+Wriothesley Tier ImageWriothesley
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Fast Cryo Infliction and deals amazing damage with Normal Attack.
+- Has self damage and healing but can be inconsistent.
+- Amazing at both Melt and Freeze teams.
+- C1 is recommended making the self healing more consistent.
+Xilonen Tier ImageXilonen
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Amazing support that shreds resistance of enemies allowing your characters to deal more damage.
+- Also has the ability to heal and sustain the team.
+- Abilites are reliant on team mates.
+Yae Miko Tier ImageYae Miko
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing off-field Electro DMG from her Elemental Skill summons.
+- Can be built with Elemental Mastery for Dendro comps or ATK for Stellar-Conduct teams.
+- Elemental Burst deals powerful Electro DMG.
+- Witch Revelation buff makes her Constellations 1 and 2 great for Stellar-Conduct teams.
+Yelan Tier ImageYelan
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing personal damage and Hydro infliction off-field.
+- Elemental Skill is both powerful and useful for Exploration.
+- Also provides DMG Bonus for the on-field character.
+- High Elemental Burst Cost.
+- C1 is recommended for more energy for Elemental Burst.
+Zhongli Tier ImageZhongli
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Zhongli has the strongest shield in-game and shreds the all DMG resistance of enemies around it.
+- Can petrify enemies with Elemental Burst.
+- Long animations for Elemental Burst and split scaling between DMG and shields.
+- Sometimes the pillar summoned disrupts battles but it is good for exploration.
+- C2 allows you to form shields with Elemental Burst.
+Zibai Tier ImageZibai
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- On-Field Lunar-Crystallize focused attacker that deals powerful damage with Elemental Skill-based Normal Attack and Elemental Burst.
+- Powerful character that has limited teams but produce top-level damage even with F2P Teams.
+User Tier Polls for Characters
+The rankings on this list are based on ratings from all GameWith users.
+※ Scores are the calculated average of all user ratings.
+※ Press "Rate" to submit your own rating.
+
+Main DPS
+Sub DPS
+O. Support
+D. Support
+Main DPS or Main Attacker
+Rank
+Name
+Score
+SkirkSkirk	
+9.3 points
+
+
+Calculate
+
+ArlecchinoArlecchino	
+9.3 points
+
+
+Calculate
+
+FlinsFlins	
+9.3 points
+
+
+Calculate
+
+NeuvilletteNeuvillette	
+9.3 points
+
+
+Calculate
+
+MavuikaMavuika	
+9.3 points
+
+
+Calculate
+
+VaresaVaresa	
+9.1 points
+
+
+Calculate
+
+Raiden ShogunRaiden Shogun	
+9 points
+
+
+Calculate
+
+NaviaNavia	
+9 points
+
+
+Calculate
+
+WriothesleyWriothesley	
+9 points
+
+
+Calculate
+
+ClorindeClorinde	
+9 points
+
+
+Calculate
+
+KinichKinich	
+9 points
+
+
+Calculate
+
+IfaIfa	
+9 points
+
+
+Calculate
+
+Kamisato AyakaKamisato Ayaka	
+8.9 points
+
+
+Calculate
+
+WandererWanderer	
+8.9 points
+
+
+Calculate
+
+Hu TaoHu Tao	
+8.9 points
+
+
+Calculate
+
+AlhaithamAlhaitham	
+8.9 points
+
+
+Calculate
+
+XiaoXiao	
+8.8 points
+
+
+Calculate
+
+MualaniMualani	
+8.8 points
+
+
+Calculate
+
+XilonenXilonen	
+8.8 points
+
+
+Calculate
+
+ChascaChasca	
+8.8 points
+
+
+Calculate
+
+GanyuGanyu	
+8.7 points
+
+
+Calculate
+
+LyneyLyney	
+8.7 points
+
+
+Calculate
+
+Kamisato AyatoKamisato Ayato	
+8.7 points
+
+
+Calculate
+
+NahidaNahida	
+8.7 points
+
+
+Calculate
+
+TighnariTighnari	
+8.7 points
+
+
+Calculate
+
+GamingGaming	
+8.7 points
+
+
+Calculate
+
+KleeKlee	
+8.6 points
+
+
+Calculate
+
+CynoCyno	
+8.6 points
+
+
+Calculate
+
+Sangonomiya KokomiSangonomiya Kokomi	
+8.6 points
+
+
+Calculate
+
+YoimiyaYoimiya	
+8.6 points
+
+
+Calculate
+
+Arataki IttoArataki Itto	
+8.6 points
+
+
+Calculate
+
+MizukiMizuki	
+8.6 points
+
+
+Calculate
+
+NoelleNoelle	
+8.5 points
+
+
+Calculate
+
+KeqingKeqing	
+8.5 points
+
+
+Calculate
+
+EulaEula	
+8.5 points
+
+
+Calculate
+
+YanfeiYanfei	
+8.5 points
+
+
+Calculate
+
+DilucDiluc	
+8.4 points
+
+
+Calculate
+
+ChildeChilde	
+8.4 points
+
+
+Calculate
+
+FreminetFreminet	
+8.4 points
+
+
+Calculate
+
+RazorRazor	
+8.2 points
+
+
+Calculate
+
+SethosSethos	
+8.2 points
+
+
+Calculate
+
+NingguangNingguang	
+8 points
+
+
+Calculate
+
+SucroseSucrose	
+7.7 points
+
+
+Calculate
+
+KavehKaveh	
+7 points
+
+
+Calculate
+
+Ranking Tools
+Rank Your Favorite Characters!
+Best BoyBest Boy Ranking Tool	Best Girl Ranking Tool
+Character Related Articles
+Character Tier Lists
+Tier Lists
+Best Characters Tier List for April 2026 (Luna 5)Best Characters Tier List
+Best Teams For Each Character	Meta Team Comps
+All Characters
+Characters By Rarity
+★5★5	★4★4
+Characters By Roles
+DPS List	Support List	Sustain List
+On-Field List	Off-Field List
+Characters By Element
+PyroPyro	HydroHydro	AnemoAnemo	ElectroElectro
+DendroDendro	CryoCryo	GeoGeo
+Characters By Nation
+MondstadtMondstadt	LiyueLiyue	Inazuma
+Sumeru	FontaineFontaine	NatlanNatlan
+SnezhnayaSnezhnaya	Nod-KraiNod-Krai
+List Of All Characters
+Post
+Share
+Share
+Have some feedback? Click here
+Article Written by
+GameWith Genshin Strategy Team
+GameWith Genshin Strategy Team
+Reader Comments
+Submit
+Anonymous737
+escoffier dps ?! what happened ?
+
+99 days ago | Report
+Mustapha Seven736
+I commented before about the meaning if off-field in this tierlist, and know i saw "Role description" and now i understand the standards; it's about the off-field contribution of those characters not just the off-field DPS given by them!
+
+ Click to Enlarge
+214 days ago | Report
+Mustapha Seven735
+What do you mean by (off-field) in the tierlist?! You have some "support" there in SS and S even they do NOT do any off-field damage at all like Baizhu, Chevreuse and illuga?!!!! (They're good supports but they're NOT off-fielders at all).
+
+ Click to Enlarge
+214 days ago | Report
+Anonymous734
+Holy Yelan cope
+
+380 days ago | Report
+Anonymous733
+Furina Main DPS? What happened here?
+
+380 days ago | Report
+Read on
+Copyright Notice
+© All rights reserved by miHoYo.
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+
+Most Popular
+All Banner List (November 2026) Character & Weapon Banner
+All Banner List (November 2026) Character & Weapon Banner1
+All Female / Girl Character List
+All Female / Girl Character List2
+Best Teams for Vesna
+Best Teams for Vesna3
+Anastasya (Tsaritsa) Release Date & Known Information
+Anastasya (Tsaritsa) Release Date & Known Information4
+Tighnari Best Build Guide
+Tighnari Best Build Guide5
+Read on 
+Featured Titles
+Fate/Grand Order (English)
+Fate/Grand Order (English)
+Subnautica 2
+Subnautica 2
+Neverness to Everness
+Neverness to Everness
+Seven Knights Rebirth
+Seven Knights Rebirth
+Genshin Impact
+Genshin Impact
+LET IT DIE: INFERNO
+LET IT DIE: INFERNO
+Mongil: Star Dive
+Mongil: Star Dive
+Kaiju No. 8 The Game
+Kaiju No. 8 The Game
+Chaos Zero Nightmare
+Chaos Zero Nightmare
+Sword of Convallaria
+Sword of Convallaria
+Shadowverse: Worlds Beyond
+Shadowverse: Worlds Beyond
+Stardew Valley
+Stardew Valley
+Resident Evil 5
+Resident Evil 5
+Zelda Tears Of The Kingdom
+Zelda Tears Of The Kingdom
+Xenoblade Chronicles 3
+Xenoblade Chronicles 3
+View List
+Hot off the Grill
+Genshin Impact Vesna Build Guide
+Genshin Impact Vodyanitsa Build Guide
+Seven Knights Rebirth | Buffed Judas Guide
+Seven Knights Rebirth | Eve Guide
+Subnautica 2 | Biomes Location Map Guide
+Top Help CenterAbout UsTerms of UseCreation GuidelinesPrivacy PolicyContact UsGameWith(日本語)
+Copyright (C) GameWith All Rights Reserved.
+
+GameWith - Your Source of the Latest Game Guides & News
+Genshin
+Genshin Impact Wiki Guide & Tips
+Search the site
+
+Main Menu
+Mitya
+Valeriy
+Snezhnaya
+Latest News
+Character List
+Tier List
+Redeem Code
+Banners
+All Weapons
+others
+Article Menu
+Event News
+Latest Update
+Updates & Latest News
+Genshin Redeem Codes
+Shadow Realm Treasure Vault
+Traveler's Gun (FPS)
+Shadow Wingdrop
+Snezhnaya Shrine of Depths
+Colorful Crystal (Mitya Only)
+Featured Characters
+Mitya
+Valeriy
+Anastasya (Tsaritsa)
+Character Guide
+Characters By Rarity
+5 Stars
+4 Stars
+Characters By Roles
+DPS	Support	Sustain
+On-Field	Off-Field
+Characters By Element
+AnemoAnemo	HydroHydro
+PyroPyro	ElectroElectro
+DendroDendro	CryoCryo
+GeoGeo
+Characters By Nation
+Mondstadt
+Liyue
+Inazuma
+Sumeru
+Fontaine
+Natlan
+Nod-Krai
+Snezhnaya
+5★ Characters
+AnemoAnemo
+Anemo TravelerAnemo Traveler	ChascaChasca
+JeanJean	Kaedehara KazuhaKaedehara Kazuha
+MizukiMizuki	VarkaVarka
+VentiVenti	WandererWanderer
+XianyunXianyun	XiaoXiao
+VesnaVesna	
+HydroHydro
+ChildeChilde	ColumbinaColumbina
+FurinaFurina	Hydro TravelerHydro Traveler
+Kamisato AyatoAyato	MonaMona
+MualaniMualani	NeuvilletteNeuvillette
+NilouNilou	KokomiKokomi
+SigewinneSigewinne	YelanYelan
+VodyanitsaVodyanitsa	
+GeoGeo
+AlbedoAlbedo	Arataki IttoArataki Itto
+ChioriChiori	Geo TravelerGeo Traveler
+LinneaLinnea	NaviaNavia
+XilonenXilonen	ZhongliZhongli
+ZibaiZibai
+ElectroElectro
+ClorindeClorinde	CynoCyno
+Electro TravelerElectro Traveler	FlinsFlins
+IneffaIneffa	KeqingKeqing
+Raiden ShogunRaiden Shogun	VaresaVaresa
+Yae MikoYae Miko	MityaMitya
+DendroDendro
+AlhaithamAlhaitham	BaizhuBaizhu
+Dendro TravelerDendro Traveler	EmilieEmilie
+KinichKinich	LaumaLauma
+NahidaNahida	NeferNefer
+TighnariTighnari
+PyroPyro
+ArlecchinoArlecchino	DehyaDehya
+DilucDiluc	DurinDurin
+Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika
+NicoleNicole	Pyro TravelerPyro Traveler
+YoimiyaYoimiya
+CryoCryo
+AloyAloy	CitlaliCitlali
+EscoffierEscoffier	EulaEula
+GanyuGanyu	Kamisato AyakaKamisato Ayaka
+LohenLohen	QiqiQiqi
+SandroneSandrone	ShenheShenhe
+SkirkSkirk	WriothesleyWriothesley
+4★ Characters
+AnemoAnemo
+IfaIfa	JahodaJahoda
+Lan YanLan Yan	LynetteLynette
+PrunePrune	SayuSayu
+Shikanoin HeizouShikanoin Heizou	SucroseSucrose
+HydroHydro
+AinoAino	BarbaraBarbara
+CandaceCandace	DahliaDahlia
+XingqiuXingqiu
+GeoGeo
+GorouGorou	IllugaIlluga
+KachinaKachina	NingguangNingguang
+NoelleNoelle	Yun JinYun Jin
+ElectroElectro
+BeidouBeidou	DoriDori
+FischlFischl	IansanIansan
+Kujou SaraKujou Sara	Kuki ShinobuKuki Shinobu
+LisaLisa	OroronOroron
+RazorRazor	SethosSethos
+AlyoshaAlyosha	ValeriyValeriy
+DendroDendro
+ColleiCollei	KavehKaveh
+KiraraKirara	YaoyaoYaoyao
+PyroPyro
+AmberAmber	BennettBennett
+ChevreuseChevreuse	GamingGaming
+ThomaThoma	XianglingXiangling
+XinyanXinyan	YanfeiYanfei
+CryoCryo
+CharlotteCharlotte	ChongyunChongyun
+DionaDiona	FreminetFreminet
+KaeyaKaeya	LaylaLayla
+MikaMika	RosariaRosaria
+Unreleased Characters
+DanicaDanica	NoyNoy
+TsaritsaTsaritsa
+Map Guide
+Mondstadt
+Anemoculus
+Anemoculus	Shrine of Depths
+Shrine of Depths
+Calla Lily
+Calla Lily	Cecilia
+Cecilia
+Dandelion Seed
+Dandelion Seed	Philanemo Mushroom
+Philanemo Mushroom
+Small Lamp Grass
+Small Lamp Grass	Valberry
+Valberry
+Windwheel Aster
+Windwheel Aster	Wolfhook
+Wolfhook
+Liyue
+Geoculus
+Geoculus	Shrine of Depths
+Shrine of Depths
+Cor Lapis
+Cor Lapis	Glaze Lily
+Glaze Lily
+Jueyun Chili
+Jueyun Chili	Noctilucous Jade
+Noctilucous Jade
+Qingxin
+Qingxin	Silk Flower
+Silk Flower
+Starconch
+Starconch	Violetgrass
+Violetgrass
+Inazuma
+Electroculus
+Electroculus	Shrine of Depths
+Shrine of Depths
+Amakumo Fruit
+Amakumo Fruit	Crystal Marrow
+Crystal Marrow
+Dendrobium
+Dendrobium	Fluorescent Fungus
+Fluorescent Fungus
+Naku Weed
+Naku Weed	Onikabuto
+Onikabuto
+Sakura Bloom
+Sakura Bloom	Sango Pearl
+Sango Pearl
+Sea Ganoderma
+Sea Ganoderma
+Sumeru
+Dendroculus
+Dendroculus	Shrine of Depths
+Shrine of Depths
+Henna Berry
+Henna Berry	Kalpalata Lotus
+Kalpalata Lotus
+Mourning Flower
+Mourning Flower	Nilotpala Lotus
+Nilotpala Lotus
+Padisarah
+Padisarah	Rukkhashava Mushroom
+Rukkhashava Mushroom
+Sand Grease Pupa
+Sand Grease Pupa	Scarab
+Scarab
+Trishiraite
+Trishiraite
+Fontaine
+Hydroculus
+Hydroculus	Shrine of Depths
+Shrine of Depths
+Beryl Conch
+Beryl Conch	Lakelight Lily
+Lakelight Lily
+Lumidouce Bell
+Lumidouce Bell	Quenepa Berry
+Quenepa Berry
+Rainbow Rose
+Rainbow Rose	Spring of the First Dewdrop
+Spring of the First Dewdrop
+Subdetection Unit
+Subdetection Unit
+Natlan
+Pyroculus
+Pyroculus	Shrine of Depths
+Shrine of Depths
+Saurian Claw Succulent
+Saurian Claw Succulent	Quenepa Berry
+Quenepa Berry
+Sprayfeather Gill
+Sprayfeather Gill	Brilliant Chrysanthemum
+Brilliant Chrysanthemum
+Withering Purpurbloom
+Withering Purpurbloom	Glowing Hornshroom
+Glowing Hornshroom
+Dracolite
+Dracolite	Skysplit Gembloom
+Skysplit Gembloom
+Nod-Krai
+Lunoculus	Shrine Of Depths
+Portable Bearing
+Portable Bearing	Moonfall Silver
+Moonfall Silver
+Frostlamp Flower
+Frostlamp Flower	Pine Amber
+Pine Amber
+Winter Icelea
+Winter Icelea	Teardrop of the Moon
+Teardrop of the Moon
+Snezhnaya
+Cryoculus	Shrine Of Depths
+Frostfairy Flower
+Frostfairy Flower	Flockingweed
+Flockingweed
+Golden Fern
+Frostlamp Flower	
+Weapons
+SwordSword	ClaymoreClaymore
+PolearmPolearm	CatalystCatalyst
+BowBow
+Forum
+Multiplayer Forum (UID Exchange)
+Friend Code Exchange Forum
+Character Builds & Weapons Forum
+Teapot Traveling Merchant Friends Exchange Forum
+
+GameWith Genshin Impact Wiki Guide & Tips Best Characters Tier List (7.2 Update)
+Genshin Impact | Best Characters Tier List (7.2 Update)
+Last Updated: November 15, 2026 10:35 AM
+
+749
+See latest comments
+Genshin Impact | Best Characters Tier List (7.2 Update) - GameWith
+Hot Topic
+
+Featured Characters
+Mitya: Best Build / Best Teams / Materials / Signature Weapon / Gacha Banner
+Valeriy: Best Build / Best Teams / Materials
+Upcoming Character: Anastasya / Danica
+Recommended Articles
+New! Key Items: Cryoculus / Shadow Wingdrop
+New! Specialties: Kristallfold / Fairy Wormwood
+Genshin Word Game: Guess Today's Character!
+【Tool】Character Completion Tracker!
+Redeem Codes for Genshin Impact!
+Post
+Share
+Share
+Best Character Tier List for November 2026 for Genshin Impact. See the strongest meta characters, latest character tier, best characters for version 7.2 Mitya and Vodyanitsa Tier.
+
+Table of Contents
+
+Rank Changes & Updates
+Character Tier List
+Detailed Tier Explanations
+User Tier Polls
+Ranking Related Guide
+Character Tier ListCharacter
+Tier List	Best Team BuildBest Team
+Build	Weapon Tier ListWeapon
+Tier List
+Other Recommended Guide
+List of All Characters
+List of New & Upcoming Characters
+Latest Rank Changes to the Tier List & Notable Characters
+Current Featured Characters
+Featured Characters
+MityaMitya	DPS: SS Support: SS
+- A flexible Electro Stellar-Conduct DPS who fights On-Field with his special Charged Attack or supports from Off-Field.
+- Raises the party's Elemental Mastery with his Steady State Detection Core.
+Guides:
+Best Build / Best Teams / Gacha Banner / Ascension Materials
+ValeriyValeriy	Support: A Sustain: A
+- An Electro shielder whose Offensive Directive boosts Electro and Stellar-Conduct DMG.
+- Mitya's best 4-star teammate, protecting him while he attacks in place.
+Guides:
+Best Build / Best Teams / Ascension Materials
+Rank Change History & Adjustments
+Date	Change Details
+11/4	Added Mitya and Valeriy to Tiers.
+9/23	Added Vesna, Vodyanitsa to the tiers.
+8/12	Added Odette, Cryo Traveler, and Alyosha to the tiers.
+Adjusted tiers based on Stellar Reaction buffs.
+4/8	Added Linnea to Tiers.
+Further Change History
+Best Character Tier List Summary Table
+For Role Description & Basis, check below: Role Explanation
+
+On-Field
+Off-Field
+DPS
+Support
+Sustain
+Pyro
+Hydro
+Cryo
+Electro
+Anemo
+Geo
+Dendro
+TierSS
+Tier1
+BennettC5
+Bennett
+FischlC6
+Fischl
+SucroseC6
+Sucrose
+Kaedehara KazuhaC0
+Kaedehara Kazuha
+FurinaC0
+Furina
+Yae MikoC1
+Yae Miko
+DurinC0
+Durin
+YelanC0
+Yelan
+IneffaC0
+Ineffa
+LaumaC0
+Lauma
+ColumbinaC0
+Columbina
+NicoleC0
+Nicole
+LinneaC0
+Linnea
+CitlaliC0
+Citlali
+XilonenC0
+Xilonen
+VodyanitsaC0
+Vodyanitsa
+OdetteC0
+Odette
+MityaC
+Mitya
+TierS
+Tier2
+VentiC0
+Venti
+XianglingC6
+Xiangling
+XingqiuC6
+Xingqiu
+QiqiC1
+Qiqi
+ZhongliC0
+Zhongli
+AlbedoC1
+Albedo
+BaizhuC1
+Baizhu
+IansanC6
+Iansan
+EscoffierC0
+Escoffier
+Kuki ShinobuC6
+Kuki Shinobu
+Cryo T.C3
+Cryo T.
+NilouC1
+Nilou
+NahidaC0
+Nahida
+EmilieC1
+Emilie
+ChevreuseC6
+Chevreuse
+XianyunC1
+Xianyun
+MavuikaC0
+Mavuika
+PruneC6
+Prune
+TierA
+Tier3
+JeanC1
+Jean
+MonaC1
+Mona
+DionaC6
+Diona
+YaoyaoC6
+Yaoyao
+Yun JinC6
+Yun Jin
+RaidenC0
+Raiden
+KokomiC1
+Kokomi
+ShenheC1
+Shenhe
+ThomaC6
+Thoma
+IllugaC6
+Illuga
+MizukiC1
+Mizuki
+AinoC6
+Aino
+LaylaC6
+Layla
+FaruzanC6
+Faruzan
+ChioriC1
+Chiori
+SigewinneC1
+Sigewinne
+OroronC6
+Ororon
+JahodaC6
+Jahoda
+ValeriyC6
+Valeriy
+AlyoshaC6
+Alyosha
+TierB
+Tier4
+BeidouC6
+Beidou
+RosariaC6
+Rosaria
+LynetteC6
+Lynette
+SayuC6
+Sayu
+Kujou SaraC6
+Kujou Sara
+GorouC6
+Gorou
+ColleiC6
+Collei
+Pyro T.C6
+Pyro T.
+Dendro T.C6
+Dendro T.
+MikaC6
+Mika
+CandaceC6
+Candace
+KiraraC6
+Kirara
+CharlotteC6
+Charlotte
+KachinaC6
+Kachina
+TierC
+Tier5
+LisaC6
+Lisa
+KaeyaC6
+Kaeya
+XinyanC6
+Xinyan
+DahliaC6
+Dahlia
+DoriC6
+Dori
+DehyaC1
+Dehya
+TierD
+Tier6
+AmberC6
+Amber
+BarbaraC6
+Barbara
+ChongyunC6
+Chongyun
+Geo T.C6
+Geo T.
+Electro T.C6
+Electro T.
+Role Explanation & Tier Basis
+Role Explanation
+Character Top Tier Rankings With Evaluations
+The character explanations are found at their highest rank. For example, if Albedo's Highest Ranking is A, he will be placed in the A Tab.
+
+SS
+S
+A
+B
+C
+D
+SS (Tier 1)
+Baizhu Tier ImageBaizhu
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Outstanding heals and ability to buff Dendro reaction makes him a powerful support.
+- Shields provide resistance making him amazing for characters like Cyno that needs resistance to interruption and off-field Dendro.
+- Off-field Dendro is very minimal and considered as a bonus most of the time.
+- C1 and C2 gives more energy and Dendro infliction.
+Bennett Tier ImageBennett
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Extremely flexible and can fit any team comp easily.
+- When played correctly, he can easily add 1000 ATK to your team.
+- Easy to build Burst since there is no RNG aspect needed to maximize his buff.
+- Without C1, his buff has HP restriction.
+Citlali Tier ImageCitlali
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Unique support that can boost Hydro and Pyro damage through her passive.
+- Good Cryo sub-DPS that scales on EM, allowing for higher reaction damage.
+Columbina Tier ImageColumbina
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+A	SS	-
+- Amazing as a Lunar reaction support and helps apply Hydro to trigger reactions. Columbina also enables Lunar-Charged, Lunar-Bloom and Lunar-Crystallize to happen.
+- Can be used as On-Fielder as well since she has innate Hydro infusion on her attacks.
+Durin Tier ImageDurin
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- A powerful Sub-DPS that is able to shred various elemental resistance of enemies.
+- Easy to use and fits multiple teams.
+Escoffier Tier ImageEscoffier
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	S	-
+- Full potential is in Cryo/Hydro only teams but is great as a standalone character for healing.
+- Can be built as sub-DPS or healer easily since her damage and healing both scale on her Attack.
+Fischl Tier ImageFischl
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- One of the best character to use for Aggravate reaction.
+- Provides huge damage, energy and frequent Electro attacks even at C0.
+- At C6, Fischl gives more coordinated Electro DMG furthering her personal damage and sub-DPS potential.
+Flins Tier ImageFlins
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- An Electro DPS specializing in Lunar-Charged reactions.
+- Enables the Lunar-Charged reaction for the team and deals direct Lunar-Charged DMG.
+- Synergizes well with Ineffa, as they both boost its damage.
+Furina Tier ImageFurina
+DPS	Support	Sustain
+SS	SS	C
+On-Field	Off-Field	-
+-	SS	-
+- Powerful Sub-DPS and can provide a high amount of DMG buff for the team.
+- Also acts as a healer but you will sacrifice the damage from Skill.
+- As a Sub-DPS, she drains the life of the whole team so AoE healers is a must.
+- Works amazing at various comps.
+- With C2, the amount of DMG bonus it gives increases.
+Iansan Tier ImageIansan
+DPS	Support	Sustain
+-	SS	D
+On-Field	Off-Field	-
+-	S	-
+- Amazing side-grade to Bennett providing powerful ATK buff and weaker healing.
+- Can be used at various team comps.
+- Can wield Scrolls Set or Noblessed Oblige with ease furthering her buffing.
+Ineffa Tier ImageIneffa
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	SS	-
+- An Electro Sub-DPS and Shielder that can enable Electro-Charged to CRIT and deal more damage.
+- Due to the split scaling needed for her (both Elemental Mastery and ATK is needed), she can be somewhat difficult to build since you also have to focus on her CRIT stats due to how Lunar-Charged works.
+Kaedehara Kazuha Tier ImageKaedehara Kazuha
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Greatly increase Elemental DMG Bonus and reduce resistance of enemies with Viridescent Venerer.
+- Can easily gather enemies using Elemental Skill.
+- Elemental Burst can inflict the absorbed Element which is great for reaction teams.
+- C2 gives additional Elemental Mastery to the team.
+Lauma Tier ImageLauma
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+Tier description is being prepared!
+Linnea Tier ImageLinnea
+DPS	Support	Sustain
+SS	-	S
+On-Field	Off-Field	-
+-	SS	-
+- Deals high, consistent damage and can also inflict powerful burst damage with her Elemental Skill.
+- Provides buffs, healing, and decent personal damage, making her a valuable upgrade for various teams, not just those centered around Zibai.
+- Excellent for mining ores in the overworld.
+Mavuika Tier ImageMavuika
+DPS	Support	Sustain
+SS	S	-
+On-Field	Off-Field	-
+SS	S	-
+- Amazing Pyro DPS that utilizes the Nightsoul consumption of teammates.
+- Can apply Pyro damage off-field using tap Skill.
+- Her Elemental Burst can be used to buff the damage dealt of the active character.
+Mitya Tier ImageMitya
+DPS	Support	Sustain
+SS	SS	-
+On-Field	Off-Field	-
+SS	SS	-
+Tier description is being prepared!
+Nefer Tier ImageNefer
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Lunar-Bloom DPS that can deal powerful damage with her Shadow attacks.
+- Reliant on Ascendant Gleam for buffs but can do amazingly in a good team comp.
+Nicole Tier ImageNicole
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- Consolidates the sustain and buffing roles into a single slot.
+- Provides a valuable teamwide ATK buff, ideal for teams with multiple ATK-scaling damage dealers.
+- Her durable shield prevents interruptions, allowing the on-field DPS to execute their full damage combo.
+- A direct upgrade for Hexerei teams, especially when paired with Durin.
+Odette Tier ImageOdette
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- An amazing support for Stellar Glimmer reactions, helping apply Cryo to trigger them. Odette also enables Stellar-Conduct and Stellar-Swirl.
+- Also provides off-field damage with decent DPS.
+Sandrone Tier ImageSandrone
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Dedicated Stellar-Conduct On-Field DPS with long-range Cryo attacks
+- Performance is comparable to Lunar DPSes but her team is still likely to gain new teammate upgrades.
+- Since the cooldown of her Skill is so short, she has no issues with uptime.
+Skirk Tier ImageSkirk
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Great On-Field DPS for Cryo teams.
+- Has a wide range for her AoE Normal Attacks in Seven-Phase Flash mode.
+- Reliant on teamates to give her stacks to increase her damage.
+Sucrose Tier ImageSucrose
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Buffs Elemental Mastery of Swirled Element.
+- Has decent but inconsistent crowd control.
+- C1 is very important because of her high Elemental Burst cost.
+- C6 makes her competitive to top-class buffers like Kazuha and is better than him in Hexerei teams.
+Varka Tier ImageVarka
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A Powerful DPS and exploration character weilds 2 Elements: Anemo & PECH.- He features several team-building constraints that, when satisfied, grant him a 100% damage boost.- Amazing for exploration especially when paired with Mondstadt characters.
+Vesna Tier ImageVesna
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A dedicated Stellar Swirl On-Field DPS with competitive damage when played in her best teams.
+- Her playstyle is extremely mobile and has good AoE.
+Vodyanitsa Tier ImageVodyanitsa
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- A Hydro/Cryo support that can buff Stellar Swirl as well.
+- Provides healing, resistance shred and Elemental DMG. Buffs and healing scale on her Max HP.
+Wriothesley Tier ImageWriothesley
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Fast Cryo Infliction and deals amazing damage with Normal Attack.
+- Has self damage and healing but can be inconsistent.
+- Amazing at both Melt and Freeze teams.
+- C1 is recommended making the self healing more consistent.
+Xilonen Tier ImageXilonen
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Amazing support that shreds resistance of enemies allowing your characters to deal more damage.
+- Also has the ability to heal and sustain the team.
+- Abilites are reliant on team mates.
+Yae Miko Tier ImageYae Miko
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing off-field Electro DMG from her Elemental Skill summons.
+- Can be built with Elemental Mastery for Dendro comps or ATK for Stellar-Conduct teams.
+- Elemental Burst deals powerful Electro DMG.
+- Witch Revelation buff makes her Constellations 1 and 2 great for Stellar-Conduct teams.
+Yelan Tier ImageYelan
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing personal damage and Hydro infliction off-field.
+- Elemental Skill is both powerful and useful for Exploration.
+- Also provides DMG Bonus for the on-field character.
+- High Elemental Burst Cost.
+- C1 is recommended for more energy for Elemental Burst.
+Zhongli Tier ImageZhongli
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Zhongli has the strongest shield in-game and shreds the all DMG resistance of enemies around it.
+- Can petrify enemies with Elemental Burst.
+- Long animations for Elemental Burst and split scaling between DMG and shields.
+- Sometimes the pillar summoned disrupts battles but it is good for exploration.
+- C2 allows you to form shields with Elemental Burst.
+Zibai Tier ImageZibai
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- On-Field Lunar-Crystallize focused attacker that deals powerful damage with Elemental Skill-based Normal Attack and Elemental Burst.
+- Powerful character that has limited teams but produce top-level damage even with F2P Teams.
+User Tier Polls for Characters
+The rankings on this list are based on ratings from all GameWith users.
+※ Scores are the calculated average of all user ratings.
+※ Press "Rate" to submit your own rating.
+
+Main DPS
+Sub DPS
+O. Support
+D. Support
+Main DPS or Main Attacker
+Rank
+Name
+Score
+SkirkSkirk	
+9.3 points
+
+
+Calculate
+
+ArlecchinoArlecchino	
+9.3 points
+
+
+Calculate
+
+FlinsFlins	
+9.3 points
+
+
+Calculate
+
+NeuvilletteNeuvillette	
+9.3 points
+
+
+Calculate
+
+MavuikaMavuika	
+9.3 points
+
+
+Calculate
+
+VaresaVaresa	
+9.1 points
+
+
+Calculate
+
+Raiden ShogunRaiden Shogun	
+9 points
+
+
+Calculate
+
+NaviaNavia	
+9 points
+
+
+Calculate
+
+WriothesleyWriothesley	
+9 points
+
+
+Calculate
+
+ClorindeClorinde	
+9 points
+
+
+Calculate
+
+KinichKinich	
+9 points
+
+
+Calculate
+
+IfaIfa	
+9 points
+
+
+Calculate
+
+Kamisato AyakaKamisato Ayaka	
+8.9 points
+
+
+Calculate
+
+WandererWanderer	
+8.9 points
+
+
+Calculate
+
+Hu TaoHu Tao	
+8.9 points
+
+
+Calculate
+
+AlhaithamAlhaitham	
+8.9 points
+
+
+Calculate
+
+XiaoXiao	
+8.8 points
+
+
+Calculate
+
+MualaniMualani	
+8.8 points
+
+
+Calculate
+
+XilonenXilonen	
+8.8 points
+
+
+Calculate
+
+ChascaChasca	
+8.8 points
+
+
+Calculate
+
+GanyuGanyu	
+8.7 points
+
+
+Calculate
+
+LyneyLyney	
+8.7 points
+
+
+Calculate
+
+Kamisato AyatoKamisato Ayato	
+8.7 points
+
+
+Calculate
+
+NahidaNahida	
+8.7 points
+
+
+Calculate
+
+TighnariTighnari	
+8.7 points
+
+
+Calculate
+
+GamingGaming	
+8.7 points
+
+
+Calculate
+
+KleeKlee	
+8.6 points
+
+
+Calculate
+
+CynoCyno	
+8.6 points
+
+
+Calculate
+
+Sangonomiya KokomiSangonomiya Kokomi	
+8.6 points
+
+
+Calculate
+
+YoimiyaYoimiya	
+8.6 points
+
+
+Calculate
+
+Arataki IttoArataki Itto	
+8.6 points
+
+
+Calculate
+
+MizukiMizuki	
+8.6 points
+
+
+Calculate
+
+NoelleNoelle	
+8.5 points
+
+
+Calculate
+
+KeqingKeqing	
+8.5 points
+
+
+Calculate
+
+EulaEula	
+8.5 points
+
+
+Calculate
+
+YanfeiYanfei	
+8.5 points
+
+
+Calculate
+
+DilucDiluc	
+8.4 points
+
+
+Calculate
+
+ChildeChilde	
+8.4 points
+
+
+Calculate
+
+FreminetFreminet	
+8.4 points
+
+
+Calculate
+
+RazorRazor	
+8.2 points
+
+
+Calculate
+
+SethosSethos	
+8.2 points
+
+
+Calculate
+
+NingguangNingguang	
+8 points
+
+
+Calculate
+
+SucroseSucrose	
+7.7 points
+
+
+Calculate
+
+KavehKaveh	
+7 points
+
+
+Calculate
+
+Ranking Tools
+Rank Your Favorite Characters!
+Best BoyBest Boy Ranking Tool	Best Girl Ranking Tool
+Character Related Articles
+Character Tier Lists
+Tier Lists
+Best Characters Tier List for April 2026 (Luna 5)Best Characters Tier List
+Best Teams For Each Character	Meta Team Comps
+All Characters
+Characters By Rarity
+★5★5	★4★4
+Characters By Roles
+DPS List	Support List	Sustain List
+On-Field List	Off-Field List
+Characters By Element
+PyroPyro	HydroHydro	AnemoAnemo	ElectroElectro
+DendroDendro	CryoCryo	GeoGeo
+Characters By Nation
+MondstadtMondstadt	LiyueLiyue	Inazuma
+Sumeru	FontaineFontaine	NatlanNatlan
+SnezhnayaSnezhnaya	Nod-KraiNod-Krai
+List Of All Characters
+Post
+Share
+Share
+Have some feedback? Click here
+Article Written by
+GameWith Genshin Strategy Team
+GameWith Genshin Strategy Team
+Reader Comments
+Submit
+Anonymous737
+escoffier dps ?! what happened ?
+
+99 days ago | Report
+Mustapha Seven736
+I commented before about the meaning if off-field in this tierlist, and know i saw "Role description" and now i understand the standards; it's about the off-field contribution of those characters not just the off-field DPS given by them!
+
+ Click to Enlarge
+214 days ago | Report
+Mustapha Seven735
+What do you mean by (off-field) in the tierlist?! You have some "support" there in SS and S even they do NOT do any off-field damage at all like Baizhu, Chevreuse and illuga?!!!! (They're good supports but they're NOT off-fielders at all).
+
+ Click to Enlarge
+214 days ago | Report
+Anonymous734
+Holy Yelan cope
+
+380 days ago | Report
+Anonymous733
+Furina Main DPS? What happened here?
+
+380 days ago | Report
+Read on
+Copyright Notice
+© All rights reserved by miHoYo.
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+
+Most Popular
+All Banner List (November 2026) Character & Weapon Banner
+All Banner List (November 2026) Character & Weapon Banner1
+All Female / Girl Character List
+All Female / Girl Character List2
+Best Teams for Vesna
+Best Teams for Vesna3
+Anastasya (Tsaritsa) Release Date & Known Information
+Anastasya (Tsaritsa) Release Date & Known Information4
+Tighnari Best Build Guide
+Tighnari Best Build Guide5
+Read on 
+Featured Titles
+Fate/Grand Order (English)
+Fate/Grand Order (English)
+Subnautica 2
+Subnautica 2
+Neverness to Everness
+Neverness to Everness
+Seven Knights Rebirth
+Seven Knights Rebirth
+Genshin Impact
+Genshin Impact
+LET IT DIE: INFERNO
+LET IT DIE: INFERNO
+Mongil: Star Dive
+Mongil: Star Dive
+Kaiju No. 8 The Game
+Kaiju No. 8 The Game
+Chaos Zero Nightmare
+Chaos Zero Nightmare
+Sword of Convallaria
+Sword of Convallaria
+Shadowverse: Worlds Beyond
+Shadowverse: Worlds Beyond
+Stardew Valley
+Stardew Valley
+Arknights
+Arknights
+Resident Evil 5
+Resident Evil 5
+Zelda Tears Of The Kingdom
+Zelda Tears Of The Kingdom
+View List
+Hot off the Grill
+Genshin Impact Vesna Build Guide
+Genshin Impact Vodyanitsa Build Guide
+Seven Knights Rebirth | Buffed Judas Guide
+Seven Knights Rebirth | Eve Guide
+Subnautica 2 | Biomes Location Map Guide
+Top Help CenterAbout UsTerms of UseCreation GuidelinesPrivacy PolicyContact UsGameWith(日本語)
+Copyright (C) GameWith All Rights Reserved.
+
+GameWith - Your Source of the Latest Game Guides & News
+Genshin
+Genshin Impact Wiki Guide & Tips
+Search the site
+
+Main Menu
+Mitya
+Valeriy
+Snezhnaya
+Latest News
+Character List
+Tier List
+Redeem Code
+Banners
+All Weapons
+others
+Article Menu
+Event News
+Latest Update
+Updates & Latest News
+Genshin Redeem Codes
+Shadow Realm Treasure Vault
+Traveler's Gun (FPS)
+Shadow Wingdrop
+Snezhnaya Shrine of Depths
+Colorful Crystal (Mitya Only)
+Featured Characters
+Mitya
+Valeriy
+Anastasya (Tsaritsa)
+Character Guide
+Characters By Rarity
+5 Stars
+4 Stars
+Characters By Roles
+DPS	Support	Sustain
+On-Field	Off-Field
+Characters By Element
+AnemoAnemo	HydroHydro
+PyroPyro	ElectroElectro
+DendroDendro	CryoCryo
+GeoGeo
+Characters By Nation
+Mondstadt
+Liyue
+Inazuma
+Sumeru
+Fontaine
+Natlan
+Nod-Krai
+Snezhnaya
+5★ Characters
+AnemoAnemo
+Anemo TravelerAnemo Traveler	ChascaChasca
+JeanJean	Kaedehara KazuhaKaedehara Kazuha
+MizukiMizuki	VarkaVarka
+VentiVenti	WandererWanderer
+XianyunXianyun	XiaoXiao
+VesnaVesna	
+HydroHydro
+ChildeChilde	ColumbinaColumbina
+FurinaFurina	Hydro TravelerHydro Traveler
+Kamisato AyatoAyato	MonaMona
+MualaniMualani	NeuvilletteNeuvillette
+NilouNilou	KokomiKokomi
+SigewinneSigewinne	YelanYelan
+VodyanitsaVodyanitsa	
+GeoGeo
+AlbedoAlbedo	Arataki IttoArataki Itto
+ChioriChiori	Geo TravelerGeo Traveler
+LinneaLinnea	NaviaNavia
+XilonenXilonen	ZhongliZhongli
+ZibaiZibai
+ElectroElectro
+ClorindeClorinde	CynoCyno
+Electro TravelerElectro Traveler	FlinsFlins
+IneffaIneffa	KeqingKeqing
+Raiden ShogunRaiden Shogun	VaresaVaresa
+Yae MikoYae Miko	MityaMitya
+DendroDendro
+AlhaithamAlhaitham	BaizhuBaizhu
+Dendro TravelerDendro Traveler	EmilieEmilie
+KinichKinich	LaumaLauma
+NahidaNahida	NeferNefer
+TighnariTighnari
+PyroPyro
+ArlecchinoArlecchino	DehyaDehya
+DilucDiluc	DurinDurin
+Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika
+NicoleNicole	Pyro TravelerPyro Traveler
+YoimiyaYoimiya
+CryoCryo
+AloyAloy	CitlaliCitlali
+EscoffierEscoffier	EulaEula
+GanyuGanyu	Kamisato AyakaKamisato Ayaka
+LohenLohen	QiqiQiqi
+SandroneSandrone	ShenheShenhe
+SkirkSkirk	WriothesleyWriothesley
+4★ Characters
+AnemoAnemo
+IfaIfa	JahodaJahoda
+Lan YanLan Yan	LynetteLynette
+PrunePrune	SayuSayu
+Shikanoin HeizouShikanoin Heizou	SucroseSucrose
+HydroHydro
+AinoAino	BarbaraBarbara
+CandaceCandace	DahliaDahlia
+XingqiuXingqiu
+GeoGeo
+GorouGorou	IllugaIlluga
+KachinaKachina	NingguangNingguang
+NoelleNoelle	Yun JinYun Jin
+ElectroElectro
+BeidouBeidou	DoriDori
+FischlFischl	IansanIansan
+Kujou SaraKujou Sara	Kuki ShinobuKuki Shinobu
+LisaLisa	OroronOroron
+RazorRazor	SethosSethos
+AlyoshaAlyosha	ValeriyValeriy
+DendroDendro
+ColleiCollei	KavehKaveh
+KiraraKirara	YaoyaoYaoyao
+PyroPyro
+AmberAmber	BennettBennett
+ChevreuseChevreuse	GamingGaming
+ThomaThoma	XianglingXiangling
+XinyanXinyan	YanfeiYanfei
+CryoCryo
+CharlotteCharlotte	ChongyunChongyun
+DionaDiona	FreminetFreminet
+KaeyaKaeya	LaylaLayla
+MikaMika	RosariaRosaria
+Unreleased Characters
+DanicaDanica	NoyNoy
+TsaritsaTsaritsa
+Map Guide
+Mondstadt
+Anemoculus
+Anemoculus	Shrine of Depths
+Shrine of Depths
+Calla Lily
+Calla Lily	Cecilia
+Cecilia
+Dandelion Seed
+Dandelion Seed	Philanemo Mushroom
+Philanemo Mushroom
+Small Lamp Grass
+Small Lamp Grass	Valberry
+Valberry
+Windwheel Aster
+Windwheel Aster	Wolfhook
+Wolfhook
+Liyue
+Geoculus
+Geoculus	Shrine of Depths
+Shrine of Depths
+Cor Lapis
+Cor Lapis	Glaze Lily
+Glaze Lily
+Jueyun Chili
+Jueyun Chili	Noctilucous Jade
+Noctilucous Jade
+Qingxin
+Qingxin	Silk Flower
+Silk Flower
+Starconch
+Starconch	Violetgrass
+Violetgrass
+Inazuma
+Electroculus
+Electroculus	Shrine of Depths
+Shrine of Depths
+Amakumo Fruit
+Amakumo Fruit	Crystal Marrow
+Crystal Marrow
+Dendrobium
+Dendrobium	Fluorescent Fungus
+Fluorescent Fungus
+Naku Weed
+Naku Weed	Onikabuto
+Onikabuto
+Sakura Bloom
+Sakura Bloom	Sango Pearl
+Sango Pearl
+Sea Ganoderma
+Sea Ganoderma
+Sumeru
+Dendroculus
+Dendroculus	Shrine of Depths
+Shrine of Depths
+Henna Berry
+Henna Berry	Kalpalata Lotus
+Kalpalata Lotus
+Mourning Flower
+Mourning Flower	Nilotpala Lotus
+Nilotpala Lotus
+Padisarah
+Padisarah	Rukkhashava Mushroom
+Rukkhashava Mushroom
+Sand Grease Pupa
+Sand Grease Pupa	Scarab
+Scarab
+Trishiraite
+Trishiraite
+Fontaine
+Hydroculus
+Hydroculus	Shrine of Depths
+Shrine of Depths
+Beryl Conch
+Beryl Conch	Lakelight Lily
+Lakelight Lily
+Lumidouce Bell
+Lumidouce Bell	Quenepa Berry
+Quenepa Berry
+Rainbow Rose
+Rainbow Rose	Spring of the First Dewdrop
+Spring of the First Dewdrop
+Subdetection Unit
+Subdetection Unit
+Natlan
+Pyroculus
+Pyroculus	Shrine of Depths
+Shrine of Depths
+Saurian Claw Succulent
+Saurian Claw Succulent	Quenepa Berry
+Quenepa Berry
+Sprayfeather Gill
+Sprayfeather Gill	Brilliant Chrysanthemum
+Brilliant Chrysanthemum
+Withering Purpurbloom
+Withering Purpurbloom	Glowing Hornshroom
+Glowing Hornshroom
+Dracolite
+Dracolite	Skysplit Gembloom
+Skysplit Gembloom
+Nod-Krai
+Lunoculus	Shrine Of Depths
+Portable Bearing
+Portable Bearing	Moonfall Silver
+Moonfall Silver
+Frostlamp Flower
+Frostlamp Flower	Pine Amber
+Pine Amber
+Winter Icelea
+Winter Icelea	Teardrop of the Moon
+Teardrop of the Moon
+Snezhnaya
+Cryoculus	Shrine Of Depths
+Frostfairy Flower
+Frostfairy Flower	Flockingweed
+Flockingweed
+Golden Fern
+Frostlamp Flower	
+Weapons
+SwordSword	ClaymoreClaymore
+PolearmPolearm	CatalystCatalyst
+BowBow
+Forum
+Multiplayer Forum (UID Exchange)
+Friend Code Exchange Forum
+Character Builds & Weapons Forum
+Teapot Traveling Merchant Friends Exchange Forum
+
+GameWith Genshin Impact Wiki Guide & Tips Best Characters Tier List (7.2 Update)
+Genshin Impact | Best Characters Tier List (7.2 Update)
+Last Updated: November 15, 2026 10:35 AM
+
+749
+See latest comments
+Genshin Impact | Best Characters Tier List (7.2 Update) - GameWith
+Hot Topic
+
+Featured Characters
+Mitya: Best Build / Best Teams / Materials / Signature Weapon / Gacha Banner
+Valeriy: Best Build / Best Teams / Materials
+Upcoming Character: Anastasya / Danica
+Recommended Articles
+New! Key Items: Cryoculus / Shadow Wingdrop
+New! Specialties: Kristallfold / Fairy Wormwood
+Genshin Word Game: Guess Today's Character!
+【Tool】Character Completion Tracker!
+Redeem Codes for Genshin Impact!
+Post
+Share
+Share
+Best Character Tier List for November 2026 for Genshin Impact. See the strongest meta characters, latest character tier, best characters for version 7.2 Mitya and Vodyanitsa Tier.
+
+Table of Contents
+
+Rank Changes & Updates
+Character Tier List
+Detailed Tier Explanations
+User Tier Polls
+Ranking Related Guide
+Character Tier ListCharacter
+Tier List	Best Team BuildBest Team
+Build	Weapon Tier ListWeapon
+Tier List
+Other Recommended Guide
+List of All Characters
+List of New & Upcoming Characters
+Latest Rank Changes to the Tier List & Notable Characters
+Current Featured Characters
+Featured Characters
+MityaMitya	DPS: SS Support: SS
+- A flexible Electro Stellar-Conduct DPS who fights On-Field with his special Charged Attack or supports from Off-Field.
+- Raises the party's Elemental Mastery with his Steady State Detection Core.
+Guides:
+Best Build / Best Teams / Gacha Banner / Ascension Materials
+ValeriyValeriy	Support: A Sustain: A
+- An Electro shielder whose Offensive Directive boosts Electro and Stellar-Conduct DMG.
+- Mitya's best 4-star teammate, protecting him while he attacks in place.
+Guides:
+Best Build / Best Teams / Ascension Materials
+Rank Change History & Adjustments
+Date	Change Details
+11/4	Added Mitya and Valeriy to Tiers.
+9/23	Added Vesna, Vodyanitsa to the tiers.
+8/12	Added Odette, Cryo Traveler, and Alyosha to the tiers.
+Adjusted tiers based on Stellar Reaction buffs.
+4/8	Added Linnea to Tiers.
+Further Change History
+Best Character Tier List Summary Table
+For Role Description & Basis, check below: Role Explanation
+
+On-Field
+Off-Field
+DPS
+Support
+Sustain
+Pyro
+Hydro
+Cryo
+Electro
+Anemo
+Geo
+Dendro
+TierSS
+Tier1
+FurinaC0
+Furina
+EscoffierC0
+Escoffier
+VarkaC0
+Varka
+Yae MikoC1
+Yae Miko
+YelanC0
+Yelan
+SkirkC0
+Skirk
+IneffaC0
+Ineffa
+FlinsC0
+Flins
+SandroneC0
+Sandrone
+WriothesleyC1
+Wriothesley
+LinneaC0
+Linnea
+MavuikaC0
+Mavuika
+NeferC0
+Nefer
+ZibaiC0
+Zibai
+VesnaC0
+Vesna
+MityaC
+Mitya
+TierS
+Tier2
+VentiC0
+Venti
+KleeC1
+Klee
+FischlC6
+Fischl
+XianglingC6
+Xiangling
+XingqiuC6
+Xingqiu
+AlbedoC1
+Albedo
+CynoC1
+Cyno
+VaresaC0
+Varesa
+DurinC0
+Durin
+Cryo T.C3
+Cryo T.
+MizukiC1
+Mizuki
+ArlecchinoC0
+Arlecchino
+NilouC1
+Nilou
+ColumbinaC0
+Columbina
+NeuvilletteC0
+Neuvillette
+NaviaC1
+Navia
+ClorindeC1
+Clorinde
+EmilieC1
+Emilie
+GamingC6
+Gaming
+MualaniC0
+Mualani
+KinichC0
+Kinich
+ChascaC0
+Chasca
+LohenC0
+Lohen
+TierA
+Tier3
+AyakaC1
+Ayaka
+ChildeC1
+Childe
+Hu TaoC1
+Hu Tao
+RaidenC0
+Raiden
+LyneyC1
+Lyney
+AlhaithamC0
+Alhaitham
+ChioriC1
+Chiori
+OroronC6
+Ororon
+TierB
+Tier4
+DilucC1
+Diluc
+RazorC6
+Razor
+NoelleC6
+Noelle
+XiaoC1
+Xiao
+BeidouC6
+Beidou
+WandererC1
+Wanderer
+GanyuC1
+Ganyu
+EulaC1
+Eula
+IttoC1
+Itto
+TighnariC1
+Tighnari
+SethosC6
+Sethos
+IfaC6
+Ifa
+TierC
+Tier5
+LisaC6
+Lisa
+KeqingC1
+Keqing
+RosariaC6
+Rosaria
+LynetteC6
+Lynette
+YoimiyaC1
+Yoimiya
+AyatoC1
+Ayato
+ColleiC6
+Collei
+Pyro T.C6
+Pyro T.
+Dendro T.C6
+Dendro T.
+DehyaC1
+Dehya
+KachinaC6
+Kachina
+Lan YanC6
+Lan Yan
+TierD
+Tier6
+AmberC6
+Amber
+KaeyaC6
+Kaeya
+NingguangC6
+Ningguang
+ChongyunC6
+Chongyun
+Anemo T.C6
+Anemo T.
+KavehC6
+Kaveh
+YanfeiC6
+Yanfei
+HeizouC6
+Heizou
+AloyC0
+Aloy
+Hydro T.C6
+Hydro T.
+FreminetC6
+Freminet
+Role Explanation & Tier Basis
+Role Explanation
+Character Top Tier Rankings With Evaluations
+The character explanations are found at their highest rank. For example, if Albedo's Highest Ranking is A, he will be placed in the A Tab.
+
+SS
+S
+A
+B
+C
+D
+SS (Tier 1)
+Baizhu Tier ImageBaizhu
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Outstanding heals and ability to buff Dendro reaction makes him a powerful support.
+- Shields provide resistance making him amazing for characters like Cyno that needs resistance to interruption and off-field Dendro.
+- Off-field Dendro is very minimal and considered as a bonus most of the time.
+- C1 and C2 gives more energy and Dendro infliction.
+Bennett Tier ImageBennett
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Extremely flexible and can fit any team comp easily.
+- When played correctly, he can easily add 1000 ATK to your team.
+- Easy to build Burst since there is no RNG aspect needed to maximize his buff.
+- Without C1, his buff has HP restriction.
+Citlali Tier ImageCitlali
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Unique support that can boost Hydro and Pyro damage through her passive.
+- Good Cryo sub-DPS that scales on EM, allowing for higher reaction damage.
+Columbina Tier ImageColumbina
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+A	SS	-
+- Amazing as a Lunar reaction support and helps apply Hydro to trigger reactions. Columbina also enables Lunar-Charged, Lunar-Bloom and Lunar-Crystallize to happen.
+- Can be used as On-Fielder as well since she has innate Hydro infusion on her attacks.
+Durin Tier ImageDurin
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- A powerful Sub-DPS that is able to shred various elemental resistance of enemies.
+- Easy to use and fits multiple teams.
+Escoffier Tier ImageEscoffier
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	S	-
+- Full potential is in Cryo/Hydro only teams but is great as a standalone character for healing.
+- Can be built as sub-DPS or healer easily since her damage and healing both scale on her Attack.
+Fischl Tier ImageFischl
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- One of the best character to use for Aggravate reaction.
+- Provides huge damage, energy and frequent Electro attacks even at C0.
+- At C6, Fischl gives more coordinated Electro DMG furthering her personal damage and sub-DPS potential.
+Flins Tier ImageFlins
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- An Electro DPS specializing in Lunar-Charged reactions.
+- Enables the Lunar-Charged reaction for the team and deals direct Lunar-Charged DMG.
+- Synergizes well with Ineffa, as they both boost its damage.
+Furina Tier ImageFurina
+DPS	Support	Sustain
+SS	SS	C
+On-Field	Off-Field	-
+-	SS	-
+- Powerful Sub-DPS and can provide a high amount of DMG buff for the team.
+- Also acts as a healer but you will sacrifice the damage from Skill.
+- As a Sub-DPS, she drains the life of the whole team so AoE healers is a must.
+- Works amazing at various comps.
+- With C2, the amount of DMG bonus it gives increases.
+Iansan Tier ImageIansan
+DPS	Support	Sustain
+-	SS	D
+On-Field	Off-Field	-
+-	S	-
+- Amazing side-grade to Bennett providing powerful ATK buff and weaker healing.
+- Can be used at various team comps.
+- Can wield Scrolls Set or Noblessed Oblige with ease furthering her buffing.
+Ineffa Tier ImageIneffa
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	SS	-
+- An Electro Sub-DPS and Shielder that can enable Electro-Charged to CRIT and deal more damage.
+- Due to the split scaling needed for her (both Elemental Mastery and ATK is needed), she can be somewhat difficult to build since you also have to focus on her CRIT stats due to how Lunar-Charged works.
+Kaedehara Kazuha Tier ImageKaedehara Kazuha
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Greatly increase Elemental DMG Bonus and reduce resistance of enemies with Viridescent Venerer.
+- Can easily gather enemies using Elemental Skill.
+- Elemental Burst can inflict the absorbed Element which is great for reaction teams.
+- C2 gives additional Elemental Mastery to the team.
+Lauma Tier ImageLauma
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+Tier description is being prepared!
+Linnea Tier ImageLinnea
+DPS	Support	Sustain
+SS	-	S
+On-Field	Off-Field	-
+-	SS	-
+- Deals high, consistent damage and can also inflict powerful burst damage with her Elemental Skill.
+- Provides buffs, healing, and decent personal damage, making her a valuable upgrade for various teams, not just those centered around Zibai.
+- Excellent for mining ores in the overworld.
+Mavuika Tier ImageMavuika
+DPS	Support	Sustain
+SS	S	-
+On-Field	Off-Field	-
+SS	S	-
+- Amazing Pyro DPS that utilizes the Nightsoul consumption of teammates.
+- Can apply Pyro damage off-field using tap Skill.
+- Her Elemental Burst can be used to buff the damage dealt of the active character.
+Mitya Tier ImageMitya
+DPS	Support	Sustain
+SS	SS	-
+On-Field	Off-Field	-
+SS	SS	-
+Tier description is being prepared!
+Nefer Tier ImageNefer
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Lunar-Bloom DPS that can deal powerful damage with her Shadow attacks.
+- Reliant on Ascendant Gleam for buffs but can do amazingly in a good team comp.
+Nicole Tier ImageNicole
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- Consolidates the sustain and buffing roles into a single slot.
+- Provides a valuable teamwide ATK buff, ideal for teams with multiple ATK-scaling damage dealers.
+- Her durable shield prevents interruptions, allowing the on-field DPS to execute their full damage combo.
+- A direct upgrade for Hexerei teams, especially when paired with Durin.
+Odette Tier ImageOdette
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- An amazing support for Stellar Glimmer reactions, helping apply Cryo to trigger them. Odette also enables Stellar-Conduct and Stellar-Swirl.
+- Also provides off-field damage with decent DPS.
+Sandrone Tier ImageSandrone
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Dedicated Stellar-Conduct On-Field DPS with long-range Cryo attacks
+- Performance is comparable to Lunar DPSes but her team is still likely to gain new teammate upgrades.
+- Since the cooldown of her Skill is so short, she has no issues with uptime.
+Skirk Tier ImageSkirk
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Great On-Field DPS for Cryo teams.
+- Has a wide range for her AoE Normal Attacks in Seven-Phase Flash mode.
+- Reliant on teamates to give her stacks to increase her damage.
+Sucrose Tier ImageSucrose
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Buffs Elemental Mastery of Swirled Element.
+- Has decent but inconsistent crowd control.
+- C1 is very important because of her high Elemental Burst cost.
+- C6 makes her competitive to top-class buffers like Kazuha and is better than him in Hexerei teams.
+Varka Tier ImageVarka
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A Powerful DPS and exploration character weilds 2 Elements: Anemo & PECH.- He features several team-building constraints that, when satisfied, grant him a 100% damage boost.- Amazing for exploration especially when paired with Mondstadt characters.
+Vesna Tier ImageVesna
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A dedicated Stellar Swirl On-Field DPS with competitive damage when played in her best teams.
+- Her playstyle is extremely mobile and has good AoE.
+Vodyanitsa Tier ImageVodyanitsa
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- A Hydro/Cryo support that can buff Stellar Swirl as well.
+- Provides healing, resistance shred and Elemental DMG. Buffs and healing scale on her Max HP.
+Wriothesley Tier ImageWriothesley
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Fast Cryo Infliction and deals amazing damage with Normal Attack.
+- Has self damage and healing but can be inconsistent.
+- Amazing at both Melt and Freeze teams.
+- C1 is recommended making the self healing more consistent.
+Xilonen Tier ImageXilonen
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Amazing support that shreds resistance of enemies allowing your characters to deal more damage.
+- Also has the ability to heal and sustain the team.
+- Abilites are reliant on team mates.
+Yae Miko Tier ImageYae Miko
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing off-field Electro DMG from her Elemental Skill summons.
+- Can be built with Elemental Mastery for Dendro comps or ATK for Stellar-Conduct teams.
+- Elemental Burst deals powerful Electro DMG.
+- Witch Revelation buff makes her Constellations 1 and 2 great for Stellar-Conduct teams.
+Yelan Tier ImageYelan
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing personal damage and Hydro infliction off-field.
+- Elemental Skill is both powerful and useful for Exploration.
+- Also provides DMG Bonus for the on-field character.
+- High Elemental Burst Cost.
+- C1 is recommended for more energy for Elemental Burst.
+Zhongli Tier ImageZhongli
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Zhongli has the strongest shield in-game and shreds the all DMG resistance of enemies around it.
+- Can petrify enemies with Elemental Burst.
+- Long animations for Elemental Burst and split scaling between DMG and shields.
+- Sometimes the pillar summoned disrupts battles but it is good for exploration.
+- C2 allows you to form shields with Elemental Burst.
+Zibai Tier ImageZibai
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- On-Field Lunar-Crystallize focused attacker that deals powerful damage with Elemental Skill-based Normal Attack and Elemental Burst.
+- Powerful character that has limited teams but produce top-level damage even with F2P Teams.
+User Tier Polls for Characters
+The rankings on this list are based on ratings from all GameWith users.
+※ Scores are the calculated average of all user ratings.
+※ Press "Rate" to submit your own rating.
+
+Main DPS
+Sub DPS
+O. Support
+D. Support
+Main DPS or Main Attacker
+Rank
+Name
+Score
+SkirkSkirk	
+9.3 points
+
+
+Calculate
+
+ArlecchinoArlecchino	
+9.3 points
+
+
+Calculate
+
+FlinsFlins	
+9.3 points
+
+
+Calculate
+
+NeuvilletteNeuvillette	
+9.3 points
+
+
+Calculate
+
+MavuikaMavuika	
+9.3 points
+
+
+Calculate
+
+VaresaVaresa	
+9.1 points
+
+
+Calculate
+
+Raiden ShogunRaiden Shogun	
+9 points
+
+
+Calculate
+
+NaviaNavia	
+9 points
+
+
+Calculate
+
+WriothesleyWriothesley	
+9 points
+
+
+Calculate
+
+ClorindeClorinde	
+9 points
+
+
+Calculate
+
+KinichKinich	
+9 points
+
+
+Calculate
+
+IfaIfa	
+9 points
+
+
+Calculate
+
+Kamisato AyakaKamisato Ayaka	
+8.9 points
+
+
+Calculate
+
+WandererWanderer	
+8.9 points
+
+
+Calculate
+
+Hu TaoHu Tao	
+8.9 points
+
+
+Calculate
+
+AlhaithamAlhaitham	
+8.9 points
+
+
+Calculate
+
+XiaoXiao	
+8.8 points
+
+
+Calculate
+
+MualaniMualani	
+8.8 points
+
+
+Calculate
+
+XilonenXilonen	
+8.8 points
+
+
+Calculate
+
+ChascaChasca	
+8.8 points
+
+
+Calculate
+
+GanyuGanyu	
+8.7 points
+
+
+Calculate
+
+LyneyLyney	
+8.7 points
+
+
+Calculate
+
+Kamisato AyatoKamisato Ayato	
+8.7 points
+
+
+Calculate
+
+NahidaNahida	
+8.7 points
+
+
+Calculate
+
+TighnariTighnari	
+8.7 points
+
+
+Calculate
+
+GamingGaming	
+8.7 points
+
+
+Calculate
+
+KleeKlee	
+8.6 points
+
+
+Calculate
+
+CynoCyno	
+8.6 points
+
+
+Calculate
+
+Sangonomiya KokomiSangonomiya Kokomi	
+8.6 points
+
+
+Calculate
+
+YoimiyaYoimiya	
+8.6 points
+
+
+Calculate
+
+Arataki IttoArataki Itto	
+8.6 points
+
+
+Calculate
+
+MizukiMizuki	
+8.6 points
+
+
+Calculate
+
+NoelleNoelle	
+8.5 points
+
+
+Calculate
+
+KeqingKeqing	
+8.5 points
+
+
+Calculate
+
+EulaEula	
+8.5 points
+
+
+Calculate
+
+YanfeiYanfei	
+8.5 points
+
+
+Calculate
+
+DilucDiluc	
+8.4 points
+
+
+Calculate
+
+ChildeChilde	
+8.4 points
+
+
+Calculate
+
+FreminetFreminet	
+8.4 points
+
+
+Calculate
+
+RazorRazor	
+8.2 points
+
+
+Calculate
+
+SethosSethos	
+8.2 points
+
+
+Calculate
+
+NingguangNingguang	
+8 points
+
+
+Calculate
+
+SucroseSucrose	
+7.7 points
+
+
+Calculate
+
+KavehKaveh	
+7 points
+
+
+Calculate
+
+Ranking Tools
+Rank Your Favorite Characters!
+Best BoyBest Boy Ranking Tool	Best Girl Ranking Tool
+Character Related Articles
+Character Tier Lists
+Tier Lists
+Best Characters Tier List for April 2026 (Luna 5)Best Characters Tier List
+Best Teams For Each Character	Meta Team Comps
+All Characters
+Characters By Rarity
+★5★5	★4★4
+Characters By Roles
+DPS List	Support List	Sustain List
+On-Field List	Off-Field List
+Characters By Element
+PyroPyro	HydroHydro	AnemoAnemo	ElectroElectro
+DendroDendro	CryoCryo	GeoGeo
+Characters By Nation
+MondstadtMondstadt	LiyueLiyue	Inazuma
+Sumeru	FontaineFontaine	NatlanNatlan
+SnezhnayaSnezhnaya	Nod-KraiNod-Krai
+List Of All Characters
+Post
+Share
+Share
+Have some feedback? Click here
+Article Written by
+GameWith Genshin Strategy Team
+GameWith Genshin Strategy Team
+Reader Comments
+Submit
+Anonymous737
+escoffier dps ?! what happened ?
+
+99 days ago | Report
+Mustapha Seven736
+I commented before about the meaning if off-field in this tierlist, and know i saw "Role description" and now i understand the standards; it's about the off-field contribution of those characters not just the off-field DPS given by them!
+
+ Click to Enlarge
+214 days ago | Report
+Mustapha Seven735
+What do you mean by (off-field) in the tierlist?! You have some "support" there in SS and S even they do NOT do any off-field damage at all like Baizhu, Chevreuse and illuga?!!!! (They're good supports but they're NOT off-fielders at all).
+
+ Click to Enlarge
+214 days ago | Report
+Anonymous734
+Holy Yelan cope
+
+380 days ago | Report
+Anonymous733
+Furina Main DPS? What happened here?
+
+380 days ago | Report
+Read on
+Copyright Notice
+© All rights reserved by miHoYo.
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+
+Most Popular
+All Banner List (November 2026) Character & Weapon Banner
+All Banner List (November 2026) Character & Weapon Banner1
+All Female / Girl Character List
+All Female / Girl Character List2
+Best Teams for Vesna
+Best Teams for Vesna3
+Anastasya (Tsaritsa) Release Date & Known Information
+Anastasya (Tsaritsa) Release Date & Known Information4
+Tighnari Best Build Guide
+Tighnari Best Build Guide5
+Read on 
+Featured Titles
+Fate/Grand Order (English)
+Fate/Grand Order (English)
+Subnautica 2
+Subnautica 2
+Neverness to Everness
+Neverness to Everness
+Seven Knights Rebirth
+Seven Knights Rebirth
+Genshin Impact
+Genshin Impact
+LET IT DIE: INFERNO
+LET IT DIE: INFERNO
+Mongil: Star Dive
+Mongil: Star Dive
+Kaiju No. 8 The Game
+Kaiju No. 8 The Game
+Chaos Zero Nightmare
+Chaos Zero Nightmare
+Sword of Convallaria
+Sword of Convallaria
+Shadowverse: Worlds Beyond
+Shadowverse: Worlds Beyond
+Stardew Valley
+Stardew Valley
+Arknights
+Arknights
+Resident Evil 5
+Resident Evil 5
+Zelda Tears Of The Kingdom
+Zelda Tears Of The Kingdom
+View List
+Hot off the Grill
+Genshin Impact Vesna Build Guide
+Genshin Impact Vodyanitsa Build Guide
+Seven Knights Rebirth | Buffed Judas Guide
+Seven Knights Rebirth | Eve Guide
+Subnautica 2 | Biomes Location Map Guide
+Top Help CenterAbout UsTerms of UseCreation GuidelinesPrivacy PolicyContact UsGameWith(日本語)
+Copyright (C) GameWith All Rights Reserved.
+
+GameWith - Your Source of the Latest Game Guides & News
+Genshin
+Genshin Impact Wiki Guide & Tips
+Search the site
+
+Main Menu
+Mitya
+Valeriy
+Snezhnaya
+Latest News
+Character List
+Tier List
+Redeem Code
+Banners
+All Weapons
+others
+Article Menu
+Event News
+Latest Update
+Updates & Latest News
+Genshin Redeem Codes
+Shadow Realm Treasure Vault
+Traveler's Gun (FPS)
+Shadow Wingdrop
+Snezhnaya Shrine of Depths
+Colorful Crystal (Mitya Only)
+Featured Characters
+Mitya
+Valeriy
+Anastasya (Tsaritsa)
+Character Guide
+Characters By Rarity
+5 Stars
+4 Stars
+Characters By Roles
+DPS	Support	Sustain
+On-Field	Off-Field
+Characters By Element
+AnemoAnemo	HydroHydro
+PyroPyro	ElectroElectro
+DendroDendro	CryoCryo
+GeoGeo
+Characters By Nation
+Mondstadt
+Liyue
+Inazuma
+Sumeru
+Fontaine
+Natlan
+Nod-Krai
+Snezhnaya
+5★ Characters
+AnemoAnemo
+Anemo TravelerAnemo Traveler	ChascaChasca
+JeanJean	Kaedehara KazuhaKaedehara Kazuha
+MizukiMizuki	VarkaVarka
+VentiVenti	WandererWanderer
+XianyunXianyun	XiaoXiao
+VesnaVesna	
+HydroHydro
+ChildeChilde	ColumbinaColumbina
+FurinaFurina	Hydro TravelerHydro Traveler
+Kamisato AyatoAyato	MonaMona
+MualaniMualani	NeuvilletteNeuvillette
+NilouNilou	KokomiKokomi
+SigewinneSigewinne	YelanYelan
+VodyanitsaVodyanitsa	
+GeoGeo
+AlbedoAlbedo	Arataki IttoArataki Itto
+ChioriChiori	Geo TravelerGeo Traveler
+LinneaLinnea	NaviaNavia
+XilonenXilonen	ZhongliZhongli
+ZibaiZibai
+ElectroElectro
+ClorindeClorinde	CynoCyno
+Electro TravelerElectro Traveler	FlinsFlins
+IneffaIneffa	KeqingKeqing
+Raiden ShogunRaiden Shogun	VaresaVaresa
+Yae MikoYae Miko	MityaMitya
+DendroDendro
+AlhaithamAlhaitham	BaizhuBaizhu
+Dendro TravelerDendro Traveler	EmilieEmilie
+KinichKinich	LaumaLauma
+NahidaNahida	NeferNefer
+TighnariTighnari
+PyroPyro
+ArlecchinoArlecchino	DehyaDehya
+DilucDiluc	DurinDurin
+Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika
+NicoleNicole	Pyro TravelerPyro Traveler
+YoimiyaYoimiya
+CryoCryo
+AloyAloy	CitlaliCitlali
+EscoffierEscoffier	EulaEula
+GanyuGanyu	Kamisato AyakaKamisato Ayaka
+LohenLohen	QiqiQiqi
+SandroneSandrone	ShenheShenhe
+SkirkSkirk	WriothesleyWriothesley
+4★ Characters
+AnemoAnemo
+IfaIfa	JahodaJahoda
+Lan YanLan Yan	LynetteLynette
+PrunePrune	SayuSayu
+Shikanoin HeizouShikanoin Heizou	SucroseSucrose
+HydroHydro
+AinoAino	BarbaraBarbara
+CandaceCandace	DahliaDahlia
+XingqiuXingqiu
+GeoGeo
+GorouGorou	IllugaIlluga
+KachinaKachina	NingguangNingguang
+NoelleNoelle	Yun JinYun Jin
+ElectroElectro
+BeidouBeidou	DoriDori
+FischlFischl	IansanIansan
+Kujou SaraKujou Sara	Kuki ShinobuKuki Shinobu
+LisaLisa	OroronOroron
+RazorRazor	SethosSethos
+AlyoshaAlyosha	ValeriyValeriy
+DendroDendro
+ColleiCollei	KavehKaveh
+KiraraKirara	YaoyaoYaoyao
+PyroPyro
+AmberAmber	BennettBennett
+ChevreuseChevreuse	GamingGaming
+ThomaThoma	XianglingXiangling
+XinyanXinyan	YanfeiYanfei
+CryoCryo
+CharlotteCharlotte	ChongyunChongyun
+DionaDiona	FreminetFreminet
+KaeyaKaeya	LaylaLayla
+MikaMika	RosariaRosaria
+Unreleased Characters
+DanicaDanica	NoyNoy
+TsaritsaTsaritsa
+Map Guide
+Mondstadt
+Anemoculus
+Anemoculus	Shrine of Depths
+Shrine of Depths
+Calla Lily
+Calla Lily	Cecilia
+Cecilia
+Dandelion Seed
+Dandelion Seed	Philanemo Mushroom
+Philanemo Mushroom
+Small Lamp Grass
+Small Lamp Grass	Valberry
+Valberry
+Windwheel Aster
+Windwheel Aster	Wolfhook
+Wolfhook
+Liyue
+Geoculus
+Geoculus	Shrine of Depths
+Shrine of Depths
+Cor Lapis
+Cor Lapis	Glaze Lily
+Glaze Lily
+Jueyun Chili
+Jueyun Chili	Noctilucous Jade
+Noctilucous Jade
+Qingxin
+Qingxin	Silk Flower
+Silk Flower
+Starconch
+Starconch	Violetgrass
+Violetgrass
+Inazuma
+Electroculus
+Electroculus	Shrine of Depths
+Shrine of Depths
+Amakumo Fruit
+Amakumo Fruit	Crystal Marrow
+Crystal Marrow
+Dendrobium
+Dendrobium	Fluorescent Fungus
+Fluorescent Fungus
+Naku Weed
+Naku Weed	Onikabuto
+Onikabuto
+Sakura Bloom
+Sakura Bloom	Sango Pearl
+Sango Pearl
+Sea Ganoderma
+Sea Ganoderma
+Sumeru
+Dendroculus
+Dendroculus	Shrine of Depths
+Shrine of Depths
+Henna Berry
+Henna Berry	Kalpalata Lotus
+Kalpalata Lotus
+Mourning Flower
+Mourning Flower	Nilotpala Lotus
+Nilotpala Lotus
+Padisarah
+Padisarah	Rukkhashava Mushroom
+Rukkhashava Mushroom
+Sand Grease Pupa
+Sand Grease Pupa	Scarab
+Scarab
+Trishiraite
+Trishiraite
+Fontaine
+Hydroculus
+Hydroculus	Shrine of Depths
+Shrine of Depths
+Beryl Conch
+Beryl Conch	Lakelight Lily
+Lakelight Lily
+Lumidouce Bell
+Lumidouce Bell	Quenepa Berry
+Quenepa Berry
+Rainbow Rose
+Rainbow Rose	Spring of the First Dewdrop
+Spring of the First Dewdrop
+Subdetection Unit
+Subdetection Unit
+Natlan
+Pyroculus
+Pyroculus	Shrine of Depths
+Shrine of Depths
+Saurian Claw Succulent
+Saurian Claw Succulent	Quenepa Berry
+Quenepa Berry
+Sprayfeather Gill
+Sprayfeather Gill	Brilliant Chrysanthemum
+Brilliant Chrysanthemum
+Withering Purpurbloom
+Withering Purpurbloom	Glowing Hornshroom
+Glowing Hornshroom
+Dracolite
+Dracolite	Skysplit Gembloom
+Skysplit Gembloom
+Nod-Krai
+Lunoculus	Shrine Of Depths
+Portable Bearing
+Portable Bearing	Moonfall Silver
+Moonfall Silver
+Frostlamp Flower
+Frostlamp Flower	Pine Amber
+Pine Amber
+Winter Icelea
+Winter Icelea	Teardrop of the Moon
+Teardrop of the Moon
+Snezhnaya
+Cryoculus	Shrine Of Depths
+Frostfairy Flower
+Frostfairy Flower	Flockingweed
+Flockingweed
+Golden Fern
+Frostlamp Flower	
+Weapons
+SwordSword	ClaymoreClaymore
+PolearmPolearm	CatalystCatalyst
+BowBow
+Forum
+Multiplayer Forum (UID Exchange)
+Friend Code Exchange Forum
+Character Builds & Weapons Forum
+Teapot Traveling Merchant Friends Exchange Forum
+
+GameWith Genshin Impact Wiki Guide & Tips Best Characters Tier List (7.2 Update)
+Genshin Impact | Best Characters Tier List (7.2 Update)
+Last Updated: November 15, 2026 10:35 AM
+
+749
+See latest comments
+Genshin Impact | Best Characters Tier List (7.2 Update) - GameWith
+Hot Topic
+
+Featured Characters
+Mitya: Best Build / Best Teams / Materials / Signature Weapon / Gacha Banner
+Valeriy: Best Build / Best Teams / Materials
+Upcoming Character: Anastasya / Danica
+Recommended Articles
+New! Key Items: Cryoculus / Shadow Wingdrop
+New! Specialties: Kristallfold / Fairy Wormwood
+Genshin Word Game: Guess Today's Character!
+【Tool】Character Completion Tracker!
+Redeem Codes for Genshin Impact!
+Post
+Share
+Share
+Best Character Tier List for November 2026 for Genshin Impact. See the strongest meta characters, latest character tier, best characters for version 7.2 Mitya and Vodyanitsa Tier.
+
+Table of Contents
+
+Rank Changes & Updates
+Character Tier List
+Detailed Tier Explanations
+User Tier Polls
+Ranking Related Guide
+Character Tier ListCharacter
+Tier List	Best Team BuildBest Team
+Build	Weapon Tier ListWeapon
+Tier List
+Other Recommended Guide
+List of All Characters
+List of New & Upcoming Characters
+Latest Rank Changes to the Tier List & Notable Characters
+Current Featured Characters
+Featured Characters
+MityaMitya	DPS: SS Support: SS
+- A flexible Electro Stellar-Conduct DPS who fights On-Field with his special Charged Attack or supports from Off-Field.
+- Raises the party's Elemental Mastery with his Steady State Detection Core.
+Guides:
+Best Build / Best Teams / Gacha Banner / Ascension Materials
+ValeriyValeriy	Support: A Sustain: A
+- An Electro shielder whose Offensive Directive boosts Electro and Stellar-Conduct DMG.
+- Mitya's best 4-star teammate, protecting him while he attacks in place.
+Guides:
+Best Build / Best Teams / Ascension Materials
+Rank Change History & Adjustments
+Date	Change Details
+11/4	Added Mitya and Valeriy to Tiers.
+9/23	Added Vesna, Vodyanitsa to the tiers.
+8/12	Added Odette, Cryo Traveler, and Alyosha to the tiers.
+Adjusted tiers based on Stellar Reaction buffs.
+4/8	Added Linnea to Tiers.
+Further Change History
+Best Character Tier List Summary Table
+For Role Description & Basis, check below: Role Explanation
+
+On-Field
+Off-Field
+DPS
+Support
+Sustain
+Pyro
+Hydro
+Cryo
+Electro
+Anemo
+Geo
+Dendro
+TierSS
+Tier1
+BennettC5
+Bennett
+FischlC6
+Fischl
+SucroseC6
+Sucrose
+IansanC6
+Iansan
+Kaedehara KazuhaC0
+Kaedehara Kazuha
+FurinaC0
+Furina
+DurinC0
+Durin
+LaumaC0
+Lauma
+ColumbinaC0
+Columbina
+NicoleC0
+Nicole
+CitlaliC0
+Citlali
+XilonenC0
+Xilonen
+VodyanitsaC0
+Vodyanitsa
+OdetteC0
+Odette
+MityaC
+Mitya
+TierS
+Tier2
+VentiC0
+Venti
+QiqiC1
+Qiqi
+AlbedoC1
+Albedo
+EscoffierC0
+Escoffier
+IneffaC0
+Ineffa
+NilouC1
+Nilou
+NahidaC0
+Nahida
+ChevreuseC6
+Chevreuse
+XianyunC1
+Xianyun
+MavuikaC0
+Mavuika
+PruneC6
+Prune
+TierA
+Tier3
+MonaC1
+Mona
+ZhongliC0
+Zhongli
+BaizhuC1
+Baizhu
+RaidenC0
+Raiden
+KokomiC1
+Kokomi
+IllugaC6
+Illuga
+Cryo T.C3
+Cryo T.
+AinoC6
+Aino
+JahodaC6
+Jahoda
+ValeriyC6
+Valeriy
+AlyoshaC6
+Alyosha
+TierB
+Tier4
+Yun JinC6
+Yun Jin
+ShenheC1
+Shenhe
+Kujou SaraC6
+Kujou Sara
+GorouC6
+Gorou
+MizukiC1
+Mizuki
+MikaC6
+Mika
+CandaceC6
+Candace
+FaruzanC6
+Faruzan
+SigewinneC1
+Sigewinne
+TierC
+Tier5
+DahliaC6
+Dahlia
+TierD
+Tier6
+ChongyunC6
+Chongyun
+Electro T.C6
+Electro T.
+Role Explanation & Tier Basis
+Role Explanation
+Character Top Tier Rankings With Evaluations
+The character explanations are found at their highest rank. For example, if Albedo's Highest Ranking is A, he will be placed in the A Tab.
+
+SS
+S
+A
+B
+C
+D
+SS (Tier 1)
+Baizhu Tier ImageBaizhu
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Outstanding heals and ability to buff Dendro reaction makes him a powerful support.
+- Shields provide resistance making him amazing for characters like Cyno that needs resistance to interruption and off-field Dendro.
+- Off-field Dendro is very minimal and considered as a bonus most of the time.
+- C1 and C2 gives more energy and Dendro infliction.
+Bennett Tier ImageBennett
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Extremely flexible and can fit any team comp easily.
+- When played correctly, he can easily add 1000 ATK to your team.
+- Easy to build Burst since there is no RNG aspect needed to maximize his buff.
+- Without C1, his buff has HP restriction.
+Citlali Tier ImageCitlali
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Unique support that can boost Hydro and Pyro damage through her passive.
+- Good Cryo sub-DPS that scales on EM, allowing for higher reaction damage.
+Columbina Tier ImageColumbina
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+A	SS	-
+- Amazing as a Lunar reaction support and helps apply Hydro to trigger reactions. Columbina also enables Lunar-Charged, Lunar-Bloom and Lunar-Crystallize to happen.
+- Can be used as On-Fielder as well since she has innate Hydro infusion on her attacks.
+Durin Tier ImageDurin
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- A powerful Sub-DPS that is able to shred various elemental resistance of enemies.
+- Easy to use and fits multiple teams.
+Escoffier Tier ImageEscoffier
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	S	-
+- Full potential is in Cryo/Hydro only teams but is great as a standalone character for healing.
+- Can be built as sub-DPS or healer easily since her damage and healing both scale on her Attack.
+Fischl Tier ImageFischl
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- One of the best character to use for Aggravate reaction.
+- Provides huge damage, energy and frequent Electro attacks even at C0.
+- At C6, Fischl gives more coordinated Electro DMG furthering her personal damage and sub-DPS potential.
+Flins Tier ImageFlins
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- An Electro DPS specializing in Lunar-Charged reactions.
+- Enables the Lunar-Charged reaction for the team and deals direct Lunar-Charged DMG.
+- Synergizes well with Ineffa, as they both boost its damage.
+Furina Tier ImageFurina
+DPS	Support	Sustain
+SS	SS	C
+On-Field	Off-Field	-
+-	SS	-
+- Powerful Sub-DPS and can provide a high amount of DMG buff for the team.
+- Also acts as a healer but you will sacrifice the damage from Skill.
+- As a Sub-DPS, she drains the life of the whole team so AoE healers is a must.
+- Works amazing at various comps.
+- With C2, the amount of DMG bonus it gives increases.
+Iansan Tier ImageIansan
+DPS	Support	Sustain
+-	SS	D
+On-Field	Off-Field	-
+-	S	-
+- Amazing side-grade to Bennett providing powerful ATK buff and weaker healing.
+- Can be used at various team comps.
+- Can wield Scrolls Set or Noblessed Oblige with ease furthering her buffing.
+Ineffa Tier ImageIneffa
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	SS	-
+- An Electro Sub-DPS and Shielder that can enable Electro-Charged to CRIT and deal more damage.
+- Due to the split scaling needed for her (both Elemental Mastery and ATK is needed), she can be somewhat difficult to build since you also have to focus on her CRIT stats due to how Lunar-Charged works.
+Kaedehara Kazuha Tier ImageKaedehara Kazuha
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Greatly increase Elemental DMG Bonus and reduce resistance of enemies with Viridescent Venerer.
+- Can easily gather enemies using Elemental Skill.
+- Elemental Burst can inflict the absorbed Element which is great for reaction teams.
+- C2 gives additional Elemental Mastery to the team.
+Lauma Tier ImageLauma
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+Tier description is being prepared!
+Linnea Tier ImageLinnea
+DPS	Support	Sustain
+SS	-	S
+On-Field	Off-Field	-
+-	SS	-
+- Deals high, consistent damage and can also inflict powerful burst damage with her Elemental Skill.
+- Provides buffs, healing, and decent personal damage, making her a valuable upgrade for various teams, not just those centered around Zibai.
+- Excellent for mining ores in the overworld.
+Mavuika Tier ImageMavuika
+DPS	Support	Sustain
+SS	S	-
+On-Field	Off-Field	-
+SS	S	-
+- Amazing Pyro DPS that utilizes the Nightsoul consumption of teammates.
+- Can apply Pyro damage off-field using tap Skill.
+- Her Elemental Burst can be used to buff the damage dealt of the active character.
+Mitya Tier ImageMitya
+DPS	Support	Sustain
+SS	SS	-
+On-Field	Off-Field	-
+SS	SS	-
+Tier description is being prepared!
+Nefer Tier ImageNefer
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Lunar-Bloom DPS that can deal powerful damage with her Shadow attacks.
+- Reliant on Ascendant Gleam for buffs but can do amazingly in a good team comp.
+Nicole Tier ImageNicole
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- Consolidates the sustain and buffing roles into a single slot.
+- Provides a valuable teamwide ATK buff, ideal for teams with multiple ATK-scaling damage dealers.
+- Her durable shield prevents interruptions, allowing the on-field DPS to execute their full damage combo.
+- A direct upgrade for Hexerei teams, especially when paired with Durin.
+Odette Tier ImageOdette
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- An amazing support for Stellar Glimmer reactions, helping apply Cryo to trigger them. Odette also enables Stellar-Conduct and Stellar-Swirl.
+- Also provides off-field damage with decent DPS.
+Sandrone Tier ImageSandrone
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Dedicated Stellar-Conduct On-Field DPS with long-range Cryo attacks
+- Performance is comparable to Lunar DPSes but her team is still likely to gain new teammate upgrades.
+- Since the cooldown of her Skill is so short, she has no issues with uptime.
+Skirk Tier ImageSkirk
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Great On-Field DPS for Cryo teams.
+- Has a wide range for her AoE Normal Attacks in Seven-Phase Flash mode.
+- Reliant on teamates to give her stacks to increase her damage.
+Sucrose Tier ImageSucrose
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Buffs Elemental Mastery of Swirled Element.
+- Has decent but inconsistent crowd control.
+- C1 is very important because of her high Elemental Burst cost.
+- C6 makes her competitive to top-class buffers like Kazuha and is better than him in Hexerei teams.
+Varka Tier ImageVarka
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A Powerful DPS and exploration character weilds 2 Elements: Anemo & PECH.- He features several team-building constraints that, when satisfied, grant him a 100% damage boost.- Amazing for exploration especially when paired with Mondstadt characters.
+Vesna Tier ImageVesna
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A dedicated Stellar Swirl On-Field DPS with competitive damage when played in her best teams.
+- Her playstyle is extremely mobile and has good AoE.
+Vodyanitsa Tier ImageVodyanitsa
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- A Hydro/Cryo support that can buff Stellar Swirl as well.
+- Provides healing, resistance shred and Elemental DMG. Buffs and healing scale on her Max HP.
+Wriothesley Tier ImageWriothesley
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Fast Cryo Infliction and deals amazing damage with Normal Attack.
+- Has self damage and healing but can be inconsistent.
+- Amazing at both Melt and Freeze teams.
+- C1 is recommended making the self healing more consistent.
+Xilonen Tier ImageXilonen
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Amazing support that shreds resistance of enemies allowing your characters to deal more damage.
+- Also has the ability to heal and sustain the team.
+- Abilites are reliant on team mates.
+Yae Miko Tier ImageYae Miko
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing off-field Electro DMG from her Elemental Skill summons.
+- Can be built with Elemental Mastery for Dendro comps or ATK for Stellar-Conduct teams.
+- Elemental Burst deals powerful Electro DMG.
+- Witch Revelation buff makes her Constellations 1 and 2 great for Stellar-Conduct teams.
+Yelan Tier ImageYelan
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing personal damage and Hydro infliction off-field.
+- Elemental Skill is both powerful and useful for Exploration.
+- Also provides DMG Bonus for the on-field character.
+- High Elemental Burst Cost.
+- C1 is recommended for more energy for Elemental Burst.
+Zhongli Tier ImageZhongli
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Zhongli has the strongest shield in-game and shreds the all DMG resistance of enemies around it.
+- Can petrify enemies with Elemental Burst.
+- Long animations for Elemental Burst and split scaling between DMG and shields.
+- Sometimes the pillar summoned disrupts battles but it is good for exploration.
+- C2 allows you to form shields with Elemental Burst.
+Zibai Tier ImageZibai
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- On-Field Lunar-Crystallize focused attacker that deals powerful damage with Elemental Skill-based Normal Attack and Elemental Burst.
+- Powerful character that has limited teams but produce top-level damage even with F2P Teams.
+User Tier Polls for Characters
+The rankings on this list are based on ratings from all GameWith users.
+※ Scores are the calculated average of all user ratings.
+※ Press "Rate" to submit your own rating.
+
+Main DPS
+Sub DPS
+O. Support
+D. Support
+Main DPS or Main Attacker
+Rank
+Name
+Score
+SkirkSkirk	
+9.3 points
+
+
+Calculate
+
+ArlecchinoArlecchino	
+9.3 points
+
+
+Calculate
+
+FlinsFlins	
+9.3 points
+
+
+Calculate
+
+NeuvilletteNeuvillette	
+9.3 points
+
+
+Calculate
+
+MavuikaMavuika	
+9.3 points
+
+
+Calculate
+
+VaresaVaresa	
+9.1 points
+
+
+Calculate
+
+Raiden ShogunRaiden Shogun	
+9 points
+
+
+Calculate
+
+NaviaNavia	
+9 points
+
+
+Calculate
+
+WriothesleyWriothesley	
+9 points
+
+
+Calculate
+
+ClorindeClorinde	
+9 points
+
+
+Calculate
+
+KinichKinich	
+9 points
+
+
+Calculate
+
+IfaIfa	
+9 points
+
+
+Calculate
+
+Kamisato AyakaKamisato Ayaka	
+8.9 points
+
+
+Calculate
+
+WandererWanderer	
+8.9 points
+
+
+Calculate
+
+Hu TaoHu Tao	
+8.9 points
+
+
+Calculate
+
+AlhaithamAlhaitham	
+8.9 points
+
+
+Calculate
+
+XiaoXiao	
+8.8 points
+
+
+Calculate
+
+MualaniMualani	
+8.8 points
+
+
+Calculate
+
+XilonenXilonen	
+8.8 points
+
+
+Calculate
+
+ChascaChasca	
+8.8 points
+
+
+Calculate
+
+GanyuGanyu	
+8.7 points
+
+
+Calculate
+
+LyneyLyney	
+8.7 points
+
+
+Calculate
+
+Kamisato AyatoKamisato Ayato	
+8.7 points
+
+
+Calculate
+
+NahidaNahida	
+8.7 points
+
+
+Calculate
+
+TighnariTighnari	
+8.7 points
+
+
+Calculate
+
+GamingGaming	
+8.7 points
+
+
+Calculate
+
+KleeKlee	
+8.6 points
+
+
+Calculate
+
+CynoCyno	
+8.6 points
+
+
+Calculate
+
+Sangonomiya KokomiSangonomiya Kokomi	
+8.6 points
+
+
+Calculate
+
+YoimiyaYoimiya	
+8.6 points
+
+
+Calculate
+
+Arataki IttoArataki Itto	
+8.6 points
+
+
+Calculate
+
+MizukiMizuki	
+8.6 points
+
+
+Calculate
+
+NoelleNoelle	
+8.5 points
+
+
+Calculate
+
+KeqingKeqing	
+8.5 points
+
+
+Calculate
+
+EulaEula	
+8.5 points
+
+
+Calculate
+
+YanfeiYanfei	
+8.5 points
+
+
+Calculate
+
+DilucDiluc	
+8.4 points
+
+
+Calculate
+
+ChildeChilde	
+8.4 points
+
+
+Calculate
+
+FreminetFreminet	
+8.4 points
+
+
+Calculate
+
+RazorRazor	
+8.2 points
+
+
+Calculate
+
+SethosSethos	
+8.2 points
+
+
+Calculate
+
+NingguangNingguang	
+8 points
+
+
+Calculate
+
+SucroseSucrose	
+7.7 points
+
+
+Calculate
+
+KavehKaveh	
+7 points
+
+
+Calculate
+
+Ranking Tools
+Rank Your Favorite Characters!
+Best BoyBest Boy Ranking Tool	Best Girl Ranking Tool
+Character Related Articles
+Character Tier Lists
+Tier Lists
+Best Characters Tier List for April 2026 (Luna 5)Best Characters Tier List
+Best Teams For Each Character	Meta Team Comps
+All Characters
+Characters By Rarity
+★5★5	★4★4
+Characters By Roles
+DPS List	Support List	Sustain List
+On-Field List	Off-Field List
+Characters By Element
+PyroPyro	HydroHydro	AnemoAnemo	ElectroElectro
+DendroDendro	CryoCryo	GeoGeo
+Characters By Nation
+MondstadtMondstadt	LiyueLiyue	Inazuma
+Sumeru	FontaineFontaine	NatlanNatlan
+SnezhnayaSnezhnaya	Nod-KraiNod-Krai
+List Of All Characters
+Post
+Share
+Share
+Have some feedback? Click here
+Article Written by
+GameWith Genshin Strategy Team
+GameWith Genshin Strategy Team
+Reader Comments
+Submit
+Anonymous737
+escoffier dps ?! what happened ?
+
+99 days ago | Report
+Mustapha Seven736
+I commented before about the meaning if off-field in this tierlist, and know i saw "Role description" and now i understand the standards; it's about the off-field contribution of those characters not just the off-field DPS given by them!
+
+ Click to Enlarge
+214 days ago | Report
+Mustapha Seven735
+What do you mean by (off-field) in the tierlist?! You have some "support" there in SS and S even they do NOT do any off-field damage at all like Baizhu, Chevreuse and illuga?!!!! (They're good supports but they're NOT off-fielders at all).
+
+ Click to Enlarge
+214 days ago | Report
+Anonymous734
+Holy Yelan cope
+
+380 days ago | Report
+Anonymous733
+Furina Main DPS? What happened here?
+
+380 days ago | Report
+Read on
+Copyright Notice
+© All rights reserved by miHoYo.
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+
+Most Popular
+All Banner List (November 2026) Character & Weapon Banner
+All Banner List (November 2026) Character & Weapon Banner1
+All Female / Girl Character List
+All Female / Girl Character List2
+Best Teams for Vesna
+Best Teams for Vesna3
+Anastasya (Tsaritsa) Release Date & Known Information
+Anastasya (Tsaritsa) Release Date & Known Information4
+Tighnari Best Build Guide
+Tighnari Best Build Guide5
+Read on 
+Featured Titles
+Fate/Grand Order (English)
+Fate/Grand Order (English)
+Subnautica 2
+Subnautica 2
+Neverness to Everness
+Neverness to Everness
+Seven Knights Rebirth
+Seven Knights Rebirth
+Genshin Impact
+Genshin Impact
+LET IT DIE: INFERNO
+LET IT DIE: INFERNO
+Mongil: Star Dive
+Mongil: Star Dive
+Kaiju No. 8 The Game
+Kaiju No. 8 The Game
+Chaos Zero Nightmare
+Chaos Zero Nightmare
+Sword of Convallaria
+Sword of Convallaria
+Shadowverse: Worlds Beyond
+Shadowverse: Worlds Beyond
+Stardew Valley
+Stardew Valley
+Arknights
+Arknights
+Resident Evil 5
+Resident Evil 5
+Zelda Tears Of The Kingdom
+Zelda Tears Of The Kingdom
+View List
+Hot off the Grill
+Genshin Impact Vesna Build Guide
+Genshin Impact Vodyanitsa Build Guide
+Seven Knights Rebirth | Buffed Judas Guide
+Seven Knights Rebirth | Eve Guide
+Subnautica 2 | Biomes Location Map Guide
+Top Help CenterAbout UsTerms of UseCreation GuidelinesPrivacy PolicyContact UsGameWith(日本語)
+Copyright (C) GameWith All Rights Reserved.
+
+GameWith - Your Source of the Latest Game Guides & News
+Genshin
+Genshin Impact Wiki Guide & Tips
+Search the site
+
+Main Menu
+Mitya
+Valeriy
+Snezhnaya
+Latest News
+Character List
+Tier List
+Redeem Code
+Banners
+All Weapons
+others
+Article Menu
+Event News
+Latest Update
+Updates & Latest News
+Genshin Redeem Codes
+Shadow Realm Treasure Vault
+Traveler's Gun (FPS)
+Shadow Wingdrop
+Snezhnaya Shrine of Depths
+Colorful Crystal (Mitya Only)
+Featured Characters
+Mitya
+Valeriy
+Anastasya (Tsaritsa)
+Character Guide
+Characters By Rarity
+5 Stars
+4 Stars
+Characters By Roles
+DPS	Support	Sustain
+On-Field	Off-Field
+Characters By Element
+AnemoAnemo	HydroHydro
+PyroPyro	ElectroElectro
+DendroDendro	CryoCryo
+GeoGeo
+Characters By Nation
+Mondstadt
+Liyue
+Inazuma
+Sumeru
+Fontaine
+Natlan
+Nod-Krai
+Snezhnaya
+5★ Characters
+AnemoAnemo
+Anemo TravelerAnemo Traveler	ChascaChasca
+JeanJean	Kaedehara KazuhaKaedehara Kazuha
+MizukiMizuki	VarkaVarka
+VentiVenti	WandererWanderer
+XianyunXianyun	XiaoXiao
+VesnaVesna	
+HydroHydro
+ChildeChilde	ColumbinaColumbina
+FurinaFurina	Hydro TravelerHydro Traveler
+Kamisato AyatoAyato	MonaMona
+MualaniMualani	NeuvilletteNeuvillette
+NilouNilou	KokomiKokomi
+SigewinneSigewinne	YelanYelan
+VodyanitsaVodyanitsa	
+GeoGeo
+AlbedoAlbedo	Arataki IttoArataki Itto
+ChioriChiori	Geo TravelerGeo Traveler
+LinneaLinnea	NaviaNavia
+XilonenXilonen	ZhongliZhongli
+ZibaiZibai
+ElectroElectro
+ClorindeClorinde	CynoCyno
+Electro TravelerElectro Traveler	FlinsFlins
+IneffaIneffa	KeqingKeqing
+Raiden ShogunRaiden Shogun	VaresaVaresa
+Yae MikoYae Miko	MityaMitya
+DendroDendro
+AlhaithamAlhaitham	BaizhuBaizhu
+Dendro TravelerDendro Traveler	EmilieEmilie
+KinichKinich	LaumaLauma
+NahidaNahida	NeferNefer
+TighnariTighnari
+PyroPyro
+ArlecchinoArlecchino	DehyaDehya
+DilucDiluc	DurinDurin
+Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika
+NicoleNicole	Pyro TravelerPyro Traveler
+YoimiyaYoimiya
+CryoCryo
+AloyAloy	CitlaliCitlali
+EscoffierEscoffier	EulaEula
+GanyuGanyu	Kamisato AyakaKamisato Ayaka
+LohenLohen	QiqiQiqi
+SandroneSandrone	ShenheShenhe
+SkirkSkirk	WriothesleyWriothesley
+4★ Characters
+AnemoAnemo
+IfaIfa	JahodaJahoda
+Lan YanLan Yan	LynetteLynette
+PrunePrune	SayuSayu
+Shikanoin HeizouShikanoin Heizou	SucroseSucrose
+HydroHydro
+AinoAino	BarbaraBarbara
+CandaceCandace	DahliaDahlia
+XingqiuXingqiu
+GeoGeo
+GorouGorou	IllugaIlluga
+KachinaKachina	NingguangNingguang
+NoelleNoelle	Yun JinYun Jin
+ElectroElectro
+BeidouBeidou	DoriDori
+FischlFischl	IansanIansan
+Kujou SaraKujou Sara	Kuki ShinobuKuki Shinobu
+LisaLisa	OroronOroron
+RazorRazor	SethosSethos
+AlyoshaAlyosha	ValeriyValeriy
+DendroDendro
+ColleiCollei	KavehKaveh
+KiraraKirara	YaoyaoYaoyao
+PyroPyro
+AmberAmber	BennettBennett
+ChevreuseChevreuse	GamingGaming
+ThomaThoma	XianglingXiangling
+XinyanXinyan	YanfeiYanfei
+CryoCryo
+CharlotteCharlotte	ChongyunChongyun
+DionaDiona	FreminetFreminet
+KaeyaKaeya	LaylaLayla
+MikaMika	RosariaRosaria
+Unreleased Characters
+DanicaDanica	NoyNoy
+TsaritsaTsaritsa
+Map Guide
+Mondstadt
+Anemoculus
+Anemoculus	Shrine of Depths
+Shrine of Depths
+Calla Lily
+Calla Lily	Cecilia
+Cecilia
+Dandelion Seed
+Dandelion Seed	Philanemo Mushroom
+Philanemo Mushroom
+Small Lamp Grass
+Small Lamp Grass	Valberry
+Valberry
+Windwheel Aster
+Windwheel Aster	Wolfhook
+Wolfhook
+Liyue
+Geoculus
+Geoculus	Shrine of Depths
+Shrine of Depths
+Cor Lapis
+Cor Lapis	Glaze Lily
+Glaze Lily
+Jueyun Chili
+Jueyun Chili	Noctilucous Jade
+Noctilucous Jade
+Qingxin
+Qingxin	Silk Flower
+Silk Flower
+Starconch
+Starconch	Violetgrass
+Violetgrass
+Inazuma
+Electroculus
+Electroculus	Shrine of Depths
+Shrine of Depths
+Amakumo Fruit
+Amakumo Fruit	Crystal Marrow
+Crystal Marrow
+Dendrobium
+Dendrobium	Fluorescent Fungus
+Fluorescent Fungus
+Naku Weed
+Naku Weed	Onikabuto
+Onikabuto
+Sakura Bloom
+Sakura Bloom	Sango Pearl
+Sango Pearl
+Sea Ganoderma
+Sea Ganoderma
+Sumeru
+Dendroculus
+Dendroculus	Shrine of Depths
+Shrine of Depths
+Henna Berry
+Henna Berry	Kalpalata Lotus
+Kalpalata Lotus
+Mourning Flower
+Mourning Flower	Nilotpala Lotus
+Nilotpala Lotus
+Padisarah
+Padisarah	Rukkhashava Mushroom
+Rukkhashava Mushroom
+Sand Grease Pupa
+Sand Grease Pupa	Scarab
+Scarab
+Trishiraite
+Trishiraite
+Fontaine
+Hydroculus
+Hydroculus	Shrine of Depths
+Shrine of Depths
+Beryl Conch
+Beryl Conch	Lakelight Lily
+Lakelight Lily
+Lumidouce Bell
+Lumidouce Bell	Quenepa Berry
+Quenepa Berry
+Rainbow Rose
+Rainbow Rose	Spring of the First Dewdrop
+Spring of the First Dewdrop
+Subdetection Unit
+Subdetection Unit
+Natlan
+Pyroculus
+Pyroculus	Shrine of Depths
+Shrine of Depths
+Saurian Claw Succulent
+Saurian Claw Succulent	Quenepa Berry
+Quenepa Berry
+Sprayfeather Gill
+Sprayfeather Gill	Brilliant Chrysanthemum
+Brilliant Chrysanthemum
+Withering Purpurbloom
+Withering Purpurbloom	Glowing Hornshroom
+Glowing Hornshroom
+Dracolite
+Dracolite	Skysplit Gembloom
+Skysplit Gembloom
+Nod-Krai
+Lunoculus	Shrine Of Depths
+Portable Bearing
+Portable Bearing	Moonfall Silver
+Moonfall Silver
+Frostlamp Flower
+Frostlamp Flower	Pine Amber
+Pine Amber
+Winter Icelea
+Winter Icelea	Teardrop of the Moon
+Teardrop of the Moon
+Snezhnaya
+Cryoculus	Shrine Of Depths
+Frostfairy Flower
+Frostfairy Flower	Flockingweed
+Flockingweed
+Golden Fern
+Frostlamp Flower	
+Weapons
+SwordSword	ClaymoreClaymore
+PolearmPolearm	CatalystCatalyst
+BowBow
+Forum
+Multiplayer Forum (UID Exchange)
+Friend Code Exchange Forum
+Character Builds & Weapons Forum
+Teapot Traveling Merchant Friends Exchange Forum
+
+GameWith Genshin Impact Wiki Guide & Tips Best Characters Tier List (7.2 Update)
+Genshin Impact | Best Characters Tier List (7.2 Update)
+Last Updated: November 15, 2026 10:35 AM
+
+749
+See latest comments
+Genshin Impact | Best Characters Tier List (7.2 Update) - GameWith
+Hot Topic
+
+Featured Characters
+Mitya: Best Build / Best Teams / Materials / Signature Weapon / Gacha Banner
+Valeriy: Best Build / Best Teams / Materials
+Upcoming Character: Anastasya / Danica
+Recommended Articles
+New! Key Items: Cryoculus / Shadow Wingdrop
+New! Specialties: Kristallfold / Fairy Wormwood
+Genshin Word Game: Guess Today's Character!
+【Tool】Character Completion Tracker!
+Redeem Codes for Genshin Impact!
+Post
+Share
+Share
+Best Character Tier List for November 2026 for Genshin Impact. See the strongest meta characters, latest character tier, best characters for version 7.2 Mitya and Vodyanitsa Tier.
+
+Table of Contents
+
+Rank Changes & Updates
+Character Tier List
+Detailed Tier Explanations
+User Tier Polls
+Ranking Related Guide
+Character Tier ListCharacter
+Tier List	Best Team BuildBest Team
+Build	Weapon Tier ListWeapon
+Tier List
+Other Recommended Guide
+List of All Characters
+List of New & Upcoming Characters
+Latest Rank Changes to the Tier List & Notable Characters
+Current Featured Characters
+Featured Characters
+MityaMitya	DPS: SS Support: SS
+- A flexible Electro Stellar-Conduct DPS who fights On-Field with his special Charged Attack or supports from Off-Field.
+- Raises the party's Elemental Mastery with his Steady State Detection Core.
+Guides:
+Best Build / Best Teams / Gacha Banner / Ascension Materials
+ValeriyValeriy	Support: A Sustain: A
+- An Electro shielder whose Offensive Directive boosts Electro and Stellar-Conduct DMG.
+- Mitya's best 4-star teammate, protecting him while he attacks in place.
+Guides:
+Best Build / Best Teams / Ascension Materials
+Rank Change History & Adjustments
+Date	Change Details
+11/4	Added Mitya and Valeriy to Tiers.
+9/23	Added Vesna, Vodyanitsa to the tiers.
+8/12	Added Odette, Cryo Traveler, and Alyosha to the tiers.
+Adjusted tiers based on Stellar Reaction buffs.
+4/8	Added Linnea to Tiers.
+Further Change History
+Best Character Tier List Summary Table
+For Role Description & Basis, check below: Role Explanation
+
+On-Field
+Off-Field
+DPS
+Support
+Sustain
+Pyro
+Hydro
+Cryo
+Electro
+Anemo
+Geo
+Dendro
+TierSS
+Tier1
+ZhongliC0
+Zhongli
+BaizhuC1
+Baizhu
+NicoleC0
+Nicole
+VodyanitsaC0
+Vodyanitsa
+TierS
+Tier2
+JeanC1
+Jean
+QiqiC1
+Qiqi
+YaoyaoC6
+Yaoyao
+KokomiC1
+Kokomi
+EscoffierC0
+Escoffier
+IneffaC0
+Ineffa
+SigewinneC1
+Sigewinne
+ChevreuseC6
+Chevreuse
+XianyunC1
+Xianyun
+LinneaC0
+Linnea
+Lan YanC6
+Lan Yan
+TierA
+Tier3
+BarbaraC6
+Barbara
+BennettC5
+Bennett
+DionaC6
+Diona
+MikaC6
+Mika
+LaylaC6
+Layla
+KiraraC6
+Kirara
+CharlotteC6
+Charlotte
+CitlaliC0
+Citlali
+XilonenC0
+Xilonen
+JahodaC6
+Jahoda
+ValeriyC6
+Valeriy
+AlyoshaC6
+Alyosha
+TierB
+Tier4
+NoelleC6
+Noelle
+ThomaC6
+Thoma
+SayuC6
+Sayu
+Kuki ShinobuC6
+Kuki Shinobu
+MizukiC1
+Mizuki
+DoriC6
+Dori
+TierC
+Tier5
+BeidouC6
+Beidou
+FurinaC0
+Furina
+DahliaC6
+Dahlia
+IfaC6
+Ifa
+TierD
+Tier6
+XingqiuC6
+Xingqiu
+XinyanC6
+Xinyan
+IansanC6
+Iansan
+DehyaC1
+Dehya
+Role Explanation & Tier Basis
+Role Explanation
+Character Top Tier Rankings With Evaluations
+The character explanations are found at their highest rank. For example, if Albedo's Highest Ranking is A, he will be placed in the A Tab.
+
+SS
+S
+A
+B
+C
+D
+SS (Tier 1)
+Baizhu Tier ImageBaizhu
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Outstanding heals and ability to buff Dendro reaction makes him a powerful support.
+- Shields provide resistance making him amazing for characters like Cyno that needs resistance to interruption and off-field Dendro.
+- Off-field Dendro is very minimal and considered as a bonus most of the time.
+- C1 and C2 gives more energy and Dendro infliction.
+Bennett Tier ImageBennett
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Extremely flexible and can fit any team comp easily.
+- When played correctly, he can easily add 1000 ATK to your team.
+- Easy to build Burst since there is no RNG aspect needed to maximize his buff.
+- Without C1, his buff has HP restriction.
+Citlali Tier ImageCitlali
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Unique support that can boost Hydro and Pyro damage through her passive.
+- Good Cryo sub-DPS that scales on EM, allowing for higher reaction damage.
+Columbina Tier ImageColumbina
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+A	SS	-
+- Amazing as a Lunar reaction support and helps apply Hydro to trigger reactions. Columbina also enables Lunar-Charged, Lunar-Bloom and Lunar-Crystallize to happen.
+- Can be used as On-Fielder as well since she has innate Hydro infusion on her attacks.
+Durin Tier ImageDurin
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- A powerful Sub-DPS that is able to shred various elemental resistance of enemies.
+- Easy to use and fits multiple teams.
+Escoffier Tier ImageEscoffier
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	S	-
+- Full potential is in Cryo/Hydro only teams but is great as a standalone character for healing.
+- Can be built as sub-DPS or healer easily since her damage and healing both scale on her Attack.
+Fischl Tier ImageFischl
+DPS	Support	Sustain
+S	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- One of the best character to use for Aggravate reaction.
+- Provides huge damage, energy and frequent Electro attacks even at C0.
+- At C6, Fischl gives more coordinated Electro DMG furthering her personal damage and sub-DPS potential.
+Flins Tier ImageFlins
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- An Electro DPS specializing in Lunar-Charged reactions.
+- Enables the Lunar-Charged reaction for the team and deals direct Lunar-Charged DMG.
+- Synergizes well with Ineffa, as they both boost its damage.
+Furina Tier ImageFurina
+DPS	Support	Sustain
+SS	SS	C
+On-Field	Off-Field	-
+-	SS	-
+- Powerful Sub-DPS and can provide a high amount of DMG buff for the team.
+- Also acts as a healer but you will sacrifice the damage from Skill.
+- As a Sub-DPS, she drains the life of the whole team so AoE healers is a must.
+- Works amazing at various comps.
+- With C2, the amount of DMG bonus it gives increases.
+Iansan Tier ImageIansan
+DPS	Support	Sustain
+-	SS	D
+On-Field	Off-Field	-
+-	S	-
+- Amazing side-grade to Bennett providing powerful ATK buff and weaker healing.
+- Can be used at various team comps.
+- Can wield Scrolls Set or Noblessed Oblige with ease furthering her buffing.
+Ineffa Tier ImageIneffa
+DPS	Support	Sustain
+SS	S	S
+On-Field	Off-Field	-
+-	SS	-
+- An Electro Sub-DPS and Shielder that can enable Electro-Charged to CRIT and deal more damage.
+- Due to the split scaling needed for her (both Elemental Mastery and ATK is needed), she can be somewhat difficult to build since you also have to focus on her CRIT stats due to how Lunar-Charged works.
+Kaedehara Kazuha Tier ImageKaedehara Kazuha
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Greatly increase Elemental DMG Bonus and reduce resistance of enemies with Viridescent Venerer.
+- Can easily gather enemies using Elemental Skill.
+- Elemental Burst can inflict the absorbed Element which is great for reaction teams.
+- C2 gives additional Elemental Mastery to the team.
+Lauma Tier ImageLauma
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+Tier description is being prepared!
+Linnea Tier ImageLinnea
+DPS	Support	Sustain
+SS	-	S
+On-Field	Off-Field	-
+-	SS	-
+- Deals high, consistent damage and can also inflict powerful burst damage with her Elemental Skill.
+- Provides buffs, healing, and decent personal damage, making her a valuable upgrade for various teams, not just those centered around Zibai.
+- Excellent for mining ores in the overworld.
+Mavuika Tier ImageMavuika
+DPS	Support	Sustain
+SS	S	-
+On-Field	Off-Field	-
+SS	S	-
+- Amazing Pyro DPS that utilizes the Nightsoul consumption of teammates.
+- Can apply Pyro damage off-field using tap Skill.
+- Her Elemental Burst can be used to buff the damage dealt of the active character.
+Mitya Tier ImageMitya
+DPS	Support	Sustain
+SS	SS	-
+On-Field	Off-Field	-
+SS	SS	-
+Tier description is being prepared!
+Nefer Tier ImageNefer
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Lunar-Bloom DPS that can deal powerful damage with her Shadow attacks.
+- Reliant on Ascendant Gleam for buffs but can do amazingly in a good team comp.
+Nicole Tier ImageNicole
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- Consolidates the sustain and buffing roles into a single slot.
+- Provides a valuable teamwide ATK buff, ideal for teams with multiple ATK-scaling damage dealers.
+- Her durable shield prevents interruptions, allowing the on-field DPS to execute their full damage combo.
+- A direct upgrade for Hexerei teams, especially when paired with Durin.
+Odette Tier ImageOdette
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- An amazing support for Stellar Glimmer reactions, helping apply Cryo to trigger them. Odette also enables Stellar-Conduct and Stellar-Swirl.
+- Also provides off-field damage with decent DPS.
+Sandrone Tier ImageSandrone
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Dedicated Stellar-Conduct On-Field DPS with long-range Cryo attacks
+- Performance is comparable to Lunar DPSes but her team is still likely to gain new teammate upgrades.
+- Since the cooldown of her Skill is so short, she has no issues with uptime.
+Skirk Tier ImageSkirk
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Great On-Field DPS for Cryo teams.
+- Has a wide range for her AoE Normal Attacks in Seven-Phase Flash mode.
+- Reliant on teamates to give her stacks to increase her damage.
+Sucrose Tier ImageSucrose
+DPS	Support	Sustain
+-	SS	-
+On-Field	Off-Field	-
+-	SS	-
+- Buffs Elemental Mastery of Swirled Element.
+- Has decent but inconsistent crowd control.
+- C1 is very important because of her high Elemental Burst cost.
+- C6 makes her competitive to top-class buffers like Kazuha and is better than him in Hexerei teams.
+Varka Tier ImageVarka
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A Powerful DPS and exploration character weilds 2 Elements: Anemo & PECH.- He features several team-building constraints that, when satisfied, grant him a 100% damage boost.- Amazing for exploration especially when paired with Mondstadt characters.
+Vesna Tier ImageVesna
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- A dedicated Stellar Swirl On-Field DPS with competitive damage when played in her best teams.
+- Her playstyle is extremely mobile and has good AoE.
+Vodyanitsa Tier ImageVodyanitsa
+DPS	Support	Sustain
+-	SS	SS
+On-Field	Off-Field	-
+-	SS	-
+- A Hydro/Cryo support that can buff Stellar Swirl as well.
+- Provides healing, resistance shred and Elemental DMG. Buffs and healing scale on her Max HP.
+Wriothesley Tier ImageWriothesley
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- Fast Cryo Infliction and deals amazing damage with Normal Attack.
+- Has self damage and healing but can be inconsistent.
+- Amazing at both Melt and Freeze teams.
+- C1 is recommended making the self healing more consistent.
+Xilonen Tier ImageXilonen
+DPS	Support	Sustain
+-	SS	A
+On-Field	Off-Field	-
+-	SS	-
+- Amazing support that shreds resistance of enemies allowing your characters to deal more damage.
+- Also has the ability to heal and sustain the team.
+- Abilites are reliant on team mates.
+Yae Miko Tier ImageYae Miko
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing off-field Electro DMG from her Elemental Skill summons.
+- Can be built with Elemental Mastery for Dendro comps or ATK for Stellar-Conduct teams.
+- Elemental Burst deals powerful Electro DMG.
+- Witch Revelation buff makes her Constellations 1 and 2 great for Stellar-Conduct teams.
+Yelan Tier ImageYelan
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+-	SS	-
+- Amazing personal damage and Hydro infliction off-field.
+- Elemental Skill is both powerful and useful for Exploration.
+- Also provides DMG Bonus for the on-field character.
+- High Elemental Burst Cost.
+- C1 is recommended for more energy for Elemental Burst.
+Zhongli Tier ImageZhongli
+DPS	Support	Sustain
+-	A	SS
+On-Field	Off-Field	-
+-	S	-
+- Zhongli has the strongest shield in-game and shreds the all DMG resistance of enemies around it.
+- Can petrify enemies with Elemental Burst.
+- Long animations for Elemental Burst and split scaling between DMG and shields.
+- Sometimes the pillar summoned disrupts battles but it is good for exploration.
+- C2 allows you to form shields with Elemental Burst.
+Zibai Tier ImageZibai
+DPS	Support	Sustain
+SS	-	-
+On-Field	Off-Field	-
+SS	-	-
+- On-Field Lunar-Crystallize focused attacker that deals powerful damage with Elemental Skill-based Normal Attack and Elemental Burst.
+- Powerful character that has limited teams but produce top-level damage even with F2P Teams.
+User Tier Polls for Characters
+The rankings on this list are based on ratings from all GameWith users.
+※ Scores are the calculated average of all user ratings.
+※ Press "Rate" to submit your own rating.
+
+Main DPS
+Sub DPS
+O. Support
+D. Support
+Main DPS or Main Attacker
+Rank
+Name
+Score
+SkirkSkirk	
+9.3 points
+
+
+Calculate
+
+ArlecchinoArlecchino	
+9.3 points
+
+
+Calculate
+
+FlinsFlins	
+9.3 points
+
+
+Calculate
+
+NeuvilletteNeuvillette	
+9.3 points
+
+
+Calculate
+
+MavuikaMavuika	
+9.3 points
+
+
+Calculate
+
+VaresaVaresa	
+9.1 points
+
+
+Calculate
+
+Raiden ShogunRaiden Shogun	
+9 points
+
+
+Calculate
+
+NaviaNavia	
+9 points
+
+
+Calculate
+
+WriothesleyWriothesley	
+9 points
+
+
+Calculate
+
+ClorindeClorinde	
+9 points
+
+
+Calculate
+
+KinichKinich	
+9 points
+
+
+Calculate
+
+IfaIfa	
+9 points
+
+
+Calculate
+
+Kamisato AyakaKamisato Ayaka	
+8.9 points
+
+
+Calculate
+
+WandererWanderer	
+8.9 points
+
+
+Calculate
+
+Hu TaoHu Tao	
+8.9 points
+
+
+Calculate
+
+AlhaithamAlhaitham	
+8.9 points
+
+
+Calculate
+
+XiaoXiao	
+8.8 points
+
+
+Calculate
+
+MualaniMualani	
+8.8 points
+
+
+Calculate
+
+XilonenXilonen	
+8.8 points
+
+
+Calculate
+
+ChascaChasca	
+8.8 points
+
+
+Calculate
+
+GanyuGanyu	
+8.7 points
+
+
+Calculate
+
+LyneyLyney	
+8.7 points
+
+
+Calculate
+
+Kamisato AyatoKamisato Ayato	
+8.7 points
+
+
+Calculate
+
+NahidaNahida	
+8.7 points
+
+
+Calculate
+
+TighnariTighnari	
+8.7 points
+
+
+Calculate
+
+GamingGaming	
+8.7 points
+
+
+Calculate
+
+KleeKlee	
+8.6 points
+
+
+Calculate
+
+CynoCyno	
+8.6 points
+
+
+Calculate
+
+Sangonomiya KokomiSangonomiya Kokomi	
+8.6 points
+
+
+Calculate
+
+YoimiyaYoimiya	
+8.6 points
+
+
+Calculate
+
+Arataki IttoArataki Itto	
+8.6 points
+
+
+Calculate
+
+MizukiMizuki	
+8.6 points
+
+
+Calculate
+
+NoelleNoelle	
+8.5 points
+
+
+Calculate
+
+KeqingKeqing	
+8.5 points
+
+
+Calculate
+
+EulaEula	
+8.5 points
+
+
+Calculate
+
+YanfeiYanfei	
+8.5 points
+
+
+Calculate
+
+DilucDiluc	
+8.4 points
+
+
+Calculate
+
+ChildeChilde	
+8.4 points
+
+
+Calculate
+
+FreminetFreminet	
+8.4 points
+
+
+Calculate
+
+RazorRazor	
+8.2 points
+
+
+Calculate
+
+SethosSethos	
+8.2 points
+
+
+Calculate
+
+NingguangNingguang	
+8 points
+
+
+Calculate
+
+SucroseSucrose	
+7.7 points
+
+
+Calculate
+
+KavehKaveh	
+7 points
+
+
+Calculate
+
+Ranking Tools
+Rank Your Favorite Characters!
+Best BoyBest Boy Ranking Tool	Best Girl Ranking Tool
+Character Related Articles
+Character Tier Lists
+Tier Lists
+Best Characters Tier List for April 2026 (Luna 5)Best Characters Tier List
+Best Teams For Each Character	Meta Team Comps
+All Characters
+Characters By Rarity
+★5★5	★4★4
+Characters By Roles
+DPS List	Support List	Sustain List
+On-Field List	Off-Field List
+Characters By Element
+PyroPyro	HydroHydro	AnemoAnemo	ElectroElectro
+DendroDendro	CryoCryo	GeoGeo
+Characters By Nation
+MondstadtMondstadt	LiyueLiyue	Inazuma
+Sumeru	FontaineFontaine	NatlanNatlan
+SnezhnayaSnezhnaya	Nod-KraiNod-Krai
+List Of All Characters
+Post
+Share
+Share
+Have some feedback? Click here
+Article Written by
+GameWith Genshin Strategy Team
+GameWith Genshin Strategy Team
+Reader Comments
+Submit
+Anonymous737
+escoffier dps ?! what happened ?
+
+99 days ago | Report
+Mustapha Seven736
+I commented before about the meaning if off-field in this tierlist, and know i saw "Role description" and now i understand the standards; it's about the off-field contribution of those characters not just the off-field DPS given by them!
+
+ Click to Enlarge
+214 days ago | Report
+Mustapha Seven735
+What do you mean by (off-field) in the tierlist?! You have some "support" there in SS and S even they do NOT do any off-field damage at all like Baizhu, Chevreuse and illuga?!!!! (They're good supports but they're NOT off-fielders at all).
+
+ Click to Enlarge
+214 days ago | Report
+Anonymous734
+Holy Yelan cope
+
+380 days ago | Report
+Anonymous733
+Furina Main DPS? What happened here?
+
+380 days ago | Report
+Read on
+Copyright Notice
+© All rights reserved by miHoYo.
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+
+Most Popular
+All Banner List (November 2026) Character & Weapon Banner
+All Banner List (November 2026) Character & Weapon Banner1
+All Female / Girl Character List
+All Female / Girl Character List2
+Best Teams for Vesna
+Best Teams for Vesna3
+Anastasya (Tsaritsa) Release Date & Known Information
+Anastasya (Tsaritsa) Release Date & Known Information4
+Tighnari Best Build Guide
+Tighnari Best Build Guide5
+Read on 
+Featured Titles
+Fate/Grand Order (English)
+Fate/Grand Order (English)
+Subnautica 2
+Subnautica 2
+Neverness to Everness
+Neverness to Everness
+Seven Knights Rebirth
+Seven Knights Rebirth
+Genshin Impact
+Genshin Impact
+LET IT DIE: INFERNO
+LET IT DIE: INFERNO
+Mongil: Star Dive
+Mongil: Star Dive
+Kaiju No. 8 The Game
+Kaiju No. 8 The Game
+Chaos Zero Nightmare
+Chaos Zero Nightmare
+Sword of Convallaria
+Sword of Convallaria
+Shadowverse: Worlds Beyond
+Shadowverse: Worlds Beyond
+Stardew Valley
+Stardew Valley
+Arknights
+Arknights
+Resident Evil 5
+Resident Evil 5
+Zelda Tears Of The Kingdom
+Zelda Tears Of The Kingdom
+View List
+Hot off the Grill
+Genshin Impact Vesna Build Guide
+Genshin Impact Vodyanitsa Build Guide
+Seven Knights Rebirth | Buffed Judas Guide
+Seven Knights Rebirth | Eve Guide
+Subnautica 2 | Biomes Location Map Guide
+Top Help CenterAbout UsTerms of UseCreation GuidelinesPrivacy PolicyContact UsGameWith(日本語)
+Copyright (C) GameWith All Rights Reserved.

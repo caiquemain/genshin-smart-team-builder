@@ -11,6 +11,7 @@ from app.scripts.tierlist_parsers import (
     normalize_character_slug,
     parse_canonical_csv,
     parse_game8,
+    parse_gamewith,
     parse_genshingg,
     parse_genshinlab,
     parse_icy_veins,
@@ -332,6 +333,31 @@ def test_tierlist_site_categories_separate_seasonal_from_general():
     assert site_category("prydwen-stygian-1") == "stygian"
     assert site_category("prydwen-stygian-2") == "stygian"
     assert site_category("prydwen-stygian-3") == "stygian"
+
+
+def test_real_gamewith_7_2_regression():
+    path = TIERLISTS_DIR / "gamewith" / "7.2.txt"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_gamewith(path.read_text(encoding="utf-8"), version_hint="7.2")
+
+    assert res["site_slug"] == "gamewith"
+    assert res["version"] == "7.2"
+    assert len(res["raw_entries"]) == 311
+    assert len(res["entries"]) == 129
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"SS": 31, "S": 31, "A": 24, "B": 23, "C": 8, "D": 12}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["mitya"]["tier_label"] == "SS"
+    assert by_slug["furina"]["tier_label"] == "SS"
+    assert by_slug["bennett"]["tier_label"] == "SS"
+    assert by_slug["xilonen"]["tier_label"] == "SS"
+    assert by_slug["neuvillette"]["tier_label"] == "S"
+    assert by_slug["traveler-cryo"]["tier_label"] == "S"
+    assert by_slug["traveler-anemo"]["tier_label"] == "D"
+    assert by_slug["amber"]["tier_label"] == "D"
+
 
 
 

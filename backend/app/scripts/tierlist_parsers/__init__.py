@@ -4,6 +4,7 @@ from typing import Callable, Optional
 
 from .common import dedupe_best_tier, normalize_character_slug, parse_canonical_csv
 from .game8 import GAME8_SCALE, parse_game8
+from .gamewith import GAMEWITH_SCALE, parse_gamewith
 from .genshingg import GENSHINGG_SCALE, parse_genshingg
 from .genshinlab import GENSHINLAB_SCALE, parse_genshinlab
 from .icy_veins import ICY_VEINS_SCALE, parse_icy_veins
@@ -86,8 +87,9 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         slug="gamewith",
         name="GameWith",
         url="https://gamewith.net/genshin-impact/article/show/21671",
-        scale=("SS", "S", "A", "B", "C", "D"),
+        scale=tuple(GAMEWITH_SCALE),
         master_map={"SS": "S+", "S": "S", "A": "A", "B": "B", "C": "C", "D": "D"},
+        txt_parser=parse_gamewith,
     ),
     "prydwen": TierlistSiteConfig(
         slug="prydwen",
@@ -172,6 +174,7 @@ __all__ = [
     "normalize_character_slug",
     "parse_canonical_csv",
     "parse_game8",
+    "parse_gamewith",
     "parse_genshingg",
     "parse_genshinlab",
     "parse_icy_veins",
