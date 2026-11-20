@@ -155,7 +155,7 @@ export default function TeamsPage() {
   useEffect(() => {
     Promise.all([
       api.listTeams(lang),
-      api.listTemplates(),
+      api.listTemplates({ lang }),
       api.listCharacters(lang, { limit: 200 }),
     ])
       .then(([t, tpl, c]) => {

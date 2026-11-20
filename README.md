@@ -104,6 +104,42 @@ docker compose exec backend python -m app.scripts.import_guides --source kqm --c
 
 ---
 
+### 3.1. Tags de Obtenção nas Armas (Gacha, Evento, Craftável, Passe, Pesca, Mundo)
+
+Classifica todas as armas no banco consultando a tabela oficial `Weapon/List/By_Availability` da Genshin Impact Wiki (com fallback do Paimon.moe):
+
+```bash
+# Sincronizar tags de obtenção das armas (idempotente)
+docker compose exec backend python -m app.scripts.sync_weapon_sources
+
+# (Opcional) Validar antes sem gravar no banco:
+docker compose exec backend python -m app.scripts.sync_weapon_sources --dry-run
+```
+
+---
+
+### 3.2. Traduzir Notas dos Guias para Português (ou outros idiomas)
+
+As notas de armas/artefatos/substitutos vindas de guias em inglês ficam cacheadas na tabela `text_translations` (traduzidas uma única vez por texto único, com glossário de Genshin Impact):
+
+```bash
+# Ver quantas strings únicas estão pendentes (sem chamar API)
+docker compose exec backend python -m app.scripts.translate_guides --lang pt --dry-run
+
+# Opção A — Google Translate gratuito (sem precisar de API key)
+docker compose exec backend python -m app.scripts.translate_guides --lang pt --provider google
+
+# Opção B — Gemini API (melhor qualidade gamer/Genshin; defina GEMINI_API_KEY)
+docker compose exec -e GEMINI_API_KEY="SUA_CHAVE" backend python -m app.scripts.translate_guides --lang pt --provider gemini
+
+# Opção C — DeepL Free (500k caracteres/mês grátis; defina DEEPL_API_KEY)
+docker compose exec -e DEEPL_API_KEY="SUA_CHAVE:fx" backend python -m app.scripts.translate_guides --lang pt --provider deepl
+```
+
+*(O script salva checkpoint a cada lote e é incremental: ao importar novos guias em patches futuros, basta rodar de novo que ele traduz só as notas novas.)*
+
+---
+
 ### 4. Migrations, Rebuild e Testes
 
 Sempre que puxar mudanças novas do GitHub (`git pull origin main`):

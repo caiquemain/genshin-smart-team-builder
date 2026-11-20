@@ -18,6 +18,7 @@ class WeaponSummary(BaseModel):
     max_secondary_stat_value: float | None = None
     passive_name: str | None = None
     passive_description_r5: str | None = None
+    obtain_source: str | None = None
 
 
 class WeaponDetail(WeaponSummary):

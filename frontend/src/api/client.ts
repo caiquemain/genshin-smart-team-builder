@@ -56,10 +56,13 @@ export const api = {
     request<CharacterListResponse>('/characters', { lang, ...filters }),
   getCharacter: (slug: string, lang: LanguageCode) =>
     request<CharacterDetail>(`/characters/${slug}`, { lang }),
+  getCharacterBuild: (slug: string, lang: LanguageCode) =>
+    request<{ name: string; build_data: CharacterBuild } | null>(`/characters/${slug}/build`, { lang }),
   listReactions: () => request<ReactionListResponse>('/reactions'),
-  listTemplates: (filters: { archetype?: string; main_character?: string; character_slug?: string } = {}) =>
+  listTemplates: (filters: { archetype?: string; main_character?: string; character_slug?: string; lang?: LanguageCode } = {}) =>
     request<TeamTemplateListResponse>('/teams/templates', filters),
-  getTemplate: (id: number) => request<TeamTemplateDetail>(`/teams/templates/${id}`),
+  getTemplate: (id: number, lang?: LanguageCode) =>
+    request<TeamTemplateDetail>(`/teams/templates/${id}`, lang ? { lang } : {}),
   listArchetypes: () => request<ArchetypesResponse>('/teams/templates/archetypes'),
   listArtifacts: (lang: LanguageCode, filters: { rarity?: number; limit?: number } = {}) =>
     request<ArtifactSetListResponse>('/artifacts', { lang, ...filters }),
@@ -74,7 +77,7 @@ export const api = {
       if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
       return r.json() as Promise<TeamAnalysisResponse>
     }),
-  listWeapons: (lang: LanguageCode, filters: { weapon_type?: string; rarity?: number; limit?: number } = {}) =>
+  listWeapons: (lang: LanguageCode, filters: { weapon_type?: string; rarity?: number; obtain_source?: string; limit?: number } = {}) =>
     request<WeaponListResponse>('/weapons', { lang, ...filters }),
   getWeapon: (slug: string, lang: LanguageCode) =>
     request<WeaponDetail>(`/weapons/${slug}`, { lang }),
@@ -113,7 +116,8 @@ export const api = {
       if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
       return r.json() as Promise<TeamTierInfo>
     }),
-  listPresets: (characterSlug: string) => request<BuildPreset[]>(`/presets/${characterSlug}`),
+  listPresets: (characterSlug: string, lang?: LanguageCode) =>
+    request<BuildPreset[]>(`/presets/${characterSlug}`, lang ? { lang } : {}),
   createPreset: (payload: { character_slug: string, name: string, build_data: CharacterBuild }) =>
     fetch(`${API_URL}/presets`, {
       method: 'POST',

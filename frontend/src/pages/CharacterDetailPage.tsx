@@ -176,12 +176,11 @@ export default function CharacterDetailPage() {
     if (!slug) return
     setChar(null); setError(null); setKqmBuild(null)
     api.getCharacter(slug, lang).then(setChar).catch((e) => setError(String(e)))
-    fetch(`http://localhost:8000/characters/${slug}/build`)
-      .then(res => { if (!res.ok) throw new Error('404'); return res.json() })
-      .then(data => setKqmBuild(data))
+    api.getCharacterBuild(slug, lang)
+      .then((data) => setKqmBuild(data))
       .catch(() => setKqmBuild(null))
 
-    api.listTemplates({ character_slug: slug })
+    api.listTemplates({ character_slug: slug, lang })
       .then((res) => setCharacterTeams(res.items))
       .catch(() => setCharacterTeams([]))
 

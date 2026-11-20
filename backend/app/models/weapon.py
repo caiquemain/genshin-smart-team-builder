@@ -23,6 +23,7 @@ class Weapon(Base):
     passive_name = Column(String(150))
     passive_description = Column(Text)
     passive_levels = Column(JSONB)
+    obtain_source = Column(String(32), index=True, nullable=True)
 
     translations = relationship(
         "WeaponTranslation",

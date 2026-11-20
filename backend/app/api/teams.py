@@ -10,6 +10,13 @@ from ..schemas.team import (
 from ..schemas.build import CharacterBuild, TeamBuildsUpdate, Substitute
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
+from ..services.guide_i18n import (
+    apply_build_data_localization,
+    apply_substitutes_localization,
+    collect_build_data_texts,
+    collect_substitutes_texts,
+    fetch_translations_map,
+)
 from ..services.presets import has_build_content as _has_build_content, pick_best_preset, pick_best_presets_batch
 from ..services.substitutes import compute_slot_substitutes_for_slugs
 from ..services.synergy import analyze_team
@@ -21,7 +28,7 @@ router = APIRouter(prefix="/teams", tags=["teams"])
 
 
 def _build_details_batch(db: Session, teams: list[Team], lang: Language) -> list[TeamDetail]:
-    """Monta TeamDetail para uma lista de times em ~4 queries (sem N+1)."""
+    """Monta TeamDetail para uma lista de times em ~5 queries (sem N+1)."""
     if not teams:
         return []
 
@@ -58,6 +65,18 @@ def _build_details_batch(db: Session, teams: list[Team], lang: Language) -> list
         )
         name_by_char_id = {cid: cname for cid, cname in trans_rows if cname}
 
+    # Coleta textos de builds e substitutos para 1 único lookup no cache de traduções
+    trans_map: dict[str, str] = {}
+    if lang != Language.EN:
+        texts_to_translate: list[str] = []
+        for tc, char in rows:
+            raw_bd = tc.build_data if _has_build_content(tc.build_data) else (
+                fallback_presets[char.id].build_data if char.id in fallback_presets else None
+            )
+            texts_to_translate.extend(collect_build_data_texts(raw_bd))
+            texts_to_translate.extend(collect_substitutes_texts(tc.substitutes))
+        trans_map = fetch_translations_map(db, texts_to_translate, lang)
+
     result: list[TeamDetail] = []
     for team in teams:
         member_out: list[TeamMemberOut] = []
@@ -65,7 +84,9 @@ def _build_details_batch(db: Session, teams: list[Team], lang: Language) -> list
             raw_build = tc.build_data if _has_build_content(tc.build_data) else (
                 fallback_presets[char.id].build_data if char.id in fallback_presets else None
             )
-            build = CharacterBuild(**raw_build) if raw_build else None
+            loc_build = apply_build_data_localization(raw_build, lang, trans_map)
+            build = CharacterBuild(**loc_build) if loc_build else None
+            loc_subs = apply_substitutes_localization(tc.substitutes or [], lang, trans_map)
             member_out.append(TeamMemberOut(
                 position=tc.position,
                 character=CharacterSummary(
@@ -78,7 +99,7 @@ def _build_details_batch(db: Session, teams: list[Team], lang: Language) -> list
                     region=char.region,
                 ),
                 build=build,
-                substitutes=tc.substitutes or [],
+                substitutes=loc_subs,
             ))
         team_tier_data = tier_map.get(team.id)
         team_tier = (

@@ -136,13 +136,19 @@ def get_character(
 
 
 @router.get("/{slug}/build")
-def get_character_build(slug: str, db: Session = Depends(get_db)):
+def get_character_build(
+    slug: str,
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+):
     char = db.query(Character).filter(Character.slug == slug).one_or_none()
     if not char:
         raise HTTPException(status_code=404, detail="Character not found")
+    from ..services.guide_i18n import localize_build_data_batch
     from ..services.presets import pick_best_preset
 
     preset = pick_best_preset(db, char.id)
     if not preset:
         return None
-    return {"name": preset.name, "build_data": preset.build_data}
+    localized = localize_build_data_batch(db, [preset.build_data], lang)[0]
+    return {"name": preset.name, "build_data": localized}

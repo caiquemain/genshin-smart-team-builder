@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { X, ArrowRight, CheckCircle2, UserX, RefreshCw } from 'lucide-react'
 import { api } from '../api/client'
+import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
 import { useRoster } from '../utils/roster'
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function TeamTemplateModal({ templateId, chars, onClose }: Props) {
+  const { lang } = useLanguage()
   const roster = useRoster()
   const [template, setTemplate] = useState<TeamTemplateDetail | null>(null)
   const [presets, setPresets] = useState<Map<string, BuildPreset[]>>(new Map())
@@ -24,13 +26,13 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
     setLoading(true)
     setError(null)
 
-    api.getTemplate(templateId)
+    api.getTemplate(templateId, lang)
       .then((t) => {
         setTemplate(t)
         // Busca presets de cada membro em paralelo
         return Promise.all(
           t.character_slugs.map((slug) =>
-            api.listPresets(slug).then((p) => ({ slug, presets: p })).catch(() => ({ slug, presets: [] }))
+            api.listPresets(slug, lang).then((p) => ({ slug, presets: p })).catch(() => ({ slug, presets: [] }))
           )
         )
       })
@@ -41,7 +43,7 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
       })
       .catch((e) => setError(String(e)))
       .finally(() => setLoading(false))
-  }, [templateId])
+  }, [templateId, lang])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }

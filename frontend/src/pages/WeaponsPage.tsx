@@ -4,6 +4,7 @@ import { Sword, Shield, Swords, Target, Crosshair, Star, Search } from 'lucide-r
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
+import { weaponObtainInfo, WEAPON_OBTAIN_FILTER_ORDER } from '../utils/weaponSources'
 import WeaponTooltip from '../components/WeaponTooltip'
 import type { WeaponSummary } from '../types'
 
@@ -35,6 +36,8 @@ function WeaponCard({ weapon }: { weapon: WeaponSummary }) {
   const img = iconUrl(weapon.icon)
   const Icon = WEAPON_ICONS[weapon.weapon_type]
   const rarityColor = weapon.rarity === 5 ? '#e0a647' : weapon.rarity === 4 ? '#a35bd8' : weapon.rarity === 3 ? '#5a8fd8' : '#94a3b8'
+  const obtain = weaponObtainInfo(weapon.obtain_source)
+  const ObtainIcon = obtain?.icon
 
   // Fix: usa max (Lv.90) com fallback pro base (Lv.1)
   const atk = weapon.max_base_atk ?? weapon.base_atk
@@ -56,6 +59,16 @@ function WeaponCard({ weapon }: { weapon: WeaponSummary }) {
         <Icon size={14} />
         {WEAPON_LABEL[weapon.weapon_type]}
       </div>
+      {obtain && ObtainIcon && (
+        <span
+          className="weapon-obtain-badge"
+          style={{ color: obtain.color, background: obtain.bg, borderColor: obtain.border }}
+          title={`Obtenção: ${obtain.label}`}
+        >
+          <ObtainIcon size={11} />
+          {obtain.shortLabel}
+        </span>
+      )}
       <div className="weapon-card-stats">
         <div className="weapon-stat">
           <span className="weapon-stat-label">ATK (Lv.90)</span>
@@ -81,6 +94,7 @@ export default function WeaponsPage() {
   const [loading, setLoading] = useState(false)
   const [weaponType, setWeaponType] = useState('')
   const [rarity, setRarity] = useState('')
+  const [obtainSource, setObtainSource] = useState('')
   const [search, setSearch] = useState('')
 
   useEffect(() => {
@@ -88,12 +102,13 @@ export default function WeaponsPage() {
     api.listWeapons(lang, {
       weapon_type: weaponType || undefined,
       rarity: rarity ? Number(rarity) : undefined,
-      limit: 200,
+      obtain_source: obtainSource || undefined,
+      limit: 400,
     })
       .then((d) => { setWeapons(d.items); setError(null) })
       .catch((e) => setError(String(e)))
       .finally(() => setLoading(false))
-  }, [lang, weaponType, rarity])
+  }, [lang, weaponType, rarity, obtainSource])
 
   const filtered = useMemo(() => {
     if (!search.trim()) return weapons
@@ -165,10 +180,30 @@ export default function WeaponsPage() {
           </div>
         </div>
 
-        {(weaponType || rarity || search) && (
+        {/* Obtenção */}
+        <div className="filter-group" style={{ flex: '1 1 100%' }}>
+          <span className="filter-label">Obtenção</span>
+          <div className="filter-pills">
+            {WEAPON_OBTAIN_FILTER_ORDER.map((opt) => {
+              const isActive = obtainSource === opt.key
+              return (
+                <button
+                  key={opt.key}
+                  className={`filter-pill ${isActive ? 'active' : ''}`}
+                  style={{ '--pill-color': opt.color } as React.CSSProperties}
+                  onClick={() => setObtainSource(isActive ? '' : opt.key)}
+                >
+                  {opt.label}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {(weaponType || rarity || obtainSource || search) && (
           <button
             className="clear-filters-btn"
-            onClick={() => { setWeaponType(''); setRarity(''); setSearch('') }}
+            onClick={() => { setWeaponType(''); setRarity(''); setObtainSource(''); setSearch('') }}
           >
             Limpar Filtros
           </button>

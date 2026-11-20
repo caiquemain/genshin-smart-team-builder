@@ -48,3 +48,5 @@ from .character import (
     CharacterPassiveTranslation,
     CharacterConstellationTranslation,
 )
+from .translation import TextTranslation
+

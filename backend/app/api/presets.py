@@ -1,17 +1,31 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..database import get_db
-from ..models import CharacterBuildPreset, Character
+from ..models import CharacterBuildPreset, Character, Language
 from ..schemas.build_preset import BuildPresetCreate, BuildPresetDetail
+from ..services.guide_i18n import localize_build_data_batch
+from .deps import get_language
 
 router = APIRouter(prefix="/presets", tags=["presets"])
 
 @router.get("/{character_slug}", response_model=list[BuildPresetDetail])
-def list_presets(character_slug: str, db: Session = Depends(get_db)):
+def list_presets(
+    character_slug: str,
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+):
     char = db.query(Character).filter(Character.slug == character_slug).first()
-    if not char: raise HTTPException(404, "Character not found")
+    if not char:
+        raise HTTPException(404, "Character not found")
     presets = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).all()
-    return [BuildPresetDetail.from_model(p) for p in presets]
+    localized_bds = localize_build_data_batch(db, [p.build_data for p in presets], lang)
+    out = []
+    for p, bd in zip(presets, localized_bds):
+        detail = BuildPresetDetail.from_model(p)
+        if bd is not None:
+            detail.build_data = type(detail.build_data)(**bd)
+        out.append(detail)
+    return out
 
 @router.post("", response_model=BuildPresetDetail)
 def create_preset(payload: BuildPresetCreate, db: Session = Depends(get_db)):

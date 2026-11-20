@@ -7,6 +7,7 @@ import {
 } from '@floating-ui/react'
 import { iconUrl } from '../config'
 import { formatStatLabel, formatStatValue } from '../utils/stats'
+import { weaponObtainInfo } from '../utils/weaponSources'
 import type { WeaponSummary } from '../types'
 
 const RARITY_COLORS: Record<number, string> = {
@@ -44,6 +45,8 @@ export default function WeaponTooltip({
 
   const accent = RARITY_COLORS[weapon.rarity] ?? RARITY_COLORS[1]
   const img = iconUrl(weapon.icon)
+  const obtain = weaponObtainInfo(weapon.obtain_source)
+  const ObtainIcon = obtain?.icon
 
   const child = isValidElement(children)
     ? cloneElement(children as ReactElement<any>, {
@@ -65,7 +68,18 @@ export default function WeaponTooltip({
               <div className="weapon-tooltip-title">
                 <div className="weapon-tooltip-name" style={{ color: accent }}>{weapon.name}</div>
                 <div className="weapon-tooltip-stars" style={{ color: accent }}>{'★'.repeat(weapon.rarity)}</div>
-                <div className="weapon-tooltip-type">{WEAPON_TYPE_LABEL[weapon.weapon_type] ?? weapon.weapon_type}</div>
+                <div className="weapon-tooltip-type" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                  <span>{WEAPON_TYPE_LABEL[weapon.weapon_type] ?? weapon.weapon_type}</span>
+                  {obtain && ObtainIcon && (
+                    <span
+                      className="weapon-obtain-badge"
+                      style={{ color: obtain.color, background: obtain.bg, borderColor: obtain.border }}
+                    >
+                      <ObtainIcon size={10} />
+                      {obtain.label}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 

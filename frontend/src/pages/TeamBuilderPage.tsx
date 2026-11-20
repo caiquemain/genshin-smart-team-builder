@@ -118,7 +118,7 @@ export default function TeamBuilderPage() {
     if (!templateIdParam) return
     const tid = parseInt(templateIdParam)
     if (isNaN(tid)) return
-    api.getTemplate(tid)
+    api.getTemplate(tid, lang)
       .then(async (t) => {
         const initial = [...t.character_slugs, null, null, null, null].slice(0, 4) as (string | null)[]
         setSlots(initial)
@@ -128,7 +128,7 @@ export default function TeamBuilderPage() {
 
         const presetResults = await Promise.all(
           t.character_slugs.map((slug, i) =>
-            api.listPresets(slug)
+            api.listPresets(slug, lang)
               .then((list) => ({ pos: i + 1, build: list[0]?.build_data ?? null }))
               .catch(() => ({ pos: i + 1, build: null }))
           )

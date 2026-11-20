@@ -4,6 +4,7 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import { categoryInfo } from '../utils/categories'
+import { weaponObtainInfo } from '../utils/weaponSources'
 import ItemTooltip from '../components/ItemTooltip'
 import type { WeaponDetail, WeaponAscensionResponse } from '../types'
 
@@ -125,6 +126,8 @@ export default function WeaponDetailPage() {
 
   const img = iconUrl(weapon.icon)
   const accent = RARITY_COLORS[weapon.rarity] ?? '#94a3b8'
+  const obtain = weaponObtainInfo(weapon.obtain_source)
+  const ObtainIcon = obtain?.icon
   const passiveLevels = weapon.passive_levels || {}
   const passiveKeys = Object.keys(passiveLevels).sort()
 
@@ -140,9 +143,18 @@ export default function WeaponDetailPage() {
         <div className="weapon-hero-info">
           <div className="weapon-hero-rarity" style={{ color: accent }}>{'★'.repeat(weapon.rarity)}</div>
           <h1>{weapon.name}</h1>
-          <p className="weapon-hero-type">
-            {WEAPON_TYPE_LABEL[weapon.weapon_type] ?? weapon.weapon_type}
-          </p>
+          <div className="weapon-hero-type" style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <span>{WEAPON_TYPE_LABEL[weapon.weapon_type] ?? weapon.weapon_type}</span>
+            {obtain && ObtainIcon && (
+              <span
+                className="weapon-obtain-badge weapon-obtain-badge-lg"
+                style={{ color: obtain.color, background: obtain.bg, borderColor: obtain.border }}
+              >
+                <ObtainIcon size={13} />
+                {obtain.label}
+              </span>
+            )}
+          </div>
           {weapon.description && <p className="weapon-hero-desc">{stripHtml(weapon.description)}</p>}
         </div>
       </div>

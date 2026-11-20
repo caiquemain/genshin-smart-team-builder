@@ -83,7 +83,7 @@ export default function CharacterBuildEditor({
         .then((d) => setWeapons(d.items)).catch(() => {})
       api.listArtifacts(lang, { rarity: 5, limit: 200 })
         .then((d) => setArtifacts(d.items)).catch(() => {})
-      api.listPresets(character.slug)
+      api.listPresets(character.slug, lang)
         .then(setPresets).catch(() => {})
   }, [lang, character.weapon_type])
 

@@ -50,11 +50,15 @@ def _phases_needed(from_level: int, to_level: int) -> list[int]:
     return included
 
 
+F2P_OBTAIN_SOURCES = ("craftable", "event", "fishing", "quest", "world", "starglitter")
+
+
 @router.get("", response_model=WeaponListResponse)
 def list_weapons(
     weapon_type: WeaponType | None = Query(default=None),
     rarity: int | None = Query(default=None, ge=1, le=5),
-    limit: int = Query(default=300, ge=1, le=500),
+    obtain_source: str | None = Query(default=None),
+    limit: int = Query(default=400, ge=1, le=500),
     offset: int = Query(default=0, ge=0),
     lang: Language = Depends(get_language),
     db: Session = Depends(get_db),
@@ -64,12 +68,33 @@ def list_weapons(
         q = q.filter(Weapon.weapon_type == weapon_type)
     if rarity:
         q = q.filter(Weapon.rarity == rarity)
+    if obtain_source:
+        norm_src = obtain_source.strip().lower()
+        if norm_src == "f2p":
+            q = q.filter(Weapon.obtain_source.in_(F2P_OBTAIN_SOURCES))
+        else:
+            q = q.filter(Weapon.obtain_source == norm_src)
     total = q.count()
     rows = q.order_by(Weapon.name).offset(offset).limit(limit).all()
 
+    trans_by_id: dict[int, WeaponTranslation] = {}
+    if lang != Language.EN and rows:
+        w_ids = [w.id for w in rows]
+        trans_rows = (
+            db.query(WeaponTranslation)
+            .filter(
+                WeaponTranslation.weapon_id.in_(w_ids),
+                WeaponTranslation.language == lang,
+            )
+            .all()
+        )
+        trans_by_id = {tr.weapon_id: tr for tr in trans_rows}
+
     items = []
     for w in rows:
-        name, _, passive_name, _ = _resolve_translation(db, w, lang)
+        tr = trans_by_id.get(w.id)
+        name = tr.name if tr and tr.name else w.name
+        passive_name = (tr.passive_name if tr and tr.passive_name else w.passive_name)
         passive_r5 = None
         if w.passive_levels and "4" in w.passive_levels:
             passive_r5 = w.passive_levels["4"]
@@ -86,6 +111,7 @@ def list_weapons(
             max_secondary_stat_value=w.max_secondary_stat_value,
             passive_name=passive_name,
             passive_description_r5=passive_r5,
+            obtain_source=w.obtain_source,
         ))
 
     return WeaponListResponse(
@@ -120,6 +146,7 @@ def get_weapon(
         passive_name=p_name,
         passive_description=p_desc,
         passive_levels=w.passive_levels,
+        obtain_source=w.obtain_source,
     )
 
 

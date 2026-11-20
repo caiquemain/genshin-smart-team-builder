@@ -203,6 +203,7 @@ export interface WeaponSummary {
   max_secondary_stat_value: number | null
   passive_name: string | null
   passive_description_r5: string | null
+  obtain_source?: string | null
 }
 
 export interface WeaponDetail extends WeaponSummary {
