@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Trash2, ArrowRight, Plus, Search, Users, CheckCircle2, UserX } from 'lucide-react'
+import {
+  Trash2, ArrowRight, Plus, Search, Users, CheckCircle2, UserX,
+  Repeat2, Sparkles, Layers, RotateCcw,
+} from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
@@ -16,7 +19,31 @@ const ARCHETYPE_ORDER = [
   'hypercarry', 'national',
 ]
 
+const ELEMENTS = ['pyro', 'hydro', 'cryo', 'electro', 'anemo', 'geo', 'dendro'] as const
+const TIER_ORDER = ['S+', 'S', 'A', 'B', 'C', 'D'] as const
+
+const ELEMENT_COLORS: Record<string, { color: string; bg: string; border: string }> = {
+  pyro: { color: '#fca5a5', bg: 'rgba(239, 68, 68, 0.14)', border: 'rgba(239, 68, 68, 0.38)' },
+  hydro: { color: '#7dd3fc', bg: 'rgba(56, 189, 248, 0.14)', border: 'rgba(56, 189, 248, 0.38)' },
+  cryo: { color: '#bae6fd', bg: 'rgba(125, 211, 252, 0.14)', border: 'rgba(125, 211, 252, 0.38)' },
+  electro: { color: '#d8b4fe', bg: 'rgba(168, 85, 247, 0.16)', border: 'rgba(168, 85, 247, 0.42)' },
+  anemo: { color: '#6ee7b7', bg: 'rgba(52, 211, 153, 0.14)', border: 'rgba(52, 211, 153, 0.38)' },
+  geo: { color: '#fde68a', bg: 'rgba(245, 158, 11, 0.16)', border: 'rgba(245, 158, 11, 0.4)' },
+  dendro: { color: '#bef264', bg: 'rgba(132, 204, 22, 0.15)', border: 'rgba(132, 204, 22, 0.4)' },
+}
+
 type OwnedFilter = 'all' | 'complete' | 'almost'
+type TeamsTab = 'principal' | 'templates'
+type TeamOriginFilter = 'all' | 'principal' | 'custom'
+type TeamSort = 'tier' | 'name' | 'recent'
+
+function isPrincipalTeam(t: TeamDetail): boolean {
+  return t.name.includes('— Principal') || (t.description ?? '').startsWith('Build importada de ')
+}
+
+function capitalize(s: string): string {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s
+}
 
 function TeamTemplateCard({
   template,
@@ -109,6 +136,17 @@ export default function TeamsPage() {
   const [chars, setChars] = useState<Map<string, CharacterSummary>>(new Map())
   const [error, setError] = useState<string | null>(null)
 
+  const [activeTab, setActiveTab] = useState<TeamsTab>('principal')
+
+  // Filtros dos Times Principais / Meus Times
+  const [teamSearch, setTeamSearch] = useState('')
+  const [teamElement, setTeamElement] = useState<string>('all')
+  const [teamTierFilter, setTeamTierFilter] = useState<string>('all')
+  const [teamOwnedFilter, setTeamOwnedFilter] = useState<OwnedFilter>('all')
+  const [teamOriginFilter, setTeamOriginFilter] = useState<TeamOriginFilter>('all')
+  const [teamSort, setTeamSort] = useState<TeamSort>('tier')
+
+  // Filtros dos Templates Multi-fonte
   const [search, setSearch] = useState('')
   const [archFilter, setArchFilter] = useState<string>('all')
   const [ownedFilter, setOwnedFilter] = useState<OwnedFilter>('all')
@@ -140,7 +178,84 @@ export default function TeamsPage() {
     }
   }
 
-  // Filtro aplicado
+  // Filtro & ordenação dos Times Principais / Meus Times
+  const filteredTeams = useMemo(() => {
+    if (!teams) return []
+    const q = teamSearch.trim().toLowerCase()
+    const filtered = teams.filter((t) => {
+      if (teamOriginFilter === 'principal' && !isPrincipalTeam(t)) return false
+      if (teamOriginFilter === 'custom' && isPrincipalTeam(t)) return false
+
+      if (teamElement !== 'all') {
+        const mainEl = (t.members[0]?.character.element ?? '').toLowerCase()
+        if (mainEl !== teamElement) return false
+      }
+
+      if (teamTierFilter !== 'all') {
+        const tier = t.team_tier?.tier ?? ''
+        if (tier !== teamTierFilter) return false
+      }
+
+      if (q) {
+        const nameMatch = t.name.toLowerCase().includes(q)
+        const memberMatch = t.members.some(
+          (m) =>
+            m.character.name.toLowerCase().includes(q) ||
+            m.character.slug.toLowerCase().includes(q),
+        )
+        const subMatch = t.members.some((m) =>
+          (m.substitutes ?? []).some((s) => {
+            if (!s.character_slug) return false
+            const sc = chars.get(s.character_slug)
+            return (
+              s.character_slug.toLowerCase().includes(q) ||
+              (sc?.name ?? '').toLowerCase().includes(q)
+            )
+          }),
+        )
+        if (!nameMatch && !memberMatch && !subMatch) return false
+      }
+
+      if (teamOwnedFilter !== 'all') {
+        const ownedCount = t.members.filter((m) => roster.get(m.character.slug).owned).length
+        const total = t.members.length
+        if (teamOwnedFilter === 'complete' && (total === 0 || ownedCount !== total)) return false
+        if (teamOwnedFilter === 'almost' && (total === 0 || ownedCount < total - 1)) return false
+      }
+
+      return true
+    })
+
+    return [...filtered].sort((a, b) => {
+      if (teamSort === 'tier') {
+        const av = a.team_tier?.value ?? -1
+        const bv = b.team_tier?.value ?? -1
+        if (bv !== av) return bv - av
+        return a.name.localeCompare(b.name)
+      }
+      if (teamSort === 'name') {
+        return a.name.localeCompare(b.name)
+      }
+      return b.id - a.id
+    })
+  }, [teams, teamSearch, teamElement, teamTierFilter, teamOwnedFilter, teamOriginFilter, teamSort, chars, roster])
+
+  const hasTeamFilters =
+    teamSearch !== '' ||
+    teamElement !== 'all' ||
+    teamTierFilter !== 'all' ||
+    teamOwnedFilter !== 'all' ||
+    teamOriginFilter !== 'all'
+
+  const resetTeamFilters = () => {
+    setTeamSearch('')
+    setTeamElement('all')
+    setTeamTierFilter('all')
+    setTeamOwnedFilter('all')
+    setTeamOriginFilter('all')
+  }
+
+  // Filtro aplicado nos Templates Multi-fonte
   const filteredTemplates = useMemo(() => {
     return templates.filter((t) => {
       if (archFilter !== 'all' && t.archetype !== archFilter) return false
@@ -175,11 +290,13 @@ export default function TeamsPage() {
       .map((a) => ({ archetype: a, items: groups.get(a)! }))
   }, [filteredTemplates])
 
-  // Lista de arquétipos disponíveis (para as pills)
   const availableArchetypes = useMemo(() => {
     const set = new Set(templates.map((t) => t.archetype))
     return ARCHETYPE_ORDER.filter((a) => set.has(a))
   }, [templates])
+
+  const principalCount = useMemo(() => (teams ?? []).filter(isPrincipalTeam).length, [teams])
+  const customCount = (teams?.length ?? 0) - principalCount
 
   return (
     <div>
@@ -190,64 +307,219 @@ export default function TeamsPage() {
 
       {error && <p className="error">Erro: {error}</p>}
 
-      {/* === Meus times === */}
-      <section className="teams-section">
-        <h2 className="teams-section-title">Meus times</h2>
+      {/* Abas principais */}
+      <div className="teams-mode-tabs" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'principal'}
+          className={`teams-mode-tab ${activeTab === 'principal' ? 'is-active' : ''}`}
+          onClick={() => setActiveTab('principal')}
+        >
+          <Sparkles size={16} />
+          <span>Times Principais &amp; Meus Times</span>
+          <span className="teams-mode-tab-count">{teams ? teams.length : '…'}</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'templates'}
+          className={`teams-mode-tab ${activeTab === 'templates' ? 'is-active' : ''}`}
+          onClick={() => setActiveTab('templates')}
+        >
+          <Layers size={16} />
+          <span>Templates Multi-fonte</span>
+          <span className="teams-mode-tab-count">{templates.length}</span>
+        </button>
+      </div>
 
-        {!teams && <p className="status">Carregando...</p>}
-        {teams && teams.length === 0 && (
-          <p className="status">
-            Você ainda não criou nenhum time. <Link to="/teams/new">Crie o primeiro</Link> ou use um template abaixo.
-          </p>
-        )}
-
-        {teams && teams.length > 0 && (
-          <div className="teams-grid">
-            {teams.map((t) => (
-              <Link key={t.id} to={`/teams/${t.id}`} className="team-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className="team-card-header">
-                  <div>
-                    <h3>
-                      {t.name}
-                      <span style={{ marginLeft: 10, verticalAlign: 'middle' }}>
-                        <TeamTierBadge teamTier={t.team_tier} size="sm" />
-                      </span>
-                    </h3>
-                    {t.author_name && <p className="team-author">por {t.author_name}</p>}
-                  </div>
-                  <button
-                    className="btn-danger"
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(t.id) }}
-                    aria-label="Apagar time"
-                    title="Apagar time"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-                {t.description && <p className="team-desc">{t.description}</p>}
-                <div className="team-members">
-                  {t.members.map((m) => {
-                    const img = iconUrl(m.character.icon)
-                    return (
-                      <span key={m.position} className="team-member" title={m.character.name}>
-                        {img ? <img src={img} alt={m.character.name} /> : <span>?</span>}
-                        <span className="team-member-name">{m.character.name}</span>
-                      </span>
-                    )
-                  })}
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* === Times recomendados (Multi-fonte) === */}
-      {templates.length > 0 && (
+      {/* === Aba 1: Times Principais & Meus Times === */}
+      {activeTab === 'principal' && (
         <section className="teams-section">
-          <h2 className="teams-section-title">
-            Times recomendados <span className="teams-section-badge">Multi-fonte</span>
-          </h2>
+          <p className="teams-section-sub">
+            Times detalhados com build completa dos 4 personagens, análise de sinergia e substitutos curados por slot.{' '}
+            {roster.hasGoodOrSeelie
+              ? <>Você tem <strong>{roster.ownedCount}</strong> personagens na conta.</>
+              : <>Importe o GOOD no Roster/Planner para ver quais times você já consegue montar.</>}
+          </p>
+
+          {/* Barra de filtros (mesmo estilo dos templates + elemento/tier/origem/ordenação) */}
+          <div className="template-filters">
+            <div className="template-filter-search">
+              <Search size={16} />
+              <input
+                type="text"
+                placeholder="Buscar time, personagem ou substituto..."
+                value={teamSearch}
+                onChange={(e) => setTeamSearch(e.target.value)}
+              />
+            </div>
+
+            <select
+              className="template-filter-select"
+              value={teamElement}
+              onChange={(e) => setTeamElement(e.target.value)}
+              aria-label="Filtrar por elemento"
+            >
+              <option value="all">Todos os elementos</option>
+              {ELEMENTS.map((el) => (
+                <option key={el} value={el}>{capitalize(el)}</option>
+              ))}
+            </select>
+
+            <select
+              className="template-filter-select"
+              value={teamTierFilter}
+              onChange={(e) => setTeamTierFilter(e.target.value)}
+              aria-label="Filtrar por tier"
+            >
+              <option value="all">Todos os tiers</option>
+              {TIER_ORDER.map((tr) => (
+                <option key={tr} value={tr}>Tier {tr}</option>
+              ))}
+            </select>
+
+            <select
+              className="template-filter-select"
+              value={teamOwnedFilter}
+              onChange={(e) => setTeamOwnedFilter(e.target.value as OwnedFilter)}
+              aria-label="Filtrar por posse na conta"
+            >
+              <option value="all">Todos os times</option>
+              <option value="complete">Só os que posso montar (4/4)</option>
+              <option value="almost">Falta 1 ou menos (3/4+)</option>
+            </select>
+
+            {principalCount > 0 && customCount > 0 && (
+              <select
+                className="template-filter-select"
+                value={teamOriginFilter}
+                onChange={(e) => setTeamOriginFilter(e.target.value as TeamOriginFilter)}
+                aria-label="Filtrar por origem"
+              >
+                <option value="all">Principais + Meus ({teams?.length ?? 0})</option>
+                <option value="principal">Principais KQM ({principalCount})</option>
+                <option value="custom">Criados por mim ({customCount})</option>
+              </select>
+            )}
+
+            <select
+              className="template-filter-select"
+              value={teamSort}
+              onChange={(e) => setTeamSort(e.target.value as TeamSort)}
+              aria-label="Ordenar times"
+            >
+              <option value="tier">Ordenar: Melhor Tier</option>
+              <option value="name">Ordenar: Nome (A–Z)</option>
+              <option value="recent">Ordenar: Mais recentes</option>
+            </select>
+
+            {hasTeamFilters && (
+              <button type="button" className="team-filter-reset" onClick={resetTeamFilters}>
+                <RotateCcw size={14} /> Limpar
+              </button>
+            )}
+
+            <span className="template-filter-count">
+              {filteredTeams.length} de {teams?.length ?? 0} times
+            </span>
+          </div>
+
+          {!teams && <p className="status">Carregando...</p>}
+          {teams && teams.length === 0 && (
+            <p className="status">
+              Você ainda não criou nenhum time. <Link to="/teams/new">Crie o primeiro</Link> ou abra a aba Templates Multi-fonte.
+            </p>
+          )}
+          {teams && teams.length > 0 && filteredTeams.length === 0 && (
+            <p className="status" style={{ padding: 20 }}>Nenhum time encontrado com esses filtros.</p>
+          )}
+
+          {filteredTeams.length > 0 && (
+            <div className="teams-grid">
+              {filteredTeams.map((t) => {
+                const ownedFlags = t.members.map((m) => roster.get(m.character.slug).owned)
+                const ownedCount = ownedFlags.filter(Boolean).length
+                const total = t.members.length
+                const isComplete = total > 0 && ownedCount === total
+                const isNone = ownedCount === 0
+                const totalSubs = t.members.reduce((acc, m) => acc + (m.substitutes?.length ?? 0), 0)
+                const mainEl = (t.members[0]?.character.element ?? '').toLowerCase()
+                const elStyle = ELEMENT_COLORS[mainEl]
+
+                return (
+                  <Link
+                    key={t.id}
+                    to={`/teams/${t.id}`}
+                    className="team-card"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <div className="team-card-header">
+                      <div className="team-card-title-block">
+                        <h3>
+                          {t.name}
+                          <span style={{ marginLeft: 10, verticalAlign: 'middle' }}>
+                            <TeamTierBadge teamTier={t.team_tier} size="sm" />
+                          </span>
+                        </h3>
+                        <div className="team-card-meta-badges">
+                          {mainEl && elStyle && (
+                            <span
+                              className="team-card-el-chip"
+                              style={{ color: elStyle.color, background: elStyle.bg, borderColor: elStyle.border }}
+                            >
+                              {capitalize(mainEl)}
+                            </span>
+                          )}
+                          <span className={`team-card-owned-pill ${isComplete ? 'is-complete' : isNone ? 'is-none' : 'is-incomplete'}`}>
+                            {isComplete ? <CheckCircle2 size={11} /> : isNone ? <UserX size={11} /> : <Users size={11} />}
+                            {ownedCount}/{total}
+                          </span>
+                          {totalSubs > 0 && (
+                            <span className="team-card-subs-pill" title={`${totalSubs} opções de substitutos curados nos slots`}>
+                              <Repeat2 size={11} /> {totalSubs} subs
+                            </span>
+                          )}
+                        </div>
+                        {t.author_name && <p className="team-author">por {t.author_name}</p>}
+                      </div>
+                      <button
+                        className="btn-danger"
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(t.id) }}
+                        aria-label="Apagar time"
+                        title="Apagar time"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                    {t.description && <p className="team-desc">{t.description}</p>}
+                    <div className="team-members">
+                      {t.members.map((m, idx) => {
+                        const img = iconUrl(m.character.icon)
+                        const hasChar = ownedFlags[idx]
+                        return (
+                          <span
+                            key={m.position}
+                            className={`team-member ${hasChar ? 'is-owned' : 'is-missing'}`}
+                            title={`${m.character.name}${hasChar ? ' (você tem)' : ' (não tem)'}`}
+                          >
+                            {img ? <img src={img} alt={m.character.name} /> : <span>?</span>}
+                            <span className="team-member-name">{m.character.name}</span>
+                          </span>
+                        )
+                      })}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* === Aba 2: Times recomendados (Multi-fonte) === */}
+      {activeTab === 'templates' && (
+        <section className="teams-section">
           <p className="teams-section-sub">
             Curados de múltiplas fontes (KQM, Game8, GameWith, Genshin.gg e YS Helper). {roster.hasGoodOrSeelie
               ? <>Você tem <strong>{roster.ownedCount}</strong> personagens na conta.</>

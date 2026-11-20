@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import CharacterBuildPreset, Character, Team, TeamCharacter, TeamTemplate, Language
+from ..models import CharacterBuildPreset, Character, CharacterTranslation, Team, TeamCharacter, TeamTemplate, Language
 from ..schemas.team import (
     TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse,
     TeamMembersUpdate, TeamTierInfo, TeamTierChar, TeamPreviewTierPayload,
@@ -20,61 +20,91 @@ from ..services.team_tier import fetch_char_tiers_batch, fetch_char_tiers_slugs,
 router = APIRouter(prefix="/teams", tags=["teams"])
 
 
-def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
-    members = (
+def _build_details_batch(db: Session, teams: list[Team], lang: Language) -> list[TeamDetail]:
+    """Monta TeamDetail para uma lista de times em ~4 queries (sem N+1)."""
+    if not teams:
+        return []
+
+    team_ids = [t.id for t in teams]
+    rows = (
         db.query(TeamCharacter, Character)
         .join(Character, Character.id == TeamCharacter.character_id)
-        .filter(TeamCharacter.team_id == team.id)
-        .order_by(TeamCharacter.position)
+        .filter(TeamCharacter.team_id.in_(team_ids))
+        .order_by(TeamCharacter.team_id, TeamCharacter.position)
         .all()
     )
-    missing_char_ids = [
-        char.id for tc, char in members if not _has_build_content(tc.build_data)
-    ]
-    fallback_presets = pick_best_presets_batch(db, missing_char_ids)
 
-    member_out = []
-    for tc, char in members:
-        data = resolve_character(db, char, lang)
-        raw_build = tc.build_data if _has_build_content(tc.build_data) else (
-            fallback_presets[char.id].build_data if char.id in fallback_presets else None
+    members_by_team: dict[int, list[tuple[TeamCharacter, Character]]] = {}
+    missing_char_ids: set[int] = set()
+    all_char_ids: set[int] = set()
+    for tc, char in rows:
+        members_by_team.setdefault(tc.team_id, []).append((tc, char))
+        all_char_ids.add(char.id)
+        if not _has_build_content(tc.build_data):
+            missing_char_ids.add(char.id)
+
+    fallback_presets = pick_best_presets_batch(db, list(missing_char_ids))
+    tier_map = fetch_char_tiers_batch(db, team_ids)
+
+    name_by_char_id: dict[int, str] = {}
+    if lang != Language.EN and all_char_ids:
+        trans_rows = (
+            db.query(CharacterTranslation.character_id, CharacterTranslation.name)
+            .filter(
+                CharacterTranslation.character_id.in_(list(all_char_ids)),
+                CharacterTranslation.language == lang,
+            )
+            .all()
         )
-        build = CharacterBuild(**raw_build) if raw_build else None
-        member_out.append(TeamMemberOut(
-            position=tc.position,
-            character=CharacterSummary(
-                slug=char.slug,
-                name=data["name"],
-                icon=char.icon,
-                rarity=char.rarity,
-                element=char.element,
-                weapon_type=char.weapon_type,
-                region=char.region,
-            ),
-            build=build,
-            substitutes=tc.substitutes or [],
+        name_by_char_id = {cid: cname for cid, cname in trans_rows if cname}
+
+    result: list[TeamDetail] = []
+    for team in teams:
+        member_out: list[TeamMemberOut] = []
+        for tc, char in members_by_team.get(team.id, []):
+            raw_build = tc.build_data if _has_build_content(tc.build_data) else (
+                fallback_presets[char.id].build_data if char.id in fallback_presets else None
+            )
+            build = CharacterBuild(**raw_build) if raw_build else None
+            member_out.append(TeamMemberOut(
+                position=tc.position,
+                character=CharacterSummary(
+                    slug=char.slug,
+                    name=name_by_char_id.get(char.id, char.name),
+                    icon=char.icon,
+                    rarity=char.rarity,
+                    element=char.element,
+                    weapon_type=char.weapon_type,
+                    region=char.region,
+                ),
+                build=build,
+                substitutes=tc.substitutes or [],
+            ))
+        team_tier_data = tier_map.get(team.id)
+        team_tier = (
+            TeamTierInfo(
+                tier=team_tier_data["tier"],
+                value=team_tier_data["value"],
+                filled=team_tier_data["filled"],
+                missing=team_tier_data["missing"],
+                char_tiers=[TeamTierChar(**c) for c in team_tier_data["char_tiers"]],
+            )
+            if team_tier_data else None
+        )
+        result.append(TeamDetail(
+            id=team.id,
+            name=team.name,
+            description=team.description,
+            author_name=team.author_name,
+            is_public=team.is_public,
+            members=member_out,
+            team_tier=team_tier,
         ))
-    tier_map = fetch_char_tiers_batch(db, [team.id])
-    team_tier_data = tier_map.get(team.id)
-    team_tier = (
-        TeamTierInfo(
-            tier=team_tier_data["tier"],
-            value=team_tier_data["value"],
-            filled=team_tier_data["filled"],
-            missing=team_tier_data["missing"],
-            char_tiers=[TeamTierChar(**c) for c in team_tier_data["char_tiers"]],
-        )
-        if team_tier_data else None
-    )
-    return TeamDetail(
-        id=team.id,
-        name=team.name,
-        description=team.description,
-        author_name=team.author_name,
-        is_public=team.is_public,
-        members=member_out,
-        team_tier=team_tier,
-    )
+    return result
+
+
+def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
+    return _build_details_batch(db, [team], lang)[0]
 
 
 @router.post("", response_model=TeamDetail, status_code=status.HTTP_201_CREATED)
@@ -153,7 +183,7 @@ def list_teams(
     db: Session = Depends(get_db),
 ) -> TeamListResponse:
     teams = db.query(Team).order_by(Team.id.desc()).all()
-    return TeamListResponse(items=[_build_detail(db, t, lang) for t in teams])
+    return TeamListResponse(items=_build_details_batch(db, teams, lang))
 
 
 @router.get("/{team_id}", response_model=TeamDetail)

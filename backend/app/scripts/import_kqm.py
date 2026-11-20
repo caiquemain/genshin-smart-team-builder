@@ -285,6 +285,76 @@ def _merge_slot_substitutes(existing: dict | None, incoming: dict[str, list[dict
     return merged
 
 
+def _resolve_valid_team_chars(db, raw_slugs: list[str]) -> list[Character]:
+    valid_chars: list[Character] = []
+    seen_ids: set[int] = set()
+    for slug in raw_slugs or []:
+        slug = normalize_slug(slug)
+        if slug in SKIP_SLUGS or PLACEHOLDER_PATTERN.match(slug):
+            continue
+        c = resolve_character(db, slug)
+        if c and c.id not in seen_ids:
+            seen_ids.add(c.id)
+            valid_chars.append(c)
+    return valid_chars[:4]
+
+
+def _pick_best_team_candidate(
+    db,
+    char: Character,
+    teams: list[dict],
+) -> tuple[list[Character], dict[str, list[str]], dict[int, list[dict]]]:
+    """Escolhe o melhor time canônico para `char` (priorizando 4 membros completos).
+
+    Se o próprio guia não trouxe Example Teams, faz fallback nos TeamTemplates do banco.
+    Retorna (valid_chars, slot_alternatives_raw, template_slot_substitutes).
+    """
+    scored: list[tuple[tuple[int, int, int], list[Character], dict]] = []
+    for idx, t in enumerate(teams or []):
+        vchars = _resolve_valid_team_chars(db, t.get("character_slugs", []))
+        if len(vchars) < 3:
+            continue
+        slugs = [c.slug for c in vchars]
+        is_full = 1 if len(vchars) == 4 else 0
+        is_main = 1 if normalize_slug(t.get("main_character", "")) == char.slug else 0
+        has_char = 1 if char.slug in slugs else 0
+        scored.append(((is_full, is_main, has_char, -idx), vchars, t.get("slot_alternatives") or {}))
+
+    if scored:
+        scored.sort(key=lambda x: x[0], reverse=True)
+        _, best_chars, best_alts = scored[0]
+        return best_chars, best_alts, {}
+
+    # Fallback: procurar melhor TeamTemplate já existente no banco que inclua `char`
+    all_tpls = db.query(TeamTemplate).all()
+    tpl_candidates: list[tuple[tuple[int, int, int, int], list[Character], dict[int, list[dict]]]] = []
+    for tpl in all_tpls:
+        slugs = tpl.character_slugs or []
+        if char.slug not in slugs:
+            continue
+        vchars = _resolve_valid_team_chars(db, slugs)
+        if len(vchars) < 3:
+            continue
+        is_full = 1 if len(vchars) == 4 else 0
+        is_main = 1 if tpl.main_character == char.slug else 0
+        prio = -source_priority(tpl.source)
+        subs_count = sum(len(v) for v in (tpl.slot_substitutes or {}).values())
+        tpl_subs: dict[int, list[dict]] = {}
+        for k, v in (tpl.slot_substitutes or {}).items():
+            try:
+                tpl_subs[int(k)] = list(v)
+            except (TypeError, ValueError):
+                pass
+        tpl_candidates.append(((is_full, is_main, prio, subs_count), vchars, tpl_subs))
+
+    if tpl_candidates:
+        tpl_candidates.sort(key=lambda x: x[0], reverse=True)
+        _, best_chars, best_subs = tpl_candidates[0]
+        return best_chars, {}, best_subs
+
+    return [], {}, {}
+
+
 def create_team_from_build(
     db,
     char,
@@ -296,42 +366,50 @@ def create_team_from_build(
     teammate_notes: dict[str, dict[str, str]] | None = None,
 ):
     """Cria Team customizável a partir do guia. Retorna True se criou."""
+    from app.services.presets import has_build_content, pick_best_preset
     from app.services.substitutes import compute_slot_substitutes_for_slugs
 
-    if not teams:
-        warnings.append(f"[team-custom] {char.slug}: sem times no guia")
-        return False
-
-    # Escolhe time: main_character == char.slug, senão primeiro
-    chosen = next((t for t in teams if normalize_slug(t.get("main_character", "")) == char.slug), None) or teams[0]
-
-    # Resolve chars válidos (aplica CHAR_ALIASES + skip placeholders)
-    valid_chars = []
-    for slug in chosen.get("character_slugs", []):
-        slug = normalize_slug(slug)
-        if slug in SKIP_SLUGS or PLACEHOLDER_PATTERN.match(slug):
-            continue
-        c = resolve_character(db, slug)
-        if c:
-            valid_chars.append(c)
-    if len(valid_chars) < 2:
-        warnings.append(f"[team-custom] {char.slug}: time inválido ({len(valid_chars)} chars)")
-        return False
-
-    # Nome (opção B)
     team_name = f"{char.name} — Principal"
     if db.query(Team).filter(Team.name == team_name).first():
         warnings.append(f"[team-custom] Team '{team_name}' já existe (skip)")
         return False
+
+    valid_chars, raw_alts, fallback_subs = _pick_best_team_candidate(db, char, teams)
+    if len(valid_chars) < 3:
+        warnings.append(f"[team-custom] {char.slug}: sem time completo encontrado")
+        return False
+
+    # Remapeia posições se o dono do time não estiver na posição 1
+    orig_order = [c.slug for c in valid_chars]
+    if char.slug in orig_order and orig_order[0] != char.slug:
+        owner_idx = orig_order.index(char.slug)
+        valid_chars = [valid_chars[owner_idx]] + [c for i, c in enumerate(valid_chars) if i != owner_idx]
+        # Reindexa slot_alternatives e fallback_subs para acompanhar a nova posição
+        new_pos_of_old: dict[int, int] = {}
+        for new_i, c in enumerate(valid_chars, start=1):
+            old_i = orig_order.index(c.slug) + 1
+            new_pos_of_old[old_i] = new_i
+        remapped_alts: dict[str, list[str]] = {}
+        for k, v in raw_alts.items():
+            try:
+                nk = new_pos_of_old.get(int(k))
+                if nk:
+                    remapped_alts[str(nk)] = v
+            except (TypeError, ValueError):
+                pass
+        raw_alts = remapped_alts
+        fallback_subs = {
+            new_pos_of_old[k]: v for k, v in fallback_subs.items() if k in new_pos_of_old
+        }
 
     # Normaliza build_data do main char
     main_bd = _normalize_build_data(db, raw_bd, warnings)
     main_bd["references"] = [{"url": source_url, "title": f"{source_name} {char.name} Guide"}]
     main_bd["substitutes"] = []
 
-    # Calcula substitutos curados por slot a partir de '/' + Notable Teammates + fallback
+    # Calcula substitutos curados por slot a partir de '/' + Notable Teammates
     valid_slugs = [c.slug for c in valid_chars]
-    slot_alts = _normalize_slot_alternatives(chosen.get("slot_alternatives"))
+    slot_alts = _normalize_slot_alternatives(raw_alts)
     computed_subs = compute_slot_substitutes_for_slugs(
         db,
         valid_slugs,
@@ -351,20 +429,19 @@ def create_team_from_build(
     db.flush()
 
     for i, c in enumerate(valid_chars, start=1):
-        if c.id == char.id:
+        if c.id == char.id and has_build_content(main_bd):
             char_bd = main_bd
         else:
-            preset = db.query(CharacterBuildPreset).filter(
-                CharacterBuildPreset.character_id == c.id,
-            ).first()
-            char_bd = dict(preset.build_data) if preset and preset.build_data else None
+            preset = pick_best_preset(db, c.id)
+            char_bd = dict(preset.build_data) if preset and has_build_content(preset.build_data) else None
 
+        subs = computed_subs.get(i) or fallback_subs.get(i, [])
         db.add(TeamCharacter(
             team_id=team.id,
             character_id=c.id,
             position=i,
             build_data=char_bd,
-            substitutes=computed_subs.get(i, []),
+            substitutes=subs,
         ))
 
     return True
@@ -610,6 +687,8 @@ def import_directory(db, input_dir: Path, create_team: bool, warnings: list[str]
             warnings.append(f"[{f.name}] {e}")
 
     if create_team:
+        if hasattr(db, "flush"):
+            db.flush()
         for f in sorted(input_dir.glob("*-build.json")):
             slug = f.stem.replace("-build", "")
             try:

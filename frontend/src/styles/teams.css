@@ -2781,3 +2781,138 @@ main.container:has(.templates-grid) {
   color: #4ade80;
   flex-shrink: 0;
 }
+
+/* === TeamsPage — Abas + Badges nos Times Principais === */
+.teams-mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  padding-bottom: 12px;
+}
+
+.teams-mode-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.teams-mode-tab:hover {
+  color: #e2e8f0;
+  border-color: rgba(125, 211, 252, 0.4);
+  background: rgba(30, 41, 59, 0.75);
+}
+
+.teams-mode-tab.is-active {
+  color: #e0f2fe;
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.12);
+}
+
+.teams-mode-tab-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.16);
+  color: #cbd5e1;
+}
+
+.teams-mode-tab.is-active .teams-mode-tab-count {
+  background: rgba(56, 189, 248, 0.25);
+  color: #7dd3fc;
+}
+
+.team-filter-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fca5a5;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.team-filter-reset:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.team-card-title-block {
+  min-width: 0;
+  flex: 1;
+}
+
+.team-card-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.team-card-el-chip,
+.team-card-owned-pill,
+.team-card-subs-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.team-card-owned-pill.is-complete {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+  border-color: rgba(34, 197, 94, 0.38);
+}
+
+.team-card-owned-pill.is-incomplete {
+  color: #fde68a;
+  background: rgba(245, 158, 11, 0.14);
+  border-color: rgba(245, 158, 11, 0.38);
+}
+
+.team-card-owned-pill.is-none {
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+.team-card-subs-pill {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.38);
+}
+
+.team-member.is-owned {
+  border-color: rgba(74, 222, 128, 0.38);
+}
+
+.team-member.is-missing {
+  opacity: 0.58;
+  border-style: dashed;
+}
+
+.team-card:hover .team-member.is-missing {
+  opacity: 0.85;
+}
+
