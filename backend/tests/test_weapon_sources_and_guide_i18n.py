@@ -156,6 +156,10 @@ def test_guide_i18n_deterministic_and_cache_lookup():
 
 def test_translate_guides_helpers_and_glossary(monkeypatch):
     assert looks_already_in_target_lang("Alternativa direta sugerida pelo guia (Healer)", "pt") is True
+    assert looks_already_in_target_lang("Meta real Abismo 7.2 — uso 9.0% (posse 29.2%)", "pt") is True
+    assert looks_already_in_target_lang("Alternativa Dendro (Suporte)", "pt") is True
+    assert looks_already_in_target_lang("Fonte: Event (Game8)", "pt") is True
+    assert looks_already_in_target_lang("8. (Helper Sheet)", "pt") is True
     assert looks_already_in_target_lang("Best-in-slot signature sword for Furina.", "pt") is False
 
     protected, tok_map = _protect_tokens("Great with 4pc Golden Troupe at C2 and R5 for high ER%.")
