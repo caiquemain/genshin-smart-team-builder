@@ -1,0 +1,833 @@
+GameWith - Your Source of the Latest Game Guides & News
+Genshin
+Genshin Impact Wiki Guide & Tips
+Search the site
+
+Main Menu
+Mitya
+Valeriy
+Snezhnaya
+Latest News
+Character List
+Tier List
+Redeem Code
+Banners
+All Weapons
+others
+Article Menu
+Event News
+Latest Update
+Updates & Latest News
+Genshin Redeem Codes
+Shadow Realm Treasure Vault
+Traveler's Gun (FPS)
+Shadow Wingdrop
+Snezhnaya Shrine of Depths
+Colorful Crystal (Mitya Only)
+Featured Characters
+Mitya
+Valeriy
+Anastasya (Tsaritsa)
+Character Guide
+Characters By Rarity
+5 Stars
+4 Stars
+Characters By Roles
+DPS	Support	Sustain
+On-Field	Off-Field
+Characters By Element
+AnemoAnemo	HydroHydro
+PyroPyro	ElectroElectro
+DendroDendro	CryoCryo
+GeoGeo
+Characters By Nation
+Mondstadt
+Liyue
+Inazuma
+Sumeru
+Fontaine
+Natlan
+Nod-Krai
+Snezhnaya
+5★ Characters
+AnemoAnemo
+Anemo TravelerAnemo Traveler	ChascaChasca
+JeanJean	Kaedehara KazuhaKaedehara Kazuha
+MizukiMizuki	VarkaVarka
+VentiVenti	WandererWanderer
+XianyunXianyun	XiaoXiao
+VesnaVesna	
+HydroHydro
+ChildeChilde	ColumbinaColumbina
+FurinaFurina	Hydro TravelerHydro Traveler
+Kamisato AyatoAyato	MonaMona
+MualaniMualani	NeuvilletteNeuvillette
+NilouNilou	KokomiKokomi
+SigewinneSigewinne	YelanYelan
+VodyanitsaVodyanitsa	
+GeoGeo
+AlbedoAlbedo	Arataki IttoArataki Itto
+ChioriChiori	Geo TravelerGeo Traveler
+LinneaLinnea	NaviaNavia
+XilonenXilonen	ZhongliZhongli
+ZibaiZibai
+ElectroElectro
+ClorindeClorinde	CynoCyno
+Electro TravelerElectro Traveler	FlinsFlins
+IneffaIneffa	KeqingKeqing
+Raiden ShogunRaiden Shogun	VaresaVaresa
+Yae MikoYae Miko	MityaMitya
+DendroDendro
+AlhaithamAlhaitham	BaizhuBaizhu
+Dendro TravelerDendro Traveler	EmilieEmilie
+KinichKinich	LaumaLauma
+NahidaNahida	NeferNefer
+TighnariTighnari
+PyroPyro
+ArlecchinoArlecchino	DehyaDehya
+DilucDiluc	DurinDurin
+Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika
+NicoleNicole	Pyro TravelerPyro Traveler
+YoimiyaYoimiya
+CryoCryo
+AloyAloy	CitlaliCitlali
+EscoffierEscoffier	EulaEula
+GanyuGanyu	Kamisato AyakaKamisato Ayaka
+LohenLohen	QiqiQiqi
+SandroneSandrone	ShenheShenhe
+SkirkSkirk	WriothesleyWriothesley
+4★ Characters
+AnemoAnemo
+IfaIfa	JahodaJahoda
+Lan YanLan Yan	LynetteLynette
+PrunePrune	SayuSayu
+Shikanoin HeizouShikanoin Heizou	SucroseSucrose
+HydroHydro
+AinoAino	BarbaraBarbara
+CandaceCandace	DahliaDahlia
+XingqiuXingqiu
+GeoGeo
+GorouGorou	IllugaIlluga
+KachinaKachina	NingguangNingguang
+NoelleNoelle	Yun JinYun Jin
+ElectroElectro
+BeidouBeidou	DoriDori
+FischlFischl	IansanIansan
+Kujou SaraKujou Sara	Kuki ShinobuKuki Shinobu
+LisaLisa	OroronOroron
+RazorRazor	SethosSethos
+AlyoshaAlyosha	ValeriyValeriy
+DendroDendro
+ColleiCollei	KavehKaveh
+KiraraKirara	YaoyaoYaoyao
+PyroPyro
+AmberAmber	BennettBennett
+ChevreuseChevreuse	GamingGaming
+ThomaThoma	XianglingXiangling
+XinyanXinyan	YanfeiYanfei
+CryoCryo
+CharlotteCharlotte	ChongyunChongyun
+DionaDiona	FreminetFreminet
+KaeyaKaeya	LaylaLayla
+MikaMika	RosariaRosaria
+Unreleased Characters
+DanicaDanica	NoyNoy
+TsaritsaTsaritsa
+Map Guide
+Mondstadt
+Anemoculus
+Anemoculus	Shrine of Depths
+Shrine of Depths
+Calla Lily
+Calla Lily	Cecilia
+Cecilia
+Dandelion Seed
+Dandelion Seed	Philanemo Mushroom
+Philanemo Mushroom
+Small Lamp Grass
+Small Lamp Grass	Valberry
+Valberry
+Windwheel Aster
+Windwheel Aster	Wolfhook
+Wolfhook
+Liyue
+Geoculus
+Geoculus	Shrine of Depths
+Shrine of Depths
+Cor Lapis
+Cor Lapis	Glaze Lily
+Glaze Lily
+Jueyun Chili
+Jueyun Chili	Noctilucous Jade
+Noctilucous Jade
+Qingxin
+Qingxin	Silk Flower
+Silk Flower
+Starconch
+Starconch	Violetgrass
+Violetgrass
+Inazuma
+Electroculus
+Electroculus	Shrine of Depths
+Shrine of Depths
+Amakumo Fruit
+Amakumo Fruit	Crystal Marrow
+Crystal Marrow
+Dendrobium
+Dendrobium	Fluorescent Fungus
+Fluorescent Fungus
+Naku Weed
+Naku Weed	Onikabuto
+Onikabuto
+Sakura Bloom
+Sakura Bloom	Sango Pearl
+Sango Pearl
+Sea Ganoderma
+Sea Ganoderma
+Sumeru
+Dendroculus
+Dendroculus	Shrine of Depths
+Shrine of Depths
+Henna Berry
+Henna Berry	Kalpalata Lotus
+Kalpalata Lotus
+Mourning Flower
+Mourning Flower	Nilotpala Lotus
+Nilotpala Lotus
+Padisarah
+Padisarah	Rukkhashava Mushroom
+Rukkhashava Mushroom
+Sand Grease Pupa
+Sand Grease Pupa	Scarab
+Scarab
+Trishiraite
+Trishiraite
+Fontaine
+Hydroculus
+Hydroculus	Shrine of Depths
+Shrine of Depths
+Beryl Conch
+Beryl Conch	Lakelight Lily
+Lakelight Lily
+Lumidouce Bell
+Lumidouce Bell	Quenepa Berry
+Quenepa Berry
+Rainbow Rose
+Rainbow Rose	Spring of the First Dewdrop
+Spring of the First Dewdrop
+Subdetection Unit
+Subdetection Unit
+Natlan
+Pyroculus
+Pyroculus	Shrine of Depths
+Shrine of Depths
+Saurian Claw Succulent
+Saurian Claw Succulent	Quenepa Berry
+Quenepa Berry
+Sprayfeather Gill
+Sprayfeather Gill	Brilliant Chrysanthemum
+Brilliant Chrysanthemum
+Withering Purpurbloom
+Withering Purpurbloom	Glowing Hornshroom
+Glowing Hornshroom
+Dracolite
+Dracolite	Skysplit Gembloom
+Skysplit Gembloom
+Nod-Krai
+Lunoculus	Shrine Of Depths
+Portable Bearing
+Portable Bearing	Moonfall Silver
+Moonfall Silver
+Frostlamp Flower
+Frostlamp Flower	Pine Amber
+Pine Amber
+Winter Icelea
+Winter Icelea	Teardrop of the Moon
+Teardrop of the Moon
+Snezhnaya
+Cryoculus	Shrine Of Depths
+Frostfairy Flower
+Frostfairy Flower	Flockingweed
+Flockingweed
+Golden Fern
+Frostlamp Flower	
+Weapons
+SwordSword	ClaymoreClaymore
+PolearmPolearm	CatalystCatalyst
+BowBow
+Forum
+Multiplayer Forum (UID Exchange)
+Friend Code Exchange Forum
+Character Builds & Weapons Forum
+Teapot Traveling Merchant Friends Exchange Forum
+
+GameWith Genshin Impact Wiki Guide & Tips All Character List for 7.2 Furina Best Build Guide
+Furina Best Build Guide
+Last Updated: November 15, 2026 11:42 AM
+
+28
+See latest comments
+Furina Best Build Guide - GameWith
+Hot Topic
+
+Featured Characters
+Mitya: Best Build / Best Teams / Materials / Signature Weapon / Gacha Banner
+Valeriy: Best Build / Best Teams / Materials
+Upcoming Character: Anastasya / Danica
+Recommended Articles
+New! Key Items: Cryoculus / Shadow Wingdrop
+New! Specialties: Kristallfold / Fairy Wormwood
+Genshin Word Game: Guess Today's Character!
+【Tool】Character Completion Tracker!
+Redeem Codes for Genshin Impact!
+Post
+Share
+Share
+Comprehensive Furina guide for Genshin Impact. Learn Furina's best build, team, artifacts, kit, and materials for this 5-Star Hydro Sub-DPS Sword user.
+
+Furina Related Articles
+Best BuildBest Build	Best TeamBest Team	Gacha BannerGacha
+Banner
+Story Hangout QuestStory Quest	Character MatsSpecialty	BiS WeaponSignature
+Weapon
+Table of Contents
+
+Character Overview
+Strengths & Weaknesses
+Best Build
+Best Weapon
+Best Artifacts
+Best Team Comp
+Team Rotation and Combos
+Basics Of Furina
+Elemental Skill, Burst & Abilities
+Constellation VS Weapon Priority
+Ascension Materials
+Talent Multipliers & Passive Details
+Lore & Story
+Furina Character Overview, Base Stats, and Tier
+Character Profile
+Furina Full Body Art
+Gacha Art
+Rarity	5 Star
+Element	HydroHydro
+Weapon	Sword
+Ascend Stat	CRIT Rate 19.2%
+Region	Fontaine
+Birthday	October 13
+Roles	Off-FieldOff-Field
+DPSDPS
+SupportSupport
+SurvivabilitySurvivability
+How To Get	Can only be pulled during Furina's Limited-Time Banner (Currently not available)
+Base Stats
+Base HP	Base ATK	Base DEF
+Lvl. 90	15,307	244	696
+Lvl. 80
+(Ascended)	14,231	227	647
+Furina is a 5-star Hydro character that wields a Sword in Genshin Impact. Her gameplay focuses on being an off-field DPS and support, utilizing her Elemental Skill (Ousia) summons and buffs characters with her Elemental Burst. She can also heal allies with her Pneuma Elemental Skill. Lore-wise, Furina was the acting Hydro Archon and the human form of Focalors.
+
+Furina's Tier & Rating
+Overall Tier
+SS
+On-Field	Off-Field	DPS	Support	Sustain
+-	SS	SS	SS	C
+In battle, Furina is the Off-Field Sub-DPS and Support who can deal both damage and buff her teammates' damage. Her Elemental Skill has two forms that can be changed via her Charged Attack, a HP-draining damage mode that summons Hydro entities that automatically attack and a stationary healing Oceanid. Her Elemental Burst activates the Universal Revelry state on all teammates that records the HP changes and buffs their damage and Healing Bonus accordingly.
+
+Rate Furina!
+Average Score
+
+0 /10 points (0 reviews)
+
+7.5
+5
+
+10
+Score!
+You may revote after 3 days
+
+Please wait while the graph is processing
+Roles & Playstyle Of Furina and Its Strengths and Weakness
+Hydro Sub-DPS and Buffer Furina
+Furina's best role is to be the Sub-DPS and buffer for her teammates. While she can be used as a healer, that playstyle doesn't work well with her Elemental Burst's buff. Moreover, her ability to apply Hydro without needing Normal Attacks from the On-Field character make her great to use for certain characters.
+
+Pros and Cons of Sub-DPS Furina
+Pros
+- Deals powerful Sub-DPS damage due to Elemental Skill scaling and Passive's buff.
+- Only needs to be built as a Damage Dealer since her team buff doesn't scale on her stats.
+- Does not need Normal Attacks to trigger her Off-Field Attacks like Xingqiu and Yelan.
+- Low Energy cost on Elemental Burst makes Furina need less Energy Recharge compared to other Burst buffers.
+- Enables certain DPS characters to use Marechaussee set to buff their Normal/Charged Attacks and CRIT Rate.
+Cons
+- HP drain effect from her Elemental Skill can be hard to mitigate without a good healer.
+Best Build for Furina
+Furina Works Best As A Sub-DPS
+Weapon	Splendor of Tranquil WatersSplendor of Tranquil Waters
+Best Artifact	Golden TroupeGolden Troupe x4
+Artifact Main Stats	Sands: HP%
+Goblet: HP%
+Circlet: CRIT Rate or DMG
+Priority Sub-Stats	CRIT Rate = CRIT DMG > Energy Recharge > HP%
+Recommended Team	FurinaSkirkEscoffierDahlia
+Stat Goals for Sub-DPS Furina
+CRIT Rate	85% (Less if using Elemental Skill CRIT Rate weapons)
+CRIT DMG	200%~
+Max HP	40,000+
+Energy Recharge	180%~
+As a Sub-DPS, Furina needs a good CR/CD ratio after achieving 40k Max HP on her. Make sure to build her Energy Recharge as well for her Burst uptime.
+
+If Furina is using Fleuve Cendre Ferryman or Festering Desire, she will need 69% CRIT Rate for Fleuve and 73% CRIT Rate for Festering Desire.
+
+Furina 's Recommended Talent Priority
+Talent	Level Up Priority
+Normal Attack: Soloist's Solicitation	★★・・・
+Salon Solitaire (Elemental Skill)	★★★★・
+Let the People Rejoice (Elemental Burst)	★★★★★
+Related Links:
+Character Build Forum
+Best Weapon for Furina
+The best weapons for Furina are CRIT stat boosting weapons. Since Furina can be easily built with a lot of HP from artifacts, you can build her CRIT stats with weapons.
+
+Premium Weapons for Furina
+Weapon	How to Get
+Rating
+Best	Splendor of Tranquil WatersSplendor of Tranquil Waters	Get from Limited Banner
+- Large CRIT DMG boost the personal damage of Furina by a large amount and allows you to focus on other stats.
+- Weapon increases HP and Elemental Skill damage great for increasing personal damage.
+2nd	Uraku MisugiriUraku Misugiri	Get from Limited Banner
+- Signature Weapon of Chiori that can only be obtained when her banner is available.
+- Boosts CRIT DMG massively and buffs Elemental Skill damage by 24%.
+- Gives a stronger Elemental Skill buff when a teammates deals Geo damage.
+3rd	Primordial Jade CutterPrimordial Jade Cutter	Get from Limited Banner
+- Limited 5-star weapon that can be obtained when it's on rate up.
+- Boosts CRIT Rate and HP for Furina.
+- The ATK buff it gives doesn't boost anything for Furina since she scales on HP only.
+4th	Wolf-FangWolf-Fang	Get from Battle Pass
+- Works best at R5.
+- Has a CRIT Rate stat and ramping buff for Elemental Skill CRIT Rate and damage.
+- Weaker than the 5-star alternatives due to the CRIT Rate stat.
+5th	Key Of Khaj-NisutKey Of Khaj-Nisut	Get from Limited Banner
+- Massively boosts HP and reaction damage.
+Aside from Furina's signature weapon, her next best options are Uraku Misugiri and Jade Cutter followed by the new BP sword and Nilou's signature weapon. Without a Geo character, Uraku Misugiri has equal strength to Jade Cutter.
+
+Free-to-Play Friendly (F2P Weapons) for Furina
+Weapon	How to Get
+Rating
+Best F2P	Festering DesireFestering Desire	Get from Limited Event
+- Obtainable from Version 1.2's flagship event.
+- Energy Recharge substat helps in Elemental Burst uptime.
+- At R5, greatly boosts Elemental Skill damage and its CRIT Rate.
+2nd
+(Forge)	SerenitySerenity's Call	Nod-Krai Craftable (Forgeable) Weapon
+- Energy Recharge substat is greater than Festering Desire for Burst uptime.
+- Boosts HP greatly when triggering an Elemental Reaction. Having 2 Nod-Krai characters can double the HP buff.
+3rd
+(Forge)	Fleuve Cendre FerrymanFleuve Cendre Ferryman	Fontaine Craftable (Forgeable) Weapon
+- Weaker version of Festering Desire's effect.
+- Only boosts Energy Recharge and Elemental Skill CRIT Rate.
+If you don't have Festering Desire, Serenity's Call is a good alternative though it does not give any CRIT stats.
+
+All Weapon List
+Furina Best Artifacts
+Furina's best artifact set is Golden Troupe since it greatly boosts her Elemental Skill Damage. For 2-pc set effects, Elemental Skill Damage and Hydro Damage work the best for her.
+
+Artifact	Recommendation
+Details
+Golden TroupeGolden Troupe	★★★★★
+- Best artifact set for boosting Furina's Off-Field damage since it's counted as Elemental Skill Damage.
+- Elemental Skill damage buff is strengthened when Furina is Off-Field.
+Golden TroupeAny Elemental Skill DMG
+Heart Of DepthAny Hydro DMG	★★★ • •
+- Best 2-pc set effects if you are still farming for Furina's full set.
+- Other 2-pc set effects like HP or CRIT stats can also be used.
+Recommended Artifact Stats
+Flower Icon	Main: Flat HP
+Sub: CRIT Rate / CRIT DMG / HP% / Energy Recharge
+Feather Icon	Main: Flat ATK
+Sub: CRIT Rate / CRIT DMG / HP% / Energy Recharge
+Sands Icon	Main: HP%
+Sub: CRIT Rate / CRIT DMG / Energy Recharge
+Goblet Icon	Main: HP% or Hydro DMG Bonus
+Sub: CRIT Rate / CRIT DMG / Energy Recharge / HP%
+Crown Icon	Main: CRIT Rate or DMG
+Sub: CRIT Rate / CRIT DMG / Energy Recharge / HP%
+Aim For 40,000 HP
+To maximize Furina's damage, it is recommended to get 40,000 HP. After reaching 40,000 HP, build CRIT Rate and CRIT DMG.
+
+Related Articles
+All Artifact List
+Artifact Rating Tool
+Best Team Comp Furina
+Any Hydro Reaction Team for Furina
+Sub-DPS	DPS	Support	Support
+FurinaFurina	SkirkSkirk	EscoffierEscoffier	DahliaDahlia (C6)
+Details
+- Furina is a Hydro Sub-DPS that can be slotted in for any Hydro reaction teams that can make use of her Hydro application. Skirk's Freeze team is one of these teams.
+- Escoffier can shred Cryo and Hydro to allow Furina to deal more damage.
+- Dahlia can enable Hydro resonance to boost Furina and Dahlia's HP for their buffs. Dahlia can be switched out for Yelan or Shenhe.
+As a Sub-DPS character with good Elemental application, Furina can be paired with any Hydro reaction DPS like Skirk (Freeze) or Mavuika (Vaporize). This makes her have versatile team comps but with the latest Lunar reaction teams, Furina is not recommended to be in them. Furina's DMG buff doesn't boost Lunar reactions and her HP drain becomes more of a disadvantage.
+
+Other Team Comps For Furina
+Free-To-Play Team Comp With Furina
+Team	Detail
+FurinaFurina	YanfeiYanfei	- F2P team comp for Furina.
+- Yanfei is the DPS while Sucrose shreds Hydro and Pyro Resistance.
+- Barbara activates Hydro Resonance for more HP on her and Furina while also providing healing.
+SucroseSucrose	BarbaraBarbara
+Best Teams For Furina
+Team Rotation of Furina and Combos
+Basic Team Rotation for Furina
+Basic Rotation for Furina
+1. Use Elemental Skill to start draining team HP.
+2. Use Elemental Burst and start stacking up Fanfare stacks for buffing the DPS.
+3. Switch to other characters.
+Furina's buff mechanic requires her to be the first character in the rotation. This is so she can stack up Fanfare stacks faster while the rotation is ongoing and letting the On-Field character have a higher damage buff.
+
+Basics Of Using Furina
+Built As a Damage Dealer
+Furina is both a Sub-DPS and Support but she can be built as a damage dealer since her buff doesn't scale on any of her stats. You will only need good Energy Recharge on her to consistently use her Elemental Burst for her buff.
+
+Uses Elemental Skill's Damage Mode More
+Despite having two modes in her Elemental Skill, Furina's Off-Field damage mode is used more since it can drain HP for her Burst's buff. It's easier to fulfill the HP change condition with HP drain instead of healing since it does not record overflow.
+
+Elemental Skill Damage and Healing is Increased by Furina's Max HP
+Damage and Healing based on Furina
+Furina's Skill multipliers for the damage and healing is scaled on her Max HP. Her 2nd Passive also boosts the damage and healing per 1k HP she has, capping the boost when she has 40k Max HP in total.
+
+First Passive Has Great Synergy to Single-Target Healers
+Healing Overflow can heal characters not on the field.
+Furina's 1st Passive allows Healing Overflow from the On-Field character to heal characters who are not on the field.
+
+Elemental Skill, Burst and Abilities Guide for Furina
+How To Use Furina?
+Abilities & Skills Of Furina
+▼A Sub-DPS/ Buff / Healer Hydro Support Character.
+▼Elemental Skill has great damage and hydro infliction.
+▼You need to have teammates have 50% HP or above.
+▼Increase & Decrease in HP gives powerful buffs.
+▼Aim for 40,000 HP when building.
+▼If you want to use healing, use Charged Attack to change Arkhe.
+▼You can walk above water making her amazing at explorations.
+A Hydro Sub-DPS That Can Provide Damage, Buff & Healing
+Furina IS The Support
+Furina is a support character that provides powerful off-field damage and gives buff to whole team. She can change her own Arkhe and provide healing to the team allowing Furina to be a member of various teams.
+
+Things Furina Can Do
+- Summon Skill that attacks enemy even when Furina is off-field.
+- Greatly increase DMG Buff or Provide healing.
+- If the active character's healing overloads, she can spread it to other teammates.
+- Continuously decrease HP of teammates.
+　└Anyone can equip Marechaussee Hunter Set
+- Both Pneuma and Ousia Arkhe can be used.
+　└ Solving Fontaine gimmicks will be a breeze.
+Elemental Skill Has Amazing Damage & Hydro Infliction
+Elemental Skill of Furina summons 3 creatures that will continuously attack enemies and inflict Hydro to them even when Furina leaves the field. The duration is 30 seconds which is longer than its cooldown. Effectively allowing players to apply Hydro to enemies without downtime..
+
+Elemental Skill Default Effects
+- Summons "Salon Members".
+- Arkhe: Ousia
+Salon Member Effect:
+- Deals Hydro DMG to nearby enemies.
+　└ Enemies attacked by on-field characters will be prioritized.
+- Drains HP from teammates with 50% and above HP and increases Salon Member DMG.
+　└ The more members with more than 50% HP, the higher the damage.
+You Need To Keep Teammate's HP Above 50%
+Recommended Off-Field Healers
+XianyunXianyun	JeanJean	SigewinneSigewinne
+BaizhuBaizhu	SayuSayu	CharlotteCharlotte
+Recommended On-Field Healers
+KokomiKokomi	NoelleNoelle	-
+To maximize the damage of Salon Members, you need to keep the team's HP above 50%. To keep your team alive while boosting the damage of Salon Members, using healers that can heal the whole team is recommended. to add in your party with Furina.
+
+Movement In HP Gives Huge Amount Of Buffs
+Furina Maxed Out Buff When Its Pink
+▲Once the Pink Aura is on the sides, it marks that you have the maximum amount of buff.
+
+After using Furina's Elemental Burst, increasing and decreasing the team's HP will increase the damage and healing bonus of the team. This Elemental Burst is especially good with characters that possesses a life-drain and self-healing abilities since they allow faster buff gain. Consider this when thinking of a team comp for Furina.
+
+Effects Of Elemental Burst
+- Every 1% increase or decrease of HP of teammates get 1 "Tension"
+　└Max 300 Tension points.
+- Based on Tension, the Healing received and DMG Bonus will increase.
+　└DMG Buff: 0.25%/ Pt、Healing Bonus:0.1%/ Pt (Talent Lvl. 10)
+- After the duration, all Tension is cleared.
+Sample Of HP Increase / Decrease
+- Self DMG based on Talent. (Neuvillette, Lyney, and other characters)
+- Healing HP using Skills.
+- Team DMG from Furina's Elemental Skill.
+- Receive damage from enemies attack.
+- Damage from Bloom reactions (Burgeon /Bloom).
+Aim For A 40,000 HP When Building Furina
+HP Related Abilities
+HP Scaling DMG:
+- Elemental Skill (Salon Member) damage.
+- Elemental Burst damage.
+Passive Talent:
+- For every 1000 HP, increase DMG of Elemental Skill.
+　└ Salon Member DMG +0.7%(Max 28%)
+　└ Singer Of Many Waters healing Intervals -0.4%(Max 16%)
+Furina's Elemental Skill and Burst DMG all scales from HP so prioritizing HP over ATK is important. The buff from talents also uses HP so to maximize buff having 40,000 HP with Artifacts and Resonance is recommended.
+
+For Healing Use Charged Attack To Change Arkhe
+▲You will remove the damage from Elemental Skill so this is not recommended unless there is an emergency.
+
+Furina's Charged Attack will change the Arkhe of Furina. You can change Arkhe before or after using Elemental Skill.. You can use the healing form during emergencies but it will decrease the damage of Furina so using a separate healer is recommended.
+
+Elemental Skill (After Change) Effects
+- Use Charged Attack of Furina to switch.
+- Summons "Singer Of Many Waters" and heals characters that surrounds it
+- Arkhe: Pneuma
+Elemental Skill Allows You To Walk On Water Surface
+Furina Walks In Waters
+When Elemental Skill is active, Furina can walk above water. This is especially great for exploration. However, it will lose its effect once you switch characters so be careful.
+
+Should You Pull for Furina's Constellation Or Best Weapon?
+Prioritize Furina's Constellations
+Signature VS Constellations
+C2 > C1 > Splendor of Tranquil WatersSplendor of Tranquil Waters
+C2 is a Good Stopping Point
+While Furina's signature weapon improves her personal damage, as a supportive character, upgrading her buffing potential can be the more impactful choice. Her C1, and by extension C2, significantly increase her value as a buffing character, allowing you to quickly gain Fanfare stacks as well as receive slightly more DMG% bonus if you go over the maximum amount of Fanfare. C2 will also boost Furina's damage output, which makes it a good stopping point if you aren't going all the way to C6.
+
+In contrast, you can comfortably use her best 4-star weapon options, such as Festering Desire or Fleuve Cendre Ferryman, over Splendor of Tranquil Waters without noticing any significant drop in performance, which makes her weapon not as important.
+
+Furina's Constellations & Effects
+Rating	Constellation
+Effect
+★★★・・	C1: Love Is A Rebellious Bird That None Can Tame
+When using Let The People Rejoice, Furina will gain 150 Fanfare.
+Additionally, Furina's Fanfare Limit is increased by 100.
+★★★★★	C2: A Woman Adapts Like Duckweed In Water
+While Let The People Rejoice lasts, Furina's Fanfare gain from increases or decreases in nearby characters' HP is increased by 250%. Each point of Fanfare above the limit will increase Furina's Max HP by 0.35%. Her maximum Max HP increase is 140%.
+★★・・・	C3: My Secret Is Hidden Within Me, No One Will Know My Name
+Increases the Level of Let The People Rejoice by 3. Maximum upgrade level is 15.
+★★★・・	C4: They Know Not Life, Who Dwelt In The Netherworld Not!
+When the Salon Members from Salon Solitaire hit an opponent, or the Singer of Many Waters restores HP to nearby active characters. Furina will restore 4 Energy. This effect can be triggered once every 5s.
+★★★★・	C5: His Name I Now Know, It Is...!
+Increases the Level of Salon Solitaire by 3. Maximum upgrade level is 15.
+★★★・・	C6: Hear Me - Let Us Raise The Chalice Of Love!
+When using Salon Solitaire, Furina gains "Center Of Attention" for 10s. Throughout the duration, Furina's Normal Attacks, Charged Attacks, and Plunging Attacks are converted into Hydro DMG which cannot be overridden by any other elemental infusion. DMG is also increased by an amount equivalent to 18% of Furina's max HP.
+Throughout the duration, Furina's Normal Attacks (not including Arkhe: Seats Sacred and Secular Attacks), Charged Attacks, and the impact of Plunging Attacks will cause different effects up to every 0.1s after hitting opponents depending on her current Arkhe alignment.
+Furina's Constellation Name is Animula Choragi
+Animula Choragi
+Animula Choragi
+Ascension Materials for Furina Talents & Level
+Character Level
+Talent
+Materials Per Ascension Level
+Lvl 20	Varunada Lazurite SliverVarunada Lazurite Sliver x1
+Lakelight LilyLakelight Lily x3
+Whopperflower NectarWhopperflower Nectar x3
+Lvl 40	Varunada Lazurite FragmentVarunada Lazurite Fragment x3
+Water That Failed To TranscendWater That Failed To Transcend x2
+Lakelight LilyLakelight Lily x10
+Whopperflower NectarWhopperflower Nectar x15
+Lvl 50	Varunada Lazurite FragmentVarunada Lazurite Fragment x9
+Water That Failed To TranscendWater That Failed To Transcend x4
+Lakelight LilyLakelight Lily x20
+Shimmering NectarShimmering Nectar x12
+Lvl 60	Varunada Lazurite ChunkVarunada Lazurite Chunk x6
+Water That Failed To TranscendWater That Failed To Transcend x8
+Lakelight LilyLakelight Lily x30
+Shimmering NectarShimmering Nectar x18
+Lvl 70	Varunada Lazurite ChunkVarunada Lazurite Chunk x3
+Water That Failed To TranscendWater That Failed To Transcend x12
+Lakelight LilyLakelight Lily x45
+Energy NectarEnergy Nectar x12
+Lvl 80	Varunada Lazurite GemstoneVarunada Lazurite Gemstone x6
+Water That Failed To TranscendWater That Failed To Transcend x20
+Lakelight LilyLakelight Lily x60
+Energy NectarEnergy Nectar x24
+Related Links
+Item Exchange Thread
+Furina Skills & Talents Details
+Normals
+Skills
+Burst
+Passive
+Normal Attack: Soloist's Solicitation
+Normal Attack
+Effect
+Performs up to 4 consecutive strikes.
+Lv1	Lv2	Lv3	Lv4	Lv5	Lv6	Lv7	Lv8	Lv9	Lv10	Lv11
+1-Hit DMG	48.4%	52.3%	56.3%	61.9%	65.8%	70.3%	76.5%	82.7%	88.9%	95.6%	102.4%
+2-Hit DMG	43.7%	47.3%	50.8%	55.9%	59.5%	63.6%	69.2%	74.7%	80.3%	86.4%	92.5%
+3-Hit DMG	55.1%	59.6%	64.1%	70.5%	75%	80.1%	87.2%	94.2%	101.3%	109%	116.6%
+4-Hit DMG	73.3%	79.3%	85.2%	93.8%	99.7%	106.5%	115.9%	125.3%	134.7%	144.9%	155.1%
+▲Use side-scroll to see percentage per level.
+
+Charged Attack
+Effect
+Consumes a certain amount of Stamina to unleash a solo dance, dealing Physical DMG to nearby opponents and changing her Arkhe alignment. If Salon Members or Singer of Many Waters summoned by her Elemental Skill "Salon Solitaire" are present, their lineup will switch in response.
+Lv1	Lv2	Lv3	Lv4	Lv5	Lv6	Lv7	Lv8	Lv9	Lv10	Lv11
+Charged
+Attack DMG	74.2%	80.3%	86.3%	94.9%	101%	107.9%	117.4%	126.9%	136.4%	146.7%	157.1%
+Charged
+Attack
+Stamina Cost	20	20	20	20	20	20	20	20	20	20	20
+▲Use side-scroll to see percentage per level.
+
+Arkhe: Seats Sacred And Secular
+Effect
+At intervals, when Furina's Normal Attacks hit, a Spiritbreath Thorn or a Surging Blade will descend based on her current alignment, dealing Hydro DMG based on her current alignment. When Furina takes the field, her starting Arkhe will be Ousia.
+Lv1	Lv2	Lv3	Lv4	Lv5	Lv6	Lv7	Lv8	Lv9	Lv10	Lv11
+Spiritbreath
+Thorn/Surging
+Blade DMG	9.5%	10.2%	11%	12.1%	12.9%	13.8%	15%	16.2%	17.4%	18.7%	20%
+Spiritbreath
+Thorn/Surging
+Blade DMG
+Interval	6s	6s	6s	6s	6s	6s	6s	6s	6s	6s	6s
+▲Use side-scroll to see percentage per level.
+
+Plunging Attack
+Effect
+Plunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.
+Lv1	Lv2	Lv3	Lv4	Lv5	Lv6	Lv7	Lv8	Lv9	Lv10	Lv11
+Plunge DMG	63.9%	69.1%	74.3%	81.8%	87%	92.9%	101.1%	109.3%	117.5%	126.4%	135.3%
+Low
+Plunge
+DMG	128%	138%	149%	164%	174%	186%	202%	219%	235%	253%	271%
+High
+Plunge
+DMG	160%	173%	186%	204%	217%	232%	253%	273%	293%	316%	338%
+▲Use side-scroll to see percentage per level.
+
+Who Is Furina?
+The Hydro Archon Of Fontaine
+Furina
+Furina is known by all as the Hydro Archon, ruler of Fontaine. When the Traveler first met her, she was at the very spotlight of Fontaine. Some would even say she is the nation's biggest celebrity.
+
+The Human Self Of The Hydro Archon
+Furina Fake Archon
+In reality, Furina is not the Hydro Archon. She's actually the human self of Focalors, the real Hydro Archon, that she separated from herself. She cursed Furina to be undying so the latter could play the role of the Archon while she prepared for her plan.
+
+A Master Of Theater
+Furina Actress
+Once freed from her "role", Furina found herself back to what she loved: being on stage. She is a talented actress and a great director, making her a master of the theater. She even gained a Hydro Vision when she decided to go back on the stage.
+
+Furina's Promotional Videos
+Teaser
+Demo
+
+Character Teasers are 2D animated videos showcasing the character's personality and lore. Travelers can watch Furina's character teaser above.
+
+Furina Voice Actor & Their Notable Roles
+Furina Voice Actor
+English Voice Actor: Amber Lee Connors
+Notable Roles
+Keijo!!!!!!!!	Nozomi Kaminashi
+A Silent Voice	Miki Kawai
+Azure Lane	Akagi
+Japanese Voice Actor: MINASE Inori
+Notable Roles
+The Quintessential Quintuplets	Itsuki Nakano
+Is It Wrong to Try to Pick Up Girls in a Dungeon?	Hestia
+Re:ZERO -Starting Life in Another World-	Rem
+Character Related Articles
+Character Tier Lists
+Tier Lists
+Best Characters Tier List for April 2026 (Luna 5)Best Characters Tier List
+Best Teams For Each Character	Meta Team Comps
+All Characters
+Characters By Rarity
+★5★5	★4★4
+Characters By Roles
+DPS List	Support List	Sustain List
+On-Field List	Off-Field List
+Characters By Element
+PyroPyro	HydroHydro	AnemoAnemo	ElectroElectro
+DendroDendro	CryoCryo	GeoGeo
+Characters By Nation
+MondstadtMondstadt	LiyueLiyue	Inazuma
+Sumeru	FontaineFontaine	NatlanNatlan
+SnezhnayaSnezhnaya	Nod-KraiNod-Krai
+List Of All Characters
+Post
+Share
+Share
+Have some feedback? Click here
+Article Written by
+GameWith Genshin Strategy Team
+GameWith Genshin Strategy Team
+Reader Comments
+Submit
+idk28
+whats a good team with furina and clorinde
+
+618 days ago | Report
+Anonymous27
+Can she work in a vaporizing team with Hu Tao?
+I have seen this lineup recommended in another page but they don't offer explanation:
+Hu Tao, Furina, Yelan, Xianyun
+
+620 days ago | Report
+Anonymous26
+best sub dps for hydro ngl n her healing is rlly good
+
+1075 days ago | Report
+Anonymous25
+i faild 50/50 and got her at 79 pity and got to say its worth it she has damage, healing and dmg buffing
+
+1091 days ago | Report
+Seo24
+I didn't like her at first, but when you build her decently and learn how to use her abilities, I can say she turns into a great character.
+
+1095 days ago | Report
+Read on
+Copyright Notice
+© All rights reserved by miHoYo.
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+
+Most Popular
+All Pyroculus Locations & Map 
+All Pyroculus Locations & Map1
+Greenwave Sunfish Location & How To Get
+Greenwave Sunfish Location & How To Get2
+Hangout Guide For Barbara Walkthrough & All Endings
+Hangout Guide For Barbara Walkthrough & All Endings3
+Lunoculus Map Guide & Locations
+Lunoculus Map Guide & Locations4
+Best Teams for Mitya
+Best Teams for Mitya5
+Read on 
+Featured Titles
+Fate/Grand Order (English)
+Fate/Grand Order (English)
+Subnautica 2
+Subnautica 2
+Neverness to Everness
+Neverness to Everness
+Seven Knights Rebirth
+Seven Knights Rebirth
+Genshin Impact
+Genshin Impact
+LET IT DIE: INFERNO
+LET IT DIE: INFERNO
+Mongil: Star Dive
+Mongil: Star Dive
+Kaiju No. 8 The Game
+Kaiju No. 8 The Game
+Chaos Zero Nightmare
+Chaos Zero Nightmare
+Sword of Convallaria
+Sword of Convallaria
+Shadowverse: Worlds Beyond
+Shadowverse: Worlds Beyond
+Stardew Valley
+Stardew Valley
+Pokemon Legends Arceus
+Pokemon Legends Arceus
+Resident Evil 5
+Resident Evil 5
+Pokemon Scarlet and Violet
+Pokemon Scarlet and Violet
+View List
+Hot off the Grill
+Genshin Impact Vesna Build Guide
+Genshin Impact Vodyanitsa Build Guide
+Seven Knights Rebirth | Buffed Judas Guide
+Seven Knights Rebirth | Eve Guide
+Subnautica 2 | Biomes Location Map Guide
+Top Help CenterAbout UsTerms of UseCreation GuidelinesPrivacy PolicyContact UsGameWith(日本語)
+Copyright (C) GameWith All Rights Reserved.

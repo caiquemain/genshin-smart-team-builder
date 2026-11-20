@@ -1,0 +1,144 @@
+{
+  "source": "GameWith",
+  "source_slug": "gamewith",
+  "source_url": "https://gamewith.net/genshin-impact/",
+  "character_slug": "neuvillette",
+  "build": {
+    "name": "GameWith Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome Of The Eternal Flow",
+          "rarity": 5,
+          "notes": "[Best] Get from Limited Banner. Signature weapon of Neuvillette. Amazing HP and Charged Attack DMG buff boosting the damage of Neuvillette. Amazing CRIT DMG is also amazing for building."
+        },
+        {
+          "weapon_slug": "nocturne-s-curtain-call",
+          "weapon_name": "Nocturne's Curtain Call",
+          "rarity": 5,
+          "notes": "[2nd] Get from Limited Banner. Signature Weapons of Columbina and Mualani that are only obtainable from pulling when they're on rate up as well. Both are CRIT DMG sub stat and has an HP buffing effect. Columbina's Signature Weapon gives 4% more HP bu"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up",
+          "rarity": 5,
+          "notes": "[2nd] Get from Limited Banner. Signature Weapons of Columbina and Mualani that are only obtainable from pulling when they're on rate up as well. Both are CRIT DMG sub stat and has an HP buffing effect. Columbina's Signature Weapon gives 4% more HP bu"
+        },
+        {
+          "weapon_slug": "jadefall-s-splendor",
+          "weapon_name": "Jadefall's Splendor",
+          "rarity": 5,
+          "notes": "[3rd] Get from Limited Banner. Signature Weapon of Baizhu that's only obtainable from pulling when he's on rate up as well. HP stat stick weapon that also buffs Elemental DMG Bonus for Neuvillette when he uses his Burst."
+        },
+        {
+          "weapon_slug": "everlasting-moonglow",
+          "weapon_name": "Everlasting Moonglow",
+          "rarity": 5,
+          "notes": "[4th] Get from Limited Banner. Signature Weapon of Kokomi that's only obtainable from pulling when she's on rate up as well. Another HP stat stick but doesn't buff DMG stats that Neuvillette uses."
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "[5th] Get from Limited Banner. Signature Weapon of Wriothesley that's only obtainable from pulling when he's on rate up as well. CRIT Rate substat is worse than CRIT DMG or HP substat but it can buff Charged Attack DMG."
+        },
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 5,
+          "notes": "[6th] Get from Banners. Obtainable from all Banners. CRIT DMG substat makes it great for Neuvillette but has an RNG buff. Only Elemental DMG Bonus and Elemental Mastery are good for Neuvillette and can outdamage his 2nd best weapon if it's R5 and got"
+        },
+        {
+          "weapon_slug": "waveriding-whirl",
+          "weapon_name": "Waveriding Whirl",
+          "rarity": 5,
+          "notes": "[7th] Get from Limited Banners. Obtainable as a 4-Star weapon rate up in weapon banner. Can boost HP better than Jadefall but requires at least 1 other Hydro character aside from Neuvillette. Energy Recharge substat is great but not better than CRIT "
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "[Best F2P] Forgeable (Craftable) Weapon. HP stat stick that can also regenerate Energy for Neuvillette. It can also provide some healing to the team, giving this weapon some synergy to Furina."
+        },
+        {
+          "weapon_slug": "ash-graven-drinking-horn",
+          "weapon_name": "Ash-Graven Drinking Horn",
+          "rarity": 4,
+          "notes": "[2nd (Event/ Forge)] Get from Limited Event. Obtainable from Version 5.0's flagship event (Ash-Graven) while Ring of Yaxche is a craftable weapon from Natlan. Ash-Graven has a passive for dealing AoE physical DMG based on HP but otherwise is the same"
+        },
+        {
+          "weapon_slug": "ring-of-yaxche",
+          "weapon_name": "Ring Of Yaxche",
+          "rarity": 4,
+          "notes": "[2nd (Event/ Forge)] Get from Limited Event. Obtainable from Version 5.0's flagship event (Ash-Graven) while Ring of Yaxche is a craftable weapon from Natlan. Ash-Graven has a passive for dealing AoE physical DMG based on HP but otherwise is the same"
+        },
+        {
+          "weapon_slug": "mappa-mare",
+          "weapon_name": "Mappa Mare",
+          "rarity": 4,
+          "notes": "[3rd (Forge)] Forgeable (Craftable) Weapon. Elemental Mastery stat stick that can also buff Elemental DMG Bonus. While both stats are good for Neuvillette, they perform worse than a weapon that buffs more than 40% HP for Neuvillette."
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Best set for buffing Neuvillette's Charged Attack DMG and CRIT Rate. Allows you to focus building his CRIT DMG and HP in stats for damage."
+        },
+        {
+          "artifact_set_slug": "heart-of-depth",
+          "artifact_set_name": "Heart of Depth",
+          "notes": "2nd best set for Neuvillette's DMG since it buffs Hydro DMG Bonus and Charged Attack DMG."
+        },
+        {
+          "artifact_set_slug": "wanderer-s-troupe",
+          "artifact_set_name": "Wanderer's Troupe",
+          "notes": "Gives a bigger Charged Attack DMG buff and also buffs Elemental Mastery by 80. EM buff is useful for reactions."
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "marechaussee-hunter",
+          "set1_name": "Marechaussee Hunter",
+          "set2_slug": "tenacity-of-the-millelith",
+          "set2_name": "Tenacity Of The Millelith",
+          "notes": "Best 2-piece set effects for buffing Neuvillette's damage. Use only if you are still farming for his full set."
+        }
+      ],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg",
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_dmg",
+        "hp_pct",
+        "crit_rate",
+        "er",
+        "em"
+      ],
+      "er_requirement": "180%~",
+      "talent_priority": "Normal > Burst > Skill",
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://gamewith.net/genshin-impact/",
+          "title": "GameWith Neuvillette Build Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [],
+  "tier_ratings": {
+    "Overall": "S",
+    "On-Field": "S",
+    "DPS": "S"
+  }
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "character_slugs": [
+      "furina",
+      "skirk",
+      "escoffier",
+      "dahlia"
+    ],
+    "main_character": "furina",
+    "raw_line": "Any Hydro Reaction Team for Furina (Furina — Skirk — Escoffier — Dahlia)",
+    "description": "Furina is a Hydro Sub-DPS that can be slotted in for any Hydro reaction teams that can make use of her Hydro application. Skirk's Freeze team is one of these teams. Escoffier can shred Cryo and Hydro to allow Furina to deal more damage. Dahlia can enable Hydro resonance to boost Furina and Dahlia's ",
+    "slot_alternatives": {
+      "4": [
+        "yelan",
+        "shenhe"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "yanfei",
+      "sucrose",
+      "barbara"
+    ],
+    "main_character": "furina",
+    "raw_line": "Free-To-Play Team Comp With Furina (Furina — Yanfei — Sucrose — Barbara)",
+    "description": "F2P team comp for Furina. Yanfei is the DPS while Sucrose shreds Hydro and Pyro Resistance. Barbara activates Hydro Resonance for more HP on her and Furina while also providing healing.",
+    "slot_alternatives": {}
+  }
+]

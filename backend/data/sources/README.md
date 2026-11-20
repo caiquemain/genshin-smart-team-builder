@@ -10,7 +10,7 @@ Salve os arquivos `.txt` (copiados do guia do personagem) usando o slug do perso
 | `kqm/` | KeqingMains (`keqingmains.com`) | Ativo (`parse_kqm_guide.py`) |
 | `game8/` | Game8 (`game8.co`) | Ativo (`parsers/game8.py`) |
 | `genshingg/` | Genshin.gg (`genshin.gg`) | Ativo (`parsers/genshingg.py`) |
-| `gamewith/` | GameWith (`gamewith.net`) | Estrutura pronta — adicione 1 `.txt` de amostra para ativar |
+| `gamewith/` | GameWith (`gamewith.net`) | Ativo (`parsers/gamewith.py`) |
 | `helper_sheet/` | Genshin Impact Helper Team Sheet | Estrutura pronta — adicione 1 `.txt`/`.csv` de amostra para ativar |
 
 ## Como processar e importar

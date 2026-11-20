@@ -1,0 +1,42 @@
+[
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "xilonen",
+      "furina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Hypercarry Team for Neuvillette (Neuvillette — Ineffa — Xilonen — Furina)",
+    "description": "Neuvillette needs at least 2 reactions for his passive. Ineffa provides Lunar-Charged and Xilonen provides Hydro Crystallize. Ineffa can buff EM and shields, Xilonen boosts Elemental DMG and provides healing to offset Furina's HP drain while buffing Neuvillette's damage. The Furina-Xilonen duo is on",
+    "slot_alternatives": {
+      "4": [
+        "columbina"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "escoffier",
+      "furina",
+      "citlali"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette Freeze Team (Neuvillette — Escoffier — Furina — Citlali)",
+    "description": "Freeze team for Neuvillette. Escoffier and Citlali can provide shred support while Furina buffs Neuvillette's damage. Escoffier's healing can offset Furina's HP drain.",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "lan-yan",
+      "fischl",
+      "yaoyao"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Free To Play Team Comp for Neuvillette (Neuvillette — Lan Yan — Fischl — Yaoyao)",
+    "description": "F2P Hyperbloom team for Neuvillette. Lan Yan provides shielding and VV shred while Fischl and Yaoyao applies Electro and Dendro. All three can trigger reactions with Neuvillette's Hydro attacks.",
+    "slot_alternatives": {}
+  }
+]

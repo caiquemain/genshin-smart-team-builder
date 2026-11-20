@@ -18,6 +18,7 @@ from typing import Callable
 from ..parse_kqm_guide import parse_guide as parse_kqm_guide
 from .game8 import parse_guide as parse_game8_guide
 from .genshingg import parse_guide as parse_genshingg_guide
+from .gamewith import parse_guide as parse_gamewith_guide
 
 
 @dataclass(frozen=True)
@@ -51,7 +52,7 @@ SOURCES: dict[str, SourceConfig] = {
         slug="gamewith",
         display_name="GameWith",
         base_url="https://gamewith.net/genshin-impact/",
-        parser=None,
+        parser=parse_gamewith_guide,
     ),
     "helper_sheet": SourceConfig(
         slug="helper_sheet",

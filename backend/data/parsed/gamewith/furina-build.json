@@ -1,0 +1,112 @@
+{
+  "source": "GameWith",
+  "source_slug": "gamewith",
+  "source_url": "https://gamewith.net/genshin-impact/",
+  "character_slug": "furina",
+  "build": {
+    "name": "GameWith Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "[Best] Get from Limited Banner. Large CRIT DMG boost the personal damage of Furina by a large amount and allows you to focus on other stats. Weapon increases HP and Elemental Skill damage great for increasing personal damage."
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "[2nd] Get from Limited Banner. Signature Weapon of Chiori that can only be obtained when her banner is available. Boosts CRIT DMG massively and buffs Elemental Skill damage by 24%. Gives a stronger Elemental Skill buff when a teammates deals Geo dama"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "[3rd] Get from Limited Banner. Limited 5-star weapon that can be obtained when it's on rate up. Boosts CRIT Rate and HP for Furina. The ATK buff it gives doesn't boost anything for Furina since she scales on HP only."
+        },
+        {
+          "weapon_slug": "wolf-fang",
+          "weapon_name": "Wolf-Fang",
+          "rarity": 4,
+          "notes": "[4th] Get from Battle Pass. Works best at R5. Has a CRIT Rate stat and ramping buff for Elemental Skill CRIT Rate and damage. Weaker than the 5-star alternatives due to the CRIT Rate stat."
+        },
+        {
+          "weapon_slug": "key-of-khaj-nisut",
+          "weapon_name": "Key Of Khaj-Nisut",
+          "rarity": 5,
+          "notes": "[5th] Get from Limited Banner. Massively boosts HP and reaction damage."
+        },
+        {
+          "weapon_slug": "festering-desire",
+          "weapon_name": "Festering Desire",
+          "rarity": 4,
+          "notes": "[Best F2P] Get from Limited Event. Obtainable from Version 1.2's flagship event. Energy Recharge substat helps in Elemental Burst uptime. At R5, greatly boosts Elemental Skill damage and its CRIT Rate."
+        },
+        {
+          "weapon_slug": "serenity-s-call",
+          "weapon_name": "Serenity's Call",
+          "rarity": 4,
+          "notes": "[2nd (Forge)] Nod-Krai Craftable (Forgeable) Weapon. Energy Recharge substat is greater than Festering Desire for Burst uptime. Boosts HP greatly when triggering an Elemental Reaction. Having 2 Nod-Krai characters can double the HP buff."
+        },
+        {
+          "weapon_slug": "fleuve-cendre-ferryman",
+          "weapon_name": "Fleuve Cendre Ferryman",
+          "rarity": 4,
+          "notes": "[3rd (Forge)] Fontaine Craftable (Forgeable) Weapon. Weaker version of Festering Desire's effect. Only boosts Energy Recharge and Elemental Skill CRIT Rate."
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "Best artifact set for boosting Furina's Off-Field damage since it's counted as Elemental Skill Damage. Elemental Skill damage buff is strengthened when Furina is Off-Field."
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "golden-troupe",
+          "set1_name": "Golden Troupe",
+          "set2_slug": "heart-of-depth",
+          "set2_name": "Heart Of Depth",
+          "notes": "Best 2-pc set effects if you are still farming for Furina's full set. Other 2-pc set effects like HP or CRIT stats can also be used."
+        }
+      ],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hp_pct",
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "er",
+        "hp_pct"
+      ],
+      "er_requirement": "180%~",
+      "talent_priority": "Burst > Skill > Normal",
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://gamewith.net/genshin-impact/",
+          "title": "GameWith Furina Build Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [],
+  "tier_ratings": {
+    "Overall": "SS",
+    "Off-Field": "SS",
+    "DPS": "SS",
+    "Support": "SS",
+    "Sustain": "C"
+  }
+}
