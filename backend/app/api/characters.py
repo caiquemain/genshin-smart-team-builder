@@ -140,7 +140,9 @@ def get_character_build(slug: str, db: Session = Depends(get_db)):
     char = db.query(Character).filter(Character.slug == slug).one_or_none()
     if not char:
         raise HTTPException(status_code=404, detail="Character not found")
-    preset = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).first()
+    from ..services.presets import pick_best_preset
+
+    preset = pick_best_preset(db, char.id)
     if not preset:
         return None
     return {"name": preset.name, "build_data": preset.build_data}

@@ -10,6 +10,7 @@ from ..schemas.team import (
 from ..schemas.build import CharacterBuild, TeamBuildsUpdate, Substitute
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
+from ..services.presets import has_build_content as _has_build_content, pick_best_preset, pick_best_presets_batch
 from ..services.substitutes import compute_slot_substitutes_for_slugs
 from ..services.synergy import analyze_team
 from ..schemas.team_analysis import TeamAnalysisRequest, TeamAnalysisResponse
@@ -17,19 +18,6 @@ from .deps import get_language
 from ..services.team_tier import fetch_char_tiers_batch, fetch_char_tiers_slugs, compute_team_tier
 
 router = APIRouter(prefix="/teams", tags=["teams"])
-
-
-def _has_build_content(data: dict | None) -> bool:
-    if not data or not isinstance(data, dict):
-        return False
-    list_keys = (
-        "weapons", "artifacts_4pc", "artifacts_2pc",
-        "sands_stat", "goblet_stat", "circlet_stat",
-        "substat_priority", "combos", "references",
-    )
-    if any(bool(data.get(k)) for k in list_keys):
-        return True
-    return any(bool(data.get(k)) for k in ("er_requirement", "talent_priority", "notes"))
 
 
 def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
@@ -40,10 +28,18 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
         .order_by(TeamCharacter.position)
         .all()
     )
+    missing_char_ids = [
+        char.id for tc, char in members if not _has_build_content(tc.build_data)
+    ]
+    fallback_presets = pick_best_presets_batch(db, missing_char_ids)
+
     member_out = []
     for tc, char in members:
         data = resolve_character(db, char, lang)
-        build = CharacterBuild(**tc.build_data) if _has_build_content(tc.build_data) else None
+        raw_build = tc.build_data if _has_build_content(tc.build_data) else (
+            fallback_presets[char.id].build_data if char.id in fallback_presets else None
+        )
+        build = CharacterBuild(**raw_build) if raw_build else None
         member_out.append(TeamMemberOut(
             position=tc.position,
             character=CharacterSummary(
@@ -134,11 +130,7 @@ def create_team(
         build_data = None
         substitutes: list[dict] = []
         if payload.auto_populate:
-            preset = (
-                db.query(CharacterBuildPreset)
-                .filter(CharacterBuildPreset.character_id == char.id)
-                .first()
-            )
+            preset = pick_best_preset(db, char.id)
             if preset and _has_build_content(preset.build_data):
                 build_data = dict(preset.build_data)
             substitutes = template_subs.get(i) or computed_subs.get(i, [])
@@ -253,15 +245,15 @@ def update_team_members(
             # O slot já existe. Apenas trocamos o personagem e mantemos os substitutos!
             if tc.character_id != char.id:
                 tc.character_id = char.id
-                preset = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).first()
-                tc.build_data = preset.build_data if preset else None
+                preset = pick_best_preset(db, char.id)
+                tc.build_data = dict(preset.build_data) if preset else None
             tc.position = pos
         else:
             # Cria um slot novo
             tc = TeamCharacter(team_id=team_id, character_id=char.id, position=pos)
-            preset = db.query(CharacterBuildPreset).filter(CharacterBuildPreset.character_id == char.id).first()
+            preset = pick_best_preset(db, char.id)
             if preset:
-                tc.build_data = preset.build_data
+                tc.build_data = dict(preset.build_data)
             db.add(tc)
 
     # Deleta slots que sobraram se a lista for menor que o time atual

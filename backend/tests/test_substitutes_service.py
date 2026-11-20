@@ -138,3 +138,17 @@ class TestMultiSourceMergersAndBuildCheck:
         assert _has_build_content({"references": [], "weapons": []}) is False
         assert _has_build_content({"weapons": [{"weapon_slug": "azurelight"}]}) is True
         assert _has_build_content({"notes": "Use 4pc NO"}) is True
+
+    def test_pick_best_from_list_prioritizes_kqm_and_falls_back_to_helper_sheet(self):
+        from types import SimpleNamespace
+        from app.services.presets import pick_best_from_list
+
+        helper = SimpleNamespace(id=1, name="Helper Sheet Build", build_data={"weapons": [{"weapon_slug": "favonius-sword"}]})
+        game8 = SimpleNamespace(id=2, name="Game8 Build", build_data={"weapons": [{"weapon_slug": "mistsplitter"}]})
+        kqm = SimpleNamespace(id=3, name="KQM Build", build_data={"weapons": [{"weapon_slug": "splendor"}]})
+        empty_kqm = SimpleNamespace(id=4, name="KQM Build", build_data={"weapons": []})
+
+        assert pick_best_from_list([helper, game8, kqm]) is kqm
+        assert pick_best_from_list([helper, empty_kqm]) is helper
+        assert pick_best_from_list([empty_kqm]) is None
+
