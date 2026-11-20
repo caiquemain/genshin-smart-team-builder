@@ -49,10 +49,23 @@ function TeamTemplateCard({
         {ownedCount}/{total}
       </span>
 
-      <div className="template-card-header">
+      <div className="template-card-header" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
         <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color }}>
           <ArchIcon size={14} /> {arch.label}
         </div>
+        {template.sources && template.sources.length > 1 ? (
+          <span
+            className="teams-section-badge"
+            style={{ fontSize: 10, padding: '2px 6px' }}
+            title={template.sources.map((s) => s.source).join(' · ')}
+          >
+            {template.sources.length} fontes
+          </span>
+        ) : template.source ? (
+          <span className="teams-section-badge" style={{ fontSize: 10, padding: '2px 6px', opacity: 0.8 }}>
+            {template.source}
+          </span>
+        ) : null}
       </div>
       <div className="template-card-name">{template.name}</div>
       {template.description && (
@@ -230,14 +243,14 @@ export default function TeamsPage() {
         )}
       </section>
 
-      {/* === Times recomendados (KQM) === */}
+      {/* === Times recomendados (Multi-fonte) === */}
       {templates.length > 0 && (
         <section className="teams-section">
           <h2 className="teams-section-title">
-            Times recomendados <span className="teams-section-badge">KQM</span>
+            Times recomendados <span className="teams-section-badge">Multi-fonte</span>
           </h2>
           <p className="teams-section-sub">
-            Curados do Keqing Mains. {roster.hasGoodOrSeelie
+            Curados de múltiplas fontes (KQM, Game8, GameWith, Genshin.gg e YS Helper). {roster.hasGoodOrSeelie
               ? <>Você tem <strong>{roster.ownedCount}</strong> personagens na conta.</>
               : <>Importe o GOOD no Planner para ver quais times você pode montar.</>}
           </p>

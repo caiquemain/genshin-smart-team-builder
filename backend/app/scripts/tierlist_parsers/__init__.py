@@ -9,6 +9,7 @@ from .yshelper import (
     parse_yshelper_abyss,
     parse_yshelper_html,
     parse_yshelper_stygian,
+    parse_yshelper_teams,
 )
 
 
@@ -125,4 +126,5 @@ __all__ = [
     "parse_yshelper_abyss",
     "parse_yshelper_html",
     "parse_yshelper_stygian",
+    "parse_yshelper_teams",
 ]

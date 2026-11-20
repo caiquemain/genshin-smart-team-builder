@@ -152,3 +152,14 @@ class TestMultiSourceMergersAndBuildCheck:
         assert pick_best_from_list([helper, empty_kqm]) is helper
         assert pick_best_from_list([empty_kqm]) is None
 
+    def test_template_source_priority_ranks_editorial_above_yshelper(self):
+        from app.scripts.import_kqm import source_priority
+
+        assert source_priority("KQM") < source_priority("Game8")
+        assert source_priority("Game8") < source_priority("GameWith")
+        assert source_priority("GameWith") < source_priority("Genshin.gg")
+        assert source_priority("Genshin.gg") < source_priority("YS Abyss 7.2")
+        assert source_priority("YS Abyss 7.2") < source_priority("YS Stygian 7.2")
+        assert source_priority("Outro Guia") < source_priority("YS Abyss 7.2")
+
+

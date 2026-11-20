@@ -22,11 +22,16 @@ Use nomes versionados para manter histórico por patch (ex.: `7.2.txt`, `7.2.htm
 ```bash
 # Importar um site específico (cadastra em tierlist_sites automaticamente se não existir)
 docker compose exec backend python -m app.scripts.import_tierlists --site icy-veins
-docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-abyss
-docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-stygian
+# Importar tierlist + times reais do YS Helper (taxa de uso >= 3.0% por padrão)
+docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-abyss --with-teams
+docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-stygian --with-teams
+
+# Ou importar apenas os times (sem reescrever tierlist_entries):
+docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-abyss --teams-only
+docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-stygian --teams-only
 
 # Simular sem salvar (dry-run)
-docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-abyss --dry-run
+docker compose exec backend python -m app.scripts.import_tierlists --site yshelper-abyss --with-teams --dry-run
 
 # Reimportar todos os sites que possuem arquivos aqui (mantém Prydwen intacto se pasta estiver vazia)
 docker compose exec backend python -m app.scripts.import_tierlists --all

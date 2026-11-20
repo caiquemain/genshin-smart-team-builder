@@ -169,12 +169,53 @@ def import_site(
     }
 
 
+def import_yshelper_teams_from_file(
+    db: Session,
+    cfg: TierlistSiteConfig,
+    source_path: Path,
+    min_use_rate: float,
+    warnings: list[str],
+) -> dict:
+    """Importa times reais do HTML do YS Helper para TeamTemplate (com merge multi-fonte)."""
+    from app.scripts.import_kqm import import_teams
+    from app.scripts.tierlist_parsers import parse_yshelper_teams
+
+    html = source_path.read_text(encoding="utf-8", errors="replace")
+    parsed = parse_yshelper_teams(
+        html,
+        version_hint=source_path.stem,
+        site_slug=cfg.slug,
+        min_use_rate=min_use_rate,
+    )
+    teams = parsed["teams"]
+    if not teams:
+        return {"source_name": parsed["source_name"], "matched": 0, "new": 0, "total_parsed": parsed["total_parsed"]}
+
+    new_count = import_teams(
+        db,
+        teams,
+        source_url=cfg.url,
+        warnings=warnings,
+        source_name=parsed["source_name"],
+    )
+    return {
+        "source_name": parsed["source_name"],
+        "matched": len(teams),
+        "new": new_count,
+        "merged": len(teams) - new_count,
+        "total_parsed": parsed["total_parsed"],
+    }
+
+
 def main():
     ap = argparse.ArgumentParser(description="Importador multi-fonte de tierlists")
     ap.add_argument("--site", type=str, choices=list(TIERLIST_SITES.keys()), help="Site específico (ex.: icy-veins)")
     ap.add_argument("--all", action="store_true", help="Importa todos os sites com arquivos em data/sources/tierlists/")
     ap.add_argument("--file", type=str, help="Arquivo específico dentro da pasta do site (ex.: 7.2.txt)")
     ap.add_argument("--sources-dir", type=Path, default=Path("data/sources/tierlists"))
+    ap.add_argument("--with-teams", action="store_true", help="Também importa times reais do YS Helper (HTML) em TeamTemplate")
+    ap.add_argument("--teams-only", action="store_true", help="Importa apenas os times do YS Helper sem reescrever tierlist_entries")
+    ap.add_argument("--min-use-rate", type=float, default=3.0, help="Taxa de uso mínima (%) para importar times do YS Helper (padrão: 3.0)")
     ap.add_argument("--dry-run", action="store_true", help="Valida e mostra resumo sem salvar no banco")
     args = ap.parse_args()
 
@@ -193,6 +234,9 @@ def main():
         role_fallback = _load_role_fallback_map(db)
 
         total_inserted = 0
+        total_teams_new = 0
+        team_warnings: list[str] = []
+
         for site_slug in targets:
             cfg = TIERLIST_SITES[site_slug]
             src_path = pick_latest_source_file(args.sources_dir / site_slug, cfg, args.file)
@@ -200,35 +244,53 @@ def main():
                 print(f"  [{site_slug}] nenhum arquivo encontrado — pulando.")
                 continue
 
-            summary = import_site(db, cfg, src_path, valid_slugs, role_fallback)
-            total_inserted += summary["inserted"]
+            if not args.teams_only:
+                summary = import_site(db, cfg, src_path, valid_slugs, role_fallback)
+                total_inserted += summary["inserted"]
 
-            # Se acabamos de importar genshin-gg, atualiza o role_fallback para os próximos sites
-            if site_slug == "genshin-gg":
-                db.flush()
-                role_fallback = _load_role_fallback_map(db)
+                # Se acabamos de importar genshin-gg, atualiza o role_fallback para os próximos sites
+                if site_slug == "genshin-gg":
+                    db.flush()
+                    role_fallback = _load_role_fallback_map(db)
 
-            counts_str = " ".join(
-                f"{t}:{summary['tier_counts'][t]}"
-                for t in ("S+", "S", "A", "B", "C", "D")
-                if t in summary["tier_counts"]
-            )
-            print(
-                f"✅ [{site_slug}] {summary['file']} (v{summary['version']}): "
-                f"{summary['inserted']} entries ({counts_str})"
-            )
-            if summary["skipped_unknown"]:
-                print(
-                    f"   ⚠️  {len(summary['skipped_unknown'])} slug(s) ausente(s) na tabela characters: "
-                    f"{', '.join(summary['skipped_unknown'])}"
+                counts_str = " ".join(
+                    f"{t}:{summary['tier_counts'][t]}"
+                    for t in ("S+", "S", "A", "B", "C", "D")
+                    if t in summary["tier_counts"]
                 )
+                print(
+                    f"✅ [{site_slug}] {summary['file']} (v{summary['version']}): "
+                    f"{summary['inserted']} entries ({counts_str})"
+                )
+                if summary["skipped_unknown"]:
+                    print(
+                        f"   ⚠️  {len(summary['skipped_unknown'])} slug(s) ausente(s) na tabela characters: "
+                        f"{', '.join(summary['skipped_unknown'])}"
+                    )
+
+            if (args.with_teams or args.teams_only) and site_slug.startswith("yshelper-") and src_path.suffix.lower() == ".html":
+                t_sum = import_yshelper_teams_from_file(
+                    db, cfg, src_path, args.min_use_rate, team_warnings
+                )
+                db.flush()
+                total_teams_new += t_sum["new"]
+                print(
+                    f"⚔️  [{t_sum['source_name']}] times >= {args.min_use_rate:.1f}%: "
+                    f"{t_sum['new']} novo(s), {t_sum.get('merged', 0)} mesclado(s) "
+                    f"(de {t_sum['total_parsed']} times no HTML)"
+                )
+
+        if team_warnings:
+            print(f"⚠️  {len(team_warnings)} aviso(s) nos times:")
+            for w in team_warnings[:15]:
+                print(f"  - {w}")
 
         if args.dry_run:
             db.rollback()
-            print(f"\n🔎 DRY RUN — nada foi salvo ({total_inserted} entries simuladas).")
+            print(f"\n🔎 DRY RUN — nada foi salvo (tierlist={total_inserted}, teams_novos={total_teams_new}).")
         else:
             db.commit()
-            print(f"\n✅ Salvo no banco ({total_inserted} entries importadas).")
+            print(f"\n✅ Salvo no banco (tierlist={total_inserted}, teams_novos={total_teams_new}).")
     finally:
         db.close()
 

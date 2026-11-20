@@ -13,6 +13,7 @@ from app.scripts.tierlist_parsers import (
     parse_icy_veins,
     parse_yshelper_abyss,
     parse_yshelper_stygian,
+    parse_yshelper_teams,
 )
 
 TIERLISTS_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "tierlists"
@@ -156,3 +157,26 @@ def test_all_five_existing_7_1_csvs_parse_cleanly():
             idx, norm, master = compute_tier_metrics(cfg, e["tier_label"])
             assert 0.0 <= norm <= 1.0
             assert master in ("S+", "S", "A", "B", "C", "D")
+
+
+def test_real_yshelper_teams_extraction_and_sibling_substitutes():
+    abyss_html = (TIERLISTS_DIR / "yshelper-abyss" / "7.2.html").read_text(encoding="utf-8", errors="replace")
+    abyss = parse_yshelper_teams(abyss_html, version_hint="7.2", site_slug="yshelper-abyss", min_use_rate=3.0)
+    assert abyss["source_name"] == "YS Abyss 7.2"
+    assert abyss["total_parsed"] == 99
+    assert len(abyss["teams"]) == 51
+    top = abyss["teams"][0]
+    assert top["character_slugs"] == ["zibai", "columbina", "linnea", "illuga"]
+    assert top["use_rate"] == pytest.approx(67.4)
+    assert "67.4%" in top["description"]
+    # Deve ter inferido substitutos reais a partir dos irmãos 3/4 (ex.: zhongli no lugar de linnea)
+    assert any("zhongli" in alts for alts in top["slot_alternatives"].values())
+
+    stygian_html = (TIERLISTS_DIR / "yshelper-stygian" / "7.2.html").read_text(encoding="utf-8", errors="replace")
+    stygian = parse_yshelper_teams(stygian_html, version_hint="7.2", site_slug="yshelper-stygian", min_use_rate=3.0)
+    assert stygian["source_name"] == "YS Stygian 7.2"
+    assert stygian["total_parsed"] == 99
+    assert len(stygian["teams"]) == 54
+    assert stygian["teams"][0]["character_slugs"] == ["zibai", "columbina", "linnea", "illuga"]
+    assert stygian["teams"][0]["use_rate"] == pytest.approx(70.5)
+

@@ -405,6 +405,30 @@ def import_build(db, data, warnings):
     return True
 
 
+# Prioridade editorial para metadados de TeamTemplate (menor = maior autoridade).
+# Guias editoriais (KQM, Game8, GameWith, Genshin.gg) sempre prevalecem sobre
+# templates importados de estatísticas empíricas (YS Helper), preservando ambos em `sources`.
+TEMPLATE_SOURCE_PRIORITY: dict[str, int] = {
+    "kqm": 0,
+    "game8": 1,
+    "gamewith": 2,
+    "genshin.gg": 3,
+    "genshingg": 3,
+    "ys abyss": 10,
+    "ys stygian": 11,
+}
+
+
+def source_priority(source_name: str | None) -> int:
+    norm = (source_name or "").strip().lower()
+    if norm in TEMPLATE_SOURCE_PRIORITY:
+        return TEMPLATE_SOURCE_PRIORITY[norm]
+    for prefix, prio in TEMPLATE_SOURCE_PRIORITY.items():
+        if norm.startswith(prefix):
+            return prio
+    return 5  # Outras fontes editoriais continuam acima do YS Helper
+
+
 def import_teams(
     db,
     teams,
@@ -420,6 +444,7 @@ def import_teams(
         tuple(sorted(et.character_slugs or [])): et
         for et in db.query(TeamTemplate).all()
     }
+    incoming_prio = source_priority(source_name)
 
     for t in teams:
         cleaned = [
@@ -448,11 +473,31 @@ def import_teams(
         canonical = tuple(sorted(valid))
         dup = existing_by_canonical.get(canonical)
         if dup:
-            # Multi-fonte: em vez de descartar, mescla fontes e substitutos curados!
+            # Multi-fonte: mescla fontes e substitutos, respeitando hierarquia editorial > empírica
+            existing_prio = source_priority(dup.source)
             dup.sources = _merge_sources(dup.sources, source_name, source_url)
-            dup.slot_substitutes = _merge_slot_substitutes(dup.slot_substitutes, slot_subs_json)
-            if not dup.description and t.get("description"):
-                dup.description = t["description"]
+            if incoming_prio < existing_prio:
+                # Fonte editorial mais rica sobrescreve nome, descrição, ordem e fonte primária
+                dup.source = source_name
+                dup.source_url = source_url
+                dup.character_slugs = valid
+                dup.main_character = valid[0]
+                dup.archetype = detect_archetype(valid)
+                if t.get("description"):
+                    dup.description = t["description"]
+                new_name = (t.get("raw_line") or "")[:150]
+                if new_name and new_name != dup.name:
+                    clash = db.query(TeamTemplate).filter(
+                        TeamTemplate.name == new_name,
+                        TeamTemplate.id != dup.id,
+                    ).first()
+                    if not clash:
+                        dup.name = new_name
+                dup.slot_substitutes = _merge_slot_substitutes(slot_subs_json, dup.slot_substitutes)
+            else:
+                dup.slot_substitutes = _merge_slot_substitutes(dup.slot_substitutes, slot_subs_json)
+                if not dup.description and t.get("description"):
+                    dup.description = t["description"]
             continue
 
         name = t["raw_line"][:150]
