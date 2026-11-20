@@ -49,20 +49,19 @@ function TeamTemplateCard({
         {ownedCount}/{total}
       </span>
 
-      <div className="template-card-header" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+      <div className="template-card-header">
         <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color }}>
           <ArchIcon size={14} /> {arch.label}
         </div>
         {template.sources && template.sources.length > 1 ? (
           <span
-            className="teams-section-badge"
-            style={{ fontSize: 10, padding: '2px 6px' }}
+            className="template-card-source-badge is-multi"
             title={template.sources.map((s) => s.source).join(' · ')}
           >
             {template.sources.length} fontes
           </span>
         ) : template.source ? (
-          <span className="teams-section-badge" style={{ fontSize: 10, padding: '2px 6px', opacity: 0.8 }}>
+          <span className="template-card-source-badge">
             {template.source}
           </span>
         ) : null}
