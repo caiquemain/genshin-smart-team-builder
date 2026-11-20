@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 from .common import dedupe_best_tier, normalize_character_slug, parse_canonical_csv
+from .game8 import GAME8_SCALE, parse_game8
 from .genshingg import GENSHINGG_SCALE, parse_genshingg
 from .genshinlab import GENSHINLAB_SCALE, parse_genshinlab
 from .icy_veins import ICY_VEINS_SCALE, parse_icy_veins
@@ -47,8 +48,9 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         slug="game8",
         name="Game8",
         url="https://game8.co/games/Genshin-Impact/archives/297499",
-        scale=("SS", "S", "A+", "A", "B", "C", "D"),
+        scale=tuple(GAME8_SCALE),
         master_map={"SS": "S+", "S": "S", "A+": "A", "A": "A", "B": "B", "C": "C", "D": "D"},
+        txt_parser=parse_game8,
     ),
     "mobalytics": TierlistSiteConfig(
         slug="mobalytics",
@@ -126,6 +128,7 @@ __all__ = [
     "dedupe_best_tier",
     "normalize_character_slug",
     "parse_canonical_csv",
+    "parse_game8",
     "parse_genshingg",
     "parse_genshinlab",
     "parse_icy_veins",

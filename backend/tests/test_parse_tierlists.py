@@ -10,6 +10,7 @@ from app.scripts.tierlist_parsers import (
     dedupe_best_tier,
     normalize_character_slug,
     parse_canonical_csv,
+    parse_game8,
     parse_genshingg,
     parse_genshinlab,
     parse_icy_veins,
@@ -232,6 +233,32 @@ def test_real_genshinlab_7_2_regression():
     assert by_slug["traveler-geo"]["tier_label"] == "D"
     assert by_slug["traveler-electro"]["tier_label"] == "D"
     assert by_slug["traveler-hydro"]["tier_label"] == "D"
+
+
+def test_real_game8_7_2_regression():
+    path = TIERLISTS_DIR / "game8" / "7.2.txt"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_game8(path.read_text(encoding="utf-8"), version_hint="7.2")
+
+    assert res["site_slug"] == "game8"
+    assert res["version"] == "7.2"
+    assert len(res["raw_entries"]) == 159
+    assert len(res["entries"]) == 129
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"SS": 22, "S": 13, "A+": 17, "A": 24, "B": 22, "C": 20, "D": 11}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["mitya"] == {"character_slug": "mitya", "role": "main_dps", "tier_label": "SS"}
+    assert by_slug["odette"] == {"character_slug": "odette", "role": "sub_dps", "tier_label": "SS"}
+    assert by_slug["mavuika"] == {"character_slug": "mavuika", "role": "main_dps", "tier_label": "SS"}
+    assert by_slug["skirk"] == {"character_slug": "skirk", "role": "main_dps", "tier_label": "S"}
+    assert by_slug["furina"] == {"character_slug": "furina", "role": "sub_dps", "tier_label": "S"}
+    assert by_slug["kaedehara-kazuha"] == {"character_slug": "kaedehara-kazuha", "role": "support", "tier_label": "A+"}
+    assert by_slug["neuvillette"] == {"character_slug": "neuvillette", "role": "main_dps", "tier_label": "A"}
+    assert by_slug["traveler-cryo"] == {"character_slug": "traveler-cryo", "role": "main_dps", "tier_label": "SS"}
+    assert by_slug["aloy"] == {"character_slug": "aloy", "role": "main_dps", "tier_label": "D"}
+
 
 
 

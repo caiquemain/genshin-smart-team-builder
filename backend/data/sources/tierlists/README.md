@@ -9,7 +9,7 @@ Use nomes versionados para manter histórico por patch (ex.: `7.2.txt`, `7.2.htm
 |---|---|---|---|
 | `genshin-gg/` | Genshin.gg (`genshin.gg/tier-list/`) | 5 níveis (`S`..`D`) + role | `7.2.txt` (parser `.txt` ativo) |
 | `genshinlab/` | GenshinLab (`genshinlab.com/tier-list/`) | 6 níveis (`SS`..`D`) | `7.2.txt` (parser `.txt` ativo) |
-| `game8/` | Game8 (`game8.co`) | 7 níveis (`SS`..`D`) | `7.1.csv` |
+| `game8/` | Game8 (`game8.co`) | 7 níveis (`SS`..`D`) + 3 roles | `7.2.txt` (parser `.txt` ativo) |
 | `mobalytics/` | Mobalytics (`mobalytics.gg`) | 9 níveis (`S`..`F`) | `7.1.csv` |
 | `gamewith/` | GameWith (`gamewith.net`) | 6 níveis (`SS`..`D`) | `7.1.csv` |
 | `prydwen/` | Prydwen (`prydwen.gg/genshin/tier-list`) | Editorial | *(pronto para receber `.txt`/`.csv`)* |
