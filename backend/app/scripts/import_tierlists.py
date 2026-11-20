@@ -110,18 +110,19 @@ def import_site(
     version = parsed["version"]
     entries = parsed["entries"]
 
+    site_name = parsed.get("site_name") or cfg.name
     site = db.query(TierlistSite).filter(TierlistSite.slug == cfg.slug).one_or_none()
     if site is None:
         site = TierlistSite(
             slug=cfg.slug,
-            name=cfg.name,
+            name=site_name,
             url=cfg.url,
             scale_size=len(cfg.scale),
         )
         db.add(site)
         db.flush()
     else:
-        site.name = cfg.name
+        site.name = site_name
         site.url = cfg.url
         site.scale_size = len(cfg.scale)
 

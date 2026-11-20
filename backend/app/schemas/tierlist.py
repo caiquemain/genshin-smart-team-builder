@@ -22,6 +22,7 @@ class TierlistSiteOut(BaseModel):
     name: str
     url: str
     scale_size: int
+    category: str = "general"
 
     class Config:
         from_attributes = True

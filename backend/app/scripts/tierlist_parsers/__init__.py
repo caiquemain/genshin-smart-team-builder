@@ -8,6 +8,13 @@ from .genshingg import GENSHINGG_SCALE, parse_genshingg
 from .genshinlab import GENSHINLAB_SCALE, parse_genshinlab
 from .icy_veins import ICY_VEINS_SCALE, parse_icy_veins
 from .mobalytics import MOBALYTICS_SCALE, parse_mobalytics
+from .prydwen import (
+    PRYDWEN_SCALE,
+    parse_prydwen,
+    parse_prydwen_stygian_1,
+    parse_prydwen_stygian_2,
+    parse_prydwen_stygian_3,
+)
 from .yshelper import (
     YSHELPER_SCALE,
     parse_yshelper_abyss,
@@ -24,8 +31,17 @@ class TierlistSiteConfig:
     url: str
     scale: tuple[str, ...]
     master_map: dict[str, str]
+    category: str = "general"  # "general" | "abyss" | "stygian"
     txt_parser: Optional[Callable[[str, Optional[str]], dict]] = None
     html_parser: Optional[Callable[[str, Optional[str]], dict]] = None
+
+
+_PRYDWEN_MASTER_MAP = {
+    "T0": "S+", "T0.5": "S",
+    "T1": "A", "T1.5": "A",
+    "T2": "B", "T3": "C",
+    "T4": "D", "T5": "D",
+}
 
 
 TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
@@ -77,13 +93,9 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         slug="prydwen",
         name="Prydwen",
         url="https://www.prydwen.gg/genshin/tier-list",
-        scale=("T0", "T0.5", "T1", "T1.5", "T2", "T3", "T4", "T5"),
-        master_map={
-            "T0": "S+", "T0.5": "S",
-            "T1": "A", "T1.5": "A",
-            "T2": "B", "T3": "C",
-            "T4": "D", "T5": "D",
-        },
+        scale=tuple(PRYDWEN_SCALE),
+        master_map=_PRYDWEN_MASTER_MAP,
+        txt_parser=parse_prydwen,
     ),
     "icy-veins": TierlistSiteConfig(
         slug="icy-veins",
@@ -99,6 +111,7 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         url="https://www.yshelper.com/",
         scale=tuple(YSHELPER_SCALE),
         master_map={"S+": "S+", "S": "S", "A": "A", "B": "B", "C": "C"},
+        category="abyss",
         html_parser=parse_yshelper_abyss,
     ),
     "yshelper-stygian": TierlistSiteConfig(
@@ -107,7 +120,35 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         url="https://www.yshelper.com/",
         scale=tuple(YSHELPER_SCALE),
         master_map={"S+": "S+", "S": "S", "A": "A", "B": "B", "C": "C"},
+        category="stygian",
         html_parser=parse_yshelper_stygian,
+    ),
+    "prydwen-stygian-1": TierlistSiteConfig(
+        slug="prydwen-stygian-1",
+        name="Prydwen Boss 1",
+        url="https://www.prydwen.gg/genshin/tier-list",
+        scale=tuple(PRYDWEN_SCALE),
+        master_map=_PRYDWEN_MASTER_MAP,
+        category="stygian",
+        txt_parser=parse_prydwen_stygian_1,
+    ),
+    "prydwen-stygian-2": TierlistSiteConfig(
+        slug="prydwen-stygian-2",
+        name="Prydwen Boss 2",
+        url="https://www.prydwen.gg/genshin/tier-list",
+        scale=tuple(PRYDWEN_SCALE),
+        master_map=_PRYDWEN_MASTER_MAP,
+        category="stygian",
+        txt_parser=parse_prydwen_stygian_2,
+    ),
+    "prydwen-stygian-3": TierlistSiteConfig(
+        slug="prydwen-stygian-3",
+        name="Prydwen Boss 3",
+        url="https://www.prydwen.gg/genshin/tier-list",
+        scale=tuple(PRYDWEN_SCALE),
+        master_map=_PRYDWEN_MASTER_MAP,
+        category="stygian",
+        txt_parser=parse_prydwen_stygian_3,
     ),
 }
 
@@ -135,6 +176,10 @@ __all__ = [
     "parse_genshinlab",
     "parse_icy_veins",
     "parse_mobalytics",
+    "parse_prydwen",
+    "parse_prydwen_stygian_1",
+    "parse_prydwen_stygian_2",
+    "parse_prydwen_stygian_3",
     "parse_yshelper_abyss",
     "parse_yshelper_html",
     "parse_yshelper_stygian",

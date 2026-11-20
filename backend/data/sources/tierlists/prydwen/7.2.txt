@@ -1,0 +1,298 @@
+
+Prydwen Institute
+Genshin Impact
+Home
+Database
+Characters
+Artifacts
+Weapons
+Timeline
+Banners
+Tier Lists
+Tier List
+Tools
+Rotation Builder
+Planner Tool
+Codes
+
+Silver Palace - Top
+Sign In
+Genshin Impact
+/
+Tier List
+Tier list
+Genshin Impact Tier List
+The best tier list for Genshin Impact that rates all available characters by their performance in Overall gameplay and Stygian Onslaught. Find the best characters in the game!
+
+Last updated: 17/November/2026
+
+Genshin Impact Tier List (7.2)
+About the Tier List
+Criteria and roles
+Tags
+Ratings
+Changelog
+Tier List (Overall)
+You're currently viewing the Overall tier list. It shows how the character performs across general gameplay and the majority of endgame content. Use the switcher below to view a different tier list.
+Overall
+
+Stygian Onslaught (7.2)
+
+Search characters...
+×
+
+5★
+4★
+
+Anemo
+Geo
+Electro
+Dendro
+Hydro
+Pyro
+Cryo
+
+Sword
+Claymore
+Polearm
+Bow
+Catalyst
+Reset
+ 
+ On-Field DPS
+ Damage Support
+ Pure Support / Sustain
+ Apex characters 
+T0
+MavuikapyroC0
+expert (-2)
+MityaelectroC0
+NEW
+SandronecryoC0
+VesnaanemoC0
+WriothesleycryoC1
+Yumemizuki MizukianemoC2
+comfort
+ZibaigeoC0
+ColumbinahydroC0
+LinneageoC0
+OdettecryoC0
+Yae MikoelectroC1
+SucroseanemoC6
+flexible, CC
+VodyanitsahydroC0
+flexible, comfort
+T0.5
+CynoelectroC1
+FlinselectroC0
+comfort
+NeferdendroC0
+partner (lauma)
+SkirkcryoC0
+partner (escoffier)
+Traveler CryocryoC6
+VarkaanemoC0
+flexible
+DurinpyroC0
+flexible
+EscoffiercryoC0
+FischlelectroC6
+high app
+IneffaelectroC0
+MityaelectroC0
+NEW
+Traveler CryocryoC6
+AlyoshaelectroC6
+ChevreusepyroC6
+FaruzananemoC6
+IansanelectroC6
+LaumadendroC0
+MonahydroC2
+expert (-1)
+NicolepyroC0
+flexible, comfort
+PruneanemoC6
+ValeriyelectroC6
+NEW
+ Meta characters 
+T1
+ArlecchinopyroC0
+expert (-1)
+KinichdendroC0
+expert (-1)
+KleepyroC1
+LohencryoC0
+high app, flexible
+MualanihydroC0
+VaresaelectroC0
+AlbedogeoC1
+EmiliedendroC1
+FurinahydroC0
+MavuikapyroC0
+OroronelectroC6
+BennettpyroC6
+CitlalicryoC0
+DionacryoC6
+IllugageoC6
+QiqicryoC2
+comfort
+XilonengeoC0
+flexible
+T1.5
+ChascaanemoC0
+flexible
+ClorindeelectroC1
+ColumbinahydroC0
+partner (lauma)
+GamingpyroC6
+expert (-2)
+Hu TaopyroC1
+expert (-1)
+LyneypyroC1
+NaviageoC1
+NeuvillettehydroC0
+flexible, comfort
+VentianemoC0
+CC
+ChiorigeoC1
+VentianemoC0
+CC
+XianglingpyroC6
+high app
+XingqiuhydroC6
+high app
+YelanhydroC0
+AinohydroC6
+AlyoshaelectroC2
+BeidouelectroC6
+GorougeoC6
+JahodaanemoC6
+Kaedehara KazuhaanemoC0
+flexible, CC
+NahidadendroC0
+high app
+NilouhydroC1
+PruneanemoC2
+ShenhecryoC1
+Traveler PyropyroC6
+ValeriyelectroC2
+NEW
+ZhongligeoC0
+flexible, comfort
+T2
+Arataki IttogeoC1
+IfaanemoC6
+driver
+Kamisato AyakacryoC1
+partner (escoffier)
+NoellegeoC6
+driver
+Raiden ShogunelectroC0
+RazorelectroC6
+Traveler PyropyroC6
+WandereranemoC1
+XiaoanemoC1
+expert (-1)
+Kuki ShinobuelectroC6
+reaction
+Raiden ShogunelectroC0
+reaction
+RosariacryoC6
+Sangonomiya KokomihydroC1
+reaction
+CharlottecryoC6
+high app
+Kujou SaraelectroC6
+Kuki ShinobuelectroC6
+Lan YananemoC6
+LynetteanemoC6
+XianyunanemoC1
+ Off-Meta characters 
+T3
+AlhaithamdendroC0
+DilucpyroC2
+GanyucryoC1
+NingguanggeoC6
+SethoselectroC6
+expert (-1)
+YanfeipyroC6
+YoimiyapyroC1
+BarbarahydroC6
+reaction
+KaeyacryoC6
+high app
+ThomapyroC6
+reaction
+BaizhudendroC1
+CandacehydroC6
+ColleidendroC6
+high app
+DahliahydroC6
+DehyapyroC2
+JeananemoC2
+KachinageoC6
+LaylacryoC6
+Sangonomiya KokomihydroC1
+SigewinnehydroC1
+comfort
+Traveler AnemoanemoC6
+Traveler DendrodendroC6
+T4
+DehyapyroC2
+DorielectroC6
+EulacryoC1
+FreminetcryoC6
+Kamisato AyatohydroC1
+driver
+KavehdendroC6
+driver
+KeqingelectroC2
+LisaelectroC6
+expert (-1)
+Shikanoin HeizouanemoC6
+driver
+TartagliahydroC1
+driver, high app
+TighnaridendroC2
+Traveler HydrohydroC6
+AmberpyroC6
+high app
+BarbarahydroC6
+ChongyuncryoC6
+KiraradendroC6
+LisaelectroC6
+MikacryoC6
+SayuanemoC6
+ThomapyroC6
+Traveler GeogeoC6
+YaoyaodendroC6
+Yun JingeoC6
+ The Forgotten Ones 
+T5
+AloycryoC0
+AmberpyroC6
+XinyanpyroC6
+Traveler ElectroelectroC6
+Privacy Policy
+Copyright © 2022 - 2026 Prydwen.gg
+
+Sandrone
+Sandrone
+
+5★
+cryo
+Claymore
+On-Field DPS [C0]
+T0
+Overall
+
+T0
+Boss #1
+
+T0.5
+Boss #2
+
+T0.5
+Boss #3
+
+

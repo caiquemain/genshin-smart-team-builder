@@ -260,6 +260,32 @@ function TierlistList({
   )
 }
 
+type TierlistCategory = 'general' | 'abyss' | 'stygian'
+
+const CATEGORY_TABS: { key: TierlistCategory; label: string; labelEn: string; hint: string; hintEn: string }[] = [
+  {
+    key: 'general',
+    label: 'Consenso Geral',
+    labelEn: 'General Consensus',
+    hint: 'Valor de conta e força geral (sem viés sazonal de 30 dias)',
+    hintEn: 'Overall account value (excludes 30-day seasonal boss cycles)',
+  },
+  {
+    key: 'abyss',
+    label: 'Abismo (30d)',
+    labelEn: 'Spiral Abyss (30d)',
+    hint: 'Taxa de uso real no Abismo Espiral (YS Helper)',
+    hintEn: 'Real Spiral Abyss usage statistics (YS Helper)',
+  },
+  {
+    key: 'stygian',
+    label: 'Stygian Onslaught (30d)',
+    labelEn: 'Stygian Onslaught (30d)',
+    hint: 'Uso real + ranking por chefe do ciclo atual',
+    hintEn: 'Real usage + per-boss rankings for the current cycle',
+  },
+]
+
 export default function TierlistPage() {
   const { lang } = useLanguage()
   const [data, setData] = useState<TierlistResponse | null>(null)
@@ -267,6 +293,8 @@ export default function TierlistPage() {
   const [chars, setChars] = useState<Map<string, CharacterSummary>>(new Map())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [category, setCategory] = useState<TierlistCategory>('general')
+  const [siteFilter, setSiteFilter] = useState<string>('all')
   const [roleFilter, setRoleFilter] = useState('all')
   const [tierFilter, setTierFilter] = useState('all')
   const [elementFilter, setElementFilter] = useState('all')
@@ -275,9 +303,11 @@ export default function TierlistPage() {
   const load = async () => {
     setLoading(true)
     try {
-      const roleParam = roleFilter !== 'all' ? roleFilter : undefined
+      const params: { role?: string; category: string; site?: string } = { category }
+      if (roleFilter !== 'all') params.role = roleFilter
+      if (siteFilter !== 'all') params.site = siteFilter
       const [tierlist, sitesData, charsData] = await Promise.all([
-        api.getTierlist(roleParam ? { role: roleParam } : {}),
+        api.getTierlist(params),
         api.getTierlistSites(),
         api.listCharacters(lang, { limit: 200 }),
       ])
@@ -292,7 +322,18 @@ export default function TierlistPage() {
     }
   }
 
-  useEffect(() => { load() }, [lang, roleFilter])
+  useEffect(() => { load() }, [lang, roleFilter, category, siteFilter])
+
+  const activeCategorySites = useMemo(
+    () => sites.filter((s) => (s.category ?? 'general') === category),
+    [sites, category],
+  )
+
+  const handleCategoryChange = (next: TierlistCategory) => {
+    setCategory(next)
+    setSiteFilter('all')
+    setTierFilter('all')
+  }
 
   const filtered = useMemo(() => {
     if (!data) return []
@@ -317,6 +358,7 @@ export default function TierlistPage() {
     return acc
   }, {})
   const allUnique = (data?.items ?? []).length
+  const activeTabMeta = CATEGORY_TABS.find((t) => t.key === category) ?? CATEGORY_TABS[0]
 
   return (
     <div className="tierlist-page">
@@ -324,7 +366,7 @@ export default function TierlistPage() {
         <div>
           <h1><Trophy size={32} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }} /> Tierlist Agregada</h1>
           <p className="tierlist-subtitle">
-            {sites.length} {lang === 'en' ? 'sources' : 'fontes'} · {allUnique} {lang === 'en' ? 'characters' : 'personagens'} · {data?.items.length ?? 0} {lang === 'en' ? 'entries' : 'entradas'}
+            {activeCategorySites.length} {lang === 'en' ? 'sources' : 'fontes'} · {allUnique} {lang === 'en' ? 'characters' : 'personagens'} · {lang === 'en' ? activeTabMeta.hintEn : activeTabMeta.hint}
           </p>
         </div>
         <div className="tierlist-header-actions">
@@ -350,11 +392,58 @@ export default function TierlistPage() {
         </div>
       </div>
 
+      {/* Abas de modo: Consenso Geral vs Endgame Sazonal (30 dias) */}
+      <div className="filter-pills" style={{ marginBottom: 14, gap: 8 }}>
+        {CATEGORY_TABS.map((tab) => {
+          const tabSiteCount = sites.filter((s) => (s.category ?? 'general') === tab.key).length
+          const isActive = category === tab.key
+          return (
+            <button
+              key={tab.key}
+              className={`filter-pill ${isActive ? 'active' : ''}`}
+              style={{
+                '--pill-color': tab.key === 'general' ? '#38bdf8' : tab.key === 'abyss' ? '#c084fc' : '#f97316',
+                padding: '7px 14px',
+                fontSize: 13,
+                fontWeight: 700,
+              } as React.CSSProperties}
+              onClick={() => handleCategoryChange(tab.key)}
+            >
+              {lang === 'en' ? tab.labelEn : tab.label}
+              <span className="filter-pill-count">{tabSiteCount}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Sub-filtro por chefe / fonte dentro do Stygian Onslaught */}
+      {category === 'stygian' && activeCategorySites.length > 1 && (
+        <div className="filter-pills" style={{ marginBottom: 12, gap: 6 }}>
+          <button
+            className={`filter-pill ${siteFilter === 'all' ? 'active' : ''}`}
+            style={{ '--pill-color': '#fb923c' } as React.CSSProperties}
+            onClick={() => setSiteFilter('all')}
+          >
+            {lang === 'en' ? 'All Stygian (Consensus)' : 'Todos (Consenso Stygian)'}
+          </button>
+          {activeCategorySites.map((s) => (
+            <button
+              key={s.slug}
+              className={`filter-pill ${siteFilter === s.slug ? 'active' : ''}`}
+              style={{ '--pill-color': '#fb923c' } as React.CSSProperties}
+              onClick={() => setSiteFilter(s.slug)}
+            >
+              {s.name}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="tierlist-sources">
         <span className="tierlist-sources-label">
           <Filter size={14} /> {lang === 'en' ? 'Sources' : 'Fontes'}:
         </span>
-        {sites.map((s) => (
+        {activeCategorySites.map((s) => (
           <a key={s.slug} href={s.url} target="_blank" rel="noopener noreferrer" className="tierlist-source-chip">
             {s.name} <ExternalLink size={10} />
           </a>

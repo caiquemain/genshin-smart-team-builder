@@ -15,6 +15,10 @@ from app.scripts.tierlist_parsers import (
     parse_genshinlab,
     parse_icy_veins,
     parse_mobalytics,
+    parse_prydwen,
+    parse_prydwen_stygian_1,
+    parse_prydwen_stygian_2,
+    parse_prydwen_stygian_3,
     parse_yshelper_abyss,
     parse_yshelper_stygian,
     parse_yshelper_teams,
@@ -283,6 +287,52 @@ def test_real_mobalytics_7_2_regression():
     assert by_slug["valeriy"]["tier_label"] == "D"
     assert by_slug["zhongli"]["tier_label"] == "E"
     assert by_slug["yun-jin"]["tier_label"] == "F"
+
+
+def test_real_prydwen_7_2_overall_and_stygian_bosses():
+    overall = parse_prydwen(
+        (TIERLISTS_DIR / "prydwen" / "7.2.txt").read_text(encoding="utf-8"),
+        version_hint="7.2",
+    )
+    assert overall["site_slug"] == "prydwen"
+    assert overall["version"] == "7.2"
+    assert len(overall["entries"]) == 129
+    by_slug = {e["character_slug"]: e for e in overall["entries"]}
+    assert by_slug["mavuika"]["tier_label"] == "T0"
+    assert by_slug["mitya"]["tier_label"] == "T0"
+    assert by_slug["skirk"]["tier_label"] == "T0.5"
+    assert by_slug["furina"]["tier_label"] == "T1"
+    assert by_slug["traveler-cryo"]["tier_label"] == "T0.5"
+    assert by_slug["traveler-electro"]["tier_label"] == "T5"
+
+    b1 = parse_prydwen_stygian_1(
+        (TIERLISTS_DIR / "prydwen-stygian-1" / "7.2.txt").read_text(encoding="utf-8"),
+        version_hint="7.2",
+    )
+    b2 = parse_prydwen_stygian_2(
+        (TIERLISTS_DIR / "prydwen-stygian-2" / "7.2.txt").read_text(encoding="utf-8"),
+        version_hint="7.2",
+    )
+    b3 = parse_prydwen_stygian_3(
+        (TIERLISTS_DIR / "prydwen-stygian-3" / "7.2.txt").read_text(encoding="utf-8"),
+        version_hint="7.2",
+    )
+    assert b1["site_name"] == "Boss 1: Wavebinder" and len(b1["entries"]) == 31
+    assert b2["site_name"] == "Boss 2: Emperor" and len(b2["entries"]) == 42
+    assert b3["site_name"] == "Boss 3: Moongecko" and len(b3["entries"]) == 47
+
+
+def test_tierlist_site_categories_separate_seasonal_from_general():
+    from app.api.tierlist import site_category
+
+    for general_slug in ("genshin-gg", "genshinlab", "game8", "mobalytics", "gamewith", "icy-veins", "prydwen"):
+        assert site_category(general_slug) == "general"
+    assert site_category("yshelper-abyss") == "abyss"
+    assert site_category("yshelper-stygian") == "stygian"
+    assert site_category("prydwen-stygian-1") == "stygian"
+    assert site_category("prydwen-stygian-2") == "stygian"
+    assert site_category("prydwen-stygian-3") == "stygian"
+
 
 
 

@@ -4,9 +4,12 @@
 
 CREATE OR REPLACE VIEW v_tierlist_consensus AS
 WITH per_entry AS (
-    SELECT character_slug, role, tier_master, normalized_value, site_id
-    FROM tierlist_entries
-    WHERE tier_master IS NOT NULL
+    SELECT e.character_slug, e.role, e.tier_master, e.normalized_value, e.site_id
+    FROM tierlist_entries e
+    JOIN tierlist_sites s ON s.id = e.site_id
+    WHERE e.tier_master IS NOT NULL
+      AND s.slug NOT LIKE 'yshelper-%'
+      AND s.slug NOT LIKE 'prydwen-stygian-%'
 ),
 agg AS (
     SELECT

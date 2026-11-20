@@ -97,7 +97,7 @@ export const api = {
     fetch(`${API_URL}/teams/${id}`, { method: 'DELETE' }).then((r) => {
       if (!r.ok) throw new Error(`API ${r.status}`)
     }),
-  getTierlist: (params: { role?: string; version?: string } = {}) =>
+  getTierlist: (params: { role?: string; version?: string; category?: string; site?: string } = {}) =>
     request<TierlistResponse>('/tierlist', params),
   getTierlistSites: () => request<TierlistSite[]>('/tierlist/sites'),
   getCharacterTierlist: (slug: string) =>

@@ -3,6 +3,7 @@ export interface TierlistSite {
   name: string
   url: string
   scale_size: number
+  category?: 'general' | 'abyss' | 'stygian'
 }
 
 export interface TierlistEntry {
