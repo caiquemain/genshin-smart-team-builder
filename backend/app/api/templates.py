@@ -35,7 +35,7 @@ def _resolve_sources(t: TeamTemplate) -> list[TeamTemplateSource]:
     return []
 
 
-def _resolve_slot_substitutes(db: Session, t: TeamTemplate) -> dict[int, list[Substitute]]:
+def _resolve_slot_substitutes(t: TeamTemplate) -> dict[int, list[Substitute]]:
     stored = t.slot_substitutes or {}
     parsed_stored: dict[int, list[Substitute]] = {}
     for k, items in stored.items():
@@ -45,23 +45,7 @@ def _resolve_slot_substitutes(db: Session, t: TeamTemplate) -> dict[int, list[Su
             continue
         if isinstance(items, list) and items:
             parsed_stored[pos] = [Substitute(**s) for s in items if isinstance(s, dict)]
-
-    # Se já tem substitutos salvos em pelo menos um slot flex, usa os curados;
-    # caso contrário (templates legados), calcula dinamicamente por role/elemento.
-    if parsed_stored:
-        return parsed_stored
-
-    computed = compute_slot_substitutes_for_slugs(
-        db,
-        list(t.character_slugs or []),
-        main_character=t.main_character,
-        limit=6,
-    )
-    return {
-        pos: [Substitute(**s) for s in items]
-        for pos, items in computed.items()
-        if items
-    }
+    return parsed_stored
 
 
 @router.get("/archetypes", response_model=ArchetypesResponse)
@@ -140,5 +124,5 @@ def get_template(
         source_url=t.source_url,
         sources=_resolve_sources(t),
         analysis=analysis,
-        slot_substitutes=_resolve_slot_substitutes(db, t),
+        slot_substitutes=_resolve_slot_substitutes(t),
     )

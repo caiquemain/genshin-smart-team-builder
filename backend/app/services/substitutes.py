@@ -1,10 +1,12 @@
 """Serviço unificado de sugestões de substitutos por slot de time.
 
-Combina:
-  1. Alternativas explícitas do guia (barras '/' em Example Teams e Notable Teammates)
-  2. Fallback inteligente por role/capability + elemento (usando CHARACTER_CAPABILITIES),
-     sempre excluindo personagens que já estão no time e respeitando restrições de elemento
-     (ex.: Skirk/Escoffier -> apenas Cryo/Hydro).
+Regra de domínio (100% curado pelos guias, sem fallback aleatório por elemento):
+  1. Alternativas explícitas do guia (barras '/' ou times 3/4 irmãos do mesmo guia) — sem prisão de elemento.
+  2. Notable Teammates do guia que compartilham a mesma categoria do slot ou a mesma
+     capability principal (healer/shielder/res_shred/off_field_dps), sem exigir mesmo elemento.
+  3. Nunca sugere personagens já presentes no time, nem inventa opções fora do guia
+     (evita sugestões sem sinergia como Faruzan ou Gorou em time de Neuvillette).
+  4. Respeita restrições estritas de elemento (ex.: Skirk/Escoffier -> apenas Cryo/Hydro).
 """
 from typing import Any
 from sqlalchemy.orm import Session
@@ -22,7 +24,9 @@ ROLE_LABELS: dict[str, str] = {
     "on_field_dps": "Main DPS",
 }
 
-# Personagens DPS principais que não devem ser substituídos automaticamente nem sugeridos como flex
+# Capabilities de papel concreto (exclui 'buffer' genérico sozinho para evitar casar nichos)
+CORE_ROLE_CAPS = {"healer_active", "shielder", "res_shred", "off_field_dps"}
+
 DPS_SLUGS: set[str] = {
     slug for slug, caps in CHARACTER_CAPABILITIES.items()
     if "on_field_dps" in caps and "buffer" not in caps and "healer_active" not in caps
@@ -61,9 +65,9 @@ def _element_str(char: Character) -> str:
     return char.element.value if hasattr(char.element, "value") else str(char.element)
 
 
-def _capability_overlap(slug_a: str, slug_b: str) -> int:
-    caps_a = set(CHARACTER_CAPABILITIES.get(slug_a, []))
-    caps_b = set(CHARACTER_CAPABILITIES.get(slug_b, []))
+def _core_role_overlap(slug_a: str, slug_b: str) -> int:
+    caps_a = set(CHARACTER_CAPABILITIES.get(slug_a, [])) & CORE_ROLE_CAPS
+    caps_b = set(CHARACTER_CAPABILITIES.get(slug_b, [])) & CORE_ROLE_CAPS
     return len(caps_a & caps_b)
 
 
@@ -75,23 +79,20 @@ def suggest_substitutes_for_slot(
     teammate_notes: dict[str, dict[str, str]] | None = None,
     limit: int = 6,
 ) -> list[dict[str, Any]]:
-    """Retorna até `limit` substitutos curados + fallback inteligente para um slot.
+    """Retorna até `limit` substitutos estritamente curados pelos guias para um slot.
 
-    - Nunca sugere personagens já presentes em `team_slugs` (incluindo o próprio slot).
-    - Prioriza:
-      1) `curated_alternatives` vindos das barras '/' do guia (com nota de `teammate_notes` se existir)
-      2) `teammate_notes` (Notable Teammates do guia) do mesmo elemento ou mesma capability
-      3) Fallback do banco (mesmo elemento, não-DPS, ordenado por sobreposição de capability)
+    - Camada 1: `curated_alternatives` (barras '/' ou times 3/4 irmãos do guia).
+    - Camada 2: `teammate_notes` (Notable Teammates do guia) da mesma categoria do slot
+      ou com sobreposição de papel concreto (sem exigir mesmo elemento).
+    - Sem fallback aleatório do banco: se o guia não trouxe alternativas, retorna [].
     """
     teammate_notes = teammate_notes or {}
     excluded = set(team_slugs) | {target_char.slug}
-    target_el = _element_str(target_char)
     cryo_hydro_only = bool({"skirk", "escoffier"} & team_slugs)
 
-    results: list[dict[str, Any]] = []
-    added: set[str] = set()
+    if not curated_alternatives and not teammate_notes:
+        return []
 
-    # Pré-carrega candidatos do banco para lookup rápido de elemento/nome
     all_chars = db.query(Character).all()
     by_slug = {c.slug: c for c in all_chars}
 
@@ -105,7 +106,10 @@ def suggest_substitutes_for_slot(
             return False
         return True
 
-    # 1) Alternativas diretas da linha do time (ex.: "Mona / Shenhe / Yelan")
+    results: list[dict[str, Any]] = []
+    added: set[str] = set()
+
+    # 1) Alternativas diretas da linha do time (barras '/' ou times 3/4 irmãos)
     for alt_slug in curated_alternatives or []:
         if len(results) >= limit:
             break
@@ -114,7 +118,7 @@ def suggest_substitutes_for_slot(
         info = teammate_notes.get(alt_slug)
         c = by_slug[alt_slug]
         label = (info.get("category") if info else None) or format_capability_label(alt_slug, c)
-        notes = (info.get("notes") if info else None) or f"Alternativa direta sugerida pelo guia ({_element_str(c).capitalize()})"
+        notes = (info.get("notes") if info else None) or f"Alternativa direta sugerida pelo guia ({label})"
         results.append({
             "character_slug": alt_slug,
             "build_label": label,
@@ -122,18 +126,24 @@ def suggest_substitutes_for_slot(
         })
         added.add(alt_slug)
 
-    # 2) Notable Teammates do guia compatíveis (mesmo elemento ou sobreposição de capability, não-DPS)
+    # 2) Notable Teammates do guia (mesma categoria do slot ou mesmo papel concreto)
     if teammate_notes and len(results) < limit:
+        target_info = teammate_notes.get(target_char.slug)
+        target_cat = (target_info.get("category") if target_info else None)
+        # Categoria genérica "Teammate" não é discriminativa; só casa por categoria específica
+        has_specific_cat = bool(target_cat and target_cat.lower() != "teammate")
+
         nt_candidates = []
         for nt_slug, info in teammate_notes.items():
             if not _allowed(nt_slug) or nt_slug in DPS_SLUGS:
                 continue
             c = by_slug[nt_slug]
-            same_el = _element_str(c) == target_el
-            overlap = _capability_overlap(target_char.slug, nt_slug)
-            if not same_el and overlap == 0:
+            nt_cat = info.get("category")
+            same_cat = has_specific_cat and nt_cat == target_cat
+            overlap = _core_role_overlap(target_char.slug, nt_slug)
+            if not same_cat and overlap == 0:
                 continue
-            nt_candidates.append((0 if same_el else 1, -overlap, c.name, nt_slug, info))
+            nt_candidates.append((0 if same_cat else 1, -overlap, c.name, nt_slug, info))
 
         nt_candidates.sort()
         for _, _, _, nt_slug, info in nt_candidates:
@@ -143,33 +153,9 @@ def suggest_substitutes_for_slot(
             results.append({
                 "character_slug": nt_slug,
                 "build_label": info.get("category") or format_capability_label(nt_slug, c),
-                "notes": info.get("notes") or f"Alternativa {_element_str(c).capitalize()}",
+                "notes": info.get("notes") or f"Sugerido no guia ({format_capability_label(nt_slug, c)})",
             })
             added.add(nt_slug)
-
-    # 3) Fallback do banco: mesmo elemento, não-DPS, ordenado por capability overlap
-    if len(results) < limit:
-        db_candidates = []
-        for c in all_chars:
-            if not _allowed(c.slug) or c.slug in DPS_SLUGS:
-                continue
-            if _element_str(c) != target_el:
-                continue
-            overlap = _capability_overlap(target_char.slug, c.slug)
-            has_known_cap = 0 if c.slug in CHARACTER_CAPABILITIES else 1
-            db_candidates.append((-overlap, has_known_cap, c.name, c))
-
-        db_candidates.sort()
-        for _, _, _, c in db_candidates:
-            if len(results) >= limit:
-                break
-            label = format_capability_label(c.slug, c)
-            results.append({
-                "character_slug": c.slug,
-                "build_label": label,
-                "notes": f"Alternativa {_element_str(c).capitalize()} ({label})",
-            })
-            added.add(c.slug)
 
     return results
 
@@ -182,11 +168,7 @@ def compute_slot_substitutes_for_slugs(
     teammate_notes: dict[str, dict[str, str]] | None = None,
     limit: int = 6,
 ) -> dict[int, list[dict[str, Any]]]:
-    """Calcula mapa `{position: [Substitute, ...]}` para um time de slugs.
-
-    Slot 1 (main) e DPS puros não recebem substitutos automáticos (salvo se houver
-    alternativa explícita com '/' no guia para aquele slot).
-    """
+    """Calcula mapa `{position: [Substitute, ...]}` estritamente baseado nos dados do guia."""
     if not character_slugs:
         return {}
 

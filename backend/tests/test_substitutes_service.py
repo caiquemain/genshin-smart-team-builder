@@ -73,27 +73,45 @@ class TestSubstitutesService:
         assert subs[4][0]["build_label"] == "Buffers"
         assert "Icy Quill" in subs[4][0]["notes"]
 
-    def test_fallback_excludes_other_team_members_and_dps(self):
+    def test_no_db_fallback_never_suggests_faruzan_for_neuvillette(self):
         roster = [
-            _char("arlecchino", "Arlecchino", "pyro"),
-            _char("yelan", "Yelan", "hydro"),
-            _char("furina", "Furina", "hydro"),
             _char("neuvillette", "Neuvillette", "hydro"),
-            _char("xingqiu", "Xingqiu", "hydro"),
+            _char("furina", "Furina", "hydro"),
+            _char("kaedehara-kazuha", "Kazuha", "anemo"),
+            _char("xilonen", "Xilonen", "geo"),
+            _char("faruzan", "Faruzan", "anemo"),
+            _char("gorou", "Gorou", "geo"),
+            _char("sucrose", "Sucrose", "anemo"),
         ]
         db = _mock_db(roster)
-        target = roster[1]  # yelan
 
-        subs = suggest_substitutes_for_slot(
+        # Sem dados do guia, não inventa Faruzan/Gorou por elemento
+        empty_subs = suggest_substitutes_for_slot(
             db,
-            target,
-            team_slugs={"arlecchino", "yelan", "furina"},
-            limit=5,
+            roster[2],  # kazuha
+            team_slugs={"neuvillette", "furina", "kaedehara-kazuha", "xilonen"},
+            limit=6,
         )
-        slugs = [s["character_slug"] for s in subs]
-        assert "furina" not in slugs       # already in team
-        assert "neuvillette" not in slugs  # pure DPS
-        assert slugs == ["xingqiu"]
+        assert empty_subs == []
+
+        # Com Notable Teammates do guia (sem Faruzan/Gorou), permite cross-element da mesma categoria
+        guide_notes = {
+            "kaedehara-kazuha": {"category": "RES Shred", "notes": "VV + DMG%"},
+            "sucrose": {"category": "RES Shred", "notes": "VV + EM"},
+            "zhongli": {"category": "RES Shred", "notes": "Shield + universal shred"},
+        }
+        roster.append(_char("zhongli", "Zhongli", "geo"))
+        curated = suggest_substitutes_for_slot(
+            db,
+            roster[2],  # kazuha
+            team_slugs={"neuvillette", "furina", "kaedehara-kazuha", "xilonen"},
+            teammate_notes=guide_notes,
+            limit=6,
+        )
+        slugs = [s["character_slug"] for s in curated]
+        assert slugs == ["zhongli", "sucrose"]
+        assert "faruzan" not in slugs
+        assert "gorou" not in slugs
 
 
 class TestMultiSourceMergersAndBuildCheck:
