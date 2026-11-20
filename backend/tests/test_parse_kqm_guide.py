@@ -203,3 +203,53 @@ def test_real_kqm_guides_regression(slug: str):
     assert len(result["notable_teammates"]) >= 20
     assert len(result["teams"]) >= 1
     assert bd["references"][0]["url"] == f"https://keqingmains.com/{slug}/"
+
+
+def test_import_kqm_normalizes_short_kqm_filenames():
+    from app.scripts.import_kqm import normalize_slug, resolve_character
+
+    expected = {
+        "anemo-traveler": "traveler-anemo",
+        "geo-traveler": "traveler-geo",
+        "electro-traveler": "traveler-electro",
+        "dendro-traveler": "traveler-dendro",
+        "hydro-traveler": "traveler-hydro",
+        "pyro-traveler": "traveler-pyro",
+        "ayaka": "kamisato-ayaka",
+        "ayato": "kamisato-ayato",
+        "heizou": "shikanoin-heizou",
+        "itto": "arataki-itto",
+        "kazuha": "kaedehara-kazuha",
+        "kokomi": "sangonomiya-kokomi",
+        "mizuki": "yumemizuki-mizuki",
+        "raiden": "raiden-shogun",
+        "sara": "kujou-sara",
+        "shinobu": "kuki-shinobu",
+        "yae": "yae-miko",
+        "yunjin": "yun-jin",
+    }
+    for raw, canonical in expected.items():
+        assert normalize_slug(raw) == canonical
+
+    # resolve_character must query using the canonical normalized slug
+    queried: list[str] = []
+
+    class _FakeQuery:
+        def filter(self, criterion):
+            queried.append(criterion.right.value)
+            return self
+
+        def first(self):
+            return {"slug": queried[-1]}
+
+    class _FakeDB:
+        def query(self, _model):
+            return _FakeQuery()
+
+    res = resolve_character(_FakeDB(), "yae")
+    assert res == {"slug": "yae-miko"}
+    res2 = resolve_character(_FakeDB(), "yunjin")
+    assert res2 == {"slug": "yun-jin"}
+    res3 = resolve_character(_FakeDB(), "dendro-traveler")
+    assert res3 == {"slug": "traveler-dendro"}
+

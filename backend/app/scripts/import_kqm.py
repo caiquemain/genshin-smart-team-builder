@@ -46,6 +46,13 @@ CHAR_ALIASES = {
     "shikanoinheizou": "shikanoin-heizou",
     "aratakiitto": "arataki-itto",
     "yaemiko": "yae-miko",
+    "yae": "yae-miko",
+    "miko": "yae-miko",
+    "yunjin": "yun-jin",
+    "lanyan": "lan-yan",
+    "childe": "tartaglia",
+    "kuki": "kuki-shinobu",
+    "ambor": "amber",
     "yumemizukimizuki": "yumemizuki-mizuki",
     "kokomi": "sangonomiya-kokomi",
     "kazuha": "kaedehara-kazuha",
@@ -99,12 +106,12 @@ ARCHETYPE_RULES = [
     ("aggravate",   {"fischl"}, {"nahida", "alhaitham", "tighnari"}),
     ("spread",      {"nahida"}, {"nilou", "kuki-shinobu"}),
     ("overload",    {"chevreuse"}, set()),
-    ("melt",        {"xiangling", "bennett"}, {"yelan", "xingqiu", "furina", "childe"}),
+    ("melt",        {"xiangling", "bennett"}, {"yelan", "xingqiu", "furina", "tartaglia"}),
     ("melt",        {"nahida", "bennett", "thoma"}, set()),
     ("freeze",      {"skirk"}, set()),
     ("freeze",      {"kamisato-ayaka"}, set()),
     ("freeze",      {"wriothesley", "furina"}, set()),
-    ("freeze",      {"shenhe", "kazuha", "kokomi"}, set()),
+    ("freeze",      {"shenhe", "kaedehara-kazuha", "sangonomiya-kokomi"}, set()),
     ("superconduct", {"eula", "raiden-shogun"}, set()),
     ("hypercarry",  {"eula", "bennett"}, set()),
     ("hypercarry",  {"arataki-itto", "gorou"}, set()),
@@ -114,7 +121,7 @@ ARCHETYPE_RULES = [
     ("hypercarry",  {"xiao", "faruzan"}, set()),
     ("national",    {"tartaglia", "xiangling", "bennett"}, set()),
     ("national",    {"xiangling", "bennett"}, set()),
-    ("vaporize",    {"hutao", "yelan"}, set()),
+    ("vaporize",    {"hu-tao", "yelan"}, set()),
     ("vaporize",    {"arlecchino"}, set()),
     ("vaporize",    {"yoimiya", "xingqiu"}, set()),
     ("vaporize",    {"mualani", "xiangling"}, set()),
@@ -174,7 +181,8 @@ def resolve_artifact(db, slug, name):
 
 
 def resolve_character(db, slug):
-    return db.query(Character).filter(Character.slug == slug).first()
+    canonical = normalize_slug(slug)
+    return db.query(Character).filter(Character.slug == canonical).first()
 
 
 def _extract_refinement(notes: str | None) -> int:
