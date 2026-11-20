@@ -1,0 +1,396 @@
+Skip to content
+Genshin-Impact-Logo.png
+honkai-star-rail-logo.png
+Zenless-Zone-Zero-Characters.png
+wuthering-waves-logo.png
+Palworld.webp
+DragonBallSparkingZero-genshinlab.webp
+POE2-Guide-by-Genshinlab-logo-e1730539945908.webp
+Marvel Rivals Guide By genshinlab.com logo
+Genshinlab
+Character
+Tier List
+Team
+Database
+Banner
+Guide
+GenshinLab Data
+Genshin Impact 7.2 Tier List
+Foreword
+For the 7.2 update. Rankings are carried forward from 7.1 pending review; no ranking changes have been made.
+
+Sources referenced include:
+
+Yshelper (WeChat mini-app “提瓦特小助手”) usage-rate data
+Internal testing (damage, rotation, uptime, comfort, generality)
+From 7.2 onward, other sites’ tier lists and Reddit evaluations as weighted inputs
+Weighting: balanced for both beginners and advanced players—endgame performance, daily usability, investment cost, team flexibility, and learning curve.
+
+Last updated: 2026-11-02 14:17:28
+cropped site icon
+Element Anemo
+Element Electro
+Element Pyro
+Element Cryo
+Element Hydro
+Element Geo
+Element dendro 2
+All Characters 7.2 Tier List
+SS
+Mitya
+Mitya
+Vesna_
+Vesna
+Vodyanitsa_
+Vodyanitsa
+Odette
+Odette
+Sandrone
+Sandrone
+Nicole_
+Nicole
+Columbina
+Columbina
+Genshin_Lauma_t
+Lauma
+Xilonen (60 x 60 )
+Xilonen
+Citlali 60 x 60
+Citlali
+Furina
+Furina
+Skirk_s
+Skirk
+Genshin_Flins_t
+Flins
+Genshin_Ineffa_t
+Ineffa
+Zibai_t
+Zibai
+Genshin_Nefer_t
+Nefer
+S
+Yumemizuki Mizuki t
+Mizuki
+GenshinLab_Neuvillette_1
+Neuvillette
+genshin_yaemiko
+Yae Miko
+Lohen_
+Lohen
+Venti
+Venti
+Durin_
+Durin
+Linnea
+Linnea
+Genshin_Varka_t
+Varka
+Mavuika 60 x 60
+Mavuika
+Fischl
+Fischl
+Mona
+Mona
+Nahida
+Nahida
+Genshin_Nilou_t
+Nilou
+Sucrose
+Sucrose
+varesa_t
+Varesa
+genshin_Arlecchino_t
+Arlecchino
+Iansan_t
+Iansan
+Chasca (60 x 60)
+Chasca
+Escoffier_l
+Escoffier
+Kazuha
+Kazuha
+Bennett
+Bennett
+Navia_s
+Navia
+Yelan_t
+Yelan
+genshin_chevreuse_t
+Chevreuse
+A
+Valeriy head60
+Valeriy
+Genshin_Mualani_t
+Mualani
+Alyosha
+Alyosha
+Traveler (Geo)
+Traveler
+(Cryo)
+Jean
+Jean
+Genshin_Kinich_t
+Kinich
+Diona
+Diona
+Wriothesley_s
+Wriothesley
+Prune_
+Prune
+Illuga_t
+Illuga
+Genshin_Aino_t
+Aino
+Genshin_Alhaitham_t
+Alhaitham
+Klee
+Klee
+Xingqiu
+Xingqiu
+Albedo
+Albedo
+zhongli
+Zhongli
+test
+Raiden
+Clorinde
+Clorinde
+Hu Tao
+Hu Tao
+Emilie
+Emilie
+Chiori_S
+Chiori
+Xian_yun
+Xianyun
+Genshin_Baizhu.png
+Baizhu
+Xiangling
+Xiangling
+Ayaka
+Ayaka
+Ororon (60 x 60 )
+Ororon
+Xiao
+Xiao
+Tartaglia
+Tartaglia
+Character_Kuki_Shinobu_t
+Kuki
+Qiqi
+Qiqi
+B
+Character_Kujou_Sara_Thumb
+Kujou Sara
+Beidou
+Beidou
+Character_Sangonomiya_Kokomi_t
+Kokomi
+Jahoda_
+Jahoda
+Ganyu
+Ganyu
+genshin_character_shenhe_t
+Shenhe
+Lan Yan 60 x 60
+Lan Yan
+Genshin_Tighnari_t
+Tighnari
+Sigewinne
+Sigewinne
+Genshin_Cyno_t
+Cyno
+Genshin_Kirara_t
+Kirara
+Keqing
+Keqing
+Yanfei
+Yanfei
+Genshin_Lyney_t
+Lyney
+genshin_ayato_tier
+Ayato
+genshin_Wanderer_t
+Wanderer
+Genshin_Charlotte_t
+Charlotte
+Genshin_Itto_t
+Itto
+Chongyun
+Chongyun
+Dahlia_t
+Dahlia
+Character_Thoma_
+Thoma
+Rosaria
+Rosaria
+Genshin_Candace_t
+Candace
+Genshin_Gorou_t
+Gorou
+Gaming
+Gaming
+Yun Jin
+Yun Jin
+Genshin_Yoimiya
+Yoimiya
+Genshin_Faruzan_t
+Faruzan
+Razor
+Razor
+C
+Ifa_l
+Ifa
+Genshin_Dehya_t
+Dehya
+Genhin_Collei_t
+Collei
+Genshin_Kachina_t
+Kachina
+Eula
+Eula
+Sethos
+Sethos
+Genshin_Yaoyao_t
+Yaoyao
+Diluc
+Diluc
+Genshin_Lynette_t
+Lynette
+Genshin_Layla_t
+Layla
+Noelle
+Noelle
+Kaeya
+Kaeya
+Genshin_Freminet_t
+Freminet
+Ningguang
+Ningguang
+Lisa
+Lisa
+heizo_face
+Heizou
+Amber
+Amber
+Genshin_Mika_t
+Mika
+Genshin_Character_Sayu_t
+Sayu
+Genshin_Character_Aloy_T
+Aloy
+Traveler (Geo)
+Traveler
+(Pyro)
+Traveler (Geo)
+Traveler
+(Dendro)
+D
+Xinyan
+Xinyan
+Genshin_Kaveh_t
+Kaveh
+Barbara
+Barbara
+Genshin_Dori_t
+Dori
+Traveler (Anemo)
+Traveler
+(Anemo)
+Traveler (Geo)
+Traveler
+(Geo)
+Traveler (Geo)
+Traveler
+(Electro)
+Traveler (Geo)
+Traveler
+(Hydro)
+
+
+
+
+
+
+
+Genshinlab
+© 2026 Genshinlab All Rights Reserved
+Playwire
+
+Advertise on this site.
+
+About Us
+
+Contact
+
+Advertising
+
+Guide Contribution
+
+Privacy Policy
+
+Palworld
+
+Palworld Pals
+
+Breeding Calculator
+
+Marvel Rivals
+
+Marvel Rivals Characters
+
+Marvel Rivals Tier list
+
+Path of Exile 2 (PoE 2)
+
+Path of Exile 2 (POE 2) Classes
+
+Path of Exile 2 (POE 2) Tier list
+
+ 
+
+Wuthering Waves
+
+Wutheringlab
+
+Wuthering Waves Characters
+
+Wuthering Waves Tier list
+
+Zenless Zone Zero
+
+Zenlesslab
+
+Zenless Zone Zero Characters
+
+Zenless Zone Zero Tier list
+
+DRAGON BALL: Sparking ZERO
+
+DRAGON BALL: Sparking ZERO Characters
+
+DRAGON BALL: Sparking ZERO Tier list
+
+Honkai Star Rail
+
+Honkailab
+
+Honkai Star Rail Characters
+
+Honkai Star Rail News
+
+Honkai Star Rail Team Build
+
+Warcraft Rumble
+
+Warcraft Rumble Deck
+
+Warcraft Rumble Tier List
+
+Warcraft Rumble Mission Guide
+
+Warcraft Rumble Mini Build
+
+About · Contact · Privacy Policy · info@genshinlab.com
+// //

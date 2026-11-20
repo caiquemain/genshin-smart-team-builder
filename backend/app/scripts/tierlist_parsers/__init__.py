@@ -4,6 +4,7 @@ from typing import Callable, Optional
 
 from .common import dedupe_best_tier, normalize_character_slug, parse_canonical_csv
 from .genshingg import GENSHINGG_SCALE, parse_genshingg
+from .genshinlab import GENSHINLAB_SCALE, parse_genshinlab
 from .icy_veins import ICY_VEINS_SCALE, parse_icy_veins
 from .yshelper import (
     YSHELPER_SCALE,
@@ -38,8 +39,9 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         slug="genshinlab",
         name="GenshinLab",
         url="https://genshinlab.com/tier-list/",
-        scale=("SS", "S", "A", "B", "C", "D"),
+        scale=tuple(GENSHINLAB_SCALE),
         master_map={"SS": "S+", "S": "S", "A": "A", "B": "B", "C": "C", "D": "D"},
+        txt_parser=parse_genshinlab,
     ),
     "game8": TierlistSiteConfig(
         slug="game8",
@@ -125,6 +127,7 @@ __all__ = [
     "normalize_character_slug",
     "parse_canonical_csv",
     "parse_genshingg",
+    "parse_genshinlab",
     "parse_icy_veins",
     "parse_yshelper_abyss",
     "parse_yshelper_html",

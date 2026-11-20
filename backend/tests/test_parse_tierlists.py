@@ -11,6 +11,7 @@ from app.scripts.tierlist_parsers import (
     normalize_character_slug,
     parse_canonical_csv,
     parse_genshingg,
+    parse_genshinlab,
     parse_icy_veins,
     parse_yshelper_abyss,
     parse_yshelper_stygian,
@@ -204,5 +205,33 @@ def test_real_genshingg_7_2_regression():
     assert by_slug["traveler-cryo"] == {"character_slug": "traveler-cryo", "role": "main_dps", "tier_label": "A"}
     assert by_slug["traveler-pyro"] == {"character_slug": "traveler-pyro", "role": "support", "tier_label": "B"}
     assert by_slug["shikanoin-heizou"] == {"character_slug": "shikanoin-heizou", "role": "sub_dps", "tier_label": "D"}
+
+
+def test_real_genshinlab_7_2_regression():
+    path = TIERLISTS_DIR / "genshinlab" / "7.2.txt"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_genshinlab(path.read_text(encoding="utf-8"), version_hint="7.2")
+
+    assert res["site_slug"] == "genshinlab"
+    assert res["version"] == "7.2"
+    assert len(res["entries"]) == 129
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"SS": 16, "S": 24, "A": 30, "B": 29, "C": 22, "D": 8}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["mitya"]["tier_label"] == "SS"
+    assert by_slug["furina"]["tier_label"] == "SS"
+    assert by_slug["yumemizuki-mizuki"]["tier_label"] == "S"
+    assert by_slug["raiden-shogun"]["tier_label"] == "A"
+    assert by_slug["kuki-shinobu"]["tier_label"] == "A"
+    assert by_slug["traveler-cryo"]["tier_label"] == "A"
+    assert by_slug["traveler-pyro"]["tier_label"] == "C"
+    assert by_slug["traveler-dendro"]["tier_label"] == "C"
+    assert by_slug["traveler-anemo"]["tier_label"] == "D"
+    assert by_slug["traveler-geo"]["tier_label"] == "D"
+    assert by_slug["traveler-electro"]["tier_label"] == "D"
+    assert by_slug["traveler-hydro"]["tier_label"] == "D"
+
 
 
