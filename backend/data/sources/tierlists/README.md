@@ -1,7 +1,7 @@
 # Fontes de Tierlists & Endgame Usage
 
 Cada subpasta representa um site/fonte de tierlist ou taxa de uso endgame.
-Use nomes versionados para manter histórico por patch (ex.: `7.1.csv`, `7.1.txt`) ou por modo endgame no YS Helper (`abyss.txt`, `stygian.txt`, `theater.txt`).
+Use nomes versionados para manter histórico por patch (ex.: `7.2.txt`, `7.1.csv`) ou por modo endgame no YS Helper (`abyss.txt`, `stygian.txt`, `theater.txt`).
 
 ## Pastas disponíveis
 
@@ -13,13 +13,22 @@ Use nomes versionados para manter histórico por patch (ex.: `7.1.csv`, `7.1.txt
 | `mobalytics/` | Mobalytics (`mobalytics.gg`) | 9 níveis (`S`..`F`) | `7.1.csv` |
 | `gamewith/` | GameWith (`gamewith.net`) | 6 níveis (`SS`..`D`) | `7.1.csv` |
 | `prydwen/` | Prydwen (`prydwen.gg/genshin/tier-list`) | Editorial | *(pronto para receber `.txt`/`.csv`)* |
-| `icy-veins/` | Icy Veins (`icy-veins.com/genshin-impact/tier-list`) | Editorial | *(pronto para receber `.txt`)* |
+| `icy-veins/` | Icy Veins (`icy-veins.com/genshin-impact/tier-list`) | 6 níveis (`S+`..`D`) + 3 roles | `7.2.txt` (parser ativo) |
 | `yshelper/` | YS Helper (Abismo + Stygian Onslaught / Teatro Imaginário) | Taxa de uso (%) | *(pronto para `abyss.txt`, `stygian.txt`, `theater.txt`)* |
+
+## Como importar no banco
+
+```bash
+# Importar apenas um site (ex.: Icy Veins — cadastra o site automaticamente se não existir)
+docker compose exec backend python -m app.scripts.import_tierlists --site icy-veins
+
+# Simular sem salvar (dry-run)
+docker compose exec backend python -m app.scripts.import_tierlists --site icy-veins --dry-run
+
+# Reimportar todos os sites que possuem arquivos aqui (mantém Prydwen intacto se pasta estiver vazia)
+docker compose exec backend python -m app.scripts.import_tierlists --all
+```
 
 ## Script SQL legado (7.1)
 
-O snapshot SQL consolidado (já com o bloco do `GameWith` corrigido dentro da transação) continua em `backend/app/scripts/import_tierlists.sql`:
-
-```bash
-docker compose exec -T db psql -U postgres -d genshin < backend/app/scripts/import_tierlists.sql
-```
+O snapshot SQL consolidado (já com o bloco do `GameWith` corrigido dentro da transação) continua disponível em `backend/app/scripts/import_tierlists.sql`.
