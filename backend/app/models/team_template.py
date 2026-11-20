@@ -18,3 +18,5 @@ class TeamTemplate(Base):
     notes = Column(Text)
     source = Column(String(100), default="KQM")
     source_url = Column(String(500))
+    sources = Column(JSONB, nullable=False, default=list)
+    slot_substitutes = Column(JSONB, nullable=False, default=dict)

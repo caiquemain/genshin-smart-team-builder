@@ -1,5 +1,11 @@
 from pydantic import BaseModel, ConfigDict
+from .build import Substitute
 from .team_analysis import TeamAnalysisResponse
+
+
+class TeamTemplateSource(BaseModel):
+    source: str
+    url: str | None = None
 
 
 class TeamTemplateSummary(BaseModel):
@@ -13,6 +19,7 @@ class TeamTemplateSummary(BaseModel):
     character_slugs: list[str]
     source: str | None = None
     source_url: str | None = None
+    sources: list[TeamTemplateSource] = []
 
 
 class TeamTemplateDetail(TeamTemplateSummary):
@@ -20,6 +27,7 @@ class TeamTemplateDetail(TeamTemplateSummary):
     weapon_slug: str | None = None
     notes: str | None = None
     analysis: TeamAnalysisResponse | None = None
+    slot_substitutes: dict[int, list[Substitute]] = {}
 
 
 class TeamTemplateListResponse(BaseModel):

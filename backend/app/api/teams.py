@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import CharacterBuildPreset,  Character, Team, TeamCharacter, Language
+from ..models import CharacterBuildPreset, Character, Team, TeamCharacter, TeamTemplate, Language
 from ..schemas.team import (
     TeamCreate, TeamDetail, TeamMemberOut, TeamListResponse,
     TeamMembersUpdate, TeamTierInfo, TeamTierChar, TeamPreviewTierPayload,
@@ -10,12 +10,26 @@ from ..schemas.team import (
 from ..schemas.build import CharacterBuild, TeamBuildsUpdate, Substitute
 from ..schemas.character import CharacterSummary
 from ..services.i18n import resolve_character
+from ..services.substitutes import compute_slot_substitutes_for_slugs
 from ..services.synergy import analyze_team
 from ..schemas.team_analysis import TeamAnalysisRequest, TeamAnalysisResponse
 from .deps import get_language
 from ..services.team_tier import fetch_char_tiers_batch, fetch_char_tiers_slugs, compute_team_tier
 
 router = APIRouter(prefix="/teams", tags=["teams"])
+
+
+def _has_build_content(data: dict | None) -> bool:
+    if not data or not isinstance(data, dict):
+        return False
+    list_keys = (
+        "weapons", "artifacts_4pc", "artifacts_2pc",
+        "sands_stat", "goblet_stat", "circlet_stat",
+        "substat_priority", "combos", "references",
+    )
+    if any(bool(data.get(k)) for k in list_keys):
+        return True
+    return any(bool(data.get(k)) for k in ("er_requirement", "talent_priority", "notes"))
 
 
 def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
@@ -29,7 +43,7 @@ def _build_detail(db: Session, team: Team, lang: Language) -> TeamDetail:
     member_out = []
     for tc, char in members:
         data = resolve_character(db, char, lang)
-        build = CharacterBuild(**tc.build_data) if tc.build_data else None
+        build = CharacterBuild(**tc.build_data) if _has_build_content(tc.build_data) else None
         member_out.append(TeamMemberOut(
             position=tc.position,
             character=CharacterSummary(
@@ -96,11 +110,45 @@ def create_team(
     db.add(team)
     db.flush()
 
+    template_subs: dict[int, list[dict]] = {}
+    if payload.auto_populate:
+        if payload.template_id:
+            tpl = db.query(TeamTemplate).filter(TeamTemplate.id == payload.template_id).one_or_none()
+            if tpl and tpl.slot_substitutes:
+                for k, v in tpl.slot_substitutes.items():
+                    try:
+                        template_subs[int(k)] = list(v)
+                    except (TypeError, ValueError):
+                        pass
+
+        computed_subs = compute_slot_substitutes_for_slugs(
+            db,
+            payload.character_slugs,
+            limit=6,
+        )
+    else:
+        computed_subs = {}
+
     for i, slug in enumerate(payload.character_slugs, start=1):
+        char = by_slug[slug]
+        build_data = None
+        substitutes: list[dict] = []
+        if payload.auto_populate:
+            preset = (
+                db.query(CharacterBuildPreset)
+                .filter(CharacterBuildPreset.character_id == char.id)
+                .first()
+            )
+            if preset and _has_build_content(preset.build_data):
+                build_data = dict(preset.build_data)
+            substitutes = template_subs.get(i) or computed_subs.get(i, [])
+
         db.add(TeamCharacter(
             team_id=team.id,
-            character_id=by_slug[slug].id,
+            character_id=char.id,
             position=i,
+            build_data=build_data,
+            substitutes=substitutes,
         ))
     db.commit()
     db.refresh(team)

@@ -9,6 +9,8 @@ class TeamCreate(BaseModel):
     description: str | None = None
     author_name: str | None = Field(default=None, max_length=100)
     character_slugs: list[str] = Field(..., min_length=1, max_length=4)
+    template_id: int | None = None
+    auto_populate: bool = True
 
 
 class TeamMemberOut(BaseModel):

@@ -3,7 +3,9 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..models import TeamTemplate
+from ..schemas.build import Substitute
 from ..schemas.team_template import (
+    TeamTemplateSource,
     TeamTemplateSummary,
     TeamTemplateDetail,
     TeamTemplateListResponse,
@@ -11,9 +13,55 @@ from ..schemas.team_template import (
     ArchetypesResponse,
 )
 from ..schemas.team_analysis import TeamAnalysisResponse
+from ..services.substitutes import compute_slot_substitutes_for_slugs
 from ..services.synergy import analyze_team
 
 router = APIRouter(prefix="/teams/templates", tags=["templates"])
+
+
+def _resolve_sources(t: TeamTemplate) -> list[TeamTemplateSource]:
+    raw = t.sources or []
+    if raw:
+        return [
+            TeamTemplateSource(
+                source=s.get("source") or "KQM",
+                url=s.get("url"),
+            )
+            for s in raw
+            if isinstance(s, dict)
+        ]
+    if t.source:
+        return [TeamTemplateSource(source=t.source, url=t.source_url)]
+    return []
+
+
+def _resolve_slot_substitutes(db: Session, t: TeamTemplate) -> dict[int, list[Substitute]]:
+    stored = t.slot_substitutes or {}
+    parsed_stored: dict[int, list[Substitute]] = {}
+    for k, items in stored.items():
+        try:
+            pos = int(k)
+        except (TypeError, ValueError):
+            continue
+        if isinstance(items, list) and items:
+            parsed_stored[pos] = [Substitute(**s) for s in items if isinstance(s, dict)]
+
+    # Se já tem substitutos salvos em pelo menos um slot flex, usa os curados;
+    # caso contrário (templates legados), calcula dinamicamente por role/elemento.
+    if parsed_stored:
+        return parsed_stored
+
+    computed = compute_slot_substitutes_for_slugs(
+        db,
+        list(t.character_slugs or []),
+        main_character=t.main_character,
+        limit=6,
+    )
+    return {
+        pos: [Substitute(**s) for s in items]
+        for pos, items in computed.items()
+        if items
+    }
 
 
 @router.get("/archetypes", response_model=ArchetypesResponse)
@@ -46,9 +94,21 @@ def list_templates(
         # character_slugs é JSONB; filter por containment
         q = q.filter(TeamTemplate.character_slugs.contains([character_slug]))
     rows = q.order_by(TeamTemplate.archetype, TeamTemplate.name).all()
-    return TeamTemplateListResponse(
-        items=[TeamTemplateSummary.model_validate(r) for r in rows],
-    )
+    items = [
+        TeamTemplateSummary(
+            id=r.id,
+            name=r.name,
+            main_character=r.main_character,
+            archetype=r.archetype,
+            description=r.description,
+            character_slugs=list(r.character_slugs or []),
+            source=r.source,
+            source_url=r.source_url,
+            sources=_resolve_sources(r),
+        )
+        for r in rows
+    ]
+    return TeamTemplateListResponse(items=items)
 
 
 @router.get("/{template_id}", response_model=TeamTemplateDetail)
@@ -78,5 +138,7 @@ def get_template(
         notes=t.notes,
         source=t.source,
         source_url=t.source_url,
+        sources=_resolve_sources(t),
         analysis=analysis,
+        slot_substitutes=_resolve_slot_substitutes(db, t),
     )
