@@ -1,0 +1,38 @@
+[
+  {
+    "character_slugs": [
+      "neuvillette",
+      "furina",
+      "xilonen",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette Furina (Neuvillette — Furina — Xilonen — Kazuha)",
+    "description": "Neuvillette Furina — Genshin.gg",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "fischl",
+      "zhongli",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette Electro-Charged (Neuvillette — Fischl — Zhongli — Kazuha)",
+    "description": "Neuvillette Electro-Charged — Genshin.gg",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "nahida",
+      "kuki-shinobu",
+      "zhongli"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette Hyperbloom (Neuvillette — Nahida — Kuki Shinobu — Zhongli)",
+    "description": "Neuvillette Hyperbloom — Genshin.gg",
+    "slot_alternatives": {}
+  }
+]

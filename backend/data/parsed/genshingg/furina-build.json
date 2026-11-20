@@ -1,0 +1,107 @@
+{
+  "source": "Genshin.gg",
+  "source_slug": "genshingg",
+  "source_url": "https://genshin.gg/characters/furina/",
+  "character_slug": "furina",
+  "build": {
+    "name": "Genshin.gg Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "Rank #1 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "Rank #2 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 4,
+          "notes": "Rank #3 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "serenity-s-call",
+          "weapon_name": "Serenity's Call",
+          "rarity": 4,
+          "notes": "Rank #4 R5 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 4,
+          "notes": "Rank #5 (Genshin.gg)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "Rank #1 (Genshin.gg)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "Rank #2 (Genshin.gg)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "golden-troupe",
+          "set1_name": "Golden Troupe",
+          "set2_slug": "tenacity-of-the-millelith",
+          "set2_name": "Tenacity of the Millelith",
+          "notes": "Rank #3 2pc+2pc (Genshin.gg)"
+        },
+        {
+          "set1_slug": "golden-troupe",
+          "set1_name": "Golden Troupe",
+          "set2_slug": "heart-of-depth",
+          "set2_name": "Heart of Depth",
+          "notes": "Rank #4 2pc+2pc (Genshin.gg)"
+        },
+        {
+          "set1_slug": "heart-of-depth",
+          "set1_name": "Heart of Depth",
+          "set2_slug": "tenacity-of-the-millelith",
+          "set2_name": "Tenacity of the Millelith",
+          "notes": "Rank #5 2pc+2pc (Genshin.gg)"
+        }
+      ],
+      "sands_stat": [
+        "er",
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg",
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": null,
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://genshin.gg/characters/furina/",
+          "title": "Genshin.gg Furina Build"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

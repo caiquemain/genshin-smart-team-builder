@@ -372,6 +372,17 @@ def import_build(db, data, warnings):
             warnings.append(f"[build] Set não encontrado: {a['artifact_set_slug']}")
     bd["artifacts_4pc"] = valid_a
 
+    valid_a2 = []
+    for p in bd.get("artifacts_2pc", []):
+        if "set1_slug" in p and "set2_slug" in p:
+            r1 = resolve_artifact(db, p["set1_slug"], p.get("set1_name", ""))
+            r2 = resolve_artifact(db, p["set2_slug"], p.get("set2_name", ""))
+            if r1 and r2:
+                valid_a2.append({"set1_slug": r1.slug, "set2_slug": r2.slug, "notes": p.get("notes")})
+            else:
+                warnings.append(f"[build] Par 2pc não encontrado: {p.get('set1_slug')} + {p.get('set2_slug')}")
+    bd["artifacts_2pc"] = valid_a2
+
     existing = db.query(CharacterBuildPreset).filter(
         CharacterBuildPreset.character_id == char.id,
         CharacterBuildPreset.name == build["name"],

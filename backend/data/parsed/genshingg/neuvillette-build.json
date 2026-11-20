@@ -1,0 +1,105 @@
+{
+  "source": "Genshin.gg",
+  "source_slug": "genshingg",
+  "source_url": "https://genshin.gg/characters/neuvillette/",
+  "character_slug": "neuvillette",
+  "build": {
+    "name": "Genshin.gg Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "Rank #1 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "sacrificial-jade",
+          "weapon_name": "Sacrificial Jade",
+          "rarity": 4,
+          "notes": "Rank #2 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "jadefall-s-splendor",
+          "weapon_name": "Jadefall's Splendor",
+          "rarity": 4,
+          "notes": "Rank #3 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "Rank #4 (Genshin.gg)"
+        },
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura's Verity",
+          "rarity": 4,
+          "notes": "Rank #5 (Genshin.gg)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Rank #1 (Genshin.gg)"
+        },
+        {
+          "artifact_set_slug": "heart-of-depth",
+          "artifact_set_name": "Heart of Depth",
+          "notes": "Rank #2 (Genshin.gg)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "heart-of-depth",
+          "set1_name": "Heart of Depth",
+          "set2_slug": "marechaussee-hunter",
+          "set2_name": "Marechaussee Hunter",
+          "notes": "Rank #3 2pc+2pc (Genshin.gg)"
+        },
+        {
+          "set1_slug": "marechaussee-hunter",
+          "set1_name": "Marechaussee Hunter",
+          "set2_slug": "tenacity-of-the-millelith",
+          "set2_name": "Tenacity of the Millelith",
+          "notes": "Rank #4 2pc+2pc (Genshin.gg)"
+        },
+        {
+          "set1_slug": "heart-of-depth",
+          "set1_name": "Heart of Depth",
+          "set2_slug": "tenacity-of-the-millelith",
+          "set2_name": "Tenacity of the Millelith",
+          "notes": "Rank #5 2pc+2pc (Genshin.gg)"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": null,
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://genshin.gg/characters/neuvillette/",
+          "title": "Genshin.gg Neuvillette Build"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

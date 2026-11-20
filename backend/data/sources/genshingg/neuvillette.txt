@@ -1,0 +1,262 @@
+GENSHIN.GG Logo
+Genshin ImpactGenshin Impact
+Honkai: Star RailHonkai: Star Rail
+Zenless Zone ZeroZenless Zone Zero
+Honkai: Nexus AnimaHonkai: Nexus Anima
+Characters
+Builds
+Teams
+Tier List
+Farming Guide
+Database
+Neuvillette
+Genshin Impact Neuvillette Build
+HydroHydro
+CatalystCatalyst
+Main DPS
+Neuvillette Upgrade Materials
+Equity
+Equity
+Varunada Lazurite Sliver
+Varunada Lazurite Sliver
+Transoceanic Pearl
+Transoceanic Pearl
+Lumitoile
+Lumitoile
+Fontemer Unihorn
+Fontemer Unihorn
+Everamber
+Everamber
+Neuvillette Best Weapons
+1
+Tome of the Eternal Flow
+Tome of the Eternal Flow
+2
+Sacrificial Jade
+Sacrificial Jade
+3
+Jadefall's Splendor
+Jadefall's Splendor
+4
+Prototype Amber
+Prototype Amber
+5
+Kagura's Verity
+Kagura's Verity
+Neuvillette Best Artifacts
+1
+Marechaussee Hunter
+Marechaussee Hunter
+4
+2
+Heart of Depth
+Heart of Depth
+4
+3
+Heart of Depth
+Heart of Depth
+2
+Marechaussee Hunter
+Marechaussee Hunter
+2
+4
+Marechaussee Hunter
+Marechaussee Hunter
+2
+Tenacity of the Millelith
+Tenacity of the Millelith
+2
+5
+Heart of Depth
+Heart of Depth
+2
+Tenacity of the Millelith
+Tenacity of the Millelith
+2
+Neuvillette Best Stats
+Sands:
+HP%
+Goblet:
+Hydro DMG
+Circlet:
+CRIT Rate / CRIT DMG
+Substats:
+Energy Recharge > CRIT Rate / CRIT DMG > HP%
+Character Builds by Genshin Impact Helper →
+Showcase
+Teams
+Talents
+Passives
+Constellations
+Ascension
+Neuvillette Showcase
+Neuvillette video guide by Zy0x. Check out his content!
+
+Best Neuvillette Teams
+Neuvillette Furina
+NeuvilletteHydro
+FurinaHydro
+XilonenGeo
+KazuhaAnemo
+Neuvillette Electro-Charged
+NeuvilletteHydro
+FischlElectro
+ZhongliGeo
+KazuhaAnemo
+Neuvillette Hyperbloom
+NeuvilletteHydro
+NahidaDendro
+Kuki ShinobuElectro
+ZhongliGeo
+Neuvillette Talents
+As Water Seeks Equilibrium
+Normal Attack
+As Water Seeks Equilibrium
+Normal Attack
+With light flourishes, Neuvillette commands the tides to unleash a maximum of 3 attacks, dealing Hydro DMG.
+Charged Attack Empowerment: Legal Evaluation
+While charging up, Neuvillette will gather the power of water, forming it into a Seal of Arbitration. In this state, Neuvillette can move and change facing, and also absorb any Sourcewater Droplets in a certain AoE.
+Every Droplet he absorbs will increase the formation speed of the Seal, and will heal Neuvillette.
+When the charging is stopped, if the Symbol has yet to be formed, then a Charged Attack will be unleashed. If it has been formed, then a Charged Attack: Equitable Judgment will be unleashed.
+
+Charged Attack
+Consumes a fixed amount of Stamina to attack opponents with a rupturing blast of water, dealing AoE Hydro DMG.
+Charged Attack: Equitable Judgment
+Unleashes surging torrents, dealing continuous AoE Hydro DMG to all opponents in a straight-line area in front of him.
+Equitable Judgment will not consume any Stamina and lasts 3s.
+If Neuvillette's HP is above 50%, he will continuously lose HP while using this attack.
+
+Plunging Attack
+Gathering the might of Hydro, Neuvillette plunges towards the ground from mid-air, damaging all opponents in his path. Deals AoE Hydro DMG upon impact with the ground.
+O Tears, I Shall Repay
+Elemental Skill
+O Tears, I Shall Repay
+Summons a Raging Waterfall that will deal AoE Hydro DMG to opponents in front of Neuvillette based on his Max HP. After hitting an opponent, this skill will generate 3 Sourcewater Droplets near that opponent.
+
+Arkhe: Pneuma
+At certain intervals, when the Raging Waterfall descends, a Spiritbreath Thorn will descend that will pierce opponents, dealing Pneuma-aligned Hydro DMG.
+O Tides, I Have Returned
+Elemental Burst
+O Tides, I Have Returned
+Unleashes waves that will deal AoE Hydro DMG based on Neuvillette's Max HP. After a short interval, 2 waterfalls will descend and deal Hydro DMG in a somewhat smaller AoE, and will generate 6 Sourcewater Droplets within an area in front.
+Neuvillette Passives
+Heir to the Ancient Sea's Authority
+Ascension 1
+Heir to the Ancient Sea's Authority
+When a party member triggers a Vaporize, Frozen, Electro-Charged, Bloom, Hydro Swirl, or a Hydro Crystallize reaction on opponents, 1 stack of Past Draconic Glories will be granted to Neuvillette for 30s. Max 3 stacks. Past Draconic Glories causes Charged Attack: Equitable Judgment to deal 110%/125%/160% of its original DMG.
+The stacks of Past Draconic Glories created by each kind of Elemental Reaction exist independently.
+Discipline of the Supreme Arbitration
+Ascension 4
+Discipline of the Supreme Arbitration
+For each 1% of Neuvillette's current HP greater than 30% of Max HP, he will gain 0.6% Hydro DMG Bonus. A maximum bonus of 30% can be obtained this way.
+Gather Like the Tide
+Passive
+Gather Like the Tide
+Increases underwater Sprint SPD for your own party members by 15%.
+Not stackable with Passive Talents that provide the exact same effects.
+Neuvillette Constellations
+Venerable Institution
+Constellation 1
+Venerable Institution
+When Neuvillette takes the field, he will obtain 1 stack of Past Draconic Glories from the Passive Talent "Heir to the Ancient Sea's Authority." You must first unlock the Passive Talent "Heir to the Ancient Sea's Authority."
+Additionally, his interruption resistance will be increased while using the Charged Attack Empowerment: Legal Evaluation and the Charged Attack: Equitable Judgment.
+Constellation 2
+Juridical Exhortation
+The Passive Talent "Heir to the Ancient Sea's Authority" will be enhanced: Each stack of Past Draconic Glories will increase the CRIT DMG of Charged Attack: Equitable Judgment by 14%. The maximum increase that can be achieved this way is 42%.
+You must first unlock the Passive Talent "Heir to the Ancient Sea's Authority."
+Ancient Postulation
+Constellation 3
+Ancient Postulation
+Increases the Level of Normal Attack: As Water Seeks Equilibrium by 3.
+Maximum upgrade level is 15.
+Crown of Commiseration
+Constellation 4
+Crown of Commiseration
+When Neuvillette is on the field and is healed, 1 Sourcewater Droplet will be generated. This effect can occur once every 4s.
+Axiomatic Judgment
+Constellation 5
+Axiomatic Judgment
+Increases the Level of O Tides, I Have Returned by 3.
+Maximum upgrade level is 15.
+Wrathful Recompense
+Constellation 6
+Wrathful Recompense
+When using Charged Attack: Equitable Judgment, Neuvillette can absorb nearby Sourcewater Droplets in an AoE. Each absorbed Droplet will increase the duration of Charged Attack: Equitable Judgment by 1s.
+Additionally, when Equitable Judgment hits opponents, it will fire off 2 additional currents every 2s, each of which will deal 10% of Neuvillette's Max HP as Hydro DMG. DMG dealt this way will count as DMG dealt by Equitable Judgment.
+Neuvillette Ascension Costs
+1
+20
+20000
+Varunada Lazurite Sliver1
+Varunada Lazurite Sliver
+Lumitoile3
+Lumitoile
+Transoceanic Pearl3
+Transoceanic Pearl
+2
+40
+40000
+Varunada Lazurite Fragment3
+Varunada Lazurite Fragment
+Fontemer Unihorn2
+Fontemer Unihorn
+Lumitoile10
+Lumitoile
+Transoceanic Pearl15
+Transoceanic Pearl
+3
+50
+60000
+Varunada Lazurite Fragment6
+Varunada Lazurite Fragment
+Fontemer Unihorn4
+Fontemer Unihorn
+Lumitoile20
+Lumitoile
+Transoceanic Chunk12
+Transoceanic Chunk
+4
+60
+80000
+Varunada Lazurite Chunk3
+Varunada Lazurite Chunk
+Fontemer Unihorn8
+Fontemer Unihorn
+Lumitoile30
+Lumitoile
+Transoceanic Chunk18
+Transoceanic Chunk
+5
+70
+100000
+Varunada Lazurite Chunk6
+Varunada Lazurite Chunk
+Fontemer Unihorn12
+Fontemer Unihorn
+Lumitoile45
+Lumitoile
+Xenochromatic Crystal12
+Xenochromatic Crystal
+6
+80
+120000
+Varunada Lazurite Gemstone6
+Varunada Lazurite Gemstone
+Fontemer Unihorn20
+Fontemer Unihorn
+Lumitoile60
+Lumitoile
+Xenochromatic Crystal24
+Xenochromatic Crystal
+Loading...
+brand
+GENSHIN.GG is not affiliated with or endorsed by miHoYo. GENSHIN.GG is a Database and Tier List website for Genshin Impact, Honkai: Star Rail, Zenless Zone Zero, and Honkai: Nexus Anima.
+
+© GENSHIN.GG 2026
+
+More Links
+Contact
+Privacy Policy
+Community Links
+Discord
+Reddit
