@@ -1,0 +1,432 @@
+GENSHIN.GG Logo
+Genshin ImpactGenshin Impact
+Honkai: Star RailHonkai: Star Rail
+Zenless Zone ZeroZenless Zone Zero
+Honkai: Nexus AnimaHonkai: Nexus Anima
+Characters
+Builds
+Teams
+Tier List
+Farming Guide
+Database
+Genshin Impact Best Characters Tier List
+A ranking of the best characters in the current meta for Genshin Impact.
+
+Tier List based on Spiral Abyss & Stygian Onslaught character usage rates.
+Version 7.2
+Rarity
+
+All
+▾
+Element
+
+All
+▾
+Weapon
+
+All
+▾
+Search...
+S
+AlyoshaC6Electro
+Alyosha
+Support
+ArlecchinoC0Pyro
+Arlecchino
+Main DPS
+CitlaliC0Cryo
+Citlali
+Support
+ColumbinaC0Hydro
+Columbina
+Sub DPS
+DurinC0Pyro
+Durin
+Sub DPS
+EscoffierC0Cryo
+Escoffier
+Sub DPS
+FlinsC0Electro
+Flins
+DPS
+FurinaC0Hydro
+Furina
+Sub DPS
+IneffaC0Electro
+Ineffa
+Sub DPS
+MavuikaC0Pyro
+Mavuika
+Main DPS
+MityaC0Electro
+Mitya
+Main DPS
+NicoleC0Pyro
+Nicole
+Support
+OdetteC0Cryo
+Odette
+Sub DPS
+QiqiC0Cryo
+Qiqi
+Support
+SandroneC0Cryo
+Sandrone
+Main DPS
+SkirkC0Cryo
+Skirk
+Main DPS
+SucroseC6Anemo
+Sucrose
+Support
+VesnaC0Anemo
+Vesna
+Main DPS
+VodyanitsaC0Hydro
+Vodyanitsa
+Support
+WriothesleyC0Cryo
+Wriothesley
+Main DPS
+XilonenC0Geo
+Xilonen
+Support
+Yae MikoC0Electro
+Yae Miko
+Sub DPS
+ZibaiC0Geo
+Zibai
+Main DPS
+A
+BennettC6Pyro
+Bennett
+Support
+DionaC6Cryo
+Diona
+Support
+FaruzanC6Anemo
+Faruzan
+Support
+FischlC6Electro
+Fischl
+Sub DPS
+KazuhaC0Anemo
+Kazuha
+Support
+LaumaC0Dendro
+Lauma
+Support
+LinneaC0Geo
+Linnea
+Support
+LohenC0Cryo
+Lohen
+Main DPS
+MonaC0Hydro
+Mona
+Support
+NeferC0Dendro
+Nefer
+Main DPS
+ShenheC0Cryo
+Shenhe
+Support
+Traveler (Cryo)C6Cryo
+Traveler (Cryo)
+Main DPS
+VarkaC0Anemo
+Varka
+Main DPS
+YelanC0Hydro
+Yelan
+Sub DPS
+Yumemizuki MizukiC0Anemo
+Yumemizuki Mizuki
+Main DPS
+B
+AyakaC0Cryo
+Ayaka
+Main DPS
+ChascaC0Anemo
+Chasca
+Main DPS
+ChevreuseC6Pyro
+Chevreuse
+Support
+CynoC0Electro
+Cyno
+Main DPS
+IansanC6Electro
+Iansan
+Support
+IllugaC6Geo
+Illuga
+Support
+KinichC0Dendro
+Kinich
+Main DPS
+KleeC0Pyro
+Klee
+Main DPS
+NahidaC0Dendro
+Nahida
+Sub DPS
+NeuvilletteC0Hydro
+Neuvillette
+Main DPS
+RaidenCElectro
+Raiden
+Sub DPS
+Traveler (Pyro)C6Pyro
+Traveler (Pyro)
+Support
+ValeriyC6Electro
+Valeriy
+Support
+VaresaC0Electro
+Varesa
+Main DPS
+VentiC0Anemo
+Venti
+Sub DPS
+WandererC0Anemo
+Wanderer
+Main DPS
+ZhongliC0Geo
+Zhongli
+Support
+C
+AinoC6Hydro
+Aino
+Support
+AlbedoC0Geo
+Albedo
+Sub DPS
+AyatoC0Hydro
+Ayato
+Main DPS
+BaizhuC0Dendro
+Baizhu
+Support
+CharlotteC6Cryo
+Charlotte
+Support
+ChildeC0Hydro
+Childe
+Main DPS
+ChioriC0Geo
+Chiori
+Sub DPS
+ClorindeCElectro
+Clorinde
+Main DPS
+EmilieC0Dendro
+Emilie
+Sub DPS
+GanyuC0Cryo
+Ganyu
+Main DPS
+Hu TaoC0Pyro
+Hu Tao
+Main DPS
+KokomiC0Hydro
+Kokomi
+Support
+Kuki ShinobuC6Electro
+Kuki Shinobu
+Sub DPS
+Lan YanC6Anemo
+Lan Yan
+Support
+LaylaC6Cryo
+Layla
+Support
+LyneyC0Pyro
+Lyney
+Main DPS
+MualaniC0Hydro
+Mualani
+Main DPS
+NaviaC0Geo
+Navia
+Main DPS
+NilouC0Hydro
+Nilou
+Support
+OroronC6Electro
+Ororon
+Support
+PruneC6Anemo
+Prune
+Support
+SigewinneC0Hydro
+Sigewinne
+Support
+Traveler (Dendro)C6Dendro
+Traveler (Dendro)
+Support
+XianglingC6Pyro
+Xiangling
+Sub DPS
+XianyunC0Anemo
+Xianyun
+Support
+XiaoC0Anemo
+Xiao
+Main DPS
+XingqiuC6Hydro
+Xingqiu
+Sub DPS
+YoimiyaC0Pyro
+Yoimiya
+Main DPS
+D
+AlhaithamC0Dendro
+Alhaitham
+Main DPS
+AloyC0Cryo
+Aloy
+Sub DPS
+AmberC6Pyro
+Amber
+Sub DPS
+BarbaraC6Hydro
+Barbara
+Support
+BeidouC6Electro
+Beidou
+Sub DPS
+CandaceC6Hydro
+Candace
+Support
+ChongyunC6Cryo
+Chongyun
+Support
+ColleiC6Dendro
+Collei
+Support
+DahliaC6Hydro
+Dahlia
+Support
+DehyaC0Pyro
+Dehya
+Support
+DilucC0Pyro
+Diluc
+Main DPS
+DoriC6Electro
+Dori
+Support
+EulaC0Cryo
+Eula
+Main DPS
+FreminetC6Cryo
+Freminet
+Main DPS
+GamingC6Pyro
+Gaming
+Main DPS
+GorouC6Geo
+Gorou
+Support
+HeizouC6Anemo
+Heizou
+Sub DPS
+IfaC6Anemo
+Ifa
+Sub DPS
+IttoC0Geo
+Itto
+Main DPS
+JahodaC6Anemo
+Jahoda
+Support
+JeanC0Anemo
+Jean
+Support
+KachinaC6Geo
+Kachina
+Sub DPS
+KaeyaC6Cryo
+Kaeya
+Sub DPS
+KavehC6Dendro
+Kaveh
+Main DPS
+KeqingC0Electro
+Keqing
+Main DPS
+KiraraC6Dendro
+Kirara
+Support
+LisaC6Electro
+Lisa
+Support
+LynetteC6Anemo
+Lynette
+Support
+MikaC6Cryo
+Mika
+Support
+NingguangC6Geo
+Ningguang
+Main DPS
+NoelleC6Geo
+Noelle
+Main DPS
+RazorC6Electro
+Razor
+Main DPS
+RosariaC6Cryo
+Rosaria
+Support
+SaraC6Electro
+Sara
+Support
+SayuC6Anemo
+Sayu
+Support
+SethosC6Electro
+Sethos
+Sub DPS
+ThomaC6Pyro
+Thoma
+Support
+TighnariC0Dendro
+Tighnari
+Sub DPS
+Traveler (Anemo)C6Anemo
+Traveler (Anemo)
+Sub DPS
+Traveler (Electro)C6Electro
+Traveler (Electro)
+Support
+Traveler (Geo)C6Geo
+Traveler (Geo)
+Sub DPS
+Traveler (Hydro)C6Hydro
+Traveler (Hydro)
+Support
+XinyanC6Pyro
+Xinyan
+Support
+YanfeiC6Pyro
+Yanfei
+Main DPS
+YaoyaoC6Dendro
+Yaoyao
+Support
+Yun JinC6Geo
+Yun Jin
+Support
+brand
+GENSHIN.GG is not affiliated with or endorsed by miHoYo. GENSHIN.GG is a Database and Tier List website for Genshin Impact, Honkai: Star Rail, Zenless Zone Zero, and Honkai: Nexus Anima.
+
+© GENSHIN.GG 2026
+
+More Links
+Contact
+Privacy Policy
+Community Links
+Discord
+Reddit

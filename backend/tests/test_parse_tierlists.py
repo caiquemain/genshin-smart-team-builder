@@ -10,6 +10,7 @@ from app.scripts.tierlist_parsers import (
     dedupe_best_tier,
     normalize_character_slug,
     parse_canonical_csv,
+    parse_genshingg,
     parse_icy_veins,
     parse_yshelper_abyss,
     parse_yshelper_stygian,
@@ -179,4 +180,29 @@ def test_real_yshelper_teams_extraction_and_sibling_substitutes():
     assert len(stygian["teams"]) == 54
     assert stygian["teams"][0]["character_slugs"] == ["zibai", "columbina", "linnea", "illuga"]
     assert stygian["teams"][0]["use_rate"] == pytest.approx(70.5)
+
+
+def test_real_genshingg_7_2_regression():
+    path = TIERLISTS_DIR / "genshin-gg" / "7.2.txt"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_genshingg(path.read_text(encoding="utf-8"), version_hint="7.2")
+
+    assert res["site_slug"] == "genshin-gg"
+    assert res["version"] == "7.2"
+    assert len(res["entries"]) == 129
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"S": 23, "A": 15, "B": 17, "C": 28, "D": 46}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["flins"] == {"character_slug": "flins", "role": "main_dps", "tier_label": "S"}
+    assert by_slug["furina"] == {"character_slug": "furina", "role": "sub_dps", "tier_label": "S"}
+    assert by_slug["kaedehara-kazuha"] == {"character_slug": "kaedehara-kazuha", "role": "support", "tier_label": "A"}
+    assert by_slug["raiden-shogun"] == {"character_slug": "raiden-shogun", "role": "sub_dps", "tier_label": "B"}
+    assert by_slug["clorinde"] == {"character_slug": "clorinde", "role": "main_dps", "tier_label": "C"}
+    assert by_slug["tartaglia"] == {"character_slug": "tartaglia", "role": "main_dps", "tier_label": "C"}
+    assert by_slug["traveler-cryo"] == {"character_slug": "traveler-cryo", "role": "main_dps", "tier_label": "A"}
+    assert by_slug["traveler-pyro"] == {"character_slug": "traveler-pyro", "role": "support", "tier_label": "B"}
+    assert by_slug["shikanoin-heizou"] == {"character_slug": "shikanoin-heizou", "role": "sub_dps", "tier_label": "D"}
+
 
