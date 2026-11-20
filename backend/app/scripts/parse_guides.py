@@ -59,15 +59,19 @@ def parse_source(
         result.setdefault("source_slug", cfg.slug)
         result.setdefault("source_url", cfg.base_url.format(slug=slug))
 
+        build_payload = {
+            "source": result["source"],
+            "source_slug": result["source_slug"],
+            "source_url": result["source_url"],
+            "character_slug": slug,
+            "build": result["build"],
+            "notable_teammates": result.get("notable_teammates", []),
+        }
+        if result.get("tier_ratings"):
+            build_payload["tier_ratings"] = result["tier_ratings"]
+
         (out_dir / f"{slug}-build.json").write_text(
-            json.dumps({
-                "source": result["source"],
-                "source_slug": result["source_slug"],
-                "source_url": result["source_url"],
-                "character_slug": slug,
-                "build": result["build"],
-                "notable_teammates": result.get("notable_teammates", []),
-            }, indent=2, ensure_ascii=False),
+            json.dumps(build_payload, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
         (out_dir / f"{slug}-teams.json").write_text(

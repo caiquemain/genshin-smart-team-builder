@@ -7,8 +7,8 @@ Salve os arquivos `.txt` (copiados do guia do personagem) usando o slug do perso
 
 | Pasta | Fonte | Status do Parser |
 |---|---|---|
-| `kqm/` | KeqingMains (`keqingmains.com`) | Ativo (`parsers/kqm.py`) |
-| `game8/` | Game8 (`game8.co`) | Estrutura pronta — adicione 1 `.txt` de amostra para ativar |
+| `kqm/` | KeqingMains (`keqingmains.com`) | Ativo (`parse_kqm_guide.py`) |
+| `game8/` | Game8 (`game8.co`) | Ativo (`parsers/game8.py`) |
 | `genshingg/` | Genshin.gg (`genshin.gg`) | Estrutura pronta — adicione 1 `.txt` de amostra para ativar |
 | `gamewith/` | GameWith (`gamewith.net`) | Estrutura pronta — adicione 1 `.txt` de amostra para ativar |
 | `helper_sheet/` | Genshin Impact Helper Team Sheet | Estrutura pronta — adicione 1 `.txt`/`.csv` de amostra para ativar |

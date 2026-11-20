@@ -1,0 +1,729 @@
+
+
+Guides
+News
+Reviews
+Best Games
+Daily Games
+Search this Wiki…
+
+My Games
+Log In
+Game8Genshin Impact Walkthrough & Guides WikiCharactersHydro CharactersNeuvillette Best Builds and Teams
+Genshin Impact
+Neuvillette Best Builds and Teams
+392
+Add to Watchlist (73)
+Genshin Impact Walkthrough Team
+Last updated on: November 6, 2026 11:21 PM
+
+★ Check out the official Game8 Petit Planet wiki! ★
+◆ Hot: Version 7.2 & Codes, 7.2 Tier List
+◆ Builds: Mitya, Valeriy, Furina, Zibai, Linnea
+◆ Snezhnaya: Cryoculus, 7.2 Quests
+◆ Events: The Grand Defense, Free 4-Star Selector
+NEW 11/3: Visit the Game8 Genshin Forum!
+
+Genshin Impact - Neuvillette Rating and Best Builds
+Neuvillette is a 5-star Hydro Catalyst user who best functions as a Hydro DPS in Genshin Impact. Learn how to best build Neuvillette, recommended weapons and artifacts, and best teams for him here!
+
+Neuvillette's Character Guides
+Genshin - Neuvillette Builds and RatingBuild Guide	Consomme Purete ImageSpecial Dish
+List of Contents
+
+Rating and Info
+Builds
+Weapons
+Artifacts
+Team Comps
+Constellations
+How to Play
+How to Get
+In-Game Information
+Related Guides
+Neuvillette Rating and Info
+Character Information
+Neuvillette
+Genshin - Neuvillette	Rating	
+A Rank Icon
+Rarity	
+★★★★★
+Element	
+Hydro Hydro
+Weapon	
+Catalyst Catalyst
+Voice Actors	Ray Chase (EN)
+Hiroshi Kamiya (JP)
+All Character Builds
+
+Tier List Rankings
+Main DPS	Sub-DPS	Support	Exploration
+A	-	-	SS
+Tier Rating
+As a Main DPS
+Neuvillette has maintained the same playstyle and same team composition with Natlan and now Nod-Krai's course of development, which in itself is not an issue. Despite receiving an indirect buff with some of the Nod-Krai characters, the current top DPS roster has heightened the damage floor that is considered acceptable in Genshin's endgame content, in which Neuvillette can no longer keep up as he once could.
+
+It is for that reason that his waning power as a DPS should be recognized, and to make room for the inevitable change that Nod-Krai's roster will bring to the meta, in which the meta is currently shifting into big frontloaded damage instead of consistency, which takes the spotlight away from Neuvillette's best use case.
+
+Despite this however, it should be noted that Neuvillette can still clear most content in Genshin with ease, with his main and arguably only falloff being endgame content, as his upsides no longer make up for his innate disadvantage in the content landscape today.
+Character Tier List | Best Characters
+
+How Would You Rate Neuvillette?
+9.6
+/10
+Community Score
+165 votes
+Your score
+7.5
+5
+
+10
+Submit Score!
+Log in or Sign up to submit your score
+
+
+▼
+Score Distribution
+Neuvillette's Stats
+Lvl. 20 Base Stats
+Lvl. 90 Max Stats
+Stat	Base Value
+HP	
+2967
+ATK	
+42
+DEF	
+116
+CRIT DMG%	
+50%
+Stat Calculations
+
+
+Neuvillette's Ascension and Talent Material Summary
+All Ascension Materials Needed
+Varunada Lazurite Sliver ImageVarunada Lazurite Sliver ×1
+Varunada Lazurite Fragment ImageVarunada Lazurite Fragment ×9
+Varunada Lazurite Chunk ImageVarunada Lazurite Chunk ×9
+Varunada Lazurite Gemstone ImageVarunada Lazurite Gemstone ×6
+Mora ImageMora ×420,000
+Xenochromatic Crystal ImageXenochromatic Crystal ×36
+Transoceanic Chunk ImageTransoceanic Chunk ×30
+Transoceanic Pearl ImageTransoceanic Pearl ×18
+Lumitoile ImageLumitoile ×168
+Fontemer Unihorn ImageFontemer Unihorn ×46
+All Talent Materials Needed
+Mora ImageMora ×4,957,500
+Crown of Insight ImageCrown of Insight ×3
+Everamber ImageEveramber ×18
+Philosophies of Equity ImagePhilosophies of Equity ×114
+Guide to Equity ImageGuide to Equity ×63
+Teachings of Equity ImageTeachings of Equity ×9
+Xenochromatic Crystal ImageXenochromatic Crystal ×93
+Transoceanic Chunk ImageTransoceanic Chunk ×66
+Transoceanic Pearl ImageTransoceanic Pearl ×18
+Neuvillette Strengths and Weaknesses
+Strengths
+• High scaling and fast tick of his Charged Attacks can output high amounts of damage per second.
+• Can fit into multiple Hydro-related team comps due to his passive talent.
+• Hovers during casting of Charged Attack; contributes to fast mobility in the battlefield.
+• Floating state can help traverse over waters in overworld exploration. Passive talent greatly helps underwater exploration as well.
+Weaknesses
+• Highly susceptible to interruption when casting Charged Attack unless you have his C1 or a shielder.
+Neuvillette Best Builds
+Best Hypercarry Build
+Best Weapon	Alternative Weapons
+Genshin Impact - Tome of the Eternal Flow ImageTome of the Eternal Flow 	
+Genshin Impact - Sacrificial Jade Image Sacrificial Jade 
+Genshin Impact - Surf Surf's Up 
+Genshin Impact - Lost Prayer to the Sacred Winds Image Lost Prayer to the Sacred Winds 
+Genshin Impact - Prototype Amber Image Prototype Amber 
+Best Artifact	Artifact Stats
+Genshin - Marechaussee Hunter ImageMarechaussee Hunter 	
+Genshin - HourglassSands: HP%
+Genshin - GobletGoblet: Hydro DMG% or HP%
+Genshin - CircletCirclet: CRIT or HP%
+Artifact Sub Stats
+1. HP%
+2. CRIT Rate
+3. CRIT DMG
+4. Energy Recharge%
+Alternate Artifacts
+Genshin - Heart of Depth ImageHeart of Depth 
+General Team Comps
+Genshin - Neuvillette ImageGenshin - Escoffier ImageGenshin - Furina ImageGenshin - Vodyanitsa Image
+Neuvillette's Best-in-Slot Hypercarry team.	
+Genshin - Neuvillette ImageGenshin - Columbina ImageGenshin - Ineffa ImageGenshin - Xilonen Image
+Alternate Lunar-Charged team for Neuvillette.
+Neuvillette's best build is by focusing on a HP%/Hydro DMG%/CRIT setup, and this is usually the best option in regards to stats for him. You can run HP% on Goblet, but it is usually reserved for when he has the Tome of the Eternal Flow or in Ascendant Gleam teams.
+
+In most cases, you will want a Hydro DMG% on Goblet since the difference is negligible.
+
+Grab Energy Recharge until the requirement to do his burst consistently.
+
+Neuvillette Talent Priority
+1st	2nd	3rd
+Normal Attack	Elemental Skill	Elemental Burst
+Neuvillette's Charged Attack should be your top priority when it comes to his Talents, followed by his Elemental Skill and Elemental Burst , with his Skill having a slightly higher priority.
+
+Neuvillette's Skill and Burst provide Sourcewater Droplets, which shortens the charging time of his Charged ATK and increases its DMG. His Elemental Burst comes at a whopping 70 Energy, which may take a while before you get to use it.
+
+Neuvillette Best Weapons
+Use CRIT or HP-Scaling Weapons For Neuvillette
+Neuvillette values weapons like his signature, Tome of the Eternal Flow, due to how tailor-made it is for him with the benefits it provides, though weapons like the Sacrificial Jade and even the Free-to-Play Prototype Amber can be utilized effectively.
+
+This is because unlike most DPS units, Neuvillette uses HP to scale with his damage, but like most DPS units, also makes use of CRIT stats to further the amount of damage he can do.
+
+Best Catalysts for Neuvillette
+Best Weapons for Neuvillette
+Best-in-Slot	
+Genshin Impact - Tome of the Eternal Flow Image Tome of the Eternal Flow 
+Tome of the Eternal Flow is Neuvillette's signature weapon and his best-in-slot. This weapon provides a massive amount of CRIT DMG on top of the HP% and Charged Attack buff.
+
+It can also help Neuvillete with his ER needs for the most part.
+Alternative	
+Genshin Impact - Sacrificial Jade Image Sacrificial Jade 
+This is a battlepass weapon that is highly competitive for Neuvillette's best-in-slot and is usually considered his second best.
+
+At R1, it is already a better option than most of his other weapons, but at R5, it can compete with Tome of the Eternal Flow.
+F2P Option	
+Genshin Impact - Prototype Amber Image Prototype Amber 
+Prototype Amber is considered to be Neuvillette's best free to play weapon. It can provide HP% and heals. Moreover, it can alleviate Neuvillette's ER needs because of its passive.
+All Recommended Weapons for Neuvillette
+Recommended Weapons	How to Get
+Clash of Kings Image Clash of Kings
+Battle Pass
+Tome of the Eternal Flow Image Tome of the Eternal Flow
+Gacha
+Lost Prayer to the Sacred Winds Image Lost Prayer to the Sacred Winds
+Gacha
+Sacrificial Jade Image Sacrificial Jade
+Battle Pass
+Waveriding Whirl Image Waveriding Whirl
+Gacha
+Prototype Amber Image Prototype Amber
+Crafted
+Ballad of the Boundless Blue Image Ballad of the Boundless Blue
+Event
+The Widsith Image The Widsith
+Gacha
+Thrilling Tales of Dragon Slayers Image Thrilling Tales of Dragon Slayers
+Gacha
+List of All Catalyst Weapons
+
+Neuvillette Best Artifacts
+Pick Artifacts With Stat Amplifiers
+As Neuvillette's main gimmick is to lose and gain HP based on the usage of his Elemental Skill, utilizing something like 4-pc. Marechaussee Hunter does wonders for him due to how consistently he can trigger the 4-pc. effect.
+
+As far as alternatives go, he can make use of 4-pc. Wanderer's Troupe and Heart of Depth to buff his Charged Attacks, with the former giving this benefit freely.
+
+Best Artifacts Ranked
+Best Artifact Sets for Neuvillette
+Best-in-Slot	
+Genshin - Marechaussee Hunter Image Marechaussee Hunter 
+Neuvillete's best artifact set because of the massive CRIT Rate and Charged Attack that it can provide. This set's effect also synergize with Neuvillette as well since he can drain and restore HP easily by himself.
+Alternative	
+Genshin - Heart of Depth Image Heart of Depth 
+Considerable worse than Marechausee, but its still a good alternative nonetheless. It can provide Hydro DMG% and Charged Attack DMG%, both of which are highly appreciated by Neuvillette.
+Neuvillette Artifact Stat Priority
+Stat Priority
+Genshin - Hourglass
+HP%	
+Genshin - Goblet
+Hydro DMG% or HP%	
+Genshin - Circlet
+CRIT or HP%
+Substats:
+Energy Recharge (until req.) > CRIT >= HP% > Flat HP
+Summary:
+• In most cases, you will want HP%/Hydro DMG%/CRIT for his main stats.
+• You will only want HP% on Goblet if he is equipping Tome of the Eternal Flow and/or in Furina teams.
+List of Artifacts and Set Bonuses
+
+Neuvillette Best Team Comps
+Steady Stream of Hydro Damage
+As a Main DPS, Neuvillette thrives in teams that are built around him, being built with Supports that serve to enhance his damage, keep him safe and topped up on health, or crowd control enemies via Anemo or Cryo units.
+
+Any teammate that can help support Neuvillette via the above methods will often make for his best teammates, as he can easily wipe out hoards of enemies on his own if given the opportunities that his supports set him up with.
+
+Hypercarry Neuvillette Team
+Neuvillette Best Hypercarry Team
+Genshin - NeuvilletteNeuvillette	Genshin - VodyanitsaVodyanitsa	Genshin - FurinaFurina	Genshin - EscoffierEscoffier
+Team Summary
+Vodyanitsa supports Neuvillette and Furina's new Freeze Team with Escoffier. Neuvillette can easily stack Fanfare for Furina due to his HP drain.
+Lunar-Charged Neuvillette Team
+Neuvillette Lunar-Charged Team
+Genshin - NeuvilletteNeuvillette	Genshin - IneffaIneffa	Genshin - ColumbinaColumbina	Genshin - SucroseSucrose
+Team Summary
+Columbina and Ineffa makes up the core of the team, while Sucrose amplifies them with EM. In scenarios like this, Neuvillette acts more as on-field driver that deals damage with his Charged Attack.
+Neuvillette Constellations
+Leviathan Judicator
+Genshin - Neuvillette
+Constellation and Effects
+Neuvillette's Constellations
+C1	Venerable Institution
+When Neuvillette takes the field, he will obtain 1 stack of Past Draconic Glories from the Passive Talent "Heir to the Ancient Sea's Authority." You must first unlock the Passive Talent "Heir to the Ancient Sea's Authority."
+Additionally, his interruption resistance will be increased while using the Charged Attack Empowerment: Legal Evaluation and the Charged Attack: Equitable Judgment.
+C2	Juridical Exhortation
+The Passive Talent "Heir to the Ancient Sea's Authority" will be enhanced: Each stack of Past Draconic Glories will increase the CRIT DMG of Charged Attack: Equitable Judgment by 14%. The maximum increase that can be achieved this way is 42%.
+You must first unlock the Passive Talent "Heir to the Ancient Sea's Authority."
+C3	Ancient Postulation
+Increases the Level of Normal Attack: As Water Seeks Equilibrium by 3. Maximum upgrade level is 15.
+C4	Crown of Commiseration
+When Neuvillette is on the field and is healed, 1 Sourcewater Droplet will be generated. This effect can occur once every 4s.
+C5	Axiomatic Judgment
+Increases the Level of O Tides, I Have Returned by 3. Maximum upgrade level is 15.
+C6	Wrathful Recompense
+When using Charged Attack: Equitable Judgment, Neuvillette can absorb nearby Sourcewater Droplets in an AoE. Each absorbed Droplet will increase the duration of Charged Attack: Equitable Judgment by 1s.
+Additionally, when Equitable Judgment hits opponents, it will fire off 2 additional currents every 2s, each of which will deal 10% of Neuvillette's Max HP as Hydro DMG. DMG dealt this way will count as DMG dealt by Equitable Judgment.
+Best Constellation Rating and Explanation
+Rating	Constellation Effect / Merits
+C1	★★★	• Lets you run double-Hydro team comps without the need of a third element to satisfy the conditions of his Heir to the Ancient Sea's Authority passive.
+• Provides resistance to interruption when casting Charged Attack.
+C4	★★☆	• More Sourcewater Droplets upon being healed, which enables him to blast an extra set of Charged ATK. This constellation is more optimal to use if you have C6.
+C6	★★★	• Enables quick absorption of Sourcewater Droplets during Charged Attacks.
+• Fires off 2 additional torrents during Charged Attacks for increased DMG.
+Aim for C1 If You Can!
+A setback of Neuvillette's is that he is highly susceptible to interruption while casting his Charged Attack, nullifying the point of absorbing the Sourcewater Droplets you just created using his other Talents.
+
+Hence, a shielder is an absolute must when playing him at C0. If you have enough wishes to go for his C1, then we highly recommend you go for it as it will increase your chances of a successful Charged Attack.
+
+Neuvillette Ascension and Talent Materials
+Neuvillette Ascension Materials
+Below are the list of Ascension Materials needed for Neuvillette:
+
+Lv.20→Lv.40	
+Mora ImageMora ×20000
+Varunada Lazurite Sliver ImageVarunada Lazurite Sliver ×1
+Lumitoile ImageLumitoile ×3
+Transoceanic Pearl ImageTransoceanic Pearl ×3
+Lv.40→Lv.50	
+Mora ImageMora ×40000
+Varunada Lazurite Fragment ImageVarunada Lazurite Fragment ×3
+Transoceanic Pearl ImageTransoceanic Pearl ×15
+Lumitoile ImageLumitoile ×10
+Fontemer Unihorn ImageFontemer Unihorn ×2
+Lv.50→Lv.60	
+Mora ImageMora ×60000
+Varunada Lazurite Fragment ImageVarunada Lazurite Fragment ×6
+Transoceanic Chunk ImageTransoceanic Chunk ×12
+Lumitoile ImageLumitoile ×20
+Fontemer Unihorn ImageFontemer Unihorn ×4
+Lv.60→Lv.70	
+Mora ImageMora ×80000
+Varunada Lazurite Chunk ImageVarunada Lazurite Chunk ×3
+Transoceanic Chunk ImageTransoceanic Chunk ×18
+Lumitoile ImageLumitoile ×30
+Fontemer Unihorn ImageFontemer Unihorn ×8
+Lv.70→Lv.80	
+Mora ImageMora ×100000
+Varunada Lazurite Chunk ImageVarunada Lazurite Chunk ×6
+Xenochromatic Crystal ImageXenochromatic Crystal ×12
+Lumitoile ImageLumitoile ×45
+Fontemer Unihorn ImageFontemer Unihorn ×12
+Lv.80→Lv.90	
+Mora ImageMora ×120000
+Varunada Lazurite Gemstone ImageVarunada Lazurite Gemstone ×6
+Xenochromatic Crystal ImageXenochromatic Crystal ×24
+Lumitoile ImageLumitoile ×60
+Fontemer Unihorn ImageFontemer Unihorn ×20
+Neuvillette Talent Level-Up Materials
+Below are the list of Talent Materials needed for Neuvillette:
+
+Daily Domain Drops	Enemy Drops	Weekly Boss Drops
+Mon/Thu/Sun
+Genshin Impact - Teachings of Equity ImageTeachings of Equity	Fontemer Aberrants
+Genshin Impact - Transoceanic Pearl ImageTransoceanic Pearl	Apep Boss Challenge Reward
+Genshin Impact - Everamber ImageEveramber
+Genshin Impact - Guide to Equity ImageGuide to Equity	Genshin Impact - Transoceanic Chunk ImageTransoceanic Chunk
+Genshin Impact - Philosophies of Equity ImagePhilosophies of Equity	Genshin Impact - Xenochromatic Crystal ImageXenochromatic Crystal
+Talent Materials per Level
+
+Neuvillette Talents and How to Use
+Normal Attack
+Normal Attack: As Water Seeks Equilibrium
+With light flourishes, Neuvillette commands the tides to unleash a maximum of 3 attacks, dealing Hydro DMG.
+Charge Attack
+Consumes a fixed amount of Stamina to attack opponents with a rupturing blast of water, dealing AoE Hydro DMG.
+Charged Attack: Equitable Judgment
+Unleashes surging torrents, dealing continuous AoE Hydro DMG to all opponents in a straight-line are in front of him.
+Equitable Judgment will not consume any Stamina and lasts 3s. If Neuvillette's HP is above 50%, he will continuously lose HP while using this attack.
+Charged Attack Empowerment: Legal Evaluation
+While charging up, Neuvillette will form a Seal of Arbitration. While casting, Neuvillette can move and change facing, and also absorb any Sourcewater Droplets in a certain AoE.
+Every Droplet absorbed will increase the Seal's charging SPD, and will heal Neuvillette.
+If the Seal is halted mid-casting, a Charged Attack will be unleashed.
+Skill Attributes
+Hydro Strikes
+Neuvillette sends forth 3 waves of Hydro to attack enemies.
+
+Charged Attack: Equitable Judgment
+Neuvillette's Charged ATK is his strongest asset. After a fixed casting time, Neuvillette sends forth a massive torrent that deals Hydro DMG to opponents in front of him in a straight line.
+
+While charging and casting his Charged ATK, Neuvillette can hover and move around the battlefield.
+
+Elemental Skill
+O Tears, I Shall Repay
+Summons a Raging Waterfall that will deal AoE Hydro DMG to opponents in front of Neuvillette based on his Max HP. After hitting an opponent, this skill will generate 3 Sourcewater Droplets near that opponent.
+Skill Attributes
+Source of Power
+Neuvillette's summons waterfalls to deal Hydro DMG to opponents in an AoE. Once it hits opponents, it will generate 3 Sourcewater Droplets near those opponents for his Charged ATK.
+
+Sourcewater Droplets
+Absorbing Sourcewater Droplets left behind by Neuvillette's Elemental Skill and Burst will decrease its charging time, and heal him. Neuvillette can absorb a maximum of 3 Sourcewater Droplets at a time. Upon doing so, it will immediately fire his Special Charged Attacks without the need to charge it.
+
+Elemental Burst
+O Tides, I Have Returned
+Unleashes waves that will deal AoE Hydro DMG based on Neuvillette's Max HP. After a short interval, 2 waterfalls will descend and deal Hydro DMG in a somewhat smaller AoE, and will generate 6 Sourcewater Droplets within an area in front.
+Arkhe: Pneuma
+At certain intervals, when the Raging Waterfall descends, a Spiritbreath Thorn will descend that pierces opponents, dealing Pneuma-aligned Hydro DMG.
+Skill Attributes
+More Power for his Charged Attack
+Neuvillette summons a massive wave that deals Hydro DMG to enemies within a large AoE, with large waterfalls following shortly after.
+
+Neuvillette's Elemental Burst will leave behind 6 Sourcewater Droplets in front of him for his Charged ATK, allowing for 2 Charged Attacks to be executed consecutively.
+
+Passive Talent 1
+Heir to the Ancient Sea's Authority
+When a party member triggers a Vaporize, Frozen, Electro-Charged, Bloom, Hydro Swirl, or a Hydro Crystallize reaction on opponents, 1 stack of Past Draconic Glories will be granted to Neuvillette for 30s. Max 3 stacks. Past Draconic Glories causes Charged Attack: Equitable Judgment to deal 110%/125%/160% of its original DMG. The stacks of Past Draconic Glories created by each kind of Elemental Reaction exist independently.
+Incentivizes Using Teammates Before Neuvillette
+Past Draconic Glories as a buff can be extremely game-changing when used in time with buffs, allowing Neuvillette's Charged Attack to perform more damage, making it much more worth it to build his teams with variety in mind.
+
+Passive Talent 2
+Discipline of the Supreme Arbitration
+For each 1% of Neuvillette's current HP greater than 30% of Max HP, he will gain 0.6% Hydro DMG Bonus. A maximum bonus of 30% can be obtained this way.
+Lets Neuvillette's Damage Scale off his HP
+Neuvillette's Sourcewater Droplets not only provide power to him, but also gives him some healing before he starts his onslaught.
+
+Having a healer or managing his Sourcewater Droplets allow plays to be able to fire off Charged Attacks with a possible 30% DMG Bonus at the start of the attack, making this passive worth it if Neuvillette is kept healthy.
+
+Passive Talent 3
+Gather Like the Tide
+Increases underwater Sprint SPD for your own party members by 15%.
+Not stackable with Passive Talents that provide the exact same effects.
+Going Faster Underwater
+Increases the entire party's underwater Sprint SPD by 15%. Ideal for faster and more efficient underwater exploration!
+
+How to Get Neuvillette
+Pull on Neuvillette's Banner
+Genshin Impact - Decree of the Deeps Gacha and Wish Guide
+Banner Status	Inactive
+Neuvillette was featured in his own rerun banner during Phase 2 of Version 6.3 from February 3, 2026 until February 24, 2026. His rerun banner ran alongside Zibai's debut banner!
+
+In addition, the 4-stars Illuga, Aino, and Gorou received rate-ups during this banner period.
+
+Neuvillette Banner Release Date
+
+Related Wish Guides
+Click to view a Banner Guide!
+Genshin - Neuvillette IconNeuvillette Banner	Genshin - Wishing SimWish Sim	Genshin - Best Wish to Pull Icon 2All Wishes
+Neuvillette's In-Game Information
+Neuvillette Character Profile
+Nation	
+Genshin - FontaineFontaine
+Title	Ordainer of Inexorable Judgment
+Vision	
+HydroHydro
+Gender	Male
+Race	Sovereign
+Height	Tall Boy
+Faction	Court of Fontaine
+Constellation	Leviathan Judicator
+Birthday	December 18
+Special Dish	Consomme Purete
+Story Quest	Chapter: Diluvies
+Act 1: The Remains of the Past Day
+Neuvillette Voicelines
+Thoughts About Neuvillette
+Character	In-Game Thoughts
+Genshin Impact - Arlecchino ImageArlecchino	Monsieur Neuvillette intentionally maintains a certain "distance" in professional and private settings. Many say this makes him cold and unfeeling, but I believe the truth is just the opposite. In order for all beings to be treated equally under the law, a certain level of emotional distance is expected. Maintaining that kind of indifference is, in itself, a demonstration of kindness.
+Genshin Impact - Charlotte ImageCharlotte	If you want to interview the Iudex, you have to provide all the interview questions in advance and get them reviewed by the relevant department at the Palais Mermonia, who decide which questions to approve and which ones you're not allowed to ask... It's their way of making sure the interview goes off without a hitch. It's such a rigmarole. I'm losing the will to live just talking about it.
+Genshin Impact - Chevreuse ImageChevreuse	Everyone knows that the Iudex abstains himself of all personal emotion when presiding over a trial. Some even say he lacks the warmth of human emotion. But the way I see it, justice should remain uncorrupted by personal feelings. Those who break the law bear guilt. It's as simple as that.
+Genshin Impact - Clorinde ImageClorinde	No one is in any doubt as to the Iudex's authority. He always delivers a fair verdict — and when necessary, I will reiterate the fairness of this verdict with my sword.
+Genshin Impact - Columbina ImageColumbina	The Hydro Dragon who serves as the Iudex of Fontaine? Hmm... Another Dragon who puts people in prison. I'm not sure I'd want to meet him.
+Genshin Impact - Freminet ImageFreminet	One day when I surfaced after a dive, the Chief Justice was just standing there alone on the beach. I don't know whether he had something on his mind, or was just enjoying the view... Obviously, I didn't ask. I only locked eyes with him for a split-second before disappearing back underwater. Thinking back, I must have looked so guilty... (sigh)
+Genshin Impact - Furina ImageFurina	I'm very grateful to Neuvillette for all the hard work he's done for Fontaine in the past few centuries. It seems he doesn't intend to investigate my crimes of deceiving the people. Anyway, we're no longer working in tandem, and it's been a long time since I've been to the Palais Mermonia. I imagine that this is good for both of us, right?
+Genshin Impact - Ifa ImageIfa	... What's that? You want me to take care of him if he ever gets sick? Um ... you know I'm a vet and not a doctor, right?Hmm ... Well, Cacucu's certainly taken a shine to him ... Alright, fine, bro. I'll do my best.
+Genshin Impact - Lynette ImageLynette	The Chief Justice always feels strangely aloof, though his words are always humble... or perhaps he just doesn't like dealing with humans? After all, when he speaks with Melusines, he's actually quite friendly.
+Genshin Impact - Lyney ImageLyney	Monsieur Neuvillette rarely appears in public, almost as if he's intentionally trying to put some distance between himself and the people. At first, I thought it might be just me, but my ever-observant sister noticed it too, so I suppose that must really be the case.
+Genshin Impact - Navia ImageNavia	Ah, how to describe Monsieur Neuvillette... He's...complex, in some ways - bet very straightforward in others. I guess a good analogy would be rocky reefs in the sea: Trying to navigate through obstacles you can't see makes for a bumpy side, but if you can't figure out how they work, you start to spot the signs.
+Genshin Impact - Sigewinne ImageSigewinne	Respect: Monsieur Neuvillette was the one who brought the Melusines to the Court of Fontaine and found jobs for us to do. Together, we integrated into Fontaine society and learned about the wonders of humanity. I have huge respect for him, and I really like humans too. Hmm? Who would I save first if Monsieur Neuvillette and a human fell into the water? Well, that's easy. He'd definitely help me bring the human safely to shore.
+Familiars: We Melusines are Monsieur Neuvillette's familiars, but that doesn't mean he shows us any favor beyond what is fair and legal. I willingly accepted when he put me on trial, and I fully agreed with his verdict. I remember the day I left for the Fortress of Meropide, it was raining really hard. But I didn't feel like the raindrops were cold at all. They were warm and gentle, just like the way Monsieur Neuvillette looks at me...
+Genshin Impact - Skirk ImageSkirk	Lost power is always reclaimed in the end, in some shape or form. But where will this power lead? To a trial? To revenge? Or toward a new future? It's a question that strikes at the heart of his quest to find the meaning of his existence, and perhaps deep down he already has his answer.
+Genshin Impact - Wriothesley ImageWriothesley	I was once summoned by Neuvillette to discuss some matters with him in his office. When I approached the Palais Mermonia, I saw him standing by the road, completely drenched in the rain. I held out an umbrella for him, and while he thanked me politely, his expression was a little... distressed, I guess. I can only assume that I had disturbed him in the middle of something.
+Neuvillette's Thoughts About Others
+Character	In-Game Thoughts
+Genshin Impact - Clorinde ImageClorinde	About Clorinde
+Clorinde's peerless skills have made her the most powerful Champion Duelist in our nation. As a successor to the Marechaussee Hunters of old, she plays a vital role in ensuring the fairness and impartiality of the courtroom. Also, she's actually not as stoic as she might appear.
+Genshin Impact - Furina ImageFurina	About Furina
+Now, the curtain has finally fallen on her "performance"... The character she portrayed was an imaginary one, yet in playing. that role she fulfilled her duties... Though she is meek and full of doubt by nature, she was able to use madness to stiffen her resolve and see her duty through to its conclusion. The work that she has done over the centuries is truly immense. If she were to ever make a return to the stage, I should personally attend the performance and give her my heartfelt applause... Yes, I must do so when the opportunity. arises.
+Genshin Impact - Lynette ImageLynette	About Lynette
+Their performances are just fascinating, don't you think? They draw you into a magical world where, on one hand, everything that takes place is part of an elaborate deception - but on the other, all manner of miracles are possible if you are only willing to believe.
+Genshin Impact - Lyney ImageLyney	About Lyney
+Their performances are just fascinating, don't you think? They draw you into a magical world where, on one hand, everything that takes place is part of an elaborate deception - but on the other, all manner of miracles are possible if you are only willing to believe.
+Genshin Impact - Nahida ImageNahida	About Dendro Archon
+Though the day will come when I put her on trial, I must commend the God of Verdure on her sense of responsibility. Few things are without flaws in this world, but the devotion and benevolence she displays are a testament to her commitment to continued progress. I felt enormous regret when I learned of the mistreatment she has endured over the past five hundred years.
+Genshin Impact - Navia ImageNavia	About Navia
+I regret to say that after my various interactions with her - such as when I inadvertently angered her, and when I accepted her apology - and even now, in spite of the guilt I continue to feel over what happened to her father, I feel... very distant from her, as if I'm observing the starry sky from the bottom of a deep lake. It is by no means intentional, and I also know it is not something that I can easily make up for. Unlike water, emotion does not settle quickly once agitated, nor is it naturally inclined towards equilibrium.
+Genshin Impact - Raiden ImageRaiden	About Electro Archon
+As a survivor of the dragon race who has regained my full dragonhood, I must fulfill my oaths and obligations even if it means returning all the water in the oceans back to the heavens. In taking the Authority of Electro, the Narukami placed herself on the list of the usurpers, she will... Oh, you say she has isolated herself in the Plane of Euthymia, and now rarely appears in public? Then I shall pay her a visit in another few centuries.
+Genshin Impact - Sigewinne ImageSigewinne	About Sigewinne
+I don't know how Sigewinne is faring these days. But if I hear so much as the whiff of a rumor that she's being bullied, I shall summon Wriothesley here and demand an explanation. She's so kind and vulnerable... She brought me some Kamera film the last time she visited, and asked to listen to more of my commentary on the water of Natlan... How long is it until her next vacation?
+Genshin Impact - Venti ImageVenti	About Anemo Archon
+I shall fulfill my vow to judge all of The Seven in turn, even if the sky should fall and the ground give way. As the recipient of the Authority of Anemo, the God of Breeze and Hope must also stand trial....Hmm? He spends most of his time being a harmless drunkard? Well, even so, I must meet him for myself and proceed from there.
+Genshin Impact - Wriothesley ImageWriothesley	About Wriothesley
+Wriothesley is a trustworthy man. I fought hard for the title and reputation he now has. I expect you to think that I've simply been duped by his flattery and appearance of loyalty... But to that, I would quote the Inazuman proverb: "The words unspoken are the flower." Which means, some things are best left unsaid.
+Genshin Impact - Zhongli ImageZhongli	About Geo Archon
+Nothing will stop me from rendering judgment on each of The Seven. As the Archon who won the Authority of Geo, Deus Auri must be called to trial. If one does not wish to see us on opposite sides of a conflict, they need not worry, for I intend to stay in Fontaine for the foreseeable future, which could well mean another four hundred years. As another point of consolation, even when the trial eventually takes place, it is still not a given that the judgment will lead to a physical confrontation.
+Neuvillette Release Date
+Genshin Impact Version 4.1 Phase 2
+Genshin Impact - Version 4.1 The Stars Shining in the Depths
+Release Date	September 27, 2023
+Neuvillette made his debut as a playable character on September 27, 2023 in the first phase of the Version 4.1.
+
+Version 4.1 Banners and Characters
+
+Genshin Impact Related Guides
+Genshin Impact - Characters
+All Characters and Voice Actors
+
+List of All Characters
+Characters by Element
+Genshin - Pyro CharactersPyro	Genshin - Anemo CharactersAnemo	Genshin - Electro CharactersElectro	Genshin - Hydro CharactersHydro
+Genshin - Dendro CharactersDendro	Genshin - Geo CharactersGeo	Genshin - Cryo CharactersCryo
+All Character Builds
+
+Playable Characters
+All Playable Characters
+ChascaChasca	FaruzanFaruzan	HeizouHeizou	IfaIfa
+JahodaJahoda	JeanJean	KazuhaKazuha	Lan YanLan Yan
+LynetteLynette	MizukiMizuki	PrunePrune	SayuSayu
+SucroseSucrose	Traveler (Anemo)Traveler (Anemo)	VarkaVarka	VentiVenti
+VesnaVesna	WandererWanderer	XianyunXianyun	XiaoXiao
+AloyAloy	AyakaAyaka	CharlotteCharlotte	ChongyunChongyun
+CitlaliCitlali	DionaDiona	EscoffierEscoffier	EulaEula
+FreminetFreminet	GanyuGanyu	KaeyaKaeya	LaylaLayla
+LohenLohen	MikaMika	OdetteOdette	QiqiQiqi
+RosariaRosaria	SandroneSandrone	ShenheShenhe	SkirkSkirk
+Traveler (Cryo)Traveler (Cryo)	WriothesleyWriothesley	AlhaithamAlhaitham	BaizhuBaizhu
+ColleiCollei	EmilieEmilie	KavehKaveh	KinichKinich
+KiraraKirara	LaumaLauma	NahidaNahida	NeferNefer
+TighnariTighnari	Traveler (Dendro)Traveler (Dendro)	YaoyaoYaoyao	AlyoshaAlyosha
+BeidouBeidou	ClorindeClorinde	CynoCyno	DoriDori
+FischlFischl	FlinsFlins	IansanIansan	IneffaIneffa
+KeqingKeqing	LisaLisa	MityaMitya	OroronOroron
+RaidenRaiden	RazorRazor	SaraSara	SethosSethos
+ShinobuShinobu	Traveler (Electro)Traveler (Electro)	ValeriyValeriy	VaresaVaresa
+Yae MikoYae Miko	AlbedoAlbedo	ChioriChiori	GorouGorou
+IllugaIlluga	IttoItto	KachinaKachina	LinneaLinnea
+NaviaNavia	NingguangNingguang	NoelleNoelle	Traveler (Geo)Traveler (Geo)
+XilonenXilonen	Yun JinYun Jin	ZhongliZhongli	ZibaiZibai
+AinoAino	AyatoAyato	BarbaraBarbara	CandaceCandace
+ColumbinaColumbina	DahliaDahlia	FurinaFurina	KokomiKokomi
+MonaMona	MualaniMualani	NeuvilletteNeuvillette	NilouNilou
+SigewinneSigewinne	TartagliaTartaglia	Traveler (Hydro)Traveler (Hydro)	VodyanitsaVodyanitsa
+XingqiuXingqiu	YelanYelan	AmberAmber	ArlecchinoArlecchino
+BennettBennett	ChevreuseChevreuse	DehyaDehya	DilucDiluc
+DurinDurin	GamingGaming	Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika	NicoleNicole	ThomaThoma
+Traveler (Pyro)Traveler (Pyro)	XianglingXiangling	XinyanXinyan	YanfeiYanfei
+YoimiyaYoimiya
+Upcoming Characters
+All Upcoming Characters
+AliceAlice	CapitanoCapitano	DainsleifDainsleif	DanicaDanica
+DottoreDottore	NoyNoy	PantalonePantalone	PierroPierro
+PulcinellaPulcinella	RerirRerir	TsaritsaTsaritsa
+Character Lists
+Characters by Rarity
+5-Star Characters	4-Star Characters
+Free Characters
+Characters by Weapon Used
+Sword Users	Claymore Users
+Polearm Users	Bow Users
+Catalyst Users
+Characters by Role
+Main DPS Characters	Sub DPS Characters
+Support Characters	Healers
+Shield Characters	Buff Providers
+Best for Exploration	Local Specialty Passives
+Double Reward Passives
+Characters by Gender
+Male Characters	Female Characters
+Short Male Characters	Short Female Characters
+Medium Male Characters	Medium Female Characters
+Tall Male Characters	Tall Female Characters
+Characters by Height
+Short Characters	Medium Characters
+Tall Characters
+Characters by Region
+Mondstadt Characters	Liyue Characters
+Inazuma Characters	Sumeru Characters
+Fontaine Characters	Natlan Characters
+Nod-Krai Characters	Snezhnaya Characters
+Comment
+419 Anonymous Anonymous 23 days
+so is furina/vodyanitsa/escoffier actually really good? it says hypercarry comp here but i cant find that listed as a hypercarry comp anywhere else. other sites have kazuha/xilonen instead of vodya/esco... my neuvillette is c0r1 (planning 2 c1 him on his next banner) and everyone else is c0. is it just too new a comp cuz vodya just released last version???
+
+418 Anonymous Anonymous about 2 months
+>>417
+it says use Hp% if hes equipped with tome of eternal flow or on furina team dawng otherwise use Crit for Main stats
+
+See more comments (392 Comments)
+Share:share on redditshare on whatsappshare on messenger
+Author
+
+Genshin Impact Walkthrough Team
+This article was created by Game8's elite team of writers and gamers.
+Follow Genshin Impact Walkthrough Team on X for daily tips, guides, and news!
+Leave feedback
+(Login required)
+Genshin Impact Walkthrough & Guides Wiki
+
+Characters
+
+Hydro Characters
+
+Neuvillette Best Builds and Teams
+
+
+Coming to Japan? Help us plan a Game8 meetup in Tokyo.
+Opens in a new tab
+Premium Articles
+What's this?
+Exploring Future Regions After Snezhnaya
+Exploring Future Regions After Snezhnaya
+
+Players' Report (Version 7.1): Vesna and Vodyanitsa's Dual Debut
+Players' Report (Version 7.1): Vesna and Vodyanitsa's Dual Debut
+
+An Analysis on the Downfall of Kazuha
+An Analysis on the Downfall of Kazuha
+
+All Premium Articles
+Rankings
+Popular Articles
+Message Board
+1
+Furina Best Builds and Teams
+2
+Wriothesley Best Builds and Teams
+3
+All Redeem Codes in November 2026
+4
+7.2 Tier List and the Best Chara...
+5
+Mona Best Builds and Teams
+See more
+Genshin Impact Forum
+What does Furina do, and is she on a banner?
+Best last support for Mitya?
+cryo traveler best teams?
+Go to the forum ›
+Gaming News
+Walkthroughs on Overwolf — without leaving your gameWalkthroughs on Overwolf — without leaving your game
+Wuthering Waves Story Review [3.8] | Great Tales Shouldn't Overstay Their Welcome	Wuthering Waves Story Review [3.8]
+GTA 6 Review | The Pinnacle of Modern Gaming	GTA 6 Review
+GTA 6 Is Making It Really Hard to Actually Commit Grand Theft Auto	GTA 6 Is Making It Really Hard to Actually Commit Grand T...
+More Gaming News
+
+Popular Games
+Genshin Impact	Genshin Impact Walkthrough & Guides Wiki
+Honkai: Star Rail	Honkai: Star Rail Walkthrough & Guides Wiki
+Fire Emblem: Fortune's Weave	Fire Emblem: Fortune's Weave (FEFW) Walkthrough & Guides Wiki
+Monster Hunter Outlanders	Monster Hunter Outlanders Walkthrough & Guides Wiki
+Phantom Blade Zero	Phantom Blade Zero Walkthrough & Guides Wiki
+Final Fantasy Resonance	Final Fantasy Resonance Walkthrough & Guides Wiki
+Wuthering Waves	Wuthering Waves Walkthrough & Guides Wiki
+Umamusume: Pretty Derby	Umamusume: Pretty Derby Walkthrough & Guides Wiki
+Zenless Zone Zero	Zenless Zone Zero Walkthrough & Guides Wiki
+Pokemon TCG Pocket (PTCGP)	Pokemon TCG Pocket (PTCGP) Strategies & Guides Wiki
+Recommended Games
+Where Winds Meet	Where Winds Meet Walkthrough & Guides Wiki
+Diablo 4: Lord of Hatred (D4)	Diablo 4: Lord of Hatred Walkthrough & Guides Wiki
+Fire Emblem Heroes	Fire Emblem Heroes (FEH) Walkthrough & Guides Wiki
+Super Smash Bros. Ultimate	Super Smash Bros. Ultimate Walkthrough & Guides Wiki
+The Legend of Zelda: Tears of the Kingdom	The Legend of Zelda: Tears of the Kingdom Walkthrough & Guides Wiki
+Persona 3 Reload (P3R)	Persona 3 Reload Walkthrough & Guides Wiki
+Elden Ring	Elden Ring Walkthrough & Guides Wiki
+Pokemon Brilliant Diamond and Shining Pearl	Pokemon Brilliant Diamond and Shining Pearl (BDSP) Walkthrough & Guides Wiki
+Cyberpunk 2077: Ultimate Edition	Cyberpunk 2077: Ultimate Edition Walkthrough & Guides Wiki
+Monster Hunter World (MHW)	Monster Hunter World Walkthrough & Guides Wiki
+All rights reserved
+Copyright© 2012-2024 HoYoverse — COGNOSPHERE. All Rights Reserved.
+
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+The contents we provide on this site were created personally by members of the Game8 editorial department.
+We refuse the right to reuse or repost content taken without our permission such as data or images to other sites.
+
+Terms of Use
+Privacy Policy
+External Communication Policy
+Opt-out
+Inquiries
+Operating Company
+Advertising
+Video Ads
+Act on specified commercial transactions
+Gaming Wikis
+
+Genshin Impact Walkthrough & Guides WikiHonkai: Star Rail Walkthrough & Guides WikiFire Emblem: Fortune's Weave (FEFW) Walkthrough & Guides WikiMonster Hunter Outlanders Walkthrough & Guides WikiPhantom Blade Zero Walkthrough & Guides WikiFinal Fantasy Resonance Walkthrough & Guides WikiWuthering Waves Walkthrough & Guides WikiUmamusume: Pretty Derby Walkthrough & Guides WikiZenless Zone Zero Walkthrough & Guides WikiPokemon TCG Pocket (PTCGP) Strategies & Guides WikiThe Legend of Zelda: Ocarina of Time Walkthrough & Guides WikiAniimo Walkthrough & Guides WikiMinecraft Walkthrough & Guides WikiMonster Hunter Wilds Walkthrough & Guides WikiDigimon Story: Time Stranger Walkthrough & Guides Wiki
+Recommended Games
+
+Where Winds Meet Walkthrough & Guides WikiDiablo 4: Lord of Hatred Walkthrough & Guides WikiFire Emblem Heroes (FEH) Walkthrough & Guides WikiSuper Smash Bros. Ultimate Walkthrough & Guides WikiThe Legend of Zelda: Tears of the Kingdom Walkthrough & Guides WikiPersona 3 Reload Walkthrough & Guides WikiElden Ring Walkthrough & Guides WikiPokemon Brilliant Diamond and Shining Pearl (BDSP) Walkthrough & Guides WikiCyberpunk 2077: Ultimate Edition Walkthrough & Guides WikiMonster Hunter World Walkthrough & Guides WikiThe Legend of Zelda: Ocarina of Time Walkthrough & Guides WikiGTA 6 (Grand Theft Auto 6) Walkthrough & Guides WikiPetit Planet Walkthrough & Guides WikiPokemon Winds and Waves Walkthrough & Guides Wiki
+Game8 - Your Go-To Platform For All Game Walkthroughs and Strategy Guides© 2019 Game8, Inc.
+Genshin Impact
+Genshin Impact Walkthrough & Guides Wiki
+
+
+Bookmark
+(8944)
+Quick Access
+Top
+
+Codes
+
+Mitya
+
+Version 7.2
+
+Tier List
+
+Characters
+
+Builds
+
+Weapons
+
+Banners
+
+Quests
+
+Events
+
+Maps
+
+Download the App
+Guide Index
+Genshin Impact Wiki
+Game8 Genshin Forum
+Genshin Impact Review
+Game8 Best Games Survey
+Tools
+Recommended Guides
+Tier Lists
+Versions
+Codes
+Characters
+Maps
+Banner Guides
+Weapons
+Artifacts
+Events
+Quests
+Enemies and Bosses
+Miliastra Wonderland UGC
+Genius Invokation TCG
+Items
+Endgame Content
+Miscellaneous Content
+Tips & Tricks
+Message Boards
+All HoYoverse Wikis

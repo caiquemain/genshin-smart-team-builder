@@ -1,0 +1,119 @@
+{
+  "source": "Game8",
+  "source_slug": "game8",
+  "source_url": "https://game8.co/games/Genshin-Impact",
+  "character_slug": "neuvillette",
+  "build": {
+    "name": "Game8 Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "[Best-in-Slot] Tome of the Eternal Flow is Neuvillette's signature weapon and his best-in-slot. This weapon provides a massive amount of CRIT DMG on top of the HP% and Charged Attack buff. It can also help Neuvillete with his ER needs for the most pa"
+        },
+        {
+          "weapon_slug": "sacrificial-jade",
+          "weapon_name": "Sacrificial Jade",
+          "rarity": 5,
+          "notes": "[Alternative] This is a battlepass weapon that is highly competitive for Neuvillette's best-in-slot and is usually considered his second best. At R1, it is already a better option than most of his other weapons, but at R5, it can compete with Tome of"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 5,
+          "notes": "[F2P Option] Prototype Amber is considered to be Neuvillette's best free to play weapon. It can provide HP% and heals. Moreover, it can alleviate Neuvillette's ER needs because of its passive."
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up",
+          "rarity": 5,
+          "notes": "Recomendada na build principal (Game8)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "Recomendada na build principal (Game8)"
+        },
+        {
+          "weapon_slug": "clash-of-kings",
+          "weapon_name": "Clash of Kings",
+          "rarity": 4,
+          "notes": "Fonte: Battle Pass (Game8)"
+        },
+        {
+          "weapon_slug": "waveriding-whirl",
+          "weapon_name": "Waveriding Whirl",
+          "rarity": 5,
+          "notes": "Fonte: Gacha (Game8)"
+        },
+        {
+          "weapon_slug": "ballad-of-the-boundless-blue",
+          "weapon_name": "Ballad of the Boundless Blue",
+          "rarity": 4,
+          "notes": "Fonte: Event (Game8)"
+        },
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 5,
+          "notes": "Fonte: Gacha (Game8)"
+        },
+        {
+          "weapon_slug": "thrilling-tales-of-dragon-slayers",
+          "weapon_name": "Thrilling Tales of Dragon Slayers",
+          "rarity": 5,
+          "notes": "Fonte: Gacha (Game8)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "[Best-in-Slot] Neuvillete's best artifact set because of the massive CRIT Rate and Charged Attack that it can provide. This set's effect also synergize with Neuvillette as well since he can drain and restore HP easily by himself."
+        },
+        {
+          "artifact_set_slug": "heart-of-depth",
+          "artifact_set_name": "Heart of Depth",
+          "notes": "[Alternative] Considerable worse than Marechausee, but its still a good alternative nonetheless. It can provide Hydro DMG% and Charged Attack DMG%, both of which are highly appreciated by Neuvillette."
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg",
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Skill > Burst",
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://game8.co/games/Genshin-Impact",
+          "title": "Game8 Neuvillette Build Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [],
+  "tier_ratings": {
+    "Main DPS": "A",
+    "Exploration": "SS"
+  }
+}

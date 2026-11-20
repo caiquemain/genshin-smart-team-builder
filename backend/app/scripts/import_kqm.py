@@ -431,6 +431,8 @@ def import_teams(
             # Multi-fonte: em vez de descartar, mescla fontes e substitutos curados!
             dup.sources = _merge_sources(dup.sources, source_name, source_url)
             dup.slot_substitutes = _merge_slot_substitutes(dup.slot_substitutes, slot_subs_json)
+            if not dup.description and t.get("description"):
+                dup.description = t["description"]
             continue
 
         name = t["raw_line"][:150]
@@ -442,6 +444,7 @@ def import_teams(
             name=name,
             main_character=valid[0],
             archetype=archetype,
+            description=t.get("description"),
             character_slugs=valid,
             source=source_name,
             source_url=source_url,

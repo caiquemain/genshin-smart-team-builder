@@ -1,0 +1,186 @@
+{
+  "source": "Game8",
+  "source_slug": "game8",
+  "source_url": "https://game8.co/games/Genshin-Impact",
+  "character_slug": "furina",
+  "build": {
+    "name": "Game8 Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "[Best-in-Slot] Splendor of Tranquil Waters is Furina's best-in-slot weapon and her signature weapon. It can increase her Elemental Skill DMG and provide more HP for her, giving her a leeway to prioritize other stats."
+        },
+        {
+          "weapon_slug": "key-of-khaj-nisut",
+          "weapon_name": "Key of Khaj-Nisut",
+          "rarity": 5,
+          "notes": "[Alternative] Massive HP statstick because of its main stat. The team wide EM buff is also heavily appreciated, especially if the team is very reaction-based."
+        },
+        {
+          "weapon_slug": "festering-desire",
+          "weapon_name": "Festering Desire",
+          "rarity": 5,
+          "notes": "[F2P (Event)] Very strong alternative that can alleviate Furina's Energy Recharge needs and boosts her personal damage on top of it. Do note that this a limited-time event weapon."
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 5,
+          "notes": "[F2P (Gacha)] Possibly the best F2P weapon for Furina. It not only alleviates Furina's needs, but also her entire team."
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "Recomendada na build principal (Game8)"
+        },
+        {
+          "weapon_slug": "fleuve-cendre-ferryman",
+          "weapon_name": "Fleuve Cendre Ferryman",
+          "rarity": 5,
+          "notes": "Recomendada na build principal (Game8)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "Fonte: Gacha (Game8)"
+        },
+        {
+          "weapon_slug": "skyward-blade",
+          "weapon_name": "Skyward Blade",
+          "rarity": 5,
+          "notes": "Fonte: Gacha (Game8)"
+        },
+        {
+          "weapon_slug": "wolf-fang",
+          "weapon_name": "Wolf-Fang",
+          "rarity": 4,
+          "notes": "Fonte: Battle Pass (Game8)"
+        },
+        {
+          "weapon_slug": "the-dockhand-s-assistant",
+          "weapon_name": "The Dockhand's Assistant",
+          "rarity": 5,
+          "notes": "Fonte: Gacha (Game8)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "[Best-in-Slot] This set massively increases Furina's personal DMG since her main source of damage is her Elemental Skill."
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "[For ATK Buffs] This artifact set is used if the DPS in Furina's team will heavily appreciate the ATK buff to funnel more buffs to them. This set is especially great if Furina has low damage contribution within the team."
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "[Alternative] Mainly used if Furina ever find herself in a team where she has low damage contribution and the DPS doesn't really want ATK buff either. Despite not fully able to use the 4-pc effect, the 12% Elemental DMG bonus more than justifies it a"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "hp_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "hp_pct",
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "hp_pct",
+        "er",
+        "crit_dmg",
+        "crit_rate"
+      ],
+      "er_requirement": "180% or above",
+      "talent_priority": "Burst > Skill > Normal",
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://game8.co/games/Genshin-Impact",
+          "title": "Game8 Furina Build Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [
+    {
+      "character_slug": "neuvillette",
+      "character_name": "Neuvillette",
+      "category": "DPS",
+      "notes": "Neuvillette and Furina benefit each other with Hydro Resonance for both, Neuvillette being able to easily stack Furina's fanfare, and Furina being able to amplify Neuvillette's damage as quickly."
+    },
+    {
+      "character_slug": "wriothesley",
+      "character_name": "Wriothesley",
+      "category": "DPS",
+      "notes": "Since Wriothesley already drains and heals his own HP with his attacks, it stacks Furina's fanfare quickly, but comes at the cost of quickly draining Wriothesley's HP if he is not at C1. For this, a healer is recommended"
+    },
+    {
+      "character_slug": "clorinde",
+      "character_name": "Clorinde",
+      "category": "DPS",
+      "notes": "Clorinde functions with Furina in a similar vein as Wriothesley, enabling Electro-Charge instead of Freeze. However, Clorinde is also capable of keeping her own HP topped up, letting her stack Furina's fanfare without mu"
+    },
+    {
+      "character_slug": "gaming",
+      "character_name": "Gaming",
+      "category": "DPS",
+      "notes": "Gaming naturally has HP-drain mechanics in his kit, which Furina can take advantage of to boost her DMG buffs for Gaming, while also enabling Vaporize for him in most of his teams."
+    },
+    {
+      "character_slug": "yelan",
+      "character_name": "Yelan",
+      "category": "Sub-DPS",
+      "notes": "When paired together in a dual-Hydro comp, Yelan and Furina can stack DMG bonuses and skyrocket their On-Field unit's damage."
+    },
+    {
+      "character_slug": "kazuha",
+      "character_name": "Kazuha",
+      "category": "Sub-DPS/Support",
+      "notes": "Kazuha and Furina both exist to buff their On-Fielder's damage, with Kazuha able to group up enemies and significantly boost Furina's personal DPS."
+    },
+    {
+      "character_slug": "xilonen",
+      "character_name": "Xilonen",
+      "category": "Support",
+      "notes": "Xilonen's existence in a team with Furina allows her to nearly stack Furina's fanfare all on her own with her Elemental Burst, albeit at a slower rate due to her healing only affecting the On-Fielder."
+    },
+    {
+      "character_slug": "bennett",
+      "character_name": "Bennett",
+      "category": "Support",
+      "notes": "In most cases, Furina will have her Burst cast first before anyone else's, allowing each member of the team to be drained by Furina's Elemental Skill, then healed by Bennett's circle during your damage rotation."
+    },
+    {
+      "character_slug": "xianyun",
+      "character_name": "Xianyun",
+      "category": "Support",
+      "notes": "Xianyun and Furina enable a Plunge team to deal substantially more damage, with Xianyun also giving Furina ample healing to stack her fanfare."
+    },
+    {
+      "character_slug": "jean",
+      "character_name": "Jean",
+      "category": "Support",
+      "notes": "Jean provides teamwide on-demand healing that pretty much fulfills half of Furina's fanfare requirements on cast."
+    }
+  ],
+  "tier_ratings": {
+    "Sub-DPS": "S",
+    "Support": "S",
+    "Exploration": "SS"
+  }
+}

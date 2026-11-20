@@ -1,0 +1,46 @@
+[
+  {
+    "character_slugs": [
+      "neuvillette",
+      "vodyanitsa",
+      "furina",
+      "escoffier"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette Best Hypercarry Team (Neuvillette — Vodyanitsa — Furina — Escoffier)",
+    "description": "Vodyanitsa supports Neuvillette and Furina's new Freeze Team with Escoffier. Neuvillette can easily stack Fanfare for Furina due to his HP drain.",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "columbina",
+      "sucrose"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette Lunar-Charged Team (Neuvillette — Ineffa — Columbina — Sucrose)",
+    "description": "Columbina and Ineffa makes up the core of the team, while Sucrose amplifies them with EM. In scenarios like this, Neuvillette acts more as on-field driver that deals damage with his Charged Attack.",
+    "slot_alternatives": {
+      "4": [
+        "xilonen"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "columbina",
+      "ineffa",
+      "xilonen"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Columbina — Ineffa — Xilonen",
+    "description": "Alternate Lunar-Charged team for Neuvillette.",
+    "slot_alternatives": {
+      "4": [
+        "sucrose"
+      ]
+    }
+  }
+]

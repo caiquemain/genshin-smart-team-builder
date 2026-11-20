@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from ..parse_kqm_guide import parse_guide as parse_kqm_guide
+from .game8 import parse_guide as parse_game8_guide
 
 
 @dataclass(frozen=True)
@@ -37,7 +38,7 @@ SOURCES: dict[str, SourceConfig] = {
         slug="game8",
         display_name="Game8",
         base_url="https://game8.co/games/Genshin-Impact",
-        parser=None,
+        parser=parse_game8_guide,
     ),
     "genshingg": SourceConfig(
         slug="genshingg",

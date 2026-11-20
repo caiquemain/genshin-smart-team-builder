@@ -1,0 +1,53 @@
+[
+  {
+    "character_slugs": [
+      "furina",
+      "skirk",
+      "escoffier",
+      "shenhe"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina Freeze Team (Furina — Skirk — Escoffier — Shenhe)",
+    "description": "Furina provides massive DMG% in the team while Skirk and Escoffier have synergistic mechanics with Freeze comps.",
+    "slot_alternatives": {
+      "4": [
+        "yelan",
+        "xingqiu"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "xilonen",
+      "kazuha",
+      "wriothesley"
+    ],
+    "main_character": "furina",
+    "raw_line": "Hypercarry Team with Furina (Furina — Xilonen — Kazuha — Wriothesley)",
+    "description": "This is a Hypercarry team composition for Furina. She is a staple buffer for these type of composition, but do remember that she requires a Healer to properly function.",
+    "slot_alternatives": {
+      "2": [
+        "shinobu"
+      ],
+      "3": [
+        "sucrose"
+      ],
+      "4": [
+        "neuvillette"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "clorinde",
+      "fischl",
+      "furina",
+      "xilonen"
+    ],
+    "main_character": "clorinde",
+    "raw_line": "Clorinde — Fischl — Furina — Xilonen",
+    "description": "Electro-Charged team with Clorinde.",
+    "slot_alternatives": {}
+  }
+]

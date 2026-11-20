@@ -1,0 +1,792 @@
+
+
+Guides
+News
+Reviews
+Best Games
+Daily Games
+Search this Wiki…
+
+My Games
+Log In
+Game8Genshin Impact Walkthrough & Guides WikiCharactersHydro CharactersFurina Best Builds and Teams
+Genshin Impact
+Furina Best Builds and Teams
+918
+Add to Watchlist (78)
+Genshin Impact Walkthrough Team
+Last updated on: November 6, 2026 11:21 PM
+
+★ Check out the official Game8 Petit Planet wiki! ★
+◆ Hot: Version 7.2 & Codes, 7.2 Tier List
+◆ Builds: Mitya, Valeriy, Furina, Zibai, Linnea
+◆ Snezhnaya: Cryoculus, 7.2 Quests
+◆ Events: The Grand Defense, Free 4-Star Selector
+NEW 11/3: Visit the Game8 Genshin Forum!
+
+Genshin Impact - Furina Best Builds and Teams
+Furina is a 5-star Hydro Sword user in Genshin Impact that best functions as a Hydro Buffer! See Furina's best builds, artifacts and weapons, team comps, and our rating of this character in this guide!
+
+Furina's Character Guides
+Genshin - Furina Builds and RatingBuild Guide	Ascension MaterialMaterials	“Pour la Justice” ImageSpecial Dish
+List of Contents
+
+Rating and Info
+Builds
+Weapons
+Artifacts
+Team Comps
+Constellations
+How to Play
+How to Get
+In-Game Information
+Related Guides
+Furina Rating and Info
+Character Information
+Furina
+Genshin - Furina	Rating	
+S Rank Icon
+Rarity	
+★★★★★
+Element	
+Hydro Hydro
+Weapon	
+Sword Sword
+Voice Actors	Amber Lee Connors (EN)
+Inori Minase (JP)
+All Character Builds
+
+Tier List Rankings
+Main DPS	Sub-DPS	Support	Exploration
+-	S	S	SS
+Tier Rating
+Furina solidifies herself as an all-around buffer that surpasses many other options due to her augmenting every form of damage that allies can do, giving her plenty of options and versatility as to where she can slot herself into. She also gains more value as a Sub-DPS, as both her buffs and her damage scale with HP, so the stronger her buffs are, the stronger her personal damage becomes. These numbers reach incredibly respective heights, and the damage she can bring to the table potentially surpasses the other buffer units without sacrificing her supportive capabilities.
+
+When selecting buffer units for a team, Furina, Bennett, Kazuha, and now Xilonen are often the premier choices due to their ease of use and the varied effectiveness of her buffs. Furina's main drawback is that her buffs need to be activated by having a competent healer on the team that can stack her fanfare points. While this is inherently a downside, most team compositions are able to accommodate both Furina and a healer onto their roster, with Xilonen and Bennett being completely synergistic with her. This puts her in a better spot as opposed to being potentially overtaken by other buffers due to how well most team comps complement Furina and how much Furina can offer to her teammates.
+Character Tier List | Best Characters
+
+How Would You Rate Furina?
+9.8
+/10
+Community Score
+233 votes
+Your score
+7.5
+5
+
+10
+Submit Score!
+Log in or Sign up to submit your score
+
+
+▼
+Score Distribution
+Furina's Stats
+Lvl. 20 Base Stats
+Lvl. 90 Max Stats
+Stat	Base Value
+HP	
+3091
+ATK	
+49
+DEF	
+140
+CRIT Rate%	
+5%
+Stat Calculations
+
+
+Furina's Ascension and Talent Material Summary
+All Ascension Materials Needed
+Varunada Lazurite Sliver ImageVarunada Lazurite Sliver ×1
+Varunada Lazurite Fragment ImageVarunada Lazurite Fragment ×9
+Varunada Lazurite Chunk ImageVarunada Lazurite Chunk ×9
+Varunada Lazurite Gemstone ImageVarunada Lazurite Gemstone ×6
+Whopperflower Nectar ImageWhopperflower Nectar ×18
+Shimmering Nectar ImageShimmering Nectar ×30
+Energy Nectar ImageEnergy Nectar ×36
+Mora ImageMora ×420,000
+Lakelight Lily ImageLakelight Lily ×168
+Water That Failed to Transcend ImageWater That Failed to Transcend ×46
+All Talent Materials Needed
+Whopperflower Nectar ImageWhopperflower Nectar ×18
+Shimmering Nectar ImageShimmering Nectar ×66
+Energy Nectar ImageEnergy Nectar ×93
+Mora ImageMora ×4,957,000
+Crown of Insight ImageCrown of Insight ×3
+Philosophies of Justice ImagePhilosophies of Justice ×114
+Guide to Justice ImageGuide to Justice ×63
+Teachings of Justice ImageTeachings of Justice ×9
+Lightless Mass ImageLightless Mass ×18
+Furina Strengths and Weaknesses
+Strengths
+• Good damage scaling for her Ousia form, and her Elemental Skill can be refreshed indefinitely.
+• Great universal buffer for damage with her Fanfare mechanic as long as you have a healer.
+• HP drain to her party members opens up unique playstyles involving HP fluctuations. Certain characters can now equip HP-change dependent artifacts and weapons, as long as you have Furina in your team.
+• Her being able to heal off-field with her Pneuma form, and her ability to walk on water with her Elemental Skill active, are highly convenient perks for overworld exploration.
+Weaknesses
+• Teams with Furina require a strong party healer to help her gain Fanfare stacks as well as mitigate the HP loss dealt by her Ousia summons.
+• Switching her Arkhe removes the current summon from the field, so her team comps depend on the playstyle and build she's currently using, and therefore isn't flexible.
+• Most new released units don't need her DMG% buff anymore.
+Furina Best Builds
+Furina Sub-DPS and Support Build
+When building Furina, take note that although most of her buffs scale with HP, she also does considerable damage when given proper CRIT stats and a Hydro DMG Bonus goblet.
+
+Furina's buffs cap out at the 40,000 HP mark, so try your best to reach as close to that breakpoint as realistically possible, while also accounting for stats such as Energy Recharge and CRIT if using her as a proper Sub-DPS.
+
+Best Sub-DPS Support Build
+Best Weapon	Alternative Weapons
+Genshin Impact - Splendor of Tranquil Waters ImageSplendor of Tranquil Waters 	
+Genshin Impact - Key of Khaj-Nisut Image Key of Khaj-Nisut 
+Genshin Impact - Uraku Misugiri Image Uraku Misugiri 
+Genshin Impact - Festering Desire Image Festering Desire  (Event)
+Genshin Impact - Fleuve Cendre Ferryman Image Fleuve Cendre Ferryman 
+Genshin Impact - Favonius Sword Image Favonius Sword 
+Best Artifact	Artifact Stats
+Genshin - Golden Troupe ImageGolden Troupe 	
+Genshin - HourglassSands: HP% or Energy Recharge
+Genshin - GobletGoblet: HP% or Hydro DMG%
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats
+1. HP%
+2. Energy Recharge (until requirement)
+3. ATK%
+4. Elemental Mastery
+Alternate Artifact
+Genshin - Tenacity of the Millelith ImageTenacity of the Millelith 
+General Team Comps
+Genshin - Skirk ImageGenshin - Escoffier ImageGenshin - Furina ImageGenshin - Shenhe Image
+Skirk's best team includes Furina.
+Genshin - Clorinde ImageGenshin - Fischl ImageGenshin - Furina ImageGenshin - Xilonen Image
+Electro-Charged team with Clorinde.
+Furina is mainly built around HP since most of her buffs and damage scale off of that stat, regardless if you want her to be primarily support or sub-dps. This build pattern is dictated by her A4 passive, which increases the damage of her summons according to her HP value.
+
+In general, you would want to have an HP/HP for Sands and Goblet and then having either CRIT Rate or CRIT DMG for her Circlet, depending on which stat you need prioritize for a balance ratio.
+
+Furina Goal Stat Values
+Stat	Goal Value
+HP	35,000 ~ 40,000 HP
+CRIT Rate	60 ~ 80%
+CRIT DMG	160 ~ 200% or above
+Energy Recharge	180% or above
+As mentioned from above, you would want to have as much HP as you can with Furina. The 40,000 HP buff cap is based on her A4 passive. It is important to have Furina around 35,000 ~ 40,000 at all times to fully capitalize on her potential.
+
+Energy Recharge needs are dependent on how many other Hydro units are in the team with Furina, but a good baseline is around ~180% to ensure that she can use her Elemental Burst every rotation.
+
+Other than that, your CRIT value should have a 2:1 ratio for perfect balance.
+
+Furina Talent Priority
+1st	2nd	3rd
+Elemental Burst	Elemental Skill	Normal Attack
+Furina's Elemental Skill and Elemental Burst are equally important. However, Elemental Burst gets an edge because of the massive team buff that it offers. Despite that, you should level both equally.
+
+Normal Attack can be mostly ignored. Even at C6, her damage scales to her HP, not Talent levels.
+
+Furina Best Weapons
+Furina Uses HP or ER Weapons
+When it comes to weapon choice, if not using Furina's Splendor of Tranquil Waters, then other HP or Energy Recharge weapons such as the Key of Khaj-Nisut or Festering Desire as the primary go-tos.
+
+These are usually meant to even out Furina's stats, as she needs as much HP as she can get while also having a healthy amount of Energy Recharge and potentially CRIT.
+
+Best Swords for Furina
+Best Weapons for Furina
+Best-in-Slot	
+Genshin Impact - Splendor of Tranquil Waters Image Splendor of Tranquil Waters 
+Splendor of Tranquil Waters is Furina's best-in-slot weapon and her signature weapon. It can increase her Elemental Skill DMG and provide more HP for her, giving her a leeway to prioritize other stats.
+Alternative	
+Genshin Impact - Key of Khaj-Nisut Image Key of Khaj-Nisut 
+Massive HP statstick because of its main stat. The team wide EM buff is also heavily appreciated, especially if the team is very reaction-based.
+F2P (Event)	
+Genshin Impact - Festering Desire Image Festering Desire 
+Very strong alternative that can alleviate Furina's Energy Recharge needs and boosts her personal damage on top of it.
+
+Do note that this a limited-time event weapon.
+F2P (Gacha)	
+Genshin Impact - Favonius Sword Image Favonius Sword 
+Possibly the best F2P weapon for Furina. It not only alleviates Furina's needs, but also her entire team.
+Other Swords for Furina
+Recommended Weapons	How to Get
+Splendor of Tranquil Waters Image Splendor of Tranquil Waters
+Gacha
+Key of Khaj-Nisut Image Key of Khaj-Nisut
+Gacha
+Primordial Jade Cutter Image Primordial Jade Cutter
+Gacha
+Skyward Blade Image Skyward Blade
+Gacha
+Festering Desire Image Festering Desire
+Event
+Wolf-Fang Image Wolf-Fang
+Battle Pass
+Fleuve Cendre Ferryman Image Fleuve Cendre Ferryman
+Fishing
+Favonius Sword Image Favonius Sword
+Gacha
+The Dockhand The Dockhand's Assistant
+Gacha
+List of All Sword Weapons
+
+Furina Best Artifacts
+Pick Artifacts That Increase Furina's Skill Damage or HP
+Furina's main source of damage comes from her Elemental Skill and is entirely counted as Elemental Skill Hydro DMG, meaning sets such as the 4-pc. Golden Troupe will do wonders for her personal damage.
+
+A good alternative will be Tenacity of the Millelith for the hefty amount of HP that it can give to Furina and ATK% buff for the entire team.
+
+Scroll of the Hero of Cinder City for the Elemental DMG bonus, even if Furina cannot utilize the full 4-pc effect.
+
+Best Artifacts for Furina
+Best Artifact Sets for Furina
+Best-in-Slot	
+Genshin - Golden Troupe Image Golden Troupe 
+This set massively increases Furina's personal DMG since her main source of damage is her Elemental Skill.
+For ATK Buffs	
+Genshin - Tenacity of the Millelith Image Tenacity of the Millelith 
+This artifact set is used if the DPS in Furina's team will heavily appreciate the ATK buff to funnel more buffs to them. This set is especially great if Furina has low damage contribution within the team.
+Alternative	
+Genshin - Scroll of the Hero of Cinder City Image Scroll of the Hero of Cinder City 
+Mainly used if Furina ever find herself in a team where she has low damage contribution and the DPS doesn't really want ATK buff either.
+Despite not fully able to use the 4-pc effect, the 12% Elemental DMG bonus more than justifies it as an alternative.
+Furina Artifact Stat Priority
+Stat Priority
+Genshin - Hourglass
+HP% or Energy Recharge	
+Genshin - Goblet
+HP% > Hydro DMG	
+Genshin - Circlet
+CRIT DMG/CRIT Rate
+Substats:
+HP% > Energy Recharge > CRIT DMG >= CRIT Rate
+Summary:
+• Furina's A4 suggest that she needs HP to fully capitalize on her off-field capabilities and buffs.
+• Energy Recharge until she reaches the requirement to consistently Burst every rotation.
+• HP% in Goblet for most cases. However, if you have C2 or have reached 40,000 HP, you can use Hydro DMG% instead.
+• CRIT Value should be around 2:1 ratio for balance.
+List of Artifacts and Set Bonuses
+
+Furina Best Team Comps
+Best as a Buffer in Teams
+Furina's teams usually make use of her as a Sub-DPS and Buffer for units that appreciates DMG% buff from her Elemental Burst. Her Elemental Skill allows consistent off-field hydro application that can provide a lot of benefit for units that need Hydro aura.
+
+She needs to be paired with Healers to properly generate fanfare from her Burst.
+
+Freeze Team Comp
+Furina Freeze Team
+Genshin - FurinaFurina	Genshin - SkirkSkirk	Genshin - EscoffierEscoffier	Genshin - ShenheShenhe
+Genshin - YelanYelan
+Genshin - XingqiuXingqiu
+Team Summary
+Furina provides massive DMG% in the team while Skirk and Escoffier have synergistic mechanics with Freeze comps.
+Alternate Teammates
+Shenhe is usually the best slot here. However, you can opt for another Hydro unit like Yelan and Xingqiu instead if you need to.
+Hypercarry Team Comp
+Hypercarry Team with Furina
+Genshin - FurinaFurina	Genshin - XilonenXilonen
+Genshin - ShinobuShinobu	Genshin - KazuhaKazuha
+Genshin - SucroseSucrose	Genshin - WriothesleyWriothesley
+Genshin - NeuvilletteNeuvillette
+Team Summary
+This is a Hypercarry team composition for Furina. She is a staple buffer for these type of composition, but do remember that she requires a Healer to properly function.
+
+Do note this is just an example team/s, as there are plenty of variation for this composition.
+Alternate Teammates
+Xilonen and Shinobu are great healers and buffers that you can slot in depending on the teammates. Kazuha and Sucrose, if you want DMG% or an EM buff, respectively.
+You can choose any Main DPS that needs DMG% for this slot, such as Wriothesley.
+Notable Teammates
+Alternative	Explanation
+Genshin - NeuvilletteNeuvillette	DPS
+Neuvillette and Furina benefit each other with Hydro Resonance for both, Neuvillette being able to easily stack Furina's fanfare, and Furina being able to amplify Neuvillette's damage as quickly.
+Genshin - WriothesleyWriothesley	DPS
+Since Wriothesley already drains and heals his own HP with his attacks, it stacks Furina's fanfare quickly, but comes at the cost of quickly draining Wriothesley's HP if he is not at C1. For this, a healer is recommended for Wriothesley teams.
+Genshin - ClorindeClorinde	DPS
+Clorinde functions with Furina in a similar vein as Wriothesley, enabling Electro-Charge instead of Freeze. However, Clorinde is also capable of keeping her own HP topped up, letting her stack Furina's fanfare without much problem.
+Genshin - GamingGaming	DPS
+Gaming naturally has HP-drain mechanics in his kit, which Furina can take advantage of to boost her DMG buffs for Gaming, while also enabling Vaporize for him in most of his teams.
+Genshin - YelanYelan	Sub-DPS
+When paired together in a dual-Hydro comp, Yelan and Furina can stack DMG bonuses and skyrocket their On-Field unit's damage.
+Genshin - KazuhaKazuha	Sub-DPS/Support
+Kazuha and Furina both exist to buff their On-Fielder's damage, with Kazuha able to group up enemies and significantly boost Furina's personal DPS.
+Genshin - XilonenXilonen	Support
+Xilonen's existence in a team with Furina allows her to nearly stack Furina's fanfare all on her own with her Elemental Burst, albeit at a slower rate due to her healing only affecting the On-Fielder.
+Genshin - BennettBennett	Support
+In most cases, Furina will have her Burst cast first before anyone else's, allowing each member of the team to be drained by Furina's Elemental Skill, then healed by Bennett's circle during your damage rotation.
+Genshin - XianyunXianyun	Support
+Xianyun and Furina enable a Plunge team to deal substantially more damage, with Xianyun also giving Furina ample healing to stack her fanfare.
+Genshin - JeanJean	Support
+Jean provides teamwide on-demand healing that pretty much fulfills half of Furina's fanfare requirements on cast.
+Furina Constellations
+Animula Choragi
+Genshin - Furina
+Constellation and Effects
+Furina's Constellations
+C1	Love Is a Rebellious Bird That None Can Tame
+When using Let the People Rejoice, Furina will gain 150 Fanfare. Additionally, Furina's Fanfare limit is increased by 100.
+C2	A Woman Adapts Like Duckweed in Water
+While Let the People Rejoice lasts, Furina's Fanfare gain from increases or decreases in nearby characters' HP is increased by 250%. Each point of Fanfare above the limit will increase Furina's Max HP by 0.35%. Her maximum Max HP increase is 140%.
+C3	My Secret Is Hidden Within Me, No One Will Know My Name
+Increases the Level of Let the People Rejoice by 3. Maximum upgrade level is 15.
+C4	They Know Not Life, Who Dwelt in the Netherworld Not!
+When the Salon Members from Salon Solitaire hit an opponent, or the Singer of Many Waters restores HP to the active character, Furina will restore 4 Energy. This effect triggers once every 5s.
+C5	His Name I Now Know, It Is...!
+Increases the Level of Salon Solitaire by 3. Maximum upgrade level is 15.
+C6	Hear Me — Let Us Raise the Chalice of Love!
+When using the Elemental Skill Salon Solitaire, Furina gains Center of Attention for 10s.
+Throughout the duration, Furina's Normal Attacks, Charged Attacks, and Plunging Attacks are converted into Hydro DMG which cannot be overridden by any other elemental infusion. DMG is also increased by an amount equivalent to 18% of Furina's max HP.
+Throughout the duration, Furina's Normal Attacks (not including Arkhe: Seats Sacred and Secular Attacks), Charged Attacks, and the impact of Plunging Attacks will cause different effects up to every 0.1s after hitting opponents depending on her current Arkhe alignment:
+
+Arkhe: Ousia
+Every 1s, all nearby characters in the party will be healed by 4% of Furina's max HP, for a duration of 2.9s. Triggering this effect again will extend its duration. Arkhe: Pneuma
+This Normal Attack (not including Arkhe: Seats Sacred and Secular Attacks), Charged Attack, or Plunging Attack ground impact DMG will be further increased by an amount equivalent to 25% of Furina's max HP. When any of the attacks mentioned previously hit an opponent, all nearby characters in the party will consume 1% of their current HP. During the duration of each instance of Center of Attention, the above effects can be triggered up to 6 times. Center of Attention will end when its effects have triggered 6 times or when the duration expires.
+Best Constellation Rating and Explanation
+Rating	Constellation Effect / Merits
+C2	★★★	• Lets Furina meet the DMG buff cap quicker, and increases Furina's HP for more damage or healing.
+C6	★★★	• Gains the potential to become a Main DPS.
+• Ousia form can now grant healing.
+Constellations increases her support and damage!
+Should you wish to increase her support potential for her damage buffs, going for C1 and C2 is best for Furina as it increases her teamwide Fanfare points!
+
+Furina Talents and How to Use
+Normal Attack
+Normal Attack: Soloist's Solicitation
+Performs up to 4 consecutive strikes.
+Charge Attack
+Consumes a certain amount of Stamina to unleash a solo dance, dealing Physical DMG to nearby opponents and changing her Arkhe alignment. If Salon Members or Singer of Many Waters summoned by her Elemental Skill "Salon Solitaire" are present, their lineup will switch in response.
+
+Arkhe: Seats Sacred and Secular
+At intervals, when Furina's Normal Attacks hit, a Spiritbreath Thorn or a Surging Blade will descend based on her current alignment, dealing Hydro DMG based on her current alignment.
+When Furina takes the field, her starting Arkhe will be Ousia.
+Skill Attributes
+Changing Arkhe Alignments
+Furina can change her Arkhe alignment by using her Charged Attacks, which will also directly affect how her other attacks behave. Ousia Furina leans on for off-field DMG, while Pneuma is for healing.
+
+Pneuma and Ousia Explained (Arkhe System)
+
+Elemental Skill
+Salon Solitaire
+Invites the guests of the Salon Solitaire to come forth and abet in Furina's performance. Will summon either the Salon Members or the Singer of Many Waters based on Furina's current Arkhe alignment.
+Ousia
+Foaming bubbles like celebrants shall dance, dealing AoE Hydro DMG based on Furina's Max HP and summoning 3 Salon Members: the Ball Octopus-shaped Gentilhomme Usher, the Bubbly Seahorse-shaped Surintendante Chevalmarin, and the Armored Crab-shaped Mademoiselle Crabaletta.
+They will attack nearby opponents at intervals, prioritizing the target of the active character, dealing Hydro DMG based on Max HP.
+When they attack, if character(s) with more than 50% HP are nearby, the Members will increase their current attack's power based on the number of such characters, and consume said characters' HP. If the characters who meet these requirements are 1/2/3/4 (or more), the Members' attacks will deal 110%/120%/130%/140% of their original DMG. Pneuma
+Summons the Singer of Many Waters, who will heal nearby active character(s) based on Max HP at intervals.
+The Salon Members and Singer of Many Waters share a duration, and when Furina uses her Charged Attack to change the guest type, the new guests will inherit the initial duration. While the Salon Members and the Singer of Many Waters are on the field, Furina can move on the water's surface."
+Skill Attributes
+Damage Dealing or Healing Summon
+Easily her best asset, Furina's Elemental Skill summons her minions that either deals DMG to opponents (Ousia) or heals party members (Pneuma) based on her Arkhe alignment!
+
+Ousia Summons
+Furina summons Salon Members that will deal DMG to surrounding opponents, prioritizing your active character's target.
+
+The Salon Members consume your team's HP at regular intervals during their attacks on a cap. Consuming your character's HP buffs the troupe's damage based on how many characters the members absorb HP from!
+
+Pneuma Summons
+Furina calls forth the Singer of Many Waters, which will heal nearby active members!
+
+Can Walk on Water While Skill is Active
+While the Summons are active, Furina gains the ability to walk on water!
+
+Elemental Burst
+Let the People Rejoice
+Rouses the impulse to revel, creating a stage of foam that will deal AoE Hydro DMG based on Furina's Max HP and cause nearby party members to enter the Universal Revelry state:
+During this time, when nearby party members' HP increases or decreases, 1 Fanfare point will be granted to Furina for each percentage point of their Max HP by which their HP changes.
+At the same time, Furina will increase the DMG dealt by and Incoming Healing Bonus of all nearby party members based on the amount of Fanfare she has. When the duration ends, Furina's Fanfare points will be cleared.
+Skill Attributes
+Massive Buffs Based on HP Fluctuations
+Deals Hydro DMG to surrounding opponents, and gives buffs when HP fluctuations are triggered. When the party members' HP increases or decreases, Furina gains Fanfare stacks, which buffs all their DMG and incoming healing bonus!
+
+Passive Talent 1
+Endless Waltz
+When the active character in your party receives healing, if the source of the healing is not Furina herself and the healing overflows, then Furina will heal a nearby party member for 2% of their Max HP once every 2s within the next 4s.
+Provides Side-Healing
+Allows Furina to add onto the healing effects of other healers whenever she is in the party, giving a bit of teamwide off-field healing.
+
+Passive Talent 2
+Unheard Confession
+Every 1,000 points of Furina's Max HP can buff the different Arkhe-aligned Salon Solitaire in the following ways:
+Will increase Salon Member DMG dealt by 0.7%, up to a maximum of 28%.
+Will decrease active character healing interval of the Singer of Many Waters by 0.4%, up to a maximum of 16%.
+Lets Furina Scale off HP
+This passive talent is responsible for Furina's ability to output respectable damage and healing despite being designed as a buffer and HP-scaling character.
+
+This bonus caps at 28%, which is roughly 40,000 HP for Furina.
+
+Passive Talent 3
+The Sea Is My Stage
+Xenochromatic Fontemer Aberrant ability CD decreased by 30%.
+More Frequent Fontemer Aberrant Abilities
+Genshin - Xenochromatic Jellyfish
+With Furina in your party, Fontemer Aberrant abilities will have their CD reduced! Perfect for gaining the upper hand during underwater battles!
+
+Xenochromatic Fontemer Creatures
+
+Furina Ascension and Talent Materials
+Furina Ascension Materials
+Below are the Ascension Materials needed for Furina:
+
+Lv.20→Lv.40	
+Varunada Lazurite Sliver ImageVarunada Lazurite Sliver ×1
+Lakelight Lily ImageLakelight Lily ×3
+Whopperflower Nectar ImageWhopperflower Nectar ×3
+Mora ImageMora ×20000
+Lv.40→Lv.50	
+Mora ImageMora ×40000
+Varunada Lazurite Fragment ImageVarunada Lazurite Fragment ×3
+Lakelight Lily ImageLakelight Lily ×10
+Whopperflower Nectar ImageWhopperflower Nectar ×15
+Water That Failed to Transcend ImageWater That Failed to Transcend ×2
+Lv.50→Lv.60	
+Lakelight Lily ImageLakelight Lily ×20
+Mora ImageMora ×60000
+Varunada Lazurite Fragment ImageVarunada Lazurite Fragment ×6
+Shimmering Nectar ImageShimmering Nectar ×12
+Water That Failed to Transcend ImageWater That Failed to Transcend ×4
+Lv.60→Lv.70	
+Varunada Lazurite Chunk ImageVarunada Lazurite Chunk ×3
+Lakelight Lily ImageLakelight Lily ×30
+Mora ImageMora ×80000
+Shimmering Nectar ImageShimmering Nectar ×18
+Water That Failed to Transcend ImageWater That Failed to Transcend ×8
+Lv.70→Lv.80	
+Mora ImageMora ×100000
+Varunada Lazurite Chunk ImageVarunada Lazurite Chunk ×6
+Energy Nectar ImageEnergy Nectar ×12
+Lakelight Lily ImageLakelight Lily ×45
+Water That Failed to Transcend ImageWater That Failed to Transcend ×12
+Lv.80→Lv.90	
+Energy Nectar ImageEnergy Nectar ×24
+Mora ImageMora ×120000
+Varunada Lazurite Gemstone ImageVarunada Lazurite Gemstone ×6
+Lakelight Lily ImageLakelight Lily ×60
+Water That Failed to Transcend ImageWater That Failed to Transcend ×20
+Furina Talent Level-Up Materials
+Below are the Talent Materials needed for Furina:
+
+Daily Domain Drops	Enemy Drops	Weekly Boss Drops
+Tue/Fri/Sun
+Genshin Impact - Teachings of Justice ImageTeachings of Justice	Whopperflower
+Genshin Impact - Whopperflower Nectar ImageWhopperflower Nectar	All-Devouring Narwhal Challenge Reward
+Genshin Impact - Lightless Mass ImageLightless Mass
+Genshin Impact - Guide to Justice ImageGuide to Justice	Genshin Impact - Shimmering Nectar ImageShimmering Nectar
+Genshin Impact - Philosophies of Justice ImagePhilosophies of Justice	Genshin Impact - Energy Nectar ImageEnergy Nectar
+Talent Materials per Level
+
+How to Get Furina
+Pull on Her Version 7.2 Phase 1 Banner
+Genshin Impact - Chanson of Many Waters Gacha and Wish Guide
+Banner Status	Active
+Furina is featured in her rerun banner for Phase 1 of Version 7.2 from November 04, 2026 to November 24, 2026. Alongside her is Mitya's debut banner!
+
+In addition, the new 4-star Valeriy will also be part of this banner as a rate-up character!
+
+Furina Banner Rerun Dates
+
+Related Wish Banner Guides
+Click to view a Banner Guide!
+Genshin - FurinaBanner Info	Genshin - Wishing Sim IconWish Sim	Genshin - Best Wish to Pull Icon 2All Wishes
+Furina's In-Game Information
+Furina Character Profile
+Nation	
+Genshin - FontaineFontaine
+Title	Endless Solo of Solitude
+Vision	
+HydroHydro
+Gender	Female
+Race	Human
+Height	Medium Girl
+Faction	Court of Fontaine
+Constellation	Animula Choragi
+Birthday	October 13
+Special Dish	“Pour la Justice”
+Story Quest	Chapter: Animula Choragi
+Act 1: The Little Oceanid
+Furina Voicelines
+Thoughts About Furina
+Character	In-Game Thoughts
+Genshin Impact - Arlecchino ImageArlecchino	I asked Lyney to deliver an assortment of cakes for her theater troupe to enjoy during teatime. The children made the cakes themselves as a gesture to express the support and enthusiasm of her "audience." I do hope she enjoys them.
+Genshin Impact - Charlotte ImageCharlotte	Lady Furina has a very captivating presence. She was born to be a star. Euphrasie once assigned a journalist to shadow her, but he quit not long into the assignment... From what I've heard, the reason he left was that Furina insisted on seeing every photo he took of her right away, and she'd make him redo it if she wasn't happy with how it turned out. Apparently, she was so picky that the poor guy once had to take 127 shots of her in the same pose before she was content...
+Genshin Impact - Chevreuse ImageChevreuse	Lady Furina once ordered us to carry out some sort of... ceremonial musketeer performance. She not only wanted each of us outfitted with special "ceremonial muskets," but she wanted us to practice all sorts of specialized drill formations as well. Luckily, in the end, she couldn't find the right song to pair with the performance and the matter was dropped entirely.
+Genshin Impact - Clorinde ImageClorinde	In the past, I always stood behind her at tea parties, sword at the ready. But now, I get to sit at the table and enjoy the tea and treats along with her. I'm now beginning to understand why she complains all the time about how hard it is to maintain her physique.
+Genshin Impact - Escoffier ImageEscoffier	First Meeting: Early in my career, I worked at a small restaurant in the Vasari Passage. One day, entirely out of the blue, Lady Furina decided to dine at our restaurant after a performance. As I was scrambling around the back, a customer asked to meet the head chef. So, I rushed out to their table, knife still in hand, and completely froze... Because there I was, standing face-to-face with Lady Furina of all people. I knew I had to make something special, and it was like my instincts took over - I came up with a "Lily sugar-glazed opera cake," and Lady · Furina actually liked it and said she would remember me. I barely slept a wink that night, and the very next day, there was a position waiting for me at the Palais Mermonia...
+Current Situation: After that Lady Furina gave me the title of "Patissiere Supreme," and said, when it comes to confections, I was worth a whole army of patissiers. That gave me a lot to live up to, so I shut myself away to hone my craft. And, well, it seems like I missed a lot of important events in the meantime. Lady Furina doesn't even live in the Palais Mermonia anymore... I don't really understand what happened, but I do know this - Lady Furina will always be the most important benefactor of my life. She only has to say the word, and I would go work as her personal chef in an instant - no compensation necessary!
+Genshin Impact - Freminet ImageFreminet	Avoiding the Question: Uh... I'm in no position to give a well-rounded opinion on the Hydro Archon, so... I'll pass. I mean, I've only seen her a few times... so I'm sure I have a somewhat skewed view of her.
+Verdict: ...Okay fine. I've seen what the Hydro Archon's like when she's sitting in the audience. In my view, she's a very charismatic speaker, but it's her silences that intrigue me more. Her eyes... they're like the darkness at the bottom of the ocean. Hiding a deep secret, afraid of anyone ever getting close to her... Ah! Sorry, I... I let my imagination get the better of me.
+Genshin Impact - Lynette ImageLynette	Lady Furina's behavior is incredibly hard to explain, and I can't discern any useful intelligence from observing her. I always feel like her every move and action is an act, and she is playing different people... She truly is an Archon, one cannot apply the logic of ordinary humans to her.
+Genshin Impact - Lyney ImageLyney	The Hydro Archon, Lady Furina, is very unpredictable, and her manner of speech can be quite provocative, almost as if she sees talking itself like some sort of performance. The people of Fontaine have a particular soft spot for excitement and drama, which is why many hold her in high esteem.
+Genshin Impact - Navia ImageNavia	I was lucky enough to catch her in an opera when I was young. Even though it was a charity show, the tickets were nearly impossible to get! She was performing in character then, but I thought she seemed more in her element then than she ever did as an Archon, giving speeches up in the opera box... Looking back, I guess my intuition is was right.
+Genshin Impact - Neuvillette ImageNeuvillette	Now, the curtain has finally fallen on her "performance"... The character she portrayed was an imaginary one, yet in playing. that role she fulfilled her duties... Though she is meek and full of doubt by nature, she was able to use madness to stiffen her resolve and see her duty through to its conclusion. The work that she has done over the centuries is truly immense. If she were to ever make a return to the stage, I should personally attend the performance and give her my heartfelt applause... Yes, I must do so when the opportunity. arises.
+Genshin Impact - Wriothesley ImageWriothesley	Miss Furina displayed a severe lack of interest in my trial and excused herself early, probably because I pleaded guilty to all charges as soon as they were announced. Disappointing the Hydro Archon is a big deal, so... suppose I've got no choice but to keep gifting her copious amounts of the highest quality tea.
+Furina's Thoughts About Others
+Character	In-Game Thoughts
+Genshin Impact - Arlecchino ImageArlecchino	About The Knave
+The Knave? Wh-Who's that? Oh... Uh, I'd already forgotten about her... Keeping such a terrible figure like her in your mind will only give you nightmares.
+Genshin Impact - Charlotte ImageCharlotte	About Charlotte
+I've often seen Charlotte busily running back and forth lately. She still seems to be hoping to arrange an exclusive interview with me. No matter how many times I refuse, she still hasn't given up. To be honest, her persistence made me angry at first... but then she told me with a resolute look in her eyes that she wanted to let people understand the real Furina, and that she believed people would understand my troubles. I don't know how to respond to her kind intentions... I suppose she might be right, but I'm just not ready yet...
+Genshin Impact - Clorinde ImageClorinde	About Clorinde
+As I remember, Clorinde isn't very talkative, but she has stood by me and protected me on several occasions, so I trust her very much. Hmm... I do miss her ever so slightly, but I don't have any real reason to see her now. Oh, right! I should invite her to my next tea party!
+Genshin Impact - Lynette ImageLynette	About Lynette
+Of course I know Lyney and Lynette. I used to frequently attend their magic shows. Though they're very popular, they're still much less popular than me. Only my performances would draw a completely sold-out crowd... even standing tickets would be out. But now... Uh... I've already decided to hang up my acting career, so it's perfectly normal for my popularity to decline!
+Genshin Impact - Lyney ImageLyney	About Lyney
+Of course I know Lyney and Lynette. I used to frequently attend their magic shows. Though they're very popular, they're still much less popular than me. Only my performances would draw a completely sold-out crowd... even standing tickets would be out. But now... Uh... I've already decided to hang up my acting career, so it's perfectly normal for my popularity to decline!
+Genshin Impact - Navia ImageNavia	About Navia
+Desserts: Have you tried Navia's macarons? I have to admit that her skills in dessert-making are comparable to mine. The design she paints on the macarons is so cute, don't you think? Not to mention the texture and sweetness... They truly are a work of art! How does she do it? Does it really all boil down to talent? Ugh, I can't believe I'm feeling a little jealous... I'll have to ask her for some tips next time!
+Inner Thoughts: She's a very strong person. Strong people will always manage to keep themselves together no matter what happens, acting like everything is fine. Doing so prevents other people around them from needlessly bearing additional pressure. I saw the duel between Callas and Clorinde... and I can say that in this respect, Navia is becoming more and more like her father.
+Genshin Impact - Neuvillette ImageNeuvillette	About Neuvillette
+I'm very grateful to Neuvillette for all the hard work he's done for Fontaine in the past few centuries. It seems he doesn't intend to investigate my crimes of deceiving the people. Anyway, we're no longer working in tandem, and it's been a long time since I've been to the Palais Mermonia. I imagine that this is good for both of us, right?
+Genshin Impact - Wriothesley ImageWriothesley	About Wriothesley
+I haven't communicated with him much, but Neuvillette claims he's trustworthy, so I suppose he must be a good person. Oh, come to think of it, I've received some tea from Wriothesley before and it was exquisite!
+Furina Release Date
+Genshin Impact Version 4.2 Phase 1
+Genshin impact Version 4.2 Event - Ley Line Overflow
+Release Date	November 8, 2023
+Furina made her debut as a playable character on November, 8, 2023 in the first phase of the Version 4.2.
+
+Apart from Furina, Charlotte was also released in the same banner!
+
+Version 4.2 Banners and Characters
+
+Genshin Impact Related Guides
+Genshin Impact - Characters
+All Characters and Voice Actors
+
+List of All Characters
+Characters by Element
+Genshin - Pyro CharactersPyro	Genshin - Anemo CharactersAnemo	Genshin - Electro CharactersElectro	Genshin - Hydro CharactersHydro
+Genshin - Dendro CharactersDendro	Genshin - Geo CharactersGeo	Genshin - Cryo CharactersCryo
+All Character Builds
+
+Playable Characters
+All Playable Characters
+ChascaChasca	FaruzanFaruzan	HeizouHeizou	IfaIfa
+JahodaJahoda	JeanJean	KazuhaKazuha	Lan YanLan Yan
+LynetteLynette	MizukiMizuki	PrunePrune	SayuSayu
+SucroseSucrose	Traveler (Anemo)Traveler (Anemo)	VarkaVarka	VentiVenti
+VesnaVesna	WandererWanderer	XianyunXianyun	XiaoXiao
+AloyAloy	AyakaAyaka	CharlotteCharlotte	ChongyunChongyun
+CitlaliCitlali	DionaDiona	EscoffierEscoffier	EulaEula
+FreminetFreminet	GanyuGanyu	KaeyaKaeya	LaylaLayla
+LohenLohen	MikaMika	OdetteOdette	QiqiQiqi
+RosariaRosaria	SandroneSandrone	ShenheShenhe	SkirkSkirk
+Traveler (Cryo)Traveler (Cryo)	WriothesleyWriothesley	AlhaithamAlhaitham	BaizhuBaizhu
+ColleiCollei	EmilieEmilie	KavehKaveh	KinichKinich
+KiraraKirara	LaumaLauma	NahidaNahida	NeferNefer
+TighnariTighnari	Traveler (Dendro)Traveler (Dendro)	YaoyaoYaoyao	AlyoshaAlyosha
+BeidouBeidou	ClorindeClorinde	CynoCyno	DoriDori
+FischlFischl	FlinsFlins	IansanIansan	IneffaIneffa
+KeqingKeqing	LisaLisa	MityaMitya	OroronOroron
+RaidenRaiden	RazorRazor	SaraSara	SethosSethos
+ShinobuShinobu	Traveler (Electro)Traveler (Electro)	ValeriyValeriy	VaresaVaresa
+Yae MikoYae Miko	AlbedoAlbedo	ChioriChiori	GorouGorou
+IllugaIlluga	IttoItto	KachinaKachina	LinneaLinnea
+NaviaNavia	NingguangNingguang	NoelleNoelle	Traveler (Geo)Traveler (Geo)
+XilonenXilonen	Yun JinYun Jin	ZhongliZhongli	ZibaiZibai
+AinoAino	AyatoAyato	BarbaraBarbara	CandaceCandace
+ColumbinaColumbina	DahliaDahlia	FurinaFurina	KokomiKokomi
+MonaMona	MualaniMualani	NeuvilletteNeuvillette	NilouNilou
+SigewinneSigewinne	TartagliaTartaglia	Traveler (Hydro)Traveler (Hydro)	VodyanitsaVodyanitsa
+XingqiuXingqiu	YelanYelan	AmberAmber	ArlecchinoArlecchino
+BennettBennett	ChevreuseChevreuse	DehyaDehya	DilucDiluc
+DurinDurin	GamingGaming	Hu TaoHu Tao	KleeKlee
+LyneyLyney	MavuikaMavuika	NicoleNicole	ThomaThoma
+Traveler (Pyro)Traveler (Pyro)	XianglingXiangling	XinyanXinyan	YanfeiYanfei
+YoimiyaYoimiya
+Upcoming Characters
+All Upcoming Characters
+AliceAlice	CapitanoCapitano	DainsleifDainsleif	DanicaDanica
+DottoreDottore	NoyNoy	PantalonePantalone	PierroPierro
+PulcinellaPulcinella	RerirRerir	TsaritsaTsaritsa
+Character Lists
+Characters by Rarity
+5-Star Characters	4-Star Characters
+Free Characters
+Characters by Weapon Used
+Sword Users	Claymore Users
+Polearm Users	Bow Users
+Catalyst Users
+Characters by Role
+Main DPS Characters	Sub DPS Characters
+Support Characters	Healers
+Shield Characters	Buff Providers
+Best for Exploration	Local Specialty Passives
+Double Reward Passives
+Characters by Gender
+Male Characters	Female Characters
+Short Male Characters	Short Female Characters
+Medium Male Characters	Medium Female Characters
+Tall Male Characters	Tall Female Characters
+Characters by Height
+Short Characters	Medium Characters
+Tall Characters
+Characters by Region
+Mondstadt Characters	Liyue Characters
+Inazuma Characters	Sumeru Characters
+Fontaine Characters	Natlan Characters
+Nod-Krai Characters	Snezhnaya Characters
+Comment
+936 Anonymous Anonymous 11 days
+>>930
+depends what you have and what you're looking for. If you have a few or any Nod Krai characters or want to use the lunar reactions, I'd prioritize Columbina as she gives you more options. Otherwise Furina is good for off field application and general buff BUT you need a good healer to offset her HP drain.
+
+935 Anonymous Anonymous 14 days
+>>934
+If you care more about her personal damage, yes. It is still a good option. However, if you want more team damage, Key of Nhaj Kisut is better.
+
+See more comments (918 Comments)
+Share:share on redditshare on whatsappshare on messenger
+Author
+
+Genshin Impact Walkthrough Team
+This article was created by Game8's elite team of writers and gamers.
+Follow Genshin Impact Walkthrough Team on X for daily tips, guides, and news!
+Leave feedback
+(Login required)
+Genshin Impact Walkthrough & Guides Wiki
+
+Characters
+
+Hydro Characters
+
+Furina Best Builds and Teams
+
+
+Coming to Japan? Help us plan a Game8 meetup in Tokyo.
+Opens in a new tab
+Premium Articles
+What's this?
+Exploring Future Regions After Snezhnaya
+Exploring Future Regions After Snezhnaya
+
+Players' Report (Version 7.1): Vesna and Vodyanitsa's Dual Debut
+Players' Report (Version 7.1): Vesna and Vodyanitsa's Dual Debut
+
+An Analysis on the Downfall of Kazuha
+An Analysis on the Downfall of Kazuha
+
+All Premium Articles
+Rankings
+Popular Articles
+Message Board
+1
+Furina Best Builds and Teams
+2
+7.2 Tier List and the Best Chara...
+3
+Mirror Maiden Enemy Guide
+4
+Mona Best Builds and Teams
+5
+Bennett Best Builds and Teams
+See more
+Genshin Impact Forum
+[7.2 Update] Main Discussion Thread
+What does Furina do, and is she on a banner?
+Best last support for Mitya?
+Go to the forum ›
+Gaming News
+Walkthroughs on Overwolf — without leaving your gameWalkthroughs on Overwolf — without leaving your game
+GTA 6 Earns Eight Game Awards Nominations, but Jason’s Actor Misses Out	GTA 6 Earns Eight Game Awards Nominations, but Jason’s Ac...
+Wuthering Waves Story Review [3.8] | Great Tales Shouldn't Overstay Their Welcome	Wuthering Waves Story Review [3.8]
+GTA 6 Review | The Pinnacle of Modern Gaming	GTA 6 Review
+More Gaming News
+
+Popular Games
+Genshin Impact	Genshin Impact Walkthrough & Guides Wiki
+Honkai: Star Rail	Honkai: Star Rail Walkthrough & Guides Wiki
+Fire Emblem: Fortune's Weave	Fire Emblem: Fortune's Weave (FEFW) Walkthrough & Guides Wiki
+Monster Hunter Outlanders	Monster Hunter Outlanders Walkthrough & Guides Wiki
+Phantom Blade Zero	Phantom Blade Zero Walkthrough & Guides Wiki
+Final Fantasy Resonance	Final Fantasy Resonance Walkthrough & Guides Wiki
+Wuthering Waves	Wuthering Waves Walkthrough & Guides Wiki
+Umamusume: Pretty Derby	Umamusume: Pretty Derby Walkthrough & Guides Wiki
+Zenless Zone Zero	Zenless Zone Zero Walkthrough & Guides Wiki
+Pokemon TCG Pocket (PTCGP)	Pokemon TCG Pocket (PTCGP) Strategies & Guides Wiki
+Recommended Games
+Where Winds Meet	Where Winds Meet Walkthrough & Guides Wiki
+Diablo 4: Lord of Hatred (D4)	Diablo 4: Lord of Hatred Walkthrough & Guides Wiki
+Fire Emblem Heroes	Fire Emblem Heroes (FEH) Walkthrough & Guides Wiki
+Super Smash Bros. Ultimate	Super Smash Bros. Ultimate Walkthrough & Guides Wiki
+The Legend of Zelda: Tears of the Kingdom	The Legend of Zelda: Tears of the Kingdom Walkthrough & Guides Wiki
+Persona 3 Reload (P3R)	Persona 3 Reload Walkthrough & Guides Wiki
+Elden Ring	Elden Ring Walkthrough & Guides Wiki
+Pokemon Brilliant Diamond and Shining Pearl	Pokemon Brilliant Diamond and Shining Pearl (BDSP) Walkthrough & Guides Wiki
+Cyberpunk 2077: Ultimate Edition	Cyberpunk 2077: Ultimate Edition Walkthrough & Guides Wiki
+Monster Hunter World (MHW)	Monster Hunter World Walkthrough & Guides Wiki
+All rights reserved
+Copyright© 2012-2024 HoYoverse — COGNOSPHERE. All Rights Reserved.
+
+The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.
+The contents we provide on this site were created personally by members of the Game8 editorial department.
+We refuse the right to reuse or repost content taken without our permission such as data or images to other sites.
+
+Terms of Use
+Privacy Policy
+External Communication Policy
+Opt-out
+Inquiries
+Operating Company
+Advertising
+Video Ads
+Act on specified commercial transactions
+Gaming Wikis
+
+Genshin Impact Walkthrough & Guides WikiHonkai: Star Rail Walkthrough & Guides WikiFire Emblem: Fortune's Weave (FEFW) Walkthrough & Guides WikiMonster Hunter Outlanders Walkthrough & Guides WikiPhantom Blade Zero Walkthrough & Guides WikiFinal Fantasy Resonance Walkthrough & Guides WikiWuthering Waves Walkthrough & Guides WikiUmamusume: Pretty Derby Walkthrough & Guides WikiZenless Zone Zero Walkthrough & Guides WikiPokemon TCG Pocket (PTCGP) Strategies & Guides WikiThe Legend of Zelda: Ocarina of Time Walkthrough & Guides WikiAniimo Walkthrough & Guides WikiMinecraft Walkthrough & Guides WikiMonster Hunter Wilds Walkthrough & Guides WikiDigimon Story: Time Stranger Walkthrough & Guides Wiki
+Recommended Games
+
+Where Winds Meet Walkthrough & Guides WikiDiablo 4: Lord of Hatred Walkthrough & Guides WikiFire Emblem Heroes (FEH) Walkthrough & Guides WikiSuper Smash Bros. Ultimate Walkthrough & Guides WikiThe Legend of Zelda: Tears of the Kingdom Walkthrough & Guides WikiPersona 3 Reload Walkthrough & Guides WikiElden Ring Walkthrough & Guides WikiPokemon Brilliant Diamond and Shining Pearl (BDSP) Walkthrough & Guides WikiCyberpunk 2077: Ultimate Edition Walkthrough & Guides WikiMonster Hunter World Walkthrough & Guides WikiThe Legend of Zelda: Ocarina of Time Walkthrough & Guides WikiGTA 6 (Grand Theft Auto 6) Walkthrough & Guides WikiPetit Planet Walkthrough & Guides WikiPokemon Winds and Waves Walkthrough & Guides Wiki
+Game8 - Your Go-To Platform For All Game Walkthroughs and Strategy Guides© 2019 Game8, Inc.
+Genshin Impact
+Genshin Impact Walkthrough & Guides Wiki
+
+
+Bookmark
+(8944)
+Quick Access
+Top
+
+Codes
+
+Mitya
+
+Version 7.2
+
+Tier List
+
+Characters
+
+Builds
+
+Weapons
+
+Banners
+
+Quests
+
+Events
+
+Maps
+
+Download the App
+Guide Index
+Genshin Impact Wiki
+Game8 Genshin Forum
+Genshin Impact Review
+Game8 Best Games Survey
+Tools
+Recommended Guides
+Tier Lists
+Versions
+Codes
+Characters
+Maps
+Banner Guides
+Weapons
+Artifacts
+Events
+Quests
+Enemies and Bosses
+Miliastra Wonderland UGC
+Genius Invokation TCG
+Items
+Endgame Content
+Miscellaneous Content
+Tips & Tricks
+Message Boards
+All HoYoverse Wikis
