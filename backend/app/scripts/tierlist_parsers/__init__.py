@@ -7,6 +7,7 @@ from .game8 import GAME8_SCALE, parse_game8
 from .genshingg import GENSHINGG_SCALE, parse_genshingg
 from .genshinlab import GENSHINLAB_SCALE, parse_genshinlab
 from .icy_veins import ICY_VEINS_SCALE, parse_icy_veins
+from .mobalytics import MOBALYTICS_SCALE, parse_mobalytics
 from .yshelper import (
     YSHELPER_SCALE,
     parse_yshelper_abyss,
@@ -56,13 +57,14 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         slug="mobalytics",
         name="Mobalytics",
         url="https://mobalytics.gg/genshin-impact/tier-list",
-        scale=("S", "A+", "A", "B+", "B", "C", "D", "E", "F"),
+        scale=tuple(MOBALYTICS_SCALE),
         master_map={
             "S": "S+", "A+": "S", "A": "S",
             "B+": "A", "B": "A",
             "C": "B", "D": "B",
             "E": "C", "F": "D",
         },
+        txt_parser=parse_mobalytics,
     ),
     "gamewith": TierlistSiteConfig(
         slug="gamewith",
@@ -132,6 +134,7 @@ __all__ = [
     "parse_genshingg",
     "parse_genshinlab",
     "parse_icy_veins",
+    "parse_mobalytics",
     "parse_yshelper_abyss",
     "parse_yshelper_html",
     "parse_yshelper_stygian",

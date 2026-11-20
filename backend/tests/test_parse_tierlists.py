@@ -14,6 +14,7 @@ from app.scripts.tierlist_parsers import (
     parse_genshingg,
     parse_genshinlab,
     parse_icy_veins,
+    parse_mobalytics,
     parse_yshelper_abyss,
     parse_yshelper_stygian,
     parse_yshelper_teams,
@@ -258,6 +259,31 @@ def test_real_game8_7_2_regression():
     assert by_slug["neuvillette"] == {"character_slug": "neuvillette", "role": "main_dps", "tier_label": "A"}
     assert by_slug["traveler-cryo"] == {"character_slug": "traveler-cryo", "role": "main_dps", "tier_label": "SS"}
     assert by_slug["aloy"] == {"character_slug": "aloy", "role": "main_dps", "tier_label": "D"}
+
+
+def test_real_mobalytics_7_2_regression():
+    path = TIERLISTS_DIR / "mobalytics" / "7.2.txt"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_mobalytics(path.read_text(encoding="utf-8"), version_hint="7.2")
+
+    assert res["site_slug"] == "mobalytics"
+    assert res["version"] == "7.2"
+    assert len(res["entries"]) == 128
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"S": 7, "A+": 12, "A": 11, "B+": 10, "B": 9, "C": 8, "D": 12, "E": 28, "F": 31}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["columbina"]["tier_label"] == "S"
+    assert by_slug["traveler-cryo"]["tier_label"] == "S"
+    assert by_slug["mitya"]["tier_label"] == "A+"
+    assert by_slug["skirk"]["tier_label"] == "A"
+    assert by_slug["furina"]["tier_label"] == "B"
+    assert by_slug["neuvillette"]["tier_label"] == "C"
+    assert by_slug["valeriy"]["tier_label"] == "D"
+    assert by_slug["zhongli"]["tier_label"] == "E"
+    assert by_slug["yun-jin"]["tier_label"] == "F"
+
 
 
 
