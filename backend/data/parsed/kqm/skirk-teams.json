@@ -1,0 +1,176 @@
+[
+  {
+    "character_slugs": [
+      "skirk",
+      "furina",
+      "escoffier",
+      "vodyanitsa"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Furina — Escoffier — Vodyanitsa",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "furina",
+      "escoffier",
+      "citlali"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Furina — Escoffier — Citlali / Mualani",
+    "slot_alternatives": {
+      "4": [
+        "mualani"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "furina",
+      "escoffier",
+      "mona"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Furina — Escoffier — Mona / Shenhe / Yelan",
+    "slot_alternatives": {
+      "4": [
+        "shenhe",
+        "yelan"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "furina",
+      "charlotte",
+      "vodyanitsa"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Furina — Charlotte — Vodyanitsa",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "vodyanitsa",
+      "escoffier",
+      "mona"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Vodyanitsa — Escoffier — Mona",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "xingqiu",
+      "rosaria",
+      "vodyanitsa"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Xingqiu — Rosaria — Vodyanitsa",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "vodyanitsa",
+      "rosaria",
+      "dahlia"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Vodyanitsa — Rosaria — Dahlia",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "candace",
+      "escoffier",
+      "dahlia"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — C6 Candace — Escoffier — Dahlia",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "xingqiu",
+      "escoffier",
+      "charlottel"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Xingqiu — Escoffier — Charlottel",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "furina",
+      "chongyun",
+      "charlotte"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Furina — Chongyun — Charlotte",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "yelan",
+      "rosaria",
+      "xingqiu"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Yelan — Rosaria — Xingqiu",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "yelan",
+      "rosaria",
+      "charlotte"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Yelan — Rosaria — Charlotte",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "xingqiu",
+      "chongyun",
+      "charlotte"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Xingqiu — Chongyun — Charlotte",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "aino",
+      "chongyun",
+      "layla"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Aino — Chongyun — Layla",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "skirk",
+      "xingqiu",
+      "rosaria",
+      "layla"
+    ],
+    "main_character": "skirk",
+    "raw_line": "Skirk — Xingqiu — Rosaria — Layla",
+    "slot_alternatives": {}
+  }
+]

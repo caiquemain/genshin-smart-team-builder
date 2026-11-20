@@ -64,44 +64,54 @@ def _is_dps(char):
     return char.slug in DPS_SLUGS
 
 
-def _find_subs_for_char(db, char, limit=8):
-    """Retorna substitutes (mesmo elemento, NAO DPS, SUPPORT primeiro)."""
+def _find_subs_for_char(db, char, limit=8, exclude_slugs: set[str] | None = None):
+    """Retorna substitutes (mesmo elemento, NAO DPS, exclui membros do time, SUPPORT primeiro)."""
+    from app.services.substitutes import format_capability_label
+
+    excluded = (exclude_slugs or set()) | {char.slug}
     candidates = db.query(Character).filter(
         Character.element == char.element,
         Character.id != char.id,
     ).all()
 
-    # Exclui DPS da lista de substitutes
-    candidates = [c for c in candidates if not _is_dps(c)]
+    # Exclui DPS e personagens que já estão no time
+    candidates = [c for c in candidates if not _is_dps(c) and c.slug not in excluded]
 
     # Ordena: SUPPORT_SLUGS primeiro, depois alfabetico
     candidates.sort(key=lambda c: (0 if c.slug in SUPPORT_SLUGS else 1, c.name))
 
-    return [
-        {
+    out = []
+    for c in candidates[:limit]:
+        el = c.element.value.capitalize() if hasattr(c.element, 'value') else str(c.element).capitalize()
+        label = format_capability_label(c.slug, c)
+        out.append({
             "character_slug": c.slug,
-            "build_label": "Opcao",
-            "notes": f"Alternativa {c.element.value.capitalize() if hasattr(c.element, 'value') else str(c.element).capitalize()}",
-        }
-        for c in candidates[:limit]
-    ]
+            "build_label": label,
+            "notes": f"Alternativa {el} ({label})",
+        })
+    return out
 
 
 def enrich_team(db, team, warnings):
     """Preenche substitutes dos TeamCharacters do team. Retorna count."""
     count = 0
+    resolved_members: list[tuple] = []
     for tc in team.members:
         c = db.query(Character).filter(Character.id == tc.character_id).first()
         if not c:
             warnings.append(f"[team {team.id}] char {tc.character_id} nao encontrado")
             continue
+        resolved_members.append((tc, c))
 
+    team_slugs = {c.slug for _, c in resolved_members}
+
+    for tc, c in resolved_members:
         # Slot 1 (main) ou DPS: limpa substitutes
         if tc.position == 1 or _is_dps(c):
             tc.substitutes = []
             continue
 
-        tc.substitutes = _find_subs_for_char(db, c, limit=8)
+        tc.substitutes = _find_subs_for_char(db, c, limit=8, exclude_slugs=team_slugs)
         count += len(tc.substitutes)
 
     return count

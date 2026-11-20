@@ -1,0 +1,447 @@
+[
+  {
+    "character_slugs": [
+      "neuvillette",
+      "kazuha",
+      "furina",
+      "xilonen"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Kazuha — Furina — Xilonen / Zhongli / Lisa",
+    "slot_alternatives": {
+      "4": [
+        "zhongli",
+        "lisa"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "xilonen",
+      "furina",
+      "mavuika"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Xilonen — Furina — Mavuika / Durin",
+    "slot_alternatives": {
+      "4": [
+        "durin"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "kazuha",
+      "furina",
+      "ororon"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Kazuha / Lynette / Lan Yan — Furina — Ororon",
+    "slot_alternatives": {
+      "2": [
+        "lynette",
+        "lan-yan"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "lynette",
+      "furina",
+      "kachina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Lynette — Furina — Kachina / Xilonen",
+    "slot_alternatives": {
+      "4": [
+        "xilonen"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "kazuha",
+      "fischl",
+      "kachina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Kazuha — Fischl — Kachina / Zhongli",
+    "slot_alternatives": {
+      "4": [
+        "zhongli"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "jean",
+      "furina",
+      "fischl"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Jean — Furina — Fischl / Zhongli",
+    "slot_alternatives": {
+      "4": [
+        "zhongli"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "xiangling",
+      "xilonen",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Xiangling — Xilonen — Kazuha / Sucrose / Lynette",
+    "slot_alternatives": {
+      "4": [
+        "sucrose",
+        "lynette"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "xiangling",
+      "lauma",
+      "furina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Xiangling — Lauma / Nahida — Furina",
+    "slot_alternatives": {
+      "3": [
+        "nahida"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "xiangling",
+      "kazuha",
+      "zhongli"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Xiangling — Kazuha / Emilie — Zhongli",
+    "slot_alternatives": {
+      "3": [
+        "emilie"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "xiangling",
+      "lynette",
+      "kachina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Xiangling — Lynette — Kachina / Zhongli",
+    "slot_alternatives": {
+      "4": [
+        "zhongli"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "columbina",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa — Columbina — Kazuha / Sucrose / Lynette",
+    "slot_alternatives": {
+      "4": [
+        "sucrose",
+        "lynette"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "furina",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa — Furina — Kazuha / Sucrose / Lynette / Jahoda",
+    "slot_alternatives": {
+      "4": [
+        "sucrose",
+        "lynette",
+        "jahoda"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "fischl",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa — Fischl / Ororon — Kazuha",
+    "slot_alternatives": {
+      "3": [
+        "ororon"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "aino",
+      "sucrose"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa — Aino / Mona / Yelan — Sucrose",
+    "slot_alternatives": {
+      "3": [
+        "mona",
+        "yelan"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ororon",
+      "fischl",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ororon — Fischl / Beidou / Yae Miko — Kazuha",
+    "slot_alternatives": {
+      "3": [
+        "beidou",
+        "yae-miko"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "fischl",
+      "beidou",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Fischl — Beidou — Kazuha",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "fischl",
+      "yae-miko",
+      "zhongli"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Fischl — Yae Miko — Zhongli",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "lauma",
+      "columbina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa — Lauma — Columbina",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "lauma",
+      "furina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa / Raiden — Lauma — Furina",
+    "slot_alternatives": {
+      "2": [
+        "raiden"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "ineffa",
+      "nahida",
+      "furina"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Ineffa / Raiden — Nahida — Furina",
+    "slot_alternatives": {
+      "2": [
+        "raiden"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "raiden",
+      "nahida",
+      "fischl"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Raiden — Nahida — Fischl",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "raiden",
+      "nahida",
+      "kirara"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Raiden — Nahida — Kirara",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "kuki-shinobu",
+      "dendro-traveler",
+      "collei"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Kuki Shinobu — Dendro Traveler — Collei",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "nilou",
+      "core-dendro",
+      "secondary-dendro"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Nilou — Core Dendro — Secondary Dendro",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "nilou",
+      "lauma",
+      "nahida"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Nilou — Lauma — Nahida / Kirara",
+    "slot_alternatives": {
+      "4": [
+        "kirara"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "nilou",
+      "nahida",
+      "baizhu"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Nilou — Nahida — Baizhu",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "nilou",
+      "nahida",
+      "kirara"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Nilou — Nahida — Kirara",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "nilou",
+      "dendro-traveler",
+      "yaoyao"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Nilou — Dendro Traveler — Yaoyao",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "escoffier",
+      "furina",
+      "citlali"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Escoffier — Furina — Citlali / Shenhe",
+    "slot_alternatives": {
+      "4": [
+        "shenhe"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "escoffier",
+      "furina",
+      "skirk"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Escoffier — Furina — Skirk",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "citlali",
+      "furina",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Citlali — Furina — Kazuha / Lynette",
+    "slot_alternatives": {
+      "4": [
+        "lynette"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "neuvillette",
+      "charlotte",
+      "furina",
+      "kazuha"
+    ],
+    "main_character": "neuvillette",
+    "raw_line": "Neuvillette — Charlotte / Mika / Rosaria — Furina — Kazuha",
+    "slot_alternatives": {
+      "2": [
+        "mika",
+        "rosaria"
+      ]
+    }
+  }
+]

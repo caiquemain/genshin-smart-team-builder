@@ -205,14 +205,75 @@ def _normalize_build_data(db, raw_bd, warnings):
     return bd
 
 
-def create_team_from_build(db, char, raw_bd, teams, source_url, warnings):
-    """Cria Team customizável a partir do guia KQM. Retorna True se criou."""
+def _normalize_teammate_notes(notable_teammates: list[dict] | None) -> dict[str, dict[str, str]]:
+    notes: dict[str, dict[str, str]] = {}
+    for nt in notable_teammates or []:
+        slug = normalize_slug(nt.get("character_slug", ""))
+        if not slug or slug in SKIP_SLUGS or PLACEHOLDER_PATTERN.match(slug):
+            continue
+        if slug not in notes:
+            notes[slug] = {
+                "category": nt.get("category") or "Teammate",
+                "notes": nt.get("notes") or "",
+            }
+    return notes
+
+
+def _normalize_slot_alternatives(raw_alts: dict | None) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = {}
+    for k, slugs in (raw_alts or {}).items():
+        cleaned = []
+        for s in slugs or []:
+            ns = normalize_slug(s)
+            if ns and ns not in SKIP_SLUGS and not PLACEHOLDER_PATTERN.match(ns) and ns not in cleaned:
+                cleaned.append(ns)
+        if cleaned:
+            out[str(k)] = cleaned
+    return out
+
+
+def _merge_sources(existing: list[dict] | None, source_name: str, source_url: str | None) -> list[dict]:
+    merged = [dict(s) for s in (existing or []) if isinstance(s, dict)]
+    if not any(s.get("source") == source_name for s in merged):
+        merged.append({"source": source_name, "url": source_url})
+    return merged
+
+
+def _merge_slot_substitutes(existing: dict | None, incoming: dict[str, list[dict]]) -> dict[str, list[dict]]:
+    merged: dict[str, list[dict]] = {
+        str(k): [dict(item) for item in (v or [])]
+        for k, v in (existing or {}).items()
+    }
+    for pos_k, items in incoming.items():
+        bucket = merged.setdefault(str(pos_k), [])
+        seen = {x.get("character_slug") for x in bucket}
+        for item in items:
+            slug = item.get("character_slug")
+            if slug and slug not in seen:
+                bucket.append(item)
+                seen.add(slug)
+    return merged
+
+
+def create_team_from_build(
+    db,
+    char,
+    raw_bd,
+    teams,
+    source_url,
+    warnings,
+    source_name: str = "KQM",
+    teammate_notes: dict[str, dict[str, str]] | None = None,
+):
+    """Cria Team customizável a partir do guia. Retorna True se criou."""
+    from app.services.substitutes import compute_slot_substitutes_for_slugs
+
     if not teams:
         warnings.append(f"[team-custom] {char.slug}: sem times no guia")
         return False
 
     # Escolhe time: main_character == char.slug, senão primeiro
-    chosen = next((t for t in teams if t.get("main_character") == char.slug), None) or teams[0]
+    chosen = next((t for t in teams if normalize_slug(t.get("main_character", "")) == char.slug), None) or teams[0]
 
     # Resolve chars válidos (aplica CHAR_ALIASES + skip placeholders)
     valid_chars = []
@@ -235,13 +296,25 @@ def create_team_from_build(db, char, raw_bd, teams, source_url, warnings):
 
     # Normaliza build_data do main char
     main_bd = _normalize_build_data(db, raw_bd, warnings)
-    main_bd["references"] = [{"url": source_url, "title": f"KQM {char.name} Guide"}]
+    main_bd["references"] = [{"url": source_url, "title": f"{source_name} {char.name} Guide"}]
     main_bd["substitutes"] = []
+
+    # Calcula substitutos curados por slot a partir de '/' + Notable Teammates + fallback
+    valid_slugs = [c.slug for c in valid_chars]
+    slot_alts = _normalize_slot_alternatives(chosen.get("slot_alternatives"))
+    computed_subs = compute_slot_substitutes_for_slugs(
+        db,
+        valid_slugs,
+        main_character=char.slug,
+        slot_alternatives=slot_alts,
+        teammate_notes=teammate_notes,
+        limit=6,
+    )
 
     # Cria Team
     team = Team(
         name=team_name,
-        description=f"Build importada do KQM — {source_url}",
+        description=f"Build importada de {source_name} — {source_url}",
         is_public=True,
     )
     db.add(team)
@@ -251,20 +324,17 @@ def create_team_from_build(db, char, raw_bd, teams, source_url, warnings):
         if c.id == char.id:
             char_bd = main_bd
         else:
-            # Flex: usa preset existente se tiver, senão vazio
             preset = db.query(CharacterBuildPreset).filter(
                 CharacterBuildPreset.character_id == c.id,
             ).first()
-            char_bd = dict(preset.build_data) if preset and preset.build_data else {}
-            if isinstance(char_bd, dict) and "references" not in char_bd:
-                char_bd["references"] = []
+            char_bd = dict(preset.build_data) if preset and preset.build_data else None
 
         db.add(TeamCharacter(
             team_id=team.id,
             character_id=c.id,
             position=i,
             build_data=char_bd,
-            substitutes=[],
+            substitutes=computed_subs.get(i, []),
         ))
 
     return True
@@ -278,7 +348,7 @@ def import_build(db, data, warnings):
         return False
 
     build = data["build"]
-    bd = build["build_data"]
+    bd = dict(build["build_data"])
 
     valid_w = []
     for w in bd.get("weapons", []):
@@ -315,14 +385,27 @@ def import_build(db, data, warnings):
     return True
 
 
-def import_teams(db, teams, source_url, warnings):
+def import_teams(
+    db,
+    teams,
+    source_url,
+    warnings,
+    source_name: str = "KQM",
+    teammate_notes: dict[str, dict[str, str]] | None = None,
+):
+    from app.services.substitutes import compute_slot_substitutes_for_slugs
+
     imported = 0
+    existing_by_canonical: dict[tuple[str, ...], TeamTemplate] = {
+        tuple(sorted(et.character_slugs or [])): et
+        for et in db.query(TeamTemplate).all()
+    }
+
     for t in teams:
-        # Filtra placeholders e normaliza slugs
         cleaned = [
-    s for s in t["character_slugs"]
-    if s not in SKIP_SLUGS and not PLACEHOLDER_PATTERN.match(s)
-]
+            s for s in t["character_slugs"]
+            if s not in SKIP_SLUGS and not PLACEHOLDER_PATTERN.match(s)
+        ]
         normalized = [normalize_slug(s) for s in cleaned]
         valid = [s for s in normalized if resolve_character(db, s)]
         for s in normalized:
@@ -331,33 +414,109 @@ def import_teams(db, teams, source_url, warnings):
         if len(valid) < 3:
             continue
 
+        slot_alts = _normalize_slot_alternatives(t.get("slot_alternatives"))
+        computed = compute_slot_substitutes_for_slugs(
+            db,
+            valid,
+            main_character=valid[0],
+            slot_alternatives=slot_alts,
+            teammate_notes=teammate_notes,
+            limit=6,
+        )
+        slot_subs_json = {str(pos): items for pos, items in computed.items() if items}
+
+        canonical = tuple(sorted(valid))
+        dup = existing_by_canonical.get(canonical)
+        if dup:
+            # Multi-fonte: em vez de descartar, mescla fontes e substitutos curados!
+            dup.sources = _merge_sources(dup.sources, source_name, source_url)
+            dup.slot_substitutes = _merge_slot_substitutes(dup.slot_substitutes, slot_subs_json)
+            continue
+
         name = t["raw_line"][:150]
         if db.query(TeamTemplate).filter(TeamTemplate.name == name).first():
             continue
-        # Dedup por slugs canonicos (previne duplicata entre guias diferentes)
-        if valid:
-            canonical = tuple(sorted(valid))
-            dup = None
-            for et in db.query(TeamTemplate).all():
-                if tuple(sorted(et.character_slugs or [])) == canonical:
-                    dup = et
-                    break
-            if dup:
-                warnings.append(f"[team] Duplicado (slugs={canonical}) — ja existe id={dup.id}")
-                continue
 
         archetype = detect_archetype(valid)
-
-        db.add(TeamTemplate(
+        tpl = TeamTemplate(
             name=name,
             main_character=valid[0],
             archetype=archetype,
             character_slugs=valid,
-            source="KQM",
+            source=source_name,
             source_url=source_url,
-        ))
+            sources=[{"source": source_name, "url": source_url}],
+            slot_substitutes=slot_subs_json,
+        )
+        db.add(tpl)
+        existing_by_canonical[canonical] = tpl
         imported += 1
     return imported
+
+
+def import_directory(db, input_dir: Path, create_team: bool, warnings: list[str]) -> tuple[int, int, int]:
+    """Importa todos os *-build.json e *-teams.json de uma pasta parseada."""
+    builds, teams, custom_teams = 0, 0, 0
+    notes_by_slug: dict[str, dict[str, dict[str, str]]] = {}
+    meta_by_slug: dict[str, tuple[str, str]] = {}
+
+    for f in sorted(input_dir.glob("*-build.json")):
+        slug = f.stem.replace("-build", "")
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+            source_name = data.get("source") or "KQM"
+            source_url = data.get("source_url") or f"https://keqingmains.com/{slug}/"
+            meta_by_slug[slug] = (source_name, source_url)
+            notes_by_slug[slug] = _normalize_teammate_notes(data.get("notable_teammates"))
+            if import_build(db, data, warnings):
+                builds += 1
+        except Exception as e:
+            warnings.append(f"[{f.name}] {e}")
+
+    teams_by_slug: dict[str, list[dict]] = {}
+    for f in sorted(input_dir.glob("*-teams.json")):
+        slug = f.stem.replace("-teams", "")
+        source_name, source_url = meta_by_slug.get(slug, ("KQM", f"https://keqingmains.com/{slug}/"))
+        try:
+            t_list = json.loads(f.read_text(encoding="utf-8"))
+            teams_by_slug[slug] = t_list
+            teams += import_teams(
+                db,
+                t_list,
+                source_url,
+                warnings,
+                source_name=source_name,
+                teammate_notes=notes_by_slug.get(slug),
+            )
+        except Exception as e:
+            warnings.append(f"[{f.name}] {e}")
+
+    if create_team:
+        for f in sorted(input_dir.glob("*-build.json")):
+            slug = f.stem.replace("-build", "")
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+                char = resolve_character(db, slug)
+                if not char:
+                    warnings.append(f"[team-custom] {slug}: character não encontrado")
+                    continue
+                raw_bd = data["build"]["build_data"]
+                source_name, source_url = meta_by_slug.get(slug, ("KQM", f"https://keqingmains.com/{slug}/"))
+                if create_team_from_build(
+                    db,
+                    char,
+                    raw_bd,
+                    teams_by_slug.get(slug, []),
+                    source_url,
+                    warnings,
+                    source_name=source_name,
+                    teammate_notes=notes_by_slug.get(slug),
+                ):
+                    custom_teams += 1
+            except Exception as e:
+                warnings.append(f"[{f.name}] team-custom: {e}")
+
+    return builds, teams, custom_teams
 
 
 def main():
@@ -369,54 +528,8 @@ def main():
     args = ap.parse_args()
 
     db = SessionLocal()
-    warnings = []
-    builds, teams = 0, 0
-
-    for f in sorted(args.input.glob("*-build.json")):
-        try:
-            if import_build(db, json.loads(f.read_text(encoding="utf-8")), warnings):
-                builds += 1
-        except Exception as e:
-            warnings.append(f"[{f.name}] {e}")
-
-    for f in sorted(args.input.glob("*-teams.json")):
-        slug = f.stem.replace("-teams", "")
-        try:
-            teams += import_teams(
-                db, json.loads(f.read_text(encoding="utf-8")),
-                f"https://keqingmains.com/{slug}/", warnings,
-            )
-        except Exception as e:
-            warnings.append(f"[{f.name}] {e}")
-
-    custom_teams = 0
-    if args.create_team:
-        # Coleta teams_json por slug
-        teams_by_slug = {}
-        for f in sorted(args.input.glob("*-teams.json")):
-            slug = f.stem.replace("-teams", "")
-            try:
-                teams_by_slug[slug] = json.loads(f.read_text(encoding="utf-8"))
-            except Exception:
-                teams_by_slug[slug] = []
-
-        # Cria 1 Team por build
-        for f in sorted(args.input.glob("*-build.json")):
-            slug = f.stem.replace("-build", "")
-            try:
-                data = json.loads(f.read_text(encoding="utf-8"))
-                char = resolve_character(db, slug)
-                if not char:
-                    warnings.append(f"[team-custom] {slug}: character não encontrado")
-                    continue
-                raw_bd = data["build"]["build_data"]
-                source_url = f"https://keqingmains.com/{slug}/"
-                if create_team_from_build(
-                    db, char, raw_bd, teams_by_slug.get(slug, []), source_url, warnings,
-                ):
-                    custom_teams += 1
-            except Exception as e:
-                warnings.append(f"[{f.name}] team-custom: {e}")
+    warnings: list[str] = []
+    builds, teams, custom_teams = import_directory(db, args.input, args.create_team, warnings)
 
     if args.dry_run:
         db.rollback()
@@ -426,7 +539,7 @@ def main():
         print("✅ Salvo no banco")
 
     suffix = f" · Teams customizados: {custom_teams}" if args.create_team else ""
-    print(f"   Builds: {builds} · Times: {teams}{suffix}")
+    print(f"   Builds: {builds} · Times novos: {teams}{suffix}")
     if warnings:
         print(f"   ⚠️  {len(warnings)} aviso(s):")
         for w in warnings[:15]:
@@ -436,3 +549,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

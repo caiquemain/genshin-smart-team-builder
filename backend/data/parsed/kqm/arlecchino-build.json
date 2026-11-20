@@ -1,0 +1,421 @@
+{
+  "source": "KQM",
+  "source_slug": "kqm",
+  "source_url": "https://keqingmains.com/arlecchino/",
+  "character_slug": "arlecchino",
+  "build": {
+    "name": "KQM Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "crimson-moon-s-semblance",
+          "weapon_name": "Crimson Moon’s Semblance",
+          "rarity": 5,
+          "notes": "Arlecchino’s signature weapon; it is tailored to her BoL mechanics and performs noticeably better than her next best options, while also improving quality-of-life through additional BoL. This weapon takes on an exclusive scythe form when equipped on "
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "Arlecchino’s general second-best weapon, providing similar base stats to her signature weapon and a useful passive that she can easily stack. However, in teams with heavy ATK buffs, it only performs similarly to other 5-star weapons."
+        },
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "A close competitor to Jade Spear, particularly in Vaporize teams where Arlecchino equips an EM Sands."
+        },
+        {
+          "weapon_slug": "fractured-halo",
+          "weapon_name": "Fractured Halo",
+          "rarity": 5,
+          "notes": "Arlecchino’s best stat stick weapon (assuming above 50% HP for Homa)."
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "Another excellent 5-star option, performing well even if Arlecchino is above 50% HP."
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "Other 5-star CRIT stat sticks with similar damage output. Lumidouce Elegy’s performance can improve in Burning teams, but you may want to prioritize using this weapon on Emilie."
+        },
+        {
+          "weapon_slug": "symphonist-of-scent",
+          "weapon_name": "Symphonist of Scent",
+          "rarity": 5,
+          "notes": "Other 5-star CRIT stat sticks with similar damage output. Lumidouce Elegy’s performance can improve in Burning teams, but you may want to prioritize using this weapon on Emilie."
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "A good option from the Battle Pass, particularly in single-target scenarios. Ballad of Fjords"
+        },
+        {
+          "weapon_slug": "ballad-of-the-fjords",
+          "weapon_name": "Ballad of the Fjords",
+          "rarity": 4,
+          "notes": "An upgrade to Deathmatch specifically in Vaporize teams that include a third Element."
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "These 5-star stat sticks have similar performance to low-refinement Battle Pass Polearms."
+        },
+        {
+          "weapon_slug": "vortex-vanquisher",
+          "weapon_name": "Vortex Vanquisher",
+          "rarity": 5,
+          "notes": "These 5-star stat sticks have similar performance to low-refinement Battle Pass Polearms."
+        },
+        {
+          "weapon_slug": "bloodsoaked-ruins",
+          "weapon_name": "Bloodsoaked Ruins",
+          "rarity": 5,
+          "notes": "These 5-star stat sticks have similar performance to low-refinement Battle Pass Polearms."
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "fragment-of-harmonic-whimsy",
+          "artifact_set_name": "Fragment of Harmonic Whimsy",
+          "notes": "Arlecchino’s general Best-in-Slot set grants DMG Bonus according to Bond of Life. She can easily maintain full stacks with her normal playstyle."
+        },
+        {
+          "artifact_set_slug": "night-of-the-sky-s-unveiling",
+          "artifact_set_name": "Night of the Sky’s Unveiling",
+          "notes": "4pc NotSU performs just slightly behind 4pc FHW for Arlecchino’s personal output in Ascendant Gleam teams. However, if the team has Ineffa and Columbina, it can be considered over 4pc FHW for its teamwide 10% Lunar-Charged DMG buff."
+        },
+        {
+          "artifact_set_slug": "unfinished-reverie",
+          "artifact_set_name": "Unfinished Reverie",
+          "notes": "This set is strictly limited to use in Burning teams, wherein it performs similarly to 4pc Whimsy. It can also be farmed alongside 4pc Whimsy, which can help with Resin-efficiency."
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator’s Finale",
+          "notes": "Arlecchino’s second-best set after 4pc FHW in general, providing an unconditional buff to Normal Attacks, her main source of damage. A good option if you have pieces with great substats. You can also farm it passively through World Bosses. Other Sets"
+        },
+        {
+          "artifact_set_slug": "echoes-of-an-offering",
+          "artifact_set_name": "Echoes of an Offering",
+          "notes": "This set provides a strong Base DMG Bonus to Normal Attacks, but it requires low ping (<100ms) to be consistent."
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "artifact_set_slug": "mixed-sets",
+          "artifact_set_name": "Mixed Sets",
+          "notes": "2pc Bonuses: ATK%, Pyro DMG%"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "pyro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [
+        "N3D",
+        "N5D",
+        "N2C",
+        "N3C"
+      ],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/arlecchino/",
+          "title": "KQM Arlecchino Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [
+    {
+      "character_slug": "nicole",
+      "character_name": "Nicole ★",
+      "category": "Pyro",
+      "notes": "Nicole is an amazing buffer and shielder when paired with a Hexerei unit."
+    },
+    {
+      "character_slug": "bennett",
+      "character_name": "Bennett ★",
+      "category": "Pyro",
+      "notes": "Despite Bennett’s inability to heal Arlecchino, he remains a top-tier buffer thanks to his massive Flat ATK buff that significantly increases her damage. However, his Burst’s limited AoE can be restrictive in combat."
+    },
+    {
+      "character_slug": "chevreuse",
+      "character_name": "Chevreuse ★",
+      "category": "Pyro",
+      "notes": "Chevreuse limits to only Pyro and Electro units. In return, she provides strong buffs that have high uptime and follow the active character."
+    },
+    {
+      "character_slug": "durin",
+      "character_name": "Durin ★",
+      "category": "Pyro",
+      "notes": "Durin is a good off-field damage dealer in Overloaded or “Mono Pyro” teams."
+    },
+    {
+      "character_slug": "xiangling",
+      "character_name": "Xiangling",
+      "category": "Pyro",
+      "notes": "A decent damage dealer in “Mono Pyro” teams with some buffs from her A1 and C6. Using her is often worse than further buffing Arlecchino with a proper support."
+    },
+    {
+      "character_slug": "thoma",
+      "character_name": "Thoma",
+      "category": "Pyro",
+      "notes": "Thoma provides consistent shields and a modest buff with his C6. Only recommended if you need a shield, and should not be used in Melt teams or Vape teams with slow Hydro appliers."
+    },
+    {
+      "character_slug": "yelan",
+      "character_name": "Yelan ★",
+      "category": "Hydro",
+      "notes": "Yelan deals good off-field single-target damage, especially in Double Hydro teams. She provides a strong ramping DMG% buff to Arlecchino."
+    },
+    {
+      "character_slug": "mona",
+      "character_name": "Mona ★",
+      "category": "Hydro",
+      "notes": "Mona provides a hefty amount of DMG Bonus from her Burst and 4pc Celestial, 15% Vaporize Reaction DMG Bonus from her C1, 80 EM from her C2 and 15% CRIT Rate from her C4."
+    },
+    {
+      "character_slug": "xingqiu",
+      "character_name": "Xingqiu ★",
+      "category": "Hydro",
+      "notes": "Xingqiu is a more defensive-oriented alternative to Yelan, providing interruption resistance and damage reduction. His long Skill cooldown may cause Arlecchino’s Pyro Conversion to deplete before the rotation ends."
+    },
+    {
+      "character_slug": "columbina",
+      "character_name": "Columbina ★",
+      "category": "Hydro",
+      "notes": "Even in a typical Vaporize team, Columbina is a good enabler for Arlecchino with her consistent Hydro application and her ability to hold 4pc TotM and TTDS while requiring little field time."
+    },
+    {
+      "character_slug": "aino",
+      "character_name": "Aino",
+      "category": "Hydro",
+      "notes": "Aino can be used as a decent F2P enabler option for Arlecchino. Aino is best used in a Lunar-Charged team with Ineffa."
+    },
+    {
+      "character_slug": "candace",
+      "character_name": "Candace",
+      "category": "Hydro",
+      "notes": "C6 Candace provides mobile, off-field AoE Hydro application and a decent Normal Attack DMG Bonus. However, she suffers from mediocre damage output and high ER requirements, especially as a solo Hydro."
+    },
+    {
+      "character_slug": "nilou",
+      "character_name": "Nilou",
+      "category": "Hydro",
+      "notes": "Nilou offers off-field AoE Hydro application that follows the active character and is frequent enough to allow for consistent Vapes. She can provide an EM buff with Key of Khaj-Nisut and 4pc Instructor."
+    },
+    {
+      "character_slug": "furina",
+      "character_name": "Furina",
+      "category": "Hydro",
+      "notes": "Furina provides off-field damage and a strong teamwide DMG% buff."
+    },
+    {
+      "character_slug": "kokomi",
+      "character_name": "Kokomi",
+      "category": "Hydro",
+      "notes": "Kokomi’s off-field AoE Hydro application is enough to provide consistent Vapes, and she can hold TTDS and 4pc TotM to provide ATK% buffs."
+    },
+    {
+      "character_slug": "dahlia",
+      "character_name": "Dahlia",
+      "category": "Hydro",
+      "notes": "While Dahlia does not apply Hydro and enable Vaporize for Arlecchino, he brings a shield and some Attack SPD buffs, which speed up her combos and rotations."
+    },
+    {
+      "character_slug": "citlali",
+      "character_name": "Citlali ★",
+      "category": "Cryo",
+      "notes": "The premier Melt enabler for Arlecchino with her Pyro RES Shred, 4pc Scroll, TTDS, and some shielding. Citlali also has great Constellations to further buff Arlecchino."
+    },
+    {
+      "character_slug": "kaeya",
+      "character_name": "Kaeya ★",
+      "category": "Cryo",
+      "notes": "Kaeya has fast Cryo application that becomes unmatched at C6. While he still does some personal damage, especially in Double Cryo teams, it is still not much."
+    },
+    {
+      "character_slug": "rosaria",
+      "character_name": "Rosaria",
+      "category": "Cryo",
+      "notes": "Rosaria deals off-field damage, applies Cryo consistently, and buffs CRIT Rate through her A4 Passive."
+    },
+    {
+      "character_slug": "escoffier",
+      "character_name": "Escoffier★",
+      "category": "Cryo",
+      "notes": "Escoffier deals respectable off-field damage and does not require her Burst. She is best used as a second Cryo unit to enable more Melt reactions for Arlecchino."
+    },
+    {
+      "character_slug": "qiqi",
+      "character_name": "Qiqi",
+      "category": "Cryo",
+      "notes": "Qiqi can provide enough Cryo application for Arlecchino with minimal field time requirement. Other than holding 4pc TotM, she does not provide anything else."
+    },
+    {
+      "character_slug": "layla",
+      "character_name": "Layla",
+      "category": "Cryo",
+      "notes": "Layla provides a good shield and off-field Cryo application; plus, she can use 4pc TotM to grant a teamwide ATK% buff."
+    },
+    {
+      "character_slug": "diona",
+      "character_name": "Diona",
+      "category": "Cryo",
+      "notes": "Diona has a weaker shield and slower off-field Cryo application than Layla, but she provides a large EM buff with her C6. However, her EM buff and half of her application are locked behind a 20s-cooldown Burst."
+    },
+    {
+      "character_slug": "charlotte",
+      "character_name": "Charlotte",
+      "category": "Cryo",
+      "notes": "Charlotte’s Burst rapidly applies AoE Cryo within a short duration. Coupled with TTDS, this enables Arlecchino to front-load a huge amount of damage."
+    },
+    {
+      "character_slug": "fischl",
+      "character_name": "Fischl ★",
+      "category": "Electro",
+      "notes": "Fischl is a staple Electro option by virtue of her high off-field damage, fast Electro application, and good particle generation."
+    },
+    {
+      "character_slug": "ineffa",
+      "character_name": "Ineffa ★",
+      "category": "Electro",
+      "notes": "Ineffa is a powerful Electro character to use in Arlecchino’s Overvape teams. The Lunar-Charged reaction that she enables consumes Hydro aura less frequently and deals more damage than the typical Electro-Charged."
+    },
+    {
+      "character_slug": "iansan",
+      "character_name": "Iansan ★",
+      "category": "Electro",
+      "notes": "If Bennett is not available, Iansan is a decent consideration who provides 40% DMG Bonus from 4pc Scroll and her own Flat ATK buff that Arlecchino can maintain with her combos full of dash cancels."
+    },
+    {
+      "character_slug": "yae-miko",
+      "character_name": "Yae Miko",
+      "category": "Electro",
+      "notes": "Yae is an alternative off-field Electro DPS to Fischl, but she takes more field time to set up her turrets. Her Burst is ideally reserved for finishing off enemies and reaching other enemy breakpoints."
+    },
+    {
+      "character_slug": "raiden",
+      "character_name": "Raiden",
+      "category": "Electro",
+      "notes": "Raiden is a simple but effective Overloaded enabler with her high-uptime Skill in Chevereuse teams. She should use a full EM build and use 4pc TotM to buff Arlecchino."
+    },
+    {
+      "character_slug": "ororon",
+      "character_name": "Ororon",
+      "category": "Electro",
+      "notes": "In Overvape teams, with the right setup, Ororon can trigger Overloaded and provide the full effect of 4pc Scroll for Arlecchino. He also gives a 30% ATK buff at C6 and deals some personal damage in AoE."
+    },
+    {
+      "character_slug": "beidou",
+      "character_name": "Beidou",
+      "category": "Electro",
+      "notes": "Beidou can be considered for her damage reduction, interruption resistance buff, her C1 shield, and some personal damage."
+    },
+    {
+      "character_slug": "sucrose",
+      "character_name": "Sucrose ★",
+      "category": "Anemo",
+      "notes": "Sucrose buffs team EM and can hold TTDS or Wandering Evenstar to buff Arlecchino’s ATK. Her EM buff is very strong in Vaporize and Melt teams."
+    },
+    {
+      "character_slug": "prune",
+      "character_name": "Prune ★",
+      "category": "Anemo",
+      "notes": "Prune is a strong Anemo teammate for Arlecchino, as she gives a teamwide DMG Bonus buff based on her ATK, and, at C6, a 350 Flat ATK buff to the on-fielder."
+    },
+    {
+      "character_slug": "kazuha",
+      "character_name": "Kazuha ★",
+      "category": "Anemo",
+      "notes": "Kazuha provides strong grouping and a highly versatile DMG% buff."
+    },
+    {
+      "character_slug": "lan-yan",
+      "character_name": "Lan Yan ★",
+      "category": "Anemo",
+      "notes": "While Lan Yan does not have a strong EM buff like Sucrose, she still holds TTDS and provides a strong shield to protect Arlecchino."
+    },
+    {
+      "character_slug": "venti",
+      "character_name": "Venti",
+      "category": "Anemo",
+      "notes": "While not providing any buffs to Arlecchino, with a careful setup, Venti can still group scattered enemies and apply Hydro/Cryo aura on them. This makes him somewhat viable in Arlecchino’s teams against mob content."
+    },
+    {
+      "character_slug": "lynette",
+      "character_name": "Lynette",
+      "category": "Anemo",
+      "notes": "Lynette’s Burst provides a teamwide ATK% buff, off-field damage, and a Taunt that can aid in survivability."
+    },
+    {
+      "character_slug": "xilonen",
+      "character_name": "Xilonen ★",
+      "category": "Geo",
+      "notes": "Xilonen is an outstanding buffer with comfortable setups. Her Elemental Skill’s RES Shred is similar in magnitude to 4pc VV, but has a longer 15s duration and persists across multiple waves."
+    },
+    {
+      "character_slug": "zhongli",
+      "character_name": "Zhongli ★",
+      "category": "Geo",
+      "notes": "Zhongli is a very strong defensive option by virtue of his sturdy and long-duration shield. He also provides some offensive utility through his Universal RES Shred."
+    },
+    {
+      "character_slug": "albedo",
+      "character_name": "Albedo",
+      "category": "Geo",
+      "notes": "As an off-field Geo DPS, Albedo is mostly used in teams where Arlecchino does not trigger reactions to avoid messing up with her Vape/Melt."
+    },
+    {
+      "character_slug": "chiori",
+      "character_name": "Chiori",
+      "category": "Geo",
+      "notes": "Chiori tends to perform better than Albedo if there is no other Hexerei unit in the team. She greatly appreciates a Geo teammate that can provide a Geo Construct to improve her Skill’s damage prior to her C1."
+    },
+    {
+      "character_slug": "kachina",
+      "character_name": "Kachina",
+      "category": "Geo",
+      "notes": "Kachina can hold 4pc Scroll and trigger Pyro Crystallize to provide a teamwide 40% Pyro and Geo DMG Bonuses."
+    },
+    {
+      "character_slug": "yun-jin",
+      "character_name": "Yun Jin",
+      "category": "Geo",
+      "notes": "Yun Jin’s Additive Base DMG Bonus is additive to the damage increase from Arlecchino’s BoL, so her buff is not as effective as the ATK buffs from other supports such as Bennett or Nicole."
+    },
+    {
+      "character_slug": "emilie",
+      "character_name": "Emilie ★",
+      "category": "Dendro",
+      "notes": "Emilie functions as an off-field damage dealer in Mono Pyro teams. Her unique passive greatly reduces Burning self-damage, but shielders are nonetheless appreciated due to Arlecchino’s limited self-sustain."
+    },
+    {
+      "character_slug": "kirara",
+      "character_name": "Kirara",
+      "category": "Dendro",
+      "notes": "Kirara provides a sturdy shield and can funnel particles to Emilie. She also provides a small DMG% buff at C6."
+    }
+  ]
+}

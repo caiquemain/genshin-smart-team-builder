@@ -33,10 +33,10 @@ class TestEnrichSubstitutes:
         db = MagicMock()
         db.query.return_value.filter.return_value.all.return_value = candidates
 
-        subs = _find_subs_for_char(db, target, limit=3)
+        subs = _find_subs_for_char(db, target, limit=3, exclude_slugs={"furina", "mona"})
         slugs = [s["character_slug"] for s in subs]
-        assert slugs == ["mona", "xingqiu", "yelan"]
-        assert all(s["notes"] == "Alternativa Hydro" for s in subs)
+        assert slugs == ["xingqiu", "yelan", "barbara"]
+        assert all("Alternativa Hydro" in s["notes"] for s in subs)
 
     def test_enrich_team_skips_slot1_and_dps_and_populates_supports(self):
         furina = _char(1, "furina", "Furina", "hydro")
@@ -63,7 +63,7 @@ class TestEnrichSubstitutes:
                 f = MagicMock()
                 idx = call_idx["n"]
                 call_idx["n"] += 1
-                # Calls 0,1,2,4 are member lookups by id; call 3 is candidate lookup for kazuha
+                # First 4 calls resolve all team members; 5th call fetches candidates for kazuha
                 if idx == 0:
                     f.first.return_value = by_id[1]
                 elif idx == 1:
@@ -71,9 +71,9 @@ class TestEnrichSubstitutes:
                 elif idx == 2:
                     f.first.return_value = by_id[3]
                 elif idx == 3:
-                    f.all.return_value = [sucrose]
-                elif idx == 4:
                     f.first.return_value = None
+                elif idx == 4:
+                    f.all.return_value = [sucrose]
                 return f
             q.filter.side_effect = filter_side_effect
             return q

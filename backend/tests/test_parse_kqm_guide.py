@@ -17,11 +17,12 @@ from app.scripts.parse_kqm_guide import (
     parse_talent_priority,
     parse_combos,
     parse_teams,
+    parse_notable_teammates,
     parse_guide,
 )
 
 
-KQM_DIR = Path(__file__).resolve().parents[1] / "data" / "kqm"
+KQM_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "kqm"
 
 
 class TestStringHelpers:
@@ -154,12 +155,30 @@ class TestTalentsCombosTeams:
             "Furina — Neuvillette — Kazuha — Xilonen\n"
             "Neuvillette — Furina — Xilonen — Kazuha\n"
             "Furina — Pyro — Hydro — Flex/Healer\n"
-            "Arlecchino — C6 Xingqiu/Yelan — Bennett — Kazuha\n"
+            "Arlecchino — C6 Xingqiu/Yelan — Bennett — Kazuha / Sucrose\n"
         )
         teams = parse_teams(section)
         assert len(teams) == 2
         assert teams[0]["character_slugs"] == ["furina", "neuvillette", "kazuha", "xilonen"]
         assert teams[1]["character_slugs"] == ["arlecchino", "xingqiu", "bennett", "kazuha"]
+        assert teams[1]["slot_alternatives"] == {"2": ["yelan"], "4": ["sucrose"]}
+
+    def test_parse_notable_teammates_extracts_categories_and_skips_tab_strip(self):
+        doc = (
+            "Notable Teammates\n"
+            "Hydro AppliersBuffersOther Supports\n"
+            "Hydro Appliers\n"
+            "Yelan\tYelan deals high off-field damage and buffs on-field DMG.\n"
+            "Buffers\n"
+            "Sigewinne, Qiqi\tBoth provide teamwide healing for Furina.\n"
+            "Example Teams\n"
+            "Skirk — Furina — Escoffier — Yelan\n"
+        )
+        nts = parse_notable_teammates(doc)
+        assert [n["character_slug"] for n in nts] == ["yelan", "sigewinne", "qiqi"]
+        assert nts[0]["category"] == "Hydro Appliers"
+        assert nts[1]["category"] == "Buffers"
+        assert "off-field damage" in nts[0]["notes"]
 
 
 @pytest.mark.parametrize("slug", ["arlecchino", "furina", "neuvillette", "skirk"])
@@ -171,6 +190,8 @@ def test_real_kqm_guides_regression(slug: str):
     result = parse_guide(path.read_text(encoding="utf-8"), slug)
     bd = result["build"]["build_data"]
 
+    assert result["source"] == "KQM"
+    assert result["source_slug"] == "kqm"
     assert result["character_slug"] == slug
     assert len(bd["weapons"]) >= 3
     assert len(bd["artifacts_4pc"]) >= 1
@@ -179,5 +200,6 @@ def test_real_kqm_guides_regression(slug: str):
     assert len(bd["circlet_stat"]) >= 1
     assert len(bd["substat_priority"]) >= 2
     assert bd["talent_priority"] is not None
+    assert len(result["notable_teammates"]) >= 20
     assert len(result["teams"]) >= 1
     assert bd["references"][0]["url"] == f"https://keqingmains.com/{slug}/"

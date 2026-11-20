@@ -1,0 +1,242 @@
+[
+  {
+    "character_slugs": [
+      "furina",
+      "neuvillette",
+      "kazuha",
+      "xilonen"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Neuvillette — Kazuha — Xilonen / Zhongli / Pyro Traveler",
+    "slot_alternatives": {
+      "4": [
+        "zhongli",
+        "pyro-traveler"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "kokomi",
+      "kazuha",
+      "xingqiu"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Kokomi — Kazuha — Xingqiu / Yelan",
+    "slot_alternatives": {
+      "4": [
+        "yelan"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "xianyun",
+      "xiao",
+      "faruzan"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Xianyun — Xiao — Faruzan",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "bennett",
+      "navia",
+      "zhongli"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Bennett — Navia — Zhongli / Xilonen",
+    "slot_alternatives": {
+      "4": [
+        "xilonen"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "noelle",
+      "albedo",
+      "gorou"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Noelle — Albedo — Gorou",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "mika",
+      "eula",
+      "raiden"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Mika — Eula — Raiden",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "hu-tao",
+      "yelan",
+      "xilonen"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Hu Tao — Yelan — Xilonen / Xianyun / Jean",
+    "slot_alternatives": {
+      "4": [
+        "xianyun",
+        "jean"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "bennett",
+      "xiangling",
+      "xingqiu"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Bennett — Xiangling — Xingqiu",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "bennett",
+      "xiangling",
+      "wriothesley"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Bennett — Xiangling — Wriothesley",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "gaming",
+      "bennett",
+      "xianyun"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Gaming — Bennett — Xianyun",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "skirk",
+      "shenhe",
+      "escoffier"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Skirk — Shenhe / Yelan / Xingqiu — Escoffier",
+    "slot_alternatives": {
+      "3": [
+        "yelan",
+        "xingqiu"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "ayaka",
+      "charlotte",
+      "lynette"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Ayaka — Charlotte — Lynette/Kazuha",
+    "slot_alternatives": {
+      "4": [
+        "kazuha"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "ganyu",
+      "shenhe",
+      "escoffier"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina— Ganyu — Shenhe — Escoffier",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "clorinde",
+      "ororon",
+      "xilonen"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Clorinde — Ororon — Xilonen / Kazuha",
+    "slot_alternatives": {
+      "4": [
+        "kazuha"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "ineffa",
+      "iansan",
+      "ifa"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Ineffa — Iansan — Ifa",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "flins",
+      "ineffa",
+      "sucrose"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Flins — Ineffa — Sucrose",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "nahida",
+      "cyno",
+      "baizhu"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Nahida — Cyno — Baizhu",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "alhaitham",
+      "shinobu",
+      "nahida"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Alhaitham — Shinobu — Nahida",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "furina",
+      "barbara",
+      "lynette",
+      "xingqiu"
+    ],
+    "main_character": "furina",
+    "raw_line": "Furina — Barbara — Lynette — Xingqiu",
+    "slot_alternatives": {}
+  }
+]

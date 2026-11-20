@@ -1,0 +1,289 @@
+[
+  {
+    "character_slugs": [
+      "arlecchino",
+      "yelan",
+      "bennett",
+      "xilonen"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Yelan — Bennett — Xilonen / Kazuha / Sucrose",
+    "slot_alternatives": {
+      "4": [
+        "kazuha",
+        "sucrose"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "yelan",
+      "bennett",
+      "lan-yan"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Yelan — Bennett — Lan Yan",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "mona",
+      "bennett",
+      "sucrose"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Mona — Bennett/Nicole — Sucrose",
+    "slot_alternatives": {
+      "3": [
+        "nicole"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "mona",
+      "bennett",
+      "fischl"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Mona — Bennett / Nicole — Fischl",
+    "slot_alternatives": {
+      "3": [
+        "nicole"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "columbina",
+      "ineffa",
+      "xilonen"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Columbina — Ineffa — Xilonen",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "xingqiu",
+      "bennett",
+      "sucrose"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Xingqiu — Bennett — Sucrose",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "candace",
+      "bennett",
+      "xilonen"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — C6 Candace — Bennett — Xilonen",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "furina",
+      "yelan",
+      "xilonen"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Furina — Yelan — Xilonen",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "citlali",
+      "bennett",
+      "xilonen"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Citlali — Bennett — Xilonen / Sucrose / Kazuha",
+    "slot_alternatives": {
+      "4": [
+        "sucrose",
+        "kazuha"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "citlali",
+      "nicole",
+      "sucrose"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Citlali — Nicole — Sucrose",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "citlali",
+      "bennett",
+      "escoffier"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Citlali — Bennett — Escoffier / Layla",
+    "slot_alternatives": {
+      "4": [
+        "layla"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "kaeya",
+      "bennett",
+      "xilonen"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — (C6) Kaeya — Bennett — Xilonen",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "escoffier",
+      "bennett",
+      "venti"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Escoffier — Bennett — Venti",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "chevreuse",
+      "fischl",
+      "nicole"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Chevreuse — Fischl — Nicole",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "chevreuse",
+      "fischl",
+      "bennett"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Chevreuse — Fischl / Ineffa — Bennett",
+    "slot_alternatives": {
+      "3": [
+        "ineffa"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "chevreuse",
+      "fischl",
+      "durin"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Chevreuse — Fischl — Durin",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "chevreuse",
+      "yae-miko",
+      "thoma"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Chevreuse — Yae Miko — Thoma",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "bennett",
+      "xilonen",
+      "kazuha"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Bennett — Xilonen — Kazuha",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "bennett",
+      "emilie",
+      "lan-yan"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Bennett — Emilie — Lan Yan",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "bennett",
+      "chiori",
+      "zhongli"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Bennett — Chiori — Zhongli / Kachina",
+    "slot_alternatives": {
+      "4": [
+        "kachina"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "durin",
+      "albedo",
+      "nicole"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Durin — Albedo — Nicole / Xilonen",
+    "slot_alternatives": {
+      "4": [
+        "xilonen"
+      ]
+    }
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "durin",
+      "nicole",
+      "prune"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Durin — Nicole — Prune",
+    "slot_alternatives": {}
+  },
+  {
+    "character_slugs": [
+      "arlecchino",
+      "bennett",
+      "lan-yan",
+      "kachina"
+    ],
+    "main_character": "arlecchino",
+    "raw_line": "Arlecchino — Bennett — Lan Yan — Kachina",
+    "slot_alternatives": {}
+  }
+]

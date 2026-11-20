@@ -1,0 +1,322 @@
+{
+  "source": "KQM",
+  "source_slug": "kqm",
+  "source_url": "https://keqingmains.com/skirk/",
+  "character_slug": "skirk",
+  "build": {
+    "name": "KQM Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "azurelight",
+          "weapon_name": "Azurelight",
+          "rarity": 5,
+          "notes": "Azurelight is Skirk’s signature weapon and offers high Base ATK, a CRIT Rate secondary stat, and an additional 48% ATK and 40% CRIT DMG from its passive, which Skirk has no issue maintaining. While the gap between it and her other alternatives aren’t"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "Skirk’s best non-signature options. She makes good use of all of their passives, which puts them a sizable step up from other 5-star CRIT stat sticks. Haran’s passive focuses on Normal Attack damage and as such does not perform as well as the other 3"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "Skirk’s best non-signature options. She makes good use of all of their passives, which puts them a sizable step up from other 5-star CRIT stat sticks. Haran’s passive focuses on Normal Attack damage and as such does not perform as well as the other 3"
+        },
+        {
+          "weapon_slug": "beyond-the-chrysalis",
+          "weapon_name": "Beyond the Chrysalis",
+          "rarity": 5,
+          "notes": "Skirk’s best non-signature options. She makes good use of all of their passives, which puts them a sizable step up from other 5-star CRIT stat sticks. Haran’s passive focuses on Normal Attack damage and as such does not perform as well as the other 3"
+        },
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "Skirk’s best non-signature options. She makes good use of all of their passives, which puts them a sizable step up from other 5-star CRIT stat sticks. Haran’s passive focuses on Normal Attack damage and as such does not perform as well as the other 3"
+        },
+        {
+          "weapon_slug": "calamity-of-eshu",
+          "weapon_name": "Calamity of Eshu",
+          "rarity": 4,
+          "notes": "Eshu is Skirk’s best 4-star Sword for her on-field playstyle if a shield can be maintained. In such scenarios, it performs nearly as well as the 5-star options above and better than the 5-star options below. However, its passive is completely focused"
+        },
+        {
+          "weapon_slug": "summit-shaper",
+          "weapon_name": "Summit Shaper",
+          "rarity": 5,
+          "notes": "These Swords narrowly outperform R5 Finale of the Deep, depending on the situation. Without a shield, Summit Shaper is practically equivalent to R5 Finale of the Deep."
+        },
+        {
+          "weapon_slug": "the-black-sword",
+          "weapon_name": "The Black Sword",
+          "rarity": 4,
+          "notes": "These Swords narrowly outperform R5 Finale of the Deep, depending on the situation. Without a shield, Summit Shaper is practically equivalent to R5 Finale of the Deep."
+        },
+        {
+          "weapon_slug": "heretic-s-molten-blade",
+          "weapon_name": "Heretic’s Molten Blade",
+          "rarity": 4,
+          "notes": "These Swords narrowly outperform R5 Finale of the Deep, depending on the situation. Without a shield, Summit Shaper is practically equivalent to R5 Finale of the Deep."
+        },
+        {
+          "weapon_slug": "finale-of-the-deep",
+          "weapon_name": "Finale of the Deep",
+          "rarity": 4,
+          "notes": "Finale of the Deep is Skirk’s best freely accessible 4-star Sword by a large margin, even without sufficient healing. The requirement for a healer is usually mitigated by the fact that Skirk’s most common teammates, Furina, Escoffier, and Vodyanitsa,"
+        },
+        {
+          "weapon_slug": "moonweaver-s-dawn",
+          "weapon_name": "Moonweaver’s Dawn",
+          "rarity": 4,
+          "notes": "Moonweaver’s Dawn is Skirk’s best 4-star Sword for her quickswap playstyle. A free copy can be obtained through the Nod-Krai World Quest “Echoes of an Unfinished Past”, although further refinements can only be obtained when it is rate-up on a weapon "
+        },
+        {
+          "weapon_slug": "new-bough",
+          "weapon_name": "New Bough",
+          "rarity": 4,
+          "notes": "Without Stellar Glimmer, New Bough at any refinement is strictly worse than R5 Finale of the Deep. However, if Skirk is unable to clear her Bond of Life (e.g. from lack of a healer), New Bough outperforms Finale of the Deep at any refinement."
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "finale-of-the-deep-galleries",
+          "artifact_set_name": "Finale of the Deep Galleries",
+          "notes": "4pc Galleries is Skirk’s signature artifact set. It performs on par with 4pc Marechaussee Hunter but is not reliant on Furina to maintain the 4pc set bonus."
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Skirk’s best artifact set for her on-field playstyle in teams with Furina. However, this set ties her to Furina and is difficult to use with a CRIT Rate weapon without overcapping. Notably, 4pc Galleries outperforms 4pc MH if Skirk holds Azurelight."
+        },
+        {
+          "artifact_set_slug": "blizzard-strayer",
+          "artifact_set_name": "Blizzard Strayer",
+          "notes": "Despite Blizzard Strayer slightly outperforming both Marechaussee and Galleries on paper, it’s unreliable due to its dependence on freezable enemies. This leaves its performance at the whim of HoYo’s endgame lineup choices, making it far less futurep"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "cryo_dmg",
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [
+        "hE Q",
+        "tE N5Q N5D N5(C/CD) N5",
+        "tE N5D N2Q N5D N5(C/CD) N5",
+        "tE N2Q N5D N5C N5D N5",
+        "tE N5D N2Q 2[N5D] N2(C/CD) N5",
+        "tE N2Q 2[N5D] N2C N5D N5",
+        "tE 2[N2D] N2Q 2[2[N2D] N3W] N2D N2C N2D N3",
+        "tE 2[N2D] N2Q 2[N2D] N5D N2D N2C 2[N2D] N5",
+        "tE N2Q 2[N2D] N5D N2D N2C 2[N2D] N5D N2C N2"
+      ],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/skirk/",
+          "title": "KQM Skirk Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [
+    {
+      "character_slug": "escoffier",
+      "character_name": "Escoffier",
+      "category": "Teammate",
+      "notes": "Escoffier offers a massive 55% Cryo and Hydro RES Shred, heals to keep the team alive and stack Furina’s Fanfare, and deals good personal damage."
+    },
+    {
+      "character_slug": "vodyanitsa",
+      "character_name": "Vodyanitsa",
+      "category": "Teammate",
+      "notes": "Vodyanitsa performs on par with Escoffier. She provides Cryo and Hydro RES Shred and two separate sets of Additive Base DMG Bonus scaling with her Max HP, boosting the damage of Skirk and off-field characters."
+    },
+    {
+      "character_slug": "furina",
+      "character_name": "Furina",
+      "category": "Teammate",
+      "notes": "Furina provides plenty of DMG Bonus, can hold 4pc TotM to further buff Skirk, and deals off-field damage. In teams with Vodyanitsa, Furina ends up holding 4pc Scroll or 4pc Golden Troupe."
+    },
+    {
+      "character_slug": "yelan",
+      "character_name": "Yelan",
+      "category": "Hydro Appliers",
+      "notes": "Yelan deals high off-field damage and offers a ramping DMG Bonus for the on-field character. She also enables Hydro Resonance to benefit both herself and any other HP-scaling Hydro unit, such as Furina or Vodyanitsa."
+    },
+    {
+      "character_slug": "xingqiu",
+      "character_name": "Xingqiu",
+      "category": "Hydro Appliers",
+      "notes": "Xingqiu serves as a cheaper Hydro alternative to Yelan. He offers off-field damage, interruption resistance, and damage mitigation, but lacks direct ways to buff Skirk’s damage."
+    },
+    {
+      "character_slug": "columbina",
+      "character_name": "Columbina",
+      "category": "Hydro Appliers",
+      "notes": "Columbina is a subpar option due to her lack of relevant buffs and high opportunity cost on Skirk’s team (i.e. she performs better in Lunar-oriented teams)."
+    },
+    {
+      "character_slug": "candace",
+      "character_name": "Candace",
+      "category": "Hydro Appliers",
+      "notes": "Before C6, Candace does not provide off-field Hydro application and cannot help Skirk generate Void Rifts while off-field."
+    },
+    {
+      "character_slug": "aino",
+      "character_name": "Aino",
+      "category": "Hydro Appliers",
+      "notes": "Aino is a free Hydro option obtainable by completing Act I of Nod-Krai’s Archon Quest."
+    },
+    {
+      "character_slug": "citlali",
+      "character_name": "Citlali",
+      "category": "Buffers",
+      "notes": "Citlali acts as a Cryo buffer and shielder. She grants the full Cryo DMG% buff from 4pc Scroll, can hold TTDS (at the cost of lower shield HP) or Wandering Evenstar, and enables Eshu for Skirk with her shield."
+    },
+    {
+      "character_slug": "shenhe",
+      "character_name": "Shenhe",
+      "category": "Buffers",
+      "notes": "Shenhe is a powerful Cryo buffer. She offers her Icy Quill buff, Cryo DMG Bonus and RES Shred, and, depending on whether she uses her Tap or Hold Skill, Burst and Skill DMG Bonus or Normal and Charged Attack DMG Bonus."
+    },
+    {
+      "character_slug": "mona",
+      "character_name": "Mona",
+      "category": "Buffers",
+      "notes": "Mona is a Hydro Catalyst user who can hold TTDS and provide other buffs. Mona grants up to 60% DMG Bonus through her Burst’s Omen debuff, which can be extended through Freeze to cover more of Skirk’s damage window."
+    },
+    {
+      "character_slug": "mualani",
+      "character_name": "Mualani",
+      "category": "Buffers",
+      "notes": "Mualani acts as a buffer and battery in Skirk’s teams. She provides the full Cryo and Hydro DMG% buff of 4pc Scroll and holds TTDS. She can easily trigger 4pc Scroll against unfreezable enemies."
+    },
+    {
+      "character_slug": "dahlia",
+      "character_name": "Dahlia",
+      "category": "Buffers",
+      "notes": "Dahlia’s shield enables Eshu for Skirk and provides some additional comfort even with Skirk’s high interruption resistance."
+    },
+    {
+      "character_slug": "charlotte",
+      "character_name": "Charlotte",
+      "category": "Other Supports",
+      "notes": "Charlotte provides Cryo application and strong teamwide healing that quickly stacks Furina’s Fanfare. However, she has very high ER requirements while holding TTDS."
+    },
+    {
+      "character_slug": "layla",
+      "character_name": "Layla",
+      "category": "Other Supports",
+      "notes": "Layla’s main benefits come from her shield, which enables Eshu’s passive and provides further interruption resistance. She also provides Cryo application and a modest Normal and Charged Attack buff from her C4."
+    },
+    {
+      "character_slug": "rosaria",
+      "character_name": "Rosaria",
+      "category": "Other Supports",
+      "notes": "Rosaria provides a solid CRIT Rate buff as well as some personal damage. The consistent off-field Cryo application from her Elemental Burst can also help maintain uptime on Cryo Resonance."
+    },
+    {
+      "character_slug": "mika",
+      "character_name": "Mika",
+      "category": "Other Supports",
+      "notes": "Mika offers healing to stack Furina’s Fanfare and an Attack SPD buff to let Skirk squeeze in more Normal Attacks."
+    },
+    {
+      "character_slug": "chongyun",
+      "character_name": "Chongyun",
+      "category": "Other Supports",
+      "notes": "Chongyun provides a small amount of Attack SPD and Cryo RES Shred, the latter being rare in Freeze teams with limited rosters."
+    },
+    {
+      "character_slug": "kokomi",
+      "character_name": "Kokomi",
+      "category": "Other Supports",
+      "notes": "Kokomi can hold TTDS to buff Skirk and heal, but she faces some issues to consider. She only heals the active character, which makes her worse at stacking Furina’s Fanfare than Charlotte."
+    },
+    {
+      "character_slug": "barbara",
+      "character_name": "Barbara",
+      "category": "Other Supports",
+      "notes": "Barbara can also hold TTDS to buff Skirk, but she has many issues that make her much worse than Charlotte."
+    },
+    {
+      "character_slug": "sigewinne",
+      "character_name": "Sigewinne",
+      "category": "Other Supports",
+      "notes": "Sigewinne offers teamwide healing to stack Fanfare and provides Additive Base DMG Bonus for off-field Skill damage, buffing Furina’s and Escoffier’s damage."
+    },
+    {
+      "character_slug": "qiqi",
+      "character_name": "Qiqi",
+      "category": "Other Supports",
+      "notes": "Sigewinne offers teamwide healing to stack Fanfare and provides Additive Base DMG Bonus for off-field Skill damage, buffing Furina’s and Escoffier’s damage."
+    },
+    {
+      "character_slug": "diona",
+      "character_name": "Diona",
+      "category": "Other Supports",
+      "notes": "Diona offers both healing and shielding. However, her healing is limited to the active character, and both her healing output and shield HP are relatively lower than dedicated healers and shielders."
+    },
+    {
+      "character_slug": "kaeya",
+      "character_name": "Kaeya",
+      "category": "Other Supports",
+      "notes": "Kaeya is a cheap option for players with limited rosters. Aside from his somewhat low personal damage, Kaeya offers no utility beyond Cryo application and particle generation."
+    },
+    {
+      "character_slug": "neuvillette",
+      "character_name": "Neuvillette",
+      "category": "Dual Carries",
+      "notes": "Neuvillette’s high personal damage, flexible rotations, and strong synergy with Skirk’s best teammates make him an excellent pick for Skirk’s quickswap teams."
+    },
+    {
+      "character_slug": "ayaka",
+      "character_name": "Ayaka",
+      "category": "Dual Carries",
+      "notes": "Ayaka is another strong dual-carry option thanks to her high personal damage."
+    },
+    {
+      "character_slug": "ganyu",
+      "character_name": "Ganyu",
+      "category": "Dual Carries",
+      "notes": "Similar to Ayaka, Ganyu has the flexibility to swap in and out freely to deal damage while accommodating Skirk’s field-time requirements. Her Burst’s Cryo DMG Bonus also benefits both herself and Skirk."
+    },
+    {
+      "character_slug": "ayato",
+      "character_name": "Ayato",
+      "category": "Dual Carries",
+      "notes": "Other on-field Hydro DPS options for Skirk’s quickswap teams. Though weaker than the above alternatives for Skirk, they still offer fun gameplay and the damage is solid compared to their own other teams."
+    },
+    {
+      "character_slug": "childe",
+      "character_name": "Childe",
+      "category": "Dual Carries",
+      "notes": "Other on-field Hydro DPS options for Skirk’s quickswap teams. Though weaker than the above alternatives for Skirk, they still offer fun gameplay and the damage is solid compared to their own other teams."
+    },
+    {
+      "character_slug": "wriothesley",
+      "character_name": "Wriothesley",
+      "category": "Dual Carries",
+      "notes": "Skirk is a strong option for Wriothesley’s Freeze teams, but such teams are not recommended. He performs much better in Stellar-Conduct teams due to his Witch’s Revelation buffs."
+    }
+  ]
+}

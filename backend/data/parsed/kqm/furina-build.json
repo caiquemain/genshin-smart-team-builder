@@ -1,0 +1,551 @@
+{
+  "source": "KQM",
+  "source_slug": "kqm",
+  "source_url": "https://keqingmains.com/furina/",
+  "character_slug": "furina",
+  "build": {
+    "name": "KQM Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 4,
+          "notes": "Furina’s signature weapon gives her many stats that maximize her personal damage (provided her ER requirements are met). However, her personal DPS increase may not be that impactful compared to the benefits provided by Favonius Sword or Key of Khaj-N"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 4,
+          "notes": "If Furina’s ER requirements are already met, she can make good use of Chiori’s signature weapon due to its high CRIT DMG stat and Skill DMG% passive. Its performance improves in teams with Geo units who can deal Geo damage, notably Xilonen or Navia."
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 4,
+          "notes": "Primordial Jade Cutter is the next best option after her signature weapon and Uraku in terms of personal damage, granting a hefty amount of CRIT Rate and some HP%."
+        },
+        {
+          "weapon_slug": "key-of-khaj-nisut",
+          "weapon_name": "Key of Khaj-Nisut",
+          "rarity": 4,
+          "notes": "Key of Khaj-Nisut packs a huge amount of HP%, which is still highly beneficial for her personal damage. It also provides a large partywide EM buff thanks to Furina’s high Max HP, which can make it a strong (if not the best) option for team damage in "
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom Sworn",
+          "rarity": 4,
+          "notes": "Freedom Sworn is a great high-investment weapon for Furina in teams with ATK-scaling, Normal or Charged Attack damage dealers who don’t care for EM. Its passive activates after Furina triggers 2 reactions, which can be from off-field."
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "Favonius Sword is the ever-reliable solution to meet team ER requirements. However, it greatly decreases Furina’s typically high personal damage output, which makes it undesirable in teams where Furina would otherwise deal a notable amount of damage."
+        },
+        {
+          "weapon_slug": "serenity-s-call",
+          "weapon_name": "Serenity’s Call",
+          "rarity": 4,
+          "notes": "Serenity’s Call is a very notable option for Furina’s damage. It is exceptionally good when the team has Moonsign: Ascendant Gleam, Furina has high ER requirements, and her personal damage is important. It performs similarly to Festering Desire witho"
+        },
+        {
+          "weapon_slug": "festering-desire",
+          "weapon_name": "Festering Desire",
+          "rarity": 4,
+          "notes": "Festering Desire is a strong option for players who acquired it all the way back in Version 1.2. Its combination of Skill buffs and ER make it quite formidable on Furina."
+        },
+        {
+          "weapon_slug": "fleuve-cendre-ferryman",
+          "weapon_name": "Fleuve Cendre Ferryman",
+          "rarity": 4,
+          "notes": "Fleuve Cendre Ferryman is a solid option for Furina and is essentially a lesser version of Festering Desire. It can be acquired for free through Fontaine’s Fishing Association."
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 4,
+          "notes": "A cheap CRIT stat stick if you do not have the above options and are not willing to fish. Harbinger of Dawn’s passive can only be maintained with high, continuous teamwide healing, such as with Kokomi’s Burst. With its passive up, it becomes comparab"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "CRIT stat stick (ver nota do guia)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "CRIT stat stick (ver nota do guia)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "4pc Golden Troupe is by far Furina’s best set for her personal damage since the vast majority of her damage comes from her Ousia-aligned Skill’s Salon Members. An HP% Goblet is generally recommended when using this set."
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "4pc Tenacity of the Millelith effectively provides a permanent 20% ATK buff; however, it does greatly decrease Furina’s damage output."
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "4pc Scroll or 4pc SMS may be used in teams where Furina’s damage share is low and her teammates don’t benefit from 4pc TotM’s ATK% buff."
+        },
+        {
+          "artifact_set_slug": "silken-moon-s-serenade",
+          "artifact_set_name": "Silken Moon’s Serenade",
+          "notes": "4pc Scroll or 4pc SMS may be used in teams where Furina’s damage share is low and her teammates don’t benefit from 4pc TotM’s ATK% buff."
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "4pc Marechaussee Hunter is a decent option with Furina’s C6 unlocked. Since 4pc MH’s stacks do not stack nor refresh when off-field, C6 Furina may not always prefer this set if she swaps off-field after using her enhanced Normal Attacks."
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "artifact_set_slug": "mixed-sets",
+          "artifact_set_name": "Mixed Sets",
+          "notes": "2pc Bonuses: HP%, ER%, Hydro DMG%, Skill DMG%"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "hp_pct",
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_dmg",
+        "crit_rate",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/furina/",
+          "title": "KQM Furina Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [
+    {
+      "character_slug": "escoffier",
+      "character_name": "Escoffier",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "Escoffier gives 55% Hydro and Cryo RES Shred in teams with only Hydro and Cryo teammates. Her Burst initially heals teamwide, then periodically heals the active character."
+    },
+    {
+      "character_slug": "anemo-vv-healers",
+      "character_name": "Anemo VV Healers",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "Xianyun, Jean, and Sayu grant healing and trigger 4pc VV’s RES Shred. Xianyun enables and buffs Plunging Attacks, Sayu deals decent off-field Swirl damage when built with EM, and Jean provides stronger initial healing."
+    },
+    {
+      "character_slug": "baizhu",
+      "character_name": "Baizhu",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "All these characters offer team healing and utility. Baizhu adds interruption resistance and Dendro-related reaction buffs. Sigewinne boosts off-field Skill DMG."
+    },
+    {
+      "character_slug": "sigewinne",
+      "character_name": "Sigewinne",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "All these characters offer team healing and utility. Baizhu adds interruption resistance and Dendro-related reaction buffs. Sigewinne boosts off-field Skill DMG."
+    },
+    {
+      "character_slug": "mika",
+      "character_name": "Mika",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "All these characters offer team healing and utility. Baizhu adds interruption resistance and Dendro-related reaction buffs. Sigewinne boosts off-field Skill DMG."
+    },
+    {
+      "character_slug": "charlotte",
+      "character_name": "Charlotte",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "All these characters offer team healing and utility. Baizhu adds interruption resistance and Dendro-related reaction buffs. Sigewinne boosts off-field Skill DMG."
+    },
+    {
+      "character_slug": "prototype-amber",
+      "character_name": "Prototype Amber",
+      "category": "Teamwide Off-Field Healers",
+      "notes": "Prototype Amber’s healing alone cannot counter Furina’s HP drain, but it lets any Catalyst user heal. Its supplemental healing helps weaker teamwide healers or single-ally healers."
+    },
+    {
+      "character_slug": "kokomi",
+      "character_name": "Kokomi",
+      "category": "Teamwide On-Field Healers",
+      "notes": "Kokomi can act as an on-field Hydro applier and damage dealer in Mono Hydro, Freeze, and Bloom-based teams."
+    },
+    {
+      "character_slug": "noelle",
+      "character_name": "Noelle",
+      "category": "Teamwide On-Field Healers",
+      "notes": "Noelle deals on-field damage while healing. Her Burst does not expire when swapped out, allowing for highly flexible rotations."
+    },
+    {
+      "character_slug": "yaoyao",
+      "character_name": "Yaoyao",
+      "category": "Teamwide On-Field Healers",
+      "notes": "Yaoyao and Barbara apply Dendro and Hydro to drive Bloom-based teams. Qiqi is generally weak due to subpar damage, Cryo application, particle generation, and utility."
+    },
+    {
+      "character_slug": "barbara",
+      "character_name": "Barbara",
+      "category": "Teamwide On-Field Healers",
+      "notes": "Yaoyao and Barbara apply Dendro and Hydro to drive Bloom-based teams. Qiqi is generally weak due to subpar damage, Cryo application, particle generation, and utility."
+    },
+    {
+      "character_slug": "dori",
+      "character_name": "Dori",
+      "category": "Teamwide On-Field Healers",
+      "notes": "Yaoyao and Barbara apply Dendro and Hydro to drive Bloom-based teams. Qiqi is generally weak due to subpar damage, Cryo application, particle generation, and utility."
+    },
+    {
+      "character_slug": "qiqi",
+      "character_name": "Qiqi",
+      "category": "Teamwide On-Field Healers",
+      "notes": "Yaoyao and Barbara apply Dendro and Hydro to drive Bloom-based teams. Qiqi is generally weak due to subpar damage, Cryo application, particle generation, and utility."
+    },
+    {
+      "character_slug": "bennett",
+      "character_name": "Bennett",
+      "category": "Single-Ally Off-Field Healers",
+      "notes": "Bennett’s strong Flat ATK buff compensates for low Fanfare gain. A healing build improves his ability to trigger Furina’s A1 Passive, as his healing only happens below 70% HP."
+    },
+    {
+      "character_slug": "xilonen",
+      "character_name": "Xilonen",
+      "category": "Single-Ally Off-Field Healers",
+      "notes": "Xilonen provides Pyro/Hydro/Electro/Cryo/Geo RES Shred via her Skill and DMG% buffs from 4pc Scroll. These buffs, alongside her Burst’s strong healing, make her an excellent generalist healer for Furina’s teams."
+    },
+    {
+      "character_slug": "kuki-shinobu",
+      "character_name": "Kuki Shinobu",
+      "category": "Single-Ally Off-Field Healers",
+      "notes": "Shinobu’s healing offsets Furina’s HP drain even with EM builds, letting her frequently trigger Furina’s A1 Passive. She also enables Quicken and Hyperbloom, excelling in Dendro teams."
+    },
+    {
+      "character_slug": "other-single-ally-healers",
+      "character_name": "Other Single-Ally Healers",
+      "category": "Single-Ally Off-Field Healers",
+      "notes": "Most other single-ally healers lack utility and can’t sustain Furina’s HP drain even with frequent swaps."
+    },
+    {
+      "character_slug": "neuvillette",
+      "character_name": "Neuvillette",
+      "category": "Hydro",
+      "notes": "Neuvillette’s self-healing and HP drain build Fanfare without a healer. Furina’s buffs and particle generation outweigh Neuvillette’s lost A1 Passive stack (at C0)."
+    },
+    {
+      "character_slug": "yelan",
+      "character_name": "Yelan",
+      "category": "Hydro",
+      "notes": "Both Yelan and Xingqiu provide off-field Hydro damage and application."
+    },
+    {
+      "character_slug": "xingqiu",
+      "character_name": "Xingqiu",
+      "category": "Hydro",
+      "notes": "Both Yelan and Xingqiu provide off-field Hydro damage and application."
+    },
+    {
+      "character_slug": "nilou",
+      "character_name": "Nilou",
+      "category": "Hydro",
+      "notes": "Nilou’s passives empower Bloom teams, and Furina’s Hydro helps generate Dendro Cores. However, Furina’s DMG% buff doesn’t affect Bloom DMG, reducing her overall value."
+    },
+    {
+      "character_slug": "other-hydro-damage-dealers",
+      "character_name": "Other Hydro Damage Dealers",
+      "category": "Hydro",
+      "notes": "Many other Hydro damage dealers also see Furina as one of their best teammates, especially in Freeze teams with Escoffier."
+    },
+    {
+      "character_slug": "xiao",
+      "character_name": "Xiao",
+      "category": "Anemo",
+      "notes": "Xiao appreciates Furina’s long-lasting buffs. Xianyun is the best healer with Xiao for her Plunging Attack buffs and Anemo particle generation."
+    },
+    {
+      "character_slug": "wanderer",
+      "character_name": "Wanderer",
+      "category": "Anemo",
+      "notes": "Wanderer greatly appreciates Furina’s damage and buffing. Although Wanderer teams usually run Bennett, Furina opens up the option of using Mika, C4 Jean, Sigewinne, and Escoffier due to their stronger Fanfare generation…"
+    },
+    {
+      "character_slug": "mizuki",
+      "character_name": "Mizuki",
+      "category": "Anemo",
+      "notes": "Mizuki is an on-field healer who specializes in Swirls. However, she only heals the active character when their HP drops below 70%, which can limit Fanfare generation and prevent Furina’s A1 Passive from triggering."
+    },
+    {
+      "character_slug": "ifa",
+      "character_name": "Ifa",
+      "category": "Anemo",
+      "notes": "Ifa is an on-field healer who buffs Swirl, Electro-Charged, and Lunar-Charged reactions. His healing cannot offset Furina’s HP drain, but he can team up with another healer such as Sayu or Bennett."
+    },
+    {
+      "character_slug": "chasca",
+      "character_name": "Chasca",
+      "category": "Anemo",
+      "notes": "Chasca converts her special Charged Attacks to her teammate’s Elements; with a Pyro teammate and Furina, Chasca can Vaporize her Pyro bullets."
+    },
+    {
+      "character_slug": "xiangling",
+      "character_name": "Xiangling",
+      "category": "Pyro",
+      "notes": "Xiangling is a potent off-field damage dealer and Pyro applier. She can enable Furina to Vaporize, or, if Furina is paired with another Hydro applier, Xiangling can Vaporize her own damage."
+    },
+    {
+      "character_slug": "hu-tao",
+      "character_name": "Hu Tao",
+      "category": "Pyro",
+      "notes": "Furina can not enable Vaporize on her own for Hu Tao, so she should run a second Hydro teammate."
+    },
+    {
+      "character_slug": "gaming",
+      "character_name": "Gaming",
+      "category": "Pyro",
+      "notes": "Furina lets Gaming Vaporize his Plunging Attacks, while his HP fluctuations help stack additional Fanfare."
+    },
+    {
+      "character_slug": "yoimiya",
+      "character_name": "Yoimiya",
+      "category": "Pyro",
+      "notes": "Furina cannot enable Yoimiya to Vaporize all her attacks alone, but she is still a strong support for Yoimiya’s Vaporize, Vapemelt, and Overvape teams."
+    },
+    {
+      "character_slug": "lyney",
+      "character_name": "Lyney",
+      "category": "Pyro",
+      "notes": "Lyney’s HP manipulation allows him to contribute towards Fanfare. Furina allows Lyney to Vaporize much of his damage, compensating for the loss of his A4 Passive’s effects with her Burst’s DMG Bonus."
+    },
+    {
+      "character_slug": "klee",
+      "character_name": "Klee",
+      "category": "Pyro",
+      "notes": "Klee’s on-field Pyro application enables Furina to Vaporize her Skill hits."
+    },
+    {
+      "character_slug": "mavuika",
+      "character_name": "Mavuika",
+      "category": "Pyro",
+      "notes": "Mavuika is an incredibly powerful DPS who benefits from Furina’s Fanfare."
+    },
+    {
+      "character_slug": "nahida",
+      "character_name": "Nahida",
+      "category": "Dendro",
+      "notes": "Nahida provides long-lasting, off-field Dendro application and can attack on-field for more application, making her an excellent choice for Bloom-based teams. Her personal damage is also impactful in Quickbloom teams."
+    },
+    {
+      "character_slug": "alhaitham",
+      "character_name": "Alhaitham",
+      "category": "Dendro",
+      "notes": "Both Alhaitham and Tighnari appreciate Furina’s buffs in Quickbloom teams. Kuki Shinobu is great pick to heal and trigger Hyperbloom."
+    },
+    {
+      "character_slug": "tighnari",
+      "character_name": "Tighnari",
+      "category": "Dendro",
+      "notes": "Both Alhaitham and Tighnari appreciate Furina’s buffs in Quickbloom teams. Kuki Shinobu is great pick to heal and trigger Hyperbloom."
+    },
+    {
+      "character_slug": "lauma",
+      "character_name": "Lauma",
+      "category": "Dendro",
+      "notes": "Furina’s Universal DMG Bonus does not buff Lauma’s Direct Lunar-Bloom damage nor Bloom damage. Nevertheless, Furina’s off-field Hydro application makes her a relevant teammate for Lauma."
+    },
+    {
+      "character_slug": "kinich",
+      "character_name": "Kinich",
+      "category": "Dendro",
+      "notes": "Furina is a potent buffer for Kinich, though her Hydro application can occasionally remove Burning and disrupt combos. Furina should hold 4pc Deepwood Memories if no one else on the team can."
+    },
+    {
+      "character_slug": "emilie",
+      "character_name": "Emilie",
+      "category": "Dendro",
+      "notes": "Emilie requires a consistent Burning aura on enemies to maximize her damage, so teambuilding is limited with Furina."
+    },
+    {
+      "character_slug": "dendro-traveler",
+      "character_name": "Dendro Traveler",
+      "category": "Dendro",
+      "notes": "Dendro Traveler and Collei serve as off-field Dendro appliers but have limited range, uptime, and high ER needs, which reduce their overall usefulness."
+    },
+    {
+      "character_slug": "collei",
+      "character_name": "Collei",
+      "category": "Dendro",
+      "notes": "Dendro Traveler and Collei serve as off-field Dendro appliers but have limited range, uptime, and high ER needs, which reduce their overall usefulness."
+    },
+    {
+      "character_slug": "nefer",
+      "character_name": "Nefer",
+      "category": "Dendro",
+      "notes": "Nefer can use Furina’s off-field Hydro application for consistent Verdant Dew generation."
+    },
+    {
+      "character_slug": "clorinde",
+      "character_name": "Clorinde",
+      "category": "Electro",
+      "notes": "Clorinde prefers Furina in her Electro-Charged teams for her personal damage and buffs. Clorinde can stack Furina’s Fanfare without a dedicated healer."
+    },
+    {
+      "character_slug": "varesa",
+      "character_name": "Varesa",
+      "category": "Electro",
+      "notes": "Varesa benefits from Furina’s buffs and usually relies on Xianyun for healing to stack Fanfare and buff her Plunges."
+    },
+    {
+      "character_slug": "raiden",
+      "character_name": "Raiden",
+      "category": "Electro",
+      "notes": "Furina is a good option in Raiden’s on-field Electro DPS and off-field Hyperbloom DPS teams."
+    },
+    {
+      "character_slug": "cyno",
+      "character_name": "Cyno",
+      "category": "Electro",
+      "notes": "Cyno excels in Quickbloom teams, where Furina’s long Skill and Burst uptime match his field time. These teams usually include Baizhu for healing."
+    },
+    {
+      "character_slug": "iansan",
+      "character_name": "Iansan",
+      "category": "Electro",
+      "notes": "Iansan can fully activate 4pc Scroll and provide strong ATK buffs through her Burst, which requires constant movement to maintain her Nightsoul points."
+    },
+    {
+      "character_slug": "ororon",
+      "character_name": "Ororon",
+      "category": "Electro",
+      "notes": "Ororon can fully activate 4pc Scroll and pairs well with Furina in Electro-Charged or Lunar-Charged teams."
+    },
+    {
+      "character_slug": "fischl",
+      "character_name": "Fischl",
+      "category": "Electro",
+      "notes": "Fischl and Yae provide off-field damage, while Lisa provides DEF Shred. Lisa and Yae can go on-field in Dendro teams."
+    },
+    {
+      "character_slug": "yae",
+      "character_name": "Yae",
+      "category": "Electro",
+      "notes": "Fischl and Yae provide off-field damage, while Lisa provides DEF Shred. Lisa and Yae can go on-field in Dendro teams."
+    },
+    {
+      "character_slug": "lisa",
+      "character_name": "Lisa",
+      "category": "Electro",
+      "notes": "Fischl and Yae provide off-field damage, while Lisa provides DEF Shred. Lisa and Yae can go on-field in Dendro teams."
+    },
+    {
+      "character_slug": "flins",
+      "character_name": "Flins",
+      "category": "Electro",
+      "notes": "Furina is a competitive teammate option for Flins and Ineffa thanks to her Hydro application and buff from 4pc TotM or 4pc SMS."
+    },
+    {
+      "character_slug": "ineffa",
+      "character_name": "Ineffa",
+      "category": "Electro",
+      "notes": "Furina is a competitive teammate option for Flins and Ineffa thanks to her Hydro application and buff from 4pc TotM or 4pc SMS."
+    },
+    {
+      "character_slug": "wriothesley",
+      "character_name": "Wriothesley",
+      "category": "Cryo",
+      "notes": "Wriothesley helps generate Fanfare with his HP drain from his empowered Normal Attacks and self-heals from his A1 Passive."
+    },
+    {
+      "character_slug": "ayaka",
+      "character_name": "Ayaka",
+      "category": "Cryo",
+      "notes": "These Cryo DPS units benefit from Furina’s buffs and Hydro application. Escoffier is an excellent healer option."
+    },
+    {
+      "character_slug": "ganyu",
+      "character_name": "Ganyu",
+      "category": "Cryo",
+      "notes": "These Cryo DPS units benefit from Furina’s buffs and Hydro application. Escoffier is an excellent healer option."
+    },
+    {
+      "character_slug": "skirk",
+      "character_name": "Skirk",
+      "category": "Cryo",
+      "notes": "These Cryo DPS units benefit from Furina’s buffs and Hydro application. Escoffier is an excellent healer option."
+    },
+    {
+      "character_slug": "eula",
+      "character_name": "Eula",
+      "category": "Cryo",
+      "notes": "Furina is a top pick for Eula and Freminet for her buffs and personal damage. Eula and Freminet deal a mix of Cryo and Physical damage, both of which are buffed by Furina’s DMG% buff."
+    },
+    {
+      "character_slug": "freminet",
+      "character_name": "Freminet",
+      "category": "Cryo",
+      "notes": "Furina is a top pick for Eula and Freminet for her buffs and personal damage. Eula and Freminet deal a mix of Cryo and Physical damage, both of which are buffed by Furina’s DMG% buff."
+    },
+    {
+      "character_slug": "citlali",
+      "character_name": "Citlali",
+      "category": "Cryo",
+      "notes": "Citlali provides a shield, off-field Cryo application, 20% Hydro RES Shred, and 40% DMG Bonus through 4pc Scroll, making her a strong option for most Freeze teams. She can also hold TTDS."
+    },
+    {
+      "character_slug": "shenhe",
+      "character_name": "Shenhe",
+      "category": "Cryo",
+      "notes": "Shenhe supports Cryo (and to an extent Physical) damage dealers with buffs, RES Shred, and her Icy Quill."
+    },
+    {
+      "character_slug": "navia",
+      "character_name": "Navia",
+      "category": "Geo",
+      "notes": "In teams with Navia, Furina provides off-field Hydro application (that enables Crystallize) and strong damage buffs; however, she lengthens team rotations to at least 20s."
+    },
+    {
+      "character_slug": "itto",
+      "character_name": "Itto",
+      "category": "Geo",
+      "notes": "Itto can greatly benefit from Furina’s buffs when paired with Xilonen. Prior to C2, Xilonen requires a second PHEC character to enable her Geo RES Shred."
+    },
+    {
+      "character_slug": "zhongli",
+      "character_name": "Zhongli",
+      "category": "Geo",
+      "notes": "Zhongli’s shield is useful for interruption prone characters and offers some offensive value via Universal RES Shred, though his defensive utility is somewhat redundant with a healer on the team."
+    },
+    {
+      "character_slug": "albedo",
+      "character_name": "Albedo",
+      "category": "Geo",
+      "notes": "Albedo and Chiori deal strong off-field Geo damage via their Elemental Skills, which benefit from Furina’s DMG% buff."
+    },
+    {
+      "character_slug": "chiori",
+      "character_name": "Chiori",
+      "category": "Geo",
+      "notes": "Albedo and Chiori deal strong off-field Geo damage via their Elemental Skills, which benefit from Furina’s DMG% buff."
+    }
+  ]
+}

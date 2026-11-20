@@ -56,17 +56,19 @@ Exit code:
 | `--no-rebuild` | Não rebuilda frontend |
 | `--force` | Roda mesmo se nada faltando |
 
-### Adicionar/atualizar guias KQM
+### Adicionar/atualizar guias (Multi-fonte)
 
-1. Salvar o `.txt` em `backend/data/kqm/{slug}.txt`
+Pastas em `backend/data/sources/`: `kqm/`, `game8/`, `genshingg/`, `gamewith/`, `helper_sheet/`.
+
+1. Salvar o `.txt` na pasta da fonte (ex.: `backend/data/sources/kqm/{slug}.txt`)
 2. Rodar:
 
-       docker compose exec backend python -m app.scripts.parse_kqm_guide data/kqm/
-       docker compose exec backend python -m app.scripts.import_kqm data/parsed/{slug}-only --create-team
+       docker compose exec backend alembic upgrade head
+       docker compose exec backend python -m app.scripts.parse_guides --all
+       docker compose exec backend python -m app.scripts.import_guides --all --create-team
 
-O `--create-team` cria 1 `Team` customizável com a build completa do main char
-(armas, artefatos, stats, talentos, combos, references) + substituições
-automáticas por elemento nos slots de support.
+O parser extrai builds, times (preservando alternativas `/` por slot) e `Notable Teammates`,
+e o importador faz merge multi-fonte em `TeamTemplate.sources` e `TeamTemplate.slot_substitutes`.
 
 ### Enriquecer substitutes dos times existentes
 

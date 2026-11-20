@@ -444,6 +444,89 @@ def parse_combos(section: str) -> list[str]:
     return combos
 
 
+# ===== NOTABLE TEAMMATES =====
+_TEAMMATE_LINE = re.compile(
+    r'^(?P<names>[A-Z][^\t\n]{1,65})\t+(?P<desc>[A-Za-z].+)$',
+    re.MULTILINE,
+)
+
+# Categorias típicas dentro de "Notable Teammates" (ex.: "Hydro Appliers", "Buffers")
+_CATEGORY_LINE = re.compile(r'^[A-Z][A-Za-z0-9 /\-]{2,40}$')
+
+
+def _summarize_note(desc: str, max_len: int = 220) -> str:
+    clean = collapse_ws(desc)
+    if len(clean) <= max_len:
+        return clean
+    # Corta na primeira/segunda frase se couber
+    cut = clean[:max_len]
+    dot = cut.rfind('. ')
+    if dot >= 60:
+        return cut[: dot + 1]
+    return cut.rstrip(' ,;:') + '…'
+
+
+def parse_notable_teammates(text: str) -> list[dict]:
+    """Extrai companheiros curados de TODAS as seções 'Notable Teammates'."""
+    sections = find_all_sections(text, "Notable Teammates")
+    if not sections:
+        return []
+
+    teammates: list[dict] = []
+    seen: set[str] = set()
+
+    for sec in sections:
+        current_category = "Teammate"
+        for line in sec.splitlines():
+            raw = line.strip()
+            if not raw:
+                continue
+
+            # Ignora barra de abas concatenada sem espaço (ex.: "Hydro AppliersBuffersOther Supports")
+            if re.search(r'[a-z][A-Z]', raw) and '\t' not in raw and len(raw) > 20:
+                continue
+
+            # Linha "CharName\tDescription..."
+            m = _TEAMMATE_LINE.match(raw)
+            if m:
+                names_raw = m.group("names").strip()
+                desc = m.group("desc").strip()
+                # Ignora headers de tabela ou frases longas
+                if len(names_raw.split()) > 6 or WEAPON_CATEGORY_HEADER.search(names_raw):
+                    continue
+                summary = _summarize_note(desc)
+                # Pode ter "Sigewinne, Qiqi" ou "Ayato, Childe" ou "Xingqiu / Yelan"
+                for piece in re.split(r'\s*[,/]\s*', names_raw):
+                    piece = piece.strip()
+                    if not piece:
+                        continue
+                    clean_name = strip_parentheses(clean_char_name(piece))
+                    slug = to_slug(clean_name)
+                    if not slug or len(slug) < 2 or slug in PLACEHOLDER_SLUGS:
+                        continue
+                    if slug in seen:
+                        continue
+                    seen.add(slug)
+                    teammates.append({
+                        "character_slug": slug,
+                        "character_name": clean_name,
+                        "category": current_category,
+                        "notes": summary,
+                    })
+                continue
+
+            # Possível subtítulo de categoria (linha curta sem pontuação final)
+            if (
+                '\t' not in raw
+                and _CATEGORY_LINE.match(raw)
+                and not raw.endswith('.')
+                and len(raw.split()) <= 5
+            ):
+                current_category = raw
+
+    return teammates
+
+
 # ===== TEAMS =====
 DASH = '[—–]'  # em-dash ou en-dash
 
@@ -462,38 +545,83 @@ PLACEHOLDER_SLUGS = {
 
 def parse_teams(*sections: str) -> list[dict]:
     text = "\n\n".join(sections)
-    teams, seen = [], set()
+    teams, by_key = [], {}
     for m in TEAM_LINE.finditer(text):
         raw = m.group("team")
         parts = [p.strip() for p in re.split(rf'\s*{DASH}\s*', raw) if p.strip()]
         if not (3 <= len(parts) <= 4):
             continue
-        primary = [clean_char_name(p.split('/')[0].strip()) for p in parts]
-        slugs = [to_slug(p) for p in primary if to_slug(p)]
-        if len(slugs) < 3:
+
+        slugs: list[str] = []
+        slot_alternatives: dict[str, list[str]] = {}
+        has_placeholder = False
+
+        for pos, part in enumerate(parts, start=1):
+            options = [opt.strip() for opt in part.split('/') if opt.strip()]
+            opt_slugs: list[str] = []
+            for opt in options:
+                cleaned = clean_char_name(opt)
+                slug = to_slug(cleaned)
+                if slug and slug not in opt_slugs:
+                    opt_slugs.append(slug)
+
+            if not opt_slugs or opt_slugs[0] in PLACEHOLDER_SLUGS:
+                has_placeholder = True
+                break
+
+            slugs.append(opt_slugs[0])
+            alts = [s for s in opt_slugs[1:] if s not in PLACEHOLDER_SLUGS]
+            if alts:
+                slot_alternatives[str(pos)] = alts
+
+        if has_placeholder or len(slugs) < 3:
             continue
-        if any(s in PLACEHOLDER_SLUGS for s in slugs):
-            continue
+
+        # Remove alternativas que já estão nos outros slots primários
+        primary_set = set(slugs)
+        cleaned_alts: dict[str, list[str]] = {}
+        for pos_k, alts in slot_alternatives.items():
+            filtered = [s for s in alts if s not in primary_set]
+            if filtered:
+                cleaned_alts[pos_k] = filtered
+
         key = tuple(sorted(slugs))
-        if key in seen:
+        if key in by_key:
+            # Mescla alternativas caso o mesmo quarteto apareça em outra variação
+            existing = by_key[key]
+            for pos_k, alts in cleaned_alts.items():
+                cur = existing["slot_alternatives"].setdefault(pos_k, [])
+                for s in alts:
+                    if s not in cur:
+                        cur.append(s)
             continue
-        seen.add(key)
-        teams.append({
+
+        entry = {
             "character_slugs": slugs,
             "main_character": slugs[0],
             "raw_line": collapse_ws(raw),
-        })
+            "slot_alternatives": cleaned_alts,
+        }
+        by_key[key] = entry
+        teams.append(entry)
     return teams
 
 
 def _dedup_teams(teams: list[dict]) -> list[dict]:
-    seen = set()
+    by_key: dict[tuple[str, ...], dict] = {}
     out = []
     for t in teams:
         key = tuple(sorted(t["character_slugs"]))
-        if key in seen:
+        if key in by_key:
+            existing = by_key[key]
+            for pos_k, alts in (t.get("slot_alternatives") or {}).items():
+                cur = existing.setdefault("slot_alternatives", {}).setdefault(pos_k, [])
+                for s in alts:
+                    if s not in cur:
+                        cur.append(s)
             continue
-        seen.add(key)
+        t.setdefault("slot_alternatives", {})
+        by_key[key] = t
         out.append(t)
     return out
 
@@ -516,7 +644,7 @@ def parse_guide(text: str, char_slug: str) -> dict:
     )
     combos = parse_combos(combos_section)[:10]
 
-    # NEW: coleta TODAS as seções "Example Teams" (Furina tem 5)
+    # Coleta TODAS as seções "Example Teams" e "Limited Roster Alternatives"
     all_teams = []
     for sec in find_all_sections(text, "Example Teams"):
         all_teams.extend(parse_teams(sec))
@@ -524,10 +652,13 @@ def parse_guide(text: str, char_slug: str) -> dict:
         all_teams.extend(parse_teams(sec))
     teams = _dedup_teams(all_teams)
 
+    notable_teammates = parse_notable_teammates(text)
+
     print(f"   [debug] talent_priority={talent_priority!r}")
     print(f"   [debug] sands={stats['sands']} goblet={stats['goblet']} circlet={stats['circlet']}")
     print(f"   [debug] substats={stats['substats']}")
     print(f"   [debug] combos={combos}")
+    print(f"   [debug] notable_teammates={len(notable_teammates)}")
     print(f"   [debug] Example Teams seções encontradas: {len(find_all_sections(text, 'Example Teams'))}")
 
     kqm_url = f"https://keqingmains.com/{char_slug}/"
@@ -537,6 +668,9 @@ def parse_guide(text: str, char_slug: str) -> dict:
     }]
 
     return {
+        "source": "KQM",
+        "source_slug": "kqm",
+        "source_url": kqm_url,
         "character_slug": char_slug,
         "build": {
             "name": "KQM Build",
@@ -555,6 +689,7 @@ def parse_guide(text: str, char_slug: str) -> dict:
                 "references": references,
             },
         },
+        "notable_teammates": notable_teammates,
         "teams": teams,
     }
 
@@ -562,7 +697,7 @@ def parse_guide(text: str, char_slug: str) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("input", type=Path)
-    ap.add_argument("--output", type=Path, default=Path("data/parsed"))
+    ap.add_argument("--output", type=Path, default=Path("data/parsed/kqm"))
     args = ap.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     print(f"📁 Output: {args.output.resolve()}")
@@ -582,8 +717,14 @@ def main():
             continue
 
         (args.output / f"{slug}-build.json").write_text(
-            json.dumps({"character_slug": slug, "build": result["build"]},
-                       indent=2, ensure_ascii=False),
+            json.dumps({
+                "source": result["source"],
+                "source_slug": result["source_slug"],
+                "source_url": result["source_url"],
+                "character_slug": slug,
+                "build": result["build"],
+                "notable_teammates": result["notable_teammates"],
+            }, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
         (args.output / f"{slug}-teams.json").write_text(
@@ -595,9 +736,11 @@ def main():
             f"✅ {slug}: {len(b['weapons'])} armas, "
             f"{len(b['artifacts_4pc'])} sets 4pc, "
             f"{len(b['combos'])} combos, "
+            f"{len(result['notable_teammates'])} teammates, "
             f"{len(result['teams'])} times"
         )
 
 
 if __name__ == "__main__":
     main()
+

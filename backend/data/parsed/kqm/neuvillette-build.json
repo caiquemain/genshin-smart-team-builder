@@ -1,0 +1,481 @@
+{
+  "source": "KQM",
+  "source_slug": "kqm",
+  "source_url": "https://keqingmains.com/neuvillette/",
+  "character_slug": "neuvillette",
+  "build": {
+    "name": "KQM Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 4,
+          "notes": "Neuvillette’s signature weapon and his BiS, Tome of the Eternal Flow offers a hefty amount of CRIT DMG as well as some HP% and CA DMG%. Additionally, it provides Energy regeneration that negates the need for ER in most scenarios. Tome performs signif"
+        },
+        {
+          "weapon_slug": "sacrificial-jade",
+          "weapon_name": "Sacrificial Jade",
+          "rarity": 4,
+          "notes": "Obtained from the Battle Pass, it is Neuvillette’s second-best weapon. It offers CRIT Rate and HP%, but its passive restricts field time to a maximum of 10s at a time. Even at R1, Sacrificial Jade is a respectable enough improvement over its alternat"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf’s Up",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "nocturne-s-curtain-call",
+          "weapon_name": "Nocturne’s Curtain Call",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "reliquary-of-truth",
+          "weapon_name": "Reliquary of Truth",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "ash-graven-drinking-horn",
+          "weapon_name": "Ash-Graven Drinking Horn",
+          "rarity": 4,
+          "notes": "An event weapon from Version 5.0. Ash-Graven is Neuvillette’s best free weapon at low ER requirements (~120% or lower). It offers the same HP% secondary stat as Prototype Amber, but its passive offers damage rather than Energy regeneration. Every 15s"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "Prototype Amber provides plenty of HP% and heals, and is Neuvillette’s best free weapon at moderate or high ER requirements (~125% or higher). It performs better the more Neuvillette can take advantage of the Energy provided by its passive, but is li"
+        },
+        {
+          "weapon_slug": "jadefall-splendor",
+          "weapon_name": "Jadefall Splendor",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "everlasting-moonglow",
+          "weapon_name": "Everlasting Moonglow",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        },
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura’s Verity",
+          "rarity": 5,
+          "notes": "Listado em categoria do KQM"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Marechaussee’s Charged Attack DMG% and hefty CRIT Rate make it Neuvillette’s BiS by a sizable margin. Furthermore, stacks on the 4-piece effect are obtained quickly due to the HP drain from Neuvillette’s Charged Attack."
+        },
+        {
+          "artifact_set_slug": "heart-of-depth",
+          "artifact_set_name": "Heart of Depth",
+          "notes": "4pc Heart of Depth provides Hydro DMG% and Charged Attack DMG%, but is worse than Marechaussee. 4pc Night provides 30% CRIT Rate but only in Double Nod-Krai teams, and is also significantly worse than Marechaussee."
+        },
+        {
+          "artifact_set_slug": "night-of-the-sky-s-unveiling",
+          "artifact_set_name": "Night of the Sky’s Unveiling",
+          "notes": "4pc Heart of Depth provides Hydro DMG% and Charged Attack DMG%, but is worse than Marechaussee. 4pc Night provides 30% CRIT Rate but only in Double Nod-Krai teams, and is also significantly worse than Marechaussee."
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "artifact_set_slug": "mixed-sets",
+          "artifact_set_name": "Mixed Sets",
+          "notes": "2pc Bonuses: Marechaussee Hunter, Hydro DMG Bonus, HP%"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg",
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": null,
+      "references": [
+        {
+          "url": "https://keqingmains.com/neuvillette/",
+          "title": "KQM Neuvillette Guide"
+        }
+      ]
+    }
+  },
+  "notable_teammates": [
+    {
+      "character_slug": "xilonen",
+      "character_name": "Xilonen",
+      "category": "Furina",
+      "notes": "Another excellent buffer, Xilonen provides Hydro RES Shred that is slightly lower but longer duration than 4pc VV, and does not need to be refreshed in multi-wave content."
+    },
+    {
+      "character_slug": "kazuha",
+      "character_name": "Kazuha",
+      "category": "Furina",
+      "notes": "The best Anemo support for hypercarry Neuvillette, and one of his best buffers overall. Kazuha is highly recommended thanks to his DMG Bonus, the RES Shred from 4pc VV, and grouping capabilities."
+    },
+    {
+      "character_slug": "venti",
+      "character_name": "Venti",
+      "category": "Furina",
+      "notes": "If Kazuha is unavailable, other Anemo units can serve as alternatives. Lan Yan offers a shield but requires Sacrificial Fragments or C6 for good uptime."
+    },
+    {
+      "character_slug": "sucrose",
+      "character_name": "Sucrose",
+      "category": "Furina",
+      "notes": "If Kazuha is unavailable, other Anemo units can serve as alternatives. Lan Yan offers a shield but requires Sacrificial Fragments or C6 for good uptime."
+    },
+    {
+      "character_slug": "lynette",
+      "character_name": "Lynette",
+      "category": "Furina",
+      "notes": "If Kazuha is unavailable, other Anemo units can serve as alternatives. Lan Yan offers a shield but requires Sacrificial Fragments or C6 for good uptime."
+    },
+    {
+      "character_slug": "lan-yan",
+      "character_name": "Lan Yan",
+      "category": "Furina",
+      "notes": "If Kazuha is unavailable, other Anemo units can serve as alternatives. Lan Yan offers a shield but requires Sacrificial Fragments or C6 for good uptime."
+    },
+    {
+      "character_slug": "heizou",
+      "character_name": "Heizou",
+      "category": "Furina",
+      "notes": "If Kazuha is unavailable, other Anemo units can serve as alternatives. Lan Yan offers a shield but requires Sacrificial Fragments or C6 for good uptime."
+    },
+    {
+      "character_slug": "jean",
+      "character_name": "Jean",
+      "category": "Furina",
+      "notes": "Xianyun, Jean, Sayu, and Jahoda become viable options when running Furina, though they perform worse than Kazuha."
+    },
+    {
+      "character_slug": "sayu",
+      "character_name": "Sayu",
+      "category": "Furina",
+      "notes": "Xianyun, Jean, Sayu, and Jahoda become viable options when running Furina, though they perform worse than Kazuha."
+    },
+    {
+      "character_slug": "xianyun",
+      "character_name": "Xianyun",
+      "category": "Furina",
+      "notes": "Xianyun, Jean, Sayu, and Jahoda become viable options when running Furina, though they perform worse than Kazuha."
+    },
+    {
+      "character_slug": "jahoda",
+      "character_name": "Jahoda",
+      "category": "Furina",
+      "notes": "Xianyun, Jean, Sayu, and Jahoda become viable options when running Furina, though they perform worse than Kazuha."
+    },
+    {
+      "character_slug": "mavuika",
+      "character_name": "Mavuika",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Mavuika deals off-field damage with her Skill, can hold 4pc Scroll for 40% DMG Bonus, and provides a massive nuke via her Burst."
+    },
+    {
+      "character_slug": "durin",
+      "character_name": "Durin",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Durin is a solid off-field DPS at C0, and becomes a great Neuvillette support with Constellations."
+    },
+    {
+      "character_slug": "ororon",
+      "character_name": "Ororon",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Ororon deals good personal damage and is able to activate the full 4pc Scroll effect to buff the team with 40% Hydro and Electro DMG Bonus."
+    },
+    {
+      "character_slug": "fischl",
+      "character_name": "Fischl",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Fischl offers sizable personal damage and an unmatched rate of Electro application entirely from off-field. Her battery capabilities also lower the team’s ER requirements."
+    },
+    {
+      "character_slug": "kachina",
+      "character_name": "Kachina",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Kachina and Pyro Traveler can both activate the full 4pc Scroll effect to provide a large DMG Bonus for Neuvillette, making them great supports."
+    },
+    {
+      "character_slug": "pyro-traveler",
+      "character_name": "Pyro Traveler",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Kachina and Pyro Traveler can both activate the full 4pc Scroll effect to provide a large DMG Bonus for Neuvillette, making them great supports."
+    },
+    {
+      "character_slug": "lisa",
+      "character_name": "Lisa",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Lisa is a highly accessible buffer who offers valuable DEF Shred. She can either hold Prototype Amber to stack Fanfare and forgo her Hold Skill, or wield Hakushin Ring for a teamwide Hydro DMG Bonus."
+    },
+    {
+      "character_slug": "childe",
+      "character_name": "Childe",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Childe’s Utility Passive increases his party members’ NA Talent level by 1 and is one of the few impactful buffs available to Neuvillette."
+    },
+    {
+      "character_slug": "chiori",
+      "character_name": "Chiori",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Chiori and Albedo function similarly; both offer off-field damage with low field time."
+    },
+    {
+      "character_slug": "albedo",
+      "character_name": "Albedo",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Chiori and Albedo function similarly; both offer off-field damage with low field time."
+    },
+    {
+      "character_slug": "yae-miko",
+      "character_name": "Yae Miko",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Similarly to Fischl, Yae Miko provides respectable personal damage from off-field, swapping in to deploy her totems and then back out."
+    },
+    {
+      "character_slug": "yelan",
+      "character_name": "Yelan",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Neuvillette is unable to make much use of Yelan’s Burst, as it only triggers on Normal Attacks."
+    },
+    {
+      "character_slug": "xingqiu",
+      "character_name": "Xingqiu",
+      "category": "Offensive Flex Units / Buffers",
+      "notes": "Xingqiu is a passable poverty option at C2+ if no one better is available. He provides Hydro Resonance, Hydro particles, some Hydro RES Shred at the price of Neuvillette having to N1C, and decent interruption resistance."
+    },
+    {
+      "character_slug": "citlali",
+      "character_name": "Citlali",
+      "category": "Defensive Flex Units",
+      "notes": "Citlali consolidates powerful buffing with shielding. She both activates the full 4pc Scroll effect for 40% DMG Bonus and provides 20% Hydro RES Shred with her A1."
+    },
+    {
+      "character_slug": "baizhu",
+      "character_name": "Baizhu",
+      "category": "Zhongli",
+      "notes": "Options in Furina teams. Baizhu’s and Charlotte’s healing stacks Fanfare, and Baizhu’s pseudo-shields offer interruption resistance, though their strength and uptime may be lacking."
+    },
+    {
+      "character_slug": "charlotte",
+      "character_name": "Charlotte",
+      "category": "Zhongli",
+      "notes": "Options in Furina teams. Baizhu’s and Charlotte’s healing stacks Fanfare, and Baizhu’s pseudo-shields offer interruption resistance, though their strength and uptime may be lacking."
+    },
+    {
+      "character_slug": "mika",
+      "character_name": "Mika",
+      "category": "Zhongli",
+      "notes": "Options in Furina teams. Baizhu’s and Charlotte’s healing stacks Fanfare, and Baizhu’s pseudo-shields offer interruption resistance, though their strength and uptime may be lacking."
+    },
+    {
+      "character_slug": "layla",
+      "character_name": "Layla",
+      "category": "Zhongli",
+      "notes": "Layla offers a strong shield and a minor buff to Neuvillette’s Charged Attacks with her C4, while Kirara provides 12% DMG Bonus at C6."
+    },
+    {
+      "character_slug": "kirara",
+      "character_name": "Kirara",
+      "category": "Zhongli",
+      "notes": "Layla offers a strong shield and a minor buff to Neuvillette’s Charged Attacks with her C4, while Kirara provides 12% DMG Bonus at C6."
+    },
+    {
+      "character_slug": "xiangling",
+      "character_name": "Xiangling",
+      "category": "Pyro Units",
+      "notes": "Xiangling offers unmatched Pyro application in Forward Vape, and can provide buffs with supportive artifact sets."
+    },
+    {
+      "character_slug": "dehya",
+      "character_name": "Dehya",
+      "category": "Pyro Units",
+      "notes": "Dehya offers some interruption resistance and Pyro application, and Mavuika offers a bit more Pyro application, the full 4pc Scroll buff, and her Burst’s DMG% buff."
+    },
+    {
+      "character_slug": "zhongli",
+      "character_name": "Zhongli",
+      "category": "Flex Units",
+      "notes": "Shielder options that also provide buffs. Both shred Hydro RES without requiring Swirl setups, and can equip 4pc Scroll (if Hydro reactions are possible)."
+    },
+    {
+      "character_slug": "lauma",
+      "character_name": "Lauma",
+      "category": "Flex Units",
+      "notes": "When paired with a Pyro unit, Nahida’s 1.5U Dendro application lets her sustain Burning for extra Vaporize consistency. Her Burst also provides Neuvillette with an EM buff."
+    },
+    {
+      "character_slug": "nahida",
+      "character_name": "Nahida",
+      "category": "Flex Units",
+      "notes": "When paired with a Pyro unit, Nahida’s 1.5U Dendro application lets her sustain Burning for extra Vaporize consistency. Her Burst also provides Neuvillette with an EM buff."
+    },
+    {
+      "character_slug": "emilie",
+      "character_name": "Emilie",
+      "category": "Flex Units",
+      "notes": "When paired with a Pyro unit, Nahida’s 1.5U Dendro application lets her sustain Burning for extra Vaporize consistency. Her Burst also provides Neuvillette with an EM buff."
+    },
+    {
+      "character_slug": "furina",
+      "character_name": "Furina",
+      "category": "Flex Units",
+      "notes": "Although Furina can interfere with Neuvillette’s Vaporize, her sizable DMG Bonus and personal damage can make up for it. Neuvillette’s HP fluctuations easily stack her Fanfare, but a healer can bring added comfort."
+    },
+    {
+      "character_slug": "ineffa",
+      "character_name": "Ineffa",
+      "category": "Electro Units",
+      "notes": "Ineffa deals excellent personal damage, batteries, and offers a shield for C0 Neuvillette. Her Skill provides off-field Electro application with great uptime."
+    },
+    {
+      "character_slug": "beidou",
+      "character_name": "Beidou",
+      "category": "Electro Units",
+      "notes": "Beidou offers strong off-field Electro damage that excels in multi-target scenarios and being paired with Fischl alleviates her ER requirements."
+    },
+    {
+      "character_slug": "columbina",
+      "character_name": "Columbina",
+      "category": "Hydro Units",
+      "notes": "Columbina is not so much a support for Neuvillette as she is the best buffer for his teams with Ineffa — which happen to be his highest damage teams overall."
+    },
+    {
+      "character_slug": "aino",
+      "character_name": "Aino",
+      "category": "Hydro Units",
+      "notes": "Aino is a decent second Hydro for Lunar-Charged teams: she activates Ascendant Gleam to buff Ineffa with the Lunar Reaction DMG Bonus and full 4pc Silken Moon effect, and Hydro Resonance to buff Neuvillette."
+    },
+    {
+      "character_slug": "c1-mona",
+      "character_name": "C1+ Mona",
+      "category": "Hydro Units",
+      "notes": "Post-buff Mona becomes a decent second Hydro at C1+ for players with neither Furina nor Columbina. Her C1 provides 24% off-field Lunar Reaction DMG Bonus for Ineffa, and her C2 provides 80 EM teamwide."
+    },
+    {
+      "character_slug": "dendro-traveler",
+      "character_name": "Dendro Traveler",
+      "category": "Nahida",
+      "notes": "Available to all players, Dendro Traveler offers off-field Dendro application with high uptime, and their Burst’s large AoE provides good coverage."
+    },
+    {
+      "character_slug": "collei",
+      "character_name": "Collei",
+      "category": "Nahida",
+      "notes": "Collei is another accessible option, and provides mobile off-field Dendro application that can be increased by Sacrificial Bow. Her ER requirements are also fairly manageable in solo Dendro teams."
+    },
+    {
+      "character_slug": "raiden",
+      "character_name": "Raiden",
+      "category": "Electro Units",
+      "notes": "Raiden is an excellent off-field Hyperbloom trigger with a long duration on her Skill and low field time requirements. In addition, her Skill offers an Elemental Burst DMG Bonus for her teammates."
+    },
+    {
+      "character_slug": "kuki-shinobu",
+      "character_name": "Kuki Shinobu",
+      "category": "Electro Units",
+      "notes": "Similarly to Raiden, Shinobu is an off-field Hyperbloom trigger. Her Skill offers off-field healing and Electro application, but its limited duration means she will have to swap in to refresh at least once per rotation."
+    },
+    {
+      "character_slug": "nilou",
+      "character_name": "Nilou",
+      "category": "Mandatory Units",
+      "notes": "Nilou is a requirement for the Bountiful Bloom playstyle. It’s not recommended to use non-Nilou Bloom teams."
+    },
+    {
+      "character_slug": "yaoyao",
+      "character_name": "Yaoyao",
+      "category": "Secondary Dendro Units",
+      "notes": "Yaoyao provides healing for the on-field unit through her Skill and access to emergency party-wide healing through her Burst."
+    },
+    {
+      "character_slug": "other-dendro",
+      "character_name": "Other Dendro",
+      "category": "Secondary Dendro Units",
+      "notes": "Nahida, Dendro Traveler, and Collei are all solid options as second Dendro if survivability is not a concern."
+    },
+    {
+      "character_slug": "escoffier",
+      "character_name": "Escoffier",
+      "category": "Cryo Units",
+      "notes": "The backbone of Neuvillette’s premium Freeze teams; Escoffier offers a massive 55% Cryo and Hydro RES Shred, deals high personal damage, and provides healing to help stack Fanfare with Furina."
+    },
+    {
+      "character_slug": "skirk",
+      "character_name": "Skirk",
+      "category": "Cryo Units",
+      "notes": "Skirk can slot into Neuvillette’s pure Hydro–Cryo teams as a powerful quickswap DPS. She swaps in to use her Burst nuke in between Neuvillette’s field times, and even deals similar damage to Neuvillette himself."
+    },
+    {
+      "character_slug": "shenhe",
+      "character_name": "Shenhe",
+      "category": "Cryo Units",
+      "notes": "Shenhe is the premier Cryo buffer, offering Cryo DMG Bonus, Cryo RES Shred, and her Icy Quill effect."
+    },
+    {
+      "character_slug": "rosaria",
+      "character_name": "Rosaria",
+      "category": "Cryo Units",
+      "notes": "Rosaria’s Burst lets her deal respectable personal damage from off-field, while her Skill’s particle generation lets her battery the team. She also offers a CRIT Rate buff through her A4."
+    },
+    {
+      "character_slug": "ganyu",
+      "character_name": "Ganyu",
+      "category": "Cryo Units",
+      "notes": "By forgoing her Charged Attacks and focusing on her Burst, Ganyu can deal damage and apply Cryo entirely from off-field."
+    },
+    {
+      "character_slug": "diona",
+      "character_name": "Diona",
+      "category": "Cryo Units",
+      "notes": "Diona and Layla can both slot in to provide Cryo Resonance and defensive utility for players who need it."
+    },
+    {
+      "character_slug": "mona",
+      "character_name": "Mona",
+      "category": "Flex Units",
+      "notes": "Due to the lack of HP% buffs available, running a second Hydro teammate for Hydro Resonance is a decent option."
+    },
+    {
+      "character_slug": "dahlia",
+      "character_name": "Dahlia",
+      "category": "Flex Units",
+      "notes": "Other second Hydro alternatives for players who lack the above options. Xingqiu offers interruption resistance, some personal damage, and a modest Hydro RES Shred at C2."
+    }
+  ]
+}
