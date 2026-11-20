@@ -63,11 +63,20 @@ CHAR_ALIASES = {
 WEAPON_ALIASES = {
     "symphonist-of-scent": "symphonist-of-scents",  # KQM omitiu o 's' final
     "jadefall-splendor": "jadefall-s-splendor",     # KQM sem apostrofo
+    "sacrifical-jade": "sacrificial-jade",          # Helper Sheet typo
+    "fruit-of-fulfilment": "fruit-of-fulfillment",  # Helper Sheet UK spelling
+    "aquilla-favonia": "aquila-favonia",            # Helper Sheet typo
+    "lost-prayer-to-sacred-winds": "lost-prayer-to-the-sacred-winds",
+    "a-thousand-floating-dream": "a-thousand-floating-dreams",
+    "gest-of-the-might-wolf": "gest-of-the-mighty-wolf",
 }
 
 # Aliases especificos de sets (slug -> slug no DB)
 ARTIFACT_ALIASES = {
     "night-of-the-sky-s-unveiling": "night-of-the-skys-unveiling",
+    "marchaussee-hunter": "marechaussee-hunter",
+    "song-of-day-s-past": "song-of-days-past",
+    "silken-moon-serenade": "silken-moons-serenade",
 }
 
 # Placeholders que aparecem nos times do KQM e NÃO são personagens

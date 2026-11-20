@@ -55,7 +55,11 @@ def parse_source(
 
     # Modo CSV em lote (Helper Sheet: 1 CSV por elemento com dezenas de personagens)
     if source_slug == "helper_sheet":
-        csv_files = [in_dir / single_file] if single_file else sorted(in_dir.glob("*.csv"))
+        if single_file:
+            csv_files = [in_dir / single_file]
+        else:
+            canonical = [in_dir / f"{el}.csv" for el in ("anemo", "cryo", "dendro", "electro", "geo", "hydro", "pyro")]
+            csv_files = [f for f in canonical if f.is_file()] or sorted(in_dir.glob("*.csv"))
         csv_files = [f for f in csv_files if f.is_file()]
         if not csv_files:
             print(f"  [{source_slug}] nenhum .csv em {in_dir} — pulando.")

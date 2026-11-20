@@ -7,8 +7,11 @@ from app.scripts.parsers.helper_sheet import parse_element_csv
 HELPER_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "helper_sheet"
 
 
+ELEMENT_FILES = ("anemo", "cryo", "dendro", "electro", "geo", "hydro", "pyro")
+
+
 def test_all_seven_helper_sheet_csvs_parse_completely():
-    csv_files = sorted(HELPER_DIR.glob("*.csv"))
+    csv_files = [HELPER_DIR / f"{el}.csv" for el in ELEMENT_FILES if (HELPER_DIR / f"{el}.csv").exists()]
     if not csv_files:
         pytest.skip("No Helper Sheet CSV fixtures found")
 
