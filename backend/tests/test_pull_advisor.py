@@ -165,3 +165,27 @@ class TestPullAdvisor:
         )
         scores = {r["slug"]: r["breakdown"]["team_unlocks"] for r in res["recommendations"]}
         assert scores["cand-diverse"] > scores["cand-same"]
+
+    def test_missing_elemental_main_dps_recommends_strong_dps_for_missing_element(self):
+        chars, templates, general, abyss, stygian = _sample_world()
+        # Conta tem Skirk (Main DPS Cryo forte), Furina e Yelan -> falta Main DPS Geo e Pyro
+        res = compute_pull_recommendations(
+            characters=chars,
+            templates=templates,
+            general_tiers=general,
+            abyss_tiers=abyss,
+            stygian_tiers=stygian,
+            owned_slugs=["skirk", "furina", "yelan"],
+            goal="meta",
+        )
+        missing_dps = res["account_summary"]["missing_dps_elements"]
+        assert "cryo" not in missing_dps
+        assert "geo" in missing_dps
+        assert "pyro" in missing_dps
+
+        by_slug = {r["slug"]: r for r in res["recommendations"]}
+        # Zibai (Main DPS Geo S+) recebe bônus e razão explícita de Main DPS Geo
+        assert any("Main DPS forte de Geo" in r for r in by_slug["zibai"]["reasons"])
+        # Xilonen (Support Geo) NÃO recebe razão de Main DPS Geo
+        assert not any("Main DPS forte de Geo" in r for r in by_slug["xilonen"]["reasons"])
+

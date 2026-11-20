@@ -70,6 +70,7 @@ class AccountSummaryOut(BaseModel):
     total_templates: int
     element_counts: dict[str, int]
     weak_elements: list[str]
+    missing_dps_elements: list[str] = Field(default_factory=list)
     missing_capabilities: list[str]
 
 

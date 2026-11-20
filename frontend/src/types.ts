@@ -462,6 +462,7 @@ export interface AccountSummary {
   total_templates: number
   element_counts: Record<string, number>
   weak_elements: string[]
+  missing_dps_elements: string[]
   missing_capabilities: string[]
 }
 

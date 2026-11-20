@@ -32,13 +32,13 @@
 /* Account Diagnostic Strip */
 .pa-account-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
 
 .pa-stat-card {
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(15, 23, 42, 0.72);
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 12px;
   padding: 14px 16px;
@@ -78,18 +78,25 @@
 .pa-elem-pill {
   font-size: 11px;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: 999px;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  color: #cbd5e1;
+  border: 1px solid;
   text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.12s, filter 0.12s;
 }
 
-.pa-elem-pill.is-weak {
-  background: rgba(251, 146, 60, 0.14);
-  border-color: rgba(251, 146, 60, 0.45);
-  color: #fdba74;
+.pa-elem-pill:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.15);
+}
+
+.pa-elem-pill.is-missing-dps {
+  border-style: dashed;
+  opacity: 0.92;
 }
 
 .pa-gap-tags {
@@ -101,10 +108,11 @@
 
 .pa-gap-tag {
   font-size: 11px;
-  padding: 3px 8px;
+  font-weight: 700;
+  padding: 3px 9px;
   border-radius: 6px;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(248, 113, 113, 0.3);
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.35);
   color: #fca5a5;
 }
 
@@ -193,7 +201,7 @@
 }
 
 .pa-card {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.82);
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-left: 3px solid #38bdf8;
   border-radius: 12px;
@@ -275,6 +283,16 @@
   color: #fbbf24;
 }
 
+.pa-element-chip {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
 .pa-owned-pill {
   font-size: 10px;
   font-weight: 700;
@@ -289,22 +307,22 @@
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .pa-tier-pill {
   font-size: 11px;
   font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 5px;
-  background: rgba(30, 41, 59, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  color: #cbd5e1;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .pa-tier-pill strong {
-  color: #f8fafc;
-  margin-left: 3px;
+  font-weight: 900;
 }
 
 .pa-score-box {
@@ -393,15 +411,56 @@
   border-radius: 999px;
 }
 
-/* Reasons List */
-.pa-reasons {
-  margin: 0;
-  padding-left: 16px;
+/* Semantic Color-Coded Reason Chips */
+.pa-reason-tags {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 12.5px;
-  color: #cbd5e1;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pa-reason-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 7px;
+  border: 1px solid;
+  line-height: 1.3;
+}
+
+.pa-reason-tag.tone-team {
+  background: rgba(74, 222, 128, 0.12);
+  border-color: rgba(74, 222, 128, 0.35);
+  color: #86efac;
+}
+
+.pa-reason-tag.tone-dps {
+  background: rgba(251, 191, 36, 0.13);
+  border-color: rgba(251, 191, 36, 0.42);
+  color: #fde047;
+}
+
+.pa-reason-tag.tone-synergy {
+  background: rgba(192, 132, 252, 0.13);
+  border-color: rgba(192, 132, 252, 0.38);
+  color: #d8b4fe;
+}
+
+.pa-reason-tag.tone-meta {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+}
+
+.pa-reason-tag.tone-endgame {
+  background: rgba(251, 146, 60, 0.13);
+  border-color: rgba(251, 146, 60, 0.38);
+  color: #fdba74;
+}
+
+.pa-reason-tag.tone-element {
+  background: rgba(45, 212, 191, 0.12);
+  border-color: rgba(45, 212, 191, 0.35);
+  color: #5eead4;
 }
 
 /* Unlocked Teams Drawer */
@@ -457,8 +516,29 @@
 }
 
 .pa-unlock-meta {
-  font-size: 11px;
-  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.pa-unlock-arch-pill {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.pa-unlock-source-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(168, 85, 247, 0.15);
+  color: #d8b4fe;
+  border: 1px solid rgba(192, 132, 252, 0.3);
 }
 
 .pa-unlock-avatars {

@@ -176,8 +176,19 @@ def compute_pull_recommendations(
     chars_by_slug = {c.slug: c for c in characters}
     owned_set = {s for s in owned_slugs if s in chars_by_slug}
 
+    def _is_strong_main_dps(slug: str) -> bool:
+        gen = general_tiers.get(slug)
+        caps = get_capabilities(slug)
+        is_dps = ("on_field_dps" in caps) or (gen is not None and gen.dominant_role == "main_dps")
+        if not is_dps:
+            return False
+        if gen is None:
+            return False
+        return gen.consensus_tier in ("S+", "S", "A") or gen.avg_score >= 0.55
+
     # --- 1. Diagnóstico da Conta (Account Summary) ---
     element_counts: dict[str, int] = {el: 0 for el in ALL_ELEMENTS}
+    strong_dps_elements: set[str] = set()
     owned_caps: Counter[str] = Counter()
     has_furina = "furina" in owned_set
     owned_furina_healers = owned_set.intersection(FURINA_HEALERS)
@@ -186,8 +197,13 @@ def compute_pull_recommendations(
         c = chars_by_slug[slug]
         if not _is_traveler(slug) and c.element in element_counts:
             element_counts[c.element] += 1
+        if c.element in element_counts and _is_strong_main_dps(slug):
+            strong_dps_elements.add(c.element)
         for cap in get_capabilities(slug):
             owned_caps[cap] += 1
+
+    # Elementos sem nenhum Main DPS forte (tier A/S/S+) na conta
+    missing_dps_elements = [el for el in ALL_ELEMENTS if el not in strong_dps_elements]
 
     # Elementos fracos: menos de 3 personagens ou os menores quando a conta já tem >= 10 chars
     min_el_count = min(element_counts.values()) if element_counts else 0
@@ -318,7 +334,15 @@ def compute_pull_recommendations(
             gap_points += 18.0
             reasons.append("Cobre falta de escudeiro na conta")
 
-        # Cobertura elemental (forte no modo Teatro Imaginário)
+        # Cobertura de Main DPS forte por elemento (ex.: conta sem DPS Geo/Electro/etc.)
+        if char.element in missing_dps_elements and _is_strong_main_dps(slug):
+            dps_el_bonus = 34.0 if goal == "imaginarium" else 26.0
+            gap_points += dps_el_bonus
+            reasons.append(
+                f"Cobre falta de Main DPS forte de {char.element.capitalize()}"
+            )
+
+        # Cobertura elemental geral (forte no modo Teatro Imaginário)
         el_cnt = element_counts.get(char.element, 0)
         if char.element in weak_elements:
             el_bonus = 28.0 if goal == "imaginarium" else 14.0
@@ -458,6 +482,7 @@ def compute_pull_recommendations(
             "total_templates": len(templates),
             "element_counts": element_counts,
             "weak_elements": weak_elements,
+            "missing_dps_elements": missing_dps_elements,
             "missing_capabilities": [CAPABILITY_LABELS_PT.get(m, m) for m in missing_caps],
         },
         "target_evaluation": target_eval,
