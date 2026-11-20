@@ -113,18 +113,33 @@ export default function TeamBuilderPage() {
       .catch((e) => setError(String(e)))
   }, [lang])
 
-  // Carregar template via ?template_id
+  // Carregar template via ?template_id (slots + presets de build)
   useEffect(() => {
     if (!templateIdParam) return
     const tid = parseInt(templateIdParam)
     if (isNaN(tid)) return
     api.getTemplate(tid)
-      .then((t) => {
+      .then(async (t) => {
         const initial = [...t.character_slugs, null, null, null, null].slice(0, 4) as (string | null)[]
         setSlots(initial)
         if (t.name) setName(t.name)
         if (t.description) setDescription(t.description)
         setTemplateInfo({ id: t.id, name: t.name, source: t.source, source_url: t.source_url })
+
+        const presetResults = await Promise.all(
+          t.character_slugs.map((slug, i) =>
+            api.listPresets(slug)
+              .then((list) => ({ pos: i + 1, build: list[0]?.build_data ?? null }))
+              .catch(() => ({ pos: i + 1, build: null }))
+          )
+        )
+        const preloaded: Record<number, CharacterBuild> = {}
+        presetResults.forEach((r) => {
+          if (r.build) preloaded[r.pos] = r.build
+        })
+        if (Object.keys(preloaded).length > 0) {
+          setBuilds(preloaded)
+        }
       })
       .catch((e) => setError(String(e)))
   }, [templateIdParam])
@@ -214,6 +229,7 @@ export default function TeamBuilderPage() {
         description: description.trim() || undefined,
         author_name: author.trim() || undefined,
         character_slugs: slots.filter(Boolean) as string[],
+        template_id: templateInfo?.id,
       }, lang)
 
       if (Object.keys(builds).length > 0) {
@@ -224,7 +240,7 @@ export default function TeamBuilderPage() {
         }
       }
 
-      navigate('/teams')
+      navigate(`/teams/${team.id}`)
     } catch (e) {
       setError(String(e))
       setSaving(false)

@@ -186,6 +186,7 @@ export interface TeamCreate {
   description?: string
   author_name?: string
   character_slugs: string[]
+  template_id?: number
 }
 
 // === Weapons ===
@@ -296,7 +297,12 @@ export interface ArtifactSetListResponse {
   items: ArtifactSetSummary[]
 }
 
-// === Team Templates (KQM) ===
+// === Team Templates (Multi-Source) ===
+export interface TeamTemplateSource {
+  source: string
+  url: string | null
+}
+
 export interface TeamTemplateSummary {
   id: number
   name: string
@@ -306,6 +312,7 @@ export interface TeamTemplateSummary {
   character_slugs: string[]
   source: string | null
   source_url: string | null
+  sources?: TeamTemplateSource[]
 }
 
 export interface TeamTemplateDetail extends TeamTemplateSummary {
@@ -313,6 +320,7 @@ export interface TeamTemplateDetail extends TeamTemplateSummary {
   weapon_slug: string | null
   notes: string | null
   analysis: TeamAnalysisResponse | null
+  slot_substitutes?: Record<string, Substitute[]>
 }
 
 export interface TeamTemplateListResponse {

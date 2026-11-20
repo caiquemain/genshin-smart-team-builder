@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { X, ArrowRight, CheckCircle2, UserX } from 'lucide-react'
+import { X, ArrowRight, CheckCircle2, UserX, RefreshCw } from 'lucide-react'
 import { api } from '../api/client'
-import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
 import { useRoster } from '../utils/roster'
@@ -15,7 +14,6 @@ interface Props {
 }
 
 export default function TeamTemplateModal({ templateId, chars, onClose }: Props) {
-  const { lang } = useLanguage()
   const roster = useRoster()
   const [template, setTemplate] = useState<TeamTemplateDetail | null>(null)
   const [presets, setPresets] = useState<Map<string, BuildPreset[]>>(new Map())
@@ -60,6 +58,12 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
   const ownedCount = ownedStatus.filter((s) => s.owned).length
   const missing = ownedStatus.filter((s) => !s.owned)
 
+  const sourcesList = template?.sources && template.sources.length > 0
+    ? template.sources
+    : template?.source
+      ? [{ source: template.source, url: template.source_url }]
+      : []
+
   return (
     <div className="template-modal-overlay" onClick={onClose}>
       <div className="template-modal" onClick={(e) => e.stopPropagation()}>
@@ -78,9 +82,19 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
               </div>
               <h2>{template.name}</h2>
               {template.description && <p className="template-modal-desc">{template.description}</p>}
-              <div className="template-modal-source">
-                Fonte: <a href={template.source_url || '#'} target="_blank" rel="noopener noreferrer">{template.source} ↗</a>
-              </div>
+              {sourcesList.length > 0 && (
+                <div className="template-modal-source">
+                  {sourcesList.length > 1 ? 'Fontes: ' : 'Fonte: '}
+                  {sourcesList.map((s, i) => (
+                    <span key={`${s.source}-${i}`}>
+                      {i > 0 && ' · '}
+                      <a href={s.url || '#'} target="_blank" rel="noopener noreferrer">
+                        {s.source} ↗
+                      </a>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Status de posse */}
@@ -99,12 +113,14 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
 
             {/* Cards dos membros */}
             <div className="template-modal-members">
-              {template.character_slugs.map((slug) => {
+              {template.character_slugs.map((slug, idx) => {
+                const pos = idx + 1
                 const c = chars.get(slug)
                 const isMain = slug === template.main_character
                 const owned = roster.get(slug)
                 const presetList = presets.get(slug) ?? []
                 const preset = presetList[0]
+                const slotSubs = template.slot_substitutes?.[String(pos)] ?? []
 
                 return (
                   <div key={slug} className={`template-modal-member ${owned.owned ? '' : 'is-missing'}`}>
@@ -143,6 +159,36 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
                       </div>
                     ) : (
                       <div className="template-modal-member-empty">Sem build configurada</div>
+                    )}
+
+                    {slotSubs.length > 0 && (
+                      <div className="template-modal-subs">
+                        <div className="template-modal-subs-title">
+                          <RefreshCw size={12} /> Substituições ({slotSubs.length})
+                        </div>
+                        <div className="template-modal-subs-list">
+                          {slotSubs.slice(0, 5).map((sub, si) => {
+                            const subSlug = sub.character_slug || ''
+                            const subChar = chars.get(subSlug)
+                            const subOwned = subSlug ? roster.get(subSlug).owned : false
+                            const subImg = subChar ? iconUrl(subChar.icon) : null
+                            return (
+                              <div
+                                key={`${subSlug}-${si}`}
+                                className={`template-sub-chip ${subOwned ? 'is-owned' : ''}`}
+                                title={[sub.build_label, sub.notes].filter(Boolean).join(' — ')}
+                              >
+                                {subImg && <img src={subImg} alt={subChar?.name ?? subSlug} />}
+                                <span className="template-sub-name">{subChar?.name ?? subSlug}</span>
+                                {sub.build_label && (
+                                  <span className="template-sub-role">{sub.build_label}</span>
+                                )}
+                                {subOwned && <CheckCircle2 size={11} className="template-sub-owned-icon" />}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
                     )}
                   </div>
                 )

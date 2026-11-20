@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText, Download, ImageDown } from 'lucide-react'
+import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText, ImageDown, Users } from 'lucide-react'
 import { toPng } from 'html-to-image'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl, artifactIconUrl } from '../config'
 import { formatStatLabel } from '../utils/stats'
 import SubstitutePickerModal from '../components/SubstitutePickerModal'
+import TeamSlotSubstitutesModal from '../components/TeamSlotSubstitutesModal'
 import CharacterPickerModal from '../components/CharacterPickerModal'
 import CharacterBuildEditor from '../components/CharacterBuildEditor'
 import WeaponTooltip from '../components/WeaponTooltip'
@@ -15,8 +16,26 @@ import ArtifactTooltip from '../components/ArtifactTooltip'
 import { KQMExportCard } from '../components/KQMExportCard'
 import type {
   TeamDetail, TeamAnalysisResponse, CharacterSummary,
-  WeaponSummary, ArtifactSetSummary, TeamMemberWithBuild
+  WeaponSummary, ArtifactSetSummary, TeamMemberWithBuild, CharacterBuild
 } from '../types'
+
+function hasBuildContent(b: CharacterBuild | null): boolean {
+  if (!b) return false
+  return (
+    b.weapons.length > 0 ||
+    b.artifacts_4pc.length > 0 ||
+    b.artifacts_2pc.length > 0 ||
+    b.sands_stat.length > 0 ||
+    b.goblet_stat.length > 0 ||
+    b.circlet_stat.length > 0 ||
+    b.substat_priority.length > 0 ||
+    b.combos.length > 0 ||
+    b.references.length > 0 ||
+    Boolean(b.er_requirement) ||
+    Boolean(b.talent_priority) ||
+    Boolean(b.notes)
+  )
+}
 
 export default function TeamDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -31,6 +50,7 @@ export default function TeamDetailPage() {
   const [replacingMember, setReplacingMember] = useState<number | null>(null)
   const [showFallbackPicker, setShowFallbackPicker] = useState(false)
   const [editingBuild, setEditingBuild] = useState<TeamMemberWithBuild | null>(null)
+  const [editingSubsMember, setEditingSubsMember] = useState<TeamMemberWithBuild | null>(null)
   
   const [exportingMember, setExportingMember] = useState<TeamMemberWithBuild | null>(null)
   const [talentIcons, setTalentIcons] = useState<{ normal?: string; skill?: string; burst?: string }>({})
@@ -81,7 +101,7 @@ export default function TeamDetailPage() {
         const t = await api.getTeam(Number(id), lang)
         setTeam(t)
 
-        const c = await api.listCharacters(lang, { limit: 100 })
+        const c = await api.listCharacters(lang, { limit: 200 })
         setChars(new Map(c.items.map((x) => [x.slug, x])))
 
         await fetchAssets(t)
@@ -224,9 +244,10 @@ export default function TeamDetailPage() {
             weapons={weapons}
             artifacts={artifacts}
             chars={chars}
-            isMainDps={member.position === 1 || member.character.slug === 'skirk'}
+            isMainDps={member.position === 1}
             onReplaceClick={() => { setReplacingMember(member.position); setShowFallbackPicker(false) }}
             onEditBuild={() => setEditingBuild(member)}
+            onEditSubs={() => setEditingSubsMember(member)}
           />
         ))}
       </div>
@@ -299,12 +320,24 @@ export default function TeamDetailPage() {
           }}
         />
       )}
+
+      {editingSubsMember && (
+        <TeamSlotSubstitutesModal
+          team={team}
+          member={editingSubsMember}
+          onClose={() => setEditingSubsMember(null)}
+          onSave={(updated) => {
+            setTeam(updated)
+            setEditingSubsMember(null)
+          }}
+        />
+      )}
     </div>
   )
 }
 
 function MemberBuildCard({
-  member, weapons, artifacts, chars, isMainDps, onReplaceClick, onEditBuild
+  member, weapons, artifacts, chars, isMainDps, onReplaceClick, onEditBuild, onEditSubs
 }: {
   member: TeamMemberWithBuild
   weapons: Map<string, WeaponSummary>
@@ -313,9 +346,10 @@ function MemberBuildCard({
   isMainDps: boolean
   onReplaceClick: () => void
   onEditBuild: () => void
+  onEditSubs: () => void
 }) {
   const c = member.character
-  const b = member.build
+  const b = hasBuildContent(member.build) ? member.build : null
   const img = iconUrl(c.icon)
 
   return (
@@ -336,9 +370,14 @@ function MemberBuildCard({
             <Settings size={16} /> Build
           </button>
           {!isMainDps && (
-            <button className="btn-secondary" onClick={onReplaceClick} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <RefreshCw size={16} /> Substituir
-            </button>
+            <>
+              <button className="btn-secondary" onClick={onReplaceClick} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <RefreshCw size={16} /> Substituir
+              </button>
+              <button className="btn-secondary" onClick={onEditSubs} title="Editar lista de substitutos" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Users size={16} /> {member.substitutes?.length ? `Subs (${member.substitutes.length})` : 'Subs'}
+              </button>
+            </>
           )}
           <Link to={`/characters/${c.slug}`} className="btn-secondary">
             Perfil
