@@ -76,6 +76,10 @@ WEAPON_ALIASES = {
     "lost-prayer-to-sacred-winds": "lost-prayer-to-the-sacred-winds",
     "a-thousand-floating-dream": "a-thousand-floating-dreams",
     "gest-of-the-might-wolf": "gest-of-the-mighty-wolf",
+    "tome-of-eternal-flow": "tome-of-the-eternal-flow",
+    "fleuve-cendre-ferrymen": "fleuve-cendre-ferryman",
+    "wave-break-er-s-fin": "wavebreaker-s-fin",
+    "ul-ti-mate-o-ver-lord-s-me-ga-ma-gic-sword": "ultimate-overlord-s-mega-magic-sword",
 }
 
 # Aliases especificos de sets (slug -> slug no DB)
@@ -147,7 +151,7 @@ def _canon_name(s: str) -> str:
     """Normaliza apostrofos tipograficos (U+2018/2019) para ASCII + lowercase."""
     if not s:
         return ""
-    return s.replace("\u2019", "'").replace("\u2018", "'").lower()
+    return s.replace("\u00ad", "").replace("\u2019", "'").replace("\u2018", "'").lower()
 
 
 def _name_filter(column, target: str):
@@ -159,14 +163,23 @@ def _name_filter(column, target: str):
 
 
 def resolve_weapon(db, slug, name):
-    w = db.query(Weapon).filter(Weapon.slug == slug).first()
-    if w: return w
-    aliased = WEAPON_ALIASES.get(slug)
-    if aliased:
-        w = db.query(Weapon).filter(Weapon.slug == aliased).first()
-        if w: return w
-    if not name: return None
-    return db.query(Weapon).filter(_name_filter(Weapon.name, _canon_name(name))).first()
+    candidates = [slug]
+    stripped = re.sub(r'-r[1-5]$', '', slug)
+    if stripped != slug:
+        candidates.append(stripped)
+    for cand in candidates:
+        w = db.query(Weapon).filter(Weapon.slug == cand).first()
+        if w:
+            return w
+        aliased = WEAPON_ALIASES.get(cand)
+        if aliased:
+            w = db.query(Weapon).filter(Weapon.slug == aliased).first()
+            if w:
+                return w
+    if not name:
+        return None
+    clean_n = re.sub(r'\s+r[1-5]$', '', _canon_name(name)).strip()
+    return db.query(Weapon).filter(_name_filter(Weapon.name, clean_n)).first()
 
 
 def resolve_artifact(db, slug, name):
@@ -404,6 +417,16 @@ def import_build(db, data, warnings):
         CharacterBuildPreset.character_id == char.id,
         CharacterBuildPreset.name == build["name"],
     ).first()
+    if not existing:
+        existing = next(
+            (
+                obj for obj in getattr(db, "new", ())
+                if isinstance(obj, CharacterBuildPreset)
+                and obj.character_id == char.id
+                and obj.name == build["name"]
+            ),
+            None,
+        )
     if existing:
         existing.build_data = bd
     else:
@@ -437,6 +460,20 @@ def source_priority(source_name: str | None) -> int:
     return 5  # Outras fontes editoriais continuam acima do YS Helper
 
 
+def _load_template_caches(db) -> tuple[dict[tuple[str, ...], TeamTemplate], set[str]]:
+    """Carrega templates do banco + objetos pendentes na sessão (autoflush=False)."""
+    all_templates = list(db.query(TeamTemplate).all()) + [
+        obj for obj in getattr(db, "new", ()) if isinstance(obj, TeamTemplate)
+    ]
+    by_canonical: dict[tuple[str, ...], TeamTemplate] = {}
+    names: set[str] = set()
+    for et in all_templates:
+        by_canonical[tuple(sorted(et.character_slugs or []))] = et
+        if et.name:
+            names.add(et.name)
+    return by_canonical, names
+
+
 def import_teams(
     db,
     teams,
@@ -444,14 +481,18 @@ def import_teams(
     warnings,
     source_name: str = "KQM",
     teammate_notes: dict[str, dict[str, str]] | None = None,
+    existing_by_canonical: dict[tuple[str, ...], TeamTemplate] | None = None,
+    existing_names: set[str] | None = None,
 ):
     from app.services.substitutes import compute_slot_substitutes_for_slugs
 
     imported = 0
-    existing_by_canonical: dict[tuple[str, ...], TeamTemplate] = {
-        tuple(sorted(et.character_slugs or [])): et
-        for et in db.query(TeamTemplate).all()
-    }
+    if existing_by_canonical is None or existing_names is None:
+        loaded_canon, loaded_names = _load_template_caches(db)
+        if existing_by_canonical is None:
+            existing_by_canonical = loaded_canon
+        if existing_names is None:
+            existing_names = loaded_names
     incoming_prio = source_priority(source_name)
 
     for t in teams:
@@ -494,13 +535,10 @@ def import_teams(
                 if t.get("description"):
                     dup.description = t["description"]
                 new_name = (t.get("raw_line") or "")[:150]
-                if new_name and new_name != dup.name:
-                    clash = db.query(TeamTemplate).filter(
-                        TeamTemplate.name == new_name,
-                        TeamTemplate.id != dup.id,
-                    ).first()
-                    if not clash:
-                        dup.name = new_name
+                if new_name and new_name != dup.name and new_name not in existing_names:
+                    existing_names.discard(dup.name)
+                    dup.name = new_name
+                    existing_names.add(new_name)
                 dup.slot_substitutes = _merge_slot_substitutes(slot_subs_json, dup.slot_substitutes)
             else:
                 dup.slot_substitutes = _merge_slot_substitutes(dup.slot_substitutes, slot_subs_json)
@@ -509,7 +547,7 @@ def import_teams(
             continue
 
         name = t["raw_line"][:150]
-        if db.query(TeamTemplate).filter(TeamTemplate.name == name).first():
+        if name in existing_names:
             continue
 
         archetype = detect_archetype(valid)
@@ -526,6 +564,7 @@ def import_teams(
         )
         db.add(tpl)
         existing_by_canonical[canonical] = tpl
+        existing_names.add(name)
         imported += 1
     return imported
 
@@ -549,6 +588,7 @@ def import_directory(db, input_dir: Path, create_team: bool, warnings: list[str]
         except Exception as e:
             warnings.append(f"[{f.name}] {e}")
 
+    existing_by_canonical, existing_names = _load_template_caches(db)
     teams_by_slug: dict[str, list[dict]] = {}
     for f in sorted(input_dir.glob("*-teams.json")):
         slug = f.stem.replace("-teams", "")
@@ -563,6 +603,8 @@ def import_directory(db, input_dir: Path, create_team: bool, warnings: list[str]
                 warnings,
                 source_name=source_name,
                 teammate_notes=notes_by_slug.get(slug),
+                existing_by_canonical=existing_by_canonical,
+                existing_names=existing_names,
             )
         except Exception as e:
             warnings.append(f"[{f.name}] {e}")

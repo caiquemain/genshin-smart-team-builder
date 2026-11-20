@@ -35,17 +35,22 @@ def strip_parentheses(s: str) -> str:
 
 
 def clean_weapon_name(name: str) -> str:
-    return re.sub(r'^\d+★\s*', '', name).strip()
+    name = name.replace("\u00ad", "")
+    name = re.sub(r'^\d+★\s*', '', name)
+    name = re.sub(r'\s+R[1-5]\b$', '', name)
+    return name.strip()
 
 
 def clean_char_name(name: str) -> str:
     """Remove prefixos como 'C6 ', 'C0 ', etc. e sufixos de slash."""
+    name = name.replace("\u00ad", "")
     name = re.sub(r'^C\d+\s+', '', name)
     name = name.split('/')[0].strip()
     return name
 
 
 def to_slug(name: str) -> str:
+    name = name.replace("\u00ad", "")
     name = clean_weapon_name(name)
     name = clean_char_name(name)
     name = strip_parentheses(name).lower().strip()

@@ -253,3 +253,70 @@ def test_import_kqm_normalizes_short_kqm_filenames():
     res3 = resolve_character(_FakeDB(), "dendro-traveler")
     assert res3 == {"slug": "traveler-dendro"}
 
+
+def test_soft_hyphen_and_refinement_suffix_cleaned_in_weapon_slugs():
+    assert to_slug("Wave\u00adbreak\u00ader's Fin") == "wavebreaker-s-fin"
+    assert to_slug("Ul\u00adti\u00admate O\u00adver\u00adlord's Me\u00adga Ma\u00adgic Sword") == "ultimate-overlord-s-mega-magic-sword"
+    assert to_slug("Kitain Cross Spear R5") == "kitain-cross-spear"
+    assert clean_weapon_name("4★ White Tassel R5") == "White Tassel"
+
+
+def test_import_teams_deduplicates_pending_objects_when_autoflush_disabled():
+    from app.models import Character, TeamTemplate
+    from app.scripts.import_kqm import import_teams
+
+    # Simula uma sessão com autoflush=False: query().all() não enxerga db.new
+    chars = {
+        slug: Character(id=i + 1, slug=slug, name=slug.title(), element="Dendro", weapon_type="Sword", rarity=5)
+        for i, slug in enumerate(["alhaitham", "fischl", "furina", "baizhu"])
+    }
+
+    class _FakeQuery:
+        def __init__(self, model):
+            self.model = model
+            self._slug = None
+
+        def filter(self, criterion):
+            if hasattr(criterion, "right") and hasattr(criterion.right, "value"):
+                self._slug = criterion.right.value
+            return self
+
+        def first(self):
+            if self.model is Character:
+                return chars.get(self._slug)
+            return None
+
+        def all(self):
+            if self.model is Character:
+                return list(chars.values())
+            return []
+
+    class _FakeDB:
+        def __init__(self):
+            self.new = []
+
+        def query(self, model):
+            return _FakeQuery(model)
+
+        def add(self, obj):
+            self.new.append(obj)
+
+    db = _FakeDB()
+    warnings: list[str] = []
+    team_entry = [{
+        "character_slugs": ["alhaitham", "fischl", "furina", "baizhu"],
+        "main_character": "alhaitham",
+        "raw_line": "Alhaitham — Fischl — Furina — Baizhu",
+        "slot_alternatives": {},
+    }]
+
+    added_first = import_teams(db, team_entry, "https://keqingmains.com/alhaitham/", warnings)
+    added_second = import_teams(db, team_entry, "https://keqingmains.com/baizhu/", warnings)
+
+    assert added_first == 1
+    assert added_second == 0
+    templates = [o for o in db.new if isinstance(o, TeamTemplate)]
+    assert len(templates) == 1
+    assert templates[0].name == "Alhaitham — Fischl — Furina — Baizhu"
+
+
