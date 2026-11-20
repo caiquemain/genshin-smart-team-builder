@@ -29,6 +29,7 @@ CHARACTER_SLUG_ALIASES: dict[str, str] = {
     "yunjin": "yun-jin",
     "lanyan": "lan-yan",
     "yae": "yae-miko",
+    "ambor": "amber",
 }
 
 _TRAVELER_PREFIX_RE = re.compile(

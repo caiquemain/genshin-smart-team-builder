@@ -59,7 +59,7 @@ Exit code:
 ### Adicionar/atualizar guias (Multi-fonte)
 
 Pastas em `backend/data/sources/guides/`: `kqm/`, `game8/`, `genshingg/`, `gamewith/`, `helper_sheet/`.
-Tierlists em `backend/data/sources/tierlists/`: `genshin-gg/`, `genshinlab/`, `game8/`, `mobalytics/`, `gamewith/`, `prydwen/`, `icy-veins/`, `yshelper/`.
+Tierlists em `backend/data/sources/tierlists/`: `genshin-gg/`, `genshinlab/`, `game8/`, `mobalytics/`, `gamewith/`, `prydwen/`, `icy-veins/`, `yshelper-abyss/`, `yshelper-stygian/`.
 
 1. Salvar o `.txt` na pasta da fonte (ex.: `backend/data/sources/guides/kqm/{slug}.txt`)
 2. Rodar:

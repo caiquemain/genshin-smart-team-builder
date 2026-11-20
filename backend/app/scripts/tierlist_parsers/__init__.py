@@ -4,6 +4,12 @@ from typing import Callable, Optional
 
 from .common import dedupe_best_tier, normalize_character_slug, parse_canonical_csv
 from .icy_veins import ICY_VEINS_SCALE, parse_icy_veins
+from .yshelper import (
+    YSHELPER_SCALE,
+    parse_yshelper_abyss,
+    parse_yshelper_html,
+    parse_yshelper_stygian,
+)
 
 
 @dataclass(frozen=True)
@@ -14,6 +20,7 @@ class TierlistSiteConfig:
     scale: tuple[str, ...]
     master_map: dict[str, str]
     txt_parser: Optional[Callable[[str, Optional[str]], dict]] = None
+    html_parser: Optional[Callable[[str, Optional[str]], dict]] = None
 
 
 TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
@@ -77,6 +84,22 @@ TIERLIST_SITES: dict[str, TierlistSiteConfig] = {
         master_map={"S+": "S+", "S": "S", "A": "A", "B": "B", "C": "C", "D": "D"},
         txt_parser=parse_icy_veins,
     ),
+    "yshelper-abyss": TierlistSiteConfig(
+        slug="yshelper-abyss",
+        name="YS Abyss",
+        url="https://www.yshelper.com/",
+        scale=tuple(YSHELPER_SCALE),
+        master_map={"S+": "S+", "S": "S", "A": "A", "B": "B", "C": "C"},
+        html_parser=parse_yshelper_abyss,
+    ),
+    "yshelper-stygian": TierlistSiteConfig(
+        slug="yshelper-stygian",
+        name="YS Stygian",
+        url="https://www.yshelper.com/",
+        scale=tuple(YSHELPER_SCALE),
+        master_map={"S+": "S+", "S": "S", "A": "A", "B": "B", "C": "C"},
+        html_parser=parse_yshelper_stygian,
+    ),
 }
 
 
@@ -99,4 +122,7 @@ __all__ = [
     "normalize_character_slug",
     "parse_canonical_csv",
     "parse_icy_veins",
+    "parse_yshelper_abyss",
+    "parse_yshelper_html",
+    "parse_yshelper_stygian",
 ]

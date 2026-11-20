@@ -32,18 +32,24 @@ from app.scripts.tierlist_parsers import (
 _SEMVER_RE = re.compile(r"(\d+)(?:\.(\d+))?")
 
 
-def _version_sort_key(path: Path, prefer_txt: bool) -> tuple:
+def _version_sort_key(path: Path, cfg: TierlistSiteConfig) -> tuple:
     m = _SEMVER_RE.search(path.stem)
     major = int(m.group(1)) if m else -1
     minor = int(m.group(2)) if (m and m.group(2) is not None) else -1
-    ext_rank = 1 if (path.suffix.lower() == ".txt" and prefer_txt) else (
-        1 if (path.suffix.lower() == ".csv" and not prefer_txt) else 0
-    )
+    ext = path.suffix.lower()
+    if ext == ".html" and cfg.html_parser is not None:
+        ext_rank = 2
+    elif ext == ".txt" and cfg.txt_parser is not None:
+        ext_rank = 2
+    elif ext == ".csv":
+        ext_rank = 1
+    else:
+        ext_rank = 0
     return (major, minor, ext_rank, path.name)
 
 
 def pick_latest_source_file(site_dir: Path, cfg: TierlistSiteConfig, single_file: Optional[str] = None) -> Optional[Path]:
-    """Escolhe o arquivo mais recente (.txt se houver parser, ou .csv canônico)."""
+    """Escolhe o arquivo mais recente (.html/.txt se houver parser, ou .csv canônico)."""
     if not site_dir.exists():
         return None
     if single_file:
@@ -51,25 +57,32 @@ def pick_latest_source_file(site_dir: Path, cfg: TierlistSiteConfig, single_file
         return p if p.is_file() else None
 
     candidates: list[Path] = []
+    if cfg.html_parser is not None:
+        candidates.extend(site_dir.glob("*.html"))
     if cfg.txt_parser is not None:
         candidates.extend(site_dir.glob("*.txt"))
     candidates.extend(site_dir.glob("*.csv"))
     candidates = [p for p in candidates if p.is_file()]
     if not candidates:
         return None
-    candidates.sort(key=lambda p: _version_sort_key(p, prefer_txt=cfg.txt_parser is not None))
+    candidates.sort(key=lambda p: _version_sort_key(p, cfg))
     return candidates[-1]
 
 
 def parse_tierlist_file(path: Path, cfg: TierlistSiteConfig) -> dict:
     text = path.read_text(encoding="utf-8", errors="replace")
     version_hint = path.stem
-    if path.suffix.lower() == ".csv":
+    ext = path.suffix.lower()
+    if ext == ".csv":
         return parse_canonical_csv(text, cfg.slug, version_hint, list(cfg.scale))
-    if path.suffix.lower() == ".txt":
+    if ext == ".txt":
         if cfg.txt_parser is None:
             raise ValueError(f"Site '{cfg.slug}' ainda não tem parser de .txt implementado.")
         return cfg.txt_parser(text, version_hint)
+    if ext == ".html":
+        if cfg.html_parser is None:
+            raise ValueError(f"Site '{cfg.slug}' ainda não tem parser de .html implementado.")
+        return cfg.html_parser(text, version_hint)
     raise ValueError(f"Extensão não suportada: {path.suffix}")
 
 

@@ -1,4 +1,5 @@
-"""Testes unitários e de regressão para o pipeline de tierlists (Icy Veins + CSVs)."""
+"""Testes unitários e de regressão para o pipeline de tierlists (Icy Veins, YS Helper + CSVs)."""
+from collections import Counter
 from pathlib import Path
 import pytest
 
@@ -10,6 +11,8 @@ from app.scripts.tierlist_parsers import (
     normalize_character_slug,
     parse_canonical_csv,
     parse_icy_veins,
+    parse_yshelper_abyss,
+    parse_yshelper_stygian,
 )
 
 TIERLISTS_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "tierlists"
@@ -24,6 +27,7 @@ class TestTierlistHelpers:
         assert normalize_character_slug("Kaedehara Kazuha") == "kaedehara-kazuha"
         assert normalize_character_slug("Kazuha") == "kaedehara-kazuha"
         assert normalize_character_slug("Childe") == "tartaglia"
+        assert normalize_character_slug("Ambor") == "amber"
 
     def test_dedupe_best_tier_picks_highest_tier_and_deterministic_role_tiebreak(self):
         raw = [
@@ -51,16 +55,25 @@ class TestTierlistHelpers:
         # Mobalytics: 9-level S..F
         assert compute_tier_metrics(TIERLIST_SITES["mobalytics"], "S") == (0, 1.0, "S+")
         assert compute_tier_metrics(TIERLIST_SITES["mobalytics"], "F") == (8, 0.0, "D")
+        # YS Helper: 5-level S+..C
+        assert compute_tier_metrics(TIERLIST_SITES["yshelper-abyss"], "S+") == (0, 1.0, "S+")
+        assert compute_tier_metrics(TIERLIST_SITES["yshelper-abyss"], "A") == (2, 0.5, "A")
+        assert compute_tier_metrics(TIERLIST_SITES["yshelper-stygian"], "C") == (4, 0.0, "C")
 
         with pytest.raises(ValueError):
             compute_tier_metrics(TIERLIST_SITES["icy-veins"], "INVALID")
 
-    def test_pick_latest_source_file_prefers_newer_version_and_txt(self, tmp_path):
+    def test_pick_latest_source_file_prefers_newer_version_and_raw_parser(self, tmp_path):
         (tmp_path / "7.1.csv").write_text("character_slug,role,tier_label\n", encoding="utf-8")
         (tmp_path / "7.2.txt").write_text("Main DPS\tSub DPS\tSupport\n", encoding="utf-8")
         picked = pick_latest_source_file(tmp_path, TIERLIST_SITES["icy-veins"])
         assert picked is not None
         assert picked.name == "7.2.txt"
+
+        (tmp_path / "7.2.html").write_text("<html></html>", encoding="utf-8")
+        picked_html = pick_latest_source_file(tmp_path, TIERLIST_SITES["yshelper-abyss"])
+        assert picked_html is not None
+        assert picked_html.name == "7.2.html"
 
 
 def test_real_icy_veins_7_2_regression():
@@ -76,7 +89,6 @@ def test_real_icy_veins_7_2_regression():
     # 140 raw entries - 10 multi-role duplicates = 130 unique characters
     assert len(by_slug) == 130
 
-    # Verifica roles e best-tier dedupe em personagens conhecidos
     assert by_slug["skirk"] == {"character_slug": "skirk", "role": "main_dps", "tier_label": "S+"}
     assert by_slug["escoffier"] == {"character_slug": "escoffier", "role": "sub_dps", "tier_label": "S+"}
     assert by_slug["furina"] == {"character_slug": "furina", "role": "sub_dps", "tier_label": "S+"}
@@ -92,6 +104,47 @@ def test_real_icy_veins_7_2_regression():
     assert by_slug["dahlia"] == {"character_slug": "dahlia", "role": "support", "tier_label": "D"}
 
 
+def test_real_yshelper_abyss_7_2_regression():
+    path = TIERLISTS_DIR / "yshelper-abyss" / "7.2.html"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_yshelper_abyss(path.read_text(encoding="utf-8", errors="replace"), version_hint="7.2")
+
+    assert res["site_slug"] == "yshelper-abyss"
+    assert res["version"] == "7.2"
+    assert len(res["entries"]) == 123
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"S+": 5, "S": 8, "A": 13, "B": 27, "C": 70}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["zibai"]["tier_label"] == "S+"
+    assert by_slug["zibai"]["use_rate"] == pytest.approx(84.6)
+    assert by_slug["furina"]["tier_label"] == "A"
+    assert by_slug["furina"]["use_rate"] == pytest.approx(22.6)
+    assert by_slug["amber"]["tier_label"] == "C"  # alias Ambor -> amber
+
+
+def test_real_yshelper_stygian_7_2_regression():
+    path = TIERLISTS_DIR / "yshelper-stygian" / "7.2.html"
+    assert path.is_file(), f"Arquivo não encontrado: {path}"
+    res = parse_yshelper_stygian(path.read_text(encoding="utf-8", errors="replace"), version_hint="7.2")
+
+    assert res["site_slug"] == "yshelper-stygian"
+    assert res["version"] == "7.2"
+    assert len(res["entries"]) == 123
+
+    counts = Counter(e["tier_label"] for e in res["entries"])
+    assert dict(counts) == {"S+": 9, "S": 9, "A": 10, "B": 24, "C": 71}
+
+    by_slug = {e["character_slug"]: e for e in res["entries"]}
+    assert by_slug["odette"]["tier_label"] == "S+"
+    assert by_slug["odette"]["use_rate"] == pytest.approx(91.1)
+    assert by_slug["furina"]["tier_label"] == "S+"
+    assert by_slug["furina"]["use_rate"] == pytest.approx(90.5)
+    assert by_slug["escoffier"]["tier_label"] == "S"
+    assert by_slug["amber"]["tier_label"] == "C"
+
+
 def test_all_five_existing_7_1_csvs_parse_cleanly():
     for slug in ("genshin-gg", "genshinlab", "game8", "mobalytics", "gamewith"):
         path = TIERLISTS_DIR / slug / "7.1.csv"
@@ -99,7 +152,6 @@ def test_all_five_existing_7_1_csvs_parse_cleanly():
         cfg = TIERLIST_SITES[slug]
         res = parse_canonical_csv(path.read_text(encoding="utf-8"), slug, "7.1", list(cfg.scale))
         assert len(res["entries"]) >= 120
-        # Verifica que todos os labels são válidos na escala do site
         for e in res["entries"]:
             idx, norm, master = compute_tier_metrics(cfg, e["tier_label"])
             assert 0.0 <= norm <= 1.0
