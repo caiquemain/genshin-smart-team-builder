@@ -8,7 +8,7 @@ from app.scripts.parsers.gamewith import (
 )
 
 
-GAMEWITH_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "gamewith"
+GAMEWITH_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "guides" / "gamewith"
 
 
 class TestGameWithHelpers:

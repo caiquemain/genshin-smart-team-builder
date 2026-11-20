@@ -130,7 +130,7 @@ def main():
     ap.add_argument("--source", type=str, choices=list(SOURCES.keys()), help="Fonte específica (ex.: kqm)")
     ap.add_argument("--all", action="store_true", help="Processa todas as fontes configuradas")
     ap.add_argument("--file", type=str, help="Arquivo específico dentro da fonte (ex.: skirk.txt)")
-    ap.add_argument("--sources-dir", type=Path, default=Path("data/sources"))
+    ap.add_argument("--sources-dir", type=Path, default=Path("data/sources/guides"))
     ap.add_argument("--output-dir", type=Path, default=Path("data/parsed"))
     args = ap.parse_args()
 

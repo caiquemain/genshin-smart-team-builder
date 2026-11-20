@@ -13,7 +13,7 @@ from app.scripts.parsers.game8 import (
 )
 
 
-GAME8_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "game8"
+GAME8_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "guides" / "game8"
 
 
 class TestGame8Helpers:

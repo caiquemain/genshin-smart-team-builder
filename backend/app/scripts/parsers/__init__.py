@@ -1,6 +1,6 @@
 """Registro de parsers por fonte (multi-source guide pipeline).
 
-Cada parser converte um arquivo .txt de sua respectiva pasta em `backend/data/sources/<source_slug>/`
+Cada parser converte um arquivo .txt de sua respectiva pasta em `backend/data/sources/guides/<source_slug>/`
 para o formato JSON canônico consumido por `import_guides.py`:
   {
     "source": "KQM",

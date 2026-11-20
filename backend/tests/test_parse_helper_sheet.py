@@ -4,7 +4,7 @@ import pytest
 from app.scripts.parsers.helper_sheet import parse_element_csv
 
 
-HELPER_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "helper_sheet"
+HELPER_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "guides" / "helper_sheet"
 
 
 ELEMENT_FILES = ("anemo", "cryo", "dendro", "electro", "geo", "hydro", "pyro")

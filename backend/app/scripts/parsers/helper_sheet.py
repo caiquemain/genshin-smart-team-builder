@@ -1,6 +1,6 @@
 """Parser em lote para os CSVs da Genshin Impact Helper Team Character Builds Sheet.
 
-Cada arquivo `<elemento>.csv` em `backend/data/sources/helper_sheet/` contém ~13–19 personagens
+Cada arquivo `<elemento>.csv` em `backend/data/sources/guides/helper_sheet/` contém ~13–19 personagens
 com papéis (o papel principal é marcado com '✩'), armas ranqueadas, artefatos 4pc/2+2pc,
 main stats, substats, prioridade de talentos e notas/dicas de rotação.
 """

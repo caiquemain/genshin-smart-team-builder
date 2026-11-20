@@ -1,11 +1,11 @@
 -- ==========================================================
 -- TIERLIST IMPORT 7.1 — DELETE + INSERT idempotente
--- Sites: genshin-gg, genshinlab, game8, mobalytics
+-- Sites: genshin-gg, genshinlab, game8, mobalytics, gamewith
 -- Prydwen intocado
 -- ==========================================================
 BEGIN;
 
--- 1. DELETE dos 4 sites (mantém Prydwen)
+-- 1. DELETE dos 5 sites (mantém Prydwen)
 DELETE FROM tierlist_entries
 WHERE site_id IN (
     SELECT id FROM tierlist_sites
@@ -562,59 +562,6 @@ INSERT INTO _tl_import (site_slug, character_slug, role, tier_label) VALUES
 ('mobalytics','yaoyao',NULL,'F'),
 ('mobalytics','yun-jin',NULL,'F');
 
--- 4. INSERT final (JOIN em characters filtra slugs inexistentes)
-INSERT INTO tierlist_entries
-    (site_id, character_slug, role, tier_label, tier_index, normalized_value, version, tier_master)
-SELECT
-    s.id,
-    t.character_slug,
-    COALESCE(gg.role, 'general'),
-    t.tier_label,
-    CASE t.site_slug
-        WHEN 'genshin-gg' THEN CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A' THEN 1 WHEN 'B' THEN 2 WHEN 'C' THEN 3 WHEN 'D' THEN 4 END
-        WHEN 'genshinlab' THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END
-        WHEN 'game8'      THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A+' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END
-        WHEN 'mobalytics' THEN CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A+' THEN 1 WHEN 'A' THEN 2 WHEN 'B+' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 WHEN 'E' THEN 7 WHEN 'F' THEN 8 END
-        WHEN 'gamewith' THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END
-    END,
-    ROUND((1.0 - (CASE t.site_slug
-        WHEN 'genshin-gg' THEN (CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A' THEN 1 WHEN 'B' THEN 2 WHEN 'C' THEN 3 WHEN 'D' THEN 4 END)::float / 4.0
-        WHEN 'genshinlab' THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END)::float / 5.0
-        WHEN 'game8'      THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A+' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END)::float / 6.0
-        WHEN 'mobalytics' THEN (CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A+' THEN 1 WHEN 'A' THEN 2 WHEN 'B+' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 WHEN 'E' THEN 7 WHEN 'F' THEN 8 END)::float / 8.0
-        WHEN 'gamewith' THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END)::float / 5.0
-    END))::numeric, 4)::float,
-    '7.1',
-    CASE t.site_slug
-        WHEN 'genshin-gg' THEN CASE t.tier_label WHEN 'S' THEN 'S+' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
-        WHEN 'genshinlab' THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
-        WHEN 'game8'      THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A+' THEN 'A' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
-        WHEN 'mobalytics' THEN CASE t.tier_label WHEN 'S' THEN 'S+' WHEN 'A+' THEN 'S' WHEN 'A' THEN 'S' WHEN 'B+' THEN 'A' WHEN 'B' THEN 'A' WHEN 'C' THEN 'B' WHEN 'D' THEN 'B' WHEN 'E' THEN 'C' WHEN 'F' THEN 'D' END
-        WHEN 'gamewith' THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
-    END
-FROM _tl_import t
-JOIN tierlist_sites s ON s.slug = t.site_slug
-JOIN characters c ON c.slug = t.character_slug
-LEFT JOIN _tl_import gg ON gg.site_slug = 'genshin-gg' AND gg.character_slug = t.character_slug;
-
--- 5. Validação: contagem por site × tier_master
-SELECT s.slug, e.tier_master, COUNT(*)
-FROM tierlist_entries e
-JOIN tierlist_sites s ON s.id = e.site_id
-WHERE e.version = '7.1'
-GROUP BY s.slug, e.tier_master
-ORDER BY s.slug,
-  CASE e.tier_master WHEN 'S+' THEN 1 WHEN 'S' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END;
-
--- 6. Slugs do HTML que não existem em characters (não foram importados)
-SELECT DISTINCT t.site_slug, t.character_slug
-FROM _tl_import t
-LEFT JOIN characters c ON c.slug = t.character_slug
-WHERE c.slug IS NULL
-ORDER BY t.site_slug, t.character_slug;
-
-COMMIT;
-
 -- ============================================================
 -- GAMEWITH (127 entries) — importado via texto (curl bloqueado)
 -- Escala: SS/S/A/B/C/D → S+/S/A/B/C/D (1:1, igual GenshinLab)
@@ -690,3 +637,56 @@ INSERT INTO _tl_import (site_slug, character_slug, role, tier_label) VALUES
 ('gamewith','aloy',NULL,'D'), ('gamewith','traveler-hydro',NULL,'D'),
 ('gamewith','freminet',NULL,'D'), ('gamewith','traveler-geo',NULL,'D'),
 ('gamewith','traveler-electro',NULL,'D'), ('gamewith','amber',NULL,'D');
+
+-- 4. INSERT final (JOIN em characters filtra slugs inexistentes)
+INSERT INTO tierlist_entries
+    (site_id, character_slug, role, tier_label, tier_index, normalized_value, version, tier_master)
+SELECT
+    s.id,
+    t.character_slug,
+    COALESCE(gg.role, 'general'),
+    t.tier_label,
+    CASE t.site_slug
+        WHEN 'genshin-gg' THEN CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A' THEN 1 WHEN 'B' THEN 2 WHEN 'C' THEN 3 WHEN 'D' THEN 4 END
+        WHEN 'genshinlab' THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END
+        WHEN 'game8'      THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A+' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END
+        WHEN 'mobalytics' THEN CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A+' THEN 1 WHEN 'A' THEN 2 WHEN 'B+' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 WHEN 'E' THEN 7 WHEN 'F' THEN 8 END
+        WHEN 'gamewith' THEN CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END
+    END,
+    ROUND((1.0 - (CASE t.site_slug
+        WHEN 'genshin-gg' THEN (CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A' THEN 1 WHEN 'B' THEN 2 WHEN 'C' THEN 3 WHEN 'D' THEN 4 END)::float / 4.0
+        WHEN 'genshinlab' THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END)::float / 5.0
+        WHEN 'game8'      THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A+' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END)::float / 6.0
+        WHEN 'mobalytics' THEN (CASE t.tier_label WHEN 'S' THEN 0 WHEN 'A+' THEN 1 WHEN 'A' THEN 2 WHEN 'B+' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 WHEN 'E' THEN 7 WHEN 'F' THEN 8 END)::float / 8.0
+        WHEN 'gamewith' THEN (CASE t.tier_label WHEN 'SS' THEN 0 WHEN 'S' THEN 1 WHEN 'A' THEN 2 WHEN 'B' THEN 3 WHEN 'C' THEN 4 WHEN 'D' THEN 5 END)::float / 5.0
+    END))::numeric, 4)::float,
+    '7.1',
+    CASE t.site_slug
+        WHEN 'genshin-gg' THEN CASE t.tier_label WHEN 'S' THEN 'S+' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
+        WHEN 'genshinlab' THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
+        WHEN 'game8'      THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A+' THEN 'A' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
+        WHEN 'mobalytics' THEN CASE t.tier_label WHEN 'S' THEN 'S+' WHEN 'A+' THEN 'S' WHEN 'A' THEN 'S' WHEN 'B+' THEN 'A' WHEN 'B' THEN 'A' WHEN 'C' THEN 'B' WHEN 'D' THEN 'B' WHEN 'E' THEN 'C' WHEN 'F' THEN 'D' END
+        WHEN 'gamewith' THEN CASE t.tier_label WHEN 'SS' THEN 'S+' WHEN 'S' THEN 'S' WHEN 'A' THEN 'A' WHEN 'B' THEN 'B' WHEN 'C' THEN 'C' WHEN 'D' THEN 'D' END
+    END
+FROM _tl_import t
+JOIN tierlist_sites s ON s.slug = t.site_slug
+JOIN characters c ON c.slug = t.character_slug
+LEFT JOIN _tl_import gg ON gg.site_slug = 'genshin-gg' AND gg.character_slug = t.character_slug;
+
+-- 5. Validação: contagem por site × tier_master
+SELECT s.slug, e.tier_master, COUNT(*)
+FROM tierlist_entries e
+JOIN tierlist_sites s ON s.id = e.site_id
+WHERE e.version = '7.1'
+GROUP BY s.slug, e.tier_master
+ORDER BY s.slug,
+  CASE e.tier_master WHEN 'S+' THEN 1 WHEN 'S' THEN 2 WHEN 'A' THEN 3 WHEN 'B' THEN 4 WHEN 'C' THEN 5 WHEN 'D' THEN 6 END;
+
+-- 6. Slugs do HTML que não existem em characters (não foram importados)
+SELECT DISTINCT t.site_slug, t.character_slug
+FROM _tl_import t
+LEFT JOIN characters c ON c.slug = t.character_slug
+WHERE c.slug IS NULL
+ORDER BY t.site_slug, t.character_slug;
+
+COMMIT;

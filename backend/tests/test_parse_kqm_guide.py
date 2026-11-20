@@ -22,7 +22,7 @@ from app.scripts.parse_kqm_guide import (
 )
 
 
-KQM_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "kqm"
+KQM_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "guides" / "kqm"
 
 
 class TestStringHelpers:

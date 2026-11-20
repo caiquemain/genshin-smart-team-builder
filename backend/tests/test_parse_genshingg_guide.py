@@ -10,7 +10,7 @@ from app.scripts.parsers.genshingg import (
 )
 
 
-GENSHINGG_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "genshingg"
+GENSHINGG_DIR = Path(__file__).resolve().parents[1] / "data" / "sources" / "guides" / "genshingg"
 
 
 def test_real_genshingg_furina_guide_regression():

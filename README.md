@@ -58,9 +58,10 @@ Exit code:
 
 ### Adicionar/atualizar guias (Multi-fonte)
 
-Pastas em `backend/data/sources/`: `kqm/`, `game8/`, `genshingg/`, `gamewith/`, `helper_sheet/`.
+Pastas em `backend/data/sources/guides/`: `kqm/`, `game8/`, `genshingg/`, `gamewith/`, `helper_sheet/`.
+Tierlists em `backend/data/sources/tierlists/`: `genshin-gg/`, `genshinlab/`, `game8/`, `mobalytics/`, `gamewith/`, `prydwen/`, `icy-veins/`, `yshelper/`.
 
-1. Salvar o `.txt` na pasta da fonte (ex.: `backend/data/sources/kqm/{slug}.txt`)
+1. Salvar o `.txt` na pasta da fonte (ex.: `backend/data/sources/guides/kqm/{slug}.txt`)
 2. Rodar:
 
        docker compose exec backend alembic upgrade head
