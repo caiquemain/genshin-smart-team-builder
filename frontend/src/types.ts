@@ -399,3 +399,76 @@ export interface BuildPreset {
   name: string
   build_data: CharacterBuild
 }
+
+// === Pull Advisor ===
+export type PullGoal = 'meta' | 'unlock_teams' | 'endgame' | 'imaginarium'
+export type PullVerdict = 'must_pull' | 'high_value' | 'good_option' | 'situational'
+
+export interface PullAdvisorRequest {
+  owned_slugs: string[]
+  goal: PullGoal
+  rarity_filter?: number | null
+  element_filter?: string | null
+  target_slug?: string | null
+  limit?: number
+}
+
+export interface UnlockedTeam {
+  id: number
+  name: string
+  archetype: string
+  character_slugs: string[]
+  source: string | null
+  sources_count: number
+  team_avg_score: number
+}
+
+export interface PullBreakdown {
+  general_meta: number
+  team_unlocks: number
+  account_gaps: number
+  endgame_seasonal: number
+}
+
+export interface PullCandidate {
+  slug: string
+  name: string
+  icon: string | null
+  rarity: number
+  element: string
+  weapon_type: string
+  role: string
+  already_owned: boolean
+  score: number
+  verdict: PullVerdict
+  verdict_label: string
+  breakdown: PullBreakdown
+  general_tier: string | null
+  general_avg: number | null
+  general_sites: number
+  abyss_tier: string | null
+  stygian_tier: string | null
+  unlocked_teams_count: number
+  near_unlock_teams_count: number
+  unlocked_teams: UnlockedTeam[]
+  synergy_partners_owned: string[]
+  reasons: string[]
+}
+
+export interface AccountSummary {
+  owned_count: number
+  ready_teams_count: number
+  almost_ready_teams_count: number
+  total_templates: number
+  element_counts: Record<string, number>
+  weak_elements: string[]
+  missing_capabilities: string[]
+}
+
+export interface PullAdvisorResponse {
+  goal: PullGoal
+  account_summary: AccountSummary
+  target_evaluation: PullCandidate | null
+  recommendations: PullCandidate[]
+}
+

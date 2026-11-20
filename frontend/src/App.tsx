@@ -18,6 +18,7 @@ import RosterPage from './pages/RosterPage'
 import InventoryAuditPage from './pages/InventoryAuditPage'
 import PlannerCharactersPage from './pages/PlannerCharactersPage'
 import TierlistPage from './pages/TierlistPage'
+import PullAdvisorPage from './pages/PullAdvisorPage'
 import _DebugPage from './pages/_DebugPage' // <-- ADICIONADO
 import BestiaryPage from './pages/BestiaryPage';
 import './styles.css'
@@ -32,6 +33,7 @@ export default function App() {
           <div className="nav-links">
             <Link to="/">Personagens</Link>
             <Link to="/roster">Meu Roster</Link>
+            <Link to="/pull-advisor">Pull Advisor</Link>
             <Link to="/weapons">Armas</Link>
             <Link to="/artifacts">Artefatos</Link>
             <Link to="/teams">Times</Link>
@@ -56,6 +58,7 @@ function MainContent() {
      location.pathname !== '/teams/new' && 
      !location.pathname.includes('/templates/'))
     || location.pathname === '/tierlist'
+    || location.pathname === '/pull-advisor'
   )
 
   return (
@@ -73,6 +76,7 @@ function MainContent() {
         <Route path="/teams/:id" element={<TeamDetailPage />} />
         <Route path="/planner" element={<PlannerPage />} />
         <Route path="/roster" element={<RosterPage />} />
+        <Route path="/pull-advisor" element={<PullAdvisorPage />} />
         <Route path="/inventory" element={<InventoryAuditPage />} />
         <Route path="/bestiary" element={<BestiaryPage />} />
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />

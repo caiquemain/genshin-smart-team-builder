@@ -21,6 +21,8 @@ import type { Substitute, BuildPreset,
   TeamDetail,
   TeamListResponse,
   TeamTierInfo,
+  PullAdvisorRequest,
+  PullAdvisorResponse,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
 
@@ -159,5 +161,14 @@ export const api = {
   getTalentCost: (slug: string, na: number, es: number, eb: number, target: number, lang: LanguageCode) =>
     request<TalentCost>(`/characters/${slug}/talents`, {
       na, es, eb, target, lang,
+    }),
+  recommendPulls: (payload: PullAdvisorRequest, lang: LanguageCode) =>
+    fetch(`${API_URL}/recommendations/pulls?lang=${lang}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<PullAdvisorResponse>
     }),
 }

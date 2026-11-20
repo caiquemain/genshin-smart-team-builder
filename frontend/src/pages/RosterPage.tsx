@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
@@ -202,9 +203,14 @@ export default function RosterPage() {
     <div className="roster-page">
       <div className="page-header">
         <h1>Meus personagens</h1>
-        <div className="roster-count">
-          <strong>{roster.ownedCount}</strong>
-          <span>/ {chars.length} marcados</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <Link to="/pull-advisor" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <Sparkles size={15} /> Quem vale pegar?
+          </Link>
+          <div className="roster-count">
+            <strong>{roster.ownedCount}</strong>
+            <span>/ {chars.length} marcados</span>
+          </div>
         </div>
       </div>
 
