@@ -1,0 +1,135 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "furina",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "festering-desire",
+          "weapon_name": "Festering Desire",
+          "rarity": 4,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "key-of-khaj-nisut",
+          "weapon_name": "Key of Khaj-Nisut",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fleuve-cendre-ferryman",
+          "weapon_name": "Fleuve Cendre Ferryman",
+          "rarity": 4,
+          "notes": "4. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-fang",
+          "weapon_name": "Wolf-Fang",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-blade",
+          "weapon_name": "Skyward Blade",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "2. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "golden-troupe",
+          "set1_name": "Golden Troupe",
+          "set2_slug": "emblem-of-severed-fate",
+          "set2_name": "Emblem of Severed Fate",
+          "notes": "3. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "er",
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hp_pct",
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "hp_pct",
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst = Skill",
+      "combos": [],
+      "notes": "Role: OFF-FIELD DPS & BUFF SUPPORT | Last Updated: Version 4.5 | Because of her HP drain and Burst mechanics, Furina encourages the use of teamwide healers.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Furina (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

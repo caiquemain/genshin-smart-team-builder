@@ -1,0 +1,132 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "keqing",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 3,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lightbearing-moonshard",
+          "weapon_name": "Lightbearing Moonshard",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "absolution",
+          "weapon_name": "Absolution",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom-Sworn",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-fang",
+          "weapon_name": "Wolf-Fang",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-black-sword",
+          "weapon_name": "The Black Sword",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "thundering-fury",
+          "artifact_set_name": "Thundering Fury",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "thundersoother",
+          "artifact_set_name": "Thundersoother",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "electro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Burst = Skill",
+      "combos": [],
+      "notes": "Role: AGGRAVATE DPS | Last Updated: Version 5.5 | Recommended Combos: With Thundering Fury (4): EQE 2N1C E 2N1C Without Thundering Fury (4): EQE 4N1C E = Skill Q = Burst N# = Normal Attack(s) C = Charged Attack",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Keqing (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

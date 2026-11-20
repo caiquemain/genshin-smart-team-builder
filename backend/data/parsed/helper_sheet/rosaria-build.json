@@ -1,0 +1,127 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "rosaria",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crimson-moon-s-semblance",
+          "weapon_name": "Crimson Moon's Semblance",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vortex-vanquisher",
+          "weapon_name": "Vortex Vanquisher",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "missive-windspear",
+          "weapon_name": "Missive Windspear",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "dragon-s-bane",
+          "weapon_name": "Dragon's Bane",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wavebreaker-s-fin",
+          "weapon_name": "Wavebreaker's Fin",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "cryo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "em",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: REVERSE MELT | Last Updated: Version 5.5 | Be sure to cast skill before burst as Crit Rate granted by the Ascension 1 Talent will be included with Ascension 4 Talent Bonus as well. Rosaria's Elemental Skill and Elemental Burst can be Reverse Melted (1.5x) with another Pyro applier for some quick and powerful damage.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Rosaria (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

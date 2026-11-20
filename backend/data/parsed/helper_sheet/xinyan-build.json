@@ -1,0 +1,112 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "xinyan",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "redhorn-stonethresher",
+          "weapon_name": "Redhorn Stonethresher",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-pride",
+          "weapon_name": "Skyward Pride",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "serpent-spine",
+          "weapon_name": "Serpent Spine",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-unforged",
+          "weapon_name": "The Unforged",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "song-of-broken-pines",
+          "weapon_name": "Song of Broken Pines",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-s-gravestone",
+          "weapon_name": "Wolf's Gravestone",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "luxurious-sea-lord",
+          "weapon_name": "Luxurious Sea-Lord",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "snow-tombed-starsilver",
+          "weapon_name": "Snow-Tombed Starsilver",
+          "rarity": 4,
+          "notes": "8. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-archaic",
+          "weapon_name": "Prototype Archaic",
+          "rarity": 4,
+          "notes": "9. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "pale-flame",
+          "artifact_set_name": "Pale Flame",
+          "notes": "2. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "noblesse-oblige",
+          "set1_name": "Noblesse Oblige",
+          "set2_slug": "husk-of-opulent-dreams",
+          "set2_name": "Husk of Opulent Dreams",
+          "notes": "4. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "physical_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "er",
+        "def_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal = Burst = Skill",
+      "combos": [],
+      "notes": "Role: PHYSICAL DPS | Last Updated: Version 3.8 | PHYSICAL DPS This build focuses primarily on her Physical Damage as an On-Field DPS. At [C2], she can build a 1:3 Crit Rate:Crit DMG ratio, instead of the usual 1:2 Crit Rate:Crit DMG ratio. Regarding Weapon Choices: Serpent Spine: At [R5], this weapon performs better than Skyward Pride. The Unforged: This ranking is based on unshielded performance, while shielded this weapon performs better than ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Xinyan (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

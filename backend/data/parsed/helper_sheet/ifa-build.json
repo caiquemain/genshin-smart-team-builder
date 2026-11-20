@@ -1,0 +1,131 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "ifa",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "tulaytullah-s-remembrance",
+          "weapon_name": "Tulaytullah's Remembrance",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vivid-notions",
+          "weapon_name": "Vivid Notions",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-atlas",
+          "weapon_name": "Skyward Atlas",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up!",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "a-thousand-floating-dreams",
+          "weapon_name": "A Thousand Floating Dreams",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura's Verity",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flowing-purity",
+          "weapon_name": "Flowing Purity",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sunny-morning-sleep-in",
+          "weapon_name": "Sunny Morning Sleep-In",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mappa-mare",
+          "weapon_name": "Mappa Mare",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "obsidian-codex",
+          "artifact_set_name": "Obsidian Codex",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "anemo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: ANEMO DPS | Last Updated: Version 5.7 | Ifa's healing as an Anemo DPS by itself is generally not enough to fulfill Furina's Fanfare, so it's recommended to pair him with another healer, most notably being Sayu.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Ifa (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,148 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "ningguang",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura's Verity",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up!",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-atlas",
+          "weapon_name": "Skyward Atlas",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "memory-of-dust",
+          "weapon_name": "Memory of Dust",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tulaytullah-s-remembrance",
+          "weapon_name": "Tulaytullah's Remembrance",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "solar-pearl",
+          "weapon_name": "Solar Pearl",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crane-s-echoing-call",
+          "weapon_name": "Crane's Echoing Call",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flowing-purity",
+          "weapon_name": "Flowing Purity",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "nighttime-whispers-in-the-echoing-woods",
+          "artifact_set_name": "Nighttime Whispers in the Echoing Woods",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "husk-of-opulent-dreams",
+          "artifact_set_name": "Husk of Opulent Dreams",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "archaic-petra",
+          "artifact_set_name": "Archaic Petra",
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "thundersoother",
+          "artifact_set_name": "Thundersoother",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "archaic-petra-and-noblesse-oblige",
+          "set1_name": "Archaic Petra and  Noblesse Oblige",
+          "set2_slug": "emblem-of-severed-fate",
+          "set2_name": "Emblem of Severed Fate",
+          "notes": "2. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "geo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Normal > Skill",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 5.3 | Ningguang's Elemental Skill has a 6 second internal cooldown on generating energy, so for the sake of maintaining Elemental Burst uptime, wait 6 seconds to cast again if you need energy. It also breaks when cast on top of another Geo Structure, you can intentionally use a structure to break your first screen.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Ningguang (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

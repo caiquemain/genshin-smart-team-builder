@@ -1,0 +1,100 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "charlotte",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thrilling-tales-of-dragon-slayers",
+          "weapon_name": "Thrilling Tales of Dragon Slayers",
+          "rarity": 3,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "oathsworn-eye",
+          "weapon_name": "Oathsworn Eye",
+          "rarity": 4,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wine-and-song",
+          "weapon_name": "Wine and Song",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "ocean-hued-clam",
+          "artifact_set_name": "Ocean-Hued Clam",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "song-of-days-past",
+          "artifact_set_name": "Song of Days Past",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "healing_bonus",
+        "atk_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "atk_pct",
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: HEAL SUPPORT | Last Updated: Version 4.2 | Charlotte's Hold Skill will change to Photo Mode if the Special Analysis Zoom Lens gadget is toggled on. Be sure to toggle it off in the inventory if you wish to properly use her Hold Skill in combat.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Charlotte (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

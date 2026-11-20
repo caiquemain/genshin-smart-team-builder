@@ -1,0 +1,133 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "eula",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "song-of-broken-pines",
+          "weapon_name": "Song of Broken Pines",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-s-gravestone",
+          "weapon_name": "Wolf's Gravestone",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "beacon-of-the-reed-sea",
+          "weapon_name": "Beacon of the Reed Sea",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-pride",
+          "weapon_name": "Skyward Pride",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "verdict",
+          "weapon_name": "Verdict",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-unforged",
+          "weapon_name": "The Unforged",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "redhorn-stonethresher",
+          "weapon_name": "Redhorn Stonethresher",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "serpent-spine",
+          "weapon_name": "Serpent Spine",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ultimate-overlord-s-mega-magic-sword",
+          "weapon_name": "\"Ultimate Overlord's Mega Magic Sword\"",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "luxurious-sea-lord",
+          "weapon_name": "Luxurious Sea-Lord",
+          "rarity": 4,
+          "notes": "7. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "akuoumaru",
+          "weapon_name": "Akuoumaru",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tidal-shadow",
+          "weapon_name": "Tidal Shadow",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "pale-flame",
+          "artifact_set_name": "Pale Flame",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator's Finale",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "pale-flame",
+          "set1_name": "Pale Flame",
+          "set2_slug": "bloodstained-chivalry",
+          "set2_name": "Bloodstained Chivalry",
+          "notes": "3. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "physical_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "er",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal = Burst > Skill",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 4.3 | Normal combo while no Burst: NA Spam > Tap Skill > NA Spam > Tap Skill Burst combo: Tap Skill > Burst > 4 NA > Hold Skill > 4 NA Burst combo that generates more energy at the cost of slightly less DPS: Tap Skill > Burst > Tap Skill > 4 NA > Dash Cancel > 2 NA > Hold Skill > 2 NA *NA = Normal Attack",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Eula (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

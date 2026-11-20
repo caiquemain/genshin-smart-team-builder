@@ -12,6 +12,31 @@ import json
 from pathlib import Path
 
 from app.scripts.parsers import SOURCES, get_source
+from app.scripts.parsers.helper_sheet import parse_element_csv
+
+
+def _write_canonical_guide(out_dir: Path, result: dict) -> None:
+    slug = result["character_slug"]
+    build_payload = {
+        "source": result["source"],
+        "source_slug": result["source_slug"],
+        "source_url": result["source_url"],
+        "character_slug": slug,
+        "build": result["build"],
+        "notable_teammates": result.get("notable_teammates", []),
+    }
+    if result.get("tier_ratings"):
+        build_payload["tier_ratings"] = result["tier_ratings"]
+
+    (out_dir / f"{slug}-build.json").write_text(
+        json.dumps(build_payload, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    if result.get("teams"):
+        (out_dir / f"{slug}-teams.json").write_text(
+            json.dumps(result["teams"], indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
 
 
 def parse_source(
@@ -27,6 +52,30 @@ def parse_source(
     if not in_dir.exists():
         print(f"  [{source_slug}] pasta {in_dir} não existe — pulando.")
         return 0, 0
+
+    # Modo CSV em lote (Helper Sheet: 1 CSV por elemento com dezenas de personagens)
+    if source_slug == "helper_sheet":
+        csv_files = [in_dir / single_file] if single_file else sorted(in_dir.glob("*.csv"))
+        csv_files = [f for f in csv_files if f.is_file()]
+        if not csv_files:
+            print(f"  [{source_slug}] nenhum .csv em {in_dir} — pulando.")
+            return 0, 0
+        out_dir.mkdir(parents=True, exist_ok=True)
+        ok = 0
+        errors = 0
+        for path in csv_files:
+            element = path.stem.lower()
+            try:
+                guides = parse_element_csv(path.read_text(encoding="utf-8", errors="replace"), element)
+            except Exception as e:
+                print(f"❌ [{cfg.display_name}] {path.name}: {e}")
+                errors += 1
+                continue
+            for g in guides:
+                _write_canonical_guide(out_dir, g)
+                ok += 1
+            print(f"✅ [{cfg.display_name}] {path.name}: {len(guides)} personagens parseados")
+        return ok, errors
 
     files = [in_dir / single_file] if single_file else sorted(in_dir.glob("*.txt"))
     files = [f for f in files if f.is_file()]
@@ -58,26 +107,8 @@ def parse_source(
         result.setdefault("source", cfg.display_name)
         result.setdefault("source_slug", cfg.slug)
         result.setdefault("source_url", cfg.base_url.format(slug=slug))
+        _write_canonical_guide(out_dir, result)
 
-        build_payload = {
-            "source": result["source"],
-            "source_slug": result["source_slug"],
-            "source_url": result["source_url"],
-            "character_slug": slug,
-            "build": result["build"],
-            "notable_teammates": result.get("notable_teammates", []),
-        }
-        if result.get("tier_ratings"):
-            build_payload["tier_ratings"] = result["tier_ratings"]
-
-        (out_dir / f"{slug}-build.json").write_text(
-            json.dumps(build_payload, indent=2, ensure_ascii=False),
-            encoding="utf-8",
-        )
-        (out_dir / f"{slug}-teams.json").write_text(
-            json.dumps(result.get("teams", []), indent=2, ensure_ascii=False),
-            encoding="utf-8",
-        )
         b = result["build"]["build_data"]
         print(
             f"✅ [{cfg.display_name}] {slug}: {len(b.get('weapons', []))} armas, "

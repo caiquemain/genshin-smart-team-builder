@@ -1,0 +1,128 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "chiori",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lightbearing-moonshard",
+          "weapon_name": "Lightbearing Moonshard",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "peak-patrol-song",
+          "weapon_name": "Peak Patrol Song",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 3,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cinnabar-spindle",
+          "weapon_name": "Cinnabar Spindle",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-fang",
+          "weapon_name": "Wolf-Fang",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "husk-of-opulent-dreams",
+          "artifact_set_name": "Husk of Opulent Dreams",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "golden-troupe",
+          "set1_name": "Golden Troupe",
+          "set2_slug": "archaic-petra",
+          "set2_name": "Archaic Petra",
+          "notes": "2. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "def_pct"
+      ],
+      "goblet_stat": [
+        "geo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "def_pct",
+        "atk_pct",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: OFF-FIELD DPS | Last Updated: Version 4.5 | OFF-FIELD DPS Chiori is an off-field damage dealer focusing on her automation dolls (Skill DMG). While there is an incentive to play her in teams which have a Geo Construct (pre-C1), she is still a good option even in Geo teams which do not have a Geo Construct (such as with Navia). Regarding Weapon Choices: Harbinger of Dawn [R5]: Ranking is assuming the passive is active. Chiori can usually have",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Chiori (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

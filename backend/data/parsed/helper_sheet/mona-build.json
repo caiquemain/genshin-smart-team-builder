@@ -1,0 +1,95 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "mona",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-atlas",
+          "weapon_name": "Skyward Atlas",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "memory-of-dust",
+          "weapon_name": "Memory of Dust",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "solar-pearl",
+          "weapon_name": "Solar Pearl",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mappa-mare",
+          "weapon_name": "Mappa Mare",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "1. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "noblesse-oblige",
+          "set1_name": "Noblesse Oblige",
+          "set2_slug": "emblem-of-severed-fate",
+          "set2_name": "Emblem of Severed Fate",
+          "notes": "3. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct",
+        "er",
+        "em"
+      ],
+      "goblet_stat": [
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "er",
+        "atk_pct",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: BURST NUKE (OUT OF DATE) | Last Updated: Version 3.7 | To make Mona's burst damage trigger the Vaporize 2.0x multiplier: 1. Apply Pyro on enemy 2. Cast Burst (should react and remove Pyro status on the enemy after using Burst) 3. Wait 2.5 seconds for Mona's burst ICD (Mona should stay on field if you have Bennett, to keep the buff) 4. Swap to Pyro character and apply Pyro on enemy 5. Burst will pop after enemy gets hit, applying Hydro and Vaporizing h",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Mona (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,643 @@
+Discontinued,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+(Migrating to a new site),,,,,,,,
+,,,,,,,,
+,The role that the Character best excels in will be marked with ✩,,,,,,,
+,> > Weapons and Artifacts Info < <,,,,,,,
+,,,,,,,,
+,4 STAR,,,,,,,
+,COLLEI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.5,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"REACTION SUPPORT
+ ✩","1. Elegy for the End (5☆)
+2. Favonius Warbow (4☆)
+3. Polar Star (5☆)*
+4. Sacrificial Bow [R4+] (4☆)","1. Deepwood Memories (4)
+2. Noblesse Oblige (4)
+3. Tenacity of the Millelith (4)*
+4. Instructor (4)
+5. Gilded Dreams (4)*
+","Sands - Energy Recharge / ATK% / Elemental Mastery
+Goblet - Dendro DMG / Elemental Mastery*
+Circlet - Crit Rate / DMG / Elemental Mastery*
+
+**Prioritize Energy Recharge if her Energy Requirements are not met.","1. Energy Recharge 
+2. Crit Rate / DMG
+3. ATK% / Elemental Mastery 
+","1. Burst 
+2. Skill
+","Typical Collei Rotation: 
+Skill > Burst > Swap
+Rotation with Polar Star:
+N1 > tap Charged Attack > Skill > Burst > Swap
+
+"
+,Notes,"SUPPORT
+Collei is a Bow User who provides off-field Dendro application and some damage. 
+
+Regarding Weapon Choices:
+Polar Star: The best weapon for Collei's personal damage, however it is generally best to opt for a support weapon like Elegy as the teamwide buff is more valuable. 
+Sacrificial Bow: Should only be used at least [R4]. 
+
+Regarding Artifact Sets: 
+Tenacity of the Millelith (4): Collei's Sprout damage counts as Skill damage, which allows her to be able to keep Tenacity of the Millelith (4) up during important damage windows. Generally an alternative to Noblesse Oblige (4) or Deepwood Memories (4) (or if you are already running both in a team).
+Gilded Dreams (4): This set is only used in a team where Collei is used to trigger reactions (i.e. Bloom/Burning teams).",,,,,,
+,YAOYAO,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.5,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+ ✩","1. Favonius Lance (4☆)*
+2. Dialogues of the Desert Sages (4✩)
+3. Black Tassel (3☆)
+≈ Rightful Reward (4☆)*
+4. Moonpiercer (4☆)
+5. Kitain Cross Spear (4☆)*","1. Deepwood Memories (4)*
+2. Tenacity of the Millelith (4)*
+3. Instructor (4)*
+4. Ocean-Hued Clam (4)*
+5. Maiden Beloved (4)
+6. +15% Healing Bonus set (2) / +20% HP set (2) / Emblem of Severed Fate (2) [Choose Two]
+7. Flower of Paradise Lost (4)*
+8. Gilded Dreams (4)*
+9. 80 EM (2) + 80 EM (2)*","Sands - HP% / Energy Recharge%
+Goblet - HP%
+Circlet - Healing Bonus%
+
+
+
+
+
+
+
+
+","1. Energy Recharge% until requirement is met
+2. HP%
+3. Crit Rate*
+4. Flat HP
+
+*Try to build some Crit Rate through substats if using Favonius Lance. Crit Rate is not important on other weapons. ","1. Burst 
+2. Skill
+
+*Prioritize her Elemental Skill if you do not spend time on-field with Yaoyao after using her Burst.","The additional Yueguis summoned by the Burst are removed when Yaoyao leaves the field.
+
+If using Favonius Lance, you can perform Skill followed by two Normal Attacks in order to trigger the passive. "
+,Notes,"SUPPORT:
+Yaoyao focuses on healing and applying Dendro with her Elemental Skill and Burst. She can be used in a wide range of team archetypes, but do note her Dendro application from her Elemental Skill alone is generally insufficient for Bloom/Hyperbloom/Burgeon teams as a solo Dendro option. 
+
+Regarding Weapon Choices:
+Favonius Lance: This weapon is a good generalist option for Yaoyao, providing Energy Recharge with a useful passive. 
+Rightful Reward: This weapon performs worse if you are not planning to use Yaoyao's Elemental Burst.
+Kitain Cross Spear: This weapon can be better than Favonius Lance in teams where Yaoyao has a significant amount of Bloom ownership.
+
+Regarding Artifact Sets: 
+Deepwood Memories (4): This set is the default option in teams where you care about reducing Dendro resistance and nobody else on the team is using it. 
+Tenacity of the Millelith (4): This set is a good option in teams where reducing Dendro resistance is not important, such as Yaoyao, Anemo, two Electro damage dealers (Aggravate).
+Instructor (4): Similarly to Tenacity, this set can be a good option in teams where reducing Dendro resistance is not important, or if someone else on the team is already using Deepwood Memories. Do note that Yaoyao has to trigger a reaction on-field to provide the 4pc bonus. Additionally, your stat potential on this set will be limited as it does not come in 5* rarity. 
+Ocean-Hued Clam (4): This set is a good option in teams where you on-field Yaoyao and a supportive set is not needed. 
+Flower of Paradise Lost (4)/Gilded Dreams (4)/EM (2) set mixes: These sets are specifically for Nilou Bloom teams where Yaoyao has a significant amount of Bloom ownership and is built with Elemental Mastery. Do note that Ocean-Hued Clam (4) can still be better in these teams, assuming you on-field Yaoyao. 
+
+Regarding Main Stat and Substat Choices:
+In a Bloom team where Yaoyao has a significant amount of Bloom ownership, Elemental Mastery is preferred as a Main Stat on your Goblet and Circlet, Elemental Mastery can also be used on your Sands if an Energy Recharge Sands is not required. Additionally, Elemental Mastery substats become good. ",,,,,,
+,KAVEH,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.8,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,BLOOM / BURGEON DRIVER ✩,"1. Flame-Forged Insight [R5] (4☆)
+≈ Favonius Greatsword (4☆)
+2. Sacrificial Greatsword (4☆)
+3. Mailed Flower [R5] (4☆)
+4. Wolf's Gravestone (5☆)*
+≈ Song of Broken Pines (5☆)*
+5. Makhaira Aquamarine (4☆)
+≈ Katsuragikiri Nagamasa (4☆)
+6. Skyward Pride (5☆)
+≈ Forest Regalia (4☆)
+≈ Rainslasher (4☆)","1. Deepwood Memories (4)*
+2. Ocean Hued Clam (4)*
+3. Flower of Paradise Lost (4)*
+4. Instructor (4)
+5. Gilded Dreams (4)","Sands - Energy Recharge / Elemental Mastery
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery / Crit Rate*","1. Energy Recharge
+2. Elemental Mastery
+3. Crit Rate*","1. Burst
+2. Normal Attack
+3. Skill","Kaveh's best combo is N3D, which is 3 Normal Attacks canceled at the end with a Dash. "
+,Notes,"SUPPORT:
+Kaveh focuses on being the onfield unit for Bloom teams, boosting their damage with his Elemental Burst, and applying Dendro to create Bloom Cores. His self-healing allows these teams to not need an additional defensive unit.
+
+Regarding Weapon Choices:
+Wolf's Gravestone and Song of Broken Pines: In teams where the teamwide ATK% from the passive is not significant for team damage, it is advised not to use these weapons.
+
+Regarding Artifacts:
+Deepwood Memories (4): Do not use this set on Kaveh if another character is already using it.
+Ocean Hued Clam (4): Outclasses Deepwood Memories (4) as long as another user can hold Deepwood Memories. It gets notably better at C1.
+Flower of Paradise Lost (4): This set can be better than Ocean Hued Clam (4) if Kaveh triggers the majority of Blooms in your team.
+
+Regarding Main Stats:
+Circlet: Crit Rate is only for Favonius Greatsword.",,,,,,
+,KIRARA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.2,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"SHIELD SUPPORT
+ ✩","1. Key of Khaj-Nisut (5✩)
+2. Sapwood Blade (4✩)*
+3. The Dockhand's Assistant (4✩)
+4. Favonius Sword (4✩)*
+5. Freedom-Sworn (5✩)*
+6. Sacrificial Sword (4✩)
+
+","1. Instructor (4)*
+2. Deepwood Memories (4)*
+3. Noblesse Oblige (4)
+≈ Tenacity of the Millelith (4)*
+4. Tenacity of the Millelith (2) + Vourukasha's Glow (2)
+","Sands: HP% / Energy Recharge%
+Goblet: HP%
+Circlet: HP% / Crit Rate*","1. Energy Recharge%*
+2. HP%
+3. Crit Rate*
+4. Flat HP
+
+*Prioritize Energy Recharge until requirement is met","1. Skill
+2. Burst",
+,Notes,"SHIELD SUPPORT:
+Kirara can support the team by providing shields. She has the option to remain off-field for the majority of rotations, or stay onfield to drive and apply Dendro.
+
+Regarding Weapon Choices:
+Sapwood Blade: While worse than some other options in terms of shield strength, the Leaf of Consciousness buff can make it a stronger option overall. 
+Favonius Sword: Kirara's Energy Recharge requirements are generally low, however the passive can still be useful for generating energy for the rest of your team. 
+Freedom-Sworn: An option in teams which value the buff, though there are generally better users of this weapon. 
+
+Regarding Artifacts:
+Instructor (4): While worse for shield strength, this set is a great option when using Kirara in Aggravate teams for the teamwide EM buff. 
+Deepwood Memories (4): This set should be used in teams which involve a relevant amount of Dendro damage and nobody else is using it. 
+Tenacity of the Millelith (4): This set is an option when using Kirara on-field. 
+
+Regarding Main Stats:
+Circlet: Crit Rate is only for Favonius Sword. 
+
+Regarding Substats:
+Crit Rate: only for Favonius Sword.",,,,,,
+,,,,,,,,
+,5 STAR,,,,,,,
+,TRAVELER,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.0,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"REACTION SUPPORT
+ ✩","1. Freedom-Sworn (5☆)
+2. Favonius Sword (4☆)
+3. Sacrificial Sword (4☆)*
+4. Sapwood Blade (4☆)","1. Deepwood Memories (4)
+2. Noblesse Oblige (4)*
+3. Instructor (4)
+4. Gilded Dreams (4)
+5. The Exile (4)*","Sands - Energy Recharge / ATK% / Elemental Mastery
+Goblet - Dendro DMG / Elemental Mastery*
+Circlet - Crit Rate / Crit DMG / Elemental Mastery*
+
+**Prioritize Energy Recharge if their Energy Requirements are not met yet.","1. Energy Recharge 
+2. Crit Rate / DMG
+3. ATK%
+≈ Elemental Mastery","1. Burst
+2. Skill
+
+**Not priority investment",
+,Notes,"SUPPORT
+Regarding Main Stats:
+Prioritize maintaining their burst uptime, the ER needs for Dendro Traveler would be a lot greater if they are the only Dendro unit in the team.
+
+Regarding Weapon Choices:
+Sacrificial Sword: Prioritized over Sapwood Blade due to Dendro Traveler's exceedingly high Energy Recharge requirements for burst uptime consistency.
+
+Regarding Artifacts:
+Noblesse Oblige (4): This option would generally be better than Deepwood Memories (4) if Dendro Traveler is used in an Aggravate focused team.
+The Exile (4): An alternative option if they are placed in the same team as Cyno to help his Energy Recharge needs.",,,,,,
+,TIGHNARI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.1,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"QUICK SWAP DPS
+ ✩","1. Hunter's Path (5☆)
+2. Astral Vulture's Crimson Plumage (5☆)
+≈ Aqua Simulacra (5☆)
+≈ Polar Star (5☆)
+≈ The First Great Magic (5☆)*
+3. Skyward Harp (5☆)
+≈ Thundering Pulse (5☆)
+4. Elegy for the End (5☆)*
+≈ Amos' Bow (5☆)
+≈ Fading Twilight [R5] (4☆)*
+5.  Scion of the Blazing Sun (4☆)*
+≈ The Viridescent Hunt (4☆)
+6. Slingshot (3☆)* [R5]
+≈ Range Gauge (4☆)*
+≈ Windblume Ode [R5] (4☆)
+≈ Song of Stillness (4☆)*
+7. Prototype Crescent (4☆)*","1. Wanderer's Troupe (4)
+≈ Gilded Dreams (4)*
+2. Emblem of Severed Fate (4)
+3. Deepwood Memories (2) / +80 EM set (2) / +18% ATK set (2) [Choose Two]
+4. Deepwood Memories (4)*","Sands - ATK% / Elemental Mastery / Energy Recharge*
+Goblet - Dendro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. Elemental Mastery
+≈ ATK%
+3. Energy Recharge*","1. Normal Attack
+2. Burst
+3. Skill","There are three recommended combos that Tighnari can perform:
+1. Skill -> Charged Attack -> Burst -> Charged Attack (x2) - This is the most mechanically difficult combo. However, this combo allows Tighnari to have both his Burst affected by A1 and funnel particles from his Skill to his next Burst.
+2. Skill -> Charged Attack (x3) -> Burst - Allows Tighnari's Burst to benefit from A1. However, this combo doesn't allow Tighnari to funnel particles from his Skill into his next Burst.
+3. Skill -> Burst -> Charged Attack (x3) - Simplest combo to use, and generally weakest combo though it allows prefunneling. His Burst does not benefit from A1 in this combo. It is recommended at C4 due to the EM buff.
+"
+,NOTES,"QUICKSWAP DPS
+Tighnari's standard build revolves around him doing his Elemental Skill, Three Clusterbloom Arrows, an Elemental Burst, and promptly swapping out to another character. 
+
+Regarding Weapon Choices:
+The First Great Magic: Weapon ranking is assuming two Gimmick stacks. It performs a bit worse in solo Dendro, but still remains a good option. 
+Elegy for the End: If Tighnari does not need the Energy Recharge that Elegy for the End provides, this weapon will perform worse than Scion of the Blazing Sun for his personal damage.
+Scion of the Blazing Sun: At [R5] this weapon is slightly worse than Thundering Pulse.
+Slingshot: Significantly worse when fighting from a long range.
+Range Gauge: This weapon is strong if you can get three passive stacks. At [R5] with three passive stacks, this weapon performs similarly to Thundering Pulse.
+Song of Stillness: Weapon ranking assumes passive is active. At [R5], it performs similarly to Range Gauge.
+Fading Twilight: If Tighnari does not need the Energy Recharge this weapon provides, it is similar to Prototype Crescent in terms of damage.
+Prototype Crescent: At [R5], this weapon is better than Slingshot. Notably, this weapon is heavily reliant on enemies having weakspots.
+
+Regarding Artifact Sets:
+Gilded Dreams: This set becomes slightly better than Wanderer's Troupe if Tighnari uses his Burst every time he uses his Skill.
+Deepwood Memories (4): This is by far Tighnari's best set if no one else on the team is using it.
+
+Regarding Artifact Main Stats and Substats:
+Energy Recharge: It is usually beneficial for Tighnari to use his Burst every time he uses his Skill if possible. His Energy Recharge needs vary widely, but provided they are low enough to be reachable, Bursting every Skill is a large DPS increase.
+
+Detailed weapon comparisons here.",,,,,,
+,NAHIDA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,BUFF SUPPORT & DAMAGE ✩,"1. A Thousand Floating Dreams (5☆)
+≈ Sunny Morning Sleep-In (5✩)
+2. Kagura's Verity (5☆)
+3. Sacrificial Fragments (4☆)
+≈ Etherlight Spindlelute (4☆) [R5]
+4. Wandering Evenstar (4☆)*
+5. The Widsith (4☆)*
+≈ Sacrificial Jade (4☆)
+6. Skyward Atlas (5☆)*
+≈ Lost Prayer to Sacred Winds (5☆)*
+≈ Memory of Dust (5☆)*
+≈ Solar Pearl (4☆)*
+7. Favonius Codex (4☆)*
+8. Mappa Mare (4☆)
+≈ Magic Guide (3☆)
+≈ Hakushin Ring (4☆)*
+9. Thrilling Tales of Dragon Slayers (3☆)*
+10. Prototype Amber (4☆)","1. Deepwood Memories (4)*
+2. Gilded Dreams (4)
+≈ Golden Troupe (4)
+3. +80 EM set (2) / +80 EM set (2) / Deepwood Memories (2) [Choose Two]
+4. Tenacity of the Millelith (4)*
+5. Flower of Paradise Lost (4)*
+","Sands - Elemental Mastery
+Goblet - Elemental Mastery / Dendro DMG
+Circlet - Elemental Mastery / Crit Rate / DMG","1. Energy Recharge (Until Requirement)
+2. Crit Rate / Crit DMG
+≈ Elemental Mastery
+3. ATK%","1. Skill
+2. Burst
+3. Normal Attack",
+,NOTES,"Regarding Artifact Main Stats:
+Nahida has several viable combinations of main stats. The general rule of thumb is that the more EM Main Stats you use, the better ATK%/Crit weapons will perform relatively.
+
+DPS & SUPPORT
+Nahida can provide both damage, Dendro application, and buffs to her teammates. As such her build is focused on both maximizing her buff and her damage simultaneously.
+
+Regarding Weapon Choices:
+Wandering Evenstar: If teammates significantly benefit from the Flat Attack this weapon gives, it has the potential to rival A Thousand Floating Dreams.
+The Widsith, Lost Prayer to the Sacred Winds, and Solar Pearl: These weapons tend to perform better if Nahida is played on-field.
+Skyward Atlas and Memory of Dust: The fewer the reactions Nahida triggers, the more potent these options become.
+Favonius Codex: This weapon has the potential to rival A Thousand Floating Dreams if Nahida can actively trigger the passive multiple times by attacking on-field. Favonius Codex also has the potential to be a good weapon on Nahida in teams where her Energy Recharge requirement is high, or if your team values the additional particles. 
+Hakushin Ring: This weapon should only be used if Nahida is used in Quicken or Hyperbloom teams.
+Thrilling Tales of Dragon Slayers: This weapon sacrifices a lot of Nahida's personal damage for buffing potential. Generally not worth the trade, but can be usable in teams where Nahida's damage share is already low.
+Prototype Amber: Only to be used if the team otherwise lacks survivability.
+
+Regarding Artifact Sets:
+Deepwood Memories (4): This is her best set if no one else is wearing this set.
+Tenacity of the Millelith (4): In teams where Nahida's damage share is relatively low and there is another holder of Deepwood Memories and/or no need for the set at all, this can be Nahida's best set.
+Flower of Paradise Lost (4): This set is niche, but very powerful in Bloom teams where Nahida triggers the Bloom reaction.",,,,,,
+,ALHAITHAM,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.7,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"SPREAD DPS 
+✩","1. Light of Foliar Incision (5☆)*
+2. Uraku Misugiri (5☆)*
+≈ Primordial Jade Cutter (5☆)
+3. Mistsplitter Reforged (5☆)
+≈ Haran Geppaku Futsu (5☆)
+4. Freedom-Sworn (5☆)
+5. Wolf-Fang (4☆)*
+6. Toukabou Shigure (4☆)*
+7. The Black Sword (4☆)
+8. Summit Shaper (5☆)
+≈ Iron Sting (4☆)
+≈ Blackcliff Longsword (4☆)
+≈ Harbinger of Dawn (3☆)*
+9. Xiphos' Moonlight (4☆)*
+≈ Festering Desire (4☆)
+10. Skyward Blade (5☆)
+","1. Gilded Dreams (4)*
+2. Deepwood Memories (2) / Emblem of Severed Fate (2) / +80 EM set (2)
+ [Choose Two]* 
+3. Deepwood Memories (4)
+
+Conditional (See Notes):
+Marechaussee Hunter (4)","Sands - Elemental Mastery / ATK%
+Goblet - Dendro DMG
+Circlet - Crit Rate / DMG","1. Energy Recharge* (Until Requirement)
+2. Crit Rate / DMG
+3. Elemental Mastery**
+4. ATK%
+
+* Certain quicken teams can run little to no Energy Recharge and simply burst every other rotation without a dps loss
+** If you're running under 200 Elemental Mastery this substat has priority over Crit","1. Skill
+2. Normal Attack
+≈ Burst
+
+","Basic Rotations:
+
+Burst up = Q > E > N2D + 2N3D + N1C + 2N2C
+
+Burst down = E > N1C + 5N2C + N1"
+,NOTES,"SPREAD DPS
+This playstyle maximizes Alhaitham's kit, leveraging both Spread reactions and his Elemental Mastery-scaling skill for significant damage. As a Spread DPS with a high rate of on-field Dendro application and flexible team compositions, he excels in Quicken/Quickbloom teams. To further maximise his performance it's highly recommended to prioritize levelling him to 90/90.
+
+Regarding Weapon Choices:
+Light of Foliar Incision: This weapon prefers EM sands even in situations with fewer or no Spread procs such as in Bloom/Burgeon/Hyperbloom teams.
+Toukabou Shigure: This ranking assumes single-target situations, in AoE situations it starts falling behind weapons such as Iron Sting and Blackcliff Longsword.
+Harbinger of Dawn: If you can maintain near perfect uptime on its passive this weapon will perform similarly to weapons like Haran Geppaku Futsu.
+Xiphos' Moonlight / Festering Desire: These weapons can perform similarly to The Black Sword in teams where you have higher Energy Recharge requirements or want to burst every rotation.
+Wolf-Fang: At [R5], this weapon performs similarly to Haran Geppaku Futsu and Mistsplitter Reforged.
+Uraku Misugiri: With a Geo unit on the team this performs on par with Light of Foliar Incision, or even slightly better in AoE scenarios where you lose stacks faster on Foliar.
+
+Regarding Artifact Sets:
+Gilded Dreams (4): This ranking assumes that you already have another Deepwood Memories holder on the team, if not then Deepwood Memories becomes his best set.
+Deepwood Memories (2) / Emblem of Severed Fate (2) / +80 EM set (2): These split set options can actually perform similarly to Gilded Dreams (4) or even surpass it in situations where you have higher Energy Recharge requirements or want to burst every rotation. Or even if they just have better substat rolls on them.
+Marechaussee Hunter (4): If played with Furina, this is Alhaitham's best set.
+
+Regarding Main Stat Priorities: Usually in Quicken/Quickbloom teams Alhaitham leans towards Elemental Mastery sands (roughly 5% or so difference usually). But in Bloom/Burgeon/Hyperbloom teams with, fewer to no Spread reactions, he skews more towards ATK% sands (unless you're using Light of Foliar Incision). Or even Energy Recharge sands if you're trying to burst every rotation for increased Dendro seed generation in those teams.
+
+Detailed weapon comparisons here.",,,,,,
+,BAIZHU,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.2,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+ ✩","1. Jadefall's Splendor (5☆)
+2. Prototype Amber (4☆) [R5]*
+3. Favonius Codex (4☆)*
+4. Hakushin Ring (4☆)*
+5. Thrilling Tales of Dragon Slayers (3☆)
+6. A Thousand Floating Dreams (5☆)*
+","1. Deepwood Memories (4)*
+2. Ocean-Hued Clam (4)
+3. Instructor (4)*
+4. Noblesse Oblige (4)*
+5. Tenacity of the Millelith (2) / Vourukasha's Glow (2) / Emblem of Severed Fate (2) [Choose Two]","Sands - HP% / Energy Recharge
+Goblet - HP%
+Circlet - HP% / Healing Bonus*
+
+*Check notes ","1. Energy Recharge*
+2. HP%
+3. Flat HP
+4. Crit Rate*
+
+*Prioritize Energy Recharge until requirement is met. Crit Rate is only recommended when using Favonius Codex. ","1. Burst
+2. Skill
+
+","Baizhu's Elemental Skill has a 2-3 second delay between cast time and heal received, keep this in mind when swapping to low HP allies after Baizhu's rotation.
+"
+,NOTES,"SUPPORT
+Baizhu provides teamwide healing through the use of his Elemental Skill, and heals the active character from his Burst. The shields generated from his Burst should be considered as interrupt resistance as opposed to a reliable form of damage mitigation for non-Bloom reaction related damage sources. Due to being a Dendro catalyst, Baizhu can work effectively in a large range of different Dendro team archetypes. 
+
+Regarding Weapon Choices:
+Hakushin Ring: This weapon is best used in Quicken teams when Baizhu is able to provide reasonable uptime on the buff. 
+Prototype Amber: In addition to the amount of flat energy generation for the user, this weapon can provide significant team-wide healing when used in conjunction with Healing Bonus. It is a great option when using Baizhu with Furina for building Fanfare points from the second rotation onwards.
+Favonius Codex: Try to build some Crit Rate when using this weapon in order to trigger the passive effect more consistently. 
+A Thousand Floating Dreams: This weapon can be considered in certain teams for the modest Elemental Mastery team buff it provides, though there are generally better uses for it. 
+
+Regarding Artifact Sets:
+Deepwood Memories (4): Under AoE situations, it may be better for another party member to hold this set as Baizhu has lackluster AoE.
+Instructor (4): The Elemental Mastery gained from this set outweighs the reduction in A4 passive bonus from lower main stat values.
+Noblesse Oblige (4): In teams that benefit from ATK%, this set can be run over Instructor (4) if the additional sustain from higher HP values is preferred.
+
+Regarding Artifact Stats: 
+While generally in teams that can benefit from Baizhu's Ascension 4 passive you want to build high HP (up to 50k) to maximize the buff it can provide, Healing Bonus circlet can be considered over HP% in teams where having more healing would be valuable. For example, using Healing Bonus circlet can allow for building Fanfare points faster when using Baizhu with Furina, moreover Healing Bonus circlet synergizes well with Prototype Amber's passive. 
+",,,,,,
+,EMILIE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.7,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"OFF-FIELD DPS
+ ✩","1. Lumidouce Elegy (5☆)
+2. Calamity Queller (5☆)
+3. Symphonist of Scents (5☆)*
+ ≈ Staff of Homa (5☆)
+4. Engulfing Lightning (5☆)
+≈ Staff of the Scarlet Sands (5☆)
+5. Primordial Jade Winged-Spear (5☆)
+≈ Crimson Moon's Semblance (5☆)
+6. Deathmatch (4☆)*
+7. Skyward Spine (5☆)
+≈ Tamayuratei no Ohanashi (4☆)
+8. Missive Windspear (4☆) [R5]
+≈ Lithic Spear (4☆)
+≈ Prospector's Drill (4☆)
+9. Favonius Lance (4☆)
+10. Kitain Cross Spear (4☆)","1. Unfinished Reverie (4)
+2. Deepwood Memories (4)*
+3. Golden Troupe (4)
+4. Deepwood Memories (2) / Golden Troupe (2) / +18% ATK set (2) [Choose Two]","Sands - ATK%
+Goblet - Dendro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. ER%*","1. Skill
+2. Burst",
+,NOTES,"OFF-FIELD DPS
+Emilie does not use the Burning reaction as her primary source of damage, but rather she uses the reaction to help her continuously deal Dendro damage. Thus, Emilie would rather build offensive stats rather than focus on building around the Burning reaction.
+
+Regarding Weapon Choices:
+Deathmatch: At [R5], this weapon will perform better than Engulfing Lightning, and it will perform a little worse than Staff of Homa if she is played in single-target.
+Symphonist of Scents: Keep in mind that while this weapon serves as a decent stat stick for Emilie, using it on her wastes one of the game's stronger buffing weapons since her kit lacks any healing to activate its buff.
+
+Regarding Artifact Sets:
+Deepwood Memories: This set has significantly less value on Emilie if someone else in the team can hold it.
+
+Regarding Substats:
+Energy Recharge: Emilie does not need to burst every rotation in some teams, so ER% becomes less important. 
+
+Detailed weapon comparisons here.",,,,,,
+,KINICH,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.4 / Luna V,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Fang of the Mountain King (5☆)
+2. Gest of the Mighty Wolf (5☆)
+2. A Thousand Blazing Suns (5☆)
+≈ Beacon of the Reed Sea (5☆)
+3. Serpent Spine (4☆)*
+4. Verdict (5☆)
+5. Earth Shaker (4☆) [R5]*
+≈ Wolf's Gravestone (5☆)*
+≈ Redhorn Stonethresher (5☆)","1. Obsidian Codex (4)*
+≈ Unfinished Reverie (4)*
+2. Golden Troupe (4)
+3. Deepwood Memories (2) / +18 ATK% set (2) / Golden Troupe (2) [Choose Two]
+
+Conditional (See Notes):
+Marechaussee Hunter (4)*","Sands - ATK%
+Goblet - Dendro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge","1. Skill
+2. Burst","When paired with Xiangling, spin counter clockwise so her Pyronado can hit opponents more frequently."
+,NOTES,"DPS
+Kinich is a Dendro DPS who relies on tethering himself to enemies with his grappling hook and firing Loop Shots to generate Nightsoul Points in order to use the Scalespiker Cannon. Both the Loop Shots and the Scalespiker Cannon are considered Elemental Skill DMG. With his A1 Talent, his skill puts enemies in the Desolation State, which, when they are affected by Burning or Burgeon, generates even more Nightsoul Points for Kinich. Summoning Ajaw to the field will extend his Nightsoul Blessing state briefly.
+
+Regarding Weapon Choices:
+Rankings assume Kinich is used with Bennett.
+Serpent Spine: Performs much worse without a shielder. At [R5], this weapon performs better than Beacon of the Reed Sea.
+Earth Shaker: Earth Shaker is an inconsistent weapon choice in teams only consisting of Dendro and Pyro characters. Since only the activation of Burning counts toward the passive, meaning that the passive activation can only trigger once per enemy.
+Wolf's Gravestone: This option is mainly just a statstick for Kinich as many of his teammates, barring Xiangling, Emilie, Mavuika, or Xingqiu, don't benefit much from the ATK% buff from the passive.
+
+Regarding Artifact Sets:
+Obsidian Codex (4) / Unfinished Reverie (4): These two sets are about equal to each other. The less DMG% Kinich has from his weapon and/or team, the better Unfinished Reverie (4) performs. Inversely, the more DMG% Kinich already has, the better Obsidian Codex (4) performs relatively.
+Marechaussee Hunter (4): Only to be used when paired with Furina, or when played in Burgeon. Performs similarly to Unfinished Reverie (4).
+
+Detailed weapon comparisons here.",,,,,,
+,LAUMA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.1 / Luna II,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,BUFF SUPPORT (HIGH-ENERGY REQUIREMENT) ✩,"1. Nightweaver's Looking Glass (5☆)
+2. A Thousand Floating Dreams (5☆)*
+≈ Etherlight Spindlelute (4☆) [R5]*
+3. Starcaller's Watch (5☆)
+≈ Sunny Morning Sleep-In (5☆)* 
+≈ Fruit of Fulfilment (4☆) [R5]
+≈ Blackmarrow Lantern (4☆)* [R5]
+
+","1. Silken Moon's Serenade (4)
+≈ Deepwood Memories (4)*
+2. Night of the Sky's Unveiling (4)*
+3. Gilded Dreams (4)","Sands - Energy Recharge / Elemental Mastery
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery","1. Energy Recharge*
+2. Elemental Mastery
+3. Crit Rate / DMG
+
+* Prioritize Energy Recharge first until you meet the requirement","1. Burst
+≈ Skill","Typically Lauma's Burst will buff 36 instances of bloom-related damage, this is per target so in AoE it will deplete a lot faster.
+
+Lauma's hold Elemental Skill will consume Verdant Dew stacks (obtained by triggering Lunar-Bloom reaction every 2.5s) - It is recommended to have 2-3 stacks before casting hold Elemental Skill, else tap Elemental Skill to conserve Verdant Dew stacks"
+,,"BUFF SUPPORT
+(LOW-ENERGY REQUIREMENT) ✩","1. Nightweaver's Looking Glass (5☆)
+2. A Thousand Floating Dreams (5☆)*
+≈ Reliquary of Truth (5☆)*
+3. Starcaller's Watch (5☆)
+≈ Sunny Morning Sleep-In (5☆)*
+4. Sacrificial Fragments (4☆)*
+5. Surf's Up (5☆)*
+≈ Wandering Evenstar (4☆)*
+≈ Etherlight Spindlelute (4☆) [R5]
+6. Blackmarrow Lantern (4☆) [R5]
+",,"Sands - Elemental Mastery
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery / Crit Rate* / DMG*
+
+*Crit Rate and Crit DMG only affects LAUMA'S PERSONAL damage, this does not increase her bloom crit buffs",,,
+,NOTES,"BUFF SUPPORT
+Lauma offers access to Lunar-Bloom, as well as decreasing enemy Hydro and Dendro resistances. Because of her fluctuating energy requirements, she can offer different playstyles. See the notes below.
+
+HIGH-ENERGY REQUIREMENT
+Typically features Lauma being the solo Dendro or being off-field for the majority of the team's rotation.
+
+Regarding Weapon Choices:
+A Thousand Floating Dreams: Calculated with the passive giving 32 EM and 20% Dendro Bonus
+Etherlight Spindlelute: Assumes passive is always active.
+Sunny Morning Sleep-In: This weapon assumes you are gaining the EM from the Skill portion of the passive.
+Blackmarrown Lantern : This weapon assume you are using hold skill for damage, if you are not, this weapon should not be considered
+
+Regarding Artifact Sets:
+Deepwood Memories: This set should be used if no one else on the team can use it
+Night of the Sky's Unveiling: This set should only be considered if Lauma is on-field and teammates can hold both Deepwood Memories (4) and Silken Moon's Serenade (4)
+
+Detailed weapon comparison here.
+
+LOW-ENERGY REQUIREMENT
+Typically features Lauma being the on-field unit in a double Dendro team or particle rich teams.
+
+Regarding Weapon Choices:
+A Thousand Floating Dreams: Calculated with the passive giving 32 EM and 20% Dendro Bonus
+Reliquary of Truth: Only calculated with EM buff.
+Sacrificial Fragments: Lauma has no trouble proccing the passive; it is recommended to not instantly use the skill reset - most optimally hold for ~7.5s for all Verdant Dew stacks before using again. At [R1 -> R4], assume this weapon will proc every other rotation, consumes 2 Verdant Dew stacks on 2nd skill. At [R5] this weapon performs closer to A Thousand Floating Dreams, assume this weapon will proc every rotation, consumes 2 Verdant Dew stacks on 2nd skill.
+Surf's Up: This weapon assumes dynamic stacking.
+Wandering Evenstar: At [R5] this weapon performs closer to Sacrificial Fragments [R1 -> R4]
+Sunny Morning Sleep-In: This weapon assumes you are gaining the EM from the Skill portion of the passive.
+
+Detailed weapon comparison here.
+
+Regarding Artifact Sets:
+Deepwood Memories: This set should be used if no one else on the team can use it
+Night of the Sky's Unveiling: This set should only be considered if Lauma is on-field and teammates can hold both Deepwood Memories (4) and Silken Moon's Serenade (4)",,,,,,
+,NEFER,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.3 / Luna IV,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Reliquary of Truth (5☆)
+2. Nocturne's Curtain Call (5☆)
+3. Nightweaver's Looking Glass (5☆)
+4. Sunny Morning Sleep-In (5☆)*
+≈ Starcaller's Watch (5☆)
+5. Blackmarrow Lantern (4☆) [R5]
+≈ A Thousand Floating Dreams (5☆)
+≈ Tome of the Eternal Flow (5☆)
+≈ Surf's Up! (5☆)
+≈ Dawning Frost (4☆)*
+6. The Widsith (4☆)*","1. Night of the Sky's Unveiling (4)
+","Sands - Elemental Mastery
+Goblet - Elemental Mastery
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. Elemental Mastery","1. Skill
+2. Burst","Seeds of Deceit do not deal damage, and they cannot enable Hyperbloom or Burgeon. They are strictly to enhance Nefer's Elemental Burst and add Lunar% buffs to her Elemental Skill.
+"
+,NOTES,"DPS
+Nefer is a Lunar-Bloom DPS that primarily deals damage through her enhanced Charged Attacks while in the Shadow Dance state. Nefer's enhanced Charged Attacks consume Verdant Dew, and summon Shades that deal Lunar-Bloom Damage as coordinated attacks. Nefer also converts Bloom Cores into Seeds of Deceit, which enhances her Elemental Skill and Elemental Burst depending on how many she has consumed. The conversion requires Moonsign: Ascendant Gleam to be active.
+
+Regarding Weapon Rankings:
+Sunny Morning Sleep-In: Ranking assumes the Skill EM buff and part of the Burst EM buff.
+Dawning Frost: At [R5], this weapon will perform better than Sunny Morning Sleep-In.
+The Widsith: This weapon loses a lot of value if Nefer does not aquire the Elemental Mastery buff. Assuming she does get it, at [R5], this weapon will perform better than Blackmarrow Lantern.
+
+Detailed comparisons here.",,,,,,

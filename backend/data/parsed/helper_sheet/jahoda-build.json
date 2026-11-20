@@ -1,0 +1,84 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "jahoda",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-warbow",
+          "weapon_name": "Favonius Warbow",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "elegy-for-the-end",
+          "weapon_name": "Elegy for the End",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "rainbow-serpent-s-rain-bow",
+          "weapon_name": "Rainbow Serpent's Rain Bow",
+          "rarity": 4,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "snare-hook",
+          "weapon_name": "Snare Hook",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "silken-moon-s-serenade",
+          "artifact_set_name": "Silken Moon's Serenade",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "healing_bonus",
+        "atk_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "atk_pct",
+        "crit_rate",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: OFF-FIELD REACTION DPS & HEAL SUPPORT | Last Updated: Version 6.2 / Luna III | Jahoda heavily favors having Moonsign: Ascendant Gleam. Her Skill and Burst Infusion priority is Pyro>Hydro>Electro>Cryo. If the active character has 70% HP or more, Jahoda's Burst will also heal the character with the lowest HP. Jahoda's [C6] will only take effect if the Purr-Loined Treasure Flask is full.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Jahoda (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,136 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "neuvillette",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-jade",
+          "weapon_name": "Sacrificial Jade",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up!",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "reliquary-of-truth",
+          "weapon_name": "Reliquary of Truth",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "jadefall-s-splendor",
+          "weapon_name": "Jadefall's Splendor",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura's Verity",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ash-graven-drinking-horn",
+          "weapon_name": "Ash-Graven Drinking Horn",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "heart-of-depth",
+          "artifact_set_name": "Heart of Depth",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "retracing-bolide",
+          "artifact_set_name": "Retracing Bolide",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "wanderer-s-troupe",
+          "artifact_set_name": "Wanderer's Troupe",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "nymph-s-dream",
+          "artifact_set_name": "Nymph's Dream",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg",
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Burst = Skill",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 5.2 | DPS DPS Neuvillette centers around using his Charged Attacks to deal damage. Regarding Weapon Choices: Weapon options similar to Prototype Amber can be used better by other characters, so it's not recommended to pull or upgrade these weapons just for Neuvillette. Ash-Graven Drinking Horn: With low ER requirements, this weapon can slightly edge out Prototype Amber, though it lacks Prototype Amber's",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Neuvillette (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

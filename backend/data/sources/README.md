@@ -11,7 +11,7 @@ Salve os arquivos `.txt` (copiados do guia do personagem) usando o slug do perso
 | `game8/` | Game8 (`game8.co`) | Ativo (`parsers/game8.py`) |
 | `genshingg/` | Genshin.gg (`genshin.gg`) | Ativo (`parsers/genshingg.py`) |
 | `gamewith/` | GameWith (`gamewith.net`) | Ativo (`parsers/gamewith.py`) |
-| `helper_sheet/` | Genshin Impact Helper Team Sheet | Estrutura pronta — adicione 1 `.txt`/`.csv` de amostra para ativar |
+| `helper_sheet/` | Genshin Impact Helper Team Sheet | Ativo (`parsers/helper_sheet.py` — 7 CSVs elementais, 119 chars) |
 
 ## Como processar e importar
 

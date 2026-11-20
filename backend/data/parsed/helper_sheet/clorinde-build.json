@@ -1,0 +1,120 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "clorinde",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "absolution",
+          "weapon_name": "Absolution",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom-Sworn",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-of-eshu",
+          "weapon_name": "Calamity of Eshu",
+          "rarity": 4,
+          "notes": "4. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "finale-of-the-deep",
+          "weapon_name": "Finale of the Deep",
+          "rarity": 4,
+          "notes": "5. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-black-sword",
+          "weapon_name": "The Black Sword",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "fragment-of-harmonic-whimsy",
+          "artifact_set_name": "Fragment of Harmonic Whimsy",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator's Finale",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "thundering-fury",
+          "artifact_set_name": "Thundering Fury",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "electro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 5.2 | Skill Combos: With Burst: Q > E > E > 5N3E > N2 or N3 Q > E > 6N3E Without Burst: E > 6N3E N = Normal Attack; E = Elemental Skill; Q = Elemental Burst",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Clorinde (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

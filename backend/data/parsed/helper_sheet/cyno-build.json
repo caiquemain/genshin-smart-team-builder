@@ -1,0 +1,143 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "cyno",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "disaster-and-remorse",
+          "weapon_name": "Disaster and Remorse",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ballad-of-the-fjords",
+          "weapon_name": "Ballad of the Fjords",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fractured-halo",
+          "weapon_name": "Fractured Halo",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "white-tassel",
+          "weapon_name": "White Tassel",
+          "rarity": 3,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "symphonist-of-scents",
+          "weapon_name": "Symphonist of Scents",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kitain-cross-spear",
+          "weapon_name": "Kitain Cross Spear",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "missive-windspear",
+          "weapon_name": "Missive Windspear",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "thundering-fury",
+          "artifact_set_name": "Thundering Fury",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "flower-of-paradise-lost",
+          "artifact_set_name": "Flower of Paradise Lost",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator's Finale",
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em"
+      ],
+      "goblet_stat": [
+        "electro_dmg",
+        "em"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "em"
+      ],
+      "substat_priority": [
+        "er",
+        "em",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: QUICKBLOOM / HYPERBLOOM DPS | Last Updated: Version 6.6 / Luna VII | Rotations: Thundering Fury (4): E N1 Q E 6[N4E] Non-Thundering Fury: E N1 Q N2E 3[N5 N2E] *E = Elemental Skill, N = Normal Attack, Q = Elemental Burst.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Cyno (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

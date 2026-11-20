@@ -1,0 +1,1212 @@
+Discontinued,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+(Migrating to a new site),,,,,,,,
+,,,,,,,,
+,The role that the Character best excels in will be marked with ✩,,,,,,,
+,> > Weapons and Artifacts Info < <,,,,,,,
+,,,,,,,,
+,4 STAR,,,,,,,
+,DIONA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.6,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL & SHIELD SUPPORT
+✩","1. Favonius Warbow (4✩)*
+≈ Sacrificial Bow (4✩)* [R3+]
+2. Sacrificial Bow (4✩)
+3. Elegy for the End (5✩)
+4. Silvershower Heartstrings (5✩)*
+5. Recurve Bow (3✩)*
+≈ Sequence of Solitude (4✩) [R5]*","1. Noblesse Oblige (4)*
+≈ Scroll of the Hero of Cinder City (4)
+2. +20% HP set (2) / +20% HP set (2) / Emblem of Severed Fate (2) / +15% Healing Bonus set (2) [Choose Two]
+3. Maiden Beloved (4)
+≈ Ocean-Hued Clam (4)
+4. Instructor (4)*
+5. Tenacity of the Millelith (4)*
+","Sands - Energy Recharge / HP% 
+Goblet - HP% 
+Circlet - HP% / Healing Bonus 
+","1. Energy Recharge
+2. HP%
+3. Crit Rate*
+4. Flat HP
+
+*Crit Rate substats are only recommended when using Favonius Warbow.",1. Burst = Skill*,"Diona's Elemental Skill grants you a Cryo shield which allows cleansing. Every time you swap characters with the shield up, it applies Cryo. This acts as a cleanse."
+,NOTES,"SUPPORT
+As a support, Diona's typically used for three things; Shielding, Healing, and Cryo particle generation. Pairing Diona with Cryo damage dealers such as Ayaka, Ganyu and Eula allows you to funnel energy into them while providing them a shield. Weapons such as Sacrificial Bow and Favonius Warbow greatly increase her potential as a battery.
+
+Regarding Weapon Choices:
+Sacrificial Bow: Preferred over Favonius Warbow at higher refinements when batterying another Cryo character.
+Favonius Warbow: It is recommended to build some Crit Rate in substats to have a higher chance of triggering the bow passive for energy.
+Silvershower Heartstrings, Recurve Bow, Sequence of Solitude: These bows will be your best choice for stronger shields, however the Energy Recharge and useful passives of other weapons will generally make them a suboptimal pick.
+
+Regarding Artifact Sets:
+Noblesse Oblige (4): This set provides an teamwide ATK% buff while also increasing burst damage - Diona does not have the best uptime on this set, however, she may be the best option to use this set.
+Instructor (4): This set is a niche option for Diona. It can be considered in teams which value EM and where she can trigger a reaction while on-field. Do keep in mind that Instructor being limited to a 4* set means your stat potential will be lower. 
+Tenacity of the Millelith (4): This set is a niche option for Diona. It can be considered in teams including some variants of Ganyu Freeze which have shorter rotation lengths meaning Diona's burst will not be used every rotation, and where you can snapshot the ATK% buff onto Ganyu's burst. 
+
+Regarding Main Stats Priority: 
+Full Stack HP% is recommended if you want stronger shields but a weaker heal. You can use Healing Bonus Circlet if you want a nice balance between the two. 
+
+Regarding Talent Priority: 
+Prioritise whichever your Diona is geared for (shielder or healer), if built for a balance between the two, level both equally.",,,,,,
+,CHONGYUN,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.6,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"BURST NUKE
+✩","1. Serpent Spine (4✩)
+≈ Sacrificial Greatsword (4✩) [R5] 
+2. A Thousand Blazing Suns (5✩)
+3. Redhorn Stonethresher (5✩)
+≈ Beacon of the Reed Sea (5✩)
+≈ Verdict (5✩)
+4. Mailed Flower (4✩) [R5]
+≈ Fang of the Mountain King (5✩)
+5. Skyward Pride (5✩)
+≈ The Unforged (5✩)
+≈ Luxurious Sea-Lord (4✩) [R5]
+≈ Akuoumaru (4✩)*
+6. Tidal Shadow (4✩) 
+≈ Makhaira Aquamarine (4✩) 
+≈ Blackcliff Slasher (4✩) 
+7. Favonius Greatsword (4✩) ","1. Noblesse Oblige (4)*
+2. Emblem of Severed Fate (4)
+≈ Noblesse Oblige (2) Blizzard Strayer (2)
+≈ Gilded Dreams (4)*
+3. Noblesse Oblige (2) / Blizzard Strayer (2) / +80 EM set (2) / +18% ATK set (2) / Emblem of Severed Fate (2) [Choose Two]","Sands - ATK% / Energy Recharge / Elemental Mastery
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG
+","1. Crit Rate / DMG 
+2. ATK% 
+3. Elemental Mastery 
+4. Energy Recharge","1. Burst
+2. Skill","Chongyun's Elemental Burst is calculated as Claymore damage, which means it breaks Geo Structures / Shields at a much easier rate and can proc Shatter."
+,,INFUSION SUPPORT,"1. Sacrificial Greatsword (4✩) [R5] 
+2. Wolf's Gravestone (5✩)
+3. Favonius Greatsword (4✩)
+3. Makhaira Aquamarine (4✩)","1. Noblesse Oblige (4)
+2. Scroll of the Hero of Cinder City (4)
+3. Instructor (4)","Sands - ATK% / Energy Recharge
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG
+","1. Crit Rate / DMG 
+2. ATK% 
+3. Elemental Mastery 
+4. Energy Recharge","1. Burst
+2. Skill","Chongyun's Infusion is overridden by Bennett's C6 and Diluc, but overrides Candance's infusion."
+,NOTES,"BURST NUKE
+It is preferred to use Chongyun as a Burst Nuke over Main DPS as his Normal Attack scalings are very low, even when including Constellation 1. His Elemental Burst on the other hand hits extremely hard on later constellations and takes a much higher total damage portion over his Normal Attack. On top of that, you can Reverse Melt all 3 hits of his Elemental Burst on enemies applied with strong Pyro, such as Bennett's Elemental Skill and Elemental Burst.
+
+At [C2], his Elemental Skill reduces ability cooldown that is cast within the zone by 15%. This is one of the few abilities in the game that can reduce cooldown.
+
+Regarding Weapon Choices:
+Akuoumaru: At [R1], Akuoumaru beats Luxurious Sea-Lord if Chongyun is used in a team with 260 or greater total team energy. Akuoumaru only beats Luxurious Sea-Lord if [R2] and above otherwise.
+
+Regarding Artifact Sets:
+Noblesse Oblige (4): Chongyun is one of the best Noblesse Oblige (4) holders since he has low energy requirements for his Elemental Burst.
+
+INFUSION SUPPORT
+Chongyun as an infusion support is rather niche, since it is only used to enable on-field Cryo characters that don't already have Cryo infusions. The most notable of these is Cryo DPS Freminet.
+
+Detailed weapon comparisons here.",,,,,,
+,KAEYA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.5,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"FREEZE / MONO CRYO
+✩","1. Mistsplitter Reforged (5✩)
+2. Absolution (5✩)
+3. Light of Foliar Incision (5✩)
+≈ Haran Geppaku Futsu (5✩)*
+4. Splendor of Tranquil Waters (5✩)
+≈ Lightbearing Moonshard (5✩)
+≈ Summit Shaper (5✩)
+≈ Primordial Jade Cutter (5✩)*
+5. Finale of the Deep (4✩) [R5]*
+6. Amenoma Kageuchi (4✩)*
+≈ Harbinger of Dawn (3✩) [R5]
+≈ Skyward Blade (5✩)*
+7. Favonius Sword (4✩)*","1. Blizzard Strayer (4)
+2. Emblem of Severed Fate (4)
+3. +15% Cryo DMG set (2) / +18% ATK set (2) / Noblesse Oblige (2) [Choose Two]
+4. Noblesse Oblige*
+≈ Scroll of the Hero of Cinder City (4)
+","Sands - ATK%
+Goblet - Cryo DMG 
+Circlet - Crit DMG
+","1. Energy Recharge*
+2. Crit DMG 
+3. ATK%
+4. Crit Rate*
+
+*Prioritize Energy Recharge until Requirements are met","1. Burst
+2. Normal Attack*
+3. Skill
+
+*If not paired with Chongyun, Skill takes priority over Normal Attacks
+",
+,,REVERSE MELT ✩,"1. Primordial Jade Cutter (5✩)
+2. Mistsplitter Reforged (5✩)
+3. Haran Geppaku Futsu (5✩)
+≈ Uraku Misugiri (5✩)*
+≈ Light of Foliar Incision (5✩)
+4. Absolution (5✩)
+≈ Splendor of Tranquil Waters (5✩)
+≈ Lightbearing Moonshard (5✩)
+≈ Freedom-Sworn (5✩)
+≈ Toukabou Shigure (4✩) [R5]
+≈ Iron Sting (4✩) [R5]
+≈ Harbinger of Dawn (3✩) [R5]
+5. Summit Shaper (5✩)
+≈ Lion's Roar (4✩)*
+6. Finale of the Deep (4✩) [R5]*
+7. Skyward Blade (5✩)*
+≈ Favonius Sword (4✩)*","1. Emblem of Severed Fate (4)
+2. Noblesse Oblige (2) / +15% Cryo DMG set (2) [Choose One] and +18% ATK set (2) / +80 EM set (2) [Choose One]
+≈  Gilded Dreams (4)
+3. Noblesse Oblige (4)*
+≈ Scroll of the Hero of Cinder City (4)
+4. Instructor (4)*","Sands - Energy Recharge / ATK% / Elemental Mastery
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG
+","1. Energy Recharge*
+2. Crit Rate / DMG 
+3. ATK%
+≈ Elemental Mastery
+
+*Prioritize Energy Recharge until Requirements are met","1. Burst
+2. Skill",
+,NOTES,"FREEZE / MONO CRYO
+
+Regarding Weapon Choices:
+Haran Geppaku Futsu: This Weapon performs slightly better than Light of Foliar Incision if Kaeya is played on-field with Chongyun in the team.
+Primordial Jade Cutter: If running Blizzard Strayer (4), it is impossible not to overcrit with this weapon in Freeze teams and very hard not to overcrit in Mono Cryo teams. It is advised to switch either the weapon or the set in this case.
+Finale of the Deep: If you can reliably clear bond of life before casting burst, this weapon performs better than Splendor of Tranquil Waters.
+Amenoma Kageuchi, Skyward Blade and Favonius Sword: These weapons have higher value in teams where Kaeya faces high Energy Recharge Requirements.
+
+Regarding Artifact Sets:
+Noblesse Oblige: This set undermines Kaeya's personal Damage, but can contribute more overall team Damage thanks to the buff it provides.
+
+REVERSE MELT
+Kaeya is both a good DPS and battery in Reverse Melt teams. His Damage contribution comes from both Elemental Burst hits as well as occasional melted Skills.
+
+Regarding Weapon Choices:
+Uraku Misugiri: With a Geo unit on the team, this weapon can perform similarly to Mistsplitter Reforged if Kaeya melts two or more Skills per rotation.
+Lion's Roar: At [R5], this weapon performs similar to Absolution.
+Finale of the Deep: If you can reliably clear bond of life before casting burst, this weapon performs better than Summit Shaper.
+Skyward Blade: In teams without a second Cryo unit, this weapon increases in value.
+Favonius Sword: This weapon can be preferred over other options to help the team meet Energy Recharge requirements.
+
+Regarding Artifact Sets:
+Instructor (4) and Noblesse Oblige (4): These sets undermine Kaeya's personal Damage, but can contribute more overall team Damage thanks to the buffs they provide.",,,,,,
+,ROSARIA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.5,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"REVERSE
+MELT
+✩","1. Staff of the Scarlet Sands (5✩)
+2. Crimson Moon's Semblance (5✩)
+≈ Staff of Homa (5✩)
+≈ Lumidouce Elegy (5✩)
+3. Primordial Jade Winged-Spear (5✩)*
+≈ Calamity Queller (5✩)*
+4. Vortex Vanquisher (5✩)*
+≈ Deathmatch (4✩)*
+≈ Missive Windspear (4✩) [R5]  
+≈ Engulfing Lightning (5✩)
+5. Dragon's Bane (4✩)*
+≈ Wavebreaker's Fin (4✩)*
+≈ Skyward Spine (5✩)
+6. ""The Catch""(4✩)
+","1. Gilded Dreams (4)
+≈ Emblem of Severed Fate (4)*
+2. +15% Cryo DMG set (2) + Noblesse Oblige (2)","Sands - Elemental Mastery / ATK%
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG","1. Energy Recharge*
+2. Crit Rate
+3. Crit DMG
+3. Elemental Mastery / ATK%
+
+*Until ER requirement is met","1. Burst
+2. Skill","Be sure to cast skill before burst as Crit Rate granted by the Ascension 1 Talent will be included with Ascension 4 Talent Bonus as well.
+
+Rosaria's Elemental Skill and Elemental Burst can be Reverse Melted (1.5x) with another Pyro applier for some quick and powerful damage. "
+,,"FREEZE
+✩","1. Calamity Queller (5✩)*
+2. Staff of Homa (5✩)
+3. Crimson Moon's Semblance (5✩)
+≈ Vortex Vanquisher (5✩)*
+4. Primordial Jade Winged-Spear (5✩)*
+≈ Lumidouce Elegy (5✩)
+≈ Wavebreaker's Fin (4✩)*
+≈ Skyward Spine (5✩)
+≈ Tamayuratei no Ohanashi (4✩) [R5]
+≈ Engulfing Lightning (5✩)
+5. ""The Catch"" (4✩) [R5]
+6. Favonius Lance(4✩) ","1. Blizzard Strayer (4)
+≈ Emblem of Severed Fate (4) (Crit Rate secondary stat weapon only)
+2. Noblesse Oblige (4)*
+3.  +15% Cryo DMG set (2) + Noblesse Oblige (2)","Sands - ATK%
+Goblet - Cryo DMG 
+Circlet - Crit DMG","1. Energy Recharge*
+2. Crit DMG 
+3. ATK%
+4. Crit Rate*
+
+*Until ER requirement is met","1. Burst
+2. Skill
+3. Normal Attack","If Rosaria is being used with Chongyun to infuse her normal attacks with Cryo, her Normal Attack talent will have higher priority than Skill."
+,,"BUFF SUPPORT
+✩","1. Favonius Lance (4✩)*
+2. Staff of the Scarlet Sands (5✩)
+3. Lumidouce Elegy (5✩)
+4. Deathmatch (4✩)
+5. Primordial Jade Winged-Spear (5✩)
+6. Engulfing Lightning (5✩)
+7. Skyward Spine (5✩)
+8. ""The Catch"" (4✩)","1. Noblesse Oblige (4)
+2. Scroll of the Hero of Cinder City (4)*
+3. Archaic Petra(4)*
+4. Instructor (4)*","Sands - ATK% / Energy Recharge
+Goblet - Cryo DMG
+Circlet - Crit Rate
+","1. Energy Recharge*
+2. Crit Rate
+3. Crit DMG
+4. ATK%
+
+*Until ER requirement is met","1. Burst
+2. Skill",Rosaria A4 passive provides a potent Crit Rate buff to her teammates via her own Crit Rate after casting burst. This heavily incentivizes building enough ER to burst consistently and getting as close to 100% Crit Rate as possible
+,NOTES,"REVERSE MELT
+This build capitalizes on the fact Rosaria's skill and burst don't have an ICD, allowing her to Melt all Skill and Burst procs. Which in combination with snapshotting buffs onto her burst makes it one of her highest personal damage builds.
+
+Regarding Weapon Choices:
+For more details see the sheet here
+Calamity Queller: Ranking assumes fully stacked passive, and the passive is not doubled.
+Primordial Jade Winged-Spear: Ranking assumed averaged 3 stacks.
+Vortex Vanquisher: Ranking assumed shielded, if unshielded, this weapon performs slightly better than Deathmatch [R1].
+Deathmatch: At high refinement [R4-R5] with 2+ enemy, this performs just below Calamity Queller. This weapon can outperform all (4✩) options and even Primordial Jade Winged-Spear when used with Gilded Dreams (4) in single target situations.
+Dragon's Bane: At high refinement [R4-R5] this weapon performs slightly better than Calamity Queller.
+Wavebreaker's Fin: At high refinement [R4-R5], this weapon performs just below Calamity Queller.
+
+Regarding Artifact Choices:
+Emblem of Severed Fate (4): In teams where her energy requirements are higher (130%+) it can surpass Gilded Dreams (4).
+
+FREEZE
+This build can be used on both a quickswap/sub-dps and perma-freeze dps Rosaria. Generally played as a secondary DPS to an onfield freeze carry like Ayaka, Ganyu, Wriothesley.
+ 
+Regarding Weapon Choices: 120% ER requirement, some weapons requires 0 rolls into Crit Rate
+For more details see the sheet here
+Calamity Queller: Assumed max stacks, passive not doubled
+Wavebreaker's Fin: At high refinement [R4-R5] with a 270 energy cost team, this weapon perform just below Staff of Homa.
+Vortex Vanquisher: Assumed 2 stacks, unshielded.
+Primordial Jade Winged-Spear: Assumed 2 stacks.
+
+Regarding Artifact Choices:
+Noblesse Oblige (4): This set is only used in her quickswap/support roles not her perma-freeze dps role. Also it should only be considered when you have no decent Blizzard Strayer (4) pieces and no one else on the team is holding Noblesse Oblige (4).
+
+SUPPORT
+This Build focuses on her Buffing/Energy generation/Cryo application capabilities. Though it does not mean that you dont invest in her personal damage, only that it's a lower priority overall.
+
+Regarding Weapon Choices:
+Favonius Lance: The best option in situations where you havent met your teams energy requirements. Outside of that scenario you would be better off using a Crit Rate weapon that benefits her A4 buff.
+
+Regarding Artifact Sets:
+Instructor (4): Can be the better option in teams that prefer the Elemental Mastery buff over ATK, such as Hu Tao VapeMelt, while sacrificing her Crit Rate buffing potential
+Archaic Petra {4}: Only used in teams where she can reliably pick up Crystalized crystals
+Scroll of the Hero of Cinder City (4): Unconditional 12 DMG% to any element that she reacts with, Scroll of the Hero of Cinder City (2) also help her ER requirement when there is a Night Soul Burst triggered in the party",,,,,,
+,LAYLA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.0,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"SHIELD SUPPORT
+✩","1. Key of Khaj-Nisut (5✩)
+2. The Dockhand's Assistant (4✩)
+3. Primordial Jade Cutter (5✩)*
+4. Favonius Sword (4✩)*
+5. Freedom-Sworn (5✩)*
+6. Skyrider Sword (3✩)
+","1. Tenacity of the Millelith (4)*
+2. Scroll of the Hero of Cinder City (4)
+3. Vourukasha's Glow (2) + Tenacity of the Millelith (2)
+4. Noblesse Oblige (4)","Sands - HP% / Energy Recharge
+Goblet - HP% 
+Circlet - HP% / Crit Rate*
+
+Crit Rate is only recommended if using Favonius Sword","1. Energy Recharge until requirement is met
+2. HP%
+3. Crit Rate*
+4. Flat HP
+
+Crit Rate is only recommended if using Favonius Sword","1. Skill
+2. Burst",
+,,SHIELD SUPPORT AND DAMAGE ✩,"1. Primordial Jade Cutter (5✩)
+2. Harbinger of Dawn [R5] (3✩)*
+3. Uraku Misugiri (5✩)
+≈ Splendor of Tranquil Waters (5✩)
+≈ Light of Foliar Incision (5✩)
+≈ Lightbearing Moonshard (5✩)
+4. Mistsplitter Reforged (5✩)
+≈ Wolf-Fang (4✩)*
+5. Key of Khaj-Nisut (5✩)
+6. Favonius Sword (4✩)*","1. Tenacity of the Millelith (4)*
+2. Blizzard Strayer (4)*
+3.  Vourukasha's Glow (2) / Tenacity of the Millelith (2) / Blizzard Strayer (2) [Choose two]
+4. Noblesse Oblige (4)
+5. Emblem of Severed Fate (4)","Sands - HP% / Energy Recharge*
+Goblet - Cryo DMG / HP% 
+Circlet - Crit Rate / Crit DMG / HP%
+
+Layla's Energy Recharge requirements will generally be low enough (especially with C2 or other Cryo characters) that an ER sands is not justified ","1. Energy Recharge until requirement is met
+2. Crit Rate / Crit DMG
+≈ HP%
+3. ATK%
+4. Flat HP
+","1. Skill
+2. Burst
+
+",
+,NOTES,"SUPPORT
+The goal of this build is to prioritize Layla's shield without building for personal damage. 
+
+Regarding Weapon Choices:
+Primordial Jade Cutter: This weapon sees more value on Layla when you're also investing into her damage to some extent. 
+Favonius Sword: Try to build some Crit Rate if using this weapon to trigger the passive consistently. 
+Freedom-Sworn: This weapon can be a good support option in teams where Layla can consistently trigger the passive. 
+
+Regarding Artifact Sets:
+Tenacity of the Millelith (4): This set is by far the best option for Layla, it complements her kit perfectly by providing HP% along with a teamwide ATK% and Shield Strength buff. 
+
+SUPPORT AND DAMAGE
+Layla's shield is very durable thanks to a good Base DMG Absorption and the number of Shield Strength modifiers she has access to. Furthermore, her personal damage scales well with Constellations (particularly 5 and 6). This build is a higher investment option than a pure Support build, choosing to sacrifice some shield durability in exchange for greater personal damage. 
+
+Regarding Weapon Choices:
+Harbinger of Dawn [R5]: Weapon ranking is assuming Layla is above 90% HP. As Layla is primarily used as an off-field character, she can usually have good uptime on the Harbinger passive. Though it's possible that good uptime may be unrealistic depending on your team, or if you're facing enemies where corrosion is present. 
+Wolf-Fang: At [R5] this weapon performs similarly to Harbinger of Dawn [R5].
+Favonius Sword: This weapon performs significantly worse than other listed options in terms of personal damage, but the extra particles for your team could be valuable. 
+
+Regarding Artifact Sets:
+Tenacity of the Millelith (4): This set is by far the best option for Layla's shield durability, and very often the best set for team damage. 
+Blizzard Strayer (4): This is Layla's best set for personal damage in teams where enemies are affected by Cryo or Frozen.
+
+Regarding Artifact Main Stats:
+While a HP%/Cryo/Crit build is ideal for personal damage, additional HP% Main Stats can be used to increase shield durability without a huge drop in personal damage as Layla's damage is partially HP scaling. 
+
+Credits to Voidrev for the weapon ranking. ",,,,,,
+,MIKA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.7,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL & BUFF SUPPORT
+ ✩","1. Symphonist of Scents (5✩)*
+≈ Favonius Lance (4✩)*
+2. Dialogues of the Desert Sages (4✩)
+3. Engulfing Lightning (5✩)
+4. Prototype Starglitter (4✩)
+≈ ""The Catch"" (4✩)
+≈ Rightful Reward (4✩)
+5. Black Tassel (3✩)","1. Noblesse Oblige (4)
+2. Ocean-Hued Clam (4)*
+3. Song of Day's Past (4)*
+4. Maiden Beloved (4)
+5. Scroll of the Hero of Cinder City (4)*
+6. +15% Healing Bonus (2) / 20% ER set (2) / 20% HP (2) [Choose two]
+7. The Exile (4)","Sands - Energy Recharge / HP%
+Goblet - HP%
+Circlet - Healing Bonus / Crit Rate%*","1. Energy Recharge
+2. Crit Rate*
+3. HP%
+4. Flat HP
+
+*Critical Rate is only recommended when using Favonius Lance","1. Skill
+2. Burst
+
+**Prioritize Mika's Burst if you value additional healing**",
+,NOTES,"SUPPORT
+Mika is a Physical damage support who offers Physical DMG% through Detector stacks, and Physical Crit Damage at C6. He is additionally able to heal and provide some Attack Speed. 
+Do note that Mika's buffs apply to your on-field character and do not linger, this is something to keep in mind especially when playing him with Eula, as you will lose his buffs if you detonate her Lightfall Sword early. 
+
+Regarding Weapon Choices:
+Favonius Lance: This is often Mika's best in slot option, as both an Energy Recharge weapon and one with a useful passive which generates particles on Crit. 
+Weapons which provide Energy Recharge are prioritized to ensure good Burst uptime.
+Symphonist of Scents: Keep in mind that without his C4, it can be very difficult to meet his Energy Recharge needs to burst every rotation and make full use of this weapon.
+
+Regarding Artifact Sets:
+Ocean-Hued Clam (4) is a good option if another party member is using Noblesse Oblige (4).
+Scroll of the Hero of Cinder City (4): is not very helpful for teams that focus on Physical damage.
+
+Regarding Artifact Main Stats and Substats:
+A Crit Rate circlet can be considered when running Favonius Lance for more consistent procs. Additionally, Critical Rate substats are useful when running Favonius Lance.",,,,,,
+,FREMINET,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.4,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,PHYSICAL DPS ✩,"1. Skyward Pride (5✩)*
+≈ Fang of the Mountain King (5✩)
+≈ A Thousand Blazing Suns (5✩)
+2. Song of Broken Pines (5✩)
+≈ Verdict (5✩)
+≈ Wolf's Gravestone (5✩)
+3. Beacon of the Reed Sea (5✩)
+≈ Redhorn Stonethresher (5✩)
+4. Serpent Spine (4✩)*
+≈ The Unforged (5✩)
+5. Prototype Archaic (4✩)
+≈ Tidal Shadow (4✩)*
+≈ Snow-Tombed Starsilver (4✩)","1. Pale Flame (4)
+2. Pale Flame (2) / Emblem of Severed Fate (2)
+≈ +25% Physical DMG set (2) and +25% Physical DMG set (2) / Golden Troupe (2) / +18% ATK set (2) [Choose One]
+3. Golden Troupe (4)
+4. Gladiator's Finale (4)
+
+Conditional (See Notes):
+Marechaussee Hunter (4)*","Sands - ATK%
+Goblet - Physical DMG%
+Circlet - Crit Rate / DMG","1. Energy Recharge
+2. Crit Rate / DMG
+3. ATK%
+4. Elemental Mastery
+
+*Prioritize Energy Recharge until you meet the requirement.","1. Skill
+2. Normal Attack
+3. Burst","Rotation:
+E Q N2 E 3[N1 E N2 (E or NA)]
+
+
+*E = Elemental Skill, Q = Elemental Burst, N = Normal Attack
+
+*You can perform a Normal Attack instead of using Elemental Skill at Pressure Level 4, because this also ends the Pers Timer state. "
+,,"CRYO DPS
+ ✩","1. A Thousand Blazing Suns (5✩)
+≈ Fang of the Mountain King (5✩)
+2. Verdict (5✩)
+3. Wolf's Gravestone (5✩)
+≈ Skyward Pride (5✩)*
+4. Beacon of the Reed Sea (5✩)
+≈ The Unforged (5✩)
+5. Serpent Spine (4✩)*
+≈ Redhorn Stonethresher (5✩)
+≈ Song of Broken Pines (5✩)
+6. Tidal Shadow (4✩)*
+7. Mailed Flower [R5] (4✩)
+≈ Prototype Archaic (4✩)","1. Blizzard Strayer (4) 
+2. Blizzard Strayer (2) / +18% ATK set (2) / Golden Troupe (2) [Choose Two]
+≈ Golden Troupe (4)
+
+Conditional (See Notes):
+Marechaussee Hunter (4)*","Sands - ATK%
+Goblet - Cryo DMG%
+Circlet - Crit Rate / DMG","1. Energy Recharge
+2. Crit Rate / DMG
+3. ATK%
+4. Elemental Mastery
+
+*Prioritize Energy Recharge until you meet the requirement.","1. Skill
+2. Normal Attack
+≈ Burst","Rotation:
+E E Q 4[E E (N1 or N2)]"
+,NOTES,"Marechaussee Hunter: If used with Furina, this is Freminet's best artifact set.
+
+PHYSICAL DPS
+Physical DPS Freminet stacks his Pers Timer to max using Normal Attacks and unleashes a powerful Physical Shattering Pressure. Rankings assume he is in a team that can reliably trigger Shatter and Superconduct.
+
+Regarding Weapon Choices:
+Skyward Pride: If Freminet is C2 or has low Energy Recharge Requirements this weapon is less potent due to the ER stat being less useful.
+Serpent Spine: At [R5] this weapon can equal Skyward Pride.
+Tidal Shadow: The performance of this weapon depends on the healing abilities of your team. If your team has healing capabilities, this weapon can be equal to Redhorn Stonethresher or better depending on refinement.
+
+CRYO DPS
+Cryo DPS Freminet uses Level Zero Shattering Pressure instances to deal Cryo damage with his skill. Rankings assume he can reliably trigger Shatter.
+
+Regarding Weapon Choices:
+Skyward Pride: If Freminet is C2 or has low Energy Recharge Requirements this weapon is less potent due to the ER stat being less useful.
+Serpent Spine: At [R5] this weapon can equal or surpass Wolf's Gravestone.
+Tidal Shadow: The performance of this weapon depends on the healing abilities of your team. If your team has healing capabilities, this weapon can be equal to Redhorn Stonethresher or better depending on refinement.",,,,,,
+,CHARLOTTE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.2,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+ ✩","1. Prototype Amber (4✩)
+≈ Favonius Codex (4✩)*
+2. Thrilling Tales of Dragon Slayers (3✩)*
+3. Oathsworn Eye (4✩) [R5]
+≈ Wine and Song (4✩)*
+","1. Noblesse Oblige (4)
+≈ Tenacity of the Millelith (4)
+2. Ocean-Hued Clam (4)
+≈ Scroll of the Hero of Cinder City (4)
+≈ Song of Days Past (4)
+3. Emblem of Severed Fate (2) / +18% ATK set (2) / +15% Healing Bonus set (2) [Choose Two]
+4. Maiden Beloved (4)
+5. Blizzard Strayer (4)*","Sands - Energy Recharge / ATK%
+Goblet - ATK%
+Circlet - Healing Bonus / ATK% / Crit Rate*
+
+*Crit Rate is only an option worth considering if Charlotte is using Favonius Codex","1. Energy Recharge*
+2. ATK%
+3. Crit Rate*
+4. Flat ATK
+5. Crit DMG
+
+* Energy Recharge should be prioritized until requirements are met.","1. Burst
+2. Skill",Charlotte's Hold Skill will change to Photo Mode if the Special Analysis Zoom Lens gadget is toggled on. Be sure to toggle it off in the inventory if you wish to properly use her Hold Skill in combat.
+,NOTES,"SUPPORT 
+Charlotte supports the team through her healing, and minor off-field damage. Though she has ATK% scaling on her healing, her personal damage is rather poor and support based artifacts and weapons are recommended.
+
+Regarding Weapon Choices:
+Thrilling Tales of Dragon Slayers: Due to Charlotte's high Energy Recharge needs, this weapon may not be suitable to run in some teams.
+Wine and Song: It is very important to sprint before casting Charlotte's Elemental Burst so that she gains the extra ATK% for her burst.
+Favonius Codex: Try to build some Crit Rate in substats if using this weapon. 
+
+Regarding Artifact Choices:
+Blizzard Strayer: The main utility for this set is more consistent Favonius Codex triggers. However, it also slightly helps her damage, which can be valuable at higher Constellations.
+
+Regarding Substats:
+Crit Rate: Only more useful than Crit DMG when using Favonius Codex.",,,,,,
+,,,,,,,,
+,5 STAR,,,,,,,
+,QIQI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.2,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+✩","1. Sacrificial Sword (4✩)*
+2. Favonius Sword (4✩)*
+3. Peak Patrol Song (5✩)*
+4. Skyward Blade (5✩)
+5. Sapwood Blade (4✩)
+6. Fleuve Cendre Ferryman (4✩)
+7. Amenoma Kageuchi (4✩)*","1. Tenacity of the Millelith (4)*
+2. Scroll of the Hero of Cinder City (4)*
+3. Ocean-Hued Clam (4)*
+≈ Song of Days Past (4)
+4. +15% Healing Bonus set (2) +18% ATK set (2) +20% ER set (2) [Choose Two]","Sands - ATK% / Energy Recharge 
+Goblet - ATK%
+Circlet - Healing Bonus / ATK%
+","1. ATK%
+2. Energy Recharge
+3. Flat ATK
+4. Crit Rate*
+5. DEF%**
+
+*Crit Rate only when using Favonius Sword
+
+**DEF% only when using Peak Patrol Song","1. Burst
+2. Skill",
+,NOTES,"SUPPORT
+Qiqi has extremely strong healing capabilities, but it comes with the drawback of 0 way to battery herself pre-[C1] and no other meaningful way to support her team through her kit alone. Her A4 allows her to apply her healing talisman with her normal attacks which has a 30-second cooldown, and scales with her Burst talent. Energy Recharge will greatly benefit Qiqi, however you should not need to burst every rotation.
+
+Regarding Weapon Choices: Due to Qiqi's extremely high ER needs and inability to generate energy for herself, Energy Recharge weapons are prioritized.
+ATK% Weapons: These weapons will significantly improve Qiqi's healing capabilities, however, they take lower priority over weapons that provide Energy Recharge.
+Sacrificial Sword: This is Qiqi's best option for maintaining skill uptime, assuming the Frost Herald is able to hit an enemy. Should the weapon proc, wait for the Frost Herald to disappear before using her skill again.
+Favonius Sword: This weapon can place higher if the team values the particles generated from it. Otherwise, it is preferred to use Sacrificial Sword or other available options.
+Peak Patrol Song: Thanks to Qiqi's high base defense, you can get a meaningful amount of the buff from this weapon. While using this weapon, you must normal attack twice to activate the passive. DEF% stats can be considered if your team does not struggle with survivability.
+
+Regarding Artifact Sets:
+Tenacity of the Millelith (4): This option is recommended only when paired with Sacrificial Sword to be able to maintain uptime on the ATK% buff from the set. 
+Scroll of the Hero of Cinder City (4): This set is a great option if Qiqi is placed in a party with a character from Natlan. Do note that she may have a rough time triggering an elemental reaction if you are solely using her Elemental Skill.
+Ocean-Hued Clam (4): This ranking assumes Qiqi does not get her Elemental Burst up often and is instead relying mainly on her Elemental Skill for healing. If she is in a team which funds her enough energy particles, or if she acts as the on-field DPS, this set can overtake Tenacity of the Millelith (4).",,,,,,
+,GANYU,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.6,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"MELT DPS
+✩","1. Astral Vulture's Crimson Plumage (5✩)
+≈ Hunter's Path (5✩)
+2. The First Great Magic (5✩)
+≈ Aqua Simulacra (5✩)
+3. Amos' Bow (5✩)*
+4. Polar Star (5✩) 
+≈ Skyward Harp (5✩)  
+≈ Thundering Pulse (5✩)
+5. Flower-Wreathed Feathers (4✩)*
+6. Hamayumi (4✩)*
+≈ Scion of the Blazing Sun (4✩)*
+7. Prototype Crescent (4✩)*
+","1.  Wanderer's Troupe (4)*
+2. Shimenawa's Reminiscence (4)*
+≈ Gilded Dreams (4)
+≈ Blizzard Strayer (2) / +18% ATK set (2) / +80 EM set (2) [Choose Two]
+
+Conditional (See Notes)
+Unfinished Reverie (4)*
+","Sands - Elemental Mastery / ATK%
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. Elemental Mastery
+3. ATK%","1. Normal Attack
+2. Skill
+3. Burst*","Ganyu's Elemental Burst should not be used in most melt teams, as it can lead to Charged Attacks not being able to trigger melt."
+,,"FREEZE DPS
+✩","1. Polar Star (5✩)*
+2.The First Great Magic (5✩)
+≈ Astral Vulture's Crimson Plumage (5✩)
+≈ Aqua Simulacra (5✩)
+3. Thundering Pulse (5✩)  
+≈ Skyward Harp (5✩)
+4. Amos' Bow (5✩)*
+≈ Song of Stillness (4✩) [R5]*
+5. Prototype Crescent (4✩)*
+≈ Mouun's Moon (4✩)*
+
+","1. Blizzard Strayer (4)
+2. Blizzard Strayer (2) / 18% ATK set (2) / Noblesse Oblige (2) [Choose Two]
+3. Marechaussee Hunter (4)*
+","Sands - ATK%
+Goblet - Cryo DMG
+Circlet - Crit DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge","1. Burst 
+2. Normal Attack
+3. Skill","With Blizzard Strayer (4), it is best to aim close to but not above 45% Crit Rate."
+,,"MONO CRYO DPS
+✩","1. The First Great Magic (5✩)
+2. Polar Star (5✩) 
+3. Amos' Bow (5✩)*
+≈ Aqua Simulacra (5✩)
+≈ Thundering Pulse (5✩)
+4. Astral Vulture's Crimson Plumage (5✩)
+≈ Song of Stillness (4✩) [R5]*
+5. Skyward Harp (5✩)
+6. Flower-Wreathed Feathers (4✩)* 
+≈ Prototype Crescent (4✩)*
+≈ Mouun's Moon (4✩)*","1. Blizzard Strayer (4)
+2. Blizzard Strayer (2) / 18% ATK set (2) / Noblesse Oblige (2) [Choose Two]
+
+","Sands - ATK%
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge","1. Normal Attack
+≈ Burst
+2. Skill","When using Blizzard Strayer (4), Ganyu reaches max Crit Rate with a base of 45% on her Charged attacks and a base of 65% on her Elemental Burst. Anything between 45% and 55% Crit Rate is a nice point to be at without sacrificing too much damage on either end."
+,NOTES,"MELT DPS
+Ganyu's Level 2 Charged Shot applies two instances Cryo as they do not share the same ICD, which allows you to trigger Melt reaction twice for both damage instances. Charged Attack will be the majority of her damage output while neglecting her Skill/Burst damage contribution for most scenarios.
+
+Regarding Weapon Choices:
+Amos' Bow: Ganyu's Level 2 Charge Shot Bloom extends arrow flight duration allowing her to get 3 stacks of Amos' Bow passive even on point blank range.
+Flower-Wreathed Feathers: This weapon scales incredibly well with refinements. At [R5], this weapon performs better than The First Great Magic.
+Hamayumi: Due to its passive, this weapon prefers Wanderer's Troupe (4) instead. At higher refinements, Hamayumi can outperform Thundering Pulse and Skyward Harp.
+Scion of the Blazing Sun: At [R5], this weapon can outperform Thundering Pulse and Skyward Harp.  
+Prototype Crescent: At higher refinement levels with good uptime on its passive, it can potentially be on par with Skyward Harp. However, do bear in mind that not all enemies have weak spots that you can headshot, which does affect its performance significantly. 
+
+Regarding Artifact Sets:
+Shimenawa's Reminiscence (4) and Wanderer's Troupe (4): If you are able to squeeze 5 Charged Attacks during the 10 second buff duration, Shimenawa's Reminiscence (4) pulls ahead of Wanderer's Troupe (4). Due to it being very difficult to do, Wanderer's Troupe (4) will usually end up dealing more damage for most players. 
+Unfinished Reverie: If Ganyu is played in a team with consistent burn uptime, this set performs better than Wanderer's Troupe (4) and  Shimenawa's Reminiscence (4).
+
+Regarding Talent Priority:
+Ganyu's Elemental Burst is low priority on a Melt Build since most of the times, you don't cast her burst at all so that it doesn't steal your Melt reaction.
+
+FREEZE DPS
+Ganyu's burst is the main damage source in freeze teams, therefore charged attacks should only be used when the time between using the teams skills and bursts allows it. If running Shenhe alongside Ganyu, weapons with Crit stats and/or DMG% are slightly favored.
+
+Regarding Weapon Choices: 
+Polar Star: This weapon is much harder to optimize with, due to having a very high Crit Rate stat.
+Amos' Bow: In quickswap heavy rotations (Ganyu Mona Venti Diona) where you usually don't do a lot of Charged Shots, this weapon performs worse than the other 5 star options listed.
+Song of Stillness: Ranking assumed Ganyu receives healing before casting her Elemental Burst.
+Prototype Crescent: Requires a weak spot hit before casting Ganyu's Elemental Burst to utilize the passive fully. At [R5], this weapon peforms close to Skyward Harp.
+Mouun's Moon: This weapon's exact performance varies with the teams total burst cost. At [R5], this weapon performs similar to Thundering Pulse.
+
+Regarding Artifact Sets:
+Marechaussee Hunter (4): This set should only be used with Furina on the team and performs only slightly worse than Blizzard Strayer (4).
+
+MONO CRYO DPS
+Mono Cryo Ganyu teams utilize Blizzard Strayer (4) and Cryo Resonance while having Ganyu on field dealing damage through both her Charged Attacks and Elemental Burst.
+
+Regarding Weapon Choices:
+Amos' Bow: If Shenhe is present on the team, this weapon performs worse than Skyward Harp.
+Flower-Wreathed Feathers; At [R5], this weapon performs similar to Prototype Crescent [R5].
+Prototype Crescent: Requires a weak spot hit before casting Ganyu's Elemental Burst to utilize the passive fully. At [R5], this weapon peforms sligthly better (without Shenhe) or slightly worse (with Shenhe) than Skyward Harp.
+Mouun's Moon: This weapon's exact performance varies with the teams total burst cost. Performs better than similar options with Shenhe present on the team.
+Song of Stillness: Ranking assumed Ganyu receives healing before casting her Elemental Burst.
+Flower-Wreathed Feathers: This weapon scales incredibly well with refinements. At [R5], this weapon performs closer to Amos' Bow.",,,,,,
+,EULA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.3,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"DPS
+ ✩","1. Song of Broken Pines (5✩)
+2. Wolf's Gravestone (5✩) 
+≈ Beacon of the Reed Sea (5✩)*
+3. Skyward Pride (5✩)*
+≈ Verdict (5✩)*
+4. The Unforged (5✩)*
+5. Redhorn Stonethresher (5✩)*
+6. Serpent Spine (4✩)*
+≈ ""Ultimate Overlord's Mega Magic Sword"" (4✩) [R5]* 
+7. Luxurious Sea-Lord (4✩) [R5] 
+≈ Akuoumaru (4✩)*
+≈ Tidal Shadow (4✩)*
+8. Lithic Blade (4✩) (1 stack)
+9. Prototype Archaic (4✩)
+10. Snow-Tombed Starsilver (4✩)
+11. Skyrider Greatsword (3✩) [R5]
+
+","1. Pale Flame (4)*
+2. Pale Flame (2) Bloodstained Chivalry (2)*
+3. Pale Flame (2) / Bloodstained Chivalry (2) / +18% ATK set (2) [Choose Two]
+4. Gladiator's Finale (4)
+5. +18% ATK set (2) / +18% ATK set (2)","Sands - ATK%
+Goblet - Physical DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. Energy Recharge*
+3. ATK%","1. Normal Attack = Burst
+2. Skill","Normal combo while no Burst:
+NA Spam > Tap Skill > NA Spam > Tap Skill
+
+Burst combo:
+Tap Skill > Burst > 4 NA > Hold Skill > 4 NA
+
+Burst combo that generates more energy at the cost of slightly less DPS:
+Tap Skill > Burst > Tap Skill > 4 NA > Dash Cancel > 2 NA > Hold Skill > 2 NA
+
+*NA = Normal Attack"
+,NOTES,"DPS
+Eula is an on-field Physical damage dealer who deals a significant portion of her damage through her Elemental Burst. Her Normal Attacks also make up a large portion of her overall damage at low Constellation. Weapon rankings are assuming 130% ER minimum, Superconduct and 4pc Noblesse Oblige buff, otherwise no buffs. 
+
+Regarding Weapon Choice:
+Redhorn Stonethresher: This weapon can overtake Wolf's Gravestone in terms of Eula's own damage if team provides enough ATK buffs, but Wolf's Gravestone can make up the damage difference by buffing team damage.
+Verdict: Weapon rankings are assuming no crystallize. 
+The Unforged: Weapon rankings are assuming no shield. With a shield this weapon performs similarly to Beacon of the Reed Sea and Wolf's Gravestone. 
+Akuoumaru: This weapon will outperform Luxurious Sea-Lord at higher refinements. At [R5] it can perform similarly to Verdict and Skyward Pride.
+Beacon of the Reed Sea: Weapon ranking assumes one stack. At two stacks, it outperforms other weapon options. 
+Tidal Shadow: Weapon rankings are assuming the passive is active. At [R5] this weapon performs similarly to Serpent Spine [R1] at 5 stacks. 
+Serpent Spine: Weapon rankings are assuming max stacks, in practice this often means running a shielder. At [R5] this weapon performs similarly to Beacon of the Reed Sea.
+Regarding weapons which provide Energy Recharge: In teams with low ER requirements on Eula (such as Triple Cryo + Raiden) these weapons lose some effectiveness. 
+
+Regarding Artifact Sets:
+Pale Flame (4): This is Eula's optimal artifact set and it relies on having a condition fulfilled in order to outperform Pale Flame (2) Bloodstained Chivalry (2). If you are able to sustain the conditional buff, you will be able to achieve a 50% Physical DMG Bonus + 18% ATK. Without using your Elemental Burst, you can sustain the Pale Flame's 4 piece set bonus because each stack lasts 7s and it refreshes per stack, and Eula's Elemental Skill cooldown is only 4 seconds when doing 1-taps, therefore you can keep the condition up. When using this set, it is recommended to not use Hold Skill cast until your Lightfall Sword is nearly about to end. This restriction is only for players who don't have Eula [C2+]. Please visit the Ability Tips for her combo.
+Pale Flame (2) Bloodstained Chivalry (2): This is a non-conditional, consistent artifact set that provides you a constant 50% Physical DMG bonus. While that by itself is amazing, Pale Flame (4) can outperform this set because it also has another 18% ATK buff and is easily maintained through her low tap skill cooldown.",,,,,,
+,KAMISATO AYAKA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.0,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"DPS
+ ✩","1. Mistsplitter Reforged (5✩)
+2. Haran Geppaku Futsu (5✩)
+3. Light of Foliar Incision (5✩) 
+≈ Primordial Jade Cutter (5✩)*
+≈ Summit Shaper (5✩)
+4. Finale of the Deep (4✩) [R5]*
+5. Aquila Favonia (5✩)*
+≈ Skyward Blade (5✩)* 
+≈ Finale of the Deep (4✩)*
+6. Amenoma Kageuchi (4✩) 
+≈ The Black Sword (4✩)  
+≈ Kagotsurube Isshin (4✩)
+7. Harbinger of Dawn (3✩) [R5]*","1. Blizzard Strayer (4)
+2. Blizzard Strayer (2) +18% ATK set (2)
+3. +18% ATK set (2) +18% ATK set (2)
+4. Blizzard Strayer (2) Noblesse Oblige (2)","Sands - ATK%
+Goblet - Cryo DMG
+Circlet - Crit DMG / ATK% ","1. Crit DMG
+2. ATK%
+3. Energy Recharge
+4. Crit Rate*
+
+Crit Rate loses value here assuming you're running Blizzard Strayer (4), if you're not using that artifact set, then it has the same priority as Crit DMG (You still want to aim for 1:2 ratio in the end)","1. Burst
+2. Normal Attack
+3. Skill","Ayaka's Charged Attack, Elemental Skill and Elemental Burst is able to hit enemies inside sucked inside Venti's Elemental Burst.
+
+Her Elemental Burst also stays in place on frozen enemies and slightly knocks enemies away when they're not frozen."
+,NOTES,"DPS
+Kamisato Ayaka is a pretty straightforward DPS that deals most of her damage from her Elemental Burst. She has very high scalings on her burst at the cost of it being 80 energy. You will likely need another Cryo battery on the team to provide energy for her (Diona, Kaeya, Rosaria, etc). She has a special dash (like Mona) and after she dashes, she will get a Cryo infusion on her Normal Attacks. Ensure you always have this bonus active to maximise your rotation damage.
+
+Regarding Main Stats Priority:
+Circlet main stat will be dependant on your overall stats, depending on your overall stats, one can be better than the other. Since Ayaka is able to get a lot of Crit Value from Blizzard Strayer (4) set, ascension passive, and also possibly weapons, ATK% circlets can be competitive to Crit ones, it also has a better drop rate, so don't throw away your good ATK% circlets.
+
+Regarding Weapon Choices:
+Primordial Jade Cutter: With Blizzard Strayer (4) and Cryo Resonance, this weapon overcrits, so try to avoid getting Crit Rate substats.
+Finale of the Deep: Weapon rankings are assuming you clear the Life Bond. If you cannot clear the Life Bond, it performs similarly to Amenoma Kageuchi.
+Aquila Favonia: While Aquila Favonia has Physical Damage% as a main stat, which is basically useless on Ayaka, it is still a good statstick as it has a high base ATK and ATK% buff from the passive, however, it's not a huge upgrade over the other 4 star options and there might be a character which can utilize this weapon better (such as Bennett).
+Skyward Blade: The Energy Recharge main stat provided from this sword makes Ayaka comfortable in terms of having a good burst uptime, try to avoid getting Energy Recharge substats since the weapon already provides you with enough Energy Recharge.
+Amenoma Kageuchi: Lowers Ayaka's Energy Recharge requirement which allows her to allocate some of her Energy Recharge substats to other offensive substats. 
+Harbinger of Dawn: A good Crit statstick if you can keep the requirements up (having >90% HP).",,,,,,
+,ALOY,,,,,,,
+,,,,,,,,
+,Last Updated: Version 3.2,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"BURST SUPPORT
+✩","1. Thundering Pulse (5✩)
+2. Polar Star (5✩)*
+3. Skyward Harp (5✩)
+4. The Stringless (4✩)*
+5. Amos' Bow (5✩)
+6. Alley Hunter (4✩)
+7. Prototype Crescent (4✩)*
+8. Predator (4✩)
+9. Sacrificial Bow (4✩)*
+10. Slingshot (3✩) [R5]","1. Blizzard Strayer (4)*
+2. Noblesse Oblige (2) Blizzard Strayer (2)
+3. Emblem of Severed Fate (4)
+4. Noblesse Oblige (2) / Blizzard Strayer (2) / +80 EM set (2) / +18% ATK set (2) / Emblem of Severed Fate (2) [Choose Two]*
+5. Noblesse Oblige (4)*
+≈ Scroll of the Hero of Cinder City (4)","Sands - ATK%  / Elemental Mastery*
+Goblet - Cryo DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Elemental Mastery*
+4. Energy Recharge","1. Burst
+2. Skill ",
+,NOTES,"BURST SUPPORT
+Aloy is much preferred as a Burst Support over Main DPS as getting coil stacks for her Cryo infusion can be quite unreliable. Aloy needs 4 coil stacks to get the Cryo infusion and you can only get 1 stack every 0.1 seconds which is quite hard to do considering the Bomblets are scattered all over the place. One thing to note regarding Aloy's coil stacks is that she can still get coil stacks even when she's off-field.
+
+Aloy is very niche as she only performs well in certain comps and even then, she's still completely replaceable by other characters. She can be utilized on a Freeze team where she can be a battery and nuke at the same time since she provides 5 Cryo particles on her Elemental Skill. She can also be utilized on a Melt team where you can melt her Elemental Burst for quite a decent amount of damage.
+
+Regarding Weapon Choice:
+Polar Star: Forcing to get Polar Star stacks isn't worth due to consuming extra time to get those stacks.
+The Stringless: Placement assumes Aloy is used on a Reverse Melt team. On Reverse Melt Aloy Stringless, especially at higher refinement levels, can pull ahead of Thundering Pulse.
+Prototype Crescent: Assumes the passive is active by proccing a weak point shot. This weapon especially at higher refinement levels can be as good as Skyward Harp.
+Sacrificial Bow: A pretty decent option to make Aloy a Cryo battery as her Elemental Skill provides 5 Cryo particles.
+
+Regarding Artifact Sets:
+Blizzard Strayer (4): This artifact set is best used on a Freeze-focused Aloy as it provides a ton of Crit Value.
++80 EM set (2): This artifact set bonus only benefits a Melt-focused Aloy, Elemental Mastery provides nothing on a Freeze Aloy.
+Noblesse Oblige (4): Aloy is one of the best Noblesse Oblige (4) holders since she has low energy requirements and cooldown for her Elemental Burst.
+
+Regarding Artifact Main Stat and Substats Priority: 
+Elemental Mastery is only an option if your Aloy is played on a Reverse Melt team as it provides nothing to a Freeze Aloy. ",,,,,,
+,SHENHE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"BUFF SUPPORT
+✩","1. Calamity Queller (5✩)*
+2. Engulfing Lightning (5✩)
+3. Vortex Vanquisher (5✩)*
+4. Symphonist of Scents (5✩)
+5. Skyward Spine (5✩)
+6. Favonius Lance (4✩)*
+≈ Tamayuratei no Ohanashi (4✩) [R5]
+7. Lithic Spear (4✩)*
+8. Wavebreaker's Fin (4✩)
+9. Missive Windspear (4✩)
+10. Prototype Starglitter (4✩)
+≈ Prospector's Shovel (4✩)","1. Noblesse Oblige (4)
+2. Scroll of the Hero of Cinder City (4)
+3. +18% ATK set / +18% ATK set (2) / Emblem of Severed Fate (2) [Choose Two]","Sands - ATK%  / Energy Recharge
+Goblet - ATK%
+Circlet - ATK%","1. Energy Recharge*
+2. ATK%
+3. Crit Rate** / DMG
+4. Flat ATK
+
+*Prioritize until requirements are met","1. Skill
+2. Burst","Shenhe's Tap Skill gives a teamwide 15% DMG boost to Elemental Skill and Burst DMG. This lasts 10 seconds.
+
+Shenhe's Hold Skill gives a teamwide 15% DMG boost to Normal Attack, Charged Attack, and Plunge Attack DMG. This lasts 15 seconds."
+,NOTES,"SUPPORT
+Shenhe is a Support for Cryo characters, capable of providing damage buffs from her Elemental Skill and dealing damage while providing Cryo and Physical resistance shred from her Elemental Burst. Her Elemental Skill gives a few stacks of additional flat damage bonus to all nearby party members (5 stacks on Tap and 7 stacks on Hold). This additional flat damage bonus only works on Cryo attacks, so characters who don't use Cryo attacks don't benefit from Shenhe's Elemental Skill, do note that Cryo infusion from Anemo characters does act as a Cryo attack, so it benefits from Shenhe's Elemental Skill. Another thing to note is that the additional flat damage bonus Shenhe provides uses Shenhe's current ATK, so it doesn't snapshot.
+
+Regarding Weapon Choices:
+Calamity Queller: The passive of this weapon works perfectly with Shenhe's Elemental Skill because it's dynamic.
+Vortex Vanquisher: This weapon's passive can't be stacked off-field, but it's still an ATK stat stick which provides Shenhe with a lot of ATK.
+Favonius Lance: With this weapon, it is better to have some Crit Rate on Shenhe for the weapon passive to proc (Do note that Cryo Resonance provides 15% Crit Rate on Cryo-imbued enemies, so the need for Crit Rate on Shenhe is lowered). With refinements especially, Favonius Lance can outperform 5* options under some conditions.
+Lithic Spear: Ranking assumes 2 stacks.
+
+Regarding Artifact Main Stats and Substats Priority:
+Crit Rate substats become more relevant when using Favonius Lance. 
+",,,,,,
+,WRIOTHESLEY,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.1,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"MELT DPS
+ ✩","1. Cashflow Supervision (5✩)
+≈ Tulaytullah's Remembrance (5✩)
+2. A Thousand Floating Dreams (5✩)
+≈ Lost Prayer to the Sacred Winds (5✩)
+≈ Tome of the Eternal Flow (5✩)
+3. Skyward Atlas (5✩) 
+4. Mappa Mare (4✩)
+≈ The Widsith (4✩)
+≈ Ballad of the Boundless Blue [R5] (4✩)
+5. Flowing Purity (4✩)*","1. Marechaussee Hunter (4)
+2. Shimenawa's Reminiscence (4)
+3. Gilded Dreams (4)
+4. Echoes of an Offering (4)
+5. Blizzard Strayer (2) / +18% ATK set (2) / +80 EM set (2) [Choose Two]","Sands - ATK% / Elemental Mastery
+Goblet - Cryo DMG
+Circlet - Crit Rate / Crit DMG","1. Crit Rate / Crit DMG
+2. ATK%
+≈ Elemental Mastery","1. Normal Attack
+2. Skill
+3. Burst",
+,,"MONO CRYO / FREEZE DPS
+ ✩","1. Cashflow Supervision (5✩)
+≈ Tulaytullah's Remembrance (5✩)
+2. Memory of Dust (5✩)
+≈ Tome of the Eternal Flow (5✩)
+≈ Kagura's Verity (5✩)
+≈ Lost Prayer to the Sacred Winds (5✩)
+≈ Skyward Atlas (5✩)
+3. Ballad of the Boundless Blue [R5] (4✩)
+≈ The Widsith (4✩)
+4. Flowing Purity (4✩)*","1. Marechaussee Hunter (4)
+2. Blizzard Strayer (4)
+≈ Shimenawa's Reminiscence (4) 
+3. Blizzard Strayer (2) / +18% ATK set (2) / Marechaussee Hunter (2) [Choose Two]","Sands - ATK%
+Goblet - Cryo DMG
+Circlet - Crit DMG","1. Crit Rate / Crit DMG
+2. ATK%
+3. Energy Recharge","1. Normal Attack
+2. Skill
+3. Burst",
+,NOTES,"MELT DPS
+Wriothesley utilizes the Melt reaction to deal increased damage with his attacks. Weapon rankings assume you use Bennett. 
+
+Regarding Weapon Choices:
+Flowing Purity: This weapon is more potent if you can reliably clear the Bond of Life. If you can, this weapon is equal or better than Ballad of the Boundless Blue [R5].
+
+MONO CRYO / FREEZE DPS
+Wriothesley can use the Mono Cryo and Freeze teams to benefit from Cryo resonance. However, as Wriothesley's CA shatters, Freeze is not extremely consistent. Mono Cryo removes the Freeze aspect in order to slot another Cryo support. 
+
+Regarding Weapon Choices:
+Flowing Purity: This weapon is more potent if you can reliably clear the Bond of Life. If you can, this weapon is equal or better than The Widsith.
+
+Regarding Artifact Set Choices:
+Blizzard Strayer (4): Wriothesley shatters Freeze which makes this set lose valuable uptime. Unlike Marechaussee Hunter (4), it cannot be used in Melt teams, and loses versatility.",,,,,,
+,CITLALI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"BUFF SUPPORT
+✩","1. Starcaller's Watch (5✩)
+2. Thrilling Tales of Dragon Slayers (3✩)*
+≈ Favonius Codex (4✩)*
+≈ Etherlight Spindlelute (4☆) [R5]*
+≈ Sacrificial Fragments (4✩)*
+≈ Wandering Evenstar (4✩)*
+","1. Scroll of the Hero of Cinder City (4)
+2. Tenacity of the Millelith (4)
+3. Instructor (4)
+","Sands - Elemental Mastery / Energy Recharge
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery / Crit Rate*","1. Energy Recharge
+2. Elemental Mastery
+3. Crit Rate*","1. Skill
+2. Burst",
+,,,,,*Crit Rate is a useful stat when Citlali is using Favonius Codex,,,
+,NOTES,"SUPPORT
+While Citlali mainly provides sustain through her shield, her passive Mamaloaco's Frigid Rain, which provides Hydro and Pyro RES reduction, and the ability to fully utilize Scroll of the Hero of Cinder City give her access to great offensive utility for the team.
+
+Regarding Weapon Choices:
+Thrilling Tales of Dragon Slayers and Wandering Evenstar: At high refinements, Wandering Evenstar can be a better option if the team has multiple attack scaling units with significant damage share. In hypercarry style teams, Thrilling Tales of Dragon Slayers tends to be better.
+Other Weapons: While Thrilling Tales of Dragon Slayers and Wandering Evenstar options are preferred due to providing ATK buffs, these weapons can be a great option if the team damage doesn't scale off of ATK.",,,,,,
+,ESCOFFIER,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.4 / Luna V,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"HIGH ENERGY REQUIREMENT (OFF-FIELD DPS)
+ ✩","1. Symphonist of Scents (5✩)
+2. Engulfing Lightning (5✩)
+3. Calamity Queller (5✩)
+4. Staff of Homa (5✩)
+≈ Fractured Halo (5✩)
+5. Lumidouce Elegy (5✩)
+6. Staff of the Scarlet Sands (5✩)
+≈ Vortex Vanquisher (5✩)
+≈ Kitain Cross Spear (4✩) [R5]
+≈ Deathmatch (4✩)*
+≈ Favonius Lance (4✩)*
+≈ Skyward Spine (5✩)
+≈ Sacrificer's Staff (4✩)*
+7. Primordial Jade Winged-Spear (5✩)
+≈ Crimson Moon's Semblance (5✩)
+≈ Prospector's Drill (4✩)*
+8. Tamayuratei no Ohanashi (4✩) [R5]
+≈ Mountain-Bracing Bolt (4✩)*
+≈ Wavebreaker's Fin (4✩)","1. Golden Troupe (4)
+2. Blizzard Strayer (4)*
+3. Golden Troupe (2) / +15% Cryo DMG set (2) / +18% ATK set (2) / +20% ER set (2) [Choose Two]
+4. Tenacity of the Millelith (4)*
+≈ Scroll of the Hero of Cinder City (4)*","Sands - ATK% / Energy Recharge
+Goblet - Cryo DMG / ATK%*
+Circlet - Crit Rate / Crit DMG
+
+*While Cryo DMG Bonus is usually better for Damage, high amounts of DMG% buffs can make ATK% Goblets competitive while also providing a bit more healing.","1. Energy Recharge*
+2. Crit Rate / DMG
+3. ATK%
+
+*Prioritize Energy Recharge until Requirements are met","1. Skill
+2. Burst","Escoffier's Hold Skill can provide you with up to 10 special delicious dishes per week, but does not help you with cooking your enemies, so avoid using it during combat."
+,,"LOW ENERGY REQUIREMENT (OFF-FIELD DPS)
+ ✩","1. Symphonist of Scents (5✩)
+2. Calamity Queller (5✩)
+3. Lumidouce Elegy (5✩)
+≈ Staff of Homa (5✩)
+≈ Fractured Halo (5✩)
+4. Deathmatch (4✩)*
+≈ Staff of the Scarlet Sands (5✩)
+≈ Vortex Vanquisher (5✩)
+≈ Primordial Jade Winged-Spear (5✩)
+≈ Crimson Moon's Semblance (5✩)
+≈ Skyward Spine (5✩)
+≈ Sacrificer's Staff (4✩)*
+5. Engulfing Lightning (5✩)
+6. Tamayuratei no Ohanashi (4✩) [R5]
+≈ Prospector's Drill (4✩)*
+≈ Mountain-Bracing Bolt (4✩)*
+≈ Wavebreaker's Fin (4✩)
+≈ Kitain Cross Spear (4✩) [R5]
+7. Favonius Lance (4✩)*",,"Sands - ATK%
+Goblet - Cryo DMG / ATK%*
+Circlet - Crit Rate / DMG
+
+*While Cryo DMG Bonus is usually better for Damage, high amounts of DMG% buffs can make ATK% Goblets competitive while also providing a bit more healing.",,,
+,NOTES,"OFF-FIELD DPS
+Escoffier is a DPS that dishes out respectable amounts of Off-Field damage through her Elemental Skill while also serving up a sizeable Cryo and Hydro Resistance shred thanks to her Ascension 4 Talent. Additionally, her Elemental Burst and Ascension 1 Talent allow her to keep her Team well nourished and healed. 
+
+Regarding Artifact Set Choices:
+Blizzard Strayer (4):  Against freezable enemies, this set slightly outperforms Golden Troupe (4), however it is way worse without reliable freeze uptime and can be hard to build around with Crit Rate weapons.
+Tenacity of the Millelith (4)/Scroll of the Hero of Cinder City (4): These sets are very bad for Escoffier's personal damage, but provide an additional buff to the team.
+
+HIGH ENERGY REQUIREMENT (1-2 CRYO TEAM MEMBERS)
+
+Regarding Weapon Choices:
+Deathmatch: Ranking assumes one enemy. At [R5], this weapon performs better than Staff of Homa.
+Favonius Lance: While inferior to a number of weapons in terms of personal damage, this weapon can be very good thanks to helping the team with Energy.
+Sacrificer's Staff: At [R5], this weapon performs similar to Engulfing Lightning.
+Prospector's Drill: Escoffier can reliably get high stacks starting from second rotation onward. Performs close to Lumidouce Elegy at [R5].
+Mountain-Bracing Bolt: At [R5] this weapon performs slightly better than similar ranking options.
+
+LOW ENERGY REQUIREMENT (3-4 CRYO TEAM MEMBERS)
+
+Regarding Weapon Choices:
+Deathmatch: Ranking assumes one enemy. At [R5], this weapon performs the same as Lumidouce Elegy.
+Sacrificer's Staff: At [R5], this weapon performs close to Calamity Queller.
+Prospector's Drill: Escoffier can reliably get high stacks starting from second rotation onward. Performs better than Staff of the Scarlet Sands at [R5].
+Mountain-Bracing Bolt: At [R5] this weapon performs slightly better than similar ranking options.
+Favonius Lance: This weapon is extremely detrimental for Escoffier's personal damage if she does not have high Energy Recharge Requirements, but can possibly yield more team damage.
+
+Detailed weapon comparisons here.",,,,,,
+,SKIRK,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.7,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"DPS
+ ✩","1. Azurelight (5✩)
+2. Haran Geppaku Futsu (5✩)
+3. Mistsplitter Reforged (5✩)
+≈ Primordial Jade Cutter (5✩)
+4. Calamity of Eshu (4✩) [R5]*
+5. Uraku Misugiri (5✩)
+≈ Absolution (5✩)
+≈ Light of Foliar Incision (5✩)
+6. Finale of the Deep (4✩) [R5]*
+≈ Summit Shaper (5✩)*
+7. The Black Sword (4✩)*","1. Finale of the Deep Galleries (4)
+2. Desert Pavilion Chronicle (4)
+3. Gladiator's Finale (4)
+4. +15% Cryo DMG set (2) / +18% ATK set (2) / Marechaussee Hunter (2) [Choose Two]
+5. Blizzard Strayer (4)*
+
+Conditional (See Notes):
+Marechaussee Hunter (4)*","Sands - ATK% 
+Goblet - Cryo DMG / ATK%
+Circlet - Crit Rate / Crit DMG","1. Crit Rate / DMG
+2. ATK%","1. Skill
+2. Burst","Skirk uses ""Serpent's Subtlety"" instead of Energy. She does not benefit from Energy Recharge, and her ""Elemental Energy"" is always 0.
+
+First Rotation with big Burst ready:
+
+Q > E > N5 > CA > 2N5 > CA > N5
+
+Rotations without big Burst:
+
+E > N5 > Q > 2N5 > CA > N5"
+,NOTES,"DPS
+Skirk is a Cryo DPS that specializes on dealing damage on field through Normal Attacks, while also being able to take the role of a Burst Nuke. Skirk's Ascension 4 Passive provides her with a big Base Damage Modifier, therefore it is important to run her with only Cryo and Hydro Teammates to maximize this passive.
+
+Regarding Weapon Choices:
+Calamity of Eshu: Assumes Skirk is constantly shielded. Without a reliable shield, this weapon is not worth considering.
+Finale of the Deep: This ranking assumes the Bond of Life being cleared. Without clearing it, this weapon performs slightly worse than The Black Sword.
+Summit Shaper: The ranking for this weapon assumes no shield. With a reliable shield, this weapon performs similar to Uraku Misugiri.
+The Black Sword: At [R5], this weapon performs similar to Finale of the Deep [R5].
+
+Regarding Artifact Set Choices:
+Marechaussee Hunter (4): This set should only be used with Furina on the team, in which case it performs the same as Finale of the Deep Galleries (4). If Skirk is C1 or higher, this set consistently outperforms Finale of the Deep Galleries for the Normal Attack playstyle.
+Blizzard Strayer (4): This set is only useful against fully freezable enemies, in which case it becomes Skirk's best in slot. However, this setup makes it easy to overcap on Crit Rate with certain weapons.",,,,,,
+,LOHEN,,,,,,,
+,,,,,,,,
+,Last Updated: 6.6 / Luna VII,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"DPS
+ ✩","1. Disaster and Remorse (5✩)
+2. Fractured Halo (5✩)
+≈ Primordial Jade Winged-Spear (5✩)
+≈ Staff of Homa (5✩)
+3. Symphonist of Scents (5✩)
+≈ Crimson Moon's Semblance (5✩)
+≈ Lumidouce Elegy (5✩)
+4. Calamity Queller (5✩)
+5. Bloodsoaked Ruins (5✩)
+≈ Staff of the Scarlet Sands (5✩)
+6. Skyward Spine (5✩)
+7. Deathmatch (4✩)*
+≈ Vortex Vanquisher (5✩)*
+8. Sacrificer's Staff (4✩)*
+≈ Blackcliff Pole (4✩)
+9. Engufing Lightning (5✩)
+10. Missive Windspear (4✩) [R5]
+11. Favonius Lance (4✩)*
+≈ White Tassel (3✩) [R5]
+≈ Prospector's Shovel (4✩)
+≈ Tamayuratei no Ohanashi (4✩) [R5]
+≈ Crescent Pike (4✩) [R5]
+≈ Prototype Starglitter (4✩) [R5]","1. A Day Carved from Rising Winds (4)
+2. Blizzard Strayer (4)*
+3. Shimenawa's Reminiscence (4)
+4. Desert Pavilion Chronicle (4)
+5. +15% Cryo DMG set (2) / +18% ATK set (2) / Marechaussee Hunter (2) [Choose Two]
+
+Conditional (See Notes):
+Marchaussee Hunter (4)*","Sands - ATK%
+Goblet - Cryo DMG
+Circlet - Crit Rate / Crit DMG","1. Crit Rate / Crit DMG
+2. ATK%
+3. Flat ATK
+4. Energy Recharge","1. Skill
+2. Burst","General Combo:
+N1 > CA > N1 > CA > E > N1 > CA > N1 > CA > repeat x3
+
+Since using Lohen's CA will automatically use his normal attack beforehand, you do not have to worry about using multiple inputs for N1 > CA"
+,NOTES,"DPS
+Lohen is a Cryo DPS who deals the majority of his damage though Normal and Charged Attacks, but weaves Skill and Burst damage throughout. Lohen's damage is further increased when Off-Field DPS units deal large amounts of damage.
+Rankings assume Lohen is not run in a team where he himself triggers Melt reactions.
+
+Regarding Weapon Choices:
+Deathmatch: At [R5], this weapon ranks similarly to Calamity Queller.
+Vortex Vanquisher: If Lohen is consistently shielded, this weapon ranks similarly to Staff of the Scarlet Sands.
+Sacrificer's Staff: At [R5], this weapon ranks similarly to Deathmatch. 
+Favonius Lance: This weapon's performance heavily depends on how much value the rest of the team gains from having lower Energy Recharge requirements.
+
+Regarding Artifact Set Choices:
+Blizzard Strayer: This set can rival or outdo A Day Carved from Rising Winds if Lohen is fighting enemies that can be consistently frozen. Do not use this set in teams that do not have consistent Cryo aura on enemies.
+Marechaussee Hunter (4): This set is roughly equal to A Day Carved from Rising Winds if Lohen is used with Furina.
+
+Detailed weapon and artifact comparisons here.",,,,,,

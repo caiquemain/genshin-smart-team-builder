@@ -1,0 +1,967 @@
+Discontinued,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+(Migrating to a new site),,,,,,,,
+,,,,,,,,
+,The role that the Character best excels in will be marked with ✩                                                        ,,,,,,,
+,> > Weapons and Artifacts Info < <,,,,,,,
+,,,,,,,,
+,4 STAR,,,,,,,
+,XINGQIU,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.4 / Luna V,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HIGH ENERGY REQUIREMENT
+(OFF-FIELD DPS)
+✩
+","1. Favonius Sword (4✩)
+2. Skyward Blade (5✩)
+3. Amenoma Kageuchi (4✩) [R5]
+≈ Fleuve Cendre Ferryman (4✩) [R5]
+4. Sacrificial Sword (4✩)* [R4+] 
+
+Conditional (See Notes):
+Athame Artis (5✩)*
+Primordial Jade Cutter (5✩)*
+Freedom-Sworn (5✩)*","1. Emblem of Severed Fate (4)*
+2. Noblesse Oblige (4)*
+≈ Scroll of the Hero of Cinder City (4)
+3. Nymph's Dream (4)
+≈ A Day Carved from Rising Winds (4)
+≈ Noblesse Oblige (2) / 15% Hydro DMG Bonus set (2) / +18% ATK set (2) / Emblem of Severed Fate (2) [Choose Two]
+
+Conditional (See Notes):
+Blizzard Strayer (4)*
+","Sands - Energy Recharge / ATK%
+Goblet - Hydro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge**
+
+**Prioritize Energy Recharge first if you can't burst off cooldown","1. Burst
+2. Skill
+","Rotations:
+Quick E D Q N1
+Longer rotation (C4+) Q N1 E D N2*
+
+*One can use the Book trick method instead of the final N2 which involves pausing the game by opening a menu for a second to allow him to collect the particles."
+,,"LOW ENERGY REQUIREMENT
+(OFF-FIELD DPS)
+✩","1. Athame Artis (5✩)*
+≈ Primordial Jade Cutter (5✩)
+2. Mistsplitter Reforged (5✩)
+3.  Azurelight (5✩)
+≈ Haran Geppaku Futsu (5✩)
+≈ Light of Foliar Incision (5✩)
+≈ Absolution (5✩) 
+4. Summit Shaper (5✩)
+≈ Skyward Blade (5✩)
+≈ Uraku Misugiri (5✩)
+5. Splendor of Tranquil Waters (5✩)
+≈ Lightbearing Moonshard (5✩)
+6. Wolf-Fang (4✩)
+7. Favonius Sword (4✩)
+8. Fleuve Cendre Ferryman (4☆) [R5] 
+≈ Finale of the Deep (4✩)*
+≈ Amenoma Kageuchi (4✩) 
+
+Conditional (See Notes):
+Freedom-Sworn (5✩)*",,,,,
+,NOTES,"OFF-FIELD DPS
+Xingqiu's Off-Field DPS build centers on his ability to deal damage and apply an immense amount of Hydro off-field with his Elemental Burst. His ER needs can change a lot based on team and constellations, and so do his list of recommended weapons. As such this serves a general idea of which weapons are most viable on Xingqiu.
+
+HIGH ENERGY REQUIREMENTS:
+Regarding Weapon Choices:
+Sacrificial Sword: Despite this weapon providing the most energy for Xingqiu himself, it is a selfish weapon that extends rotation times which is a loss in team DPS. However, if you aren't worried about damage, its comfort is unparalleled as long as it is [R4+].
+Athame Artis & Primordial Jade Cutter: If you are able to meet ER requirements, these weapons outperforms Favonius Sword by a large enough margin to mention here.
+Freedom-Sworn: In a team where Xingqiu consistently triggers reactions (most commonly Bloom or Electrocharged) and the team benefits from Freedom-Sworn's buff, this becomes competitive with Primordial Jade Cutter for Xingqiu's best weapon assuming you are able to meet ER requirements.
+
+LOW ENERGY REQUIREMENTS:
+Regarding Weapon Choices:
+Athame Artis: If using Xingqiu with an on-field unit that benefits from ATK% this weapon is definitively Xingqiu's best option.
+Finale of the Deep: With a healer that can reliably clear the bond of life, this weapon ranks equal to or above Skyward Blade.
+Freedom-Sworn: In a team where Xingqiu consistently triggers reactions (most commonly Bloom or Electrocharged) and the team benefits from Freedom-Sworn's buff, this ranks above Summit Shaper.
+
+Regarding Artifact Sets:
+Emblem of Severed Fate (4): This set falls off in terms of damage if Xingqiu has less than 130% Energy Recharge.
+Noblesse Oblige (4): Offers party-wide ATK boost, you can use this set on Xingqiu if nobody else on the party is able to use it better. If someone else on the team already has Noblesse Oblige (4), Noblesse Oblige (4) should not be used.
+Blizzard Strayer (4): Outperforms Emblem of Severed Fate on Freeze Teams. However, it is generally not recommended to farm specifically for this set.
+
+Detailed weapon comparisons here.",,,,,,
+,BARBARA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+✩","1. Thrilling Tales of Dragon Slayers (3✩)
+2. Everlasting Moonglow (5✩)*
+3. Prototype Amber (4✩)
+≈ Ash-Graven Drinking Horn (4✩)
+4. Favonius Codex (4✩)
+5. Hakushin Ring (4✩)* [R5] 
+","1. Ocean-Hued Clam (4)*
+2. Scroll of the Hero of Cinder City (4)*
+≈ Instructor (4)*
+3. +15% Healing Bonus (2) set / +20% HP (2) set [Choose Two]","Sands - HP%
+Goblet - HP%
+Circlet - Healing Bonus","1. HP%
+2. Flat HP","1. Skill
+2. Burst","Barbara's skill gives you a pulse of healing every 5 seconds, every pulse will imbue you with a Hydro status, that means it can be used for status-cleansing (Pyro in specific, while other elements may take more pulses).
+
+Take note that Hydro reacting with Cryo status will freeze you in place, her skill should be used in consideration of the environment"
+,,BLOOM DPS,"1. Starcaller's Watch (5✩)
+2. A Thousand Floating Dreams (5✩)
+≈ Sunny Morning Sleep-In (5✩)
+3. Sacrificial Fragments (4✩)
+≈ Etherlight Spindlelute (4✩) [R5]
+4. Magic Guide (3✩)","1. Flower of Paradise Lost (4)
+2. Gilded Dreams (4)
+3. +80 EM set (2) +80 EM set (2)
+4. Ocean-Hued Clam (4)*","Sands - Elemental Mastery
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery","1. Elemental Mastery
+2. Energy Recharge","1. Skill
+2. Burst
+
+*Talent levels are only needed for comfort",
+,NOTES,"SUPPORT
+Barbara's main role is to provide sustain via her skill. Due to the lack of particle generation, building energy recharge to burst every rotation is not feasible. Barbara's burst should be treated as an emergency button.
+ 
+Regarding Weapon Choices: 
+Everlasting Moonglow: This weapon focuses on maximizing Barbara's personal damage when played on field. However, Thrilling Tales of Dragon Slayers commonly results in the highest team damage if someone can make use of the buff.
+Hakushin Ring: This weapon is a strong pick for teams that make good use of its passive and let Barbara trigger electro reactions reliably.
+
+Regarding Artifact Sets:
+Ocean-Hued Clam (4): This set is the best generalist pick as it lets Barbara deal decent damage of her own while healing.
+Scroll of the Hero of Cinder City and Instructor (4): If Barbara can reliably trigger reactions, these sets can be the best option due to the buffs they can provide.
+
+BLOOM DPS
+This build is specifically for Bloom teams where Barbara is the character intended to trigger the majority of Blooms.
+
+Regarding Artifact Sets:
+Ocean-Hued Clam (4): This set can do more damage than other options in certain situations, while also increasing Barbara's healing to deal with Bloom self-damage. ",,,,,,
+,CANDACE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.4,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"BUFF SUPPORT
+✩","1. Favonius Lance (4✩)*
+2. Engulfing Lightning (5✩)*
+3. Staff of Homa (5✩)*
+≈ Deathmatch (4✩)*
+≈ ""The Catch"" (4✩)*
+4. Prototype Starglitter (4✩)
+5. Skyward Spine (5✩)
+6. Black Tassel (3✩)","1. Scroll of the Hero of Cinder City (4)*
+2. Emblem of Severed Fate (4)*
+3. Instructor (4)
+4. Emblem of Severed Fate (2) / +15% Hydro DMG Bonus set (2) / Noblesse Oblige (2) / +20% HP set (2) [Choose Two]","Sands - Energy Recharge / HP%
+Goblet - HP% / Hydro DMG
+Circlet - HP% / Crit Rate / DMG 
+
+","1. Energy Recharge 
+2. Crit Rate* 
+3. HP%
+4. Flat HP 
+
+*Crit Rate only if running Favonius Lance",1. Burst,"In some teams, Candace's hold Elemental Skill cooldown is too long for rotations to work properly, so if Candace isn't C4, it's recommended to avoid getting hit and to do a tap Skill as quick as possible."
+,NOTES,"BUFF SUPPORT
+Candace is a 4* Hydro Support that specializes in providing off-field Hydro application with her HP% scaling Burst, infusing the autos of melee allies (Sword/Claymore/Polearm) with Hydro via her Burst's Prayer of the Crimson Crown effect, and providing defensive utility with her Elemental Skill. It is worth noting that Candace will never be the strongest option for your teams; at the cost of having different kinds of utility options in one kit, she will never be the best at them. Her damage contribution will be surpassed by other offensive-type Hydro supports like Xingqiu and her defensive capabilities are outclassed by the healing capabilities of the other Hydro healers. Thus, it is recommended to focus on her strength as a consistent Hydro applier by getting as much Energy Recharge as possible, which will help her maintain a consistent uptime on her Burst (her main source of Hydro application). For this reason, Candace's weapon and artifact rankings will focus on getting the highest amounts of Particle/Energy generation and Recharge.
+
+Regarding Weapon Choices:
+Favonius Lance: This is going to be Candace's BIS option because of her drastically high ER requirement. If she's the only Hydro character in one team, Candace will need nearly 300% ER to maintain a consistent burst uptime. With another Hydro character to help her out, this ER requirement is lowered down to the 200-250% ER range. This kind of ER requirement is difficult to reach with most polearms, but Favonius Lance makes it possible because each proc of its passive cuts down this requirement by 20% (1 proc --> -20% ER req). Note that with this polearm equipped, Crit Rate also needs to be prioritized on Candace to ensure that its passive is constantly procced.
+Engulfing Lightning: This polearm offers a large amount of ER%, which makes it the next best option for Candace after Favonius Lance.
+Staff of Homa and Deathmatch: These weapons can be considered if you want Candace to have high personal damage, which is usually notable at [C6]
+""The Catch"": This polearm is going to be Candace's strongest F2P option, due to its high amount of ER and burst-enhancing capabilities.
+
+Regarding Artifact Choices: 
+Scroll of the Hero of Cinder City (4):  Even if Candace is not from Natlan, she can still take advantage of the 12% DMG Bonus buff to the team, alongside the Flat Energy refund from  Scroll of the Hero of Cinder City (2) if there is a Nightsoul Burst being activated on the team.
+Emblem of Severed Fate (4) and Emblem of Severed Fate (2) + Hydro Damage Bonus/Noblesse (2): With Candace, the only ""necessary"" stat from her artifacts is the 20% ER you get from EOSF's 2-piece effect. Emblem of Severed Fate's 4-piece effect allows her to better capitalize on the high amounts of ER% that you'll be equipping on her, which makes it her strongest option. However, EoSF is a highly contested artifact set and thus it is possible for you to end up using the 2-piece + 2-piece alternatives listed above. ",,,,,,
+,DAHLIA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.7,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"SHIELD SUPPORT
+✩","1. Favonius Sword (4✩)
+2. Key of Khaj Nisut (5✩)
+3. The Dockhand's Assistant (4✩)
+4. Peak Patrol Song (5✩)*
+≈ Freedom-Sworn (5✩)*
+5. Skyrider Sword (3✩)","1. Noblesse Oblige (4)
+2. Scroll of the Hero of Cinder City (4)
+2. +20% HP set (2) / +20% HP set (2)","Sands - Energy Recharge / HP%
+Goblet - HP%
+Circlet - HP%","1. Energy Recharge
+2. HP%
+3. CRIT Rate*
+4. Flat HP
+
+*CRIT Rate only if running Favonius Sword",1. Burst,"Dahlia's shield will take overflow damage when broken. This occurs before it is renewed with a Benison stack.
+
+Dahlia's A4 passive is maximized at 40,000 HP."
+,NOTES,"SHIELD SUPPORT
+Dahlia offers both shielding and an ATK SPD increase to characters protected by his shield, both of which scale with his HP%. As such, building ER to use Dahlia's Burst and building HP% to increase his support capabilities are the focus of his build.
+
+Regarding Weapon Choices:
+Peak Patrol Song & Freedom-Sworn: Both of these weapons do not aid Dahlia's stats, but offer some team buffing in return. Only use these if your team can reliably trigger their respective passives, and you've met ER and HP% thresholds.",,,,,,
+,AINO,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"REACTION SUPPORT
+✩","1. Favonius Greatsword (4✩)*
+2. Makhaira Aquamarine (4✩)*
+3. Flame-Forged Insight (4✩) [R5]*
+≈ Master Key (4✩)*
+","Conditional (See Notes):
+Silken Moon's Serenade (4)
+Noblesse Oblige (4)
+Scroll of the Hero of Cinder City (4) 
+Instructor (4)
+Deepwood Memories (4)*","Sands - Energy Recharge / Elemental Mastery
+Goblet - Elemental Mastery
+Circlet -  Elemental Mastery / Crit Rate*
+
+*Crit Rate only if using Favonius Greatsword
+
+Aino does not deal a significant amount of damage, so her mainstats are not very important beyond fulfilling Energy Recharge requirements.","1. Energy Recharge
+2. Elemental Mastery
+3. CRIT Rate*
+
+*Crit Rate only if using Favonius Greatsword","1. Burst
+2. Skill
+
+Talent levels are not a necessity.",Aino's A1 talent allows her Elemental Burst to attack more frequently and have a larger AoE DMG if Moonsign: Ascendant Gleam is active. This requires 2 or more Nod-Krai characters in the party. Aino herself counts towards this.
+,NOTES,"OFF-FIELD SUPPORT
+Aino can offer Off-Field Hydro application with her Elemental Burst. She does not possess a Moon Wheel, and cannot contribute to Lunar-Reactions as the sole member in the team from Nod-Krai. Furthermore, Aino heavily favours having another member from Nod-Krai on the team (for a total of 2 or more.) See the ability tips for more details. Aino's scalings are pitifully low, thus, her damage investment is not a priority.
+
+Aino's [C4] gives her 10 Energy upon landing her Elemental Skill on an enemy, effectively changing her burst cost from 50 to 40. This has a cooldown of 10 seconds.
+
+Regarding Weapon Choices:
+Flame-Forged Insight: If Aino cannot trigger the specified Elemental Reactions, this weapon is not worth using. This weapon does not need to be leveled if you do not care about Aino's personal damage.
+Favonius Greatsword: With this weapon, you want to build some Crit Rate to help proc the passive.
+Makhaira Aquamarine: If the team does not benefit from the ATK% buff, this weapon is not worth using.
+Master Key: Refinements for this weapon are not needed if you do not care about Aino's personal damage.
+
+Regarding Artifact Choices:
+Aino's artifact choices are very interchangeable depending on the team that she is in and what that team desires. You can choose sets based on your team's energy needs, buffing needs or based on what member holds what artifact set from the list.",,,,,,
+,,,,,,,,
+,5 STAR,,,,,,,
+,TRAVELER,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.7,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,SUPPORT,"1. Favonius Sword (4✩)
+2. Fleuve Cendre Ferryman (4✩) [R5] 
+3. Skyward Blade (5✩)
+≈ Freedom-Sworn (5✩)
+≈ Sacrificial Sword (4✩)
+≈ Amenoma Kageuchi (4✩)","1. Instructor (4)
+≈ Noblesse Oblige (4)
+≈ Scroll of the Hero of Cinder City (4)
+3. Tenacity of the Millelith (4)*","Sands - Energy Recharge / ATK%
+Goblet - Hydro DMG
+Circlet - Crit Rate / Crit DMG / Healing Bonus","1. Energy Recharge
+2. Crit Rate / DMG
+3. ATK%","1. Skill
+2. Burst","Don't use Hydro Traveler unless you have to for Pneuma mechanics and don't own the Sword of Narzissenkreuz yet.
+
+Traveler does not generate particles if interrupted during the hold state of their Skill."
+,,ON-FIELD DPS,"1. Primordial Jade Cutter (5✩)
+≈ Mistsplitter Reforged (5✩)
+≈ Splendor of Tranquil Waters (5✩)
+≈ Uraku Misugiri (5✩)*
+2. Light of Foliar Incision (5✩)
+≈ Haran Geppaku Futsu (5✩)
+≈ Absolution (5✩)
+3. Summit Shaper (5✩)*
+≈ Lightbearing Moonshard (5✩)
+4. Wolf Fang (4✩)*
+5. Finale of the Deep (4✩)*
+≈ Harbinger of Dawn (3✩)*
+6. Fleuve Cendre Ferryman (4✩) [R5]
+≈ Festering Desire (4✩) [R5]
+7. Favonius Sword (4✩)*","1. Marechaussee Hunter (4)
+2. Emblem of Severed Fate (4)
+3. Golden Troupe (4)
+≈ +15% Hydro DMG Bonus set (2) / Golden Troupe (2) / Emblem of Severed Fate (2) / +18% ATK set (2)","Sands - Energy Recharge / ATK%
+Goblet - Hydro DMG
+Circlet - Crit Rate / Crit DMG","1. Energy Recharge
+2. Crit Rate / DMG
+3. ATK%
+4. HP%","1. Skill
+2. Burst","Hydro Traveler's personal DPS is not high enough to clear the abyss, unless used in an extremely expensive and invested team."
+,NOTES,"IMPORTANT NOTICE: At the time of writing this, Hydro Traveler provides no utility to a team that cannot be better filled by another unit, including Barbara which all players can obtain at AR 18.
+
+SUPPORT
+Since Hydro Traveler lacks any utility, this playstyle focuses on using their Skill and Burst to trigger various support-based weapon and artifact passives along with dealing Pneuma damage with their Skill. This is only recommended if a source of Pneuma is required and Traveler is your only source of Pneuma aligned damage. It should be noted that the guaranteeable 4-Star ""Sword of Narzissenkreuz"" can also provide an Arkhe attack for other characters, meaning Hydro Traveler's usability is further diminished if this weapon has been obtained.
+
+Regarding Artifact Sets:
+Tenacity of the Millelith: Only used if you use the hold version of Hydro Traveler's Skill.
+
+ON FIELD DPS
+Hydro Traveler can be used an as on-field DPS. Typically this is only worth using in teams with Furina, Bennett, and a flexible unit. Their DPS is not extremely high, however.
+
+Regarding Weapon Choices:
+Uraku Misugiri: This weapon is Hydro Traveler's Best Weapon in teams with a Geo character.
+Summit Shaper: This is ranked assuming Hydro Traveler is C4 which provides a shield for him/her.
+Wolf Fang: At [R5] this weapon is about equal to Light of Foliar Incision. 
+Favonius Sword: This weapon's utility may make it better than above options. 
+
+Detailed weapon comparisons here.",,,,,,
+,TARTAGLIA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.6,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Polar Star (5✩)* 
+2. Hunter's Path (5✩)*
+≈ Aqua Simulacra (5✩)
+≈ Skyward Harp (5✩)
+≈ Thundering Pulse (5✩)
+≈ Astral Vulture's Crimson Plumage (5✩)*
+3. The First Great Magic (5✩)
+4. The Viridescent Hunt (4✩)*
+5. King's Squire (4✩) [R5]*
+≈ Amos' Bow (5✩)
+≈ The Stringless (4✩) [R5]
+6. Scion of the Blazing Sun (4✩)*
+≈ Blackcliff Warbow (4✩)*
+≈ Chain Breaker (4✩) [R5]
+7. Windblume Ode (4✩) [R5]
+≈ Hamayumi (4✩) [R5]*
+≈ Mouun's Moon (4✩)*
+≈ Rust (4✩) [R5]","1. Nymph's Dream (4)
+2. Heart of Depth (4)
+3. +15% Hydro DMG set (2) +18% ATK set (2)* 
+4. Noblesse Oblige (2) / +15% Hydro DMG set (2) / +18% ATK set (2) [Choose Two]
+5. Shimenawa's Reminiscence (4)*","Sands - ATK%
+Goblet - Hydro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Elemental Mastery
+4. Energy Recharge","1. Skill
+2. Burst
+3. Normal Attack","Optimal skill duration for [C0]: 7s, 9s or 12s.
+Optimal skill duration for [C1]: 9s, 11s or 14s.
+
+Melee Burst: Only to be used in situations where you need only 1 rotation to clear as the ER requirement to maintain burst uptime is quite high (170-190%), you'll always want to start your rotations with Ranged Burst since it refunds energy to maintain your rotation well.
+
+Skill Combo:
+- 2 NA + 1 CA (Optimal)
+- 3 NA + 1 CA (Recommended)
+- 5 NA + 1 CA (Recommended combo if using Rust or Thundering Pulse)
+
+*NA = Normal Attack, CA = Charged Attack
+
+The Optimal combo provides more damage but consumes more stamina. Recommended combo provides slightly less damage but is stamina neutral and what most weapons should use. 
+"
+,"NOTES
+
+","DPS
+Tartaglia is an on-field Hydro DPS and enabler. He works particularly well in a Vaporize team with Xiangling, as this allows him to Vaporize his burst while also enabling Vaporize consistently for Xiangling.
+
+Regarding Weapon Choices: Tartaglia is calculated with Bennett, along with shorter rotation for a controlled setting
+Polar Star: Dynamic Stacking, will be done alongside of stacking Nymph's Dream (4)
+King's Squire: Have to change double swirl setup to use a CA instead of E
+Hunter's Path: Makes EM highly valuable, especially in rotations like N2C or N1C.
+The Viridescent Hunt: Offers a valuable passive that helps a lot in grouping enemies, which can offer a ton of damage from Riptide. At [R5] This weapon performs almost as well as The First Great Magic.
+Blackcliff Warbow: Assumed 1 stack. At [R5] this weapon perform as well as Amos' Bow.
+Scion of the Blazing Sun: Assumed first CA does not get the passive. At [R5] this weapon performs as well as The Viridescent Hunt [R1] - due to this reason, it is better to get The Viridescent Hunt from the Battle Pass.
+Hamayumi: Assumed weapon passive is not doubled.
+Mouun's Moon: Assumed 260 Burst Cost in total. At [R5] this weapon performs as well as Scion of the Blazing Sun.
+
+Detailed weapon calculation can be found here. Special thanks to Kaori for your support with sheet.
+
+Regarding Artifact Sets:
++15% Hydro DMG set (2) +18% ATK set (2): This set is only about 1-2 substats behind Heart of Depth (4), you can opt out for this set instead if you already have decent pieces.
+Shimenawa's Reminiscence (4): Due to this set requiring Childe to have around 150% Energy Recharge to reliably burst every rotation, it falls behind the other options. However, it outperforms Heart of Depth (4) if used in a single rotation setting (ignoring ER).",,,,,,
+,MONA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 3.7,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+(OUT OF DATE)","1. Skyward Atlas (5✩)
+2. The Widsith (4✩)
+3. Lost Prayer to the Sacred Winds (5✩)
+4. Solar Pearl (4✩)
+5. Dodoco Tales (4✩)
+6. Blackcliff Agate (4✩)
+7. Mappa Mare (4✩)
+","1. Heart of Depth (4)
+2. Noblesse Oblige (2) +15% Hydro DMG set (2)
+3.  Noblesse Oblige (2) / +15% Hydro DMG set (2) / +18% ATK set (2) / +80 EM set (2) [Choose Two]
+4. Wanderer's Troupe (4)","Sands - ATK%
+Goblet - Hydro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Elemental Mastery
+4. Energy Recharge
+","1. Burst
+2. Normal Attack
+3. Skill","
+"
+,,"BURST NUKE
+(OUT OF DATE) 
+✩","1. The Widsith (4✩)
+2. Skyward Atlas (5✩)
+3. Memory of Dust (5✩)
+4. Lost Prayer to the Sacred Winds (5✩)
+5. Solar Pearl (4✩)
+6. Mappa Mare (4✩)","1. Emblem of Severed Fate (4)
+2. Noblesse Oblige (2) +15% Hydro DMG set (2)
+3. Noblesse Oblige (2) / +15% Hydro DMG set (2) / +18% ATK set (2) / +80 EM set (2) / Emblem of Severed Fate (2) [Choose Two]
+","Sands - ATK% / Energy Recharge / Elemental Mastery
+Goblet - Hydro DMG
+Circlet - Crit Rate / DMG ","1. Crit Rate / DMG
+2. Energy Recharge
+3. ATK%
+4. Elemental Mastery","1. Burst
+2. Skill","To make Mona's burst damage trigger the Vaporize 2.0x multiplier:
+1. Apply Pyro on enemy
+2. Cast Burst (should react and remove Pyro status on the enemy after using Burst)
+3. Wait 2.5 seconds for Mona's burst ICD (Mona should stay on field if you have Bennett, to keep the buff)
+4. Swap to Pyro character and apply Pyro on enemy
+5. Burst will pop after enemy gets hit, applying Hydro and Vaporizing her damage.
+
+"
+,,"BUFF SUPPORT
+✩","1. Thrilling Tales of Dragon Slayers (3✩)*
+2. Favonius Codex (4✩)
+3. A Thousand Floating Dreams (5✩)*
+4. Prototype Amber (4✩)
+5. Wine and Song (4✩)","1. Noblesse Oblige (4)
+2. Instructor (4)
+3. Tenacity of the Millelith (4)*
+≈ Scroll of the Hero of Cinder City (4)
+4. +20% Energy Recharge set (2) +20% Energy Recharge set (2)","Sands - Energy Recharge / ATK%
+Goblet - Hydro DMG / ATK%
+Circlet - Crit Rate
+
+**Offensive stats aren't actually needed on a Freeze Support Mona, focus on Artifact Set Bonus","1. Energy Recharge
+2. Crit Rate
+3. ATK%
+
+**Offensive stats aren't needed, just stack ER for comfortable Elemental Burst uptime",1. Burst,"Mona's Burst applies bubble and Omen debuff upon cast, the count down timer only begins when the bubble is broken.
+
+Frozen enemies can have their bubbles preserved as long as enemies stay in a frozen state. This technique makes Mona a priority Support for Freeze DPS teams."
+,NOTES,"DPS
+This build is best utilised at [C2], but can work without it. Do note though Mona's output on this role is subpar compared to lots of alternative characters. 
+
+NUKE
+Mona's Elemental Skill provides taunt and procs wet status on enemies, her Elemental Burst is also capable of rendering smaller enemies immobile (Mona needs to be at least 20 levels within the enemy's level) and providing a huge damage burst (and additional omen debuff after proc).
+
+Regarding Artifact Sets:
+Instructor (4): A niche set only really used for certain Hu Tao teams nuke setups.
+
+Look to the Nuke Mona's Ability Tip section for Vaporize Nuke set up instructions.
+
+BURST SUPPORT
+Mona can use her Burst to apply the Omen debuff on enemies and allow teammates to deal more damage. This is most commonly seen in freeze teams. Mona's main role on a freeze team is to provide Omen debuff from her burst as it is extendable via Freeze mechanics. Note that you must apply Cryo before casting Mona's Elemental Burst for the extension to happen. Omen Freeze extension can be done by reapplying Cryo and Hydro aura consistently (this can be done with Cryo / Hydro infused Venti Elemental Burst + on-field Cryo / Hydro aura).
+
+Regarding Weapon Choices:
+Thrilling Tales of Dragon Slayers: Generally the best option on Freeze Support Mona because she can furthermore buff the ATK of your Main DPS. This however comes with an assumption that with Thrilling Tales of Dragon Slayers, you still have 100% Elemental Burst uptime. If you do not, pick the other Energy Recharge weapon options for more Elemental Burst uptime.
+A Thousand Floating Dreams: If the team does not need Elemental Mastery this weapon should not be used on Mona. If the team does need Elemental Mastery and does not benefit heavily from ATK%, this weapon can compete with Thrilling Tales of Dragon Slayers.
+
+Regarding Artifact Sets:
+Tenacity of the Millelith (4) / Scroll of the Hero of Cinder City (4): Run this set if there's already another character with Noblesse Oblige (4) on the team.
+",,,,,,
+,SANGONOMIYA KOKOMI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+✩","1. Thrilling Tales of Dragon Slayers (3✩)
+2. Prototype Amber (4✩)
+≈ Ash-Graven Drinking Horn (4✩)
+3. Hakushin Ring (4✩)*
+4. Sacrificial Fragments (4✩)*","1. Tenacity of the Millelith (4)*
+2. Ocean-Hued Clam (4)*
+3. Scroll of the Hero of Cinder City (4)
+4. Song of Day's Past (4)
+5. Maiden Beloved (4)
+6. +15% Healing Bonus set (2) / +20% HP set  [Choose Two]","Sands - Energy Recharge / HP%
+Goblet - HP%
+Circlet - Healing Bonus / HP%
+
+**Main Stats are not important for Tenacity of the Millelith (4) if you do not need the extra healing. Focus on Energy Recharge substats instead.","1. Energy Recharge
+2. HP%
+3. ATK%
+4. Flat HP
+
+","1. Skill
+2. Burst","Kokomi's Elemental Burst dynamically alters her skill's damage, this means that you cannot use her Burst to snapshot the buff onto the Skill and swap out.
+"
+,,DPS,"1. Everlasting Moonglow (5✩)
+2. Flowing Purity (4✩)
+≈ Prototype Amber (4✩)
+≈ Ring of Yaxche (4✩)
+≈ Ash-Graven Drinking Horn (4✩)
+3. Hakushin Ring (4✩)*
+4. Thrilling Tales of Dragon Slayers (3✩)*","1. Ocean-Hued Clam (4)
+2. Heart of Depth (4)
+3. +15% Healing Bonus set (2) / +15% Hydro DMG set (2) / +20% HP set [Choose Two]
+4. Tenacity of the Millelith (4)*","Sands - HP% / Energy Recharge
+Goblet - Hydro DMG
+Circlet - Healing Bonus","1. HP%
+2. Energy Recharge
+3. ATK%
+≈ Flat HP
+4. Elemental Mastery","1. Burst
+2. Normal Attack
+3. Skill","Due to Kokomi's high stamina cost on her Charged Attacks, her best attack strings are: 
+
+At [C0]: N2D 
+At [C1]: N3D*
+
+*N3D might result in a loss of Beidou Stormbreaker hits (DPS loss), and as such is only recommended in a Vaporize comp where the added Hydro application is favoured.
+
+*NA = Normal Attack, D = Dash
+"
+,,BLOOM DPS,"1. Starcaller's Watch (5✩)
+2. A Thousand Floating Dreams (5✩)
+≈ Sunny Morning Sleep-In (5✩)
+3. Sacrificial Fragments (4✩)*
+≈ Etherlight Spindlelute (4☆) [R5]
+4. Magic Guide (3✩)
+≈ Fruit of Fulfillment (4✩)","1. Flower of Paradise Lost (4)
+2. Gilded Dreams (4)
+3. +80 EM set (2) +80 EM set (2)
+4. Ocean-Hued Clam (4)*","Sands - Elemental Mastery
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery","1. Elemental Mastery
+2. Energy Recharge
+3. HP%
+4. Flat HP","1. Skill
+2. Burst",
+,NOTES,"SUPPORT
+Support Kokomi focuses on just using her Elemental Burst before her Elemental Skill's duration ends to refresh her skill duration. This allows 100% uptime on Hydro application from her Elemental Skill for Freeze / Electro-charged teams.
+
+Regarding Weapon Choices:
+Hakushin Ring: This weapon can provide Elemental DMG% for the team in Electro-charged teams and will outperform Prototype Amber if you value damage more than healing.
+Sacrificial Fragments: Can be useful as Kokomi won't need to use her Elemental Burst to reset her skill duration. This allows for smoother rotations as she will not face the problem of missing out on the reset for her Elemental Skill due to not casting Burst in time.
+
+Regarding Artifact Sets:
+Tenacity of the Millelith (4): With proper extension of Kokomi's Elemental Skill, she can maintain near 100% uptime on this artifact set's 4 piece effect.
+Ocean Hued Clam (4): This ranking assumes Kokomi is being used only for her Elemental Skill. If she is being used to attack onfield during Elemental Burst, this set may overtake Tenacity of the Millelith (4). 
+
+Regarding Main Stats and Sub Stats: 
+Energy Recharge: Prioritise Energy Recharge first to ensure you can always use Elemental Burst before the Elemental Skill expires in order to maintain Hydro application. 
+
+DPS
+DPS Kokomi aims to maximise her onfield damage during her Elemental Burst's duration. Outside of her Elemental Burst, her damage is lackluster and not worth building for.
+
+Regarding Weapon Choices:
+Thrilling Tales of Dragon Slayers: Although this weapon doesn't provide as much personal damage for Kokomi, the 48% ATK buff is usually more worth in most cases. This can be her best weapon in for overall team DPS if you don't already have another Thrilling Tales of Dragon Slayers user in your team.
+Hakushin Ring: This weapon can provide Elemental DMG% for the team in Electro-charged teams, and is the best choice in those situations.
+
+Regarding Artifact Sets:
+Tenacity of the Millelith (4): Although this set offers the lowest personal damage for Kokomi, the 20% ATK team buff can sometimes be better for overall team DPS.
+
+BLOOM DPS
+This build is specifically for Bloom teams where Kokomi is the character intended to trigger the majority of Blooms.
+
+Regarding Weapon Choices:
+Sacrificial Fragments: The ranking does not reflect its utility in being able to reposition your skill in emergencies which is a significant gameplay improvement, that can be more impactful than simply having higher personal EM or team buffs from the higher ranked options.
+
+Regarding Artifact Sets:
+Ocean-Hued Clam (4): This set can do more damage than other options in certain situations, while also increasing Kokomi's healing to deal with Bloom self-damage. However, this set is very resin inefficient and is thus not recommended to farm specifically for this set.",,,,,,
+,KAMISATO AYATO,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.2,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Haran Geppaku Futsu (5✩)
+≈ Primordial Jade Cutter (5✩) 
+2. Mistsplitter Reforged (5✩)
+3. Light of Foliar Incision (5✩)
+5. Skyward Blade (5✩)*
+≈ Splendor of Tranquil Waters (5✩)
+≈ Lightbearing Moonshard (5✩)
+6. Summit Shaper (5✩)*
+7. Finale of the Deep (4✩)*
+≈ The Black Sword (4✩)*
+≈ Kagotsurube Isshin (4✩)
+8. Lion's Roar (4✩)*
+9. Harbinger of Dawn (3✩) [R5]*
+≈ The Flute (4✩)
+≈ Sword of Narzissenkreuz (4✩) [R5]","1. Heart of Depth (4) 
+≈ Gladiator's Finale (4)
+≈ Nymph's Dream (4)*
+2. +15% Hydro DMG set (2) +18% ATK set (2)
+3. Blizzard Strayer (4)*
+4. Thundering Fury (4)*
+
+Conditional (See Notes):
+Echoes of an Offering (4)*
+Marechaussee Hunter (4)*
+
+","Sands - ATK%
+Goblet - Hydro DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge
+4. HP%
+5. Elemental Mastery","1. Skill
+2. Burst","Try to activate Ayato's Elemental Burst before using his skill to maximize his Normal Attack DMG. Getting enough Energy Recharge for this is important, and varies based on team. Since the casting time is so long, it may not be worth snapshotting into buffs.
+
+The amount of slashes Ayato can do during an Elemental Skill window is sometimes influenced by the player's set FPS."
+,NOTES,"DPS
+DPS Ayato focuses on doing large amounts of on-field damage with his Elemental Skill and Elemental Burst. 
+
+Regarding Weapon Choices:
+Skyward Blade: This ranking assumes Ayato needs 135% Energy Recharge to use his Burst every rotation. Its ranking changes based on his Energy Recharge Requirements.
+Summit Shaper: In teams where ATK buffs are scarce, this weapon has the potential to rival The Black Sword.
+Finale of the Deep: If you can reliably clear the Bond of Life, this weapon is better than the weapons ranked equal to it.
+The Black Sword: At [R5] this weapon is roughly equal to Summit Shaper. 
+Lion's Roar: In Electro-Charged teams, this weapon performs about equal to Summit Shaper.
+Harbinger of Dawn: Only recommended with a shielder. If shielded, this weapon is better than Finale of the Deep and can rival Splendor of Tranquil Waters in teams with high amounts of ATK buffs.
+
+Regarding Artifact Sets:
+Echoes of an Offering (4): The performance of this artifact set is inconsistent, and is based on user ping and other factors. It is not recommended to run this set unless your ping is consistently below 100. If you can achieve this, Echoes of an Offering (4) is competitive with Heart of Depth (4).
+Marechaussee Hunter (4): If Ayato is used in a Burgeon team where he consistently takes damage, or with Furina, this is Ayato's best set.
+Nymph's Dream (4): Reliant on Ayato's Water Illusion hitting enemies which can be inconsistent against some content. Without the third stack of the passive, this set becomes about equal to +15% Hydro DMG set (2) +18% ATK set (2).
+Blizzard Strayer (4): When run in a Freeze Team, this is Ayato's best set. Note that it is not recommended to farm specifically for this set.
+Thundering Fury (4): When run in an Electro-Charged team, this is Ayato's best set due to the Cooldown Reduction on Elemental Skill allowing for shorter rotations. Note that it is not recommended to farm specifically for this set.
+
+Detailed weapon comparisons here.",,,,,,
+,YELAN,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.6,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HIGH ENERGY REQUIREMENT
+(OFF-FIELD DPS)
+✩
+","1. Elegy for the End (5✩)*
+2. Favonius Warbow (4✩)
+3. Aqua Simulacra (5✩)*
+4. Sacrificial Bow (4✩) [R3]*","1. Emblem of Severed Fate (4)
+2. Emblem of Severed Fate (2) / +20% HP set (2) / +15% Hydro DMG set (2) / Noblesse Oblige (2) [Choose Two]
+3. Marechaussee Hunter (4)*","Sands - Energy Recharge / HP%
+Goblet - Hydro DMG / HP%*
+Circlet - Crit Rate / Crit DMG / HP%","1. Energy Recharge*
+2. HP% 
+≈ Crit Rate / DMG
+3. Flat HP
+
+* Energy Recharge should be prioritised until requirements are met.","1. Burst
+2. Skill
+3. Normal Attack*",
+,,"LOW ENERGY REQUIREMENT
+(OFF-FIELD DPS)
+✩","1. Aqua Simulacra (5✩)
+2. Silvershower Heartstrings (5✩)
+3. Mouun's Moon (4✩) [R3-R5]* 
+≈ The Stringless (4✩) [R3-R5]
+≈ Slingshot (3✩) 
+≈ Sequence of Solitude (4✩) [R5]
+4. Hunter's Path (5✩)*
+≈ Polar Star (5✩)*
+≈ Thundering Pulse (5✩)*
+≈ Skyward Harp (5✩)*
+5. Fading Twilight (4✩) [R5] 
+6. Recurve Bow (3✩)",,,,,
+,NOTES,"OFF-FIELD DPS
+Yelan's primary role is as an off-field Hydro DPS who can also enable reactions thanks to her elemental application. Similarly to Xingqiu, her exquisite throws from Elemental Burst require your character to perform the Normal Attack action.
+
+Regarding Weapon Choices:
+Hunter's Path / Polar Star / Thundering Pulse / Skyward Harp: These weapons perform slightly better than Slingshot, however as Yelan does not care about Base ATK and the passives are less than ideal for her, it is not recommended to pull or prioritize using these weapons on Yelan over Slingshot if you have characters who could benefit more from them. 
+Elegy for the End: This weapon is not ideal for Yelan's personal damage so should only be used in teams which can utilise the buff well. 
+Mouun's Moon: This weapon works best at [R3+] and makes HP% Goblet potentially a stronger option than Hydro DMG% in teams with significant DMG% buffing.
+Sacrificial Bow: This ideally needs to be at refinement [R3-R5] to function properly in most Yelan teams rotations without desyncing the rotation and extending her field time.
+Aqua Simulacra: Still the best option for personal damage even at high ER requirements, but may be unfeasible to run in some teams as the ER requirement can become very difficult to reach without an ER weapon. 
+
+Regarding Artifact Sets and Main Stats:
+Marechaussee Hunter (4): This set should only be used for on-field Yelan with Furina, but in such cases it is the strongest set option. 
+Goblet: Hydro DMG% should be used by default. In teams with significant DMG% buffing or with weapons which provide a lot of DMG%, HP% goblet can be competitive. 
+Additionally, it's never recommended to run more than 2 HP% Main Stat artifacts at a time.
+
+Regarding Talent Priority:
+Normal Attacks: Level this up only if you want to constantly use her Breakthrough Barbs.
+
+Big thanks to Vladone ツ#9281 for helping out                                   ",,,,,,
+,NILOU,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.0 / Luna I,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"BLOOM SUPPORT 
+✩","1. Key of Khaj-Nisut (5✩)
+2. The Dockhand's Assistant (4✩)
+3. Serenity's Call (4✩) [R5]*","1. +20% HP set (2) +20% HP set (2)
+2. +20% HP set (2) +80 EM set (2)
+3. Deepwood Memories (4)*","Sands - HP%
+Goblet - HP%
+Circlet - HP%","1. HP%*
+2. Flat HP 
+3. Elemental Mastery
+
+* Prefers HP substats above all else until you reach the limit of her A4 passive which is at 74444 HP","1. Skill
+2. Burst
+
+Talent levels do not affect Nilou's buff to Bloom damage, so heavy investment in Talents is not necessary",
+,NOTES,"BLOOM SUPPORT
+As a Bloom Support, Nilou's role is to maximize a team's Bloom Damage in teams of strictly Hydro and Dendro characters. Level 90 is highly recommended to maximize Nilou's HP and Bloom Damage
+
+Regarding Weapon Choices:
+Serenity's Call: As Nilou only needs this weapon for the passive, it can stay at Level 1.
+
+Regarding Artifact Sets:
+Deepwood Memories (4): Can be an option if other teammates are not Deepwood Memories holders.",,,,,,
+,NEUVILLETTE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.2,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS 
+✩","1. Tome of the Eternal Flow (5✩)
+2. Sacrificial Jade (4✩)
+≈ Surf's Up! (5✩)
+≈ Reliquary of Truth (5✩)
+3. Jadefall's Splendor (5✩)
+≈ Prototype Amber (4✩)
+≈ Cashflow Supervision (5✩)
+≈ The Widsith (4✩)
+≈ Kagura's Verity (5✩)
+≈ Lost Prayer to the Sacred Winds (5✩)
+4. Ash-Graven Drinking Horn (4✩)*","1. Marechaussee Hunter (4)
+2. Heart of Depth (4)
+3. +15% Hydro DMG set (2) / 20% HP set (2) / Marechaussee Hunter (2) [Choose Two]
+≈ Retracing Bolide (4)
+≈ Wanderer's Troupe (4)
+≈ Nymph's Dream (4)","Sands - HP%
+Goblet - Hydro DMG / HP%
+Circlet - Crit Rate / Crit DMG / HP%","1. Energy Recharge*
+2. Crit Rate / Crit DMG
+≈ HP%
+3. Flat HP
+
+* Energy Recharge should be prioritised until requirements are met.","1. Normal Attack
+2. Burst
+≈ Skill
+",
+,NOTES,"DPS
+DPS Neuvillette centers around using his Charged Attacks to deal damage.
+
+Regarding Weapon Choices:
+Weapon options similar to Prototype Amber can be used better by other characters, so it's not recommended to pull or upgrade these weapons just for Neuvillette.
+Ash-Graven Drinking Horn: With low ER requirements, this weapon can slightly edge out Prototype Amber, though it lacks Prototype Amber's teamwide healing utility.",,,,,,
+,FURINA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.5,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"OFF-FIELD DPS & BUFF SUPPORT
+✩","1. Splendor of Tranquil Waters (5✩)
+2. Primordial Jade Cutter (5✩)
+3. Festering Desire (4✩) [R5]
+≈ Key of Khaj-Nisut (5✩)*
+≈ Uraku Misugiri (5✩)*
+4. Fleuve Cendre Ferryman (4✩) [R5]
+≈ Favonius Sword (4✩)*
+5. Wolf-Fang (4✩)
+≈ Haran Geppaku Futsu (5✩)
+≈ Light of Foliar Incision (5✩)
+≈ Mistsplitter Reforged (5✩)
+6. Skyward Blade (5✩)
+≈ The Dockhand's Assistant (4✩)
+≈ Harbinger of Dawn (3✩)","1. Golden Troupe (4)
+2. Tenacity of the Millelith (4)
+3. +15% Hydro DMG set (2) / Golden Troupe (2) / +20% HP set (2) / Emblem of Severed Fate (2) [Choose Two]","Sands - Energy Recharge / HP%
+Goblet - HP% / Hydro DMG*
+Circlet - Crit Rate / Crit DMG","1. Energy Recharge*
+2. HP%
+≈ Crit Rate / Crit DMG
+3. Flat HP
+
+* Energy Recharge should be prioritised until requirements are met.","1. Burst
+≈ Skill","Because of her HP drain and Burst mechanics, Furina encourages the use of teamwide healers. "
+,NOTES,"OFF-FIELD DPS & SUPPORT
+Furina buffs team members with her Burst, and deals off-field damage with her Skill.
+
+Regarding Weapon Choices:
+Uraku Misugiri: This ranking assumes Furina is not paired with a Geo unit. If Furina is paired with a Geo unit, this weapon is better than Primordial Jade Cutter.
+Key of Khaj-Nisut: Three stacks of this weapon is extremely reliable as long as Furina's Skill hits opponents. It can help elevate the team's damage with its teamwide EM buff which can lead to it performing better than weapons listed above.
+Non-Energy Recharge Weapons: These see better performances when Furina is used in teams with lower Energy Recharge Requirements. 
+Favonius Sword: The value of this weapon can fluctuate based on Furina's Energy Recharge requirements and the team's Energy Recharge Requirements.
+
+Regarding Artifact Main Stats:
+Goblet: HP% is recommended with Golden Troupe (4) as an artifact set, elsewise, Hydro DMG is recommended. At [C2] the two become roughly similar, assuming Golden Troupe (4).
+
+Detailed weapon comparisons here.",,,,,,
+,SIGEWINNE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.6,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HEAL SUPPORT
+✩","1. Silvershower Heartstrings (5✩)
+2. Sequence of Solitude (4✩) [R5]
+≈ Recurve Bow (3✩)
+≈ Favonius Warbow (4✩)*
+≈ Elegy for the End (5✩)*
+≈ Sacrificial Bow (4✩) [R5]*","1. Ocean-Hued Clam (4)
+≈ Song of Days Past (4)
+≈ Scroll of the Hero of Cinder City (4)
+2. Tenacity of the Millelith (2) / Vourukasha's Glow (2)
+3. Tenacity of the Millelith (4)*","Sands - HP%
+Goblet - HP%
+Circlet - HP% / Crit Rate*
+
+*Crit Rate only if using Favonius Warbow","1. HP%
+2. Flat HP
+3. Crit Rate*
+
+*Crit Rate only if using Favonius Warbow",1. Skill,"At [C1], Sigewinne instead gains 18 Convalescence stacks."
+,NOTES,"SUPPORT
+Sigewinne focuses on teamwide healing with her Elemental Skill. She can create Sourcewater Droplets, and absorbing these Droplets will give her a Bond of Life. Clearing this Bond of Life will give her Energy for herself. With her A1 talent, upon skill cast Sigewinne gains 10 stacks of Convalescence, which boosts Off-Field Elemental Skill Damage. The damage boost provided when a Convalescence stack is consumed cannot apply to Sigewinne's own damage. She is best used in a Furina-centric team.
+
+Regarding Weapon Choices:
+Favonius Warbow: This weapon will place higher if the team values and needs energy. With this weapon, you want to build a little bit of Crit Rate to help proc the passive. It is unnecessary to level this weapon if you are not planning to use Sigewinne's Elemental Burst.
+Elegy for the End: While the Energy Recharge from this weapon is unnecessary for this build, the passive can make it an effective choice in some teams. It is also not needed to level this weapon if you are not going to use Sigewinne's Elemental Burst.
+Sacrificial Bow: This weapon can allow Sigewinne to work in slightly shorter rotation lengths at [R5], and allow for more uptime on Convalescence stacks. Do note that using Skill twice in quick succession will not double the number of Convalescence stacks. Does not need to be levelled if ignoring Sigewinne's Elemental Burst. 
+
+Regarding Artifact Sets: 
+Tenacity of the Millelith (4): can be used in teams with a relevant amount of ATK scaling damage, and will generally outperform 2pc mixed sets in such instances. 
+",,,,,,
+,MUALANI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.1 / Luna II,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"VAPORIZE DPS
+✩","1. Surf's Up! (5✩)
+2. Reliquary of Truth (5✩)
+3. A Thousand Floating Dreams (5✩)
+4. Tome of the Eternal Flow (5✩)
+≈ Starcaller's Watch (5✩)
+5. Sacrificial Jade (4✩)*
+6. Sunny Morning Sleep-In  (5✩)
+7. Ring of Yaxche (4✩) [R5]
+≈ The Widsith (4✩) [R5]*
+","1. Obsidian Codex (4)
+2. Heart of Depth (4)
+3. +20% HP set (2) / +15% Hydro DMG set / +80 EM set (2) / Marechaussee Hunter (2) [Choose Two]
+
+Conditional (See Notes)
+Marechaussee Hunter (4)*","Sands - HP%/Elemental Mastery
+Goblet - Hydro DMG
+Circlet - Crit Rate/Crit DMG/HP%/Elemental Mastery*
+
+Check notes","1. Crit Rate/DMG
+2. Elemental Mastery ≈ HP%
+3. Flat HP","1. Skill
+2. Burst",
+,NOTES,"VAPORIZE DPS
+Mualani is able to consistently Vaporize her Sharky Bites as colliding with enemies while on Sharky Surfboard does not apply any Hydro. If Mualani attacks a marked enemy with a Sharky Bite, any other marked enemies are hit with additional Missiles. Both the Sharky Bites and the additional Missiles are considered Normal Attack Damage.
+
+Regarding Weapon Choices:
+Sacrificial Jade: When paired with Obsidian Codex or Marechaussee Hunter, Crit Rate substats are no longer desirable.
+The Widsith: On average, this weapon at [R5] performs similarly to Ring of Yaxche [R5]. It's worth noting that due to buff downtime and the possibility of getting the ATK buff, this weapon is worse for consistent performance and can end up worse. However, if you are willing to reset for good Widsith buffs (DMG% or EM), it can outperform. 
+
+Regarding Artifact Main Stats:
+Strong Elemental Mastery buffs, or an EM weapon, can devalue EM Main Stats. HP circlet is primarily an option for Crit DMG weapons as well. 
+
+Regarding Artifact Sets:
+Marechaussee Hunter: Only to be used when paired with Furina. Worse than Obsidian Codex (4).
+
+Detailed weapon comparisons here. Thank you to @wakanai for lending their calculations.",,,,,,
+,COLUMBINA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.5 / Luna VI,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"HIGH ENERGY REQUIREMENT
+
+OFF-FIELD DPS & BUFF SUPPORT
+✩","1. Nocturne's Curtain Call (5✩)
+2. Prototype Amber (4✩) [R5]
+≈ Sacrificial Jade (4✩)
+3. Favonius Codex (4✩)*","1. Silken Moon Serenade (4)*
+≈ Aubade of Morningstar and Moon (4)*
+2. +20% HP set (2) / +80 EM set (2) / +20% Energy Recharge set (2) [Choose Two]","Sands - HP%/Energy Recharge
+Goblet - HP%
+Circlet - Crit Rate/Crit DMG
+","1. Energy Recharge*
+2. Crit Rate/DMG
+3. HP%
+4. Elemental Mastery
+
+*Prioritize Energy Recharge until requirements are met","1. Skill
+2. Burst","Starting at Constellation 1, Columbina should use her Burst before her Skill so the extra Gravity Interference triggered by C1 will be buffed by her Burst."
+,,"LOW ENERGY REQUIREMENT
+
+OFF-FIELD DPS & BUFF SUPPORT
+✩","1. Nocturne's Curtain Call (5✩)
+2. Sacrificial Jade (4✩)*
+≈ Reliquary of Truth (5✩)
+≈ Surf's Up (5✩)
+≈ Tome of the Eternal Flow (5✩)
+3. Prototype Amber (4✩) [R5]
+≈ Dawning Frost (4✩)
+≈ Kagura's Verity (5✩)
+≈ Lost Prayer to the Sacred Winds (5✩)
+","1. Silken Moon Serenade (4)*
+≈ Aubade of Morningstar and Moon (4)*
+2. +20% HP set (2) / +80 EM set (2) [Choose Two]","Sands - HP%
+Goblet - HP%
+Circlet - Crit Rate/Crit DMG
+","1. Energy Recharge*
+2. Crit Rate/DMG
+3. HP%
+4. Elemental Mastery
+
+*Small amounts of Energy Recharge might be needed for consistent Bursts every other rotation","1. Skill
+2. Burst",
+,,ON-FIELD DPS,"1. Nocturne's Curtain Call (5✩)
+2. Reliquary of Truth (5✩)*
+3. Surf's Up (5✩)
+≈ Tome of the eternal Flow (5✩)
+4. Blackmarrow Lantern (4✩) [R5]*
+5. Ash-Graven Drinking Horn (4✩) [R5]
+≈ Dawning Frost (4✩)
+6. Sacrificial Jade (4✩)*","1. Night of the Sky's Unveiling (4)
+2. +20% HP set (2) / +80 EM set (2) [Choose Two]","Sands - HP%
+Goblet - HP%
+Circlet - Crit Rate/Crit DMG
+",,"1. Skill
+≈ Normal Attack*
+2. Burst
+
+* For Lunar Bloom teams only",
+,NOTES,"HIGH ENERGY OFF-FIELD DPS & BUFF SUPPORT
+Columbina blesses her team with a large buff to Lunar reactions, while also inflicting good amounts of Lunar damage herself, mimicking whatever lunar reaction is dominant in your team.
+
+Regarding Weapon Choices:
+Favonius Codex: This weapon is an option if the whole team is desperate for the Energy. For Columbina herself, this weapon is outclassed by Prototype Amber in all regards.
+
+Regarding Artifact Sets:
+Silken Moon Serenade and Aubade of Morningstar and Moon: Both of these sets can be Columbina's best in slot, the latter being preferred for her personal damage if another unit on the team already holds Silken Moon Serenade.
+
+LOW ENERGY OFF-FIELD DPS & BUFF SUPPORT
+
+Regarding Weapon Choices:
+Sacrificial Jade: With refines, this weapon pulls far ahead of similarly ranked options.
+
+Regarding Artifact Sets:
+Silken Moon Serenade and Aubade of Morningstar and Moon: Both of these sets can be Columbina's best in slot, the latter being preferred for her personal damage if another unit on the team already holds Silken Moon Serenade.
+
+ON-FIELD DPS
+Columbina has potential as an On-Field DPS, most notably in Lunar Bloom teams thanks to her special Charged Attack which consumes Verdant Dew to deal Lunar Bloom damage.
+
+Regarding Weapon Choices:
+Reliquary of Truth: If Columbina can consistently trigger Lunar Bloom for the full passive, this weapon performs close to Nocturne's Curtain Call.
+Blackmarrow Lantern: This weapon should only be used if the team is centered around Lunar Bloom.
+Sacrificial Jade: At [R5], this weapon performs on par with Surf's Up and Tome of the Eternal Flow.
+",,,,,,

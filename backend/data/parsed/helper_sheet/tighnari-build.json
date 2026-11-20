@@ -1,0 +1,138 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "tighnari",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "hunter-s-path",
+          "weapon_name": "Hunter's Path",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "astral-vulture-s-crimson-plumage",
+          "weapon_name": "Astral Vulture's Crimson Plumage",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aqua-simulacra",
+          "weapon_name": "Aqua Simulacra",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "polar-star",
+          "weapon_name": "Polar Star",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-first-great-magic",
+          "weapon_name": "The First Great Magic",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-harp",
+          "weapon_name": "Skyward Harp",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thundering-pulse",
+          "weapon_name": "Thundering Pulse",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "elegy-for-the-end",
+          "weapon_name": "Elegy for the End",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amos-bow",
+          "weapon_name": "Amos' Bow",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fading-twilight",
+          "weapon_name": "Fading Twilight",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "scion-of-the-blazing-sun",
+          "weapon_name": "Scion of the Blazing Sun",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-viridescent-hunt",
+          "weapon_name": "The Viridescent Hunt",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "wanderer-s-troupe",
+          "artifact_set_name": "Wanderer's Troupe",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "em",
+        "er"
+      ],
+      "goblet_stat": [
+        "dendro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "em",
+        "atk_pct",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Burst > Skill",
+      "combos": [],
+      "notes": "Role: QUICK SWAP DPS | Last Updated: Version 5.1 | There are three recommended combos that Tighnari can perform: 1. Skill -> Charged Attack -> Burst -> Charged Attack (x2) - This is the most mechanically difficult combo. However, this combo allows Tighnari to have both his Burst affected by A1 and funnel particles from his Skill to his next Burst. 2. Skill -> Charged Attack (x3) -> Burst - Allows Tighnari's Burst to benefit from A1. However, this ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Tighnari (Dendro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

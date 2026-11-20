@@ -1,0 +1,148 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "klee",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "reliquary-of-truth",
+          "weapon_name": "Reliquary of Truth",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura's Verity",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vivid-notions",
+          "weapon_name": "Vivid Notions",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tulaytullah-s-remembrance",
+          "weapon_name": "Tulaytullah's Remembrance",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up!",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-atlas",
+          "weapon_name": "Skyward Atlas",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "solar-pearl",
+          "weapon_name": "Solar Pearl",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrifical-jade",
+          "weapon_name": "Sacrifical Jade",
+          "rarity": 5,
+          "notes": "7. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "a-day-carved-from-rising-winds",
+          "artifact_set_name": "A Day Carved From Rising Winds",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "lavawalker",
+          "artifact_set_name": "Lavawalker",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "echoes-of-an-offering",
+          "artifact_set_name": "Echoes of an Offering",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "desert-pavilion-chronicle",
+          "artifact_set_name": "Desert Pavilion Chronicle",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "wanderer-s-troupe",
+          "artifact_set_name": "Wanderer's Troupe",
+          "notes": "5. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "crimson-witch-of-flames",
+          "set1_name": "Crimson Witch of Flames",
+          "set2_slug": "marechaussee-hunter",
+          "set2_name": "Marechaussee Hunter",
+          "notes": "4. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "pyro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Burst > Skill",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 6.3 / Luna IV | Klee has access to a number of animation cancels that allow her to deal damage with her talents faster than normal. Her A1 grants her \"Explosive Spark\" stacks when she does a Normal Attack, Skill or Burst that when consumed, give her Charged Attacks extra DMG% and not consume Stamina. Hexerei effects give her up to 150% DMG to her Enhanced Charged Attacks - this effect should always be active at m",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Klee (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

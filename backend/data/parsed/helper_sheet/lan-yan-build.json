@@ -1,0 +1,91 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "lan-yan",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "angelos-heptades",
+          "weapon_name": "Angelos' Heptades",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "starcaller-s-watch",
+          "weapon_name": "Starcaller's Watch",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thrilling-tales-of-dragon-slayers",
+          "weapon_name": "Thrilling Tales of Dragon Slayers",
+          "rarity": 3,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crane-s-echoing-call",
+          "weapon_name": "Crane's Echoing Call",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hakushin-ring",
+          "weapon_name": "Hakushin Ring",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "atk_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "atk_pct",
+        "em",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: SHIELD & BUFF SUPPORT | Last Updated: Version 6.6 / Luna VII | Lan Yan's shield can undergo Elemental Absorption, meaning that her shield can absorb PHEC (Pyro/Hydro/Electro/Cryo) and become more resistant to the element it has absorbed. Lan Yan has to make contact with an enemy upon skill cast for the absorption to take place.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Lan Yan (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,141 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "bennett",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "absolution",
+          "weapon_name": "Absolution",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "azurelight",
+          "weapon_name": "Azurelight",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aquila-favonia",
+          "weapon_name": "Aquila Favonia",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-alley-flash",
+          "weapon_name": "The Alley Flash",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom-Sworn",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "peak-patrol-song",
+          "weapon_name": "Peak Patrol Song",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-blade",
+          "weapon_name": "Skyward Blade",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sapwood-blade",
+          "weapon_name": "Sapwood Blade",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-rancour",
+          "weapon_name": "Prototype Rancour",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-of-eshu",
+          "weapon_name": "Calamity of Eshu",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct",
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "pyro_dmg",
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct",
+        "healing_bonus"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: SUPPORT | Last Updated: Version 5.5 | Bennett's C6 infuses melee weapons with Pyro, which can mess up a few teams. However, if you have C6 Bennett, you more than likely have some of the supports which those teams prefer over Bennett anyway.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Bennett (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

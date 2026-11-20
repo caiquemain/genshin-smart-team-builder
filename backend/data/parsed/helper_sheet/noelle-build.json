@@ -1,0 +1,88 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "noelle",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "redhorn-stonethresher",
+          "weapon_name": "Redhorn Stonethresher",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "serpent-spine",
+          "weapon_name": "Serpent Spine",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-pride",
+          "weapon_name": "Skyward Pride",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "whiteblind",
+          "weapon_name": "Whiteblind",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "husk-of-opulent-dreams",
+          "artifact_set_name": "Husk of Opulent Dreams",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "retracing-bolide",
+          "artifact_set_name": "Retracing Bolide",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator's Finale",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "def_pct",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "geo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "er",
+        "def_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Burst > Skill",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 4.2 | 1 / 2 Targets: N1>N2>N3>N4>dash/hop This isn't always feasible due to cast time (as well as knockback issues). Multiple Targets: N1>N2>N3>dash/hop With Redhorn, using Charged Attack can become more effective. While spinning, opening and closing either the map or adventurer's handbook once will allow you to bypass the 5 second restriction.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Noelle (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

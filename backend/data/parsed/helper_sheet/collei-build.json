@@ -1,0 +1,97 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "collei",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "elegy-for-the-end",
+          "weapon_name": "Elegy for the End",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-warbow",
+          "weapon_name": "Favonius Warbow",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "polar-star",
+          "weapon_name": "Polar Star",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-bow",
+          "weapon_name": "Sacrificial Bow",
+          "rarity": 4,
+          "notes": "4. R4+ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "5. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "dendro_dmg",
+        "em"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg",
+        "em"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: REACTION SUPPORT | Last Updated: Version 5.5 | Typical Collei Rotation: Skill > Burst > Swap Rotation with Polar Star: N1 > tap Charged Attack > Skill > Burst > Swap",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Collei (Dendro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,138 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "emilie",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "symphonist-of-scents",
+          "weapon_name": "Symphonist of Scents",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crimson-moon-s-semblance",
+          "weapon_name": "Crimson Moon's Semblance",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-spine",
+          "weapon_name": "Skyward Spine",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tamayuratei-no-ohanashi",
+          "weapon_name": "Tamayuratei no Ohanashi",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "missive-windspear",
+          "weapon_name": "Missive Windspear",
+          "rarity": 4,
+          "notes": "8. R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "unfinished-reverie",
+          "artifact_set_name": "Unfinished Reverie",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "deepwood-memories",
+          "set1_name": "Deepwood Memories",
+          "set2_slug": "golden-troupe",
+          "set2_name": "Golden Troupe",
+          "notes": "4. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "dendro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: OFF-FIELD DPS | Last Updated: Version 5.7 | OFF-FIELD DPS Emilie does not use the Burning reaction as her primary source of damage, but rather she uses the reaction to help her continuously deal Dendro damage. Thus, Emilie would rather build offensive stats rather than focus on building around the Burning reaction. Regarding Weapon Choices: Deathmatch: At [R5], this weapon will perform better than Engulfing Lightning, and it will perform a ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Emilie (Dendro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

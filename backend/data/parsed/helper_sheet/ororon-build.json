@@ -1,0 +1,131 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "ororon",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "polar-star",
+          "weapon_name": "Polar Star",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-first-great-magic",
+          "weapon_name": "The First Great Magic",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thundering-pulse",
+          "weapon_name": "Thundering Pulse",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aqua-simulacra",
+          "weapon_name": "Aqua Simulacra",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hunter-s-path",
+          "weapon_name": "Hunter's Path",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-harp",
+          "weapon_name": "Skyward Harp",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "astral-vulture-s-crimson-plumage",
+          "weapon_name": "Astral Vulture's Crimson Plumage",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "chain-breaker",
+          "weapon_name": "Chain Breaker",
+          "rarity": 4,
+          "notes": "4. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "alley-hunter",
+          "weapon_name": "Alley Hunter",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "range-gauge",
+          "weapon_name": "Range Gauge",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "song-of-stillness",
+          "weapon_name": "Song of Stillness",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "elegy-for-the-end",
+          "weapon_name": "Elegy for the End",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "er"
+      ],
+      "goblet_stat": [
+        "em"
+      ],
+      "circlet_stat": [
+        "em"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: OFF-FIELD DPS | Last Updated: Version 5.5 | OFF-FIELD DPS Ororon focuses on dealing damage off-field with his Elemental Burst. His A1 can also allow him to deal off-field damage whenever an enemy is dealt Electro-Charged damage or when the active character deals Nightsoul-aligned damage, with a cooldown of 1.8 seconds. With his A4 talent, he's able to give up to 9 flat energy per rotation after using his Elemental Skill, whenever the active",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Ororon (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

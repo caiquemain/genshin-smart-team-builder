@@ -1,0 +1,79 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "columbina",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "nocturne-s-curtain-call",
+          "weapon_name": "Nocturne's Curtain Call",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "2. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-jade",
+          "weapon_name": "Sacrificial Jade",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "silken-moon-serenade",
+          "artifact_set_name": "Silken Moon Serenade",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "aubade-of-morningstar-and-moon",
+          "artifact_set_name": "Aubade of Morningstar and Moon",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "hp_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "hp_pct",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: HIGH ENERGY REQUIREMENT OFF-FIELD DPS & BUFF SUPPORT | Last Updated: Version 6.5 / Luna VI | Starting at Constellation 1, Columbina should use her Burst before her Skill so the extra Gravity Interference triggered by C1 will be buffed by her Burst.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Columbina (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,88 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "yun-jin",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-lance",
+          "weapon_name": "Favonius Lance",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-catch",
+          "weapon_name": "\"The Catch\"",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-starglitter",
+          "weapon_name": "Prototype Starglitter",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kitain-cross-spear",
+          "weapon_name": "Kitain Cross Spear",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "husk-of-opulent-dreams",
+          "artifact_set_name": "Husk of Opulent Dreams",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "def_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "def_pct"
+      ],
+      "circlet_stat": [
+        "def_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "def_pct",
+        "er",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: BUFF SUPPORT | Last Updated: Version 3.2 | SUPPORT Yun Jin is a Support character for Normal Attack focused characters who can deal off-field damage via her Elemental Burst. Yun Jin's Elemental Burst grants nearby party members 30 stacks of additional flat damage bonus on Normal Attacks which scales with Yun Jin's current DEF. This means that external DEF buffs like from Gorou's Elemental Skill and/or Burst doesn't provide much to Yun Jin ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Yun Jin (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

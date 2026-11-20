@@ -1,0 +1,95 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "lynette",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fleuve-cendre-ferryman",
+          "weapon_name": "Fleuve Cendre Ferryman",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-sword",
+          "weapon_name": "Sacrificial Sword",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amenoma-kageuchi",
+          "weapon_name": "Amenoma Kageuchi",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-blade",
+          "weapon_name": "Skyward Blade",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom-Sworn",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "anemo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: OFF-FIELD DPS | Last Updated: Version 4.0 | OFF-FIELD DPS Lynette serves as a burst-oriented Anemo unit, that unlike other Anemo units does not excel in any one category such as personal damage, crowd control and buffs. Her potential for crowd control is partially dependent on unlocking her [C1] and [C4], and neither her ATK buff nor her personal damage reach notably high levels. What truly distinguishes her among Anemo characters is her un",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Lynette (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,108 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "xianyun",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "crane-s-echoing-call",
+          "weapon_name": "Crane's Echoing Call",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "oathsworn-eye",
+          "weapon_name": "Oathsworn Eye",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wine-and-song",
+          "weapon_name": "Wine and Song",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ballad-of-the-boundless-blue",
+          "weapon_name": "Ballad of the Boundless Blue",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hakushin-ring",
+          "weapon_name": "Hakushin Ring",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "≈ R3+ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "ocean-hued-clam",
+          "artifact_set_name": "Ocean-Hued Clam",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "song-of-days-past",
+          "artifact_set_name": "Song of Days Past",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "atk_pct"
+      ],
+      "substat_priority": [
+        "er",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst",
+      "combos": [],
+      "notes": "Role: HIGH ENERGY REQUIREMENT BUFF & HEAL SUPPORT | Last Updated: Version 5.0 | Most teams will not use all three uses of Xianyun's Skill, since it is too time intensive to do so. A simple E Q is the ideal rotation for most teams.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Xianyun (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

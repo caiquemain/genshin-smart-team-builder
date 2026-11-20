@@ -1,0 +1,120 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "sayu",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-greatsword",
+          "weapon_name": "Favonius Greatsword",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-s-gravestone",
+          "weapon_name": "Wolf's Gravestone",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "katsuragikiri-nagamasa",
+          "weapon_name": "Katsuragikiri Nagamasa",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-pride",
+          "weapon_name": "Skyward Pride",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-greatsword",
+          "weapon_name": "Sacrificial Greatsword",
+          "rarity": 4,
+          "notes": "5. R3+ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "makhaira-aquamarine",
+          "weapon_name": "Makhaira Aquamarine",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mailed-flower",
+          "weapon_name": "Mailed Flower",
+          "rarity": 4,
+          "notes": "7. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "forest-regalia",
+          "weapon_name": "Forest Regalia",
+          "rarity": 4,
+          "notes": "8. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "rainslasher",
+          "weapon_name": "Rainslasher",
+          "rarity": 4,
+          "notes": "9. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "bloodtainted-greatsword",
+          "weapon_name": "Bloodtainted Greatsword",
+          "rarity": 3,
+          "notes": "10. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "ocean-hued-clam",
+          "artifact_set_name": "Ocean-Hued Clam",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "em"
+      ],
+      "goblet_stat": [
+        "em",
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "healing_bonus",
+        "em"
+      ],
+      "substat_priority": [
+        "er",
+        "em",
+        "atk_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: HEAL SUPPORT | Last Updated: Version 4.8 | Use hold Skill then immediately press it to generate more particles.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Sayu (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

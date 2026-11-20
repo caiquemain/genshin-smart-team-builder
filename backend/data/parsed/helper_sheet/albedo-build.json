@@ -1,0 +1,121 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "albedo",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "peak-patrol-song",
+          "weapon_name": "Peak Patrol Song",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lightbearing-moonshard",
+          "weapon_name": "Lightbearing Moonshard",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flute-of-ezpitzal",
+          "weapon_name": "Flute of Ezpitzal",
+          "rarity": 4,
+          "notes": "4. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 3,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cinnabar-spindle",
+          "weapon_name": "Cinnabar Spindle",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "husk-of-opulent-dreams",
+          "artifact_set_name": "Husk of Opulent Dreams",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "archaic-petra",
+          "artifact_set_name": "Archaic Petra",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "husk-of-opulent-dreams",
+          "set1_name": "Husk of Opulent Dreams",
+          "set2_slug": "archaic-petra",
+          "set2_name": "Archaic Petra",
+          "notes": "2. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "def_pct"
+      ],
+      "goblet_stat": [
+        "geo_dmg",
+        "def_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "def_pct",
+        "er",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: OFF-FIELD DPS | Last Updated: Version 6.5 / Luna VI | Casting Albedo's Elemental Skill on top of a boss will summon a Silver Isotoma as long as the initial cast hits the opponent.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Albedo (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

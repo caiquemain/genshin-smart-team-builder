@@ -1,0 +1,105 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "sigewinne",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "silvershower-heartstrings",
+          "weapon_name": "Silvershower Heartstrings",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sequence-of-solitude",
+          "weapon_name": "Sequence of Solitude",
+          "rarity": 4,
+          "notes": "2. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "recurve-bow",
+          "weapon_name": "Recurve Bow",
+          "rarity": 3,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-warbow",
+          "weapon_name": "Favonius Warbow",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "elegy-for-the-end",
+          "weapon_name": "Elegy for the End",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-bow",
+          "weapon_name": "Sacrificial Bow",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "ocean-hued-clam",
+          "artifact_set_name": "Ocean-Hued Clam",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "song-of-days-past",
+          "artifact_set_name": "Song of Days Past",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "tenacity-of-the-millelith",
+          "set1_name": "Tenacity of the Millelith",
+          "set2_slug": "vourukasha-s-glow",
+          "set2_name": "Vourukasha's Glow",
+          "notes": "2. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct"
+      ],
+      "goblet_stat": [
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "hp_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "hp_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill",
+      "combos": [],
+      "notes": "Role: HEAL SUPPORT | Last Updated: Version 5.6 | At [C1], Sigewinne instead gains 18 Convalescence stacks.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Sigewinne (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

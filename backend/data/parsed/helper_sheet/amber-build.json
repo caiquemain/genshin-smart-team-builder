@@ -1,0 +1,89 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "amber",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "elegy-for-the-end",
+          "weapon_name": "Elegy for the End",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-warbow",
+          "weapon_name": "Favonius Warbow",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-bow",
+          "weapon_name": "Sacrificial Bow",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-viridescent-hunt",
+          "weapon_name": "The Viridescent Hunt",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "the-exile",
+          "artifact_set_name": "The Exile",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "pyro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: BUFF SUPPORT | Last Updated: Version 4.0 | DPS Amber Melt DPS is a playstyle where she uses Charged Attacks to trigger Melt. Rankings assume she is used with Bennett. Regarding Weapon Choices: When attacking Weak Points, the attacks are guaranteed to Crit, making weapons with Crit Rate substat lose value. Amos' Bow: Ranking assumes you stay close to the enemy but this weapons has the potential to outclasses Aqua Simulacra with max stacks b",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Amber (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

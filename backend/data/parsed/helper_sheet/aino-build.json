@@ -1,0 +1,92 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "aino",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-greatsword",
+          "weapon_name": "Favonius Greatsword",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "makhaira-aquamarine",
+          "weapon_name": "Makhaira Aquamarine",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flame-forged-insight",
+          "weapon_name": "Flame-Forged Insight",
+          "rarity": 4,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "master-key",
+          "weapon_name": "Master Key",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "silken-moon-s-serenade",
+          "artifact_set_name": "Silken Moon's Serenade",
+          "notes": "Conditional (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "Conditional (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "Conditional (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "Conditional (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "em"
+      ],
+      "goblet_stat": [
+        "em"
+      ],
+      "circlet_stat": [
+        "em",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "em",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: REACTION SUPPORT | Last Updated: Version 6.0 / Luna I | Aino's A1 talent allows her Elemental Burst to attack more frequently and have a larger AoE DMG if Moonsign: Ascendant Gleam is active. This requires 2 or more Nod-Krai characters in the party. Aino herself counts towards this.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Aino (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

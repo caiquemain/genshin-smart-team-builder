@@ -1,0 +1,129 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "kaeya",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "absolution",
+          "weapon_name": "Absolution",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lightbearing-moonshard",
+          "weapon_name": "Lightbearing Moonshard",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "summit-shaper",
+          "weapon_name": "Summit Shaper",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "finale-of-the-deep",
+          "weapon_name": "Finale of the Deep",
+          "rarity": 4,
+          "notes": "5. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amenoma-kageuchi",
+          "weapon_name": "Amenoma Kageuchi",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 3,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-blade",
+          "weapon_name": "Skyward Blade",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "blizzard-strayer",
+          "artifact_set_name": "Blizzard Strayer",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "cryo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_dmg",
+        "atk_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Normal > Skill",
+      "combos": [],
+      "notes": "Role: FREEZE / MONO CRYO | Last Updated: Version 5.5 | FREEZE / MONO CRYO Regarding Weapon Choices: Haran Geppaku Futsu: This Weapon performs slightly better than Light of Foliar Incision if Kaeya is played on-field with Chongyun in the team. Primordial Jade Cutter: If running Blizzard Strayer (4), it is impossible not to overcrit with this weapon in Freeze teams and very hard not to overcrit in Mono Cryo teams. It is advised to switch either the weap",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Kaeya (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

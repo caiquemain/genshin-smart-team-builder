@@ -1,0 +1,137 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "escoffier",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "symphonist-of-scents",
+          "weapon_name": "Symphonist of Scents",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fractured-halo",
+          "weapon_name": "Fractured Halo",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vortex-vanquisher",
+          "weapon_name": "Vortex Vanquisher",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kitain-cross-spear",
+          "weapon_name": "Kitain Cross Spear",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-lance",
+          "weapon_name": "Favonius Lance",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-spine",
+          "weapon_name": "Skyward Spine",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "blizzard-strayer",
+          "artifact_set_name": "Blizzard Strayer",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "cryo_dmg",
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: HIGH ENERGY REQUIREMENT (OFF-FIELD DPS) | Last Updated: Version 6.4 / Luna V | Escoffier's Hold Skill can provide you with up to 10 special delicious dishes per week, but does not help you with cooking your enemies, so avoid using it during combat.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Escoffier (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

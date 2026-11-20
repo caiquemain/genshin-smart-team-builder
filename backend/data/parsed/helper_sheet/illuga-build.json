@@ -1,0 +1,71 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "illuga",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-lance",
+          "weapon_name": "Favonius Lance",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "dragon-s-bane",
+          "weapon_name": "Dragon's Bane",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kitain-cross-spear",
+          "weapon_name": "Kitain Cross Spear",
+          "rarity": 4,
+          "notes": "3. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "silken-moon-s-serenade",
+          "artifact_set_name": "Silken Moon's Serenade",
+          "notes": "1. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "er"
+      ],
+      "goblet_stat": [
+        "em"
+      ],
+      "circlet_stat": [
+        "em"
+      ],
+      "substat_priority": [
+        "er",
+        "em",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst",
+      "combos": [],
+      "notes": "Role: BUFF SUPPORT | Last Updated: Version 6.3 / Luna IV | Lightkeeper's Oath does not apply to Illuga himself. Nightingale's Song starts with 21 stacks, and for every Geo Construct that is on the field when his Burst is used, or if Geo Constructs are created during his Burst, Nightingale's Song gains 5 stacks, up to a maximum of 15 additional stacks. The Moondrifts that are created by the Lunar-Crystallize reaction count as Geo Constructs.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Illuga (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

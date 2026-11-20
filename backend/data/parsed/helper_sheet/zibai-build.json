@@ -1,0 +1,108 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "zibai",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "lightbearing-moonshard",
+          "weapon_name": "Lightbearing Moonshard",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "uraku-misugiri",
+          "weapon_name": "Uraku Misugiri",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "light-of-foliar-incision",
+          "weapon_name": "Light of Foliar Incision",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "harbinger-of-dawn",
+          "weapon_name": "Harbinger of Dawn",
+          "rarity": 3,
+          "notes": "4. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "peak-patrol-song",
+          "weapon_name": "Peak Patrol Song",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "splendor-of-tranquil-waters",
+          "weapon_name": "Splendor of Tranquil Waters",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "haran-geppaku-futsu",
+          "weapon_name": "Haran Geppaku Futsu",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "athame-artis",
+          "weapon_name": "Athame Artis",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flute-of-ezpitzal",
+          "weapon_name": "Flute of Ezpitzal",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "night-of-the-sky-s-unveiling",
+          "artifact_set_name": "Night of the Sky's Unveiling",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "husk-of-opulent-dreams",
+          "artifact_set_name": "Husk of Opulent Dreams",
+          "notes": "2. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "def_pct"
+      ],
+      "goblet_stat": [
+        "def_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "def_pct",
+        "er",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 6.3 / Luna IV | Zibai requires another Moonsign character in her team to unlock a large portion of her damage potential. Full Combo: E 4[N4E] - Replace 1 N4E with N1QE if burst is available E n4 n4 E n1E n1E QE - Condensed rotation, does not offer more damage and tends to put you in teammate's skill cooldown time, only used when needing front-loaded damage Combo for Zibai can be unreliable due to her teams genera",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Zibai (Geo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

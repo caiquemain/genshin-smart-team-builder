@@ -1,0 +1,151 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "xiangling",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fractured-halo",
+          "weapon_name": "Fractured Halo",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "symphonist-of-scents",
+          "weapon_name": "Symphonist of Scents",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-catch",
+          "weapon_name": "\"The Catch\"",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ballad-of-the-fjords",
+          "weapon_name": "Ballad of the Fjords",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vortex-vanquisher",
+          "weapon_name": "Vortex Vanquisher",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "crimson-witch-of-flames",
+          "artifact_set_name": "Crimson Witch of Flames",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "noblesse-oblige",
+          "set1_name": "Noblesse Oblige",
+          "set2_slug": "crimson-witch-of-flames",
+          "set2_name": "Crimson Witch of Flames",
+          "notes": "≈ 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "er",
+        "atk_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "pyro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: OFF-FIELD VAPORIZE DPS | Last Updated: Version 6.4 / Luna V | OFF-FIELD DPS Regarding Weapon Choices: Vaporize assumes she is run with Bennett and a buffer, elsewise she is a reactionless off-field DPS used for her utility as well as her damage. Wavebreaker's Fin: At [R5], this weapon is equal to or outperforms Lumidouce Elegy, depending on your total team burst cost. Dragon's Bane: At [R5], this weapon is equal to Vortex Vanquisher. Lithic Spear: At [R5], a",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Xiangling (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,132 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "arlecchino",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "crimson-moon-s-semblance",
+          "weapon_name": "Crimson Moon's Semblance",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vortex-vanquisher",
+          "weapon_name": "Vortex Vanquisher",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "white-tassel",
+          "weapon_name": "White Tassel",
+          "rarity": 3,
+          "notes": "6. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ballad-of-the-fjords",
+          "weapon_name": "Ballad of the Fjords",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "fragment-of-harmonic-whimsy",
+          "artifact_set_name": "Fragment of Harmonic Whimsy",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator's Finale",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "desert-pavilion-chronicle",
+          "artifact_set_name": "Desert Pavilion Chronicle",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "echoes-of-an-offering",
+          "artifact_set_name": "Echoes of an Offering",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "crimson-witch-of-flames",
+          "set1_name": "Crimson Witch of Flames",
+          "set2_slug": "marechaussee-hunter",
+          "set2_name": "Marechaussee Hunter",
+          "notes": "4. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "pyro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "em",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 4.8 | Skill Combo: Skill > team buffs > CA > 6(N3D)* or 3(N5D) *In vaporize or melt teams, 6(N3D) is preferred",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Arlecchino (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

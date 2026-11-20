@@ -1,0 +1,140 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "lohen",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "disaster-and-remorse",
+          "weapon_name": "Disaster and Remorse",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fractured-halo",
+          "weapon_name": "Fractured Halo",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "symphonist-of-scents",
+          "weapon_name": "Symphonist of Scents",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crimson-moon-s-semblance",
+          "weapon_name": "Crimson Moon's Semblance",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "bloodsoaked-ruins",
+          "weapon_name": "Bloodsoaked Ruins",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-spine",
+          "weapon_name": "Skyward Spine",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "a-day-carved-from-rising-winds",
+          "artifact_set_name": "A Day Carved from Rising Winds",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "blizzard-strayer",
+          "artifact_set_name": "Blizzard Strayer",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "shimenawa-s-reminiscence",
+          "artifact_set_name": "Shimenawa's Reminiscence",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "desert-pavilion-chronicle",
+          "artifact_set_name": "Desert Pavilion Chronicle",
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marchaussee-hunter",
+          "artifact_set_name": "Marchaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "cryo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: 6.6 / Luna VII | General Combo: N1 > CA > N1 > CA > E > N1 > CA > N1 > CA > repeat x3 Since using Lohen's CA will automatically use his normal attack beforehand, you do not have to worry about using multiple inputs for N1 > CA",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Lohen (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

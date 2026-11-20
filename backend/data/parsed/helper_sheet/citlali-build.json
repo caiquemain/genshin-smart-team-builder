@@ -1,0 +1,94 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "citlali",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "starcaller-s-watch",
+          "weapon_name": "Starcaller's Watch",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thrilling-tales-of-dragon-slayers",
+          "weapon_name": "Thrilling Tales of Dragon Slayers",
+          "rarity": 3,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "etherlight-spindlelute",
+          "weapon_name": "Etherlight Spindlelute",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-fragments",
+          "weapon_name": "Sacrificial Fragments",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wandering-evenstar",
+          "weapon_name": "Wandering Evenstar",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "3. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "er"
+      ],
+      "goblet_stat": [
+        "em"
+      ],
+      "circlet_stat": [
+        "em",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "em",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: BUFF SUPPORT | Last Updated: Version 6.0 / Luna I | SUPPORT While Citlali mainly provides sustain through her shield, her passive Mamaloaco's Frigid Rain, which provides Hydro and Pyro RES reduction, and the ability to fully utilize Scroll of the Hero of Cinder City give her access to great offensive utility for the team. Regarding Weapon Choices: Thrilling Tales of Dragon Slayers and Wandering Evenstar: At high refinements, Wandering Evenstar can ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Citlali (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

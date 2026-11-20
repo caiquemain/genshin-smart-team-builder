@@ -1,0 +1,137 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "hu-tao",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "staff-of-homa",
+          "weapon_name": "Staff of Homa",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "staff-of-the-scarlet-sands",
+          "weapon_name": "Staff of the Scarlet Sands",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "ballad-of-the-fjords",
+          "weapon_name": "Ballad of the Fjords",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lumidouce-elegy",
+          "weapon_name": "Lumidouce Elegy",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "dragon-s-bane",
+          "weapon_name": "Dragon's Bane",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "deathmatch",
+          "weapon_name": "Deathmatch",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-winged-spear",
+          "weapon_name": "Primordial Jade Winged-Spear",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lithic-spear",
+          "weapon_name": "Lithic Spear",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "missive-windspear",
+          "weapon_name": "Missive Windspear",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "white-tassel",
+          "weapon_name": "White Tassel",
+          "rarity": 3,
+          "notes": "8. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "blackcliff-pole",
+          "weapon_name": "Blackcliff Pole",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kitain-cross-spear",
+          "weapon_name": "Kitain Cross Spear",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "crimson-witch-of-flames",
+          "artifact_set_name": "Crimson Witch of Flames",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "shimenawa-s-reminiscence",
+          "artifact_set_name": "Shimenawa's Reminiscence",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "hp_pct",
+        "em"
+      ],
+      "goblet_stat": [
+        "pyro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "em",
+        "hp_pct",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 5.3 | When ending Hu Tao's combos with an Elemental Burst, if you do not jump/dash cancel the last charged attack, the Elemental Burst will still benefit from Hu Tao's Elemental Skill. It is recommended to use cancels when performing your Hu Tao combos as to maximize damage. N2CJ for [C0] and N2CD for [C1]. N3CJ/N3CD can be used to conserve stamina at the cost of damage. *N = Normal Attack, C = Charged ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Hu Tao (Pyro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,131 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "chasca",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "astral-vulture-s-crimson-plumage",
+          "weapon_name": "Astral Vulture's Crimson Plumage",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aqua-simulacra",
+          "weapon_name": "Aqua Simulacra",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-first-great-magic",
+          "weapon_name": "The First Great Magic",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thundering-pulse",
+          "weapon_name": "Thundering Pulse",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-harp",
+          "weapon_name": "Skyward Harp",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amos-bow",
+          "weapon_name": "Amos' Bow",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "polar-star",
+          "weapon_name": "Polar Star",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "scion-of-the-blazing-sun",
+          "weapon_name": "Scion of the Blazing Sun",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "chain-breaker",
+          "weapon_name": "Chain Breaker",
+          "rarity": 4,
+          "notes": "6. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "song-of-stillness",
+          "weapon_name": "Song of Stillness",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flower-wreathed-feathers",
+          "weapon_name": "Flower-Wreathed Feathers",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hamayumi",
+          "weapon_name": "Hamayumi",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "obsidian-codex",
+          "artifact_set_name": "Obsidian Codex",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 5.6 | Chasca's bullets follow the 'last in first out' rule, meaning the last loaded bullet hits first, while the anemo bullet in slot 1 hits last. Chasca ideally needs 3 different types of PHEC (Pyro/Hydro/Electro/Cryo) to maximize the conversion rate and Damage Bonus from her passive Bullet Trick. Ideal Combo*: 4[CA6] **Number after 'CA' refers to the number of Bullets loaded",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Chasca (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,136 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "varesa",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "vivid-notions",
+          "weapon_name": "Vivid Notions",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "reliquary-of-truth",
+          "weapon_name": "Reliquary of Truth",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kagura-s-verity",
+          "weapon_name": "Kagura's Verity",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lost-prayer-to-the-sacred-winds",
+          "weapon_name": "Lost Prayer to the Sacred Winds",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tome-of-the-eternal-flow",
+          "weapon_name": "Tome of the Eternal Flow",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "surf-s-up",
+          "weapon_name": "Surf's Up!",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "cashflow-supervision",
+          "weapon_name": "Cashflow Supervision",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tulaytullah-s-remembrance",
+          "weapon_name": "Tulaytullah's Remembrance",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crane-s-echoing-call",
+          "weapon_name": "Crane's Echoing Call",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-widsith",
+          "weapon_name": "The Widsith",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-atlas",
+          "weapon_name": "Skyward Atlas",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-jade",
+          "weapon_name": "Sacrificial Jade",
+          "rarity": 4,
+          "notes": "8. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "long-night-s-oath",
+          "artifact_set_name": "Long Night's Oath",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "obsidian-codex",
+          "artifact_set_name": "Obsidian Codex",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "long-night-s-oath",
+          "set1_name": "Long Night's Oath",
+          "set2_slug": "thundering-fury",
+          "set2_name": "Thundering Fury",
+          "notes": "3. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Burst > Skill",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 6.2 / Luna III | Generally combos for Varesa are very flexible, most of which consist of [En1P En1P (Q)] chunks that can be used at any time. Before [C2] you will not be able to fill your field time with just using all of your skill due to her fast animations, this makes a secondary dps a viable option, or can opt for doing [Cp Cp] to set up for your next rotation. Short Hold Skill when starting the rotation with ",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Varesa (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

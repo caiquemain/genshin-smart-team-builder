@@ -1,0 +1,131 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "tartaglia",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "polar-star",
+          "weapon_name": "Polar Star",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hunter-s-path",
+          "weapon_name": "Hunter's Path",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aqua-simulacra",
+          "weapon_name": "Aqua Simulacra",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-harp",
+          "weapon_name": "Skyward Harp",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thundering-pulse",
+          "weapon_name": "Thundering Pulse",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "astral-vulture-s-crimson-plumage",
+          "weapon_name": "Astral Vulture's Crimson Plumage",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-first-great-magic",
+          "weapon_name": "The First Great Magic",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-viridescent-hunt",
+          "weapon_name": "The Viridescent Hunt",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "king-s-squire",
+          "weapon_name": "King's Squire",
+          "rarity": 4,
+          "notes": "5. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amos-bow",
+          "weapon_name": "Amos' Bow",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-stringless",
+          "weapon_name": "The Stringless",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "scion-of-the-blazing-sun",
+          "weapon_name": "Scion of the Blazing Sun",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "nymph-s-dream",
+          "artifact_set_name": "Nymph's Dream",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "heart-of-depth",
+          "artifact_set_name": "Heart of Depth",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "shimenawa-s-reminiscence",
+          "artifact_set_name": "Shimenawa's Reminiscence",
+          "notes": "5. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "hydro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "em",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst > Normal",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 5.6 | Optimal skill duration for [C0]: 7s, 9s or 12s. Optimal skill duration for [C1]: 9s, 11s or 14s. Melee Burst: Only to be used in situations where you need only 1 rotation to clear as the ER requirement to maintain burst uptime is quite high (170-190%), you'll always want to start your rotations with Ranged Burst since it refunds energy to maintain your rotation well. Skill Combo: - 2 NA + 1 CA (Op",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Tartaglia (Hydro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

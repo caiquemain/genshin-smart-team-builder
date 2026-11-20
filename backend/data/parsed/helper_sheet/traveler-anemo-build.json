@@ -1,0 +1,125 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "traveler-anemo",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom-Sworn",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "primordial-jade-cutter",
+          "weapon_name": "Primordial Jade Cutter",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "mistsplitter-reforged",
+          "weapon_name": "Mistsplitter Reforged",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-sword",
+          "weapon_name": "Sacrificial Sword",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "iron-sting",
+          "weapon_name": "Iron Sting",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "summit-shaper",
+          "weapon_name": "Summit Shaper",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-blade",
+          "weapon_name": "Skyward Blade",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "festering-desire",
+          "weapon_name": "Festering Desire",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aquilla-favonia",
+          "weapon_name": "Aquilla Favonia",
+          "rarity": 5,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "lion-s-roar",
+          "weapon_name": "Lion's Roar",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amenoma-kageuchi",
+          "weapon_name": "Amenoma Kageuchi",
+          "rarity": 4,
+          "notes": "≈ R1 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "em",
+        "anemo_dmg"
+      ],
+      "circlet_stat": [
+        "em",
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "em",
+        "er",
+        "atk_pct",
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: ANEMO DPS | Last Updated: Version 2.7 | ANEMO DPS This section is dedicated to utilising the Anemo Traveler's Elemental Skill / Burst. Due to how little field time this playstyle takes, the Traveler can also fulfill the role of a quickswap style Sub-DPS. Anemo Traveler can require a significant amount of Energy Recharge. Regarding Weapon Choices: Anemo Traveler can either go for a full Elemental Mastery build or a full ATK/Crit build wi",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Traveler (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

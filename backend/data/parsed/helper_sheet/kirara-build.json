@@ -1,0 +1,107 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "kirara",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "key-of-khaj-nisut",
+          "weapon_name": "Key of Khaj-Nisut",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sapwood-blade",
+          "weapon_name": "Sapwood Blade",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-dockhand-s-assistant",
+          "weapon_name": "The Dockhand's Assistant",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-sword",
+          "weapon_name": "Favonius Sword",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "freedom-sworn",
+          "weapon_name": "Freedom-Sworn",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-sword",
+          "weapon_name": "Sacrificial Sword",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "tenacity-of-the-millelith",
+          "artifact_set_name": "Tenacity of the Millelith",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "tenacity-of-the-millelith",
+          "set1_name": "Tenacity of the Millelith",
+          "set2_slug": "vourukasha-s-glow",
+          "set2_name": "Vourukasha's Glow",
+          "notes": "4. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "hp_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "hp_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: SHIELD SUPPORT | Last Updated: Version 4.2",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Kirara (Dendro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

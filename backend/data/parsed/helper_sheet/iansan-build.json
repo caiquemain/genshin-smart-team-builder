@@ -1,0 +1,107 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "iansan",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "engulfing-lightning",
+          "weapon_name": "Engulfing Lightning",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "symphonist-of-scents",
+          "weapon_name": "Symphonist of Scents",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "calamity-queller",
+          "weapon_name": "Calamity Queller",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-lance",
+          "weapon_name": "Favonius Lance",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "tamayuratei-no-ohanashi",
+          "weapon_name": "Tamayuratei no Ohanashi",
+          "rarity": 4,
+          "notes": "≈ R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-spine",
+          "weapon_name": "Skyward Spine",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "vortex-vanquisher",
+          "weapon_name": "Vortex Vanquisher",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "missive-windspear",
+          "weapon_name": "Missive Windspear",
+          "rarity": 4,
+          "notes": "5. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "kitain-cross-spear",
+          "weapon_name": "Kitain Cross Spear",
+          "rarity": 4,
+          "notes": "6. R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "scroll-of-the-hero-of-cinder-city",
+          "artifact_set_name": "Scroll of the Hero of Cinder City",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "2. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "atk_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "atk_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst",
+      "combos": [],
+      "notes": "Role: BUFF SUPPORT | Last Updated: Version 5.6 | Iansan's buff is based on 3 Factors: 1. Iansan's Total ATK 2. # of Iansan's Nightsoul Points 3. \"Kinetic Energy Scale\" Iansan can hold a max of 54 Nightsoul Points, and her buff decreases in value when she's below 42 Nightsoul Points. Consistent movement is needed to maintain good buff uptime. Iansan's [C4] allows her to frontload Nightsoul Points if it had ever overflowed previously.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Iansan (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

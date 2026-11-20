@@ -1,0 +1,106 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "prune",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "angelos-heptades",
+          "weapon_name": "Angelos' Heptades",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "crane-s-echoing-call",
+          "weapon_name": "Crane's Echoing Call",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-atlas",
+          "weapon_name": "Skyward Atlas",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "memory-of-dust",
+          "weapon_name": "Memory of Dust",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "oathsworn-eye",
+          "weapon_name": "Oathsworn Eye",
+          "rarity": 4,
+          "notes": "4. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flowing-purity",
+          "weapon_name": "Flowing Purity",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thrilling-tales-of-dragon-slayers",
+          "weapon_name": "Thrilling Tales of Dragon Slayers",
+          "rarity": 3,
+          "notes": "6. R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "celestial-gift",
+          "artifact_set_name": "Celestial Gift",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "2. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "er",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "atk_pct"
+      ],
+      "circlet_stat": [
+        "atk_pct",
+        "crit_rate"
+      ],
+      "substat_priority": [
+        "er",
+        "atk_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: BUFF SUPPORT | Last Updated: Version 6.6 / Luna VII | Tolling Rally does not apply to Prune herself. Tolling Rally caps out at 4,000 ATK, usually not feasible to get unless Prune is in a Hexerei team.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Prune (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

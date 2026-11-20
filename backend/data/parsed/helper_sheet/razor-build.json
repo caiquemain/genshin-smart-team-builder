@@ -1,0 +1,139 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "razor",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "gest-of-the-mighty-wolf",
+          "weapon_name": "Gest of the Mighty Wolf",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "a-thousand-blazing-suns",
+          "weapon_name": "A Thousand Blazing Suns",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "beacon-of-the-reed-sea",
+          "weapon_name": "Beacon of the Reed Sea",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "verdict",
+          "weapon_name": "Verdict",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "redhorn-stonethresher",
+          "weapon_name": "Redhorn Stonethresher",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fang-of-the-mountain-king",
+          "weapon_name": "Fang of the Mountain King",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "song-of-broken-pines",
+          "weapon_name": "Song of Broken Pines",
+          "rarity": 5,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "talking-stick",
+          "weapon_name": "Talking Stick",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "serpent-spine",
+          "weapon_name": "Serpent Spine",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-pride",
+          "weapon_name": "Skyward Pride",
+          "rarity": 5,
+          "notes": "7. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-s-gravestone",
+          "weapon_name": "Wolf's Gravestone",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-unforged",
+          "weapon_name": "The Unforged",
+          "rarity": 5,
+          "notes": "8. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "a-day-carved-from-rising-winds",
+          "artifact_set_name": "A Day Carved from Rising Winds",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "echoes-of-an-offering",
+          "artifact_set_name": "Echoes of an Offering",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "emblem-of-severed-fate",
+          "artifact_set_name": "Emblem of Severed Fate",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "thundering-fury",
+          "artifact_set_name": "Thundering Fury",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gladiator-s-finale",
+          "artifact_set_name": "Gladiator's Finale",
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "atk_pct",
+        "er"
+      ],
+      "goblet_stat": [],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: 6.5 / Luna VI | Razor tends to prefer his Tap Skill over his Hold Skill for its cooldown advantage. Razor's Burst resets the cooldown of his Elemental Skill, as such tE > Q > tE is the standard opener for Razor's combos.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Razor (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

@@ -1,0 +1,125 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "kinich",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "fang-of-the-mountain-king",
+          "weapon_name": "Fang of the Mountain King",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "gest-of-the-mighty-wolf",
+          "weapon_name": "Gest of the Mighty Wolf",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "a-thousand-blazing-suns",
+          "weapon_name": "A Thousand Blazing Suns",
+          "rarity": 4,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "beacon-of-the-reed-sea",
+          "weapon_name": "Beacon of the Reed Sea",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "serpent-spine",
+          "weapon_name": "Serpent Spine",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "verdict",
+          "weapon_name": "Verdict",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "earth-shaker",
+          "weapon_name": "Earth Shaker",
+          "rarity": 4,
+          "notes": "5. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wolf-s-gravestone",
+          "weapon_name": "Wolf's Gravestone",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "redhorn-stonethresher",
+          "weapon_name": "Redhorn Stonethresher",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "obsidian-codex",
+          "artifact_set_name": "Obsidian Codex",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "unfinished-reverie",
+          "artifact_set_name": "Unfinished Reverie",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "golden-troupe",
+          "artifact_set_name": "Golden Troupe",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "marechaussee-hunter",
+          "artifact_set_name": "Marechaussee Hunter",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "deepwood-memories",
+          "set1_name": "Deepwood Memories",
+          "set2_slug": "golden-troupe",
+          "set2_name": "Golden Troupe",
+          "notes": "3. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "dendro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "atk_pct",
+        "er"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: DPS | Last Updated: Version 6.4 / Luna V | When paired with Xiangling, spin counter clockwise so her Pyronado can hit opponents more frequently.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Kinich (Dendro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

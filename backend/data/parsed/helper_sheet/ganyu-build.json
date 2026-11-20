@@ -1,0 +1,136 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "ganyu",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "astral-vulture-s-crimson-plumage",
+          "weapon_name": "Astral Vulture's Crimson Plumage",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hunter-s-path",
+          "weapon_name": "Hunter's Path",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "the-first-great-magic",
+          "weapon_name": "The First Great Magic",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "aqua-simulacra",
+          "weapon_name": "Aqua Simulacra",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "amos-bow",
+          "weapon_name": "Amos' Bow",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "polar-star",
+          "weapon_name": "Polar Star",
+          "rarity": 5,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "skyward-harp",
+          "weapon_name": "Skyward Harp",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thundering-pulse",
+          "weapon_name": "Thundering Pulse",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "flower-wreathed-feathers",
+          "weapon_name": "Flower-Wreathed Feathers",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hamayumi",
+          "weapon_name": "Hamayumi",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "scion-of-the-blazing-sun",
+          "weapon_name": "Scion of the Blazing Sun",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-crescent",
+          "weapon_name": "Prototype Crescent",
+          "rarity": 4,
+          "notes": "7. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "wanderer-s-troupe",
+          "artifact_set_name": "Wanderer's Troupe",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "shimenawa-s-reminiscence",
+          "artifact_set_name": "Shimenawa's Reminiscence",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "unfinished-reverie",
+          "artifact_set_name": "Unfinished Reverie",
+          "notes": "Conditional (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "atk_pct"
+      ],
+      "goblet_stat": [
+        "cryo_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "crit_rate",
+        "crit_dmg",
+        "em",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Normal > Skill > Burst",
+      "combos": [],
+      "notes": "Role: MELT DPS | Last Updated: Version 5.6 | Ganyu's Elemental Burst should not be used in most melt teams, as it can lead to Charged Attacks not being able to trigger melt.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Ganyu (Cryo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

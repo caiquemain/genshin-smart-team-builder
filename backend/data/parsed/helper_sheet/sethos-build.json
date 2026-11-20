@@ -1,0 +1,86 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "sethos",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "hunter-s-path",
+          "weapon_name": "Hunter's Path",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "astral-vulture-s-crimson-plumage",
+          "weapon_name": "Astral Vulture's Crimson Plumage",
+          "rarity": 5,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "slingshot",
+          "weapon_name": "Slingshot",
+          "rarity": 3,
+          "notes": "≈ R5 (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "wanderer-s-troupe",
+          "artifact_set_name": "Wanderer's Troupe",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "desert-pavilion-chronicle",
+          "artifact_set_name": "Desert Pavilion Chronicle",
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "gilded-dreams",
+          "artifact_set_name": "Gilded Dreams",
+          "notes": "2. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "thundering-fury",
+          "set1_name": "Thundering Fury",
+          "set2_slug": "emblem-of-severed-fate",
+          "set2_name": "Emblem of Severed Fate",
+          "notes": "3. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "em",
+        "er"
+      ],
+      "goblet_stat": [
+        "electro_dmg"
+      ],
+      "circlet_stat": [
+        "crit_rate",
+        "crit_dmg"
+      ],
+      "substat_priority": [
+        "er",
+        "crit_rate",
+        "crit_dmg",
+        "em",
+        "atk_pct"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Normal > Skill",
+      "combos": [],
+      "notes": "Role: NORMAL ATTACK DPS | Last Updated: Version 5.4 | DPS Aside from Energy Recharge requirements, Sethos' builds for Normal and Charged Attack DPS are near identical. Regarding Weapon Choices: Sethos' weapon choices aside from the aforementioned three are rather lackluster and should not be pulled purely for the purposes of upgrading Sethos. Regarding Artifact Choices: Desert Pavilion Chronicle: This artifact set's ATK SPD allows Sethos to use his N",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Sethos (Electro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

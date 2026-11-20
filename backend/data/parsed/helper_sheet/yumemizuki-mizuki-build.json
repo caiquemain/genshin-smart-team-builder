@@ -1,0 +1,101 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "yumemizuki-mizuki",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "sunny-morning-sleep-in",
+          "weapon_name": "Sunny Morning Sleep-In",
+          "rarity": 5,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "starcaller-s-watch",
+          "weapon_name": "Starcaller's Watch",
+          "rarity": 5,
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "a-thousand-floating-dreams",
+          "weapon_name": "A Thousand Floating Dreams",
+          "rarity": 5,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "sacrificial-fragments",
+          "weapon_name": "Sacrificial Fragments",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "fruit-of-fulfillment",
+          "weapon_name": "Fruit of Fulfillment",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hakushin-ring",
+          "weapon_name": "Hakushin Ring",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "wandering-evenstar",
+          "weapon_name": "Wandering Evenstar",
+          "rarity": 4,
+          "notes": "≈ (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "magic-guide",
+          "weapon_name": "Magic Guide",
+          "rarity": 3,
+          "notes": "≈ (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "viridescent-venerer",
+          "artifact_set_name": "Viridescent Venerer",
+          "notes": "1. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [],
+      "sands_stat": [
+        "em",
+        "er"
+      ],
+      "goblet_stat": [
+        "em"
+      ],
+      "circlet_stat": [
+        "em"
+      ],
+      "substat_priority": [
+        "er",
+        "em",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Skill > Burst",
+      "combos": [],
+      "notes": "Role: REACTION DPS | Last Updated: Version 5.4 | REACTION DPS Yumemizuki Mizuki is a driver that focuses on enhancing and triggering the swirl reaction. Her only needed stats are Elemental Mastery, to strengthen her swirl buff as well as swirl damage, and Energy Recharge to be able to use her Burst every rotation for healing and more swirls. Regarding Weapon Choices: Favonius Codex: A good choice in solo Anemo teams or teams with overall high En",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Yumemizuki Mizuki (Anemo)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

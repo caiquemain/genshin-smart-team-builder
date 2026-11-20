@@ -1,0 +1,107 @@
+{
+  "source": "Helper Sheet",
+  "source_slug": "helper_sheet",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+  "character_slug": "baizhu",
+  "build": {
+    "name": "Helper Sheet Build",
+    "build_data": {
+      "weapons": [
+        {
+          "weapon_slug": "jadefall-s-splendor",
+          "weapon_name": "Jadefall's Splendor",
+          "rarity": 4,
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "prototype-amber",
+          "weapon_name": "Prototype Amber",
+          "rarity": 4,
+          "notes": "2. R5 (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "favonius-codex",
+          "weapon_name": "Favonius Codex",
+          "rarity": 4,
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "hakushin-ring",
+          "weapon_name": "Hakushin Ring",
+          "rarity": 4,
+          "notes": "4. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "thrilling-tales-of-dragon-slayers",
+          "weapon_name": "Thrilling Tales of Dragon Slayers",
+          "rarity": 4,
+          "notes": "5. (Helper Sheet)"
+        },
+        {
+          "weapon_slug": "a-thousand-floating-dreams",
+          "weapon_name": "A Thousand Floating Dreams",
+          "rarity": 4,
+          "notes": "6. (Helper Sheet)"
+        }
+      ],
+      "artifacts_4pc": [
+        {
+          "artifact_set_slug": "deepwood-memories",
+          "artifact_set_name": "Deepwood Memories",
+          "notes": "1. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "ocean-hued-clam",
+          "artifact_set_name": "Ocean-Hued Clam",
+          "notes": "2. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "instructor",
+          "artifact_set_name": "Instructor",
+          "notes": "3. (Helper Sheet)"
+        },
+        {
+          "artifact_set_slug": "noblesse-oblige",
+          "artifact_set_name": "Noblesse Oblige",
+          "notes": "4. (Helper Sheet)"
+        }
+      ],
+      "artifacts_2pc": [
+        {
+          "set1_slug": "tenacity-of-the-millelith",
+          "set1_name": "Tenacity of the Millelith",
+          "set2_slug": "vourukasha-s-glow",
+          "set2_name": "Vourukasha's Glow",
+          "notes": "5. 2pc+2pc (Helper Sheet)"
+        }
+      ],
+      "sands_stat": [
+        "hp_pct",
+        "er"
+      ],
+      "goblet_stat": [
+        "hp_pct"
+      ],
+      "circlet_stat": [
+        "hp_pct",
+        "healing_bonus"
+      ],
+      "substat_priority": [
+        "er",
+        "hp_pct",
+        "crit_rate"
+      ],
+      "er_requirement": null,
+      "talent_priority": "Burst > Skill",
+      "combos": [],
+      "notes": "Role: HEAL SUPPORT | Last Updated: Version 4.2 | Baizhu's Elemental Skill has a 2-3 second delay between cast time and heal received, keep this in mind when swapping to low HP allies after Baizhu's rotation.",
+      "references": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI",
+          "title": "Genshin Impact Helper Team — Baizhu (Dendro)"
+        }
+      ]
+    }
+  },
+  "notable_teammates": []
+}

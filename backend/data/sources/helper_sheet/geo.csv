@@ -1,0 +1,686 @@
+Discontinued,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+(Migrating to a new site),,,,,,,,
+,,,,,,,,
+,The role that the Character best excels in will be marked with ✩,,,,,,,
+,> > Weapons and Artifacts Info < <,,,,,,,
+,,,,,,,,
+,4 STAR,,,,,,,
+,NINGGUANG,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.3,,,,,,,
+,,ROLE,EQUIPMENT,,ARTIFACT STATS,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Kagura's Verity (5✩)
+≈ Lost Prayer to the Sacred Winds (5✩)
+2. Surf's Up! (5✩)
+3. Tome of the Eternal Flow (5✩)
+≈ Cashflow Supervision (5✩)
+4. Skyward Atlas (5✩)
+5. Memory of Dust (5✩)*
+≈ Tulaytullah's Remembrance (5✩)
+≈ The Widsith (4✩)*
+6. Solar Pearl (4✩)*
+≈ Crane's Echoing Call (5✩)
+7. Flowing Purity (4✩)*
+8. Dodoco Tales (4✩)","1. Nighttime Whispers in the Echoing Woods (4)*
+2. Archaic Petra (2) and [Choose Two] Noblesse Oblige (2) / +18% ATK set (2) / Emblem of Severed Fate (2)
+≈ Husk of Opulent Dreams (4)*
+3. Emblem of Severed Fate (4)
+4. Archaic Petra (4)*
+
+Conditional (See Notes):
+Thundersoother (4)*
+Lavawalker (4)*
+","Sands - ATK%
+Goblet - Geo DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge","1. Burst
+2. Normal Attack
+3. Skill","Ningguang's Elemental Skill has a 6 second internal cooldown on generating energy, so for the sake of maintaining Elemental Burst uptime, wait 6 seconds to cast again if you need energy. It also breaks when cast on top of another Geo Structure, you can intentionally use a structure to break your first screen.
+
+
+"
+,NOTES,"DPS
+Assumes buffs from Bennett and 40% Geo DMG Bonus.
+
+Regarding Weapon Choices:
+Memory of Dust: This weapon performs slightly worse if Ningguang does not have a shielder or consistent Crystallize uptime.
+The Widsith / Solar Pearl: These weapons perform better than Skyward Atlas at [R5].
+Flowing Purity: This weapon performs worse than Dodoco Tales if you cannot clear the Bond of Life from its passive.
+
+Regarding Artifact Sets:
+Nighttime Whispers in the Echoing Woods (4): This ranking assumes Ningguang consistently has a crystallize shield.
+Emblem of Severed Fate (2): This set performs worse than other options when Ningguang does not need to build Energy Recharge%.
+Husk of Opulent Dreams (4): This set performs on par with Archaic Petra (2) +18% ATK set (2) with its inclusion in the strongbox it has become a strong generalist option.
+Thundersoother (4) / Lavawalker (4): These two sets are Ningguang's second best sets in teams where Electro or Pyro Auras exist on enemies for the entire rotation.
+
+Detailed weapon comparisons here.",,,,,,
+,NOELLE,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.2,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Redhorn Stonethresher (5✩)
+2. Serpent Spine (4✩)*
+3. Skyward Pride (5✩)*
+4. Whiteblind (4✩)","1. Husk of Opulent Dreams (4)*
+2. Retracing Bolide (4)
+≈ Gladiator's Finale (4) 
+
+Conditional (See Notes):
+Marechaussee Hunter (4)*","Sands - DEF% / ATK%
+Goblet - Geo DMG
+Circlet - Crit Rate / DMG
+
+ATK% sands when below C6 or below Talent Level 9 Burst.","1. Crit Rate / DMG
+2. Energy Recharge
+3. DEF%","1. Normal Attack
+2. Burst
+3. Skill","1 / 2 Targets: N1>N2>N3>N4>dash/hop
+This isn't always feasible due to cast time (as well as knockback issues).
+
+Multiple Targets: N1>N2>N3>dash/hop
+
+With Redhorn, using Charged Attack can become more effective. While spinning, opening and closing either the map or adventurer's handbook once will allow you to bypass the 5 second restriction."
+,,"DRIVER
+✩","1. Favonius Greatsword (4✩)
+2. Other damaging options (see DPS)","1. Archaic Petra (4)
+2. Other damaging options (see DPS)","Sands - DEF%
+Goblet - Geo DMG / DEF%*
+Circlet - Crit Rate / DMG / DEF%*","1. Crit Rate / DMG
+2. Energy Recharge
+3. DEF%","1. Skill*
+2. Normal Attack = Burst
+
+*Dependence on Skill's talent level depends on your total DEF and whether Furina is in the team or not",
+,NOTES,"DPS
+This build is only recommended for [C6] Noelle.
+Noelle DPS is best optimized at [C6] where she converts an additional 50% DEF into ATK. Her ability to sustain her team with shields, heals and AoE damage makes for a reliable DPS when your team is built around her.
+
+Regarding Weapon Choices:
+Serpent Spine: When using Husk of Opulent Dreams, Serpent Spine stacks are prioritized over Husk of Opulent Dreams stacks due to their conflicting nature in gaining stacks (On-Field vs Off-Field).
+Skyward Pride: Useful if you are unable to get ER from your substats. Does really well while its passive is active, but falls off in sustained fights. Comfort option that can lose to a high refined Whiteblind with stacks.
+
+Regarding Artifact Sets:
+Marechaussee Hunter (4): Optimal for personal damage by a few percentage points when paired with Furina.
+Husk of Opulent Dreams (4): Noelle snapshots her DEF on burst cast. To get the full 4 stacks' DEF% boost during your first burst, you need to wait 12 seconds off field before swapping in. In abyss, time spent before the chamber starts still generates stacks.
+
+DRIVER
+Generally optimal when running multiple off-field DPS like Yelan, Xingqiu or Fischl. Instead of focusing on her own damage (but not neglecting it), Noelle takes a supportive role with Archaic Petra to buff her team, while still taking advantage of her AoE and strong defensive utility.
+
+Regarding Artifact Main Stats Priority:
+When driving a team with Furina, Noelle generally lacks DEF% from weapon, set bonus and team buffs. In order to counteract Furina's HP drain, especially with high HP units like Yelan, multiple DEF% Main Stats may be required.",,,,,,
+,GOROU,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.3 / Luna IV,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"BUFF SUPPORT
+ ✩","1. Favonius Warbow (4✩)
+2. Snare Hook (4✩)
+3. Sacrificial Bow (4✩)
+4. Elegy for the End (5✩)*","1. The Exile (4)*
+2. Noblesse Oblige (4)*
+≈ Scroll of the Hero of Cinder City (4)
+3. Emblem of Severed Fate (2) +Silken Moon's Serenade (2)
+
+Conditional (See Notes):
+Instructor (4)*
+Silken Moon's Serenade (4)*","Sands - Energy Recharge
+Goblet - Geo DMG / DEF%*
+Circlet - Crit Rate / DEF%* / Healing Bonus*","1. Energy Recharge
+2. DEF%*
+3. Crit Rate*",1. Skill,"[C2] extends the duration of Gorou's Elemental Burst from 9 seconds to 12 seconds if you can obtain the required Crystallize shields. This allows his teammates to gain the 3 Geo 15% Geo DMG% bonus for a longer duration, so it's preferable to use Burst as your last ability before swapping into your DPS. "
+,"NOTES
+","SUPPORT
+Gorou is a Support character that can give increasing buffs to your party members from his Elemental Skill and Elemental Burst based on the number of Geo characters in your team (capped at 3). Casting his Elemental Skill sets up a banner which gives flat DEF (1 Geo), Interruption Resistance (2 Geo) and Geo DMG% Bonus (3 Geo) for your active character standing inside the banner radius. Casting his Elemental Burst creates a field following the active character which deals periodic damage and offers the same bonuses given by the Skill, destroying any placed banners in the process, it also pulls in nearby Elemental Shards created by Crystallize reactions. Due to his kit focusing on buffing DEF and Geo DMG, he's a specialised support geared towards Geo DPS that scales with DEF, such as Noelle or Itto. He can see niche use at [C6] with other Geo characters as well.
+
+Regarding Weapon Choices:
+Elegy for the End: Elegy offers a helpful ER substat alongside an EM and ATK% buff for your teammates. While not directly useful in teams centered around Noelle or Itto, this could possibly be a good choice for future Geo DPS characters, or in a team which utilizes Geo Resonance.
+
+Regarding Artifact Sets:
+The Exile (4): Casting Elemental Burst regenerates a total of 6 Energy for each of your party member. This set reduces your Energy Requirements by a bit for all of your party members, which can be quite beneficial. Do note that this is a 4 star set so you're potentially missing out on 5 star stat scaling, which is a 34% difference in Main Stat value and 25% difference in individual substat value.
+Noblesse Oblige (4): The effectiveness of this set increases if you've already met the ER requirement for Gorou. At that point, you'd no longer need to run the recommended ER% sets, which means you can opt for this instead. 
+Instructor (4): This is a set Gorou may run when used in a Lunar-Crystallize team, notably when paired with Zibai. Because this is a 4-star set, you're losing out on 5-star stat scaling. It is recommended to run an offpiece 5-star sands while running this set.
+Silken Moon's Serenade (4): Can be used when Gorou is paired with Columbina or Zibai so that other units can run more beneficial artifact sets.
+
+Regarding Artifact Main Stats and Substats Priority:
+DEF% Main Stats and substats (and potentially a Healing Bonus Main Stat on Circlet) can be considered at [C4] due to being able to heal the active character based on his DEF during burst. This is useful if you plan to use him as a solo healer.
+Crit Rate circlet and substats can be considered when Gorou is using Favonius Warbow to trigger the passive comfortably.
+ER% substats can usually be more important than getting the right Main Stat, as Gorou's damage contribution to a team is negligible, while being able to get Energy for his Burst is a lot more important.",,,,,,
+,YUN JIN,,,,,,,
+,,,,,,,,
+,Last Updated: Version 3.2,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"BUFF SUPPORT
+✩","1. Favonius Lance (4✩)*
+2. Engulfing Lightning (5✩)
+3. ""The Catch"" (4✩)
+≈ Prototype Starglitter (4✩)
+≈ Kitain Cross Spear (4✩)*","1. Husk of Opulent Dreams (4)
+2. Husk of Opulent Dreams (2) Emblem of Severed Fate (2)
+3. Noblesse Oblige (4)
+≈ Scroll of the Hero of Cinder City (4)","Sands - DEF% / Energy Recharge
+Goblet - DEF%
+Circlet - DEF% / Crit Rate*","1. DEF%
+2. Energy Recharge
+3. Flat DEF
+4. Crit Rate*","1. Burst
+2. Skill",
+,NOTES,"SUPPORT
+Yun Jin is a Support character for Normal Attack focused characters who can deal off-field damage via her Elemental Burst. Yun Jin's Elemental Burst grants nearby party members 30 stacks of additional flat damage bonus on Normal Attacks which scales with Yun Jin's current DEF. This means that external DEF buffs like from Gorou's Elemental Skill and/or Burst doesn't provide much to Yun Jin since it only buffs active characters and not off-field ones.
+
+Regarding Weapon Choices:
+Favonius Lance: With this weapon, try to aim for some Crit Rate stats to trigger the weapon passive reliably.
+Kitain Cross Spear: Although the EM Main Stat isn't useful for Yun Jin, the passive decreases her Energy Recharge requirements by a lot, especially at higher refinements. It can reduce her ER% reqs depending on refinement. Note that she must cast Elemental Burst first before Skill, as the passive drains 3 energy initially when Skill is cast. This weapon can be left at level 1 while still getting full effect from the passive.
+
+Regarding Artifact Main Stats and Substats Priority:
+Crit Rate should only be considered when Yun Jin is equipping Favonius Lance to reliably proc the passive.",,,,,,
+,KACHINA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.0,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"BUFF & REACTION SUPPORT
+✩","1. Favonius Lance (4✩)
+2. Footprint of the Rainbow (4✩)*
+3. Engulfing Lightning (5✩)
+4. Prototype Starglitter (4✩)","1. Scroll of the Hero of Cinder City (4)
+2. Archaic Petra (4)
+3. Noblesse Oblige (4)
+≈ Tenacity of the Millelith (4)","Sands - DEF% / Energy Recharge
+Goblet - Geo DMG% / DEF%
+Circlet - Crit Rate / DMG
+
+","1. Energy Recharge*
+2. Crit Rate / DMG
+3. DEF%
+
+*Prioritize Energy Recharge until requirements are met
+
+
+","1. Skill
+2. Burst","Turbo Twirly is considered a Geo Construct.
+
+Kachina's Burst can bring Turbo Twirly back to her location if it is already on the field, allowing for a quick method of repositioning without having to actually ride Turbo Twirly. Her [C2] will summon a new Turbo Twirly if one isn't on the field instead."
+,NOTES,"OFF-FIELD SUPPORT
+As a free unit from Natlan, Kachina's value comes from being able to provide Off-Field Geo Application with her Elemental Skill, and being able to hold Scroll of the Hero of Cinder City (4) to great effect. Kachina's Elemental Burst can extend the radius in which Turbo Twirly creates shockwaves, allowing you to hit enemies from a distance if you need to. While she can be built for damage, her personal scalings are rather low and building for damage isn't a requirement.
+
+Kachina's [C1] allows her to restore 3 Energy whenever she picks up a Crystalize Shard, and mounting/dismounting Turbo Twirly absorbs nearby shards. The energy restoration can only trigger once every 5 seconds, but does help alleviate some of her Energy needs.
+
+Regarding Mainstat and Substat priority:
+If you are building Kachina as a low investment support, using the correct mainstats is not important. Crit Rate should be prioritised further in this case when using Favonius Lance for more consistent triggers. 
+
+Regarding Weapon Choices:
+Footprint of the Rainbow: Kachina can opt to use this weapon if her ER needs are satisfied and the team does not value the energy from Favonius Lance.  Refinements are unnecessary unless you wish to see more out of Kachina's personal damage.
+
+Regarding Artifact Choices:
+Scroll of the Hero of Cinder City should be the top priority for Kachina, unless there is another unit in the same team that wants the set more, then you can use the other sets listed.",,,,,,
+,ILLUGA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.3 / Luna IV,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STAT,SUBSTATS,,
+,,"BUFF SUPPORT
+✩","1. Favonius Lance (4✩)
+2. Dragon's Bane (4✩)*
+3. Kitain Cross Spear (4✩) [R5]
+4. Engulfing Lightning (5✩)","1.  Silken Moon's Serenade (4)*
+2. +80 EM set (2) / +80 EM set (2)","Sands - Elemental Mastery / Energy Recharge
+Goblet - Elemental Mastery
+Circlet - Elemental Mastery","1. Energy Recharge*
+2. Elemental Mastery
+3. Crit Rate**
+
+*Prioritize Energy Recharge until requirements are met
+
+
+**Crit Rate only if using Favonius Lance","1. Burst
+","Lightkeeper's Oath does not apply to Illuga himself.
+
+Nightingale's Song starts with 21 stacks, and for every Geo Construct that is on the field when his Burst is used, or if Geo Constructs are created during his Burst, Nightingale's Song gains 5 stacks, up to a maximum of 15 additional stacks.
+
+The Moondrifts that are created by the Lunar-Crystallize reaction count as Geo Constructs."
+,NOTES,"OFF-FIELD BUFF SUPPORT
+Illuga buffs Geo DMG and Lunar-Crystallize DMG after using his Elemental Burst, which grants the Nightingale's Song effect. This buff scales on Illuga's Elemental Mastery, and with his A4 talent, is further amplified depending on how many Geo and Hydro characters are in the party. With his A1 talent, using either his Skill or Burst will grant other team members the Lightkeeper's Oath effect, which boosts the Crit Rate and DMG of Geo DMG, and if Ascendant Gleam is active, boost the character's Elemental Mastery as well.
+
+Illuga's [C1] grants him 12 Energy if he triggers a Geo-related reaction while on-field, effectively changing his Burst cost from 60 to 48. This has a cooldown of 15 seconds.
+
+Regarding Weapon Choices:
+Dragon's Bane: An Energy Recharge sands may be necessary if you are unable to get enough ER from substats alone.
+
+Regarding Artifacts:
+Silken Moon's Serenade (4): This set requires [C2] Illuga.",,,,,,
+,,,,,,,,
+,5 STAR,,,,,,,
+,TRAVELER,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.4,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"GEO DPS
+ ✩","1. Uraku Misugiri (5✩)
+2. Primordial Jade Cutter (5✩)
+≈ Mistsplitter Reforged (5✩)
+3. Haran Geppaku Futsu (5✩)
+≈ Absolution (5✩)
+4. Light of Foliar Incision (5✩)
+5. Splendor of Tranquil Waters (5✩)
+≈ Summit Shaper (5✩)*
+6. Wolf-Fang (4✩)*
+7. Finale of the Deep (4✩)*
+≈ Festering Desire (4✩) [R5]*
+≈ Amenoma Kageuchi (4✩) [R5]*
+≈ Skyward Blade (5✩)*
+≈ Fleuve Cendre Ferryman (4✩) [R5]*
+≈ Peak Patrol Song (5✩)*
+≈ Freedom-Sworn (5✩)*
+8. Favonius Sword (4✩)*","1. Nighttime Whispers in the Echoing Woods (4)*
+≈ Golden Troupe (4)*
+2. Archaic Petra (2) / Noblesse Oblige (2) / +18% ATK set (2) / Emblem of Severed Fate (2) / Golden Troupe (2)  [Choose Two]
+3. Emblem of Severed Fate (4)*
+4. Archaic Petra (4)*
+5. Noblesse Oblige (4)*
+≈ Scroll of the Hero of Cinder City (4)*","Sands - ATK%
+Goblet - Geo DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. ATK%
+3. Energy Recharge","1. Skill = Burst
+
+",
+,NOTES,"GEO DPS
+The Geo Traveler is ideally played as a quick swap DPS, swapping them in for short amounts of time to drop their skill or burst. While dealing decent damage of their own, the Geo Traveler is also a great battery for Geo units.
+Regarding Weapon Choices: 
+Summit Shaper: Assumes the Geo Traveler is shielded. Without reliable shield uptime, this weapon performs worse than Wolf-Fang.
+Wolf-Fang: At [R5], this weapon performs similar to Haran Geppaku Futsu.
+Finale of the Deep: Assumes Bond of Life is being cleared.
+Festering Desire, Amenoma Kageuchi, Skyward Blade, Fleuve Cendre Ferryman: These weapons increase in value if the Geo Traveler has high Energy Recharge requirements.
+Peak Patrol Song, Freedom-Sworn, Favonius Sword: While not that good for the Geo Traveler's personal damage, these weapons can be appealing due to the utility they provide to the team.
+
+Regarding Artifact Sets:
+Nighttime Whispers in the Echoing Woods (4): Assumes being shielded by crystallize shards.
+Golden Troupe (4): Assumes skills are performed within 2 seconds after taking the field.
+Emblem of Severed Fate (4): This set becomes better than 2 piece combinations in teams with high Energy Recharge requirements.
+Archaic Petra (4) / Noblesse Oblige (4) / Scroll of the Hero of Cinder City (4): Subpar for the Geo Traveler's damage, but provides a good buff to the team.
+
+Detailed Comparisons here.",,,,,,
+,ZHONGLI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.2,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"SHIELD SUPPORT
+✩","1. Black Tassel (3✩)
+≈ Favonius Lance (4✩)*","1. Archaic Petra (4)*
+≈ Scroll of the Hero of Cinder City (4)*
+2. Deepwood Memories (4)*
+≈ Instructor (4)*
+3. Tenacity of the Millelith (4)*
+4. Vourukasha's Glow (2) + Tenacity of the Millelith (2)","Sands - HP%
+Goblet - HP%
+Circlet - HP% / Crit Rate*","1. HP%
+2. Flat HP
+3. Energy Recharge","1. Skill
+2. Burst",
+,,"BURST SUPPORT
+","1. Staff of Homa (5✩)
+2. Lumidouce Elegy (5✩)
+3. Primordial Jade Winged-Spear (5✩)
+4. Skyward Spine (5✩) 
+≈ Vortex Vanquisher (5✩) 
+≈ Calamity Queller (5✩)
+5. ""The Catch"" (4✩) [R5]
+6. Deathmatch (4✩)
+7. Engulfing Lightning (5✩) 
+8. Lithic Spear (3 stacks) (4✩)
+9. Blackcliff Pole (0 stacks) (4✩)
+10. Missive Windspear (4✩)
+11. Favonius Lance (4✩)*
+","1. Emblem of Severed Fate (4)
+2. Noblesse Oblige (2) Archaic Petra (2)*
+3. Noblesse Oblige (4)*
+4. Tenacity of the Millelith (4)*
+","Sands - ATK% / HP%*
+Goblet - Geo DMG 
+Circlet - Crit Rate / DMG
+","1. Crit Rate / DMG
+2. ATK%
+3. HP%
+4. Energy Recharge","1. Burst
+2. Skill
+",
+,NOTES,"SHIELD SUPPORT
+This kind of playstyle is very straightforward; stack as much HP as possible. Prioritize HP scaling polearms such as Black Tassel and artifact sets such as Tenacity of the Millelith (4) to capitalize on Zhongli's Shield. Most of the time, especially on a HP-focused Zhongli, casting Elemental Burst is a DPS loss due to the cast time, which is why you'd only want to cast Elemental Burst for the Crowd Control it offers, and not for damage.
+
+Note that if paired with Xingqiu and/or Beidou, the damage reduction from orbitals from Xingqiu's Elemental Skill and Elemental Burst and/or Beidou's Elemental Burst can be utilized on Zhongli's shield, making it basically unbreakable.
+
+Regarding Artifact Main Stats and Substats Priority:
+Crit Rate should only be considered when Zhongli is equipping Favonius Lance to reliably proc the passive.
+
+Regarding Weapon Choices:
+Favonius Lance: Use this weapon over Black Tassel if you value the team energy (Note that you need to build some amount of Crit Rate if you are running Favonius Lance to trigger the passive)
+
+Regarding Artifact sets:
+Archaic Petra (4): Can be more useful than Tenacity of the Millelith (4) in teams that don't scale as well with ATK buffs or already have another Tenacity of the Millelith holder. Though it can be an awkward set to utilize well without extending rotation times, since the Holder of the set (Zhongli in this case) has to pickup the shard for the buff to take effect.
+Scroll of the Hero of Cinder City (4): Preferred over Archaic Petra if there are multiple Crystallize-compatible Elements or Geo characters that want DMG% bonus.
+Tenacity of the Millelith (4): This set is best in slot for Shield HP, but it's usually inconsistent against Bosses and needs good Construct placement, due to it's inconsistency, it's better to use other buffing sets that are mentioned if they work for the team.
+Deepwood Memories (4): This set works best in Dendro reaction focused teams (Bloom/Burgeon/Hyperbloom/Spread) that prefer having Deepwood Memories on Zhongli so that they can run more damage focused sets such as Gilded Dreams / Flower of Paradise Lost instead for the highest overall damage gain. That said it means keeping the enemies near your pillars to have good uptime on the Dendro resistance shred effect, which can be difficult with no grouping abilities in a team.
+Instructor (4): This set is usually only used in a few heavily reaction focused teams, such as Ganyu Melt or Hu Tao Vape, where you're maximising your damage in exchange for a weaker shield. Though Zhongli's shield is still usually more than strong enough even with fewer substat rolls to strengthen it.
+
+BURST SUPPORT
+Zhongli can be utilized as a Geo Burst damage dealer due to his short Elemental Burst cooldown (12s) and low energy cost (40 Energy). His Elemental Skill Hold Cast (Shield) scales with HP and at Ascension 4, you would unlock a talent that allows your Elemental Burst to scale with 33% of Zhongli's Max HP, making him a great source of Shield and damage. Though in certain teams without either very high investment into his damage or enough time in the rotation to burst without extending rotation times his burst can be a DPS loss.
+
+Regarding Weapon Choices:
+Favonius Lance: If the team values the particles from this weapon, then it can be better than all the other options mentioned for overall team damage (Note that you need to build some amount of Crit Rate if you are running Favonius Lance to trigger the passive)
+
+Regarding Artifact Main Stats:
+ATK sands provides more damage than HP sands, but it does have lesser Shield HP. If you want more Shield HP, you can consider running a HP sands.
+
+Regarding Artifact Sets:
+Noblesse Oblige (2) Archaic Petra (2): On lower ER requirements where Zhongli doesn't need to worry about his energy needs, this set pulls ahead of Emblem of Severed Fate (4).
+Noblesse Oblige (4): This set provides Zhongli more utility when casting his Elemental Burst, you can use this set on Zhongli if there is nobody else on the team who's equipping this set.
+Tenacity of the Millelith (4): Just like Noblesse Oblige (4), this set provides Zhongli with more utility if his Elemental Skill hits an enemy. This set also provides Zhongli with stronger shields.",,,,,,
+,ALBEDO,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.5 / Luna VI,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,OFF-FIELD DPS ✩,"1. Peak Patrol Song (5✩)*
+2. Uraku Misugiri (5✩)
+3. Lightbearing Moonshard (5✩)
+4. Flute of Ezpitzal (4✩) [R5]
+≈ Harbinger of Dawn (3✩) [R5]*
+≈ Light of Foliar Incision (5✩)
+≈ Cinnabar Spindle (4✩) [R5]
+≈ Primordial Jade Cutter (5✩)","1. Husk of Opulent Dreams (4)*
+≈ Golden Troupe (4)
+2. Husk of Opulent Dreams (2) / Archaic Petra (2) / Golden Troupe (2) [Choose Two]
+3. Archaic Petra (4)*
+4. Tenacity of the Millelith (4)*","Sands - DEF%
+Goblet - Geo DMG / DEF%*
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. DEF%
+3. Energy Recharge
+4. ATK%","1. Skill
+2. Burst*
+
+*Albedo's Burst is not used in quite a few teams.",Casting Albedo's Elemental Skill on top of a boss will summon a Silver Isotoma as long as the initial cast hits the opponent.
+,NOTES,"OFF-FIELD DPS
+Albedo is a character that can summon a Geo Construct from his Elemental Skill which deals damage on a 2 second interval whenever enemies in the field are damaged. His Elemental Burst provides 125 EM to the party, which is good on teams that rely on amplification reactions, such as Vaporize. It is worth noting that since his stat priority is focused on DEF (Elemental Skill scaling), you might want to skip casting Elemental Burst if your team doesn't benefit from the 125 EM buff.
+
+OFF-FIELD DPS
+Regarding Weapon Choices:
+Peak Patrol Song: Make sure you Normal Attack twice before or after using his Skill with this weapon.
+Harbinger of Dawn: Assumes the passive is active. Without the passive active most of the time, this weapon is not worth using.
+
+Regarding Artifact Sets:
+Husk of Opulent Dreams (4): Due to Albedo's skill snapshotting upon cast, you need to either wait ~12 seconds before starting a domain/fight to reach max stacks or recast his skill to benefit from the DEF and Geo DMG bonus provided by the 4 piece set effect.
+Tenacity of the Millelith (4): This set is used for the 4 piece set effect which has good uptime on Albedo. Worth noting that this set decreases your Elemental Skill damage by a lot if compared to the other offensive sets.
+Archaic Petra (4): This set is a niche option for Albedo. It is lower personal damage than several other set options, but can be a reasonable option in some teams for buffing other characters. Do note that the 4pc bonus requires you to pick the shard up on Albedo. 
+
+Regarding Artifact Main Stats:
+Goblet: DEF% is generally preferred for team damage unless Albedo already has, or is close to 3,000 DEF in combat.
+
+Detailed weapon comparisons here.",,,,,,
+,ARATAKI ITTO,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.5,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+ ✩","1. Redhorn Stonethresher (5✩)
+2. Serpent Spine (4✩)*
+≈ Beacon of the Reed Sea (5✩)
+≈ Verdict (5✩)
+≈  A Thousand Blazing Suns (5✩)
+3. Whiteblind (4✩) [R5]*
+≈  Skyward Pride (5✩)*","1. Husk of Opulent Dreams (4)
+2. Desert Pavilion Chronicle (4)
+3. Retracing Bolide (4)*
+4. Husk of Opulent Dreams (2) / Archaic Petra (2) / Emblem of Severed Fate (2) [Choose Two]","Sands - DEF%
+Goblet - Geo DMG
+Circlet - Crit Rate / DMG","1. Energy Recharge*
+2. Crit Rate / DMG
+3. DEF%
+4. ATK%
+
+*Prioritize Energy Recharge until you meet the requirement.","1. Normal Attack
+2. Burst
+3. Skill",
+,NOTES,"DPS
+Arataki Itto is a Geo DPS Character who takes advantage of his Elemental Burst's ATK boost and Geo infusion to deal significant damage during its uptime. His combos involve stacking and unleashing his Charged Attacks, named Arataki Kesagiri. Arataki Kesagiri consumes no stamina and can be cast continuously as long as he has Superlative Superstrength stacks. Superlative Superstrength is capped at 5 stacks at any given time, and Itto gets those stacks when his 2nd and 4th Normal Attack string hits an enemy. Activating his Elemental Burst allows his 1st and 3rd Normal Attack to also generate stacks. Itto's Elemental Skill deals damage to enemies on cast and summons a taunt, Ushi, which is considered a Geo Construct. This initial cast damage grants Itto 1 Superlative Superstrength stack, and upon Ushi leaving the field, Itto is granted another stack. When Ushi takes damage, Itto gains a stack (capped at 1 stack per 2 seconds). Itto's Elemental Burst converts his Normal and Charged Attacks into Geo DMG, increases Itto's Normal Attack Speed and converts a portion of Itto's current DEF to ATK.
+
+Regarding Weapon Choices:
+Serpent Spine: This weapon scales great with refines on Itto,  making it way better than similar ranking options at [R5]. When using Husk of Opulent Dreams, Serpent Spine stacks are prioritized over Husk of Opulent Dreams stacks due to their conflicting nature in gaining stacks (On-Field vs Off-Field).
+Skyward Pride: Can be a great or bad weapon for Itto depending on your ER needs. The less Energy Recharge you need (due to particle generation from your party members or ER from subs), the less useful this weapon becomes.
+Whiteblind: Your rotations often start with 1 stack of this weapon, and due to Itto's Burst snapshotting DEF on cast, you're unable to take advantage of further DEF% from the stacks.
+
+Regarding Artifact Sets: 
+Retracing Bolide (4): This set grants you an additional 40% Normal and Charged Attack DMG when shielded. Crystallize can be unreliable so a consistent shielder is preferred, such as Zhongli.
+
+Detailed weapon comparisons here.",,,,,,
+,NAVIA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.4,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+✩","1. Verdict (5✩)
+≈ A Thousand Blazing Suns (5✩)
+2. Serpent Spine (4✩)*
+3. Beacon of the Reed Sea (5✩)
+4. Skyward Pride (5✩)
+5. Redhorn Stonethresher (5✩)
+6. Fang of the Mountain King (5✩)*
+7. Wolf's Gravestone (5✩)
+≈ The Unforged (5✩)*
+8. Talking Stick (4✩)
+9. Tidal Shadow (4✩)* [R5] 
+10. ""Ultimate Overlord's Mega Magic Sword"" (4✩) [R5]
+11. Earth Shaker (4✩)*  [R5]
+12. Prototype Archaic (4✩)","1. Nighttime Whispers in the Echoing Woods (4)
+2. Golden Troupe (4)
+3.Archaic Petra (2) + [Choose One] +18% ATK set (2) / Emblem of Severed Fate (2)
+
+Conditional:
+4. Marechaussee Hunter (4) *Furina teams only, performs as well or better than Nighttime Whispers in the Echoing Woods","Sands - ATK%
+Goblet - Geo DMG
+Circlet - Crit Rate / DMG","1. Energy Recharge*
+2. Crit Rate / DMG
+3. ATK%
+
+*Prioritize Energy Recharge until you meet the requirement.","1. Skill
+2. Burst
+≈ Normal Attack","Full Combo:
+E N3D N2 E N3D N2
+
+The final N2 is omitted if units like Fischl or Xiangling are used during Bennett's Burst before Navia."
+,NOTES,"DPS
+Navia is a DPS that doesn't demand much field time. While most of her DPS is frontloaded into her Skill, she should stay on-field to take advantage of her 4s Geo conversion window. Her Burst lets her generate Crystal Shrapnel stacks and is important to use every rotation.
+
+
+Regarding Weapon Choices: Rankings assume Navia is used with Bennett, 125% Energy Recharge Requirement.
+Tidal Shadow: Assumes Navia is able to be healed. Otherwise, it is not recommended to use this weapon.
+Earth Shaker: Assumes there is a Pyro-related reaction before her field time, this is achievable by using Bennett's skill before swapping to Navia, or using an off-field pyro unit like Xiangling or Mavuika
+Serpent Spine: One of her best performing 4✩ options, at [R5] max stacks it will perform as well as A Thousand Blazing Sun
+Fang of the Mountain King: Assumed averaged 0.5 stack of Burst%, and 1 stack of Skill% for Navia's second skill
+Unforged: Assumed shielded, dynamically stacked
+Wolf's Gravestone: Assumed passive is not active
+
+Detailed weapon calculation here ",,,,,,
+,CHIORI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 4.5,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"OFF-FIELD DPS
+✩","1. Uraku Misugiri (5✩)
+2. Lightbearing Moonshard (5✩)
+≈ Primordial Jade Cutter (5✩)
+≈ Peak Patrol Song (5✩)
+3. Harbinger of Dawn (3✩) [R5]*
+≈ Cinnabar Spindle (4✩) [R5]*
+≈ Light of Foliar Incision (5✩)
+≈ Haran Geppaku Futsu (5✩)
+≈ Mistsplitter Reforged (5✩)*
+≈ Splendor of Tranquil Waters (5✩)
+4. Wolf-Fang (4✩)*","1. Golden Troupe (4)*
+≈ Husk of Opulent Dreams (4)*
+2. Golden Troupe (2) / Archaic Petra (2) / Husk of Opulent Dreams (2) [Choose two]","Sands - DEF%
+Goblet - Geo DMG
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. DEF%
+3. ATK%
+4. Energy Recharge*
+
+*Chiori is not Burst reliant and can opt to Burst less often. It is not recommended to build ER% at the expense of offensive stats. ER% gains in value at C2+ when Bursting is needed to summon an additional doll.","1. Skill
+2. Burst
+",
+,NOTES,"OFF-FIELD DPS
+Chiori is an off-field damage dealer focusing on her automation dolls (Skill DMG). While there is an incentive to play her in teams which have a Geo Construct (pre-C1), she is still a good option even in Geo teams which do not have a Geo Construct (such as with Navia). 
+
+Regarding Weapon Choices:
+Harbinger of Dawn [R5]: Ranking is assuming the passive is active. Chiori can usually have good uptime on the Harbinger of Dawn passive as she is primarily used as an off-field character, along with having good synergy with certain Geo characters like Zhongli who provide a shield. If using Furina however uptime may be problematic depending on how strong your teamwide healing is, or if facing enemies where corrosion is present.
+Mistsplitter Reforged: Ranking assumes one stack on the passive. 
+Cinnabar Spindle [R5]: Ranking is assuming one doll. This weapon performs slightly worse than Harbinger of Dawn [R5] with 2 dolls.
+Wolf-Fang: At [R5] this weapon performs close to Primordial Jade Cutter.
+
+Regarding Artifact Sets:
+Golden Troupe (4) outperforms Husk of Opulent Dreams (4) if you are ignoring Chiori's Burst completely. Husk of Opulent Dreams (4) can outperform Golden Troupe (4) if you are using Chiori's burst more frequently.
+
+Detailed comparisons here.",,,,,,
+,XILONEN,,,,,,,
+,,,,,,,,
+,Last Updated: Version 5.4,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"BUFF & HEAL SUPPORT
+✩","1. Peak Patrol Song (5✩)*
+2. Freedom-Sworn (5✩)*
+3. Favonius Sword (4✩)
+4. Flute of Ezpitzal (4✩)*
+5. Skyrider Sword (3✩)
+","1. Scroll of the Hero of Cinder City (4)
+2. Archaic Petra (4)
+3. Noblesse Oblige (4)
+4. Instructor (4)","Sands - DEF% / Energy Recharge
+Goblet - DEF%
+Circlet - DEF% / Healing Bonus / Crit Rate*
+
+*Crit Rate only if using Favonius Sword","1. Energy Recharge*
+2. DEF%
+3. Flat DEF
+4. Crit Rate**
+
+*Prioritize ER until requirements are met
+
+**Crit Rate only if using Favonius Sword","1. Skill
+2. Burst*","Xilonen's Burst will heal the active character at intervals if 2 or more of her Samplers had their elemental types changed. Otherwise, she will deal additional instances of Geo DMG.
+
+The resistance shredding from the Samplers occurs when Xilonen is paired with 2+ PHEC (Pyro/Hydro/Electro/Cryo) members. To activate them, press Skill, and continuously Normal Attack until her Nightsoul Points are full. This takes 2 or 3 Normal Attacks to do.
+
+At [C2], Xilonen's Geo Samplers are always active, enabling her to be added in teams with 2 or more Geo members already present.
+"
+,NOTES,"SUPPORT
+Xilonen's main job is to decrease Elemental Resistances of opponents using her Samplers. This, paired alongside the ability to hold Scroll of the Hero of Cinder City (4), makes her a great asset to many teams.
+
+Regarding Weapon Choices: Weapon options below Favonius Sword do not really affect Xilonen's performance as a Support.
+Peak Patrol Song: The buff from this weapon caps out once Xilonen reaches 3,200 DEF.
+Freedom-Sworn: This option is competitive with Peak Patrol Song if the team can utilize both of its buffs. To proc it consistently, you either need to burst every rotation, or add a delay between the initial skill hit and normal attacking. It is not needed to level this weapon for Xilonen.
+Flute of Ezpitzal: Refinements for this weapon are insignificant on Xilonen.
+
+Regarding Artifacts:
+If no other member of the team can hold it, Scroll of the Hero of Cinder City (4) should be the top priority for Xilonen. The other options are there in the event someone else has Scroll occupied. If you do not need Xilonen's healing ability and are not using Peak Patrol Song, her artifact stats do not matter.
+
+Regarding Talents:
+If you do not need Xilonen's healing, her Burst can be ignored.",,,,,,
+,ZIBAI,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.3 / Luna IV,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"DPS
+✩","1. Lightbearing Moonshard (5✩)
+2. Uraku Misugiri (5✩)*
+3. Light of Foliar Incision (5✩)*
+4. Harbinger of Dawn (3✩) [R5]*
+5. Peak Patrol Song (5✩)
+6. Splendor of Tranquil Waters (5✩)*
+≈ Haran Geppaku Futsu (5✩)*
+≈ Athame Artis (5✩)
+≈ Flute of Ezpitzal (4✩) [R5]","1. Night of the Sky's Unveiling (4)
+2. Husk of Opulent Dreams (4)
+3. +30% DEF set (2) / +80 EM set (2) 
+[Choose Two] ","Sands - DEF%
+Goblet - DEF%
+Circlet - Crit Rate / DMG","1. Crit Rate / DMG
+2. DEF%
+3. Energy Recharge*
+4. Elemental Mastery
+
+*It is not realistic nor recommended to build enough ER% to burst every rotation for Zibai . It is not recommended to build ER% at the expense of offensive stats. Can be good substat to reach energy threshold to burst 2 out of every 3 rotation for more damage but can be ignored entirely
+","1. Skill
+2. Burst*
+
+*It is generally recommended to focus on levelling Zibai character level before investing higher into burst","Zibai requires another Moonsign character in her team to unlock a large portion of her damage potential.
+
+Full Combo:
+E 4[N4E] - Replace 1 N4E with N1QE if burst is available
+E n4 n4 E n1E n1E QE - Condensed rotation, does not offer more damage and tends to put you in teammate's skill cooldown time, only used when needing front-loaded damage
+Combo for Zibai can be unreliable due to her teams generally having slower off - field Hydro appliers that interfere with her proccing Lunar-Crystallized at the right moment, which makes her combo more flexible to use depending on the situation"
+,NOTES,"DPS
+Zibai is an on-field damage dealer that focuses on getting enough stacks to use her enhanced Elemental Skill via using Normal Attacks and proccing Lunar-Crystallized reaction. This leads to Zibai wanting as much field time as possible to make use of all 4 of her Skill charges along with getting to the final hits of her NA chain. 
+
+Regarding Weapon Choices:
+Harbinger of Dawn [R5]: Ranking assumes the passive is active 90% of the time. Without consistent healing/shielding, this weapon performs worse than Flute of Ezpitzal [R5].
+Splendor of Tranquil Waters: Ranking assumes no HP fluctuation.
+Light of Foliar Incision: Assumes Zibai uses all 28 stacks.
+Haran Geppaku Futsu: Assumes passive is at max stacks.
+Uraku Misugiri: Assumes passive effect is doubled.
+
+
+Detailed comparisons here.",,,,,,
+,LINNEA,,,,,,,
+,,,,,,,,
+,Last Updated: Version 6.5 / Luna VI,,,,,,,
+,,ROLE,EQUIPMENT,,STATS PRIORITY,,TALENT PRIORITY,ABILITY TIPS
+,,,WEAPON,ARTIFACT,MAIN STATS,SUBSTATS,,
+,,"OFF-FIELD DPS & BUFF AND HEAL SUPPORT
+✩","1. Golden Frostbound Oath (5✩)
+2. Elegy for the End (5✩)*
+≈ Aqua Simulacra (5✩)
+≈ Hunter's Path (5✩)
+3. Slingshot (3✩)
+≈ Astral Vulture's Crimson Plumage (5✩)
+≈ The First Great Magic (5✩)
+≈ Thundering Pulse (5✩)
+≈ Skyward Harp (5✩)
+≈  Polar Star (5✩)","1. Aubade of Morningstar and Moon (4)
+≈ Husk of Opulent Dreams (4)
+2. Husk of Opulent Dreams (2) / +80 EM set (2)","Sands - DEF% / Energy Recharge*
+Goblet - DEF%
+Circlet - Crit Rate / DMG
+
+","1. Crit Rate / DMG
+2. DEF%
+3. Elemental Mastery
+4. Energy Recharge*
+
+","1. Skill
+2. Burst*","After inputting [1E], Lumi will continuously deal Lunar Crystallize and Geo DMG. Inputting [4E] will lead to Lumi dealing all of her Lunar Crystallize DMG via the Million Ton Crush, after which she will only deal continuous Geo DMG. 
+
+Both modes yield pretty similar damage, however using [1E] is generally more advisable in most teams."
+,,,,,*Energy Recharge is only necessary if you need to use Linnea's Burst to heal the team. Energy Recharge and Burst talent levels are not required if you do not need to use her Burst.,,,
+,NOTES,"OFF-FIELD DPS & SUPPORT
+Linnea is a potent support for Geo units, providing Off-Field Damage with her companion Lumi, Lunar-Crystallize DMG when Moondrifts are present, and also providing Geo Resistance shredding and teamwide healing. In addition, when Ascendant Gleam is active, Lumi can also boost the team's Elemental Mastery, and further amplifies the Geo Resistance shredding. Linnea can feed Lumi into her Ultimate Power form to execute the Million Ton Crush, a huge Lunar-Crystallize DMG nuke.
+
+Regarding Weapon Choices:
+Elegy for the End: This weapon is not worth considering outside of Zibai teams.
+
+Detailed comparisons here.",,,,,,
