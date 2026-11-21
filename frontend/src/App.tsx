@@ -1,8 +1,12 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
+import { Cloud } from 'lucide-react'
 import { LanguageProvider } from './context/LanguageContext'
 import LanguageSwitcher from './components/LanguageSwitcher'
+import BackupSyncModal from './components/BackupSyncModal'
 import ErrorBoundary from './components/ErrorBoundary'
 import SpaceBackground from './components/SpaceBackground'
+import { attachDriveAutoSyncListener, isDriveConnected } from './utils/google-drive-sync'
 import CharactersPage from './pages/CharactersPage'
 import CharacterDetailPage from './pages/CharacterDetailPage'
 import ReactionsPage from './pages/ReactionsPage'
@@ -24,6 +28,13 @@ import BestiaryPage from './pages/BestiaryPage';
 import './styles.css'
 
 export default function App() {
+  const [showBackupModal, setShowBackupModal] = useState(false)
+  const [driveOn, setDriveOn] = useState(() => isDriveConnected())
+
+  useEffect(() => {
+    return attachDriveAutoSyncListener()
+  }, [])
+
   return (
     <LanguageProvider>
       <BrowserRouter>
@@ -38,14 +49,34 @@ export default function App() {
             <Link to="/artifacts">Artefatos</Link>
             <Link to="/teams">Times</Link>
             <Link to="/planner">Planejador</Link>
-          <Link to="/inventory">Inventário</Link>
-          <Link to="/bestiary">Bestiário</Link>
+            <Link to="/inventory">Inventário</Link>
+            <Link to="/bestiary">Bestiário</Link>
             <Link to="/tierlist">Tierlist</Link>
             <Link to="/reactions">Reações</Link>
+            <button
+              type="button"
+              className={`nav-backup-btn ${driveOn ? 'is-connected' : ''}`}
+              onClick={() => setShowBackupModal(true)}
+              title="Backup local (.json) & Sync Google Drive"
+            >
+              <Cloud size={15} />
+              <span>Backup</span>
+            </button>
             <LanguageSwitcher />
           </div>
         </nav>
         <MainContent />
+        {showBackupModal && (
+          <BackupSyncModal
+            onClose={() => {
+              setDriveOn(isDriveConnected())
+              setShowBackupModal(false)
+            }}
+            onRestored={() => {
+              setDriveOn(isDriveConnected())
+            }}
+          />
+        )}
       </BrowserRouter>
     </LanguageProvider>
   )

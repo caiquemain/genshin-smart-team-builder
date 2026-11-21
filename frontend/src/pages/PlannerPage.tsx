@@ -27,6 +27,7 @@ import { parseGoodData, type GoodCharState } from '../utils/good-parser'
 import { recomputeAggregates } from '../utils/planner-recompute'
 import { useRoster } from '../utils/roster'
 import {
+  PLANNER_UPDATED_EVENT,
   addCharToPlan,
   hydratePlanFromData,
   loadManualInventory,
@@ -42,6 +43,7 @@ import ItemEditModal from '../components/ItemEditModal'
 import SettingsModal from '../components/SettingsModal'
 import CharacterPickerModal from '../components/CharacterPickerModal'
 import PlannerCharacterModal from '../components/PlannerCharacterModal'
+import TodayFarmWidget from '../components/TodayFarmWidget'
 
 const STORAGE_KEY = 'gsb.planner.v5'
 
@@ -442,29 +444,36 @@ export default function PlannerPage() {
   }, [lang])
 
   useEffect(() => {
-    try {
-      localStorage.removeItem('gsb.planner.v1')
-      localStorage.removeItem('gsb.planner.v2')
-      localStorage.removeItem('gsb.planner.v3')
-      localStorage.removeItem('gsb.planner.v4')
-    } catch {}
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (!saved) return
-    try {
-      const parsed = JSON.parse(saved)
-      if (parsed?.seelie) {
-        setSeelieData(parsed.seelie)
-        setAr(parsed.ar ?? parsed.seelie.ar ?? 60)
-        setWl(parsed.wl ?? parsed.seelie.wl ?? 9)
-      } else if (parsed?.ar != null || parsed?.wl != null) {
-        setAr(parsed.ar ?? 60)
-        setWl(parsed.wl ?? 9)
+    const loadStoredState = () => {
+      try {
+        localStorage.removeItem('gsb.planner.v1')
+        localStorage.removeItem('gsb.planner.v2')
+        localStorage.removeItem('gsb.planner.v3')
+        localStorage.removeItem('gsb.planner.v4')
+      } catch {}
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved)
+          setSeelieData(parsed?.seelie ?? null)
+          setGoodData(parsed?.good ?? null)
+          setAr(parsed?.ar ?? parsed?.seelie?.ar ?? 60)
+          setWl(parsed?.wl ?? parsed?.seelie?.wl ?? 9)
+        } catch {
+          localStorage.removeItem(STORAGE_KEY)
+        }
+      } else {
+        setSeelieData(null)
+        setGoodData(null)
       }
-      if (parsed?.good) setGoodData(parsed.good)
-    } catch {
-      localStorage.removeItem(STORAGE_KEY)
+      const latestPlan = loadPlanFromStorage(getPlannerDataOrNull(), lang)
+      if (latestPlan) setPlan(latestPlan)
     }
-  }, [])
+
+    loadStoredState()
+    window.addEventListener(PLANNER_UPDATED_EVENT, loadStoredState)
+    return () => window.removeEventListener(PLANNER_UPDATED_EVENT, loadStoredState)
+  }, [lang])
 
   const saveToStorage = (s: SeelieData | null, g: GoodData | null, currentAr: number, currentWl: number) => {
     try {
@@ -1073,6 +1082,14 @@ export default function PlannerPage() {
               <span className="resin-hint">({formatResin(Math.max(0, plan.grand_resin - currentResin))} ⚡ @ 180/dia)</span>
             </div>
           </div>
+
+          {plannerData && (
+            <TodayFarmWidget
+              plan={plan}
+              data={plannerData}
+              onEditMaterial={(slug) => setEditingItem(slug)}
+            />
+          )}
 
           <h2 style={{ marginTop: 32 }}>Materiais por resina</h2>
           

@@ -2888,3 +2888,556 @@ details.planner-notmapped[open] > summary {
   color: #b398ff;
   border-bottom-color: #b398ff;
 }
+
+/* ============================================================
+   AGENDA DIÁRIA — "O QUE FARMAR HOJE?"
+   ============================================================ */
+.today-farm-widget {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.85), rgba(10, 15, 30, 0.92));
+  border: 1px solid rgba(125, 211, 252, 0.22);
+}
+
+.today-farm-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.today-farm-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: #f1f5f9;
+}
+
+.today-farm-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.today-day-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.today-day-pill {
+  position: relative;
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.7);
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.today-day-pill:hover {
+  color: #e2e8f0;
+  border-color: rgba(125, 211, 252, 0.45);
+}
+
+.today-day-pill.active {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38bdf8;
+  color: #e0f2fe;
+}
+
+.today-day-pill .today-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #4ade80;
+}
+
+.today-farm-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #cbd5e1;
+  font-size: 13.5px;
+}
+
+.today-domains-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 12px;
+}
+
+.today-domain-card {
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.today-domain-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.today-domain-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1.5px solid #c084fc;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.today-domain-icon img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.today-domain-title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.today-domain-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.today-domain-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.today-kind-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.today-kind-pill.is-talent {
+  background: rgba(125, 211, 252, 0.14);
+  color: #7dd3fc;
+}
+
+.today-kind-pill.is-weapon {
+  background: rgba(251, 191, 36, 0.14);
+  color: #fbbf24;
+}
+
+.today-domain-resin {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  color: #fde047;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.today-domain-users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.today-user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 2px 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+
+.today-user-chip img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.today-user-more {
+  font-size: 11.5px;
+  color: #94a3b8;
+  padding: 2px 6px;
+}
+
+.today-domain-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.today-tier-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(10, 14, 26, 0.85);
+  border: 1px solid color-mix(in srgb, var(--tier-color) 45%, transparent);
+  color: #e2e8f0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.15s ease;
+}
+
+.today-tier-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--tier-color);
+}
+
+.today-tier-btn.is-done {
+  opacity: 0.6;
+  border-color: rgba(74, 222, 128, 0.35);
+  color: #86efac;
+}
+
+.today-tier-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.today-tier-counts strong {
+  color: #fca5a5;
+}
+
+.today-tier-counts small {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* ============================================================
+   NAVBAR BACKUP BUTTON & MODAL DE BACKUP / GOOGLE DRIVE
+   ============================================================ */
+.nav-backup-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.65);
+  color: #cbd5e1;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nav-backup-btn:hover {
+  border-color: #7dd3fc;
+  color: #e0f2fe;
+}
+
+.nav-backup-btn.is-connected {
+  border-color: rgba(74, 222, 128, 0.55);
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.backup-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1200;
+}
+
+.backup-modal {
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.backup-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.backup-modal-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.backup-modal-title-wrap h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #f8fafc;
+}
+
+.backup-modal-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+.backup-modal-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.backup-modal-close:hover {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.backup-summary-strip {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.backup-feedback {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.backup-feedback.is-success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #bbf7d0;
+}
+
+.backup-feedback.is-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+
+.backup-section {
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.backup-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.backup-section-head h3 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  font-size: 15px;
+  color: #f1f5f9;
+}
+
+.backup-meta-tag {
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.backup-section-desc {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.backup-actions-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.backup-actions-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.backup-conn-pill {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+}
+
+.backup-conn-pill.is-on {
+  background: rgba(34, 197, 94, 0.18);
+  color: #4ade80;
+}
+
+.backup-clientid-box {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.backup-clientid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+}
+
+.backup-clientid-header span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.backup-link-btn {
+  background: none;
+  border: none;
+  color: #7dd3fc;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.backup-clientid-row {
+  display: flex;
+  gap: 8px;
+}
+
+.backup-clientid-row input {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: #0b1120;
+  color: #e2e8f0;
+  font-size: 12.5px;
+}
+
+.backup-clientid-saved {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.backup-howto {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.backup-howto summary {
+  cursor: pointer;
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+.backup-howto ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  line-height: 1.45;
+}
+
+.backup-drive-footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.backup-autosync-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.backup-drive-times {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
