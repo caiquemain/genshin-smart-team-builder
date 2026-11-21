@@ -9,7 +9,6 @@ combinando 4 sinais transparentes:
      pela escala de HP/DEF/EM/Reações/ATQ Base + níveis de talento faltantes)
   4. Endgame Sazonal 30d (Abismo Espiral + Stygian Onslaught)
 """
-from collections import Counter
 from dataclasses import dataclass
 import re
 from typing import Any, Optional
@@ -23,17 +22,33 @@ from .pull_advisor import (
     CharacterLite,
     TemplateLite,
     TierSummaryLite,
-    _diminishing_weight,
     _fetch_category_tiers,
     get_capabilities,
 )
 
 # Pesos por objetivo do jogador (somam 1.0)
 UPGRADE_GOAL_WEIGHTS: dict[str, dict[str, float]] = {
-    "overall":    {"meta": 0.35, "teams": 0.30, "gain": 0.25, "endgame": 0.10},
-    "endgame":    {"meta": 0.20, "teams": 0.20, "gain": 0.20, "endgame": 0.40},
-    "teams":      {"meta": 0.20, "teams": 0.50, "gain": 0.20, "endgame": 0.10},
-    "quick_wins": {"meta": 0.25, "teams": 0.20, "gain": 0.45, "endgame": 0.10},
+    "overall":    {"meta": 0.40, "endgame": 0.20, "teams": 0.20, "gain": 0.20},
+    "endgame":    {"meta": 0.20, "endgame": 0.45, "teams": 0.15, "gain": 0.20},
+    "teams":      {"meta": 0.25, "endgame": 0.10, "teams": 0.45, "gain": 0.20},
+    "quick_wins": {"meta": 0.30, "endgame": 0.15, "teams": 0.15, "gain": 0.40},
+}
+
+# Piso mínimo de pontuação por tier de consenso no Endgame 30d
+# (evita que um personagem S+ em chefes específicos fique com nota baixa por média em outros chefes)
+ENDGAME_TIER_FLOORS: dict[str, float] = {
+    "S+": 85.0,
+    "S": 72.0,
+    "A": 55.0,
+    "B": 35.0,
+    "C": 15.0,
+    "D": 5.0,
+}
+
+# Personagens do meta de Reações Estelares (7.x Snezhnaya: Stellar-Conduct / Stellar-Swirl / Stellar-Glimmer)
+# Reações Estelares escalam diretamente com Nível do Personagem (Lv.90) e Proficiência/Reação
+STELLAR_REACTION_CHARS: set[str] = {
+    "traveler-cryo", "alyosha", "odette", "mitya", "sandrone", "vesna", "valeriy",
 }
 
 # Personagens que escalam diretamente com Vida (HP Base cresce muito de 80 -> 90)
@@ -50,7 +65,7 @@ DEF_SCALERS: set[str] = {
     "yun-jin", "kachina", "zibai", "illuga",
 }
 
-# Personagens que dependem de Reações Transformativas / Catalyze / EM (Lv.90 dá ~30% mais dano de reação)
+# Personagens que dependem de Reações Transformativas / Lunares / Catalyze / EM (Lv.90 dá ~30% mais dano de reação)
 TRANSFORMATIVE_OR_EM_SCALERS: set[str] = {
     "kaedehara-kazuha", "sucrose", "venti", "jean", "sayu", "lynette",
     "yumemizuki-mizuki", "lan-yan", "jahoda",
@@ -118,6 +133,9 @@ def classify_level_target(
 
     if slug in BASE_ATK_BUFFERS:
         return 90, "Lv. 90", True, "Buff de ATQ Base (Lv.90 maximiza o buff)"
+
+    if slug in STELLAR_REACTION_CHARS:
+        return 90, "Lv. 90", True, "Reações Estelares (Lv.90 maximiza dano e reações do meta atual)"
 
     if slug in DEF_SCALERS or any("def" in s for s in sands):
         return 90, "Lv. 90", True, "Escala com DEF (alto ganho de 80 → 90)"
@@ -244,6 +262,15 @@ def _verdict_for_upgrade(score: float, already_built: bool) -> tuple[str, str]:
     return "good_upgrade", "Vale Upar"
 
 
+def _effective_mode_score(summary: Optional[TierSummaryLite]) -> Optional[float]:
+    """Converte um resumo de tier do Endgame (0..100) respeitando o piso do consenso."""
+    if not summary:
+        return None
+    raw = summary.avg_score * 100.0
+    floor = ENDGAME_TIER_FLOORS.get(summary.consensus_tier or "", 0.0)
+    return max(raw, floor)
+
+
 def compute_upgrade_recommendations(
     characters: list[CharacterLite],
     templates: list[TemplateLite],
@@ -269,10 +296,22 @@ def compute_upgrade_recommendations(
 
     owned_set = {s for s in owned_slugs if s in chars_by_slug} | set(progress_map.keys())
 
-    # Pré-calcula qualidade média de cada template
+    # Pré-calcula qualidade média de cada template combinando Consenso Geral + Endgame atual
     template_avg_scores: dict[int, float] = {}
     for tpl in templates:
-        vals = [general_tiers[s].avg_score for s in tpl.character_slugs if s in general_tiers]
+        vals: list[float] = []
+        for s in tpl.character_slugs:
+            gen_v = general_tiers[s].avg_score if s in general_tiers else None
+            ab_v = (_effective_mode_score(abyss_tiers.get(s)) or 0.0) / 100.0 if s in abyss_tiers else None
+            st_v = (_effective_mode_score(stygian_tiers.get(s)) or 0.0) / 100.0 if s in stygian_tiers else None
+            eg_candidates = [v for v in (ab_v, st_v) if v is not None]
+            eg_v = max(eg_candidates) if eg_candidates else None
+            if gen_v is not None and eg_v is not None:
+                vals.append(0.65 * gen_v + 0.35 * eg_v)
+            elif gen_v is not None:
+                vals.append(gen_v)
+            elif eg_v is not None:
+                vals.append(eg_v)
         template_avg_scores[tpl.id] = round(sum(vals) / len(vals), 4) if vals else 0.5
 
     # Pré-indexa times prontos (4/4) que o jogador já fecha na conta
@@ -283,7 +322,7 @@ def compute_upgrade_recommendations(
             continue
         if all(s in owned_set for s in slugs):
             team_q = template_avg_scores[tpl.id]
-            multi_bonus = 1.0 + 0.15 * min(max(tpl.sources_count - 1, 0), 3)
+            multi_bonus = 1.0 + 0.12 * min(max(tpl.sources_count - 1, 0), 3)
             weight_val = team_q * multi_bonus
             for s in slugs:
                 ready_templates_by_char.setdefault(s, []).append((weight_val, tpl, team_q))
@@ -320,14 +359,21 @@ def compute_upgrade_recommendations(
             meta_score = 35.0
 
         # (B) Uso em Times Prontos na conta (0–100)
+        # Prioriza a QUALIDADE dos melhores times prontos (top 1–3) em vez de exigir
+        # dezenas de templates cadastrados — evita punir personagens novos do meta Estelar/Lunar.
         ready_list = ready_templates_by_char.get(slug, [])
-        arch_seen: Counter[str] = Counter()
-        raw_team_points = 0.0
-        for weight_val, tpl, _ in ready_list:
-            idx = arch_seen[tpl.archetype]
-            arch_seen[tpl.archetype] += 1
-            raw_team_points += weight_val * _diminishing_weight(idx) * 32.0
-        team_usage_score = round(min(100.0, raw_team_points), 1)
+        if not ready_list:
+            team_usage_score = 0.0
+        else:
+            top_qualities = [min(1.0, q) for _, _, q in ready_list[:3]]
+            best_pts = top_qualities[0] * 58.0
+            second_pts = top_qualities[1] * 22.0 if len(top_qualities) >= 2 else 0.0
+            third_pts = top_qualities[2] * 12.0 if len(top_qualities) >= 3 else 0.0
+            extra_count = max(0, len(ready_list) - 3)
+            # Bônus moderado de versatilidade por arquétipos adicionais sem inflar personagens antigos
+            distinct_archs = len({tpl.archetype for _, tpl, _ in ready_list})
+            breadth_pts = min(14.0, extra_count * 2.0 + max(0, distinct_archs - 1) * 2.5)
+            team_usage_score = round(min(100.0, best_pts + second_pts + third_pts + breadth_pts), 1)
 
         # (C) Metas de Nível & Talentos + Ganho de Upgrade (0–100)
         rec_level, rec_level_label, needs_90, scaling_tag = classify_level_target(
@@ -384,9 +430,9 @@ def compute_upgrade_recommendations(
             gain_pts = 0.0
             if not level_done:
                 if needs_90:
-                    gain_pts += 48.0 if (cur_level is None or cur_level < 85) else 28.0
+                    gain_pts += 45.0 if (cur_level is None or cur_level < 85) else 28.0
                 else:
-                    gain_pts += 32.0 if (cur_level is None or cur_level < 80) else 0.0
+                    gain_pts += 30.0 if (cur_level is None or cur_level < 80) else 0.0
 
             if not talents_done:
                 # Cada nível faltante em talento principal vale muito
@@ -400,7 +446,13 @@ def compute_upgrade_recommendations(
                     for t in talents
                     if t["priority"] >= 2 and t["recommended"] > 1
                 )
-                gain_pts += min(52.0, primary_gap * 8.5 + secondary_gap * 4.5)
+                raw_tal_pts = primary_gap * 8.5 + secondary_gap * 4.5
+                if level_done:
+                    # Personagem já está no nível alvo (ex.: Lv.90) mas com talentos baixos:
+                    # finalizar talentos entrega altíssimo retorno imediato por resina!
+                    gain_pts += min(82.0, raw_tal_pts * 1.15)
+                else:
+                    gain_pts += min(55.0, raw_tal_pts)
 
             # No modo "quick_wins", dá bônus extra a personagens já próximos da meta
             # (ex.: Lv.60–80 ou precisando de poucos níveis de talento — alto retorno por resina)
@@ -415,28 +467,36 @@ def compute_upgrade_recommendations(
             upgrade_gain_score = round(max(10.0, min(100.0, gain_pts)), 1)
 
         # (D) Endgame Sazonal 30d (0–100)
-        endgame_vals = []
-        if abyss:
-            endgame_vals.append(abyss.avg_score * 100.0)
-        if styg:
-            endgame_vals.append(styg.avg_score * 100.0)
-        endgame_score = (
-            round(sum(endgame_vals) / len(endgame_vals), 1)
-            if endgame_vals
-            else round(meta_score * 0.7, 1)
-        )
+        # Valoriza destaque no modo mais forte (ex.: S+ no Stygian atual / meta Estelar)
+        # combinando 65% do melhor modo + 35% do outro modo quando ambos existem.
+        ab_score = _effective_mode_score(abyss)
+        st_score = _effective_mode_score(styg)
+        if ab_score is not None and st_score is not None:
+            endgame_score = round(0.65 * max(ab_score, st_score) + 0.35 * min(ab_score, st_score), 1)
+        elif ab_score is not None:
+            endgame_score = round(ab_score, 1)
+        elif st_score is not None:
+            endgame_score = round(st_score, 1)
+        else:
+            endgame_score = round(meta_score * 0.7, 1)
+
+        # Pondera o retorno do upgrade pela relevância real do personagem (Meta / Endgame atual):
+        # upar um S/S+ entrega muito mais valor real para a conta do que subir um C-tier do Lv.70 ao 90.
+        char_strength = max(meta_score, endgame_score) / 100.0
+        strength_factor = 0.55 + 0.45 * char_strength
+        effective_gain = upgrade_gain_score * strength_factor
 
         # Score final
         if already_built:
             final_score = round(
-                0.50 * meta_score + 0.35 * team_usage_score + 0.15 * endgame_score,
+                0.50 * meta_score + 0.30 * team_usage_score + 0.20 * endgame_score,
                 1,
             )
         else:
             final_score = round(
                 weights["meta"] * meta_score
                 + weights["teams"] * team_usage_score
-                + weights["gain"] * upgrade_gain_score
+                + weights["gain"] * effective_gain
                 + weights["endgame"] * endgame_score,
                 1,
             )

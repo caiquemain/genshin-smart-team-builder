@@ -61,6 +61,7 @@ EXTRA_CAPABILITIES: dict[str, list[str]] = {
     "emilie": ["off_field_dps"],
     "chiori": ["off_field_dps"],
     "dahlia": ["shielder", "buffer"],
+    "traveler-cryo": ["on_field_dps", "off_field_dps", "buffer"],
 }
 
 # Pares de alta sinergia: se o jogador já tem A e não tem B, B ganha bônus direto
