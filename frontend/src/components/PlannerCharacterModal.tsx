@@ -181,20 +181,22 @@ function MilestoneCheckboxes({ current, goal, active, onChange, disabled }: {
 interface TalentDraft { current: number; goal: number }
 
 export default function PlannerCharacterModal({
-  char, element, inventory, onClose, onUpdate, weaponsMap, wl = 9,
+  char, element, inventory, onClose, onUpdate, onRemove, weaponsMap, wl = 9, initialEditing = false,
 }: {
   char: CharBreakdown
   element: string | undefined
   inventory: Record<string, number>
   onClose: () => void
   onUpdate?: (newChar: CharBreakdown) => boolean | void
+  onRemove?: (slug: string) => void
   weaponsMap?: Map<string, WeaponSummary>
   wl?: number
+  initialEditing?: boolean
 }) {
   const { lang } = useLanguage()
   const canEdit = !!onUpdate && !!weaponsMap
 
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(initialEditing)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [weaponPickerIndex, setWeaponPickerIndex] = useState<number | null>(null)
@@ -485,6 +487,20 @@ export default function PlannerCharacterModal({
             {canEdit && !editing && (
               <button className="btn-secondary" onClick={() => setEditing(true)}>
                 <Pencil size={14} /> Editar
+              </button>
+            )}
+            {onRemove && !editing && (
+              <button
+                className="btn-secondary"
+                style={{ color: '#f87171', borderColor: 'rgba(248, 113, 113, 0.35)' }}
+                onClick={() => {
+                  if (confirm(`Remover ${char.name} do planejador?`)) {
+                    onRemove(char.slug)
+                  }
+                }}
+                title="Remover do planejador"
+              >
+                <Trash2 size={14} /> Remover
               </button>
             )}
             {editing && (

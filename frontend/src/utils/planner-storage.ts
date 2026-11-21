@@ -10,6 +10,7 @@ import type {
 import { pickLang, type PlannerData } from './planner-data'
 import { normKey, resolveCharSlug, resolveWeaponSlug } from './slug-resolver'
 import { resolveInventory, type SeelieInventoryItem } from './inventory-mapper'
+import { computeAscensionCost, computeTalentCost } from './planner-compute'
 import { recomputeAggregates } from './planner-recompute'
 
 export const PLANNER_V5_KEY = 'gsb.planner.v5'
@@ -440,33 +441,66 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
 }
 
 /**
- * Sincroniza edição de quantidade de um item feita no PlannerPage de volta
- * para `gsb.planner.v5.seelie.inventory`.
+ * Sincroniza edição de quantidade de um item feita no PlannerPage ou InventoryAuditPage
+ * de volta para `gsb.planner.v5` (seelie.inventory se existir + manual_inventory).
  */
 export function syncInventoryItemToPlannerStorage(
   slug: string,
   newQty: number,
-  data: PlannerData,
+  data?: PlannerData | null,
 ): void {
   try {
     const rawV5 = localStorage.getItem(PLANNER_V5_KEY)
-    if (!rawV5) return
-    const v5 = JSON.parse(rawV5) as PlannerV5Payload
-    if (!v5.seelie || !Array.isArray(v5.seelie.inventory)) return
+    const v5: PlannerV5Payload & { manual_inventory?: Record<string, number>; ar?: number; wl?: number } =
+      rawV5 ? JSON.parse(rawV5) : {}
 
-    const invRaw = v5.seelie.inventory as SeelieInventoryItem[]
-    const catalog = Object.entries(data.materials).map(([s, m]) => ({ ...m, slug: s }))
-    for (const item of invRaw) {
-      const res = resolveInventory([item], catalog, data.families)
-      if (res.resolved[slug] !== undefined) {
-        item.value = newQty
-        localStorage.setItem(PLANNER_V5_KEY, JSON.stringify(v5))
-        emitPlannerUpdated()
-        return
+    const manualInv: Record<string, number> = { ...(v5.manual_inventory || {}) }
+    manualInv[slug] = newQty
+    v5.manual_inventory = manualInv
+
+    if (data && v5.seelie && Array.isArray(v5.seelie.inventory)) {
+      const invRaw = v5.seelie.inventory as SeelieInventoryItem[]
+      const catalog = Object.entries(data.materials).map(([s, m]) => ({ ...m, slug: s }))
+      for (const item of invRaw) {
+        const res = resolveInventory([item], catalog, data.families)
+        if (res.resolved[slug] !== undefined) {
+          item.value = newQty
+          break
+        }
       }
     }
+
+    localStorage.setItem(PLANNER_V5_KEY, JSON.stringify(v5))
+    emitPlannerUpdated()
   } catch (err) {
     console.error('[planner-storage] Falha ao sincronizar inventário no v5:', err)
+  }
+}
+
+export function loadManualInventory(): Record<string, number> {
+  try {
+    const rawV5 = localStorage.getItem(PLANNER_V5_KEY)
+    if (!rawV5) return {}
+    const parsed = JSON.parse(rawV5)
+    return parsed?.manual_inventory && typeof parsed.manual_inventory === 'object'
+      ? parsed.manual_inventory
+      : {}
+  } catch {
+    return {}
+  }
+}
+
+export function loadPlannerSettings(): { ar: number; wl: number } {
+  try {
+    const rawV5 = localStorage.getItem(PLANNER_V5_KEY)
+    if (!rawV5) return { ar: 60, wl: 9 }
+    const parsed = JSON.parse(rawV5)
+    return {
+      ar: parsed?.ar ?? parsed?.seelie?.ar ?? 60,
+      wl: parsed?.wl ?? parsed?.seelie?.wl ?? 9,
+    }
+  } catch {
+    return { ar: 60, wl: 9 }
   }
 }
 
@@ -486,3 +520,172 @@ export function syncInventoryToPlanStorage(
   )
   savePlanToStorage(updated)
 }
+
+export function createEmptyPlan(inventory: Record<string, number> = {}): Plan {
+  return {
+    chars: [],
+    grand_mora: 0,
+    grand_resin: 0,
+    tier_groups: [],
+    warnings: [],
+    not_mapped: [],
+    travelers_skipped: 0,
+    weapons_processed: 0,
+    weapons_skipped: 0,
+    inventory_resolved: { ...inventory },
+    inventory_stats: { mapped: Object.keys(inventory).length, unmapped: 0, ambiguous: 0, total: Object.keys(inventory).length },
+    materials_complete: 0,
+    materials_partial: 0,
+  }
+}
+
+export interface AddCharOptions {
+  currentLevel?: number
+  goalLevel?: number
+  cons?: number
+  na?: { current: number; goal: number }
+  es?: { current: number; goal: number }
+  eb?: { current: number; goal: number }
+}
+
+export function buildManualCharBreakdown(
+  slug: string,
+  data: PlannerData,
+  lang: string,
+  opts: AddCharOptions = {},
+): CharBreakdown | null {
+  const charMeta = data.characters[slug]
+  if (!charMeta) return null
+
+  const curLevel = Math.max(1, Math.min(90, Math.round(opts.currentLevel ?? 1)))
+  const goalLevel = Math.max(curLevel, Math.min(90, Math.round(opts.goalLevel ?? 90)))
+  const cons = Math.max(0, Math.min(6, Math.round(opts.cons ?? 0)))
+
+  const naCur = Math.max(1, Math.min(10, Math.round(opts.na?.current ?? 1)))
+  const naGoal = Math.max(naCur, Math.min(10, Math.round(opts.na?.goal ?? naCur)))
+  const esCur = Math.max(1, Math.min(10, Math.round(opts.es?.current ?? 1)))
+  const esGoal = Math.max(esCur, Math.min(10, Math.round(opts.es?.goal ?? 9)))
+  const ebCur = Math.max(1, Math.min(10, Math.round(opts.eb?.current ?? 1)))
+  const ebGoal = Math.max(ebCur, Math.min(10, Math.round(opts.eb?.goal ?? 9)))
+
+  const na = { current: naCur, goal: naGoal }
+  const es = { current: esCur, goal: esGoal }
+  const eb = { current: ebCur, goal: ebGoal }
+
+  const ascension = curLevel < goalLevel ? computeAscensionCost(data, slug, curLevel, goalLevel, lang) : null
+  const hasTalentPending = na.current < na.goal || es.current < es.goal || eb.current < eb.goal
+  const talents = hasTalentPending ? computeTalentCost(data, slug, na, es, eb, lang) : null
+
+  const hasAscensionPending = curLevel < goalLevel
+  const displayName =
+    pickLang(charMeta.name, lang) ||
+    slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+
+  return {
+    slug,
+    name: displayName,
+    icon: charMeta.icon ?? null,
+    ascension,
+    talents,
+    weapons: [],
+    char_goal: {
+      type: 'character',
+      character: slug,
+      id: Date.now(),
+      cons,
+      current: { level: curLevel, asc: inferAscensionFromLevel(curLevel) },
+      goal: { level: goalLevel, asc: inferAscensionFromLevel(goalLevel) },
+    },
+    talent_goal: {
+      type: 'talent',
+      character: slug,
+      id: Date.now() + 1,
+      normal: na,
+      skill: es,
+      burst: eb,
+    },
+    is_inactive: false,
+    has_ascension_pending: hasAscensionPending,
+    has_talent_pending: hasTalentPending,
+    has_weapon_pending: false,
+    is_complete: !hasAscensionPending && !hasTalentPending,
+  }
+}
+
+/**
+ * Adiciona um personagem manualmente ao plano (funciona mesmo começando do zero, sem JSON!).
+ * Se o personagem já existir no plano, retorna o registro existente sem duplicar.
+ */
+export function addCharToPlan(
+  existingPlan: Plan | null,
+  slug: string,
+  data: PlannerData,
+  lang: string,
+  wl: number = 9,
+  opts: AddCharOptions = {},
+): { plan: Plan; char: CharBreakdown; added: boolean } | null {
+  const basePlan = existingPlan ?? createEmptyPlan(loadManualInventory())
+  const existing = basePlan.chars.find((c) => c.slug === slug)
+  if (existing) {
+    return { plan: basePlan, char: existing, added: false }
+  }
+
+  const newChar = buildManualCharBreakdown(slug, data, lang, opts)
+  if (!newChar) return null
+
+  const mergedInv = { ...loadManualInventory(), ...(basePlan.inventory_resolved || {}) }
+  const updated = recomputeAggregates(
+    { ...basePlan, chars: [newChar, ...basePlan.chars], inventory_resolved: mergedInv },
+    mergedInv,
+    wl,
+  )
+  syncCharEditToPlannerStorage(newChar)
+  savePlanToStorage(updated)
+  return { plan: updated, char: newChar, added: true }
+}
+
+/**
+ * Remove um personagem do plano (e das metas Seelie em gsb.planner.v5 se existirem).
+ */
+export function removeCharFromPlan(
+  existingPlan: Plan,
+  slug: string,
+  wl: number = 9,
+): Plan {
+  const remaining = existingPlan.chars.filter((c) => c.slug !== slug)
+  const updated = recomputeAggregates(
+    { ...existingPlan, chars: remaining },
+    existingPlan.inventory_resolved,
+    wl,
+  )
+  savePlanToStorage(updated)
+
+  try {
+    const rawV5 = localStorage.getItem(PLANNER_V5_KEY)
+    if (rawV5) {
+      const v5 = JSON.parse(rawV5) as PlannerV5Payload
+      const targetKey = canonicalCharKey(slug)
+      let dirty = false
+      if (v5.seelie && Array.isArray(v5.seelie.goals)) {
+        const before = v5.seelie.goals.length
+        v5.seelie.goals = v5.seelie.goals.filter((g) => {
+          if (g.type === 'character' || g.type === 'talent' || g.type === 'artifact') {
+            return canonicalCharKey(g.character) !== targetKey
+          }
+          if (g.type === 'weapon' && g.character) {
+            return canonicalCharKey(g.character) !== targetKey
+          }
+          return true
+        })
+        if (v5.seelie.goals.length !== before) dirty = true
+      }
+      if (dirty) {
+        localStorage.setItem(PLANNER_V5_KEY, JSON.stringify(v5))
+      }
+    }
+  } catch {}
+
+  emitPlannerUpdated()
+  return updated
+}
+

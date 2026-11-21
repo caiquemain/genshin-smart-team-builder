@@ -9,11 +9,13 @@ export default function CharacterPickerModal({
   onSelect,
   onClose,
   excludeSlug,
+  excludeSlugs,
   title = 'Escolher personagem',
 }: {
   onSelect: (character: CharacterSummary) => void
   onClose: () => void
   excludeSlug?: string
+  excludeSlugs?: string[]
   title?: string
 }) {
   const { lang } = useLanguage()
@@ -37,11 +39,13 @@ export default function CharacterPickerModal({
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
+    const excluded = new Set(excludeSlugs ?? [])
+    if (excludeSlug) excluded.add(excludeSlug)
     let list = characters
-    if (excludeSlug) list = list.filter((c) => c.slug !== excludeSlug)
+    if (excluded.size > 0) list = list.filter((c) => !excluded.has(c.slug))
     if (q) list = list.filter((c) => c.name.toLowerCase().includes(q))
     return [...list].sort((a, b) => b.rarity - a.rarity || a.name.localeCompare(b.name))
-  }, [characters, search, excludeSlug])
+  }, [characters, search, excludeSlug, excludeSlugs])
 
   return (
     <div className="picker-overlay" onClick={onClose}>

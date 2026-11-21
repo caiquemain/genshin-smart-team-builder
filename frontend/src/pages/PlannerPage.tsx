@@ -16,24 +16,32 @@ import {
   Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf,
   Coins, Users, Sword, Calculator, CheckCircle2, FlaskConical,
   Settings, Pencil, ClipboardList, AlertTriangle, Sprout,
-  Shield, Skull, CalendarDays, Gem, BookOpen, MapPin, Star
+  Shield, Skull, CalendarDays, Gem, BookOpen, MapPin, Star, Plus, Download, Upload,
 } from 'lucide-react'
 import type { AggregateMaterial, CharBreakdown, WeaponBreakdown, TierGroup, Plan } from '../types/planner'
 
-import { loadPlannerData, getPlannerData, pickLang } from '../utils/planner-data'
+import { loadPlannerData, getPlannerData, getPlannerDataOrNull, elementOf, pickLang, type PlannerData } from '../utils/planner-data'
 import { buildIndexes, resolveCharSlug, resolveWeaponSlug } from '../utils/slug-resolver'
 import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from '../utils/planner-compute'
 import { parseGoodData, type GoodCharState } from '../utils/good-parser'
 import { recomputeAggregates } from '../utils/planner-recompute'
+import { useRoster } from '../utils/roster'
 import {
+  addCharToPlan,
   hydratePlanFromData,
+  loadManualInventory,
   loadPlanFromStorage,
+  loadPlannerSettings,
+  removeCharFromPlan,
   savePlanToStorage,
+  syncCharEditToPlannerStorage,
   syncInventoryItemToPlannerStorage,
 } from '../utils/planner-storage'
 
 import ItemEditModal from '../components/ItemEditModal'
 import SettingsModal from '../components/SettingsModal'
+import CharacterPickerModal from '../components/CharacterPickerModal'
+import PlannerCharacterModal from '../components/PlannerCharacterModal'
 
 const STORAGE_KEY = 'gsb.planner.v5'
 
@@ -388,18 +396,23 @@ function groupMaterials(mats: AggregateMaterial[], families: Record<string, stri
 
 export default function PlannerPage() {
   const { lang } = useLanguage()
+  const roster = useRoster()
   const [seelieData, setSeelieData] = useState<SeelieData | null>(null)
   const [goodData, setGoodData] = useState<GoodData | null>(null)
   const [plan, setPlan] = useState<Plan | null>(null)
+  const [plannerData, setPlannerData] = useState<PlannerData | null>(() => getPlannerDataOrNull())
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [chars, setChars] = useState<Map<string, CharacterSummary>>(new Map())
   const [weapons, setWeapons] = useState<Map<string, WeaponSummary>>(new Map())
   const [currentResin, setCurrentResin] = useState(200)
   
-  const [ar, setAr] = useState(60)
-  const [wl, setWl] = useState(9)
+  const [ar, setAr] = useState(() => loadPlannerSettings().ar)
+  const [wl, setWl] = useState(() => loadPlannerSettings().wl)
   const [showSettings, setShowSettings] = useState(false)
+  const [showCharPicker, setShowCharPicker] = useState(false)
+  const [editingChar, setEditingChar] = useState<CharBreakdown | null>(null)
+  const [editingCharInitialEdit, setEditingCharInitialEdit] = useState(false)
   const [editingItem, setEditingItem] = useState<string | null>(null)
   const [bestiary, setBestiary] = useState<BestiaryData | null>(null)
 
@@ -413,6 +426,7 @@ export default function PlannerPage() {
 
     loadPlannerData().then((data) => {
       buildIndexes(data)
+      setPlannerData(data)
       const cm = new Map<string, CharacterSummary>()
       for (const [slug, c] of Object.entries(data.characters)) {
         cm.set(slug, { slug, name: pickLang(c.name, lang), icon: c.icon, rarity: c.rarity, element: c.element as any, weapon_type: c.weapon_type as any, region: c.region as any })
@@ -440,8 +454,11 @@ export default function PlannerPage() {
       const parsed = JSON.parse(saved)
       if (parsed?.seelie) {
         setSeelieData(parsed.seelie)
-        setAr(parsed.seelie.ar ?? 60)
-        setWl(parsed.seelie.wl ?? 9)
+        setAr(parsed.ar ?? parsed.seelie.ar ?? 60)
+        setWl(parsed.wl ?? parsed.seelie.wl ?? 9)
+      } else if (parsed?.ar != null || parsed?.wl != null) {
+        setAr(parsed.ar ?? 60)
+        setWl(parsed.wl ?? 9)
       }
       if (parsed?.good) setGoodData(parsed.good)
     } catch {
@@ -451,8 +468,18 @@ export default function PlannerPage() {
 
   const saveToStorage = (s: SeelieData | null, g: GoodData | null, currentAr: number, currentWl: number) => {
     try {
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
       const toSave = s ? { ...s, ar: currentAr, wl: currentWl } : null
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ seelie: toSave, good: g }))
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          ...existing,
+          ar: currentAr,
+          wl: currentWl,
+          seelie: toSave,
+          good: g,
+        }),
+      )
     } catch {}
   }
 
@@ -505,9 +532,73 @@ export default function PlannerPage() {
     setPlan(updated)
     setEditingItem(null)
     savePlanToStorage(updated)
-    try {
-      syncInventoryItemToPlannerStorage(slug, newQty, getPlannerData())
-    } catch {}
+    syncInventoryItemToPlannerStorage(slug, newQty, plannerData)
+  }
+
+  const unaddedRosterSlugs = useMemo(() => {
+    if (!plannerData) return []
+    const existing = new Set((plan?.chars ?? []).map((c) => c.slug))
+    return Object.keys(plannerData.characters).filter(
+      (slug) => !existing.has(slug) && roster.get(slug).owned,
+    )
+  }, [plannerData, plan, roster])
+
+  const handleAddChar = (chosen: CharacterSummary) => {
+    setShowCharPicker(false)
+    if (!plannerData) return
+    const r = roster.get(chosen.slug)
+    const g = roster.getGoodState(chosen.slug)
+    const res = addCharToPlan(plan, chosen.slug, plannerData, lang, wl, {
+      currentLevel: g?.level ?? 1,
+      goalLevel: Math.max(g?.level ?? 1, 90),
+      cons: g?.cons ?? r.cons ?? 0,
+      na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
+      es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
+      eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+    })
+    if (res) {
+      setPlan(res.plan)
+      setEditingChar(res.char)
+      setEditingCharInitialEdit(res.added)
+    }
+  }
+
+  const handleImportFromRoster = () => {
+    if (!plannerData || unaddedRosterSlugs.length === 0) return
+    let current = plan
+    for (const slug of unaddedRosterSlugs) {
+      const r = roster.get(slug)
+      const g = roster.getGoodState(slug)
+      const res = addCharToPlan(current, slug, plannerData, lang, wl, {
+        currentLevel: g?.level ?? 1,
+        goalLevel: Math.max(g?.level ?? 1, 90),
+        cons: g?.cons ?? r.cons ?? 0,
+        na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
+        es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
+        eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+      })
+      if (res) current = res.plan
+    }
+    if (current) setPlan(current)
+  }
+
+  const handleUpdateChar = (newChar: CharBreakdown): boolean => {
+    if (!plan) return false
+    const newChars = plan.chars.map((c) => c.slug === newChar.slug ? newChar : c)
+    const updated = recomputeAggregates({ ...plan, chars: newChars }, plan.inventory_resolved, wl)
+    const v5Saved = syncCharEditToPlannerStorage(newChar)
+    const planSaved = savePlanToStorage(updated)
+    setPlan(updated)
+    setEditingChar(newChar)
+    return v5Saved || planSaved
+  }
+
+  const handleRemoveChar = (slug: string) => {
+    if (!plan) return
+    const updated = removeCharFromPlan(plan, slug, wl)
+    setPlan(updated)
+    setEditingChar(null)
+    setEditingCharInitialEdit(false)
   }
 
   const handleCompute = async () => {
@@ -715,6 +806,8 @@ export default function PlannerPage() {
         const solventItem = invRaw.find(i => i.item === 'dream_solvent')
         if (solventItem) solvents = solventItem.value
       }
+      // Preserva edições manuais de inventário sobre o JSON
+      Object.assign(invResolved, loadManualInventory())
 
       const allMats = Array.from(grand_mats.values())
       const normalMats = allMats.filter(m => m.category === 'boss_material' && !m.is_weekly)
@@ -771,6 +864,7 @@ export default function PlannerPage() {
   }
 
   const handleClear = () => {
+    if (!confirm('Limpar todo o plano e as importações atuais?')) return
     setSeelieData(null); setGoodData(null); setPlan(null)
     localStorage.removeItem(STORAGE_KEY); localStorage.removeItem('gsb.planner.plan'); setError(null)
   }
@@ -786,36 +880,19 @@ export default function PlannerPage() {
     }
   }, [seelieData, goodData])
 
-  return (
-    <div>
-      <div className="page-header">
-        <h1>Planejador</h1>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          {(seelieData || goodData) && (
-            <>
-              <button className="btn-secondary" onClick={() => setShowSettings(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Settings size={16} /> Configurações (AR {ar} / WL {wl})
-              </button>
-              <button className="btn-danger" onClick={handleClear}>Limpar importações</button>
-            </>
-          )}
-        </div>
-      </div>
+  const hasActivePlan = !!(plan && plan.chars.length > 0)
+  const existingSlugs = useMemo(() => (plan?.chars ?? []).map((c) => c.slug), [plan])
 
-      {!seelieData && !goodData && (
-        <p className="status">
-          Importe os JSONs para calcular o custo total. O <strong>Seelie</strong> traz as metas e o inventário. O <strong>GOOD</strong> traz o nível atual real da sua conta.
-        </p>
-      )}
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+  const jsonImportSection = (
+    <>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '16px' }}>
         <div className="import-card" style={{ borderColor: seelieData ? 'var(--primary)' : 'transparent' }}>
           <h2><CheckCircle2 size={18} style={{ display: 'inline', marginRight: 8, verticalAlign: 'text-bottom' }}/> Seelie (Metas)</h2>
           {seelieData ? (
-             <p style={{ color: '#4ade80' }}>Importado com sucesso.</p>
+            <p style={{ color: '#4ade80' }}>Importado com sucesso.</p>
           ) : (
             <>
-              <p className="muted" style={{ fontSize: '14px', marginBottom: 12 }}>Traz o inventário e as metas de level/talentos.</p>
+              <p className="muted" style={{ fontSize: '14px', marginBottom: 12 }}>Opcional: importa metas de nível/talentos e inventário do Seelie.</p>
               <input type="file" accept=".json" onChange={handleSeelieFile} className="file-input" />
             </>
           )}
@@ -824,10 +901,10 @@ export default function PlannerPage() {
         <div className="import-card" style={{ borderColor: goodData ? 'var(--primary)' : 'transparent' }}>
           <h2><CheckCircle2 size={18} style={{ display: 'inline', marginRight: 8, verticalAlign: 'text-bottom' }}/> GOOD (Estado Atual)</h2>
           {goodData ? (
-             <p style={{ color: '#4ade80' }}>Importado com sucesso.</p>
+            <p style={{ color: '#4ade80' }}>Importado com sucesso.</p>
           ) : (
             <>
-              <p className="muted" style={{ fontSize: '14px', marginBottom: 12 }}>Sincroniza o nível atual dos personagens e armas.</p>
+              <p className="muted" style={{ fontSize: '14px', marginBottom: 12 }}>Opcional: sincroniza o nível real dos personagens e armas via scanner.</p>
               <input type="file" accept=".json" onChange={handleGoodFile} className="file-input" />
             </>
           )}
@@ -835,7 +912,7 @@ export default function PlannerPage() {
       </div>
 
       {(seelieData || goodData) && summary && (
-        <>
+        <div style={{ marginBottom: 20 }}>
           <div className="import-summary">
             <div><strong>{summary.goodChars}</strong> chars no GOOD</div>
             <div><strong>{summary.seelieChars}</strong> metas (Seelie)</div>
@@ -846,17 +923,113 @@ export default function PlannerPage() {
             className="btn-primary"
             onClick={handleCompute}
             disabled={loading || chars.size === 0 || weapons.size === 0}
-            style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            style={{ marginTop: 12, display: 'inline-flex', alignItems: 'center', gap: '8px' }}
           >
             <Calculator size={16} />
-            {loading ? 'Calculando...' : chars.size === 0 ? 'Carregando dados...' : 'Calcular plano'}
+            {loading ? 'Calculando...' : chars.size === 0 ? 'Carregando dados...' : 'Calcular / sincronizar plano do JSON'}
           </button>
-        </>
+        </div>
+      )}
+    </>
+  )
+
+  return (
+    <div>
+      <div className="page-header" style={{ flexWrap: 'wrap', gap: 12 }}>
+        <h1>Planejador</h1>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+          <button
+            className="btn-primary"
+            onClick={() => setShowCharPicker(true)}
+            disabled={!plannerData}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <Plus size={16} /> Adicionar personagem
+          </button>
+          <button className="btn-secondary" onClick={() => setShowSettings(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Settings size={16} /> AR {ar} / WL {wl}
+          </button>
+          {(hasActivePlan || seelieData || goodData) && (
+            <button className="btn-danger" onClick={handleClear}>Limpar plano</button>
+          )}
+        </div>
+      </div>
+
+      {!hasActivePlan && (
+        <div
+          className="import-card"
+          style={{
+            marginBottom: 20,
+            borderColor: 'rgba(125, 211, 252, 0.35)',
+            background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(15, 23, 42, 0.65))',
+          }}
+        >
+          <h2 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Plus size={18} /> Comece do zero — sem precisar de JSON
+          </h2>
+          <p className="muted" style={{ fontSize: 14, marginBottom: 16 }}>
+            Adicione os personagens que você quer upar e defina nível atual, meta, talentos e arma direto por aqui.
+            Você também pode atualizar seu estoque clicando nos materiais ou na aba <Link to="/inventory">Inventário</Link>.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <button
+              className="btn-primary"
+              onClick={() => setShowCharPicker(true)}
+              disabled={!plannerData}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <Plus size={16} /> {plannerData ? 'Adicionar primeiro personagem' : 'Carregando dados...'}
+            </button>
+            {unaddedRosterSlugs.length > 0 && (
+              <button
+                className="btn-secondary"
+                onClick={handleImportFromRoster}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                <Download size={16} /> Importar do Meu Roster ({unaddedRosterSlugs.length})
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {hasActivePlan ? (
+        <details className="planner-warnings" style={{ marginBottom: 20, background: 'rgba(15, 23, 42, 0.5)', borderColor: 'rgba(148, 163, 184, 0.25)' }}>
+          <summary style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', color: '#cbd5e1' }}>
+            <Upload size={15} /> Importação rápida via JSON (Seelie / GOOD — opcional)
+            {unaddedRosterSlugs.length > 0 && (
+              <span style={{ marginLeft: 'auto', fontSize: 12, color: '#7dd3fc' }}>
+                +{unaddedRosterSlugs.length} no Roster
+              </span>
+            )}
+          </summary>
+          <div style={{ marginTop: 14 }}>
+            {unaddedRosterSlugs.length > 0 && (
+              <div style={{ marginBottom: 14 }}>
+                <button
+                  className="btn-secondary"
+                  onClick={handleImportFromRoster}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                >
+                  <Download size={15} /> Trazer personagens restantes do Meu Roster (+{unaddedRosterSlugs.length})
+                </button>
+              </div>
+            )}
+            {jsonImportSection}
+          </div>
+        </details>
+      ) : (
+        <div style={{ marginBottom: 24 }}>
+          <p className="muted" style={{ fontSize: 13, marginBottom: 10 }}>
+            Ou, se já usa scanner/planejador externo, importe os arquivos abaixo (opcional):
+          </p>
+          {jsonImportSection}
+        </div>
       )}
 
       {error && <p className="error">Erro: {error}</p>}
 
-      {plan && (
+      {hasActivePlan && plan && (
         <>
           {plan.warnings.length > 0 && (
             <details className="planner-warnings">
@@ -903,12 +1076,16 @@ export default function PlannerPage() {
 
           <h2 style={{ marginTop: 32 }}>Materiais por resina</h2>
           
-          {(() => {
-             const data = getPlannerData()
+          {plannerData ? (() => {
+             const data = plannerData
              let solvents = 0
              const invRaw = (seelieData?.inventory || []) as SeelieInventoryItem[]
              const solventItem = invRaw.find(i => i.item === 'dream_solvent')
              if (solventItem) solvents = solventItem.value
+
+             if (plan.tier_groups.length === 0) {
+               return <p className="status">Todos os personagens ativos deste plano já atingiram suas metas!</p>
+             }
 
              return plan.tier_groups.map((tg) => {
                const groupedMats = groupMaterials(tg.materials, data.families)
@@ -945,7 +1122,9 @@ export default function PlannerPage() {
                 </details>
               )
              })
-          })()}
+          })() : (
+            <p className="status">Carregando catálogo de materiais...</p>
+          )}
         </>
       )}
 
@@ -958,13 +1137,37 @@ export default function PlannerPage() {
         />
       )}
 
-      {editingItem && plan && (
+      {showCharPicker && (
+        <CharacterPickerModal
+          title="Adicionar personagem ao planejador"
+          excludeSlugs={existingSlugs}
+          onSelect={handleAddChar}
+          onClose={() => setShowCharPicker(false)}
+        />
+      )}
+
+      {editingChar && plan && (
+        <PlannerCharacterModal
+          key={`${editingChar.slug}-${editingCharInitialEdit ? 'edit' : 'view'}`}
+          char={editingChar}
+          element={elementOf(editingChar.slug)}
+          inventory={plan.inventory_resolved}
+          onClose={() => { setEditingChar(null); setEditingCharInitialEdit(false) }}
+          onUpdate={handleUpdateChar}
+          onRemove={handleRemoveChar}
+          weaponsMap={weapons}
+          wl={wl}
+          initialEditing={editingCharInitialEdit}
+        />
+      )}
+
+      {editingItem && plan && plannerData && plannerData.materials[editingItem] && (
         <ItemEditModal
-          name={pickLang(getPlannerData().materials[editingItem].name, lang)}
-          icon={getPlannerData().materials[editingItem].icon}
-          rarity={getPlannerData().materials[editingItem].rarity}
+          name={pickLang(plannerData.materials[editingItem].name, lang)}
+          icon={plannerData.materials[editingItem].icon}
+          rarity={plannerData.materials[editingItem].rarity}
           currentQty={plan.inventory_resolved[editingItem] ?? 0}
-          maxGlobal={getPlannerData().global_max[editingItem] ?? 0}
+          maxGlobal={plannerData.global_max[editingItem] ?? 0}
           onSave={(qty) => handleSaveItem(editingItem, qty)}
           onClose={() => setEditingItem(null)}
         />

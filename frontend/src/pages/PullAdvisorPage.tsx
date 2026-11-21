@@ -493,7 +493,10 @@ function UpgradeCard({
         <Link to={`/characters/${candidate.slug}`} className="pa-card-link">
           Ver Build & Materiais <ArrowRight size={12} />
         </Link>
-        <Link to="/planner" className="pa-card-link">
+        <Link
+          to={`/planner/characters?add=${encodeURIComponent(candidate.slug)}&goal=${candidate.recommended_level}`}
+          className="pa-card-link"
+        >
           Planejar Farm <ArrowRight size={12} />
         </Link>
       </div>

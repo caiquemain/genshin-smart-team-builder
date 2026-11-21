@@ -3,11 +3,15 @@ import {
   PLANNER_PLAN_KEY,
   PLANNER_V5_KEY,
   ROSTER_KEY,
+  addCharToPlan,
   compactPlanForStorage,
   hydratePlanFromData,
+  loadManualInventory,
   loadPlanFromStorage,
+  removeCharFromPlan,
   savePlanToStorage,
   syncCharEditToPlannerStorage,
+  syncInventoryItemToPlannerStorage,
 } from '../planner-storage'
 import type { CharBreakdown, Plan } from '../../types/planner'
 import type { PlannerData } from '../planner-data'
@@ -379,5 +383,57 @@ describe('planner-storage', () => {
     const v5 = JSON.parse(localStorage.getItem(PLANNER_V5_KEY)!)
     expect(v5.good).toBeNull()
     expect(v5.seelie.goals).toHaveLength(2)
+  })
+
+  it('supports starting completely from scratch without JSON: manual inventory, addCharToPlan, deduplication, and removeCharFromPlan', () => {
+    const richData: PlannerData = {
+      ...SAMPLE_DATA,
+      characters: {
+        vodyanitsa: {
+          name: { pt: 'Vodyanitsa', en: 'Vodyanitsa' },
+          icon: 'UI_AvatarIcon_Vodyanitsa',
+          element: 'hydro',
+          weapon_type: 'catalyst',
+          rarity: 5,
+          region: 'snezhnaya',
+          ascension_phases: [
+            { phase: 6, max_level: 90, mora: 120_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 6 }] },
+          ],
+          talent_phases: {
+            normal_attack: [],
+            elemental_skill: [{ level: 9, mora: 450_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 12 }] }],
+            elemental_burst: [{ level: 9, mora: 450_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 12 }] }],
+          },
+        },
+      },
+    }
+
+    // 1) Manual inventory works even when localStorage is completely empty
+    syncInventoryItemToPlannerStorage('philosophies-of-moonlight', 10, richData)
+    expect(loadManualInventory()).toEqual({ 'philosophies-of-moonlight': 10 })
+
+    // 2) Adding first character creates a full plan from scratch
+    const res1 = addCharToPlan(null, 'vodyanitsa', richData, 'pt', 9, {
+      currentLevel: 80,
+      goalLevel: 90,
+      es: { current: 8, goal: 9 },
+      eb: { current: 8, goal: 9 },
+    })
+    expect(res1).not.toBeNull()
+    expect(res1!.added).toBe(true)
+    expect(res1!.plan.chars).toHaveLength(1)
+    expect(res1!.plan.inventory_resolved['philosophies-of-moonlight']).toBe(10)
+    expect(res1!.plan.grand_mora).toBeGreaterThan(1_000_000)
+
+    // 3) Re-adding the same character does not duplicate
+    const res2 = addCharToPlan(res1!.plan, 'vodyanitsa', richData, 'pt', 9)
+    expect(res2!.added).toBe(false)
+    expect(res2!.plan.chars).toHaveLength(1)
+
+    // 4) Removing the character updates plan & storage
+    const afterRemove = removeCharFromPlan(res1!.plan, 'vodyanitsa', 9)
+    expect(afterRemove.chars).toHaveLength(0)
+    expect(afterRemove.grand_mora).toBe(0)
+    expect(loadPlanFromStorage()?.chars).toHaveLength(0)
   })
 })

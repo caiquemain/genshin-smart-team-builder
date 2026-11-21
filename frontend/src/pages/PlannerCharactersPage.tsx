@@ -1,21 +1,26 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import {
   ArrowLeft, Users, Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf,
-  Filter, ArrowUpDown,
+  Filter, ArrowUpDown, Plus, Download,
 } from 'lucide-react'
 import PlannerCharacterCard from '../components/PlannerCharacterCard'
 import PlannerCharacterModal from '../components/PlannerCharacterModal'
+import CharacterPickerModal from '../components/CharacterPickerModal'
 import { useLanguage } from '../context/LanguageContext'
 import { recomputeAggregates } from '../utils/planner-recompute'
 import type { CharBreakdown, Plan } from '../types/planner'
-import type { WeaponSummary } from '../types'
+import type { CharacterSummary, WeaponSummary } from '../types'
 
-import { loadPlannerData, elementOf, pickLang } from '../utils/planner-data'
+import { loadPlannerData, elementOf, pickLang, type PlannerData } from '../utils/planner-data'
 import { buildIndexes } from '../utils/slug-resolver'
+import { useRoster } from '../utils/roster'
 import {
+  addCharToPlan,
   hydratePlanFromData,
   loadPlanFromStorage,
+  loadPlannerSettings,
+  removeCharFromPlan,
   savePlanToStorage,
   syncCharEditToPlannerStorage,
 } from '../utils/planner-storage'
@@ -33,25 +38,22 @@ type StatusFilter = 'all' | 'pending' | 'complete' | 'inactive'
 type PendingFilter = 'all' | 'ascension' | 'talent' | 'weapon'
 type SortBy = 'name' | 'days' | 'status'
 
-function readWL(): number {
-  try {
-    const raw = localStorage.getItem('gsb.planner.v5')
-    if (!raw) return 9
-    const parsed = JSON.parse(raw)
-    return parsed?.seelie?.wl ?? 9
-  } catch { return 9 }
-}
-
 export default function PlannerCharactersPage() {
   const { lang } = useLanguage()
+  const roster = useRoster()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [plan, setPlan] = useState<Plan | null>(null)
+  const [plannerData, setPlannerData] = useState<PlannerData | null>(null)
   const [elementFilter, setElementFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [pendingFilter, setPendingFilter] = useState<PendingFilter>('all')
   const [sortBy, setSortBy] = useState<SortBy>('status')
   const [selectedChar, setSelectedChar] = useState<CharBreakdown | null>(null)
+  const [modalInitialEdit, setModalInitialEdit] = useState(false)
+  const [showPicker, setShowPicker] = useState(false)
   const [weaponsMap, setWeaponsMap] = useState<Map<string, WeaponSummary>>(new Map())
-  const [wl] = useState<number>(() => readWL())
+  const [wl] = useState<number>(() => loadPlannerSettings().wl)
+  const handledAddParamRef = useRef<string | null>(null)
 
   useEffect(() => {
     const initial = loadPlanFromStorage()
@@ -59,6 +61,7 @@ export default function PlannerCharactersPage() {
 
     loadPlannerData().then((data) => {
       buildIndexes(data)
+      setPlannerData(data)
       const m = new Map<string, WeaponSummary>()
       for (const [slug, w] of Object.entries(data.weapons)) {
         m.set(slug, { slug, name: pickLang(w.name, lang), icon: w.icon, rarity: w.rarity, weapon_type: w.weapon_type as any } as any)
@@ -67,6 +70,35 @@ export default function PlannerCharactersPage() {
       setPlan((prev) => (prev ? hydratePlanFromData(prev, data, lang) : loadPlanFromStorage(data, lang)))
     }).catch(() => {})
   }, [lang])
+
+  // Suporta deep-link `/planner/characters?add=<slug>&goal=<80|90>` (ex.: botão "Planejar Farm" no Pull Advisor)
+  useEffect(() => {
+    const addSlug = searchParams.get('add')
+    if (!addSlug || !plannerData || handledAddParamRef.current === addSlug) return
+    handledAddParamRef.current = addSlug
+
+    const goalParam = Number(searchParams.get('goal'))
+    const goalLevel = goalParam === 80 || goalParam === 90 ? goalParam : 90
+    const r = roster.get(addSlug)
+    const g = roster.getGoodState(addSlug)
+
+    const currentPlan = loadPlanFromStorage(plannerData, lang) ?? plan
+    const res = addCharToPlan(currentPlan, addSlug, plannerData, lang, wl, {
+      currentLevel: g?.level ?? 1,
+      goalLevel: Math.max(g?.level ?? 1, goalLevel),
+      cons: g?.cons ?? r.cons ?? 0,
+      na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
+      es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
+      eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+    })
+
+    if (res) {
+      setPlan(res.plan)
+      setSelectedChar(res.char)
+      setModalInitialEdit(res.added)
+    }
+    setSearchParams({}, { replace: true })
+  }, [searchParams, plannerData, lang, wl, plan, roster, setSearchParams])
 
   const handleUpdate = (newChar: CharBreakdown): boolean => {
     if (!plan) return false
@@ -77,6 +109,61 @@ export default function PlannerCharactersPage() {
     setPlan(updated)
     setSelectedChar(newChar)
     return v5Saved || planSaved
+  }
+
+  const handleAddChar = (chosen: CharacterSummary) => {
+    setShowPicker(false)
+    if (!plannerData) return
+    const r = roster.get(chosen.slug)
+    const g = roster.getGoodState(chosen.slug)
+    const res = addCharToPlan(plan, chosen.slug, plannerData, lang, wl, {
+      currentLevel: g?.level ?? 1,
+      goalLevel: Math.max(g?.level ?? 1, 90),
+      cons: g?.cons ?? r.cons ?? 0,
+      na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
+      es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
+      eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+    })
+    if (res) {
+      setPlan(res.plan)
+      setSelectedChar(res.char)
+      setModalInitialEdit(res.added)
+    }
+  }
+
+  const handleRemoveChar = (slug: string) => {
+    if (!plan) return
+    const updated = removeCharFromPlan(plan, slug, wl)
+    setPlan(updated)
+    setSelectedChar(null)
+    setModalInitialEdit(false)
+  }
+
+  const unaddedRosterSlugs = useMemo(() => {
+    if (!plannerData) return []
+    const existing = new Set((plan?.chars ?? []).map((c) => c.slug))
+    return Object.keys(plannerData.characters).filter(
+      (slug) => !existing.has(slug) && roster.get(slug).owned,
+    )
+  }, [plannerData, plan, roster])
+
+  const handleImportFromRoster = () => {
+    if (!plannerData || unaddedRosterSlugs.length === 0) return
+    let current = plan
+    for (const slug of unaddedRosterSlugs) {
+      const r = roster.get(slug)
+      const g = roster.getGoodState(slug)
+      const res = addCharToPlan(current, slug, plannerData, lang, wl, {
+        currentLevel: g?.level ?? 1,
+        goalLevel: Math.max(g?.level ?? 1, 90),
+        cons: g?.cons ?? r.cons ?? 0,
+        na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
+        es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
+        eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+      })
+      if (res) current = res.plan
+    }
+    if (current) setPlan(current)
   }
 
   const filtered = useMemo(() => {
@@ -114,12 +201,44 @@ export default function PlannerCharactersPage() {
     return list
   }, [plan, elementFilter, statusFilter, pendingFilter, sortBy])
 
-  if (!plan) {
+  const existingSlugs = useMemo(() => (plan?.chars ?? []).map((c) => c.slug), [plan])
+
+  if (!plan || plan.chars.length === 0) {
     return (
       <div className="planner-empty-state">
         <h1>Personagens do Planner</h1>
-        <p>Nenhum plano carregado. Importe o JSON e clique em <strong>Calcular custo total</strong>.</p>
-        <Link to="/planner" className="btn-primary">← Voltar ao Planner</Link>
+        <p>
+          Seu planejador ainda está vazio. Adicione personagens manualmente para começar do zero — não precisa importar nenhum JSON!
+        </p>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginTop: 16 }}>
+          <button
+            className="btn-primary"
+            onClick={() => setShowPicker(true)}
+            disabled={!plannerData}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <Plus size={16} /> Adicionar personagem
+          </button>
+          {unaddedRosterSlugs.length > 0 && (
+            <button
+              className="btn-secondary"
+              onClick={handleImportFromRoster}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <Download size={16} /> Importar do Meu Roster ({unaddedRosterSlugs.length})
+            </button>
+          )}
+          <Link to="/planner" className="btn-secondary">← Voltar ao Planejador</Link>
+        </div>
+
+        {showPicker && (
+          <CharacterPickerModal
+            title="Adicionar personagem ao planejador"
+            excludeSlugs={existingSlugs}
+            onSelect={handleAddChar}
+            onClose={() => setShowPicker(false)}
+          />
+        )}
       </div>
     )
   }
@@ -133,7 +252,28 @@ export default function PlannerCharactersPage() {
     <div>
       <div className="planner-chars-header">
         <Link to="/planner" className="planner-back-link"><ArrowLeft size={16} /> Voltar ao Planner</Link>
-        <h1><Users size={32} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }} /> Personagens do Planner</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <h1><Users size={32} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }} /> Personagens do Planner</h1>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button
+              className="btn-primary"
+              onClick={() => setShowPicker(true)}
+              disabled={!plannerData}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <Plus size={16} /> Adicionar personagem
+            </button>
+            {unaddedRosterSlugs.length > 0 && (
+              <button
+                className="btn-secondary"
+                onClick={handleImportFromRoster}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                <Download size={15} /> Trazer do Roster (+{unaddedRosterSlugs.length})
+              </button>
+            )}
+          </div>
+        </div>
         <p className="planner-chars-subtitle">
           {filtered.length} de {total} personagens · {pendingCount} pendentes · {completeCount} completos · {inactiveCount} inativos · WL {wl}
         </p>
@@ -193,7 +333,11 @@ export default function PlannerCharactersPage() {
       ) : (
         <div className="plan-chars-grid">
           {filtered.map((c) => (
-            <div key={c.slug} onClick={() => setSelectedChar(c)} style={{ cursor: 'pointer' }}>
+            <div
+              key={c.slug}
+              onClick={() => { setModalInitialEdit(false); setSelectedChar(c) }}
+              style={{ cursor: 'pointer' }}
+            >
               <PlannerCharacterCard char={c} element={elementOf(c.slug)} inventory={plan.inventory_resolved} />
             </div>
           ))}
@@ -202,13 +346,25 @@ export default function PlannerCharactersPage() {
 
       {selectedChar && (
         <PlannerCharacterModal
+          key={`${selectedChar.slug}-${modalInitialEdit ? 'edit' : 'view'}`}
           char={selectedChar}
           element={elementOf(selectedChar.slug)}
           inventory={plan.inventory_resolved}
-          onClose={() => setSelectedChar(null)}
+          onClose={() => { setSelectedChar(null); setModalInitialEdit(false) }}
           onUpdate={handleUpdate}
+          onRemove={handleRemoveChar}
           weaponsMap={weaponsMap}
           wl={wl}
+          initialEditing={modalInitialEdit}
+        />
+      )}
+
+      {showPicker && (
+        <CharacterPickerModal
+          title="Adicionar personagem ao planejador"
+          excludeSlugs={existingSlugs}
+          onSelect={handleAddChar}
+          onClose={() => setShowPicker(false)}
         />
       )}
     </div>

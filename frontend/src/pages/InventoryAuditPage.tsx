@@ -8,7 +8,12 @@ import {
   type PlannerMaterialData,
 } from '../utils/planner-data';
 import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper';
-import { syncInventoryToPlanStorage } from '../utils/planner-storage';
+import {
+  loadManualInventory,
+  loadPlannerSettings,
+  syncInventoryItemToPlannerStorage,
+  syncInventoryToPlanStorage,
+} from '../utils/planner-storage';
 import { InventoryMaterialCard } from '../components/InventoryMaterialCard';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -36,51 +41,51 @@ export default function InventoryAuditPage() {
     loadPlannerData().then((plannerData) => {
       setData(plannerData);
 
+      const mergedInv: Record<string, number> = {};
       const savedSeelie = localStorage.getItem('gsb.planner.v5');
       if (savedSeelie) {
-        const v5 = JSON.parse(savedSeelie);
-        const invRaw: SeelieInventoryItem[] = v5?.seelie?.inventory || [];
-        const catalog = Object.entries(plannerData.materials).map(([slug, m]) => ({ ...m, slug }));
-        const resolved = resolveInventory(invRaw, catalog, plannerData.families);
-        setInventory(resolved.resolved);
+        try {
+          const v5 = JSON.parse(savedSeelie);
+          const invRaw: SeelieInventoryItem[] = v5?.seelie?.inventory || [];
+          if (invRaw.length > 0) {
+            const catalog = Object.entries(plannerData.materials).map(([slug, m]) => ({ ...m, slug }));
+            const resolved = resolveInventory(invRaw, catalog, plannerData.families);
+            Object.assign(mergedInv, resolved.resolved);
+          }
+        } catch {}
       }
+      // Sobrepõe com edições manuais (funciona mesmo sem JSON importado)
+      Object.assign(mergedInv, loadManualInventory());
 
       const savedPlan = localStorage.getItem('gsb.planner.plan');
       if (savedPlan) {
-        const plan = JSON.parse(savedPlan);
-        const targetMap: Record<string, number> = {};
-        if (plan.tier_groups) {
-          plan.tier_groups.forEach((group: any) => {
-            group.materials.forEach((mat: any) => {
-              targetMap[mat.slug] = (targetMap[mat.slug] || 0) + mat.quantity;
+        try {
+          const plan = JSON.parse(savedPlan);
+          if (plan?.inventory_resolved) {
+            Object.assign(mergedInv, plan.inventory_resolved);
+          }
+          const targetMap: Record<string, number> = {};
+          if (plan.tier_groups) {
+            plan.tier_groups.forEach((group: any) => {
+              group.materials.forEach((mat: any) => {
+                targetMap[mat.slug] = (targetMap[mat.slug] || 0) + mat.quantity;
+              });
             });
-          });
-        }
-        setTargets(targetMap);
+          }
+          setTargets(targetMap);
+        } catch {}
       }
+      setInventory(mergedInv);
     });
   }, []);
 
   const handleUpdateQty = (slug: string, newQty: number) => {
     if (!data) return;
-    const savedSeelie = localStorage.getItem('gsb.planner.v5');
-    if (!savedSeelie) return;
-    const v5 = JSON.parse(savedSeelie);
-    const invRaw: SeelieInventoryItem[] = v5.seelie?.inventory || [];
-    const catalog = Object.entries(data.materials).map(([s, m]) => ({ ...m, slug: s }));
-
-    for (const item of invRaw) {
-      const res = resolveInventory([item], catalog, data.families);
-      if (res.resolved[slug] !== undefined) {
-        item.value = newQty;
-        break;
-      }
-    }
-
-    localStorage.setItem('gsb.planner.v5', JSON.stringify(v5));
-    const newResolved = resolveInventory(invRaw, catalog, data.families);
-    setInventory(newResolved.resolved);
-    syncInventoryToPlanStorage(newResolved.resolved, v5?.seelie?.wl ?? 9);
+    const nextInv = { ...inventory, [slug]: newQty };
+    setInventory(nextInv);
+    syncInventoryItemToPlannerStorage(slug, newQty, data);
+    const { wl } = loadPlannerSettings();
+    syncInventoryToPlanStorage(nextInv, wl);
   };
 
   const filteredMaterials = useMemo<[string, PlannerMaterialData][]>(() => {
