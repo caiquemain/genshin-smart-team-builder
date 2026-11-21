@@ -3441,3 +3441,227 @@ details.planner-notmapped[open] > summary {
   color: #94a3b8;
 }
 
+/* ============================================================
+   MODAL DE IMPORTAÇÃO POR UID (ENKA.NETWORK)
+   ============================================================ */
+.uid-modal {
+  max-width: 680px;
+}
+
+.uid-search-row {
+  display: flex;
+  gap: 10px;
+}
+
+.uid-search-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: #0b1120;
+  color: #f1f5f9;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.6px;
+}
+
+.uid-search-row input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.16);
+}
+
+.uid-search-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.uid-hint {
+  margin: -6px 0 0;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.uid-player-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(125, 211, 252, 0.25);
+}
+
+.uid-player-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.uid-player-sig {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.uid-player-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.uid-player-badges span {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.14);
+  color: #7dd3fc;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.uid-warn-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: #fef08a;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.uid-select-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+.uid-chars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 8px;
+  max-height: 290px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.uid-char-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.7);
+  color: #e2e8f0;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: all 0.14s ease;
+}
+
+.uid-char-item.is-selected {
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--char-accent) 60%, transparent);
+  background: rgba(30, 41, 59, 0.85);
+}
+
+.uid-char-avatar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uid-char-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uid-char-check {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  color: #4ade80;
+  background: rgba(2, 6, 23, 0.85);
+  border-radius: 999px;
+  display: flex;
+}
+
+.uid-char-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.uid-char-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uid-char-stats {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.uid-char-weapon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.uid-char-weapon img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.uid-char-weapon span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uid-char-weapon small {
+  color: #7dd3fc;
+  white-space: nowrap;
+}
+
+.uid-sync-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+

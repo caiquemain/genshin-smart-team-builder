@@ -1,4 +1,5 @@
 import type { AggregateMaterial, CharBreakdown, Plan, WeaponBreakdown } from '../types/planner'
+import type { EnkaImportResponse } from '../types'
 import type { GoodCharacter, GoodData } from '../types/good'
 import type {
   SeelieCharacterGoal,
@@ -10,12 +11,13 @@ import type {
 import { pickLang, type PlannerData } from './planner-data'
 import { normKey, resolveCharSlug, resolveWeaponSlug } from './slug-resolver'
 import { resolveInventory, type SeelieInventoryItem } from './inventory-mapper'
-import { computeAscensionCost, computeTalentCost } from './planner-compute'
+import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from './planner-compute'
 import { recomputeAggregates } from './planner-recompute'
 
 export const PLANNER_V5_KEY = 'gsb.planner.v5'
 export const PLANNER_PLAN_KEY = 'gsb.planner.plan'
 export const ROSTER_KEY = 'gsb.roster.v1'
+export const ENKA_LAST_UID_KEY = 'gsb.enka.last_uid'
 export const PLANNER_UPDATED_EVENT = 'gsb:planner-updated'
 
 const EXTRA_CHAR_ALIASES: Record<string, string> = {
@@ -688,4 +690,230 @@ export function removeCharFromPlan(
   emitPlannerUpdated()
   return updated
 }
+
+export function getSavedEnkaUid(): string {
+  try {
+    return localStorage.getItem(ENKA_LAST_UID_KEY) || ''
+  } catch {
+    return ''
+  }
+}
+
+export function setSavedEnkaUid(uid: string): void {
+  try {
+    const clean = uid.trim()
+    if (clean) localStorage.setItem(ENKA_LAST_UID_KEY, clean)
+    else localStorage.removeItem(ENKA_LAST_UID_KEY)
+  } catch {}
+}
+
+export interface MergeEnkaOptions {
+  syncRoster?: boolean
+  syncPlanner?: boolean
+  syncSettings?: boolean
+}
+
+/**
+ * Mescla personagens vindos da vitrine pública do Enka.Network (UID)
+ * no Meu Roster, nas configurações AR/WL e no Planejador (atualizando
+ * nível/constelação/talentos/arma atuais sem apagar metas já existentes).
+ */
+export function mergeEnkaImportIntoStorage(
+  enka: EnkaImportResponse,
+  selectedSlugs: string[],
+  data: PlannerData | null,
+  lang: string = 'pt',
+  opts: MergeEnkaOptions = {},
+): { rosterUpdated: number; plannerAdded: number; plannerUpdated: number } {
+  const syncRoster = opts.syncRoster ?? true
+  const syncPlanner = opts.syncPlanner ?? true
+  const syncSettings = opts.syncSettings ?? true
+
+  setSavedEnkaUid(enka.uid)
+
+  const selectedSet = new Set(selectedSlugs)
+  const chosenChars = enka.characters.filter((c) => selectedSet.has(c.slug))
+
+  // 1) Atualiza AR / WL
+  const currentSettings = loadPlannerSettings()
+  const nextAr = syncSettings && enka.ar != null ? enka.ar : currentSettings.ar
+  const nextWl = syncSettings && enka.wl != null ? enka.wl : currentSettings.wl
+
+  if (syncSettings && (enka.ar != null || enka.wl != null)) {
+    try {
+      const existing = JSON.parse(localStorage.getItem(PLANNER_V5_KEY) || '{}')
+      const nextSeelie = existing.seelie
+        ? { ...existing.seelie, ar: nextAr, wl: nextWl }
+        : existing.seelie ?? null
+      localStorage.setItem(
+        PLANNER_V5_KEY,
+        JSON.stringify({ ...existing, ar: nextAr, wl: nextWl, seelie: nextSeelie }),
+      )
+    } catch {}
+  }
+
+  // 2) Atualiza Meu Roster (aditivo: nunca desmarca personagens já possuídos)
+  let rosterUpdated = 0
+  if (syncRoster && chosenChars.length > 0) {
+    try {
+      const existingRoster: Record<string, { owned: boolean; cons: number }> = JSON.parse(
+        localStorage.getItem(ROSTER_KEY) || '{}',
+      )
+      for (const ec of chosenChars) {
+        const prev = existingRoster[ec.slug]
+        existingRoster[ec.slug] = {
+          owned: true,
+          cons: ec.has_detail ? ec.cons : prev?.cons ?? 0,
+        }
+        rosterUpdated++
+      }
+      localStorage.setItem(ROSTER_KEY, JSON.stringify(existingRoster))
+    } catch {}
+  }
+
+  // 3) Sincroniza no Planejador (atualiza atuais ou adiciona novos com custos calculados)
+  let plannerAdded = 0
+  let plannerUpdated = 0
+  if (syncPlanner && data && chosenChars.length > 0) {
+    const basePlan = loadPlanFromStorage(data, lang) ?? createEmptyPlan(loadManualInventory())
+    const charsList = [...basePlan.chars]
+
+    for (const ec of chosenChars) {
+      const idx = charsList.findIndex((c) => c.slug === ec.slug)
+      const buildWeaponEntry = (
+        wSlug: string,
+        fromLevel: number,
+        toLevel: number,
+      ): WeaponBreakdown => {
+        const wMeta = data.weapons[wSlug]
+        const clampedTo = Math.max(fromLevel, toLevel)
+        return {
+          slug: wSlug,
+          name: (wMeta ? pickLang(wMeta.name, lang) : ec.weapon?.name) || wSlug,
+          icon: wMeta?.icon ?? ec.weapon?.icon ?? null,
+          rarity: wMeta?.rarity ?? ec.weapon?.rarity ?? 4,
+          from_level: fromLevel,
+          to_level: clampedTo,
+          cost:
+            fromLevel < clampedTo
+              ? computeWeaponAscension(data, wSlug, fromLevel, clampedTo, lang)
+              : null,
+        }
+      }
+
+      if (idx >= 0) {
+        const prev = charsList[idx]
+        const nextCurLv = ec.level
+        const nextGoalLv = Math.max(prev.char_goal?.goal?.level ?? 90, nextCurLv)
+        const nextCons = ec.has_detail ? ec.cons : prev.char_goal?.cons ?? 0
+
+        const prevNa = prev.talent_goal?.normal ?? { current: 1, goal: 1 }
+        const prevEs = prev.talent_goal?.skill ?? { current: 1, goal: 9 }
+        const prevEb = prev.talent_goal?.burst ?? { current: 1, goal: 9 }
+
+        const na = ec.has_detail
+          ? { current: ec.na, goal: Math.max(prevNa.goal, ec.na) }
+          : { ...prevNa }
+        const es = ec.has_detail
+          ? { current: ec.es, goal: Math.max(prevEs.goal, ec.es) }
+          : { ...prevEs }
+        const eb = ec.has_detail
+          ? { current: ec.eb, goal: Math.max(prevEb.goal, ec.eb) }
+          : { ...prevEb }
+
+        const nextWeapons = [...(prev.weapons ?? [])]
+        if (ec.has_detail && ec.weapon?.slug) {
+          const wIdx = nextWeapons.findIndex((w) => w.slug === ec.weapon!.slug)
+          if (wIdx >= 0) {
+            const oldW = nextWeapons[wIdx]
+            nextWeapons[wIdx] = buildWeaponEntry(
+              ec.weapon.slug,
+              ec.weapon.level,
+              Math.max(oldW.to_level, ec.weapon.level),
+            )
+          } else if (nextWeapons.length === 0) {
+            nextWeapons.push(buildWeaponEntry(ec.weapon.slug, ec.weapon.level, Math.max(nextGoalLv, ec.weapon.level)))
+          }
+        }
+
+        const ascension =
+          nextCurLv < nextGoalLv
+            ? computeAscensionCost(data, prev.slug, nextCurLv, nextGoalLv, lang)
+            : null
+        const hasTalPending = na.current < na.goal || es.current < es.goal || eb.current < eb.goal
+        const talents = hasTalPending
+          ? computeTalentCost(data, prev.slug, na, es, eb, lang)
+          : null
+
+        const updatedChar: CharBreakdown = {
+          ...prev,
+          ascension,
+          talents,
+          weapons: nextWeapons,
+          char_goal: {
+            ...(prev.char_goal ?? { type: 'character', character: prev.slug, id: Date.now() }),
+            cons: nextCons,
+            current: { level: nextCurLv, asc: ec.ascension || inferAscensionFromLevel(nextCurLv) },
+            goal: { level: nextGoalLv, asc: inferAscensionFromLevel(nextGoalLv) },
+          },
+          talent_goal: {
+            ...(prev.talent_goal ?? { type: 'talent', character: prev.slug, id: Date.now() + 1 }),
+            normal: na,
+            skill: es,
+            burst: eb,
+          },
+          has_ascension_pending: nextCurLv < nextGoalLv,
+          has_talent_pending: hasTalPending,
+          has_weapon_pending: nextWeapons.some((w) => w.from_level < w.to_level),
+        }
+        updatedChar.is_complete =
+          !updatedChar.is_inactive &&
+          !updatedChar.has_ascension_pending &&
+          !updatedChar.has_talent_pending &&
+          !updatedChar.has_weapon_pending
+
+        charsList[idx] = updatedChar
+        syncCharEditToPlannerStorage(updatedChar)
+        plannerUpdated++
+      } else {
+        const built = buildManualCharBreakdown(ec.slug, data, lang, {
+          currentLevel: ec.level,
+          goalLevel: Math.max(ec.level, 90),
+          cons: ec.cons,
+          na: { current: ec.na, goal: Math.max(ec.na, 1) },
+          es: { current: ec.es, goal: Math.max(ec.es, 9) },
+          eb: { current: ec.eb, goal: Math.max(ec.eb, 9) },
+        })
+        if (built) {
+          if (ec.has_detail && ec.weapon?.slug) {
+            const wb = buildWeaponEntry(ec.weapon.slug, ec.weapon.level, Math.max(90, ec.weapon.level))
+            built.weapons = [wb]
+            built.has_weapon_pending = wb.from_level < wb.to_level
+            built.is_complete =
+              !built.is_inactive &&
+              !built.has_ascension_pending &&
+              !built.has_talent_pending &&
+              !built.has_weapon_pending
+          }
+          charsList.unshift(built)
+          syncCharEditToPlannerStorage(built)
+          plannerAdded++
+        }
+      }
+    }
+
+    const mergedInv = { ...loadManualInventory(), ...(basePlan.inventory_resolved || {}) }
+    const nextPlan = recomputeAggregates(
+      { ...basePlan, chars: charsList, inventory_resolved: mergedInv },
+      mergedInv,
+      nextWl,
+    )
+    savePlanToStorage(nextPlan)
+  } else {
+    emitPlannerUpdated()
+  }
+
+  return { rosterUpdated, plannerAdded, plannerUpdated }
+}
+
 

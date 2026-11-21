@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles } from 'lucide-react'
+import { Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles, UserCheck } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import { useRoster } from '../utils/roster'
+import UidImportModal from '../components/UidImportModal'
 import type { CharacterSummary } from '../types'
 
 const ELEMENT_ORDER = ['pyro', 'hydro', 'electro', 'cryo', 'anemo', 'geo', 'dendro']
@@ -32,6 +33,7 @@ export default function RosterPage() {
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null)
   const [showShortcuts, setShowShortcuts] = useState(false)
+  const [showUidModal, setShowUidModal] = useState(false)
   const [openConsPopover, setOpenConsPopover] = useState<string | null>(null)
   const consPopoverRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -203,7 +205,15 @@ export default function RosterPage() {
     <div className="roster-page">
       <div className="page-header">
         <h1>Meus personagens</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={() => setShowUidModal(true)}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <UserCheck size={15} /> Importar por UID
+          </button>
           <Link to="/pull-advisor" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <Sparkles size={15} /> Quem vale pegar?
           </Link>
@@ -466,6 +476,19 @@ export default function RosterPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {showUidModal && (
+        <UidImportModal
+          onClose={() => setShowUidModal(false)}
+          onImported={({ nickname, rosterUpdated, plannerAdded, plannerUpdated }) => {
+            roster.refresh()
+            setUploadError(null)
+            setUploadSuccess(
+              `Vitrine de ${nickname} sincronizada! (${rosterUpdated} no Roster · ${plannerAdded} adicionado(s) e ${plannerUpdated} atualizado(s) no Planejador).`,
+            )
+          }}
+        />
       )}
     </div>
   )

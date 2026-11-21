@@ -25,6 +25,7 @@ import type { Substitute, BuildPreset,
   PullAdvisorResponse,
   UpgradeAdvisorRequest,
   UpgradeAdvisorResponse,
+  EnkaImportResponse,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
 
@@ -185,5 +186,17 @@ export const api = {
     }).then(async (r) => {
       if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
       return r.json() as Promise<UpgradeAdvisorResponse>
+    }),
+  importEnkaUid: (uid: string, lang: LanguageCode) =>
+    fetch(`${API_URL}/enka/${encodeURIComponent(uid.trim())}?lang=${lang}`).then(async (r) => {
+      if (!r.ok) {
+        let msg = `Erro HTTP ${r.status}`
+        try {
+          const body = await r.json()
+          if (body?.detail) msg = String(body.detail)
+        } catch {}
+        throw new Error(msg)
+      }
+      return r.json() as Promise<EnkaImportResponse>
     }),
 }

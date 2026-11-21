@@ -563,4 +563,46 @@ export interface UpgradeAdvisorResponse {
   recommendations: UpgradeCandidate[]
 }
 
+// === Importação via UID (Enka.Network) ===
+export interface EnkaWeaponOut {
+  slug: string | null
+  item_id: number
+  name: string
+  icon: string | null
+  rarity: number
+  level: number
+  ascension: number
+  refinement: number
+}
+
+export interface EnkaCharacterOut {
+  slug: string
+  avatar_id: number
+  name: string
+  icon: string | null
+  rarity: number
+  element: string
+  level: number
+  ascension: number
+  cons: number
+  na: number
+  es: number
+  eb: number
+  has_detail: boolean
+  weapon: EnkaWeaponOut | null
+}
+
+export interface EnkaImportResponse {
+  uid: string
+  nickname: string
+  ar: number | null
+  wl: number | null
+  signature: string | null
+  ttl: number
+  showcase_hidden: boolean
+  characters: EnkaCharacterOut[]
+  unmapped_avatar_ids: number[]
+}
+
+
 

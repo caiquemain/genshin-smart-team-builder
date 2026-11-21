@@ -5,9 +5,12 @@ import {
   ROSTER_KEY,
   addCharToPlan,
   compactPlanForStorage,
+  getSavedEnkaUid,
   hydratePlanFromData,
   loadManualInventory,
   loadPlanFromStorage,
+  loadPlannerSettings,
+  mergeEnkaImportIntoStorage,
   removeCharFromPlan,
   savePlanToStorage,
   syncCharEditToPlannerStorage,
@@ -435,5 +438,99 @@ describe('planner-storage', () => {
     expect(afterRemove.chars).toHaveLength(0)
     expect(afterRemove.grand_mora).toBe(0)
     expect(loadPlanFromStorage()?.chars).toHaveLength(0)
+  })
+
+  it('merges Enka UID showcase into roster, AR/WL settings, and planner without losing existing roster chars', () => {
+    localStorage.setItem(ROSTER_KEY, JSON.stringify({ furina: { owned: true, cons: 2 } }))
+    const richData: PlannerData = {
+      ...SAMPLE_DATA,
+      characters: {
+        vodyanitsa: {
+          name: { pt: 'Vodyanitsa', en: 'Vodyanitsa' },
+          icon: 'UI_AvatarIcon_Vodyanitsa',
+          element: 'hydro',
+          weapon_type: 'catalyst',
+          rarity: 5,
+          region: 'snezhnaya',
+          ascension_phases: [
+            { phase: 6, max_level: 90, mora: 120_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 6 }] },
+          ],
+          talent_phases: {
+            normal_attack: [],
+            elemental_skill: [{ level: 9, mora: 450_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 12 }] }],
+            elemental_burst: [{ level: 9, mora: 450_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 12 }] }],
+          },
+        },
+      },
+      weapons: {
+        'sig-catalyst': {
+          name: { pt: 'Catalisador Teste' },
+          icon: null,
+          weapon_type: 'catalyst',
+          rarity: 5,
+          ascension_phases: [
+            { phase: 6, max_level: 90, mora: 65_000, materials: [{ slug: 'philosophies-of-moonlight', qty: 4 }] },
+          ],
+        },
+      },
+    }
+
+    const summary = mergeEnkaImportIntoStorage(
+      {
+        uid: '612345678',
+        nickname: 'AetherBR',
+        ar: 59,
+        wl: 8,
+        signature: null,
+        ttl: 60,
+        showcase_hidden: false,
+        unmapped_avatar_ids: [],
+        characters: [
+          {
+            slug: 'vodyanitsa',
+            avatar_id: 10000120,
+            name: 'Vodyanitsa',
+            icon: 'UI_AvatarIcon_Vodyanitsa',
+            rarity: 5,
+            element: 'hydro',
+            level: 80,
+            ascension: 5,
+            cons: 1,
+            na: 1,
+            es: 8,
+            eb: 8,
+            has_detail: true,
+            weapon: {
+              slug: 'sig-catalyst',
+              item_id: 14599,
+              name: 'Catalisador Teste',
+              icon: null,
+              rarity: 5,
+              level: 80,
+              ascension: 5,
+              refinement: 1,
+            },
+          },
+        ],
+      },
+      ['vodyanitsa'],
+      richData,
+      'pt',
+    )
+
+    expect(summary).toEqual({ rosterUpdated: 1, plannerAdded: 1, plannerUpdated: 0 })
+    expect(getSavedEnkaUid()).toBe('612345678')
+    expect(loadPlannerSettings()).toEqual({ ar: 59, wl: 8 })
+
+    const roster = JSON.parse(localStorage.getItem(ROSTER_KEY)!)
+    expect(roster.furina).toEqual({ owned: true, cons: 2 }) // preservado!
+    expect(roster.vodyanitsa).toEqual({ owned: true, cons: 1 })
+
+    const plan = loadPlanFromStorage()!
+    expect(plan.chars).toHaveLength(1)
+    expect(plan.chars[0].char_goal.current.level).toBe(80)
+    expect(plan.chars[0].talent_goal.skill).toEqual({ current: 8, goal: 9 })
+    expect(plan.chars[0].weapons[0].slug).toBe('sig-catalyst')
+    expect(plan.chars[0].weapons[0].from_level).toBe(80)
   })
 })

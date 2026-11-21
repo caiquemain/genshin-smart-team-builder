@@ -16,7 +16,7 @@ import {
   Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf,
   Coins, Users, Sword, Calculator, CheckCircle2, FlaskConical,
   Settings, Pencil, ClipboardList, AlertTriangle, Sprout,
-  Shield, Skull, CalendarDays, Gem, BookOpen, MapPin, Star, Plus, Download, Upload,
+  Shield, Skull, CalendarDays, Gem, BookOpen, MapPin, Star, Plus, Download, Upload, UserCheck,
 } from 'lucide-react'
 import type { AggregateMaterial, CharBreakdown, WeaponBreakdown, TierGroup, Plan } from '../types/planner'
 
@@ -44,6 +44,7 @@ import SettingsModal from '../components/SettingsModal'
 import CharacterPickerModal from '../components/CharacterPickerModal'
 import PlannerCharacterModal from '../components/PlannerCharacterModal'
 import TodayFarmWidget from '../components/TodayFarmWidget'
+import UidImportModal from '../components/UidImportModal'
 
 const STORAGE_KEY = 'gsb.planner.v5'
 
@@ -413,6 +414,7 @@ export default function PlannerPage() {
   const [wl, setWl] = useState(() => loadPlannerSettings().wl)
   const [showSettings, setShowSettings] = useState(false)
   const [showCharPicker, setShowCharPicker] = useState(false)
+  const [showUidModal, setShowUidModal] = useState(false)
   const [editingChar, setEditingChar] = useState<CharBreakdown | null>(null)
   const [editingCharInitialEdit, setEditingCharInitialEdit] = useState(false)
   const [editingItem, setEditingItem] = useState<string | null>(null)
@@ -955,6 +957,13 @@ export default function PlannerPage() {
           >
             <Plus size={16} /> Adicionar personagem
           </button>
+          <button
+            className="btn-secondary"
+            onClick={() => setShowUidModal(true)}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <UserCheck size={16} /> Importar por UID
+          </button>
           <button className="btn-secondary" onClick={() => setShowSettings(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Settings size={16} /> AR {ar} / WL {wl}
           </button>
@@ -977,8 +986,7 @@ export default function PlannerPage() {
             <Plus size={18} /> Comece do zero — sem precisar de JSON
           </h2>
           <p className="muted" style={{ fontSize: 14, marginBottom: 16 }}>
-            Adicione os personagens que você quer upar e defina nível atual, meta, talentos e arma direto por aqui.
-            Você também pode atualizar seu estoque clicando nos materiais ou na aba <Link to="/inventory">Inventário</Link>.
+            Adicione personagens manualmente ou informe seu <strong>UID do Genshin</strong> para puxar automaticamente nível, talentos e armas da sua vitrine pública.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <button
@@ -988,6 +996,13 @@ export default function PlannerPage() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
               <Plus size={16} /> {plannerData ? 'Adicionar primeiro personagem' : 'Carregando dados...'}
+            </button>
+            <button
+              className="btn-secondary"
+              onClick={() => setShowUidModal(true)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <UserCheck size={16} /> Importar por UID (Enka)
             </button>
             {unaddedRosterSlugs.length > 0 && (
               <button
@@ -1160,6 +1175,19 @@ export default function PlannerPage() {
           excludeSlugs={existingSlugs}
           onSelect={handleAddChar}
           onClose={() => setShowCharPicker(false)}
+        />
+      )}
+
+      {showUidModal && (
+        <UidImportModal
+          onClose={() => setShowUidModal(false)}
+          onImported={() => {
+            const refreshed = loadPlanFromStorage(plannerData, lang)
+            if (refreshed) setPlan(refreshed)
+            const settings = loadPlannerSettings()
+            setAr(settings.ar)
+            setWl(settings.wl)
+          }}
         />
       )}
 
