@@ -250,7 +250,7 @@ export default function CharacterDetailPage() {
     if (!char) return []
     return [
       { id: 'visao-geral', label: 'Visão Geral' },
-      kqmBuild && { id: 'kqm-build', label: 'Build (KQM)' },
+      kqmBuild && { id: 'kqm-build', label: 'Build Recomendada' },
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
       char.constellations.length > 0 && { id: 'constelacoes', label: 'Constelações' },
@@ -429,7 +429,7 @@ export default function CharacterDetailPage() {
 
           {kqmBuild && (
             <section id="kqm-build" className="char-section-anchor">
-              <h2>Build Recomendada (KQM)</h2>
+              <h2>Build Recomendada</h2>
               <div className="kqm-build-card">
                 <div className="kqm-build-grid">
                   <div className="kqm-build-col">
@@ -595,7 +595,7 @@ export default function CharacterDetailPage() {
               <>
               <h2>Times com {char.name}</h2>
               <p className="teams-section-sub" style={{ marginBottom: 16 }}>
-                {characterTeams.length} {characterTeams.length === 1 ? 'time encontrado' : 'times encontrados'} nos templates do KQM.
+                {characterTeams.length} {characterTeams.length === 1 ? 'time encontrado' : 'times encontrados'} nos templates recomendados.
               </p>
               <div className="templates-grid">
                 {characterTeams.map((t) => {

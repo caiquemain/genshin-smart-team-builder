@@ -79,3 +79,102 @@ class PullAdvisorResponse(BaseModel):
     account_summary: AccountSummaryOut
     target_evaluation: Optional[PullCandidateOut] = None
     recommendations: list[PullCandidateOut]
+
+
+# ============================================================
+# Upgrade Advisor ("Quem upar até o Lv.90 e quais talentos?")
+# ============================================================
+
+UpgradeGoal = Literal["overall", "endgame", "teams", "quick_wins"]
+UpgradeVerdict = Literal["priority_now", "high_impact", "good_upgrade", "already_built"]
+UpgradeStageFilter = Literal["needs_work", "needs_90", "needs_talents", "built", "all"]
+
+
+class OwnedCharProgressIn(BaseModel):
+    slug: str
+    level: Optional[int] = Field(default=None, ge=1, le=90)
+    cons: Optional[int] = Field(default=None, ge=0, le=6)
+    na: Optional[int] = Field(default=None, ge=1, le=15)
+    es: Optional[int] = Field(default=None, ge=1, le=15)
+    eb: Optional[int] = Field(default=None, ge=1, le=15)
+
+
+class UpgradeAdvisorRequest(BaseModel):
+    owned_slugs: list[str] = Field(default_factory=list)
+    characters_progress: list[OwnedCharProgressIn] = Field(default_factory=list)
+    goal: UpgradeGoal = "overall"
+    stage_filter: UpgradeStageFilter = "needs_work"
+    rarity_filter: Optional[int] = Field(default=None, ge=4, le=5)
+    element_filter: Optional[str] = None
+    limit: int = Field(default=30, ge=1, le=100)
+
+
+class TalentTargetOut(BaseModel):
+    key: Literal["na", "es", "eb"]
+    label: str
+    priority: int
+    current: Optional[int] = None
+    recommended: int
+    needs_upgrade: bool
+
+
+class UpgradeBreakdownOut(BaseModel):
+    meta_value: float
+    team_usage: float
+    upgrade_gain: float
+    endgame_seasonal: float
+
+
+class UpgradeCandidateOut(BaseModel):
+    slug: str
+    name: str
+    icon: Optional[str] = None
+    rarity: int
+    element: str
+    weapon_type: str
+    role: str
+
+    score: float
+    verdict: UpgradeVerdict
+    verdict_label: str
+    breakdown: UpgradeBreakdownOut
+
+    general_tier: Optional[str] = None
+    general_avg: Optional[float] = None
+    general_sites: int = 0
+    abyss_tier: Optional[str] = None
+    stygian_tier: Optional[str] = None
+
+    has_progress_data: bool = False
+    current_level: Optional[int] = None
+    cons: Optional[int] = None
+    recommended_level: int = 90
+    recommended_level_label: str = "Lv. 90"
+    needs_level_90: bool = True
+    level_scaling_tag: str = ""
+    level_gap: int = 0
+
+    talent_priority_text: Optional[str] = None
+    talents: list[TalentTargetOut] = Field(default_factory=list)
+    talent_levels_needed: int = 0
+    already_built: bool = False
+
+    ready_teams_count: int = 0
+    ready_teams: list[UnlockedTeamOut] = Field(default_factory=list)
+    reasons: list[str] = Field(default_factory=list)
+
+
+class UpgradeSummaryOut(BaseModel):
+    owned_count: int
+    with_progress_count: int
+    needs_upgrade_count: int
+    needs_90_count: int
+    needs_talents_count: int
+    built_count: int
+
+
+class UpgradeAdvisorResponse(BaseModel):
+    goal: UpgradeGoal
+    summary: UpgradeSummaryOut
+    recommendations: list[UpgradeCandidateOut]
+

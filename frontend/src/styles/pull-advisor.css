@@ -411,56 +411,221 @@
   border-radius: 999px;
 }
 
-/* Semantic Color-Coded Reason Chips */
-.pa-reason-tags {
+/* Neutral Reason List (clean, uncluttered) */
+.pa-reasons {
+  margin: 0;
+  padding-left: 18px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12.5px;
+  color: #cbd5e1;
+  line-height: 1.45;
+}
+
+.pa-reasons li::marker {
+  color: #64748b;
+}
+
+/* Mode Tabs (Pulls vs Upgrades) */
+.pa-tabs {
+  display: inline-flex;
   gap: 6px;
+  padding: 5px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  margin-bottom: 18px;
+  flex-wrap: wrap;
 }
 
-.pa-reason-tag {
-  font-size: 11.5px;
-  font-weight: 600;
-  padding: 4px 9px;
-  border-radius: 7px;
-  border: 1px solid;
-  line-height: 1.3;
+.pa-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.pa-reason-tag.tone-team {
-  background: rgba(74, 222, 128, 0.12);
-  border-color: rgba(74, 222, 128, 0.35);
-  color: #86efac;
+.pa-tab:hover {
+  color: #e2e8f0;
+  background: rgba(30, 41, 59, 0.55);
 }
 
-.pa-reason-tag.tone-dps {
-  background: rgba(251, 191, 36, 0.13);
-  border-color: rgba(251, 191, 36, 0.42);
-  color: #fde047;
+.pa-tab.active {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #e0f2fe;
 }
 
-.pa-reason-tag.tone-synergy {
-  background: rgba(192, 132, 252, 0.13);
-  border-color: rgba(192, 132, 252, 0.38);
-  color: #d8b4fe;
+.pa-tab-count {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.16);
+  color: #cbd5e1;
 }
 
-.pa-reason-tag.tone-meta {
-  background: rgba(56, 189, 248, 0.12);
-  border-color: rgba(56, 189, 248, 0.35);
+.pa-tab.active .pa-tab-count {
+  background: rgba(56, 189, 248, 0.25);
   color: #7dd3fc;
 }
 
-.pa-reason-tag.tone-endgame {
-  background: rgba(251, 146, 60, 0.13);
-  border-color: rgba(251, 146, 60, 0.38);
+/* Upgrade Verdict Badges (matching Pull verdict palette) */
+.pa-verdict-badge.priority_now {
+  background: rgba(239, 68, 68, 0.16);
+  border-color: rgba(248, 113, 113, 0.5);
+  color: #fca5a5;
+}
+
+.pa-verdict-badge.high_impact {
+  background: rgba(251, 146, 60, 0.16);
+  border-color: rgba(251, 146, 60, 0.5);
   color: #fdba74;
 }
 
-.pa-reason-tag.tone-element {
-  background: rgba(45, 212, 191, 0.12);
-  border-color: rgba(45, 212, 191, 0.35);
-  color: #5eead4;
+.pa-verdict-badge.good_upgrade {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #7dd3fc;
+}
+
+.pa-verdict-badge.already_built {
+  background: rgba(74, 222, 128, 0.14);
+  border-color: rgba(74, 222, 128, 0.42);
+  color: #86efac;
+}
+
+/* Upgrade Plan Box (Level + 3 Talents) */
+.pa-upgrade-plan {
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pa-upgrade-level-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pa-upgrade-level-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.pa-upgrade-level-main .is-target-90 {
+  color: #7dd3fc;
+}
+
+.pa-upgrade-level-main .is-done {
+  color: #86efac;
+}
+
+.pa-upgrade-scaling-note {
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.pa-talents-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.pa-talent-box {
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pa-talent-box.needs-upgrade {
+  border-color: rgba(125, 211, 252, 0.38);
+}
+
+.pa-talent-box.is-done {
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.pa-talent-box.is-optional {
+  opacity: 0.6;
+}
+
+.pa-talent-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.pa-talent-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f1f5f9;
+  font-variant-numeric: tabular-nums;
+}
+
+.pa-talent-box.needs-upgrade .pa-talent-val {
+  color: #e0f2fe;
+}
+
+.pa-talent-box.is-done .pa-talent-val {
+  color: #86efac;
+}
+
+.pa-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+.pa-card-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7dd3fc;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pa-card-link:hover {
+  text-decoration: underline;
+}
+
+.pa-cons-pill {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.14);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.28);
 }
 
 /* Unlocked Teams Drawer */

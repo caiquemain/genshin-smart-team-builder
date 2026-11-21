@@ -23,6 +23,8 @@ import type { Substitute, BuildPreset,
   TeamTierInfo,
   PullAdvisorRequest,
   PullAdvisorResponse,
+  UpgradeAdvisorRequest,
+  UpgradeAdvisorResponse,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
 
@@ -174,5 +176,14 @@ export const api = {
     }).then(async (r) => {
       if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
       return r.json() as Promise<PullAdvisorResponse>
+    }),
+  recommendUpgrades: (payload: UpgradeAdvisorRequest, lang: LanguageCode) =>
+    fetch(`${API_URL}/recommendations/upgrades?lang=${lang}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<UpgradeAdvisorResponse>
     }),
 }

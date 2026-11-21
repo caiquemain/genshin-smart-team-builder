@@ -41,12 +41,14 @@ export interface OwnedChar {
 
 export interface Roster {
   get: (slug: string) => OwnedChar
+  getGoodState: (slug: string) => GoodCharState | null
   set: (slug: string, entry: RosterEntry) => void
   setMany: (slugs: string[], entry: RosterEntry) => void
   remove: (slug: string) => void
   clearAll: () => void
   refresh: () => void
   all: Map<string, RosterEntry>
+  hasGoodData: boolean
   hasGoodOrSeelie: boolean
   ownedCount: number
 }
@@ -176,14 +178,21 @@ export function useRoster(): Roster {
     ownedCount = all.size
   }
 
+  const getGoodState = (slug: string): GoodCharState | null => {
+    const nk = normKey(slug)
+    return good.get(nk) ?? null
+  }
+
   return {
     get,
+    getGoodState,
     set,
     setMany,
     remove,
     clearAll,
     refresh,
     all: manual,
+    hasGoodData: good.size > 0,
     hasGoodOrSeelie: good.size > 0 || seelieSlugs.size > 0,
     ownedCount,
   }

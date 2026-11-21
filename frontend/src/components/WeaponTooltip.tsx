@@ -127,7 +127,7 @@ export default function WeaponTooltip({
             {buildNote && (
               <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: '#e0a647', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>
-                  Nota de Build (KQM)
+                  Nota de Build
                 </div>
                 <p style={{ margin: 0, fontSize: 12, color: '#cbd5e1', lineHeight: 1.5 }}>
                   {buildNote}

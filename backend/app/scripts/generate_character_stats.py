@@ -35,29 +35,25 @@ def get_characters():
         files = json.loads(r.read())
     return [f["name"] for f in files if f["name"].endswith(".json")]
 
+FLAT_PROPS = {"FIGHT_PROP_ELEMENT_MASTERY"}
+FLAT_SUBSTAT_NAMES = {"elemental mastery", "em"}
+
+
 def compute_stats(char_data, curve_map):
     stats = char_data.get("stats", {})
     base = stats.get("base", {})
     curves = stats.get("curves", {})
     promotions = {p["level"]: p for p in stats.get("promotion", [])}
-    substat = char_data.get("substat")  # ex: "CRIT DMG"
+    substat = char_data.get("substat")  # ex: "CRIT DMG", "Elemental Mastery"
 
     result = {}
     for level in [1, 20, 40, 50, 60, 70, 80, 90]:
         mults = curve_map.get(level, {})
         promo = promotions.get(level, {"hp": 0, "attack": 0, "defense": 0, "specialized": None})
 
-        hp_mult = mults.get(curves.get("hp", ""), 1)
-        atk_mult = mults.get(curves.get("attack", ""), 1)
-        def_mult = mults.get(curves.get("defense", ""), 1)
-
-        # A curva do dvaJi é relativa ao nível 1 (valor já é absoluto em alguns casos)
-        # Se o multiplicador for < 2 para nível 90, é porque é incremental
-        # Correção: 1 + (mult - 1) * 1.375 (aproximação)
-        if level > 1:
-            hp_mult = 1 + (hp_mult - 1) * 1.375
-            atk_mult = 1 + (atk_mult - 1) * 1.375
-            def_mult = 1 + (def_mult - 1) * 1.375
+        hp_mult = mults.get(curves.get("hp", ""), 1) if level > 1 else 1
+        atk_mult = mults.get(curves.get("attack", ""), 1) if level > 1 else 1
+        def_mult = mults.get(curves.get("defense", ""), 1) if level > 1 else 1
 
         hp = base.get("hp", 0) * hp_mult + promo.get("hp", 0)
         atk = base.get("attack", 0) * atk_mult + promo.get("attack", 0)
@@ -65,12 +61,24 @@ def compute_stats(char_data, curve_map):
 
         spec = promo.get("specialized")
         spec_val = spec.get("value", 0) if spec else 0
+        prop_type = (spec.get("prop_type") or "") if spec else ""
+        is_flat = (
+            prop_type in FLAT_PROPS
+            or (substat or "").strip().lower() in FLAT_SUBSTAT_NAMES
+        )
+
+        if not spec_val:
+            formatted_substat = 0
+        elif is_flat:
+            formatted_substat = round(spec_val)
+        else:
+            formatted_substat = round(spec_val * 100, 1)
 
         result[level] = {
             "hp": round(hp),
             "atk": round(atk),
             "def": round(df),
-            "substat": round(spec_val * 100, 1) if spec_val else 0,
+            "substat": formatted_substat,
         }
     return {"substat_name": substat, "levels": result}
 

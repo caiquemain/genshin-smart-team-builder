@@ -474,3 +474,93 @@ export interface PullAdvisorResponse {
   recommendations: PullCandidate[]
 }
 
+// === Upgrade Advisor ("Quem upar até Lv.90 & Talentos") ===
+export type UpgradeGoal = 'overall' | 'endgame' | 'teams' | 'quick_wins'
+export type UpgradeVerdict = 'priority_now' | 'high_impact' | 'good_upgrade' | 'already_built'
+export type UpgradeStageFilter = 'needs_work' | 'needs_90' | 'needs_talents' | 'built' | 'all'
+
+export interface OwnedCharProgress {
+  slug: string
+  level?: number | null
+  cons?: number | null
+  na?: number | null
+  es?: number | null
+  eb?: number | null
+}
+
+export interface UpgradeAdvisorRequest {
+  owned_slugs: string[]
+  characters_progress?: OwnedCharProgress[]
+  goal: UpgradeGoal
+  stage_filter?: UpgradeStageFilter
+  rarity_filter?: number | null
+  element_filter?: string | null
+  limit?: number
+}
+
+export interface TalentTarget {
+  key: 'na' | 'es' | 'eb'
+  label: string
+  priority: number
+  current: number | null
+  recommended: number
+  needs_upgrade: boolean
+}
+
+export interface UpgradeBreakdown {
+  meta_value: number
+  team_usage: number
+  upgrade_gain: number
+  endgame_seasonal: number
+}
+
+export interface UpgradeCandidate {
+  slug: string
+  name: string
+  icon: string | null
+  rarity: number
+  element: string
+  weapon_type: string
+  role: string
+  score: number
+  verdict: UpgradeVerdict
+  verdict_label: string
+  breakdown: UpgradeBreakdown
+  general_tier: string | null
+  general_avg: number | null
+  general_sites: number
+  abyss_tier: string | null
+  stygian_tier: string | null
+  has_progress_data: boolean
+  current_level: number | null
+  cons: number | null
+  recommended_level: number
+  recommended_level_label: string
+  needs_level_90: boolean
+  level_scaling_tag: string
+  level_gap: number
+  talent_priority_text: string | null
+  talents: TalentTarget[]
+  talent_levels_needed: number
+  already_built: boolean
+  ready_teams_count: number
+  ready_teams: UnlockedTeam[]
+  reasons: string[]
+}
+
+export interface UpgradeSummary {
+  owned_count: number
+  with_progress_count: number
+  needs_upgrade_count: number
+  needs_90_count: number
+  needs_talents_count: number
+  built_count: number
+}
+
+export interface UpgradeAdvisorResponse {
+  goal: UpgradeGoal
+  summary: UpgradeSummary
+  recommendations: UpgradeCandidate[]
+}
+
+
