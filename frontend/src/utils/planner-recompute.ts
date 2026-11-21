@@ -1,4 +1,4 @@
-import { getPlannerData } from './planner-data'
+import { loadPlannerData } from './planner-data'
 import {
   computeAscensionCost,
   computeTalentCost,
@@ -7,7 +7,7 @@ import {
 } from './planner-compute'
 import { estimateResin, tierOf, TIERS } from './resin'
 import { computeCharXp, computeWeaponXp, computeMoraLeyline } from './xp-costs'
-import type { AggregateMaterial, CharBreakdown, TierGroup, Plan } from '../types/planner'
+import type { AggregateMaterial, CharBreakdown, TierGroup, Plan, WeaponBreakdown } from '../types/planner'
 import type { LanguageCode, WeaponSummary } from '../types'
 
 // Slugs de chefes semanais (fallback caso o JSON não traga is_weekly)
@@ -68,6 +68,12 @@ function filterPhasesByLevels(phases: any[], activeLevels: number[]): any[] {
   return phases.filter((p) => activePhaseNums.has(p.phase))
 }
 
+function normalizeTalentPair(pair: { current: number; goal: number }): { current: number; goal: number } {
+  const cur = Math.max(1, Math.min(10, Math.round(pair.current)))
+  const goal = Math.max(cur, Math.min(10, Math.round(pair.goal)))
+  return { current: cur, goal }
+}
+
 export async function recomputeChar(
   char: CharBreakdown,
   edit: CharEdit,
@@ -75,14 +81,14 @@ export async function recomputeChar(
   lang: LanguageCode,
 ): Promise<CharBreakdown> {
   const next: CharBreakdown = { ...char, weapons: [...char.weapons] }
-  const data = getPlannerData()
+  const data = await loadPlannerData()
 
   if (edit.isInactive !== undefined) next.is_inactive = edit.isInactive
 
   if (edit.goal) {
-    const curLevel = edit.goal.currentLevel ?? next.char_goal?.current.level ?? 1
-    const goalLevel = edit.goal.goalLevel ?? next.char_goal?.goal.level ?? 90
-    const cons = edit.goal.cons ?? next.char_goal?.cons ?? 0
+    const curLevel = Math.max(1, Math.min(90, Math.round(edit.goal.currentLevel ?? next.char_goal?.current.level ?? 1)))
+    const goalLevel = Math.max(curLevel, Math.min(90, Math.round(edit.goal.goalLevel ?? next.char_goal?.goal.level ?? 90)))
+    const cons = Math.max(0, Math.min(6, Math.round(edit.goal.cons ?? next.char_goal?.cons ?? 0)))
     next.char_goal = {
       ...(next.char_goal ?? { type: 'character', character: next.slug }),
       current: { ...(next.char_goal?.current ?? {}), level: curLevel },
@@ -91,7 +97,7 @@ export async function recomputeChar(
     }
     if (curLevel < goalLevel) {
       let finalAscension: AscensionCostComputed | null = computeAscensionCost(data, next.slug, curLevel, goalLevel, lang)
-      if (edit.goal.activePhases) {
+      if (edit.goal.activePhases !== undefined) {
         const filtered = filterPhasesByLevels(finalAscension.phases ?? [], edit.goal.activePhases)
         const mats: any[] = []
         let mora = 0
@@ -105,9 +111,9 @@ export async function recomputeChar(
   }
 
   if (edit.talent) {
-    const na = edit.talent.na ?? next.talent_goal?.normal ?? { current: 1, goal: 1 }
-    const es = edit.talent.es ?? next.talent_goal?.skill ?? { current: 1, goal: 1 }
-    const eb = edit.talent.eb ?? next.talent_goal?.burst ?? { current: 1, goal: 1 }
+    const na = normalizeTalentPair(edit.talent.na ?? next.talent_goal?.normal ?? { current: 1, goal: 1 })
+    const es = normalizeTalentPair(edit.talent.es ?? next.talent_goal?.skill ?? { current: 1, goal: 1 })
+    const eb = normalizeTalentPair(edit.talent.eb ?? next.talent_goal?.burst ?? { current: 1, goal: 1 })
     next.talent_goal = {
       ...(next.talent_goal ?? { type: 'talent', character: next.slug }),
       normal: na, skill: es, burst: eb,
@@ -117,33 +123,37 @@ export async function recomputeChar(
     else next.talents = null
   }
 
-  if (edit.weapons && edit.weapons.length > 0) {
+  if (edit.weapons !== undefined) {
+    const rebuilt: WeaponBreakdown[] = []
     for (const wEdit of edit.weapons) {
-      const old = next.weapons[wEdit.index]
+      const old = char.weapons[wEdit.index]
       const newSlug = wEdit.weaponSlug ?? old?.slug
-      const newFrom = wEdit.fromLevel ?? old?.from_level ?? 1
-      const newTo = wEdit.toLevel ?? old?.to_level ?? 90
+      const newFrom = Math.max(1, Math.min(90, Math.round(wEdit.fromLevel ?? old?.from_level ?? 1)))
+      const newTo = Math.max(newFrom, Math.min(90, Math.round(wEdit.toLevel ?? old?.to_level ?? 90)))
       if (!newSlug) continue
       const wInfo = weaponsMap.get(newSlug)
       let cost = null
       if (newFrom < newTo) {
-        let full = computeWeaponAscension(data, newSlug, newFrom, newTo, lang)
-        if (wEdit.activePhases) {
+        const full = computeWeaponAscension(data, newSlug, newFrom, newTo, lang)
+        if (wEdit.activePhases !== undefined) {
           const filtered = filterPhasesByLevels(full.phases ?? [], wEdit.activePhases)
           const mats: any[] = []
           let mora = 0
           for (const p of filtered) { mora += p.mora; mats.push(...p.materials) }
           cost = { ...full, phases: filtered, materials: mats, total_mora: mora, phases_included: filtered.map((p: any) => p.phase) }
-        } else cost = full
+        } else {
+          cost = full
+        }
       }
-      next.weapons[wEdit.index] = {
-        slug: newSlug, name: wInfo?.name ?? newSlug, icon: wInfo?.icon ?? null,
-        rarity: wInfo?.rarity ?? 4, from_level: newFrom, to_level: newTo, cost,
-      }
+      rebuilt.push({
+        slug: newSlug, name: wInfo?.name ?? old?.name ?? newSlug, icon: wInfo?.icon ?? old?.icon ?? null,
+        rarity: wInfo?.rarity ?? old?.rarity ?? 4, from_level: newFrom, to_level: newTo, cost,
+      })
     }
+    next.weapons = rebuilt
+  } else if (edit.removeWeaponIndex != null) {
+    next.weapons.splice(edit.removeWeaponIndex, 1)
   }
-
-  if (edit.removeWeaponIndex != null) next.weapons.splice(edit.removeWeaponIndex, 1)
 
   next.has_ascension_pending = !!(next.char_goal && next.char_goal.current.level < next.char_goal.goal.level)
   next.has_talent_pending = !!(next.talent_goal && (
@@ -232,6 +242,7 @@ export function recomputeAggregates(plan: Plan, inventory: Record<string, number
 
   return {
     ...plan,
+    inventory_resolved: inventory,
     grand_mora,
     grand_resin,
     tier_groups: tierGroups,

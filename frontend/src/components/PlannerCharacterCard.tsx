@@ -112,11 +112,11 @@ function PlanMaterialIcon({ material, have, wl, bestiary }: { material: Aggregat
 
 function PlanTalentBar({ label, current, goal, lang }: { label: string; current: number | null; goal: number | null; lang: string }) {
   if (current == null || goal == null) return null
-  if (current === goal) {
+  if (current >= goal) {
     return (
       <div className="plan-talent-row">
         <span className="plan-talent-label">{label}</span>
-        <span className="plan-talent-done">{lang === 'en' ? 'MAX' : 'MÁX'}</span>
+        <span className="plan-talent-done">{lang === 'en' ? `Lv.${current} ✓` : `Nv.${current} ✓`}</span>
       </div>
     )
   }

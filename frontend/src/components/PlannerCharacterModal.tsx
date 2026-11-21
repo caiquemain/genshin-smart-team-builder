@@ -34,9 +34,43 @@ const RARITY_GRADIENTS: Record<number, string> = {
 }
 const LEVEL_MILESTONES = [1, 20, 40, 50, 60, 70, 80, 90]
 const ASCENSION_MILESTONES = [20, 40, 50, 60, 70, 80]
+const PHASE_TO_LEVEL: Record<number, number> = { 1: 20, 2: 40, 3: 50, 4: 60, 5: 70, 6: 80 }
+const TALENT_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const HERO_WIT_ICON = 'UI_ItemIcon_104003'
 const MYSTIC_ORE_ICON = 'UI_ItemIcon_104012'
 const MORA_ICON = 'UI_ItemIcon_202'
+
+function validMilestonesForRange(current: number, goal: number): number[] {
+  return ASCENSION_MILESTONES.filter((m) => m >= current && m < goal)
+}
+
+function getInitialCharPhases(c: CharBreakdown): number[] {
+  const cur = c.char_goal?.current.level ?? 1
+  const goal = c.char_goal?.goal.level ?? 90
+  const valid = validMilestonesForRange(cur, goal)
+  if (Array.isArray(c.ascension?.phases_included)) {
+    const fromSaved = c.ascension.phases_included
+      .map((p: number) => PHASE_TO_LEVEL[p])
+      .filter((m: number | undefined): m is number => m != null && valid.includes(m))
+    return fromSaved
+  }
+  return valid
+}
+
+function getInitialWeaponPhases(c: CharBreakdown): Record<number, number[]> {
+  const out: Record<number, number[]> = {}
+  c.weapons.forEach((w, i) => {
+    const valid = validMilestonesForRange(w.from_level, w.to_level)
+    if (Array.isArray(w.cost?.phases_included)) {
+      out[i] = w.cost.phases_included
+        .map((p: number) => PHASE_TO_LEVEL[p])
+        .filter((m: number | undefined): m is number => m != null && valid.includes(m))
+    } else {
+      out[i] = valid
+    }
+  })
+  return out
+}
 
 function formatMoraShort(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
@@ -153,7 +187,7 @@ export default function PlannerCharacterModal({
   element: string | undefined
   inventory: Record<string, number>
   onClose: () => void
-  onUpdate?: (newChar: CharBreakdown) => void
+  onUpdate?: (newChar: CharBreakdown) => boolean | void
   weaponsMap?: Map<string, WeaponSummary>
   wl?: number
 }) {
@@ -178,55 +212,98 @@ export default function PlannerCharacterModal({
   const [previewChar, setPreviewChar] = useState<CharBreakdown>(char)
   const [recomputing, setRecomputing] = useState(false)
 
-  const [charActivePhases, setCharActivePhases] = useState<number[]>([])
-  const [weaponActivePhases, setWeaponActivePhases] = useState<Record<number, number[]>>({})
+  const [charActivePhases, setCharActivePhases] = useState<number[]>(() => getInitialCharPhases(char))
+  const [weaponActivePhases, setWeaponActivePhases] = useState<Record<number, number[]>>(() => getInitialWeaponPhases(char))
 
   const [bestiary, setBestiary] = useState<BestiaryData | null>(null)
   useEffect(() => {
     getBestiaryData().then(setBestiary)
   }, [])
 
-  useEffect(() => {
-    const validChar = ASCENSION_MILESTONES.filter((m) => m > draftCurLevel && m <= draftGoalLevel)
-    setCharActivePhases((prev) => prev.filter((m) => validChar.includes(m)))
+  const handleCurLevelChange = (nextCur: number) => {
+    const prevValid = validMilestonesForRange(draftCurLevel, draftGoalLevel)
+    const nextGoal = Math.max(draftGoalLevel, nextCur)
+    const nextValid = validMilestonesForRange(nextCur, nextGoal)
+    setDraftCurLevel(nextCur)
+    if (nextGoal !== draftGoalLevel) setDraftGoalLevel(nextGoal)
+    setCharActivePhases((prev) => {
+      const kept = prev.filter((m) => nextValid.includes(m))
+      const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
+      return [...kept, ...added].sort((a, b) => a - b)
+    })
+  }
+
+  const handleGoalLevelChange = (nextGoal: number) => {
+    const prevValid = validMilestonesForRange(draftCurLevel, draftGoalLevel)
+    const nextCur = Math.min(draftCurLevel, nextGoal)
+    const nextValid = validMilestonesForRange(nextCur, nextGoal)
+    setDraftGoalLevel(nextGoal)
+    if (nextCur !== draftCurLevel) setDraftCurLevel(nextCur)
+    setCharActivePhases((prev) => {
+      const kept = prev.filter((m) => nextValid.includes(m))
+      const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
+      return [...kept, ...added].sort((a, b) => a - b)
+    })
     setWeaponActivePhases((prev) => {
       const next: Record<number, number[]> = {}
       for (let i = 0; i < draftWeapons.length; i++) {
         const w = draftWeapons[i]
-        const validW = ASCENSION_MILESTONES.filter((m) => m > w.from_level && m <= draftGoalLevel)
-        next[i] = (prev[i] ?? []).filter((m) => validW.includes(m))
+        const prevWValid = validMilestonesForRange(w.from_level, draftGoalLevel)
+        const nextWValid = validMilestonesForRange(w.from_level, Math.max(w.from_level, nextGoal))
+        const kept = (prev[i] ?? prevWValid).filter((m) => nextWValid.includes(m))
+        const added = nextWValid.filter((m) => !prevWValid.includes(m) && !kept.includes(m))
+        next[i] = [...kept, ...added].sort((a, b) => a - b)
       }
       return next
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draftCurLevel, draftGoalLevel, draftWeapons.map((w) => w.from_level).join(',')])
+  }
+
+  const buildEditPayload = (): CharEdit => {
+    const weaponEdits = draftWeapons.map((dw, i) => {
+      const toLevel = Math.max(dw.from_level, draftGoalLevel)
+      const validW = validMilestonesForRange(dw.from_level, toLevel)
+      const activeW = weaponActivePhases[i] !== undefined
+        ? weaponActivePhases[i].filter((m) => validW.includes(m))
+        : validW
+      return {
+        index: i,
+        weaponSlug: dw.slug,
+        fromLevel: dw.from_level,
+        toLevel,
+        activePhases: activeW,
+      }
+    })
+    const validChar = validMilestonesForRange(draftCurLevel, draftGoalLevel)
+    return {
+      isInactive: draftInactive,
+      goal: {
+        currentLevel: draftCurLevel,
+        goalLevel: draftGoalLevel,
+        cons: draftCons,
+        activePhases: charActivePhases.filter((m) => validChar.includes(m)),
+      },
+      talent: {
+        na: { ...draftNa },
+        es: { ...draftEs },
+        eb: { ...draftEb },
+      },
+      weapons: weaponEdits,
+    }
+  }
 
   useEffect(() => {
     if (!editing || !weaponsMap) { setPreviewChar(char); return }
+    let cancelled = false
     const handler = setTimeout(async () => {
       setRecomputing(true)
       try {
-        const weaponEdits = draftWeapons.map((dw, i) => {
-          const orig = char.weapons[i]
-          const changes: any = { index: i }
-          if (!orig || dw.slug !== orig.slug) changes.weaponSlug = dw.slug
-          if (!orig || dw.from_level !== orig.from_level) changes.fromLevel = dw.from_level
-          changes.toLevel = draftGoalLevel
-          changes.activePhases = weaponActivePhases[i] ?? []
-          return changes
-        })
-        const edit: CharEdit = {
-          isInactive: draftInactive,
-          goal: { currentLevel: draftCurLevel, goalLevel: draftGoalLevel, cons: draftCons, activePhases: charActivePhases },
-          talent: { na: draftNa, es: draftEs, eb: draftEb },
-          weapons: weaponEdits as any,
-        }
-        const updated = await recomputeChar(char, edit, weaponsMap, lang)
-        setPreviewChar(updated)
+        const updated = await recomputeChar(char, buildEditPayload(), weaponsMap, lang)
+        if (!cancelled) setPreviewChar(updated)
       } catch (e) { console.error(e) }
-      finally { setRecomputing(false) }
-    }, 500)
-    return () => clearTimeout(handler)
+      finally { if (!cancelled) setRecomputing(false) }
+    }, 350)
+    return () => { cancelled = true; clearTimeout(handler) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draftInactive, draftCurLevel, draftGoalLevel, draftCons, draftNa, draftEs, draftEb, draftWeapons, charActivePhases, weaponActivePhases, editing, weaponsMap, char, lang])
 
   useEffect(() => {
@@ -239,8 +316,8 @@ export default function PlannerCharacterModal({
     setDraftEb({ current: char.talent_goal?.burst.current ?? 1, goal: char.talent_goal?.burst.goal ?? 1 })
     setDraftWeapons(char.weapons.map((w) => ({ ...w })))
     setPreviewChar(char)
-    setCharActivePhases([])
-    setWeaponActivePhases({})
+    setCharActivePhases(getInitialCharPhases(char))
+    setWeaponActivePhases(getInitialWeaponPhases(char))
   }, [char])
 
   useEffect(() => {
@@ -264,31 +341,20 @@ export default function PlannerCharacterModal({
     setDraftEs({ current: char.talent_goal?.skill.current ?? 1, goal: char.talent_goal?.skill.goal ?? 1 })
     setDraftEb({ current: char.talent_goal?.burst.current ?? 1, goal: char.talent_goal?.burst.goal ?? 1 })
     setDraftWeapons(char.weapons.map((w) => ({ ...w })))
-    setCharActivePhases([])
-    setWeaponActivePhases({})
+    setCharActivePhases(getInitialCharPhases(char))
+    setWeaponActivePhases(getInitialWeaponPhases(char))
   }
 
   const handleSave = async () => {
     if (!onUpdate || !weaponsMap) return
     setSaving(true); setSaveError(null)
     try {
-      const weaponEdits = draftWeapons.map((dw, i) => {
-        const orig = char.weapons[i]
-        const changes: any = { index: i }
-        if (!orig || dw.slug !== orig.slug) changes.weaponSlug = dw.slug
-        if (!orig || dw.from_level !== orig.from_level) changes.fromLevel = dw.from_level
-        changes.toLevel = draftGoalLevel
-        changes.activePhases = weaponActivePhases[i] ?? []
-        return changes
-      })
-      const edit: CharEdit = {
-        isInactive: draftInactive,
-        goal: { currentLevel: draftCurLevel, goalLevel: draftGoalLevel, cons: draftCons, activePhases: charActivePhases },
-        talent: { na: draftNa, es: draftEs, eb: draftEb },
-        weapons: weaponEdits as any,
+      const final = await recomputeChar(char, buildEditPayload(), weaponsMap, lang)
+      const persisted = onUpdate(final)
+      if (persisted === false) {
+        setSaveError('Não foi possível salvar no armazenamento local do navegador (espaço insuficiente).')
+        return
       }
-      const final = await recomputeChar(char, edit, weaponsMap, lang)
-      onUpdate(final)
       setEditing(false)
     } catch (e) { setSaveError(String(e)) }
     finally { setSaving(false) }
@@ -479,11 +545,11 @@ export default function PlannerCharacterModal({
                 <div className="plan-modal-edit-goal">
                   <label>
                     <span>Nível atual</span>
-                    <LevelInput value={draftCurLevel} onChange={setDraftCurLevel} min={1} max={90} />
+                    <LevelInput value={draftCurLevel} onChange={handleCurLevelChange} min={1} max={90} />
                   </label>
                   <label>
                     <span>Meta (char + armas)</span>
-                    <LevelInput value={draftGoalLevel} onChange={setDraftGoalLevel} min={1} max={90} />
+                    <LevelInput value={draftGoalLevel} onChange={handleGoalLevelChange} min={1} max={90} />
                   </label>
                   <label>
                     <span>Constelação</span>
@@ -546,11 +612,31 @@ export default function PlannerCharacterModal({
                     return (
                       <div key={key} className="plan-modal-talent-edit">
                         <span className="plan-modal-talent-label">{label}</span>
-                        <input type="number" min={1} max={10} value={draft.current}
-                          onChange={(e) => setDraft({ ...draft, current: Math.max(1, Math.min(10, +e.target.value || 1)) })} />
+                        <select
+                          aria-label={`${label} nível atual`}
+                          value={draft.current}
+                          onChange={(e) => {
+                            const nextCur = Number(e.target.value)
+                            setDraft({ current: nextCur, goal: Math.max(draft.goal, nextCur) })
+                          }}
+                        >
+                          {TALENT_LEVELS.map((lv) => (
+                            <option key={lv} value={lv}>{lv}</option>
+                          ))}
+                        </select>
                         <span className="plan-modal-edit-arrow">→</span>
-                        <input type="number" min={1} max={10} value={draft.goal}
-                          onChange={(e) => setDraft({ ...draft, goal: Math.max(1, Math.min(10, +e.target.value || 1)) })} />
+                        <select
+                          aria-label={`${label} meta`}
+                          value={draft.goal}
+                          onChange={(e) => {
+                            const nextGoal = Number(e.target.value)
+                            setDraft({ current: Math.min(draft.current, nextGoal), goal: nextGoal })
+                          }}
+                        >
+                          {TALENT_LEVELS.map((lv) => (
+                            <option key={lv} value={lv}>{lv}</option>
+                          ))}
+                        </select>
                       </div>
                     )
                   }
@@ -566,7 +652,7 @@ export default function PlannerCharacterModal({
                         <div className="plan-modal-talent-fill" style={{ width: `${pct}%`, background: accent }} />
                         <div className="plan-modal-talent-goal" style={{ width: `${goalPct}%`, background: accent }} />
                       </div>
-                      <div className="plan-modal-talent-range">{current === goal ? 'MÁX' : `${current} → ${goal}`}</div>
+                      <div className="plan-modal-talent-range">{current >= goal ? `Nv.${current} ✓` : `${current} → ${goal}`}</div>
                     </div>
                   )
                 })}
@@ -594,7 +680,23 @@ export default function PlannerCharacterModal({
                       {editing && (
                         <div className="plan-modal-weapon-actions">
                           <button className="btn-secondary" onClick={() => setWeaponPickerIndex(i)}>Trocar</button>
-                          <button className="btn-secondary" style={{ color: '#f87171' }} onClick={() => setDraftWeapons((prev) => prev.filter((_, idx) => idx !== i))}>
+                          <button
+                            className="btn-secondary"
+                            style={{ color: '#f87171' }}
+                            onClick={() => {
+                              setDraftWeapons((prev) => prev.filter((_, idx) => idx !== i))
+                              setWeaponActivePhases((prev) => {
+                                const next: Record<number, number[]> = {}
+                                let targetIdx = 0
+                                for (let idx = 0; idx < draftWeapons.length; idx++) {
+                                  if (idx === i) continue
+                                  next[targetIdx] = prev[idx] ?? []
+                                  targetIdx++
+                                }
+                                return next
+                              })
+                            }}
+                          >
                             <Trash2 size={12} />
                           </button>
                         </div>
@@ -605,17 +707,37 @@ export default function PlannerCharacterModal({
                         <div className="plan-modal-weapon-level-row">
                           <label>
                             <span>Nível atual</span>
-                            <LevelInput value={w.from_level} onChange={(v) => setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v } : p))} min={1} max={90} />
+                            <LevelInput
+                              value={w.from_level}
+                              onChange={(v) => {
+                                const prevValid = validMilestonesForRange(w.from_level, Math.max(w.from_level, draftGoalLevel))
+                                const nextValid = validMilestonesForRange(v, Math.max(v, draftGoalLevel))
+                                setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v } : p))
+                                setWeaponActivePhases((prev) => {
+                                  const existing = prev[i] ?? prevValid
+                                  const kept = existing.filter((m) => nextValid.includes(m))
+                                  const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
+                                  return { ...prev, [i]: [...kept, ...added].sort((a, b) => a - b) }
+                                })
+                              }}
+                              min={1}
+                              max={90}
+                            />
                           </label>
                           <label>
                             <span>Meta</span>
                             <div className="plan-modal-weapon-fixed-to">
-                              <strong>{draftGoalLevel}</strong>
+                              <strong>{Math.max(w.from_level, draftGoalLevel)}</strong>
                               <small>seguindo o char</small>
                             </div>
                           </label>
                         </div>
-                        <MilestoneCheckboxes current={w.from_level} goal={draftGoalLevel} active={weaponActivePhases[i] ?? []} onChange={(next) => setWeaponActivePhases((prev) => ({ ...prev, [i]: next }))} />
+                        <MilestoneCheckboxes
+                          current={w.from_level}
+                          goal={Math.max(w.from_level, draftGoalLevel)}
+                          active={weaponActivePhases[i] ?? validMilestonesForRange(w.from_level, Math.max(w.from_level, draftGoalLevel))}
+                          onChange={(next) => setWeaponActivePhases((prev) => ({ ...prev, [i]: next }))}
+                        />
                       </div>
                     )}
                   </div>
@@ -677,10 +799,15 @@ export default function PlannerCharacterModal({
               const w = weaponsMap.get(newSlug)
               if (!w) return
               if (addingWeapon) {
+                const newIdx = draftWeapons.length
                 setDraftWeapons((prev) => [...prev, {
                   slug: newSlug, name: w.name, icon: w.icon, rarity: w.rarity,
                   from_level: 1, to_level: draftGoalLevel, cost: null,
                 }])
+                setWeaponActivePhases((prev) => ({
+                  ...prev,
+                  [newIdx]: validMilestonesForRange(1, draftGoalLevel),
+                }))
                 setAddingWeapon(false)
               } else if (weaponPickerIndex !== null) {
                 setDraftWeapons((prev) => prev.map((p, idx) => idx === weaponPickerIndex

@@ -312,6 +312,7 @@ export default function TeamDetailPage() {
             try {
               const updated = await api.updateTeamBuilds(team.id, { [editingBuild.position]: newBuild }, lang)
               setTeam(updated)
+              await fetchAssets(updated)
               setEditingBuild(null)
             } catch (e) {
               console.error(e)

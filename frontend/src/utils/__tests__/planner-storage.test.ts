@@ -1,0 +1,383 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import {
+  PLANNER_PLAN_KEY,
+  PLANNER_V5_KEY,
+  ROSTER_KEY,
+  compactPlanForStorage,
+  hydratePlanFromData,
+  loadPlanFromStorage,
+  savePlanToStorage,
+  syncCharEditToPlannerStorage,
+} from '../planner-storage'
+import type { CharBreakdown, Plan } from '../../types/planner'
+import type { PlannerData } from '../planner-data'
+
+function makeMemoryStorage() {
+  const store = new Map<string, string>()
+  return {
+    getItem: (k: string) => (store.has(k) ? store.get(k)! : null),
+    setItem: (k: string, v: string) => {
+      store.set(k, String(v))
+    },
+    removeItem: (k: string) => {
+      store.delete(k)
+    },
+    clear: () => store.clear(),
+  }
+}
+
+const SAMPLE_DATA: PlannerData = {
+  version: '1',
+  characters: {},
+  weapons: {},
+  materials: {
+    'philosophies-of-moonlight': {
+      name: { pt: 'Filosofia do Luar', en: 'Philosophies of Moonlight' },
+      icon: 'UI_ItemIcon_104358',
+      rarity: 4,
+      category: 'talent_book',
+      description: { pt: 'Descrição longa de teste que ocupa espaço no localStorage.' },
+      source: { pt: 'Domínio de Proficiência' },
+      is_weekly: false,
+    },
+  },
+  global_max: {},
+  families: {},
+}
+
+function makePlan(): Plan {
+  return {
+    chars: [
+      {
+        slug: 'vodyanitsa',
+        name: 'Vodyanitsa',
+        icon: 'UI_AvatarIcon_Vodyanitsa',
+        is_inactive: false,
+        is_complete: false,
+        has_ascension_pending: true,
+        has_talent_pending: true,
+        has_weapon_pending: false,
+        char_goal: {
+          type: 'character',
+          character: 'vodyanitsa',
+          current: { level: 80, asc: 5 },
+          goal: { level: 90, asc: 6 },
+          cons: 1,
+        },
+        talent_goal: {
+          type: 'talent',
+          character: 'vodyanitsa',
+          normal: { current: 1, goal: 1 },
+          skill: { current: 9, goal: 10 },
+          burst: { current: 8, goal: 10 },
+        },
+        ascension: {
+          slug: 'vodyanitsa',
+          from_level: 80,
+          to_level: 90,
+          phases_included: [6],
+          total_mora: 120_000,
+          phases: [
+            {
+              phase: 6,
+              unlock_max_level: 90,
+              mora: 120_000,
+              materials: [
+                {
+                  slug: 'philosophies-of-moonlight',
+                  name: 'Filosofia do Luar',
+                  icon: 'UI_ItemIcon_104358',
+                  category: 'talent_book',
+                  rarity: 4,
+                  quantity: 6,
+                  description: 'Descrição longa duplicada',
+                  source: 'Domínio',
+                },
+              ],
+            },
+          ],
+          materials: [
+            {
+              slug: 'philosophies-of-moonlight',
+              name: 'Filosofia do Luar',
+              icon: 'UI_ItemIcon_104358',
+              category: 'talent_book',
+              rarity: 4,
+              quantity: 6,
+              description: 'Descrição longa duplicada',
+              source: 'Domínio',
+            },
+          ],
+        },
+        talents: {
+          slug: 'vodyanitsa',
+          talents: {
+            normal_attack: { from_level: 1, target_level: 1, levels_included: [], total_mora: 0, materials: [] },
+            elemental_skill: {
+              from_level: 9,
+              target_level: 10,
+              levels_included: [10],
+              total_mora: 700_000,
+              materials: [
+                {
+                  slug: 'philosophies-of-moonlight',
+                  name: 'Filosofia do Luar',
+                  icon: 'UI_ItemIcon_104358',
+                  category: 'talent_book',
+                  rarity: 4,
+                  quantity: 16,
+                  description: 'Descrição longa duplicada',
+                  source: 'Domínio',
+                },
+              ],
+            },
+            elemental_burst: { from_level: 8, target_level: 10, levels_included: [9, 10], total_mora: 1_150_000, materials: [] },
+          },
+          grand_total_mora: 1_850_000,
+          grand_total_materials: [
+            {
+              slug: 'philosophies-of-moonlight',
+              name: 'Filosofia do Luar',
+              icon: 'UI_ItemIcon_104358',
+              category: 'talent_book',
+              rarity: 4,
+              quantity: 16,
+              description: 'Descrição longa duplicada',
+              source: 'Domínio',
+            },
+          ],
+        },
+        weapons: [],
+      },
+    ],
+    grand_mora: 1_970_000,
+    grand_resin: 1000,
+    tier_groups: [
+      {
+        tier: { key: 'talent', label: 'Talentos', color: '#38bdf8' },
+        resin_total: 400,
+        materials: [
+          {
+            slug: 'philosophies-of-moonlight',
+            name: 'Filosofia do Luar',
+            icon: 'UI_ItemIcon_104358',
+            category: 'talent_book',
+            rarity: 4,
+            quantity: 16,
+            resin_estimate: 400,
+            description: 'Descrição longa duplicada',
+            source: 'Domínio',
+          },
+        ],
+      },
+    ],
+    warnings: [],
+    not_mapped: [],
+    travelers_skipped: 0,
+    weapons_processed: 0,
+    weapons_skipped: 0,
+    inventory_resolved: {},
+    inventory_stats: { mapped: 0, unmapped: 0, ambiguous: 0, total: 0 },
+    materials_complete: 0,
+    materials_partial: 0,
+  }
+}
+
+describe('planner-storage', () => {
+  beforeEach(() => {
+    ;(globalThis as any).localStorage = makeMemoryStorage()
+  })
+
+  it('compacts plan by stripping redundant description/source/phases and hydrates back from planner-data', () => {
+    const plan = makePlan()
+    const compact = compactPlanForStorage(plan)
+
+    expect(compact.chars[0].ascension.phases).toBeUndefined()
+    expect(compact.chars[0].ascension.materials[0].description).toBeUndefined()
+    expect(compact.chars[0].talents.grand_total_materials[0].source).toBeUndefined()
+    expect(compact.tier_groups[0].materials[0].description).toBeUndefined()
+
+    expect(savePlanToStorage(plan)).toBe(true)
+    const loaded = loadPlanFromStorage(SAMPLE_DATA, 'pt')
+    expect(loaded).not.toBeNull()
+    expect(loaded!.chars[0].ascension.materials[0].description).toBe(
+      'Descrição longa de teste que ocupa espaço no localStorage.',
+    )
+    expect(loaded!.tier_groups[0].materials[0].source).toBe('Domínio de Proficiência')
+
+    // Ensure raw stored JSON is compact
+    const rawStored = localStorage.getItem(PLANNER_PLAN_KEY)!
+    expect(rawStored).not.toContain('Descrição longa')
+
+    // Direct hydrate preserves existing fields when material not in catalog
+    const hydrated = hydratePlanFromData(compact, SAMPLE_DATA, 'en')
+    expect(hydrated.chars[0].talents.grand_total_materials[0].name).toBe('Philosophies of Moonlight')
+  })
+
+  it('syncs edited character level, talents, constellation, inactive flag, and weapons into gsb.planner.v5 and roster', () => {
+    localStorage.setItem(
+      PLANNER_V5_KEY,
+      JSON.stringify({
+        good: {
+          format: 'GOOD',
+          version: 2,
+          source: 'test',
+          characters: [
+            {
+              key: 'Vodyanitsa',
+              level: 70,
+              ascension: 4,
+              constellation: 0,
+              talent: { auto: 1, skill: 6, burst: 6 },
+            },
+          ],
+          weapons: [
+            {
+              key: 'LostPrayerToTheSacredWinds',
+              level: 70,
+              ascension: 4,
+              refinement: 1,
+              location: 'Vodyanitsa',
+            },
+          ],
+        },
+        seelie: {
+          ar: 60,
+          wl: 9,
+          inventory: [],
+          inactive: {},
+          goals: [
+            {
+              type: 'character',
+              character: 'vodyanitsa',
+              id: 1,
+              cons: 0,
+              current: { level: 70, asc: 4 },
+              goal: { level: 80, asc: 5 },
+            },
+            {
+              type: 'talent',
+              character: 'vodyanitsa',
+              id: 2,
+              normal: { current: 1, goal: 1 },
+              skill: { current: 6, goal: 8 },
+              burst: { current: 6, goal: 8 },
+            },
+            {
+              type: 'weapon',
+              character: 'vodyanitsa',
+              weapon: 'old-weapon',
+              id: 3,
+              current: { level: 50, asc: 2 },
+              goal: { level: 80, asc: 5 },
+            },
+          ],
+        },
+      }),
+    )
+
+    localStorage.setItem(
+      ROSTER_KEY,
+      JSON.stringify({
+        vodyanitsa: { owned: true, cons: 0 },
+      }),
+    )
+
+    const updatedChar: CharBreakdown = {
+      slug: 'vodyanitsa',
+      name: 'Vodyanitsa',
+      icon: null,
+      ascension: null,
+      talents: null,
+      is_inactive: true,
+      char_goal: {
+        type: 'character',
+        character: 'vodyanitsa',
+        current: { level: 80, asc: 5 },
+        goal: { level: 90, asc: 6 },
+        cons: 2,
+      },
+      talent_goal: {
+        type: 'talent',
+        character: 'vodyanitsa',
+        normal: { current: 1, goal: 1 },
+        skill: { current: 9, goal: 10 },
+        burst: { current: 9, goal: 9 },
+      },
+      weapons: [
+        {
+          slug: 'lost-prayer-to-the-sacred-winds',
+          name: 'Lost Prayer',
+          icon: null,
+          rarity: 5,
+          from_level: 80,
+          to_level: 90,
+          cost: null,
+        },
+      ],
+    }
+
+    expect(syncCharEditToPlannerStorage(updatedChar)).toBe(true)
+
+    const v5 = JSON.parse(localStorage.getItem(PLANNER_V5_KEY)!)
+    // GOOD updated
+    expect(v5.good.characters[0]).toMatchObject({
+      key: 'Vodyanitsa',
+      level: 80,
+      constellation: 2,
+      talent: { auto: 1, skill: 9, burst: 9 },
+    })
+    expect(v5.good.weapons[0].level).toBe(80)
+
+    // Seelie updated
+    expect(v5.seelie.inactive.vodyanitsa).toBe(true)
+    const charGoal = v5.seelie.goals.find((g: any) => g.type === 'character')
+    expect(charGoal.current.level).toBe(80)
+    expect(charGoal.goal.level).toBe(90)
+    expect(charGoal.cons).toBe(2)
+
+    const talGoal = v5.seelie.goals.find((g: any) => g.type === 'talent')
+    expect(talGoal.skill).toEqual({ current: 9, goal: 10 })
+    expect(talGoal.burst).toEqual({ current: 9, goal: 9 })
+
+    // Old weapon replaced by updated weapon list
+    const weaponGoals = v5.seelie.goals.filter((g: any) => g.type === 'weapon')
+    expect(weaponGoals).toHaveLength(1)
+    expect(weaponGoals[0].weapon).toBe('lost-prayer-to-the-sacred-winds')
+    expect(weaponGoals[0].current.level).toBe(80)
+    expect(weaponGoals[0].goal.level).toBe(90)
+
+    // Manual roster override constellation updated
+    const roster = JSON.parse(localStorage.getItem(ROSTER_KEY)!)
+    expect(roster.vodyanitsa.cons).toBe(2)
+  })
+
+  it('does not create a fake GOOD object when user only imported Seelie', () => {
+    localStorage.setItem(
+      PLANNER_V5_KEY,
+      JSON.stringify({
+        seelie: { goals: [], inventory: [], inactive: {} },
+        good: null,
+      }),
+    )
+
+    syncCharEditToPlannerStorage({
+      slug: 'vodyanitsa',
+      name: 'Vodyanitsa',
+      icon: null,
+      ascension: null,
+      talents: null,
+      weapons: [],
+      char_goal: { current: { level: 80 }, goal: { level: 90 }, cons: 0 },
+      talent_goal: {
+        normal: { current: 1, goal: 1 },
+        skill: { current: 8, goal: 9 },
+        burst: { current: 8, goal: 9 },
+      },
+    })
+
+    const v5 = JSON.parse(localStorage.getItem(PLANNER_V5_KEY)!)
+    expect(v5.good).toBeNull()
+    expect(v5.seelie.goals).toHaveLength(2)
+  })
+})

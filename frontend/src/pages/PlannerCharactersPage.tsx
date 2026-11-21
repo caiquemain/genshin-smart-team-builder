@@ -8,10 +8,17 @@ import PlannerCharacterCard from '../components/PlannerCharacterCard'
 import PlannerCharacterModal from '../components/PlannerCharacterModal'
 import { useLanguage } from '../context/LanguageContext'
 import { recomputeAggregates } from '../utils/planner-recompute'
-import type { Plan } from '../types/planner'
+import type { CharBreakdown, Plan } from '../types/planner'
 import type { WeaponSummary } from '../types'
 
 import { loadPlannerData, elementOf, pickLang } from '../utils/planner-data'
+import { buildIndexes } from '../utils/slug-resolver'
+import {
+  hydratePlanFromData,
+  loadPlanFromStorage,
+  savePlanToStorage,
+  syncCharEditToPlannerStorage,
+} from '../utils/planner-storage'
 
 const ELEMENT_COLORS: Record<string, string> = {
   pyro: '#ff9c46', hydro: '#4cc2f1', electro: '#b398ff', cryo: '#93e2ff',
@@ -42,32 +49,34 @@ export default function PlannerCharactersPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [pendingFilter, setPendingFilter] = useState<PendingFilter>('all')
   const [sortBy, setSortBy] = useState<SortBy>('status')
-  const [selectedChar, setSelectedChar] = useState<any | null>(null)
+  const [selectedChar, setSelectedChar] = useState<CharBreakdown | null>(null)
   const [weaponsMap, setWeaponsMap] = useState<Map<string, WeaponSummary>>(new Map())
   const [wl] = useState<number>(() => readWL())
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem('gsb.planner.plan')
-      if (raw) setPlan(JSON.parse(raw))
-    } catch {}
-    
+    const initial = loadPlanFromStorage()
+    if (initial) setPlan(initial)
+
     loadPlannerData().then((data) => {
+      buildIndexes(data)
       const m = new Map<string, WeaponSummary>()
       for (const [slug, w] of Object.entries(data.weapons)) {
         m.set(slug, { slug, name: pickLang(w.name, lang), icon: w.icon, rarity: w.rarity, weapon_type: w.weapon_type as any } as any)
       }
       setWeaponsMap(m)
+      setPlan((prev) => (prev ? hydratePlanFromData(prev, data, lang) : loadPlanFromStorage(data, lang)))
     }).catch(() => {})
   }, [lang])
 
-  const handleUpdate = (newChar: any) => {
-    if (!plan) return
+  const handleUpdate = (newChar: CharBreakdown): boolean => {
+    if (!plan) return false
     const newChars = plan.chars.map((c) => c.slug === newChar.slug ? newChar : c)
     const updated = recomputeAggregates({ ...plan, chars: newChars }, plan.inventory_resolved, wl)
+    const v5Saved = syncCharEditToPlannerStorage(newChar)
+    const planSaved = savePlanToStorage(updated)
     setPlan(updated)
     setSelectedChar(newChar)
-    try { localStorage.setItem('gsb.planner.plan', JSON.stringify(updated)) } catch {}
+    return v5Saved || planSaved
   }
 
   const filtered = useMemo(() => {

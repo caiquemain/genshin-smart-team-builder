@@ -8,6 +8,7 @@ import {
   type PlannerMaterialData,
 } from '../utils/planner-data';
 import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper';
+import { syncInventoryToPlanStorage } from '../utils/planner-storage';
 import { InventoryMaterialCard } from '../components/InventoryMaterialCard';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -65,15 +66,13 @@ export default function InventoryAuditPage() {
     const savedSeelie = localStorage.getItem('gsb.planner.v5');
     if (!savedSeelie) return;
     const v5 = JSON.parse(savedSeelie);
-    const invRaw: SeelieInventoryItem[] = v5.seelie.inventory || [];
+    const invRaw: SeelieInventoryItem[] = v5.seelie?.inventory || [];
     const catalog = Object.entries(data.materials).map(([s, m]) => ({ ...m, slug: s }));
 
-    let found = false;
     for (const item of invRaw) {
       const res = resolveInventory([item], catalog, data.families);
       if (res.resolved[slug] !== undefined) {
         item.value = newQty;
-        found = true;
         break;
       }
     }
@@ -81,6 +80,7 @@ export default function InventoryAuditPage() {
     localStorage.setItem('gsb.planner.v5', JSON.stringify(v5));
     const newResolved = resolveInventory(invRaw, catalog, data.families);
     setInventory(newResolved.resolved);
+    syncInventoryToPlanStorage(newResolved.resolved, v5?.seelie?.wl ?? 9);
   };
 
   const filteredMaterials = useMemo<[string, PlannerMaterialData][]>(() => {

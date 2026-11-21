@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { parseGoodData, type GoodCharState } from './good-parser'
-import type { SeelieData } from '../types/seelie'
 import type { GoodData } from '../types/good'
+import { PLANNER_PLAN_KEY, PLANNER_UPDATED_EVENT } from './planner-storage'
+import type { Plan } from '../types/planner'
 
 const STORAGE_KEY = 'gsb.roster.v1'
 const PLANNER_KEY = 'gsb.planner.v5'
@@ -21,6 +22,9 @@ const CHAR_ALIASES: Record<string, string> = {
   'itto': 'aratakiitto',
   'sara': 'kujousara',
   'heizou': 'shikanoinheizou',
+  'mizuki': 'yumemizukimizuki',
+  'yunjin': 'yunjin',
+  'lanyan': 'lanyan',
 }
 
 function normKey(s: string): string {
@@ -56,8 +60,19 @@ export interface Roster {
 export function useRoster(): Roster {
   const [manual, setManual] = useState<Map<string, RosterEntry>>(new Map())
   const [good, setGood] = useState<Map<string, GoodCharState>>(new Map())
+  const [planState, setPlanState] = useState<Map<string, GoodCharState>>(new Map())
   const [seelieSlugs, setSeelieSlugs] = useState<Set<string>>(new Set())
   const [refreshTick, setRefreshTick] = useState(0)
+
+  useEffect(() => {
+    const onExternalUpdate = () => setRefreshTick((t) => t + 1)
+    window.addEventListener(PLANNER_UPDATED_EVENT, onExternalUpdate)
+    window.addEventListener('storage', onExternalUpdate)
+    return () => {
+      window.removeEventListener(PLANNER_UPDATED_EVENT, onExternalUpdate)
+      window.removeEventListener('storage', onExternalUpdate)
+    }
+  }, [])
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
@@ -72,6 +87,8 @@ export function useRoster(): Roster {
         }
         setManual(map)
       } catch {}
+    } else {
+      setManual(new Map())
     }
 
     const planner = localStorage.getItem(PLANNER_KEY)
@@ -83,6 +100,8 @@ export function useRoster(): Roster {
           const normalized = new Map<string, GoodCharState>()
           raw.forEach((v, k) => normalized.set(normKey(k), v))
           setGood(normalized)
+        } else {
+          setGood(new Map())
         }
         if (parsed?.seelie?.goals) {
           const slugs = new Set<string>()
@@ -92,8 +111,41 @@ export function useRoster(): Roster {
             }
           }
           setSeelieSlugs(slugs)
+        } else {
+          setSeelieSlugs(new Set())
         }
       } catch {}
+    } else {
+      setGood(new Map())
+      setSeelieSlugs(new Set())
+    }
+
+    const savedPlan = localStorage.getItem(PLANNER_PLAN_KEY)
+    if (savedPlan) {
+      try {
+        const parsed = JSON.parse(savedPlan) as Plan
+        const map = new Map<string, GoodCharState>()
+        for (const c of parsed?.chars ?? []) {
+          if (!c?.slug || (!c.char_goal && !c.talent_goal)) continue
+          const primaryWeapon = c.weapons?.[0]
+          map.set(normKey(c.slug), {
+            level: c.char_goal?.current?.level ?? 1,
+            cons: c.char_goal?.cons ?? 0,
+            talents: {
+              na: c.talent_goal?.normal?.current ?? 1,
+              es: c.talent_goal?.skill?.current ?? 1,
+              eb: c.talent_goal?.burst?.current ?? 1,
+            },
+            weaponSlug: primaryWeapon?.slug ?? null,
+            weaponLevel: primaryWeapon?.from_level ?? 0,
+          })
+        }
+        setPlanState(map)
+      } catch {
+        setPlanState(new Map())
+      }
+    } else {
+      setPlanState(new Map())
     }
   }, [refreshTick])
 
@@ -180,7 +232,7 @@ export function useRoster(): Roster {
 
   const getGoodState = (slug: string): GoodCharState | null => {
     const nk = normKey(slug)
-    return good.get(nk) ?? null
+    return good.get(nk) ?? planState.get(nk) ?? null
   }
 
   return {
@@ -192,7 +244,7 @@ export function useRoster(): Roster {
     clearAll,
     refresh,
     all: manual,
-    hasGoodData: good.size > 0,
+    hasGoodData: good.size > 0 || planState.size > 0,
     hasGoodOrSeelie: good.size > 0 || seelieSlugs.size > 0,
     ownedCount,
   }

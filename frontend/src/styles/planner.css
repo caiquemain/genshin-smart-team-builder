@@ -2046,6 +2046,7 @@ details.planner-notmapped[open] > summary {
 }
 .plan-modal-edit-goal input,
 .plan-modal-talent-edit input,
+.plan-modal-talent-edit select,
 .plan-modal-weapon-edit input {
   width: 80px;
   padding: 8px 10px;
@@ -2059,8 +2060,13 @@ details.planner-notmapped[open] > summary {
   text-align: center;
   transition: border-color 0.15s;
 }
+.plan-modal-talent-edit select {
+  width: 68px;
+  cursor: pointer;
+}
 .plan-modal-edit-goal input:focus,
 .plan-modal-talent-edit input:focus,
+.plan-modal-talent-edit select:focus,
 .plan-modal-weapon-edit input:focus {
   outline: none;
   border-color: #7dd3fc;
@@ -2071,7 +2077,7 @@ details.planner-notmapped[open] > summary {
   color: #64748b;
   font-weight: 700;
   font-size: 16px;
-  padding-bottom: 8px;
+  padding-bottom: 0;
 }
 
 /* Edição de talentos */

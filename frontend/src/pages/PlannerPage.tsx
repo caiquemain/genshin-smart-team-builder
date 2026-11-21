@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import ItemTooltip from '../components/ItemTooltip'
@@ -24,6 +25,12 @@ import { buildIndexes, resolveCharSlug, resolveWeaponSlug } from '../utils/slug-
 import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from '../utils/planner-compute'
 import { parseGoodData, type GoodCharState } from '../utils/good-parser'
 import { recomputeAggregates } from '../utils/planner-recompute'
+import {
+  hydratePlanFromData,
+  loadPlanFromStorage,
+  savePlanToStorage,
+  syncInventoryItemToPlannerStorage,
+} from '../utils/planner-storage'
 
 import ItemEditModal from '../components/ItemEditModal'
 import SettingsModal from '../components/SettingsModal'
@@ -401,6 +408,9 @@ export default function PlannerPage() {
   }, [])
 
   useEffect(() => {
+    const initialPlan = loadPlanFromStorage()
+    if (initialPlan) setPlan(initialPlan)
+
     loadPlannerData().then((data) => {
       buildIndexes(data)
       const cm = new Map<string, CharacterSummary>()
@@ -413,6 +423,7 @@ export default function PlannerPage() {
         wm.set(slug, { slug, name: pickLang(w.name, lang), icon: w.icon, rarity: w.rarity, weapon_type: w.weapon_type as any } as any)
       }
       setWeapons(wm)
+      setPlan((prev) => (prev ? hydratePlanFromData(prev, data, lang) : loadPlanFromStorage(data, lang)))
     }).catch(e => setError(String(e)))
   }, [lang])
 
@@ -483,17 +494,20 @@ export default function PlannerPage() {
     if (plan) {
       const updated = recomputeAggregates({ ...plan, tier_groups: [] }, plan.inventory_resolved, newWl)
       setPlan(updated)
-      try { localStorage.setItem('gsb.planner.plan', JSON.stringify(updated)) } catch {}
+      savePlanToStorage(updated)
     }
   }
 
   const handleSaveItem = (slug: string, newQty: number) => {
     if (!plan) return
     const newInv = { ...plan.inventory_resolved, [slug]: newQty }
-    const updated = recomputeAggregates({ ...plan }, newInv, wl)
+    const updated = recomputeAggregates({ ...plan, inventory_resolved: newInv }, newInv, wl)
     setPlan(updated)
     setEditingItem(null)
-    try { localStorage.setItem('gsb.planner.plan', JSON.stringify(updated)) } catch {}
+    savePlanToStorage(updated)
+    try {
+      syncInventoryItemToPlannerStorage(slug, newQty, getPlannerData())
+    } catch {}
   }
 
   const handleCompute = async () => {
@@ -566,7 +580,7 @@ export default function PlannerPage() {
 
         let currentLevel = sChar?.current.level ?? gState?.level ?? 1
         let goalLevel = sChar?.goal.level ?? gState?.level ?? 90
-        let cons = sChar?.cons ?? gState?.cons ?? 0
+        let cons = gState?.cons ?? sChar?.cons ?? 0
 
         if (gState) {
           if (sChar && gState.level < sChar.current.level) {
@@ -574,6 +588,7 @@ export default function PlannerPage() {
           }
           currentLevel = gState.level
         }
+        goalLevel = Math.max(currentLevel, goalLevel)
 
         const charGoal: SeelieCharacterGoal | null = (sChar || gState) ? {
           type: 'character', character: slug, id: sChar?.id ?? 0, cons,
@@ -581,15 +596,18 @@ export default function PlannerPage() {
           goal: { level: goalLevel, asc: 0 },
         } : null
 
-        let na = sTal?.normal ?? { current: gState?.talents.na ?? 1, goal: gState?.talents.na ?? 1 }
-        let es = sTal?.skill ?? { current: gState?.talents.es ?? 1, goal: gState?.talents.es ?? 1 }
-        let eb = sTal?.burst ?? { current: gState?.talents.eb ?? 1, goal: gState?.talents.eb ?? 1 }
+        const na = sTal ? { ...sTal.normal } : { current: gState?.talents.na ?? 1, goal: gState?.talents.na ?? 1 }
+        const es = sTal ? { ...sTal.skill } : { current: gState?.talents.es ?? 1, goal: gState?.talents.es ?? 1 }
+        const eb = sTal ? { ...sTal.burst } : { current: gState?.talents.eb ?? 1, goal: gState?.talents.eb ?? 1 }
 
         if (gState) {
           na.current = gState.talents.na
           es.current = gState.talents.es
           eb.current = gState.talents.eb
         }
+        na.goal = Math.max(na.current, na.goal)
+        es.goal = Math.max(es.current, es.goal)
+        eb.goal = Math.max(eb.current, eb.goal)
 
         const talentGoal: SeelieTalentGoal | null = (sTal || gState) ? {
           type: 'talent', character: slug, id: sTal?.id ?? 0,
@@ -602,7 +620,11 @@ export default function PlannerPage() {
           if (gState?.weaponSlug === sw.weapon) {
             currentWLevel = gState.weaponLevel
           }
-          mergedWeapons.push({ ...sw, current: { ...sw.current, level: currentWLevel } })
+          mergedWeapons.push({
+            ...sw,
+            current: { ...sw.current, level: currentWLevel },
+            goal: { ...sw.goal, level: Math.max(currentWLevel, sw.goal.level) },
+          })
         }
 
         if (gState?.weaponSlug && !mergedWeapons.some(w => w.weapon === gState.weaponSlug)) {
@@ -743,7 +765,7 @@ export default function PlannerPage() {
 
       const finalPlanWl = recomputeAggregates(finalPlan, invResolved, wl)
       setPlan(finalPlanWl)
-      try { localStorage.setItem('gsb.planner.plan', JSON.stringify(finalPlanWl)) } catch {}
+      savePlanToStorage(finalPlanWl)
 
     } catch (err) { setError(String(err)) } finally { setLoading(false) }
   }
@@ -862,14 +884,14 @@ export default function PlannerPage() {
             </div>
           </div>
 
-          <a href="/planner/characters" className="planner-view-chars-cta" style={{ marginTop: 24, marginBottom: 24 }}>
+          <Link to="/planner/characters" className="planner-view-chars-cta" style={{ marginTop: 24, marginBottom: 24 }}>
             <div className="planner-view-chars-icon" style={{ color: '#7dd3fc' }}><ClipboardList size={32} /></div>
             <div className="planner-view-chars-text">
               <div className="planner-view-chars-title">Ver {plan.chars.length} personagens em detalhes</div>
               <div className="planner-view-chars-desc">Cards com portrait, talentos, materiais e dias de farm por personagem</div>
             </div>
             <div className="planner-view-chars-arrow">→</div>
-          </a>
+          </Link>
 
           <div className="resin-counter">
             <label>Resina atual: <input type="number" min={0} max={2000} value={currentResin} onChange={(e) => setCurrentResin(Math.max(0, parseInt(e.target.value) || 0))} /></label>
