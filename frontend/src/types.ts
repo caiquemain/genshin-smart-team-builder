@@ -604,5 +604,79 @@ export interface EnkaImportResponse {
   unmapped_avatar_ids: number[]
 }
 
+// === Artifact Domain & Strongbox Advisor ("Artefatos & Domínios") ===
+export type ArtifactFocus = 'all' | 'planner' | 'top_meta'
+export type ArtifactDomainStrategy = 'farm_domain' | 'strongbox' | 'situational'
 
+export interface ArtifactAdvisorRequest {
+  owned_slugs: string[]
+  planner_slugs?: string[]
+  focus?: ArtifactFocus
+  limit?: number
+}
 
+export interface ArtifactUserChar {
+  slug: string
+  name: string
+  icon: string | null
+  element: string
+  rarity: number
+  tier: string | null
+  is_bis: boolean
+  is_in_planner: boolean
+  usage_label: string
+}
+
+export interface ArtifactSetDemand {
+  slug: string
+  name: string
+  icon: string | null
+  in_strongbox: boolean
+  demand_score: number
+  bis_count: number
+  total_users: number
+  users: ArtifactUserChar[]
+}
+
+export interface ArtifactDomainRecommendation {
+  domain_id: string
+  domain_name: string
+  region: string
+  is_boss_only: boolean
+  score: number
+  efficiency_pct: number
+  strategy: ArtifactDomainStrategy
+  strategy_label: string
+  usable_sets_count: number
+  unique_characters_count: number
+  bis_characters_count: number
+  sets: ArtifactSetDemand[]
+  reasons: string[]
+}
+
+export interface StrongboxTarget {
+  slug: string
+  name: string
+  icon: string | null
+  domain_name: string
+  score: number
+  bis_count: number
+  total_users: number
+  why: string
+  users: ArtifactUserChar[]
+}
+
+export interface ArtifactAdvisorSummary {
+  evaluated_characters: number
+  domains_matched: number
+  best_domain_name: string | null
+  best_strongbox_name: string | null
+  planner_characters_matched: number
+}
+
+export interface ArtifactAdvisorResponse {
+  focus: ArtifactFocus
+  summary: ArtifactAdvisorSummary
+  domains: ArtifactDomainRecommendation[]
+  strongbox_targets: StrongboxTarget[]
+}

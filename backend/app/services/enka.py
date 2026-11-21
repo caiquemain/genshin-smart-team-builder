@@ -444,7 +444,7 @@ def fetch_and_parse_enka_uid(db: Session, uid: str, lang: Language) -> dict[str,
             chars_by_icon[c.icon.lower()] = ref
 
     weapon_trans_by_id: dict[int, str] = {}
-    if lang != Language.en:
+    if lang != Language.EN:
         for wt in db.query(WeaponTranslation).filter(WeaponTranslation.language == lang).all():
             weapon_trans_by_id[wt.weapon_id] = wt.name
 

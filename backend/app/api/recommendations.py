@@ -5,11 +5,14 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import Language
 from ..schemas.pull_advisor import (
+    ArtifactAdvisorRequest,
+    ArtifactAdvisorResponse,
     PullAdvisorRequest,
     PullAdvisorResponse,
     UpgradeAdvisorRequest,
     UpgradeAdvisorResponse,
 )
+from ..services.artifact_advisor import build_artifact_advisor_response
 from ..services.pull_advisor import build_pull_advisor_response
 from ..services.upgrade_advisor import build_upgrade_advisor_response
 from .deps import get_language
@@ -54,3 +57,20 @@ def recommend_upgrades(
         limit=payload.limit,
     )
     return UpgradeAdvisorResponse(**result)
+
+
+@router.post("/artifacts", response_model=ArtifactAdvisorResponse)
+def recommend_artifacts(
+    payload: ArtifactAdvisorRequest,
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+) -> ArtifactAdvisorResponse:
+    result = build_artifact_advisor_response(
+        db=db,
+        lang=lang,
+        owned_slugs=payload.owned_slugs,
+        planner_slugs=payload.planner_slugs,
+        focus=payload.focus,
+        limit=payload.limit,
+    )
+    return ArtifactAdvisorResponse(**result)

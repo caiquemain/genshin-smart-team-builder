@@ -178,3 +178,85 @@ class UpgradeAdvisorResponse(BaseModel):
     summary: UpgradeSummaryOut
     recommendations: list[UpgradeCandidateOut]
 
+
+# ============================================================
+# Artifact Domain & Strongbox Advisor ("Artefatos & Domínios")
+# ============================================================
+
+ArtifactFocus = Literal["all", "planner", "top_meta"]
+ArtifactDomainStrategy = Literal["farm_domain", "strongbox", "situational"]
+
+
+class ArtifactAdvisorRequest(BaseModel):
+    owned_slugs: list[str] = Field(default_factory=list)
+    planner_slugs: list[str] = Field(default_factory=list)
+    focus: ArtifactFocus = "all"
+    limit: int = Field(default=20, ge=1, le=50)
+
+
+class ArtifactUserCharOut(BaseModel):
+    slug: str
+    name: str
+    icon: Optional[str] = None
+    element: str
+    rarity: int
+    tier: Optional[str] = None
+    is_bis: bool = False
+    is_in_planner: bool = False
+    usage_label: str = "4pc"
+
+
+class ArtifactSetDemandOut(BaseModel):
+    slug: str
+    name: str
+    icon: Optional[str] = None
+    in_strongbox: bool = True
+    demand_score: float = 0.0
+    bis_count: int = 0
+    total_users: int = 0
+    users: list[ArtifactUserCharOut] = Field(default_factory=list)
+
+
+class ArtifactDomainRecommendationOut(BaseModel):
+    domain_id: str
+    domain_name: str
+    region: str
+    is_boss_only: bool = False
+    score: float
+    efficiency_pct: int
+    strategy: ArtifactDomainStrategy
+    strategy_label: str
+    usable_sets_count: int
+    unique_characters_count: int
+    bis_characters_count: int
+    sets: list[ArtifactSetDemandOut] = Field(default_factory=list)
+    reasons: list[str] = Field(default_factory=list)
+
+
+class StrongboxTargetOut(BaseModel):
+    slug: str
+    name: str
+    icon: Optional[str] = None
+    domain_name: str
+    score: float
+    bis_count: int
+    total_users: int
+    why: str
+    users: list[ArtifactUserCharOut] = Field(default_factory=list)
+
+
+class ArtifactAdvisorSummaryOut(BaseModel):
+    evaluated_characters: int
+    domains_matched: int
+    best_domain_name: Optional[str] = None
+    best_strongbox_name: Optional[str] = None
+    planner_characters_matched: int = 0
+
+
+class ArtifactAdvisorResponse(BaseModel):
+    focus: ArtifactFocus
+    summary: ArtifactAdvisorSummaryOut
+    domains: list[ArtifactDomainRecommendationOut]
+    strongbox_targets: list[StrongboxTargetOut]
+
+

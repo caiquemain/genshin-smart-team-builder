@@ -44,7 +44,7 @@ export default function App() {
           <div className="nav-links">
             <Link to="/">Personagens</Link>
             <Link to="/roster">Meu Roster</Link>
-            <Link to="/pull-advisor">Pull Advisor</Link>
+            <Link to="/pull-advisor">Consultor</Link>
             <Link to="/weapons">Armas</Link>
             <Link to="/artifacts">Artefatos</Link>
             <Link to="/teams">Times</Link>
@@ -90,6 +90,7 @@ function MainContent() {
      !location.pathname.includes('/templates/'))
     || location.pathname === '/tierlist'
     || location.pathname === '/pull-advisor'
+    || location.pathname === '/consultor'
   )
 
   return (
@@ -108,6 +109,7 @@ function MainContent() {
         <Route path="/planner" element={<PlannerPage />} />
         <Route path="/roster" element={<RosterPage />} />
         <Route path="/pull-advisor" element={<PullAdvisorPage />} />
+        <Route path="/consultor" element={<PullAdvisorPage />} />
         <Route path="/inventory" element={<InventoryAuditPage />} />
         <Route path="/bestiary" element={<BestiaryPage />} />
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />

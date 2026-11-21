@@ -215,7 +215,7 @@ export default function RosterPage() {
             <UserCheck size={15} /> Importar por UID
           </button>
           <Link to="/pull-advisor" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <Sparkles size={15} /> Quem vale pegar?
+            <Sparkles size={15} /> Consultor da Conta
           </Link>
           <div className="roster-count">
             <strong>{roster.ownedCount}</strong>

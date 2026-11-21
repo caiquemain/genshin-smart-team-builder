@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom'
 import {
   Sparkles, Target, Compass, Flame, Users, ChevronDown, ChevronUp,
   ArrowRight, AlertTriangle, RefreshCw, Swords, Check, ArrowUpCircle,
-  TrendingUp, Layers,
+  TrendingUp, Layers, Gem, Repeat,
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
-import { iconUrl } from '../config'
+import { artifactIconUrl, iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
+import { loadPlanFromStorage, PLANNER_UPDATED_EVENT } from '../utils/planner-storage'
 import { useRoster } from '../utils/roster'
 import type {
+  ArtifactAdvisorResponse,
+  ArtifactDomainRecommendation,
+  ArtifactFocus,
   CharacterSummary,
   OwnedCharProgress,
   PullAdvisorResponse,
@@ -22,7 +26,13 @@ import type {
   UpgradeStageFilter,
 } from '../types'
 
-type AdvisorTab = 'pulls' | 'upgrades'
+type AdvisorTab = 'pulls' | 'upgrades' | 'artifacts'
+
+const ARTIFACT_FOCUSES: { key: ArtifactFocus; label: string; desc: string }[] = [
+  { key: 'all', label: 'Toda a Conta', desc: 'Analisa todos os seus personagens possuídos (com peso extra para quem está no Planejador)' },
+  { key: 'planner', label: 'No Planejador', desc: 'Foca somente nos personagens ativos no seu Planejador de Farm' },
+  { key: 'top_meta', label: 'Top Meta (S+/S/A)', desc: 'Considera apenas os personagens da sua conta que estão no topo do meta' },
+]
 
 const ELEMENT_PALETTE: Record<string, { text: string; bg: string; border: string }> = {
   pyro:    { text: '#fb923c', bg: 'rgba(249, 115, 22, 0.14)', border: 'rgba(249, 115, 22, 0.42)' },
@@ -504,12 +514,154 @@ function UpgradeCard({
   )
 }
 
+function ArtifactDomainCard({
+  domain,
+  rank,
+}: {
+  domain: ArtifactDomainRecommendation
+  rank: number
+}) {
+  const accentColor =
+    domain.strategy === 'farm_domain'
+      ? '#4ade80'
+      : domain.strategy === 'strongbox'
+        ? '#fbbf24'
+        : '#94a3b8'
+
+  const effBarColor =
+    domain.efficiency_pct >= 75
+      ? '#4ade80'
+      : domain.efficiency_pct >= 50
+        ? '#fbbf24'
+        : '#94a3b8'
+
+  return (
+    <div className="pa-card pa-domain-card" style={{ borderLeftColor: accentColor }}>
+      <div className="pa-card-head">
+        <div className="pa-rank">#{rank}</div>
+        <div className="pa-domain-head-info">
+          <div className="pa-char-name-row">
+            <span className="pa-domain-name">{domain.domain_name}</span>
+            <span className="pa-region-pill">{domain.region}</span>
+          </div>
+          <div className="pa-domain-meta">
+            <span>{domain.usable_sets_count}/{domain.sets.length} set(s) úteis</span>
+            <span>·</span>
+            <span>{domain.unique_characters_count} personagem(ns)</span>
+            {domain.bis_characters_count > 0 && (
+              <>
+                <span>·</span>
+                <strong>{domain.bis_characters_count} BiS</strong>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="pa-score-box">
+          <div className="pa-score-num">{Math.round(domain.score)}</div>
+          <span className={`pa-verdict-badge pa-strategy-${domain.strategy}`}>
+            {domain.strategy_label}
+          </span>
+        </div>
+      </div>
+
+      {/* Barra de Eficiência de Resina */}
+      <div className="pa-eff-row">
+        <div className="pa-bar-top">
+          <span>Eficiência de Resina no Domínio</span>
+          <strong style={{ color: effBarColor }}>{domain.efficiency_pct}%</strong>
+        </div>
+        <div className="pa-bar-track">
+          <div
+            className="pa-bar-fill"
+            style={{ width: `${domain.efficiency_pct}%`, background: effBarColor }}
+          />
+        </div>
+      </div>
+
+      {/* Sets do Domínio */}
+      <div className="pa-domain-sets">
+        {domain.sets.map((s) => {
+          const artImg = artifactIconUrl(s.icon)
+          const hasUsers = s.total_users > 0
+          return (
+            <div key={s.slug} className={`pa-domain-set-box ${hasUsers ? '' : 'is-unused'}`}>
+              <div className="pa-domain-set-head">
+                <div className="pa-domain-set-icon">
+                  {artImg ? <img src={artImg} alt={s.name} loading="lazy" /> : <Gem size={16} />}
+                </div>
+                <div className="pa-domain-set-title-wrap">
+                  <Link to={`/artifacts/${s.slug}`} className="pa-domain-set-name">
+                    {s.name}
+                  </Link>
+                  <div className="pa-domain-set-sub">
+                    <span>
+                      {hasUsers
+                        ? `${s.total_users} ${s.total_users === 1 ? 'personagem' : 'personagens'}${s.bis_count > 0 ? ` (${s.bis_count} BiS)` : ''}`
+                        : 'Sem demanda na sua conta'}
+                    </span>
+                    <span className="pa-strongbox-tag">
+                      {s.in_strongbox ? 'No Strongbox' : 'Só Domínio'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {hasUsers && (
+                <div className="pa-set-users">
+                  {s.users.slice(0, 10).map((u) => {
+                    const uImg = iconUrl(u.icon)
+                    return (
+                      <Link
+                        key={u.slug}
+                        to={`/characters/${u.slug}`}
+                        className={`pa-set-user-chip ${u.is_bis ? 'is-bis' : ''}`}
+                        title={`${u.name} — ${u.usage_label}${u.is_in_planner ? ' · No Planejador' : ''}`}
+                      >
+                        <span className="pa-set-user-avatar">
+                          {uImg ? <img src={uImg} alt={u.name} loading="lazy" /> : null}
+                        </span>
+                        <span className="pa-set-user-name">{u.name}</span>
+                        {u.is_bis && <span className="pa-bis-dot">BiS</span>}
+                        {u.is_in_planner && <span className="pa-plan-dot" title="No Planejador" />}
+                      </Link>
+                    )
+                  })}
+                  {s.users.length > 10 && (
+                    <span className="pa-set-user-more">+{s.users.length - 10}</span>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      {domain.reasons.length > 0 && (
+        <ul className="pa-reasons">
+          {domain.reasons.map((r, i) => (
+            <li key={i}>{r}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function readActivePlannerSlugs(): string[] {
+  const plan = loadPlanFromStorage()
+  if (!plan?.chars) return []
+  return plan.chars
+    .filter((c) => !c.is_inactive && c.slug)
+    .map((c) => c.slug)
+}
+
 export default function PullAdvisorPage() {
   const { lang } = useLanguage()
   const roster = useRoster()
 
   const [activeTab, setActiveTab] = useState<AdvisorTab>('pulls')
   const [chars, setChars] = useState<CharacterSummary[]>([])
+  const [plannerSlugs, setPlannerSlugs] = useState<string[]>(() => readActivePlannerSlugs())
 
   // Estado — Aba 1: Quem Pegar (Pulls)
   const [goal, setGoal] = useState<PullGoal>('meta')
@@ -527,7 +679,18 @@ export default function PullAdvisorPage() {
   const [upgradeResult, setUpgradeResult] = useState<UpgradeAdvisorResponse | null>(null)
   const [upgradeLoading, setUpgradeLoading] = useState(false)
 
+  // Estado — Aba 3: Artefatos & Domínios
+  const [artifactFocus, setArtifactFocus] = useState<ArtifactFocus>('all')
+  const [artifactResult, setArtifactResult] = useState<ArtifactAdvisorResponse | null>(null)
+  const [artifactLoading, setArtifactLoading] = useState(false)
+
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const syncPlanner = () => setPlannerSlugs(readActivePlannerSlugs())
+    window.addEventListener(PLANNER_UPDATED_EVENT, syncPlanner)
+    return () => window.removeEventListener(PLANNER_UPDATED_EVENT, syncPlanner)
+  }, [])
 
   useEffect(() => {
     api.listCharacters(lang, { limit: 200 })
@@ -631,6 +794,28 @@ export default function PullAdvisorPage() {
     }
   }
 
+  const loadArtifactRecommendations = async () => {
+    if (chars.length === 0) return
+    setArtifactLoading(true)
+    try {
+      const data = await api.recommendArtifacts(
+        {
+          owned_slugs: ownedSlugs,
+          planner_slugs: plannerSlugs,
+          focus: artifactFocus,
+          limit: 20,
+        },
+        lang,
+      )
+      setArtifactResult(data)
+      setError(null)
+    } catch (e) {
+      setError(String(e))
+    } finally {
+      setArtifactLoading(false)
+    }
+  }
+
   useEffect(() => {
     loadPullRecommendations()
   }, [chars.length, ownedSlugs.join(','), goal, rarityFilter, elementFilter, targetSlug, lang])
@@ -641,25 +826,42 @@ export default function PullAdvisorPage() {
     }
   }, [activeTab, chars.length, progressKey, upgradeGoal, stageFilter, upgradeRarity, upgradeElement, lang])
 
+  useEffect(() => {
+    if (activeTab === 'artifacts' || artifactResult !== null) {
+      loadArtifactRecommendations()
+    }
+  }, [activeTab, chars.length, ownedSlugs.join(','), plannerSlugs.join(','), artifactFocus, lang])
+
   const summary = result?.account_summary
   const upgradeSummary = upgradeResult?.summary
+  const artifactSummary = artifactResult?.summary
 
   const handleRefresh = () => {
     if (activeTab === 'pulls') loadPullRecommendations()
-    else loadUpgradeRecommendations()
+    else if (activeTab === 'upgrades') loadUpgradeRecommendations()
+    else loadArtifactRecommendations()
   }
+
+  const isRefreshing =
+    activeTab === 'pulls'
+      ? loading
+      : activeTab === 'upgrades'
+        ? upgradeLoading
+        : artifactLoading
 
   return (
     <div className="pull-advisor-page">
       <div className="pa-header">
         <div>
           <h1 className="pa-title">
-            <Sparkles size={28} color="#7dd3fc" /> Pull & Upgrade Advisor
+            <Sparkles size={28} color="#7dd3fc" /> Consultor da Conta
           </h1>
           <p className="pa-subtitle">
             {activeTab === 'pulls'
               ? 'Análise personalizada da sua conta combinando Consenso Geral (7 fontes), times desbloqueados (3/4 → 4/4), cobertura de Main DPS por elemento e Endgame 30d.'
-              : 'Descubra em quais personagens da sua conta vale focar resina agora para subir até Lv.90 (ou 80/90) e quais talentos priorizar.'}
+              : activeTab === 'upgrades'
+                ? 'Descubra em quais personagens da sua conta vale focar resina agora para subir até Lv.90 (ou 80/90) e quais talentos priorizar.'
+                : 'Veja em qual Domínio de Artefatos sua resina rende mais (onde ambos os sets servem à sua conta) e quais sets antigos buscar no Strongbox.'}
           </p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -669,7 +871,7 @@ export default function PullAdvisorPage() {
           <button
             className="btn-secondary"
             onClick={handleRefresh}
-            disabled={activeTab === 'pulls' ? loading : upgradeLoading}
+            disabled={isRefreshing}
           >
             <RefreshCw size={14} /> Atualizar
           </button>
@@ -699,6 +901,19 @@ export default function PullAdvisorPage() {
           Quem Upar (Lv.90 & Talentos)
           {upgradeSummary && upgradeSummary.needs_upgrade_count > 0 && (
             <span className="pa-tab-count">{upgradeSummary.needs_upgrade_count}</span>
+          )}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'artifacts'}
+          className={`pa-tab ${activeTab === 'artifacts' ? 'active' : ''}`}
+          onClick={() => setActiveTab('artifacts')}
+        >
+          <Gem size={15} />
+          Artefatos & Domínios
+          {artifactSummary && artifactSummary.domains_matched > 0 && (
+            <span className="pa-tab-count">{artifactSummary.domains_matched}</span>
           )}
         </button>
       </div>
@@ -1039,6 +1254,151 @@ export default function PullAdvisorPage() {
           )}
         </>
       )}
+
+      {/* ===================== ABA 3: ARTEFATOS & DOMÍNIOS ===================== */}
+      {activeTab === 'artifacts' && (
+        <>
+          {artifactSummary && (
+            <div className="pa-account-strip">
+              <div className="pa-stat-card">
+                <div className="pa-stat-label">Melhor Domínio p/ Farmar</div>
+                <div className="pa-stat-value pa-stat-value-sm" style={{ color: '#86efac' }}>
+                  {artifactSummary.best_domain_name ?? '—'}
+                </div>
+                <div className="pa-stat-sub" style={{ marginTop: 4 }}>
+                  {artifactSummary.domains_matched} domínio(s) relevantes para a sua conta
+                </div>
+              </div>
+
+              <div className="pa-stat-card">
+                <div className="pa-stat-label">Melhor Alvo no Strongbox</div>
+                <div className="pa-stat-value pa-stat-value-sm" style={{ color: '#fde68a' }}>
+                  {artifactSummary.best_strongbox_name ?? '—'}
+                </div>
+                <div className="pa-stat-sub" style={{ marginTop: 4 }}>
+                  Recicle peças ruins de domínios duplos na Oferenda Mística
+                </div>
+              </div>
+
+              <div className="pa-stat-card">
+                <div className="pa-stat-label">Escopo Avaliado</div>
+                <div className="pa-stat-value">
+                  {artifactSummary.evaluated_characters}{' '}
+                  <span className="pa-stat-sub">personagens</span>
+                </div>
+                <div className="pa-stat-sub" style={{ marginTop: 4 }}>
+                  {plannerSlugs.length > 0
+                    ? `${artifactSummary.planner_characters_matched} deles ativos no Planejador`
+                    : 'Nenhum personagem ativo no Planejador'}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <section className="pa-controls">
+            <div className="pa-goal-row">
+              <span className="filter-label" style={{ marginRight: 4 }}>
+                <Compass size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} /> Foco:
+              </span>
+              {ARTIFACT_FOCUSES.map((f) => (
+                <button
+                  key={f.key}
+                  type="button"
+                  className={`filter-pill ${artifactFocus === f.key ? 'active' : ''}`}
+                  style={{ '--pill-color': f.key === 'planner' ? '#4ade80' : '#38bdf8' } as React.CSSProperties}
+                  onClick={() => setArtifactFocus(f.key)}
+                  title={f.desc}
+                >
+                  {f.label}
+                  {f.key === 'planner' && ` (${plannerSlugs.length})`}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {artifactLoading && !artifactResult && (
+            <p className="status">Calculando eficiência de resina por domínio...</p>
+          )}
+
+          {artifactResult && artifactResult.strongbox_targets.length > 0 && (
+            <section className="pa-strongbox-panel">
+              <div className="pa-strongbox-head">
+                <h2 className="pa-sim-title">
+                  <Repeat size={17} color="#fbbf24" /> Melhores Alvos no Strongbox (Oferenda Mística)
+                </h2>
+                <span className="pa-strongbox-hint">
+                  Sets de domínios 1/2 que valem mais reciclar do que gastar resina direta
+                </span>
+              </div>
+              <div className="pa-strongbox-grid">
+                {artifactResult.strongbox_targets.slice(0, 6).map((sb, idx) => {
+                  const artImg = artifactIconUrl(sb.icon)
+                  return (
+                    <div key={sb.slug} className="pa-sb-card">
+                      <div className="pa-sb-top">
+                        <div className="pa-domain-set-icon">
+                          {artImg ? <img src={artImg} alt={sb.name} loading="lazy" /> : <Gem size={16} />}
+                        </div>
+                        <div className="pa-sb-title-wrap">
+                          <Link to={`/artifacts/${sb.slug}`} className="pa-domain-set-name">
+                            #{idx + 1} {sb.name}
+                          </Link>
+                          <div className="pa-sb-meta">
+                            {sb.total_users} personagem(ns){sb.bis_count > 0 ? ` · ${sb.bis_count} BiS` : ''}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="pa-sb-why">{sb.why}</p>
+                      <div className="pa-sb-avatars">
+                        {sb.users.slice(0, 7).map((u) => {
+                          const uImg = iconUrl(u.icon)
+                          return (
+                            <Link
+                              key={u.slug}
+                              to={`/characters/${u.slug}`}
+                              className={`pa-unlock-avatar ${u.is_bis ? 'is-target' : ''}`}
+                              title={`${u.name} (${u.usage_label})`}
+                            >
+                              {uImg ? <img src={uImg} alt={u.name} loading="lazy" /> : null}
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </section>
+          )}
+
+          {artifactResult && artifactResult.domains.length === 0 && (
+            <div className="pa-stat-card" style={{ textAlign: 'center', padding: 28 }}>
+              {artifactFocus === 'planner' && plannerSlugs.length === 0 ? (
+                <>
+                  Você ainda não tem personagens ativos no <Link to="/planner">Planejador</Link>. Adicione personagens por lá ou mude o foco para <strong>Toda a Conta</strong>.
+                </>
+              ) : (
+                <>
+                  Marque os personagens que você possui em <Link to="/roster">Meu Roster</Link> (ou importe por UID / GOOD JSON) para ver onde sua resina rende mais.
+                </>
+              )}
+            </div>
+          )}
+
+          {artifactResult && artifactResult.domains.length > 0 && (
+            <div className="pa-grid">
+              {artifactResult.domains.map((dom, idx) => (
+                <ArtifactDomainCard
+                  key={dom.domain_id}
+                  domain={dom}
+                  rank={idx + 1}
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
   )
 }
+

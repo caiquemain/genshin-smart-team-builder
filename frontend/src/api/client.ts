@@ -25,6 +25,8 @@ import type { Substitute, BuildPreset,
   PullAdvisorResponse,
   UpgradeAdvisorRequest,
   UpgradeAdvisorResponse,
+  ArtifactAdvisorRequest,
+  ArtifactAdvisorResponse,
   EnkaImportResponse,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
@@ -186,6 +188,15 @@ export const api = {
     }).then(async (r) => {
       if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
       return r.json() as Promise<UpgradeAdvisorResponse>
+    }),
+  recommendArtifacts: (payload: ArtifactAdvisorRequest, lang: LanguageCode) =>
+    fetch(`${API_URL}/recommendations/artifacts?lang=${lang}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<ArtifactAdvisorResponse>
     }),
   importEnkaUid: (uid: string, lang: LanguageCode) =>
     fetch(`${API_URL}/enka/${encodeURIComponent(uid.trim())}?lang=${lang}`).then(async (r) => {
