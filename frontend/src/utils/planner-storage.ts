@@ -1,6 +1,6 @@
 import type { AggregateMaterial, CharBreakdown, Plan, WeaponBreakdown } from '../types/planner'
 import type { EnkaImportResponse } from '../types'
-import type { GoodCharacter, GoodData } from '../types/good'
+import type { GoodArtifact, GoodCharacter, GoodData } from '../types/good'
 import type {
   SeelieCharacterGoal,
   SeelieData,
@@ -916,4 +916,148 @@ export function mergeEnkaImportIntoStorage(
   return { rosterUpdated, plannerAdded, plannerUpdated }
 }
 
+export interface SaveManualGearInput {
+  slug: string
+  level?: number
+  cons?: number
+  talents?: { na: number; es: number; eb: number }
+  weaponSlug?: string | null
+  weaponLevel?: number
+  weaponRefinement?: number
+  artifacts: GoodArtifact[]
+}
 
+/**
+ * Salva artefatos (e opcionalmente nível/talentos/arma) editados manualmente no
+ * objeto `good` dentro de `gsb.planner.v5`, funcionando mesmo para contas que
+ * nunca importaram GOOD JSON — e sincronizando automaticamente com Roster,
+ * Consultor da Conta, Página do Personagem e Backup Local / Google Drive.
+ */
+export function saveManualCharacterGear(input: SaveManualGearInput): void {
+  const targetKey = canonicalCharKey(input.slug)
+  if (!targetKey) return
+
+  let v5: Record<string, any> = {}
+  try {
+    const raw = localStorage.getItem(PLANNER_V5_KEY)
+    if (raw) v5 = JSON.parse(raw)
+  } catch {
+    v5 = {}
+  }
+
+  if (!v5.good || typeof v5.good !== 'object') {
+    v5.good = {
+      format: 'GOOD',
+      version: 2,
+      source: 'GenshinSmartTeamBuilder',
+      characters: [],
+      weapons: [],
+      artifacts: [],
+    } satisfies GoodData
+  }
+  if (!Array.isArray(v5.good.characters)) v5.good.characters = []
+  if (!Array.isArray(v5.good.weapons)) v5.good.weapons = []
+  if (!Array.isArray(v5.good.artifacts)) v5.good.artifacts = []
+
+  // 1. Personagem: reutiliza o key original do GOOD se existir para manter consistência
+  const existingCharIdx = v5.good.characters.findIndex(
+    (c: any) => c?.key && canonicalCharKey(c.key) === targetKey,
+  )
+  let charKey = input.slug
+  if (existingCharIdx >= 0) {
+    const prev = v5.good.characters[existingCharIdx]
+    charKey = prev.key || input.slug
+    const nextLevel = input.level ?? prev.level ?? 1
+    v5.good.characters[existingCharIdx] = {
+      ...prev,
+      level: nextLevel,
+      ascension: inferAscensionFromLevel(nextLevel),
+      constellation: input.cons ?? prev.constellation ?? 0,
+      talent: {
+        auto: input.talents?.na ?? prev.talent?.auto ?? 1,
+        skill: input.talents?.es ?? prev.talent?.skill ?? 1,
+        burst: input.talents?.eb ?? prev.talent?.burst ?? 1,
+      },
+    }
+  } else {
+    const nextLevel = input.level ?? 1
+    const newChar: GoodCharacter = {
+      key: charKey,
+      level: nextLevel,
+      ascension: inferAscensionFromLevel(nextLevel),
+      constellation: input.cons ?? 0,
+      talent: {
+        auto: input.talents?.na ?? 1,
+        skill: input.talents?.es ?? 1,
+        burst: input.talents?.eb ?? 1,
+      },
+    }
+    v5.good.characters.push(newChar)
+  }
+
+  // 2. Arma equipada (se especificada na edição)
+  if (input.weaponSlug !== undefined) {
+    // Desequipa arma antiga deste personagem (mantendo no inventário)
+    for (const w of v5.good.weapons) {
+      if (w?.location && canonicalCharKey(w.location) === targetKey) {
+        w.location = ''
+      }
+    }
+    if (input.weaponSlug) {
+      const targetWeaponKey = canonicalWeaponKey(input.weaponSlug)
+      const wLv = Math.max(1, Math.min(90, input.weaponLevel ?? 90))
+      const wRef = Math.max(1, Math.min(5, input.weaponRefinement ?? 1))
+      // Tenta reutilizar uma arma igual sem dono antes de criar nova entrada
+      const freeIdx = v5.good.weapons.findIndex(
+        (w: any) =>
+          w?.key &&
+          canonicalWeaponKey(w.key) === targetWeaponKey &&
+          (!w.location || w.location === ''),
+      )
+      if (freeIdx >= 0) {
+        v5.good.weapons[freeIdx] = {
+          ...v5.good.weapons[freeIdx],
+          level: wLv,
+          ascension: inferAscensionFromLevel(wLv),
+          refinement: wRef,
+          location: charKey,
+        }
+      } else {
+        v5.good.weapons.push({
+          key: input.weaponSlug,
+          level: wLv,
+          ascension: inferAscensionFromLevel(wLv),
+          refinement: wRef,
+          location: charKey,
+        })
+      }
+    }
+  }
+
+  // 3. Artefatos equipados: substitui apenas as peças deste personagem
+  const keptArtifacts = v5.good.artifacts.filter(
+    (a: any) => !a?.location || canonicalCharKey(a.location) !== targetKey,
+  )
+  const sanitizedArtifacts: GoodArtifact[] = input.artifacts.map((a) => ({
+    setKey: a.setKey,
+    slotKey: a.slotKey,
+    level: Math.max(0, Math.min(a.rarity >= 5 ? 20 : 16, Math.round(a.level ?? 0))),
+    rarity: a.rarity >= 5 ? 5 : 4,
+    mainStatKey: a.mainStatKey,
+    location: charKey,
+    lock: a.lock ?? true,
+    substats: (a.substats ?? [])
+      .filter((s) => s && s.key && Number.isFinite(s.value) && s.value > 0)
+      .slice(0, 4)
+      .map((s) => ({ key: s.key, value: Math.round(s.value * 10) / 10 })),
+  }))
+
+  v5.good.artifacts = [...keptArtifacts, ...sanitizedArtifacts]
+
+  try {
+    localStorage.setItem(PLANNER_V5_KEY, JSON.stringify(v5))
+  } catch (err) {
+    console.error('[planner-storage] Falha ao salvar artefatos manuais:', err)
+  }
+  emitPlannerUpdated()
+}

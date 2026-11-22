@@ -247,13 +247,30 @@ export default function CharacterDetailPage() {
     [char?.passives],
   )
 
-  const goodState = slug ? roster.getGoodState(slug) : null
+  const rawGoodState = slug ? roster.getGoodState(slug) : null
+  const ownedEntry = slug ? roster.get(slug) : null
+  const effectiveGoodState = useMemo(() => {
+    if (rawGoodState) return rawGoodState
+    if (ownedEntry?.owned) {
+      return {
+        level: 90,
+        ascension: 6,
+        cons: ownedEntry.cons,
+        talents: { na: 1, es: 1, eb: 1 },
+        weaponSlug: null,
+        weaponLevel: 90,
+        weaponRefinement: 1,
+        artifacts: [],
+      }
+    }
+    return null
+  }, [rawGoodState, ownedEntry?.owned, ownedEntry?.cons])
 
   const sections = useMemo(() => {
     if (!char) return []
     return [
       { id: 'visao-geral', label: 'Visão Geral' },
-      goodState && { id: 'minha-build', label: 'Minha Build' },
+      effectiveGoodState && { id: 'minha-build', label: 'Minha Build' },
       kqmBuild && { id: 'kqm-build', label: 'Build Recomendada' },
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
@@ -263,7 +280,7 @@ export default function CharacterDetailPage() {
       { id: 'ascensao', label: 'Ascensão' },
       { id: 'talentos-custos', label: 'Custo de Talentos' },
     ].filter(Boolean) as { id: string; label: string }[]
-  }, [char, basePassives, kqmBuild, goodState, characterTeams.length])
+  }, [char, basePassives, kqmBuild, effectiveGoodState, characterTeams.length])
 
   useEffect(() => {
     if (!char || sections.length === 0) return
@@ -431,13 +448,12 @@ export default function CharacterDetailPage() {
             </section>
           )}
 
-          {goodState && (
+          {effectiveGoodState && (
             <EquippedBuildPanel
-              slug={char.slug}
-              element={String(char.element)}
-              weaponType={String(char.weapon_type)}
-              goodState={goodState}
+              character={char}
+              goodState={effectiveGoodState}
               recommendedBuild={kqmBuild?.build_data ?? null}
+              onUpdated={() => roster.refresh()}
             />
           )}
 

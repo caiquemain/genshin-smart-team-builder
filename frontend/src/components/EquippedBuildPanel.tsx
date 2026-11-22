@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2, Pencil } from 'lucide-react'
 import { api } from '../api/client'
 import { artifactIconUrl, iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
@@ -15,14 +15,14 @@ import {
   STAT_SHORT_LABEL_PT,
   type CharacterStatsDataset,
 } from '../utils/char-stats-calc'
-import type { ArtifactSetSummary, CharacterBuild, WeaponSummary } from '../types'
+import CharacterArtifactsModal from './CharacterArtifactsModal'
+import type { ArtifactSetSummary, CharacterBuild, CharacterSummary, WeaponSummary } from '../types'
 
 interface EquippedBuildPanelProps {
-  slug: string
-  element: string
-  weaponType: string
+  character: CharacterSummary
   goodState: GoodCharState
   recommendedBuild?: CharacterBuild | null
+  onUpdated?: () => void
 }
 
 function cvTierClass(cv: number): string {
@@ -33,16 +33,19 @@ function cvTierClass(cv: number): string {
 }
 
 export default function EquippedBuildPanel({
-  slug,
-  element,
-  weaponType,
+  character,
   goodState,
   recommendedBuild,
+  onUpdated,
 }: EquippedBuildPanelProps) {
   const { lang } = useLanguage()
+  const slug = character.slug
+  const element = String(character.element)
+  const weaponType = String(character.weapon_type)
   const [statsDataset, setStatsDataset] = useState<CharacterStatsDataset>({})
   const [weapons, setWeapons] = useState<WeaponSummary[]>([])
   const [artifactSets, setArtifactSets] = useState<ArtifactSetSummary[]>([])
+  const [showEditorModal, setShowEditorModal] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -131,6 +134,13 @@ export default function EquippedBuildPanel({
             {audit.status === 'built' ? <CheckCircle2 size={13} /> : <AlertCircle size={13} />}
             {audit.label}
           </span>
+          <button
+            type="button"
+            className="rb-detail-btn"
+            onClick={() => setShowEditorModal(true)}
+          >
+            <Pencil size={12} /> {computed.hasArtifacts ? 'Editar Build / Artefatos' : '+ Adicionar Artefatos'}
+          </button>
         </div>
       </div>
 
@@ -289,9 +299,30 @@ export default function EquippedBuildPanel({
           })}
         </div>
       ) : (
-        <div className="eb-empty-artifacts">
-          Nenhum artefato equipado encontrado no GOOD JSON para este personagem. Importe um arquivo GOOD completo no <Link to="/planner">Planejador</Link> para ver as 5 peças e o Crit Value aqui.
+        <div className="eb-empty-artifacts" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+          <span>
+            Nenhum artefato cadastrado ainda. Você pode cadastrar manualmente agora ou importar um GOOD JSON no <Link to="/planner">Planejador</Link>.
+          </span>
+          <button
+            type="button"
+            className="rb-detail-btn"
+            onClick={() => setShowEditorModal(true)}
+          >
+            <Gem size={12} /> + Adicionar Artefatos
+          </button>
         </div>
+      )}
+
+      {showEditorModal && (
+        <CharacterArtifactsModal
+          character={character}
+          initialState={goodState}
+          statsDataset={statsDataset}
+          weaponsCatalog={weapons}
+          artifactsCatalog={artifactSets}
+          onClose={() => setShowEditorModal(false)}
+          onSaved={() => onUpdated?.()}
+        />
       )}
     </section>
   )

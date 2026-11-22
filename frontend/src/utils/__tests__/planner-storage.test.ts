@@ -12,6 +12,7 @@ import {
   loadPlannerSettings,
   mergeEnkaImportIntoStorage,
   removeCharFromPlan,
+  saveManualCharacterGear,
   savePlanToStorage,
   syncCharEditToPlannerStorage,
   syncInventoryItemToPlannerStorage,
@@ -533,4 +534,73 @@ describe('planner-storage', () => {
     expect(plan.chars[0].weapons[0].slug).toBe('sig-catalyst')
     expect(plan.chars[0].weapons[0].from_level).toBe(80)
   })
+
+  it('saveManualCharacterGear funciona do zero (sem GOOD) e preserva artefatos de outros personagens', () => {
+    // 1. Sem nenhum GOOD JSON prévio, salva artefatos + arma de Neuvillette
+    saveManualCharacterGear({
+      slug: 'neuvillette',
+      level: 90,
+      cons: 1,
+      weaponSlug: 'tome-of-the-eternal-flow',
+      weaponLevel: 90,
+      weaponRefinement: 1,
+      artifacts: [
+        {
+          setKey: 'marechaussee-hunter',
+          slotKey: 'flower',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'hp',
+          substats: [
+            { key: 'critRate_', value: 10.5 },
+            { key: 'critDMG_', value: 21.0 },
+          ],
+        },
+      ],
+    })
+
+    // 2. Salva artefatos de Furina sem apagar os do Neuvillette
+    saveManualCharacterGear({
+      slug: 'furina',
+      level: 90,
+      cons: 0,
+      artifacts: [
+        {
+          setKey: 'golden-troupe',
+          slotKey: 'plume',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'atk',
+          substats: [{ key: 'critDMG_', value: 28.0 }],
+        },
+      ],
+    })
+
+    // 3. Atualiza artefatos de Neuvillette (substitui só os dele)
+    saveManualCharacterGear({
+      slug: 'neuvillette',
+      level: 90,
+      artifacts: [
+        {
+          setKey: 'marechaussee-hunter',
+          slotKey: 'flower',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'hp',
+          substats: [{ key: 'critDMG_', value: 35.0 }],
+        },
+      ],
+    })
+
+    const v5 = JSON.parse(localStorage.getItem(PLANNER_V5_KEY)!)
+    expect(v5.good.format).toBe('GOOD')
+    expect(v5.good.characters).toHaveLength(2)
+    expect(v5.good.artifacts).toHaveLength(2)
+
+    const neuviArt = v5.good.artifacts.find((a: any) => a.location === 'neuvillette')
+    const furinaArt = v5.good.artifacts.find((a: any) => a.location === 'furina')
+    expect(neuviArt.substats).toEqual([{ key: 'critDMG_', value: 35 }])
+    expect(furinaArt.setKey).toBe('golden-troupe')
+  })
 })
+

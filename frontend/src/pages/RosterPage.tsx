@@ -2,12 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles,
-  UserCheck, BarChart3, Users, ArrowRight, Swords,
+  UserCheck, BarChart3, Users, Swords, Gem,
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { artifactIconUrl, iconUrl } from '../config'
 import { useRoster } from '../utils/roster'
+import type { GoodCharState } from '../utils/good-parser'
 import {
   buildArtifactSetLookup,
   buildWeaponLookup,
@@ -18,6 +19,7 @@ import {
   type ComputedCharStats,
 } from '../utils/char-stats-calc'
 import UidImportModal from '../components/UidImportModal'
+import CharacterArtifactsModal from '../components/CharacterArtifactsModal'
 import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
 
 const ELEMENT_ORDER = ['pyro', 'hydro', 'electro', 'cryo', 'anemo', 'geo', 'dendro']
@@ -60,6 +62,10 @@ export default function RosterPage() {
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null)
   const [showShortcuts, setShowShortcuts] = useState(false)
   const [showUidModal, setShowUidModal] = useState(false)
+  const [selectedBuildChar, setSelectedBuildChar] = useState<{
+    char: CharacterSummary
+    goodState: GoodCharState
+  } | null>(null)
   const [openConsPopover, setOpenConsPopover] = useState<string | null>(null)
   const consPopoverRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -97,8 +103,8 @@ export default function RosterPage() {
   const artifactSetLookup = useMemo(() => buildArtifactSetLookup(artifactsCatalog), [artifactsCatalog])
 
   const computedBuilds = useMemo(() => {
-    if (viewMode !== 'builds') return [] as { char: CharacterSummary; stats: ComputedCharStats }[]
-    const rows: { char: CharacterSummary; stats: ComputedCharStats }[] = []
+    if (viewMode !== 'builds') return [] as { char: CharacterSummary; goodState: GoodCharState; stats: ComputedCharStats }[]
+    const rows: { char: CharacterSummary; goodState: GoodCharState; stats: ComputedCharStats }[] = []
     for (const c of chars) {
       const o = roster.get(c.slug)
       if (!o.owned) continue
@@ -125,7 +131,7 @@ export default function RosterPage() {
         weaponLookup,
         artifactSetLookup,
       })
-      rows.push({ char: c, stats })
+      rows.push({ char: c, goodState: g, stats })
     }
 
     rows.sort((a, b) => {
@@ -665,7 +671,7 @@ export default function RosterPage() {
             </p>
           ) : (
             <div className="rb-grid">
-              {computedBuilds.map(({ char: c, stats }) => {
+              {computedBuilds.map(({ char: c, goodState, stats }) => {
                 const img = iconUrl(c.icon)
                 const elColor = ELEMENT_COLORS[c.element] || '#38bdf8'
                 const primaryBonus =
@@ -777,11 +783,16 @@ export default function RosterPage() {
                       <span>
                         {stats.pieces.length > 0
                           ? `${stats.pieces.length}/5 peças · média +${Math.round(stats.avgArtifactLevel)}`
-                          : 'Importe GOOD JSON p/ ver peças'}
+                          : 'Sem artefatos cadastrados'}
                       </span>
-                      <Link to={`/characters/${c.slug}#minha-build`} className="rb-detail-link">
-                        Ver 5 artefatos <ArrowRight size={12} />
-                      </Link>
+                      <button
+                        type="button"
+                        className="rb-detail-btn"
+                        onClick={() => setSelectedBuildChar({ char: c, goodState })}
+                      >
+                        <Gem size={12} />
+                        {stats.pieces.length > 0 ? 'Ver / Editar Artefatos' : '+ Adicionar Artefatos'}
+                      </button>
                     </div>
                   </div>
                 )
@@ -825,6 +836,18 @@ export default function RosterPage() {
               `Vitrine de ${nickname} sincronizada! (${rosterUpdated} no Roster · ${plannerAdded} adicionado(s) e ${plannerUpdated} atualizado(s) no Planejador).`,
             )
           }}
+        />
+      )}
+
+      {selectedBuildChar && (
+        <CharacterArtifactsModal
+          character={selectedBuildChar.char}
+          initialState={selectedBuildChar.goodState}
+          statsDataset={statsDataset}
+          weaponsCatalog={weaponsCatalog}
+          artifactsCatalog={artifactsCatalog}
+          onClose={() => setSelectedBuildChar(null)}
+          onSaved={() => roster.refresh()}
         />
       )}
     </div>
