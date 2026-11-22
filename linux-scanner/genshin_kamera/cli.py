@@ -8,6 +8,7 @@ from .backend_input import LinuxScreenBackend, parse_geometry_arg
 from .catalog import load_default_catalog
 from .parsers import build_good_v2_payload, write_good_json
 from .scanners import (
+    run_click_test,
     save_calibration_overlay,
     scan_artifacts,
     scan_characters,
@@ -25,7 +26,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
             "Genshin Smart Team Builder."
         ),
     )
-    p.add_argument("--calibrate", action="store_true", help="Salva imagem com caixas de recorte em ./debug_crops para validar resolução")
+    p.add_argument("--calibrate", action="store_true", help="Salva imagem com caixas de recorte em ./debug_crops e testa OCR ao vivo")
+    p.add_argument("--test-click", action="store_true", help="Clica no 2º e 1º artefato e confirma se clique + OCR estão funcionando")
     p.add_argument("--artifacts", action="store_true", help="Escaneia a aba de Artefatos (abra o inventário na aba Artefatos)")
     p.add_argument("--weapons", action="store_true", help="Escaneia a aba de Armas (abra o inventário na aba Armas)")
     p.add_argument("--materials", action="store_true", help="Escaneia a aba atual de Materiais / Desenvolvimento")
@@ -35,23 +37,23 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--min-weapon-rarity", type=int, default=4, help="Raridade mínima para armas (padrão: 4)")
     p.add_argument("--min-level", type=int, default=0, help="Nível mínimo para artefatos (padrão: 0)")
     p.add_argument("--max-items", type=int, default=None, help="Limite máximo de itens (útil para testes rápidos)")
-    p.add_argument("--delay", type=float, default=0.09, help="Pausa em segundos entre cliques (aumente se o PC estiver lento)")
+    p.add_argument("--delay", type=float, default=0.13, help="Pausa em segundos entre cliques (padrão: 0.13)")
     p.add_argument("--countdown", type=int, default=3, help="Segundos antes de iniciar o scan para focar o jogo (padrão: 3)")
     p.add_argument("--geometry", type=str, default=None, help="Força geometria manual da janela: 'X,Y,W,H' ou '1280x720'")
     p.add_argument("--display", choices=("x11", "wayland"), default=None, help="Força sessão X11 ou Wayland")
     p.add_argument(
         "--capture",
-        choices=("auto", "mss", "grim", "gnome-screenshot"),
+        choices=("auto", "portal", "mss", "grim", "gnome-screenshot"),
         default="auto",
-        help="Backend de captura de tela (padrão: auto)",
+        help="Backend de captura de tela (padrão: auto; usa portal PipeWire no GNOME/KDE Wayland)",
     )
     p.add_argument(
         "--input",
         choices=("auto", "xdotool", "ydotool"),
         default="auto",
-        help="Backend de mouse/scroll (padrão: auto; usa xdotool em XWayland/GNOME se ydotool não estiver ativo)",
+        help="Backend de mouse/scroll (padrão: auto)",
     )
-    p.add_argument("--api-url", type=str, default="http://localhost:8000/api", help="URL da API local para carregar nomes atualizados")
+    p.add_argument("--api-url", type=str, default="http://localhost:8000", help="URL da API local para carregar nomes atualizados")
     p.add_argument("--out", type=Path, default=Path("./output"), help="Pasta de saída do JSON GOOD v2 (padrão: ./output)")
     return p
 
@@ -60,10 +62,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_arg_parser()
     args = parser.parse_args(argv)
 
-    if not any([args.calibrate, args.artifacts, args.weapons, args.materials, args.characters]):
+    if not any([args.calibrate, args.test_click, args.artifacts, args.weapons, args.materials, args.characters]):
         parser.print_help()
         print("\nExemplo rápido:")
         print("  genshin-kamera --calibrate --lang pt")
+        print("  genshin-kamera --test-click --lang pt")
         print("  genshin-kamera --artifacts --lang pt --min-rarity 5")
         return 0
 
@@ -81,14 +84,18 @@ def main(argv: list[str] | None = None) -> int:
                 print("[INFO] Janela do Genshin não encontrada automaticamente; usando tela principal.")
                 win = backend.primary_screen_geometry()
 
+        backend.set_window(win)
         print(
             f"[Backend] sessão={'wayland' if backend.is_wayland else 'x11'} "
             f"captura={backend.capture_backend} input={backend.input_backend}"
         )
         print(f"[Janela] x={win.x}, y={win.y}, {win.width}x{win.height} ({'16:9' if win.is_16_9 else '16:10'})")
 
+        # Abre o diálogo de compartilhamento do PipeWire ANTES da contagem regressiva
+        backend.prepare_capture()
+
         if args.countdown > 0:
-            print(f"Iniciando em {args.countdown}s... (Mova o mouse p/ o canto superior esquerdo 0,0 ou Ctrl+C para abortar)")
+            print(f"Iniciando em {args.countdown}s... (Foque o Genshin! Mouse no canto 0,0 ou Ctrl+C para abortar)")
             for i in range(args.countdown, 0, -1):
                 print(f"  {i}...")
                 time.sleep(1)
@@ -106,6 +113,10 @@ def main(argv: list[str] | None = None) -> int:
             print(f"[Calibração] Overlay salvo em: {out_img.resolve()}")
             print("Abra a imagem e confira se o retângulo verde envolve o card da direita e os círculos azuis batem nos ícones.")
             return 0
+
+        if args.test_click:
+            ok = run_click_test(backend, win, catalog, lang=args.lang, click_delay=max(0.16, args.delay))
+            return 0 if ok else 1
 
         print(
             f"[Catálogo] Carregados {len(catalog.characters)} nomes de chars, "

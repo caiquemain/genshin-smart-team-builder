@@ -91,13 +91,16 @@ def item_count_rect(win: WindowGeometry) -> Rect:
     )
 
 
-def inventory_grid_centers(win: WindowGeometry, cols: int = 8, rows: int = 5) -> list[Tuple[int, int]]:
-    """Calcula os centros (x, y) da grade de itens da mochila (8 colunas × 5 linhas em 16:9)."""
-    # Região aproximada da grade de ícones no inventário do Genshin (16:9 e 16:10)
-    gx = 0.088
-    gy = 0.145 if win.is_16_9 else 0.132
-    gw = 0.562
-    gh = 0.715 if win.is_16_9 else 0.735
+def inventory_grid_centers(win: WindowGeometry, cols: int = 8, rows: int = 4) -> list[Tuple[int, int]]:
+    """Calcula os centros (x, y) da grade de itens da mochila (8 colunas × 4 linhas completas em 16:9).
+
+    Usa 4 linhas completas (32 itens/página) para evitar clicar na 5ª linha parcialmente coberta
+    pelo filtro inferior ('Filtrar / Não Equipado').
+    """
+    gx = 0.048
+    gy = 0.150 if win.is_16_9 else 0.135
+    gw = 0.612
+    gh = 0.654 if win.is_16_9 else 0.675
 
     cell_w = gw / cols
     cell_h = gh / rows
@@ -190,15 +193,15 @@ def crop_artifact_level(
 def crop_artifact_substats(
     card_w: int, card_h: int, is_16_9: bool = True, is_sanctified: bool = False
 ) -> Rect:
-    base_y = 0.4216 if is_16_9 else 0.3682
+    base_y = 0.412 if is_16_9 else 0.362
     shift = (0.0520 if is_16_9 else 0.0471) if is_sanctified else 0.0
     return _sub_rect(
         card_w,
         card_h,
-        0.0605,
+        0.048,
         base_y + shift,
-        0.8297,
-        0.2301 if is_16_9 else 0.1573,
+        0.86,
+        0.245 if is_16_9 else 0.165,
     )
 
 
@@ -302,3 +305,12 @@ def detect_rarity_from_rgb(avg_rgb: RGB) -> int:
             best_dist = d
             best_rarity = rarity
     return best_rarity
+
+
+def is_locked_rgb(avg_rgb: RGB) -> bool:
+    """Detecta ícone de cadeado travado (vermelho-coral 5.x/6.x ou fundo escuro antigo)."""
+    r, g, b = avg_rgb
+    # Cadeado travado atual do Genshin tem fundo avermelhado/coral (R claramente maior que G e B)
+    if r >= 145 and (r - b) >= 16 and (r - g) >= 14:
+        return True
+    return compare_color(avg_rgb, LOCKED_ICON_BG_COLOR, tolerance=45.0)

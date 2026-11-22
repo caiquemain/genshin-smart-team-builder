@@ -6,10 +6,9 @@ from typing import Any, Optional
 from PIL import Image, ImageDraw
 
 from .backend_input import LinuxScreenBackend, ScanAbortedError
-from .catalog import GameCatalog, to_good_key
+from .catalog import GameCatalog, norm_text, to_good_key
 from .geometry import (
     EQUIPPED_BANNER_COLOR,
-    LOCKED_ICON_BG_COLOR,
     SANCTIFIED_BANNER_COLOR,
     WindowGeometry,
     card_rect,
@@ -30,6 +29,7 @@ from .geometry import (
     crop_weapon_refinement,
     detect_rarity_from_rgb,
     inventory_grid_centers,
+    is_locked_rgb,
     item_count_rect,
 )
 from .ocr import average_rgb, read_text
@@ -99,17 +99,19 @@ def save_calibration_overlay(
         rx, ry = px - win.x, py - win.y
         draw.ellipse((rx - 6, ry - 6, rx + 6, ry + 6), outline=(56, 189, 248), width=2)
 
-    # 4. Salva recortes internos do card
+    # 4. Salva recortes internos do card (com detecção de banner Elixir Santificador)
     card_img = full_img.crop(rel_card)
     cw, ch = card_img.size
+    sanctify_img = card_img.crop(crop_sanctify_banner(cw, ch, win.is_16_9).as_crop_box())
+    is_sanctified = compare_color(average_rgb(sanctify_img), SANCTIFIED_BANNER_COLOR, tolerance=45.0)
     for name, r in [
         ("01_name", crop_item_name(cw, ch, win.is_16_9)),
         ("02_slot", crop_artifact_slot(cw, ch, win.is_16_9)),
         ("03_main_stat", crop_artifact_main_stat(cw, ch, win.is_16_9)),
-        ("04_level", crop_artifact_level(cw, ch, win.is_16_9)),
-        ("05_substats", crop_artifact_substats(cw, ch, win.is_16_9)),
+        ("04_level", crop_artifact_level(cw, ch, win.is_16_9, is_sanctified)),
+        ("05_substats", crop_artifact_substats(cw, ch, win.is_16_9, is_sanctified)),
         ("06_equipped", crop_item_equipped(cw, ch, win.is_16_9)),
-        ("07_locked", crop_item_locked(cw, ch, win.is_16_9)),
+        ("07_locked", crop_item_locked(cw, ch, win.is_16_9, is_sanctified)),
     ]:
         card_img.crop(r.as_crop_box()).save(out_dir / f"{name}.png")
         draw.rectangle(
@@ -126,15 +128,52 @@ def save_calibration_overlay(
         tlang = _tess_lang(lang)
         cnt_txt = read_text(full_img.crop(rel_cnt), lang="eng", psm=7, invert=True)
         print(f"[Calibração OCR] Contador topo: {cnt_txt!r} -> {parse_item_count_header(cnt_txt)}")
+        print(f"[Calibração OCR] Elixir Santificador detectado: {is_sanctified}")
         parsed = _parse_artifact_card(card_img, win.is_16_9, catalog, tlang)
         if parsed:
             print(f"[Calibração OCR] Artefato lido com sucesso: {parsed}")
         else:
             slot_raw = read_text(card_img.crop(crop_artifact_slot(cw, ch, win.is_16_9).as_crop_box()), lang=tlang, psm=7, invert=True)
-            lv_raw = read_text(card_img.crop(crop_artifact_level(cw, ch, win.is_16_9).as_crop_box()), lang="eng", psm=7, invert=True)
+            lv_raw = read_text(card_img.crop(crop_artifact_level(cw, ch, win.is_16_9, is_sanctified).as_crop_box()), lang="eng", psm=7, invert=True)
             print(f"[Calibração OCR] Card atual não bateu como artefato (slot={slot_raw!r}, level={lv_raw!r}).")
 
     return out_file
+
+
+def run_click_test(
+    backend: LinuxScreenBackend,
+    win: WindowGeometry,
+    catalog: GameCatalog,
+    *,
+    lang: str = "en",
+    click_delay: float = 0.16,
+) -> bool:
+    """Clica no 2º e depois no 1º artefato da grade e verifica se o card mudou."""
+    tlang = _tess_lang(lang)
+    grid = inventory_grid_centers(win, cols=8, rows=4)
+    c_rect = card_rect(win)
+
+    before = _parse_artifact_card(backend.grab_rect(c_rect), win.is_16_9, catalog, tlang)
+    print(f"[Teste Clique] Antes: {before}")
+
+    x2, y2 = grid[1]
+    print(f"[Teste Clique] Clicando no 2º slot ({x2}, {y2})...")
+    backend.move_and_click(x2, y2, delay=click_delay)
+    after2 = _parse_artifact_card(backend.grab_rect(c_rect), win.is_16_9, catalog, tlang)
+    print(f"[Teste Clique] Após clicar no 2º slot: {after2}")
+
+    x1, y1 = grid[0]
+    backend.move_and_click(x1, y1, delay=click_delay)
+
+    changed = before != after2 and after2 is not None
+    if changed:
+        print("[Teste Clique] SUCESSO! O clique mudou o artefato selecionado e o OCR leu ambos.")
+    else:
+        print(
+            "[Teste Clique] AVISO: o card não mudou após clicar. "
+            "Se estiver em GNOME Wayland, instale/ative `ydotool` ou use `--input ydotool`."
+        )
+    return changed
 
 
 def _parse_artifact_card(
@@ -172,18 +211,23 @@ def _parse_artifact_card(
     if not main_stat_key:
         return None
 
-    # Nome do set: lê tanto o topo (nome da peça) quanto a linha do set abaixo dos substats
     subs_full_txt = read_text(subs_img, lang=tlang, psm=6, invert=False)
     substats, unactivated = parse_artifact_substats(subs_full_txt)
 
-    # Tenta achar o nome do set na parte verde abaixo dos substats (70%..92% do card)
-    set_region = card.crop((int(cw * 0.04), int(ch * 0.62), int(cw * 0.96), int(ch * 0.90)))
+    # Nome do set (linha verde logo abaixo dos substats — no Genshin termina com ':')
+    set_region = card.crop((int(cw * 0.04), int(ch * 0.56), int(cw * 0.96), int(ch * 0.88)))
     set_ocr = read_text(set_region, lang=tlang, psm=6, invert=False)
     set_key = None
-    for line in set_ocr.splitlines():
-        if ":" in line:
+    for line in list(subs_full_txt.splitlines()) + list(set_ocr.splitlines()):
+        cleaned_line = line.strip().rstrip(":").strip()
+        low = norm_text(cleaned_line)
+        if not low or len(low) < 5:
             continue
-        m_set = catalog.match("artifact_sets", line, cutoff=0.68)
+        if low.startswith(("2piece", "4piece", "conjuntode2", "conjuntode4")):
+            continue
+        if "+" in cleaned_line and "%" in cleaned_line:
+            continue
+        m_set = catalog.match("artifact_sets", cleaned_line, cutoff=0.68)
         if m_set:
             set_key = m_set
             break
@@ -191,7 +235,7 @@ def _parse_artifact_card(
         name_ocr = read_text(name_img, lang=tlang, psm=7, invert=True)
         set_key = catalog.match("artifact_sets", name_ocr, cutoff=0.60) or to_good_key(name_ocr) or "UnknownSet"
 
-    locked = compare_color(average_rgb(lock_img), LOCKED_ICON_BG_COLOR, tolerance=45.0)
+    locked = is_locked_rgb(average_rgb(lock_img))
 
     location = ""
     eq_sample = eq_img.crop((0, 0, min(15, eq_img.width), min(15, eq_img.height)))
@@ -223,7 +267,7 @@ def scan_artifacts(
     min_rarity: int = 5,
     min_level: int = 0,
     max_items: Optional[int] = None,
-    click_delay: float = 0.09,
+    click_delay: float = 0.13,
 ) -> list[dict[str, Any]]:
     """Escaneia a aba de Artefatos (deixe o inventário aberto na aba Artefatos!)."""
     tlang = _tess_lang(lang)
@@ -234,7 +278,7 @@ def scan_artifacts(
 
     results: list[dict[str, Any]] = []
     seen_sigs: set[str] = set()
-    grid = inventory_grid_centers(win, cols=8, rows=5)
+    grid = inventory_grid_centers(win, cols=8, rows=4)
     c_rect = card_rect(win)
     page = 1
     consecutive_dupes = 0
@@ -275,12 +319,10 @@ def scan_artifacts(
                 print("[Artefatos] Fim da lista detectado.")
                 break
 
-            # Rola 1 página (5 linhas ≈ 49 cliques de scroll)
+            # Rola 1 página de 4 linhas (~39 cliques de scroll)
             mid_x, mid_y = grid[len(grid) // 2]
-            backend.move_and_click(mid_x, mid_y, delay=0.03)
-            backend.scroll_down(clicks=49)
-            if page % (12 if win.is_16_9 else 3) == 0:
-                backend.scroll_down(clicks=-1)
+            backend.move_and_click(mid_x, mid_y, delay=0.04)
+            backend.scroll_down(clicks=39)
             time.sleep(0.28)
             page += 1
     except (KeyboardInterrupt, ScanAbortedError) as exc:
@@ -308,7 +350,7 @@ def scan_weapons(
 
     results: list[dict[str, Any]] = []
     seen_sigs: set[str] = set()
-    grid = inventory_grid_centers(win, cols=8, rows=5)
+    grid = inventory_grid_centers(win, cols=8, rows=4)
     c_rect = card_rect(win)
     page = 1
 
@@ -340,14 +382,14 @@ def scan_weapons(
 
                 lv, asc = parse_weapon_level_and_ascension(read_text(lv_img, lang="eng", psm=7, invert=False))
                 ref = parse_refinement(read_text(ref_img, lang="eng", psm=7, invert=True, whitelist="12345"))
-                locked = compare_color(average_rgb(lock_img), LOCKED_ICON_BG_COLOR, tolerance=45.0)
+                locked = is_locked_rgb(average_rgb(lock_img))
 
                 location = ""
                 eq_sample = eq_img.crop((0, 0, min(15, eq_img.width), min(15, eq_img.height)))
                 if compare_color(average_rgb(eq_sample), EQUIPPED_BANNER_COLOR, tolerance=48.0):
                     location = parse_equipped_character(read_text(eq_img, lang=tlang, psm=7), catalog)
 
-                sig = f"{wkey}|{lv}|{asc}|{ref}|{location}|{len(results) // 40}"
+                sig = f"{wkey}|{lv}|{asc}|{ref}|{location}|{len(results) // 32}"
                 if sig in seen_sigs and page > 1:
                     continue
                 seen_sigs.add(sig)
@@ -365,8 +407,8 @@ def scan_weapons(
             if page_new == 0:
                 break
             mid_x, mid_y = grid[len(grid) // 2]
-            backend.move_and_click(mid_x, mid_y, delay=0.03)
-            backend.scroll_down(clicks=49)
+            backend.move_and_click(mid_x, mid_y, delay=0.04)
+            backend.scroll_down(clicks=39)
             time.sleep(0.28)
             page += 1
     except (KeyboardInterrupt, ScanAbortedError) as exc:
@@ -382,12 +424,12 @@ def scan_materials(
     *,
     lang: str = "en",
     max_pages: int = 12,
-    click_delay: float = 0.07,
+    click_delay: float = 0.09,
 ) -> dict[str, int]:
     """Escaneia a aba atual de Materiais / Desenvolvimento de Personagem."""
     tlang = _tess_lang(lang)
     materials: dict[str, int] = {}
-    grid = inventory_grid_centers(win, cols=8, rows=5)
+    grid = inventory_grid_centers(win, cols=8, rows=4)
     c_rect = card_rect(win)
 
     try:
@@ -423,8 +465,8 @@ def scan_materials(
             if new_on_page == 0 and page > 1:
                 break
             mid_x, mid_y = grid[len(grid) // 2]
-            backend.move_and_click(mid_x, mid_y, delay=0.03)
-            backend.scroll_down(clicks=49)
+            backend.move_and_click(mid_x, mid_y, delay=0.04)
+            backend.scroll_down(clicks=39)
             time.sleep(0.28)
     except (KeyboardInterrupt, ScanAbortedError) as exc:
         print(f"\n[AVISO] Scan interrompido ({exc}). Mantendo {len(materials)} materiais já lidos.")

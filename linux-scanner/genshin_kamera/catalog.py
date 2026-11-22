@@ -82,6 +82,8 @@ BUILTIN_ARTIFACT_SETS: dict[str, tuple[str, ...]] = {
     "ObsidianCodex": ("Obsidian Codex", "Códice de Obsidiana"),
     "LongNightsOath": ("Long Night's Oath", "Juramento da Noite Longa"),
     "FinaleOfTheDeepGalleries": ("Finale of the Deep Galleries", "Final das Galerias Profundas"),
+    "NightOfTheSkysUnveiling": ("Night of the Sky's Unveiling", "Noite da Revelação do Céu"),
+    "SilkenMoonsSerenade": ("Silken Moon's Serenade", "Serenata da Lua de Seda"),
 }
 
 
@@ -156,25 +158,31 @@ class GameCatalog:
 
         return True
 
-    def load_from_local_api(self, base_url: str = "http://localhost:8000/api") -> bool:
-        """Opcionalmente enriquece o catálogo com sets e peças de artefatos da API local."""
+    def load_from_local_api(self, base_url: str = "http://localhost:8000") -> bool:
+        """Opcionalmente enriquece o catálogo com sets de artefatos da API local (EN + PT)."""
+        base = base_url.rstrip("/")
         loaded_any = False
         for lang in ("en", "pt"):
-            try:
-                with urlopen(f"{base_url}/artifacts?lang={lang}&limit=200", timeout=2.5) as resp:
-                    payload = json.loads(resp.read().decode("utf-8"))
-                for item in payload.get("items") or []:
-                    slug = item.get("slug")
-                    name = item.get("name")
-                    if not slug:
+            for endpoint in (f"{base}/artifacts?lang={lang}&limit=200", f"{base}/api/artifacts?lang={lang}&limit=200"):
+                try:
+                    with urlopen(endpoint, timeout=2.5) as resp:
+                        payload = json.loads(resp.read().decode("utf-8"))
+                    items = payload.get("items") or []
+                    if not items:
                         continue
-                    gkey = to_good_key(slug)
-                    self._register(self.artifact_sets, slug, gkey)
-                    if name:
-                        self._register(self.artifact_sets, name, gkey)
-                loaded_any = True
-            except Exception:
-                pass
+                    for item in items:
+                        slug = item.get("slug")
+                        name = item.get("name")
+                        if not slug:
+                            continue
+                        gkey = to_good_key(slug)
+                        self._register(self.artifact_sets, slug, gkey)
+                        if name:
+                            self._register(self.artifact_sets, name, gkey)
+                    loaded_any = True
+                    break
+                except Exception:
+                    continue
         return loaded_any
 
     def match(self, category: str, raw_ocr: str, cutoff: float = 0.68) -> Optional[str]:
@@ -194,7 +202,7 @@ class GameCatalog:
         return None
 
 
-def load_default_catalog(api_url: Optional[str] = "http://localhost:8000/api") -> GameCatalog:
+def load_default_catalog(api_url: Optional[str] = "http://localhost:8000") -> GameCatalog:
     cat = GameCatalog()
     cat.register_builtin_defaults()
 

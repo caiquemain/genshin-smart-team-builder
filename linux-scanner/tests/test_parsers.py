@@ -137,6 +137,8 @@ def test_parse_equipped_weapon_and_materials():
 
 
 def test_geometry_16_9_vs_16_10_and_sanctified_shift():
+    from genshin_kamera.geometry import is_locked_rgb
+
     w169 = WindowGeometry(0, 0, 1920, 1080)
     w1610 = WindowGeometry(0, 0, 1920, 1200)
     assert w169.is_16_9 is True
@@ -144,7 +146,7 @@ def test_geometry_16_9_vs_16_10_and_sanctified_shift():
 
     c169 = card_rect(w169)
     assert c169.width > 400 and c169.height > 700
-    assert len(inventory_grid_centers(w169, cols=8, rows=5)) == 40
+    assert len(inventory_grid_centers(w169)) == 32
 
     lv_norm = crop_artifact_level(494, 841, is_16_9=True, is_sanctified=False)
     lv_sanc = crop_artifact_level(494, 841, is_16_9=True, is_sanctified=True)
@@ -156,6 +158,13 @@ def test_geometry_16_9_vs_16_10_and_sanctified_shift():
 
     for rarity, rgb in RARITY_COLORS.items():
         assert detect_rarity_from_rgb(rgb) == rarity
+
+    # Cadeado travado coral-vermelho (Genshin 5.x/6.x) vs destravado cinza
+    assert is_locked_rgb((171, 146, 147)) is True
+    assert is_locked_rgb((210, 205, 198)) is False
+
+    cat = _make_catalog()
+    assert cat.match("artifact_sets", "Noite da Revelação do Céu:") == "NightOfTheSkysUnveiling"
 
 
 def test_build_and_write_good_v2_payload(tmp_path: Path):
