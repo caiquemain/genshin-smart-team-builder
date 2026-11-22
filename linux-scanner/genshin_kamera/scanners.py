@@ -134,8 +134,15 @@ def save_calibration_overlay(
             print(f"[Calibração OCR] Artefato lido com sucesso: {parsed}")
         else:
             slot_raw = read_text(card_img.crop(crop_artifact_slot(cw, ch, win.is_16_9).as_crop_box()), lang=tlang, psm=7, invert=True)
-            lv_raw = read_text(card_img.crop(crop_artifact_level(cw, ch, win.is_16_9, is_sanctified).as_crop_box()), lang="eng", psm=7, invert=True)
-            print(f"[Calibração OCR] Card atual não bateu como artefato (slot={slot_raw!r}, level={lv_raw!r}).")
+            main_raw = read_text(card_img.crop(crop_artifact_main_stat(cw, ch, win.is_16_9).as_crop_box()), lang=tlang, psm=7, invert=True)
+            lv_raw = read_text(
+                card_img.crop(crop_artifact_level(cw, ch, win.is_16_9, is_sanctified).as_crop_box()),
+                lang="eng",
+                psm=7,
+                badge=True,
+                whitelist="+0123456789",
+            )
+            print(f"[Calibração OCR] Card atual não bateu como artefato (slot={slot_raw!r}, main={main_raw!r}, level={lv_raw!r}).")
 
     return out_file
 
@@ -197,7 +204,9 @@ def _parse_artifact_card(
     lock_img = card.crop(crop_item_locked(cw, ch, is_16_9, is_sanctified).as_crop_box())
     eq_img = card.crop(crop_item_equipped(cw, ch, is_16_9).as_crop_box())
 
-    level = parse_artifact_level(read_text(level_img, lang="eng", psm=7, invert=True, whitelist="+0123456789"))
+    level = parse_artifact_level(
+        read_text(level_img, lang="eng", psm=7, badge=True, whitelist="+0123456789")
+    )
     if level < 0:
         return None
 
@@ -282,6 +291,7 @@ def scan_artifacts(
     c_rect = card_rect(win)
     page = 1
     consecutive_dupes = 0
+    empty_pages = 0
 
     try:
         while len(results) < target_total:
@@ -315,9 +325,13 @@ def scan_artifacts(
                     + (f" [{art['location']}]" if art["location"] else "")
                 )
 
-            if page_new == 0 and consecutive_dupes >= 16:
-                print("[Artefatos] Fim da lista detectado.")
-                break
+            if page_new == 0:
+                empty_pages += 1
+                if consecutive_dupes >= 12 or empty_pages >= 2:
+                    print("[Artefatos] Fim da lista (ou nenhum item novo encontrado). Encerrando.")
+                    break
+            else:
+                empty_pages = 0
 
             # Rola 1 página de 4 linhas (~39 cliques de scroll)
             mid_x, mid_y = grid[len(grid) // 2]

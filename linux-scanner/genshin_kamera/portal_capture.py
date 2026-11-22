@@ -219,6 +219,8 @@ def main() -> int:
                 sys.stdout.buffer.write(header)
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
+    except KeyboardInterrupt:
+        pass
     finally:
         stop_flag.set()
         pipeline.set_state(Gst.State.NULL)
@@ -230,4 +232,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        sys.exit(0)
