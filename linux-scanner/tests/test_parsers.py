@@ -61,6 +61,7 @@ def test_parse_slot_and_main_stat_en_and_pt():
     assert parse_slot_key("Flower of Life") == "flower"
     assert parse_slot_key("Flor da Vida") == "flower"
     assert parse_slot_key("Plume of Death") == "plume"
+    assert parse_slot_key("Pluma da Morte") == "plume"
     assert parse_slot_key("Pena da Morte") == "plume"
     assert parse_slot_key("Sands of Eon") == "sands"
     assert parse_slot_key("Areia do Tempo") == "sands"

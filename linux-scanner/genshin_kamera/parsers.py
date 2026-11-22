@@ -13,6 +13,7 @@ SLOT_KEYWORDS: list[tuple[str, str]] = [
     ("flower", "flower"),
     ("flor", "flower"),
     ("plume", "plume"),
+    ("pluma", "plume"),
     ("pena", "plume"),
     ("sands", "sands"),
     ("areia", "sands"),
@@ -148,6 +149,7 @@ def parse_artifact_substats(
         is_unactivated = (
             "unactivated" in low
             or "naoativado" in low
+            or "aserativado" in low
             or "inativo" in low
             or "unactivated" in norm_text(trailing)
         )
