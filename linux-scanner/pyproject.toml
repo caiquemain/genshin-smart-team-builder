@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genshin-kamera-linux"
+version = "0.1.0"
+description = "Linux-native Genshin Impact inventory scanner (GOOD v2 JSON) inspired by rogerioth/Inventory_Kamera"
+requires-python = ">=3.10"
+dependencies = [
+    "mss>=9.0.1",
+    "Pillow>=10.0.0",
+    "pytesseract>=0.3.10",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+genshin-kamera = "genshin_kamera.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["genshin_kamera*"]

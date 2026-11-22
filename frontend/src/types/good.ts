@@ -14,6 +14,7 @@ export interface GoodArtifact {
   location?: string | null
   lock?: boolean
   substats?: GoodSubstat[]
+  unactivatedSubstats?: GoodSubstat[]
 }
 
 export interface GoodCharacter {
@@ -34,13 +35,16 @@ export interface GoodWeapon {
   ascension: number
   refinement: number
   location?: string | null // char key
+  lock?: boolean
 }
 
 export interface GoodData {
   format: string
   version: number
+  kamera_version?: string
   source: string
-  characters: GoodCharacter[]
-  weapons: GoodWeapon[]
+  characters?: GoodCharacter[]
+  weapons?: GoodWeapon[]
   artifacts?: GoodArtifact[]
+  materials?: Record<string, number>
 }

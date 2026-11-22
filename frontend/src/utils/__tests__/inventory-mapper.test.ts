@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { resolveInventory, type MaterialLike, type SeelieInventoryItem } from '../inventory-mapper'
+import { resolveGoodMaterials, resolveInventory, type MaterialLike, type SeelieInventoryItem } from '../inventory-mapper'
 
 const catalog: MaterialLike[] = [
   { slug: 'lakelight-lily', name: { en: 'Lakelight Lily', pt: 'Lírio Luz do Lago' } },
@@ -62,5 +62,25 @@ describe('inventory-mapper', () => {
     expect(res.ambiguous[0].item).toBe('Same Name')
     expect(res.unmapped).toHaveLength(1)
     expect(res.unmapped[0].item).toBe('Totally Unknown Item')
+  })
+
+  it('resolves Inventory Kamera GOOD v2 materials dictionary to internal slugs', () => {
+    const goodMats = {
+      Mora: 2_450_000,
+      HerosWit: 310,
+      DreamSolvent: 15,
+      CrownOfInsight: 9,
+      LakelightLily: 74,
+      UnknownItem: 5,
+    }
+    const res = resolveGoodMaterials(goodMats, catalog)
+    expect(res.resolved).toEqual({
+      mora: 2_450_000,
+      'heros-wit': 310,
+      'dream-solvent': 15,
+      'crown-of-insight': 9,
+      'lakelight-lily': 74,
+    })
+    expect(res.unmapped).toEqual(['UnknownItem'])
   })
 })

@@ -129,3 +129,57 @@ export function resolveInventory(
 
   return { resolved, ambiguous, unmapped }
 }
+
+const GOOD_MATERIAL_ALIASES: Record<string, string> = {
+  mora: 'mora',
+  dreamsolvent: 'dream-solvent',
+  crownofinsight: 'crown-of-insight',
+  heroswit: 'heros-wit',
+  adventurersexperience: 'adventurers-experience',
+  wanderersadvice: 'wanderers-advice',
+  mysticenhancementore: 'mystic-enhancement-ore',
+  fineenhancementore: 'fine-enhancement-ore',
+  enhancementore: 'enhancement-ore',
+}
+
+/**
+ * Resolve o dicionário `materials` do formato GOOD v2 (ex.: Inventory Kamera:
+ * `{ "Mora": 1500000, "HerosWit": 320, "TeachingsOfFreedom": 18 }`)
+ * para os slugs internos do catálogo do Planejador.
+ */
+export function resolveGoodMaterials(
+  goodMaterials: Record<string, number> | null | undefined,
+  catalog: MaterialLike[],
+): { resolved: Record<string, number>; unmapped: string[] } {
+  const resolved: Record<string, number> = {}
+  const unmapped: string[] = []
+  if (!goodMaterials || typeof goodMaterials !== 'object') {
+    return { resolved, unmapped }
+  }
+
+  const byNorm = new Map<string, string>()
+  for (const mat of catalog) {
+    for (const n of extractNames(mat)) {
+      const k = normalize(n)
+      if (k && !byNorm.has(k)) {
+        byNorm.set(k, mat.slug)
+      }
+    }
+  }
+
+  for (const [rawKey, rawVal] of Object.entries(goodMaterials)) {
+    const qty = Number(rawVal)
+    if (!Number.isFinite(qty) || qty <= 0) continue
+    const norm = normalize(rawKey)
+    if (!norm) continue
+
+    const slug = GOOD_MATERIAL_ALIASES[norm] ?? byNorm.get(norm)
+    if (slug) {
+      resolved[slug] = Math.round(qty)
+    } else {
+      unmapped.push(rawKey)
+    }
+  }
+
+  return { resolved, unmapped }
+}

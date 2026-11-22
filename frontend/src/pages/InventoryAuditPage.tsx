@@ -7,7 +7,7 @@ import {
   type PlannerData,
   type PlannerMaterialData,
 } from '../utils/planner-data';
-import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper';
+import { resolveGoodMaterials, resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper';
 import {
   loadManualInventory,
   loadPlannerSettings,
@@ -46,11 +46,15 @@ export default function InventoryAuditPage() {
       if (savedSeelie) {
         try {
           const v5 = JSON.parse(savedSeelie);
+          const catalog = Object.entries(plannerData.materials).map(([slug, m]) => ({ ...m, slug }));
           const invRaw: SeelieInventoryItem[] = v5?.seelie?.inventory || [];
           if (invRaw.length > 0) {
-            const catalog = Object.entries(plannerData.materials).map(([slug, m]) => ({ ...m, slug }));
             const resolved = resolveInventory(invRaw, catalog, plannerData.families);
             Object.assign(mergedInv, resolved.resolved);
+          }
+          if (v5?.good?.materials && typeof v5.good.materials === 'object') {
+            const goodMatRes = resolveGoodMaterials(v5.good.materials, catalog);
+            Object.assign(mergedInv, goodMatRes.resolved);
           }
         } catch {}
       }

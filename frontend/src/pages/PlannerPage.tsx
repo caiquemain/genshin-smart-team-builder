@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import ItemTooltip from '../components/ItemTooltip'
 import { tierOf, estimateResin, formatDays, formatResin, TIERS } from '../utils/resin'
-import { resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
+import { resolveGoodMaterials, resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
 import { getBestiaryData, calculateKills, calculateFamilyKills } from '../utils/kills-compute'
 import type { BestiaryData } from '../types/bestiary'
 import type {
@@ -516,11 +516,27 @@ export default function PlannerPage() {
     try {
       const text = await file.text()
       const parsed = JSON.parse(text) as GoodData
-      if (parsed.format !== 'GOOD' || !Array.isArray(parsed.characters)) {
-        throw new Error('Arquivo não parece ser um export GOOD válido (falta `characters`)')
+      const hasAnySection =
+        Array.isArray(parsed.characters) ||
+        Array.isArray(parsed.weapons) ||
+        Array.isArray(parsed.artifacts) ||
+        (parsed.materials && typeof parsed.materials === 'object')
+      if (parsed.format !== 'GOOD' || !hasAnySection) {
+        throw new Error('Arquivo não parece ser um export GOOD válido (falta `format: "GOOD"` ou dados)')
       }
-      setGoodData(parsed)
-      saveToStorage(seelieData, parsed, ar, wl)
+      const mergedGood: GoodData = {
+        ...(goodData ?? { format: 'GOOD', version: 2, source: parsed.source || 'GOOD' }),
+        ...parsed,
+        characters: Array.isArray(parsed.characters) ? parsed.characters : goodData?.characters ?? [],
+        weapons: Array.isArray(parsed.weapons) ? parsed.weapons : goodData?.weapons ?? [],
+        artifacts: Array.isArray(parsed.artifacts) ? parsed.artifacts : goodData?.artifacts ?? [],
+        materials:
+          parsed.materials && typeof parsed.materials === 'object'
+            ? { ...(goodData?.materials ?? {}), ...parsed.materials }
+            : goodData?.materials,
+      }
+      setGoodData(mergedGood)
+      saveToStorage(seelieData, mergedGood, ar, wl)
     } catch (err) { setError(String(err)) }
   }
 
@@ -817,6 +833,14 @@ export default function PlannerPage() {
         const solventItem = invRaw.find(i => i.item === 'dream_solvent')
         if (solventItem) solvents = solventItem.value
       }
+      if (goodData?.materials && typeof goodData.materials === 'object') {
+        const goodMat = resolveGoodMaterials(goodData.materials, fullCatalog)
+        Object.assign(invResolved, goodMat.resolved)
+        invStats.mapped = Object.keys(invResolved).length
+        if (goodMat.resolved['dream-solvent'] != null) {
+          solvents = goodMat.resolved['dream-solvent']
+        }
+      }
       // Preserva edições manuais de inventário sobre o JSON
       Object.assign(invResolved, loadManualInventory())
 
@@ -886,8 +910,8 @@ export default function PlannerPage() {
       seelieChars: seelieData?.goals.filter((g) => g.type === 'character').length ?? 0,
       seelieTalents: seelieData?.goals.filter((g) => g.type === 'talent').length ?? 0,
       seelieWeapons: seelieData?.goals.filter((g) => g.type === 'weapon').length ?? 0,
-      inventory: seelieData?.inventory?.length ?? 0,
-      goodChars: goodData?.characters.length ?? 0,
+      inventory: (seelieData?.inventory?.length ?? 0) + Object.keys(goodData?.materials ?? {}).length,
+      goodChars: goodData?.characters?.length ?? 0,
     }
   }, [seelieData, goodData])
 

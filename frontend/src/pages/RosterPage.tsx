@@ -264,19 +264,39 @@ export default function RosterPage() {
         setUploadError('Arquivo não é um GOOD válido (falta "format": "GOOD").')
         return
       }
-      if (!Array.isArray(parsed.characters)) {
-        setUploadError('GOOD sem array "characters".')
+      const hasAnySection =
+        Array.isArray(parsed.characters) ||
+        Array.isArray(parsed.weapons) ||
+        Array.isArray(parsed.artifacts) ||
+        (parsed.materials && typeof parsed.materials === 'object')
+      if (!hasAnySection) {
+        setUploadError('Arquivo GOOD vazio (sem characters, weapons, artifacts ou materials).')
         return
       }
-      // Merge: preserva seelie existente, substitui good
+      // Merge inteligente: preserva seelie e seções antigas do GOOD caso o scan novo seja parcial
       const current = JSON.parse(localStorage.getItem('gsb.planner.v5') || '{}')
-      current.good = parsed
+      const prevGood = current.good && typeof current.good === 'object' ? current.good : {}
+      current.good = {
+        ...prevGood,
+        ...parsed,
+        characters: Array.isArray(parsed.characters) ? parsed.characters : prevGood.characters ?? [],
+        weapons: Array.isArray(parsed.weapons) ? parsed.weapons : prevGood.weapons ?? [],
+        artifacts: Array.isArray(parsed.artifacts) ? parsed.artifacts : prevGood.artifacts ?? [],
+        materials:
+          parsed.materials && typeof parsed.materials === 'object'
+            ? { ...(prevGood.materials ?? {}), ...parsed.materials }
+            : prevGood.materials,
+      }
       localStorage.setItem('gsb.planner.v5', JSON.stringify(current))
       roster.refresh()
-      const artCount = Array.isArray(parsed.artifacts) ? parsed.artifacts.length : 0
-      setUploadSuccess(
-        `GOOD importado: ${parsed.characters.length} personagens${artCount > 0 ? ` e ${artCount} artefatos` : ''}.`,
-      )
+      const parts: string[] = []
+      if (Array.isArray(parsed.characters)) parts.push(`${parsed.characters.length} personagens`)
+      if (Array.isArray(parsed.weapons)) parts.push(`${parsed.weapons.length} armas`)
+      if (Array.isArray(parsed.artifacts)) parts.push(`${parsed.artifacts.length} artefatos`)
+      if (parsed.materials && typeof parsed.materials === 'object') {
+        parts.push(`${Object.keys(parsed.materials).length} materiais`)
+      }
+      setUploadSuccess(`GOOD importado (${parsed.source ?? 'GOOD'}): ${parts.join(', ')}.`)
     } catch (e: any) {
       setUploadError(`Erro ao ler o arquivo: ${e?.message || String(e)}`)
     }
