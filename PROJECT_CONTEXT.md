@@ -1,16 +1,15 @@
 # PROJECT_CONTEXT.md
 
 > Arquivo vivo de contexto do projeto. **Sempre atualizar** ao final de cada sessão.
-> Última atualização: **2026-10-31** — Planner v3: Edição de metas, XP, Leylines e Status
+> Última atualização: **2026-11-22** — Consultor da Conta (4 abas), Builds/Stats/Mochila, Backup Google Drive, Enka UID, GOOD v2 completo e Scanner Nativo Linux (PipeWire Wayland + OCR)
 
 ---
 
 ## 1. Visão geral
 
 **Nome:** Genshin Smart Team Builder & Resource Calculator
-**Objetivo:** Montar times de Genshin Impact com análise de sinergia + calcular
-recursos de ascensão/talentos. Viés acadêmico (Ciência de Dados + Eng. de Software + Extensão).
-**Estágio:** MVP funcional em dev local (Docker), sem deploy público ainda.
+**Objetivo:** Plataforma web bilíngue (PT-BR/EN) para montagem e recomendação de times (incluindo Abismo 2 times e Stygian 3 times sem conflito), **Consultor da Conta**, cálculo de stats/builds e auditoria de artefatos, planejador offline de recursos com backup em nuvem (Google Drive) e scanner nativo de inventário para Linux. Viés acadêmico (UNINASSAU — Ciência de Dados + Eng. de Software + Projeto de Extensão).
+**Estágio:** Aplicação completa em dev local (Docker Compose + CLI Linux), com suítes de testes automatizados (backend Pytest, frontend Vitest 40 testes, linux-scanner Pytest 8 testes).
 
 ---
 
@@ -18,13 +17,14 @@ recursos de ascensão/talentos. Viés acadêmico (Ciência de Dados + Eng. de So
 
 | Camada | Tecnologia | Versão |
 |---|---|---|
-| Backend | FastAPI + SQLAlchemy + Alembic | Python 3.14.4 |
+| Backend | FastAPI + SQLAlchemy + Alembic | Python 3.11+ / 3.14 |
 | Banco | PostgreSQL | 16-alpine |
-| Frontend | React + TypeScript + Vite | Node v24.18.0 |
+| Frontend | React 18 + TypeScript + Vite + Vitest | Node 20+ / 24 |
+| Scanner Linux | Python + Tesseract OCR + PipeWire (`xdg-desktop-portal`/GStreamer) + `mss`/`xdotool`/`ydotool` | `genshin-kamera-linux 0.1.0` |
 | Container | Docker Compose | — |
-| Estilo | CSS puro (styles.css único) | — |
-| Tooltips | @floating-ui/react (FloatingPortal) | — |
-| Ícones | lucide-react (SVGs, sem emojis) | — |
+| Estilo | CSS puro (`styles.css` único) | — |
+| Tooltips | `@floating-ui/react` (`FloatingPortal`) | — |
+| Ícones | `lucide-react` (SVGs, sem emojis) + ícones locais `.webp` | — |
 
 Portas (dev): Frontend `8080`, Backend `8000`, Postgres `5432`.
 
@@ -38,7 +38,7 @@ Portas (dev): Frontend `8080`, Backend `8000`, Postgres `5432`.
 
 Env: `POSTGRES_USER=genshin`, `POSTGRES_PASSWORD=genshin`, `POSTGRES_DB=genshin_db`.
 
-Conexão psql (user é genshin, NÃO postgres):
+Conexão psql (user é `genshin`, NÃO `postgres`):
 
     docker compose exec -T db psql -U genshin -d genshin_db -c "\dt"
 
@@ -48,79 +48,95 @@ Conexão psql (user é genshin, NÃO postgres):
 
     genshin-smart-team-builder/
     ├── backend/
-    │   ├── alembic/versions/       → 16 migrations
+    │   ├── alembic/versions/       → migrations versionadas
+    │   ├── tests/                  → 17 suítes Pytest
     │   └── app/
     │       ├── api/                → characters, teams, weapons, artifacts, reactions,
-    │       │                          templates, talents, ascension, meta, tierlist
-    │       ├── models/             → (c/ translations)
-    │       ├── schemas/            → 
-    │       ├── scripts/            → 
-    │       ├── seed/               → import_from_ambr (PT/ES)
-    │       └── services/           → synergy, planner, team_tier, i18n
+    │       │                          templates, talents, ascension, meta, tierlist,
+    │       │                          presets, recommendations, enka
+    │       ├── models/             → modelos + tabelas `*_translations` + `text_translations`
+    │       ├── schemas/            → Pydantic schemas
+    │       ├── scripts/            → parse_guides, import_guides, import_tierlists,
+    │       │                          sync_weapon_sources, translate_guides,
+    │       │                          export_planner_data, enrich_substitutes
+    │       ├── seed/               → import_from_ambr (EN/PT/ES)
+    │       └── services/           → synergy, team_tier, i18n, guide_i18n, presets,
+    │                                  substitutes, pull_advisor, upgrade_advisor,
+    │                                  artifact_advisor, endgame_composer, enka
     ├── frontend/src/
     │   ├── api/                    → client.ts
-    │   ├── components/             → ver §5
+    │   ├── components/             → 38 componentes (modais, tooltips, cards, backup, UID, builds)
     │   ├── context/                → LanguageContext
-    │   ├── pages/                  → ver §5
-    │   ├── types/                  → WeaponSlot, ArtifactSlot, CharacterBuild, tierlist, planner
-    │   ├── utils/                  → stats.ts, resin.ts, xp-costs.ts, planner-recompute.ts
+    │   ├── pages/                  → 18 páginas (ver §5)
+    │   ├── types/                  → good, planner, tierlist, etc.
+    │   ├── utils/                  → stats, char-stats-calc, artifact-bag-auditor,
+    │   │                              build-card-png, domain-schedule, account-backup,
+    │   │                              google-drive-sync, good-parser, inventory-mapper,
+    │   │                              planner-compute, planner-recompute, planner-storage,
+    │   │                              kills-compute, resin, xp-costs, roster, slug-resolver,
+    │   │                              weaponSources + `__tests__/` (12 arquivos, 40 testes)
     │   └── styles.css
+    ├── linux-scanner/              → `genshin-kamera-linux` (scanner nativo Linux GOOD v2)
+    │   ├── genshin_kamera/         → cli, scanners, geometry, ocr, parsers, catalog,
+    │   │                              backend_input, portal_capture
+    │   ├── tests/                  → test_parsers.py (8 testes)
+    │   ├── install.sh
+    │   └── README.md
+    ├── update_game_data.py / update.sh
     ├── docker-compose.yml
+    ├── README.md
     └── PROJECT_CONTEXT.md
 
 ---
 
 ## 5. Frontend
 
-### Rotas (App.tsx)
+### Rotas (`App.tsx`)
 
 | Rota | Componente | Status |
 |---|---|---|
-| / | CharactersPage | OK |
-| /characters/:slug | CharacterDetailPage | OK |
-| /weapons | WeaponsPage | OK |
-| /weapons/:slug | WeaponDetailPage | OK |
-| /artifacts | ArtifactsPage | OK |
-| /artifacts/:slug | ArtifactDetailPage | OK |
-| /teams | TeamsPage | OK |
-| /teams/new | TeamBuilderPage | OK |
-| /teams/templates/:id | TemplateDetailPage | OK |
-| /teams/:id | TeamDetailPage | OK |
-| /tierlist | TierlistPage | OK |
-| /planner | PlannerPage | OK |
-| /planner/characters | PlannerCharactersPage | OK |
-| /reactions | ReactionsPage | OK |
+| `/` | `CharactersPage` | OK |
+| `/characters/:slug` | `CharacterDetailPage` (c/ `EquippedBuildPanel`, `CharacterArtifactsModal`, `AscensionSection`, `TalentSection`) | OK |
+| `/roster` | `RosterPage` (3 abas: Roster, Minhas Builds & Stats, Mochila de Artefatos + Enka UID + GOOD v2) | OK |
+| `/pull-advisor` · `/consultor` | `PullAdvisorPage` — **Consultor da Conta** (4 abas: Quem Pegar, Quem Upar, Artefatos & Domínios, Abismo & Stygian) | OK |
+| `/weapons` · `/weapons/:slug` | `WeaponsPage` (c/ tags de obtenção) · `WeaponDetailPage` | OK |
+| `/artifacts` · `/artifacts/:slug` | `ArtifactsPage` · `ArtifactDetailPage` | OK |
+| `/teams` · `/teams/new` · `/teams/:id` | `TeamsPage` · `TeamBuilderPage` · `TeamDetailPage` (c/ `KQMExportCard`) | OK |
+| `/planner` · `/planner/characters` | `PlannerPage` (c/ `TodayFarmWidget`, workflow zero-JSON, GOOD v2 + Seelie) · `PlannerCharactersPage` | OK |
+| `/inventory` | `InventoryAuditPage` (redesign full-width, editor inline, materiais GOOD v2 + Seelie) | OK |
+| `/bestiary` | `BestiaryPage` (c/ taxas de drop e `BestiaryMonsterModal`) | OK |
+| `/tierlist` | `TierlistPage` (12 fontes: Geral, Abismo 30d, Stygian 30d) | OK |
+| `/reactions` | `ReactionsPage` | OK |
+| Nav global | `BackupSyncModal` (Export/Import `.json` + Sync Google Drive) · `LanguageSwitcher` | OK |
 
-### Componentes
+### Principais Componentes Novos (Nov/2026)
 
-- ArtifactPickerModal, ArtifactTooltip
-- CharacterBuildEditor, CharacterCard
-- **PlannerCharacterCard (com ItemTooltip), PlannerCharacterModal (edição completa)**
-- **PlannerWeaponPicker (novo)**
-- SpaceBackground
-- TeamTierBadge, TierlistTooltip
-- WeaponPickerModal, WeaponTooltip
-- ItemTooltip
+- `BackupSyncModal` (backup local `.json` + Google Drive OAuth auto-sync)
+- `UidImportModal` (importação de personagem/arma/artefatos via Enka.Network UID)
+- `TodayFarmWidget` (agenda de domínios "O que farmar hoje" no Planejador)
+- `EquippedBuildPanel` + `CharacterArtifactsModal` (visualizador e editor manual de artefatos/armas/nível + metas de status + exportação PNG)
+- `KQMExportCard` (card de build do time) · `TeamSlotSubstitutesModal` · `BuildSubstitutesEditor` · `BuildReferencesEditor`
 
 ---
 
 ## 6. Backend — endpoints
 
-- Characters: `GET /characters` · `GET /characters/{slug}` · `GET /characters/{slug}/build`
-- Weapons: `GET /weapons` · `GET /weapons/{slug}` · `GET /weapons/{slug}/ascension`
-- Artifacts: `GET /artifacts` · `GET /artifacts/{slug}`
-- Reactions: `GET /reactions`
-- Templates: `GET /templates/archetypes` · `GET /templates` · `GET /templates/{id}`
-- Teams: `POST /teams` · `GET /teams` · `GET /teams/{id}` · `DELETE /teams/{id}` · `POST /teams/analyze` · `PUT /teams/{id}/builds` · `POST /teams/preview-tier`
-- Talents: `GET /talents/{slug}/talents`
-- Ascension: `GET /ascension/{slug}/ascension`
-- Meta: `GET /meta/enums`
-- Tierlist: `GET /tierlist` · `GET /tierlist/character/{slug}` · `GET /tierlist/sites` · `POST /tierlist/import`
+- **Characters:** `GET /characters` · `GET /characters/{slug}` · `GET /characters/{slug}/build`
+- **Weapons:** `GET /weapons` · `GET /weapons/{slug}` · `GET /weapons/{slug}/ascension`
+- **Artifacts:** `GET /artifacts` · `GET /artifacts/{slug}`
+- **Reactions:** `GET /reactions`
+- **Templates & Presets:** `GET /templates/archetypes` · `GET /templates` · `GET /templates/{id}` · `/presets/*`
+- **Teams:** `POST /teams` · `GET /teams` · `GET /teams/{id}` · `DELETE /teams/{id}` · `POST /teams/analyze` · `PUT /teams/{id}/builds` · `POST /teams/preview-tier`
+- **Talents / Ascension / Meta:** `GET /talents/{slug}/talents` · `GET /ascension/{slug}/ascension` · `GET /meta/enums`
+- **Tierlist:** `GET /tierlist` · `GET /tierlist/character/{slug}` · `GET /tierlist/sites` · `POST /tierlist/import`
+- **Recommendations (Consultor da Conta):** `POST /recommendations/pulls` · `POST /recommendations/upgrades` · `POST /recommendations/artifacts` · `POST /recommendations/endgame-teams`
+- **Enka.Network Proxy:** `GET /enka/{uid}` (cacheado, retorna personagens, armas e artefatos da vitrine)
 
 ### Migrations (ordem)
 1-14. Legado (Schema inicial, weapons, artifacts, tierlists).
-15. **b96ba14b2abd_add_translation_tables_for_talents_** (cria tabelas de tradução)
-16. **2041a237fb91_add_translation_tables_for_talents_** (vazia/no-op)
+15. `b96ba14b2abd_add_translation_tables_for_talents_`
+16. `2041a237fb91_add_translation_tables_for_talents_`
+17+. `weapon_source` (tags de obtenção), `text_translations` (cache de tradução de notas dos guias), campos extras de tierlist/endgame.
 
 ---
 
@@ -876,3 +892,48 @@ Documentado:
 - [ ] export_planner_data.py incluir Local Specialties + Boss Materials de 5.x
 - [ ] download_talents.py redundante (hardcoded 3 icons do Skirk)
 - [ ] planner-data.json gera diff sem mudanca real (timestamp interno)
+
+---
+
+## 43. Sessões 2026-11-19 a 2026-11-22 — Consultor da Conta, Builds/Stats, Backup Drive, Enka UID, GOOD v2 & Scanner Nativo Linux
+
+### 1. Tierlist 12 Fontes, Guias 5 Fontes & i18n
+- **Tierlists (12 fontes):** adicionados parsers para **Prydwen 7.2** (Overall + 3 bosses do Stygian), **GameWith 7.2** multi-aba e **YS Helper** (Abismo + Stygian com taxa de uso e times). Abas separadas na `TierlistPage` (Consenso Geral, Abismo 30d, Stygian 30d).
+- **Guias & Armas:** tags de obtenção de armas (`sync_weapon_sources.py` + filtros na `WeaponsPage`), tradução cacheada multi-provedor (`translate_guides.py` com Google Translate batch POST, Ollama local, Gemini e DeepL).
+
+### 2. Planejador Zero-JSON, Agenda de Domínios & Backup Google Drive
+- **Workflow zero-JSON** (`5e1f6a2`): usuários sem Seelie/GOOD podem adicionar/remover personagens manualmente no Planejador, importar direto do Roster e gerenciar inventário standalone.
+- **Widget "O que farmar hoje"** (`4109bc3` — `domain-schedule.ts`, `TodayFarmWidget.tsx`): mostra livros de talento e materiais de arma farmáveis no dia atual (com suporte ao domingo livre e fuso do servidor).
+- **Backup Local & Google Drive** (`account-backup.ts`, `google-drive-sync.ts`, `BackupSyncModal.tsx`): exportação/restauração completa em `.json` + sincronização automática com Google Drive via OAuth.
+
+### 3. Importação por UID via Enka.Network
+- Proxy backend (`backend/app/api/enka.py` + `services/enka.py`) e modal no frontend (`UidImportModal.tsx`): importa personagens da vitrine, níveis, constelações, talentos, armas **e artefatos equipados** diretamente pelo UID (`e63175a`, `6caefe4`).
+
+### 4. Consultor da Conta (`/pull-advisor` / `/consultor`) — 4 Abas
+- Renomeado de *Pull Advisor* para **Consultor da Conta** (`4ce2ef0`, `6caefe4`):
+  1. **Quem Pegar** (`pull_advisor.py`): recomendações personalizadas por cobertura elemental/Main DPS + Simulador de Banner.
+  2. **Quem Upar** (`upgrade_advisor.py`): ranking de ROI (nível, talentos, qualidade de time e meta Stellar).
+  3. **Artefatos & Domínios** (`artifact_advisor.py`): calcula eficiência de resina por domínio cruzando sets recomendados e auditoria dos artefatos GOOD da conta.
+  4. **Abismo & Stygian** (`endgame_composer.py`): compositor automático livre de conflito para **2 times (Abismo Espiral)** ou **3 times (Stygian Onslaught)**.
+
+### 5. Builds Equipadas, Stats Reais, Edição Manual, Auditor de Mochila & Cards PNG
+- **Stats Reais & Metas** (`char-stats-calc.ts`): calcula HP/ATK/DEF/CR/CD/ER/EM finais a partir dos artefatos GOOD + arma + ascensão, e analisa metas (`analyzeStatTargets`: ER%, proporção 1:2 de Crítico ciente de bônus de 4pc como Marechaussee/Obsidian/Blizzard, e EM).
+- **UI de Builds** (`8a06869`, `f77deb1`, `6caefe4`):
+  - Nova aba **Minhas Builds & Stats** no `RosterPage` + `EquippedBuildPanel` no `CharacterDetailPage`.
+  - `CharacterArtifactsModal`: modal para visualizar e **editar manualmente** artefatos, arma e nível (`saveManualCharacterGear`), sem depender de scanner.
+  - Nova aba **Mochila de Artefatos** (`artifact-bag-auditor.ts`): audita peças equipadas e na mochila (`+0`..`+20`), classificando potencial, upgrades prioritários e descartáveis para Strongbox.
+  - Exportação de **Build Card em PNG** via Canvas (`build-card-png.ts`).
+
+### 6. Suporte completo ao `rogerioth/Inventory_Kamera` (GOOD v2) + Scanner Nativo Linux
+- **GOOD v2 completo no app** (`e9ecde9`): `types/good.ts` agora aceita `materials`, `unactivatedSubstats` (6.0+), `kamera_version`, `lock` em armas e seções parciais; `resolveGoodMaterials` em `inventory-mapper.ts` mapeia materiais GOOD para o Planejador e `/inventory`; uploads parciais fazem **mesclagem inteligente** por seção em `gsb.planner.v5`.
+- **Scanner Nativo Linux (`linux-scanner/` — `genshin-kamera-linux`)** (`e9ecde9`..`84d14dd`):
+  - Calibração 16:9/16:10 baseada no `rogerioth/Inventory_Kamera`, grade `8×4` calibrada pixel a pixel (32 ícones/página), detecção do banner *Definição de Elixir Santificador*, cadeado coral-vermelho 5.x/6.x e substat `(A ser ativado)` / `(unactivated)` da 6.0+.
+  - Captura nativa **sem flash no Ubuntu GNOME / KDE Wayland** via **`xdg-desktop-portal` ScreenCast + PipeWire + GStreamer** (`portal_capture.py`), além de X11 (`mss`) e wlroots (`grim`).
+  - Cliques confiáveis em Wine/Proton/Heroic via `xdotool` (hold de 55ms) e `ydotool` (v0.1.8/v1.0+), recorte automático da pílula escura do nível (`crop_dark_badge` em `ocr.py`), `--calibrate` com OCR ao vivo e `--test-click`.
+  - **Validado em campo** no Ubuntu GNOME Wayland + Heroic Launcher (548 artefatos 5★ exportados em PT-BR com sets de Nod-Krai carregados direto de `http://localhost:8000/artifacts`).
+
+### Estado de Testes (2026-11-22)
+- Backend: 17 arquivos de teste em `backend/tests/`
+- Frontend: 12 arquivos / **40 testes** passando (`npm test -- --run`) + `tsc && vite build` limpo
+- Linux Scanner: **8 testes** passando (`linux-scanner/tests/test_parsers.py`)
+

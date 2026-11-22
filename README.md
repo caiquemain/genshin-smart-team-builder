@@ -1,16 +1,59 @@
 # Genshin Smart Team Builder & Resource Calculator
 
-Plataforma web para planejamento estratégico de times, guias multi-fonte, tierlist agregada (Consenso Geral + Endgame Sazonal 30d), **Pull Advisor** e cálculo preditivo de recursos em Genshin Impact.
+Plataforma web bilíngue (**PT-BR / EN**) para planejamento estratégico de times, guias multi-fonte, tierlist agregada (Consenso Geral + Abismo + Stygian Onslaught), **Consultor da Conta**, auditoria de artefatos, cálculo preditivo de recursos e **scanner nativo de inventário para Linux** em Genshin Impact.
 
 Projeto extensionista — UNINASSAU / Ciência de Dados.
 
+---
+
+## Principais Funcionalidades
+
+- **Catálogo & Guias Multi-Fonte (PT-BR / EN):** 129+ personagens, armas com tags de obtenção (Gacha, Evento, Craftável, Passe, Pesca, Mundo), artefatos, reações elementais, bestiário com taxas de drop e builds agregadas de 5 fontes (KQM, Game8, Genshin.gg, GameWith e Helper Sheet) com tradução cacheada.
+- **Meu Roster, Builds & Mochila de Artefatos (`/roster`):**
+  - Importação via **UID (Enka.Network)**, **GOOD v2** (`Inventory_Kamera` / `genshin-kamera-linux`) com mesclagem inteligente de scans parciais, ou cadastro 100% manual (zero-JSON).
+  - Aba **Minhas Builds & Stats**: calcula atributos reais equipados (HP, ATK, DEF, Taxa/Dano Crít, ER%, EM), analisa metas (ER%, proporção 1:2 de Crítico com ciência de bônus de 4pc, EM), permite visualização/edição manual de artefatos em modal e **exportação de Build Card em PNG**.
+  - Aba **Mochila de Artefatos**: audita toda a mochila de artefatos (inclusive `+0`), destaca peças com alto potencial, candidatos a upgrade e peças descartáveis para Strongbox.
+- **Consultor da Conta (`/pull-advisor` ou `/consultor`) — 4 Abas:**
+  1. **Quem Pegar:** recomendações personalizadas por cobertura elemental/papéis + Simulador de Banner.
+  2. **Quem Upar:** ranking de ROI de investimento (nível, talentos, qualidade de time).
+  3. **Artefatos & Domínios:** recomenda o domínio mais eficiente para a sua conta (cruzando sets desejados e auditoria dos artefatos GOOD).
+  4. **Abismo & Stygian:** compositor automático sem conflito de personagens para **2 times (Abismo Espiral)** ou **3 times (Stygian Onslaught)**.
+- **Planejador Offline, Inventário & Backup em Nuvem (`/planner`, `/inventory`):**
+  - Cálculo 100% local de XP, Mora, Resina, Ley Lines, Alquimia 3:1, Solvente dos Sonhos e estimativa de kills no Bestiário.
+  - Widget **"O que farmar hoje"** baseado no calendário semanal de domínios.
+  - **Backup Local (`.json`) e Sincronização com Google Drive** direto na barra superior.
+- **Scanner Nativo para Linux ([`linux-scanner/`](linux-scanner/README.md)):**
+  - Alternativa nativa Linux ao `rogerioth/Inventory_Kamera`, com suporte a **X11**, **GNOME/KDE Wayland (PipeWire + `xdg-desktop-portal` sem flash)** e **wlroots**, OCR EN/PT-BR e exportação em **GOOD v2** (incluindo *Elixir Santificador* e substatus `(A ser ativado)` da 6.0+).
+
+---
+
 ## Stack
-- **Backend:** FastAPI + SQLAlchemy + Alembic + PostgreSQL 16
-- **Frontend:** React 18 + TypeScript + Vite + Vitest
-- **Infra:** Docker + Docker Compose
+
+- **Backend:** FastAPI + SQLAlchemy + Alembic + PostgreSQL 16 + Pytest
+- **Frontend:** React 18 + TypeScript + Vite + Vitest + `@floating-ui/react` + `lucide-react`
+- **Scanner Linux:** Python 3.10+ + Tesseract OCR + PipeWire / `xdg-desktop-portal` / GStreamer + `mss` / `xdotool` / `ydotool`
+- **Infra:** Docker + Docker Compose (Frontend `:8080`, Backend `:8000`, Postgres `:5432`)
+
+---
+
+## Como Rodar Localmente
+
+```bash
+# 1. Subir banco, backend e frontend
+docker compose up -d
+
+# 2. Acessar no navegador
+# Frontend: http://localhost:8080
+# API Docs: http://localhost:8000/docs
+```
+
+Para instalar e usar o **Scanner Nativo de Inventário no Linux**, consulte o guia passo a passo em [`linux-scanner/README.md`](linux-scanner/README.md).
+
+---
 
 ## Fonte de dados
-Os dados de personagens, armas, artefatos e materiais são importados do [Project Amber](https://gi.yatta.moe) — base comunitária aberta de Genshin Impact.
+
+Os dados de personagens, armas, artefatos, monstros e materiais são importados do [Project Amber](https://gi.yatta.moe) — base comunitária aberta de Genshin Impact — além da integração opcional com a API pública [Enka.Network](https://enka.network) para consulta de vitrine por UID.
 - API: `https://gi.yatta.moe/api/v2/{lang}/avatar`
 - Importer: `backend/app/seed/import_from_ambr.py`
 - O `vh` (version hash) muda a cada patch. Se o endpoint retornar 404, atualize `VH` no importer.
@@ -129,10 +172,13 @@ docker compose exec backend python -m app.scripts.translate_guides --lang pt --d
 # Opção A — Google Translate gratuito (sem precisar de API key)
 docker compose exec backend python -m app.scripts.translate_guides --lang pt --provider google
 
-# Opção B — Gemini API (melhor qualidade gamer/Genshin; defina GEMINI_API_KEY)
+# Opção B — Ollama local (offline)
+docker compose exec backend python -m app.scripts.translate_guides --lang pt --provider ollama
+
+# Opção C — Gemini API (melhor qualidade gamer/Genshin; defina GEMINI_API_KEY)
 docker compose exec -e GEMINI_API_KEY="SUA_CHAVE" backend python -m app.scripts.translate_guides --lang pt --provider gemini
 
-# Opção C — DeepL Free (500k caracteres/mês grátis; defina DEEPL_API_KEY)
+# Opção D — DeepL Free (500k caracteres/mês grátis; defina DEEPL_API_KEY)
 docker compose exec -e DEEPL_API_KEY="SUA_CHAVE:fx" backend python -m app.scripts.translate_guides --lang pt --provider deepl
 ```
 
@@ -154,8 +200,10 @@ docker compose restart backend
 # 3. Rebuild do frontend (se houver mudança em React/TS/CSS)
 docker compose build --no-cache frontend && docker compose up -d frontend
 
-# 4. Rodar testes automatizados
+# 4. Rodar testes automatizados (Backend, Frontend e Linux Scanner)
 docker compose exec backend pytest -v
+(cd frontend && npm test -- --run)
+(cd linux-scanner && .venv/bin/pytest -v)
 ```
 
 *(Para consultas rápidas no Postgres local via Docker: `docker compose exec db psql -U genshin -d genshin_db`)*
@@ -166,6 +214,7 @@ docker compose exec backend pytest -v
 
 - **AMBR retorna 404:** o `vh` (version hash) muda a cada patch. Atualize `VH` em `backend/app/seed/import_from_ambr.py`.
 - **Ícone não baixa:** a rede de segurança tenta Yatta primeiro e depois Enka. Se ambos falharem, o ícone ainda não existe no CDN.
+- **Scanner Linux no Ubuntu GNOME Wayland:** instale `python3-gi gir1.2-gstreamer-1.0 gstreamer1.0-pipewire` para captura nativa PipeWire sem flash (`--capture portal`, ativado automaticamente). Detalhes completos em [`linux-scanner/README.md`](linux-scanner/README.md).
 - **Enriquecer substitutos de times customizados antigos:**
   ```bash
   docker compose exec backend python -m app.scripts.enrich_substitutes --team-ids 6,8,10,11 --dry-run
