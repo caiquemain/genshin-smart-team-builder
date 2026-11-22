@@ -248,7 +248,9 @@ def _parse_artifact_card(
 
     location = ""
     eq_sample = eq_img.crop((0, 0, min(15, eq_img.width), min(15, eq_img.height)))
-    if compare_color(average_rgb(eq_sample), EQUIPPED_BANNER_COLOR, tolerance=48.0):
+    eq_rgb = average_rgb(eq_sample)
+    # Banner 'Equipado por:' é amarelo-dourado quente (R - B >= 38), diferente do fundo bege claro
+    if (eq_rgb[0] - eq_rgb[2]) >= 38 and compare_color(eq_rgb, EQUIPPED_BANNER_COLOR, tolerance=48.0):
         eq_txt = read_text(eq_img, lang=tlang, psm=7, invert=False)
         location = parse_equipped_character(eq_txt, catalog)
 
@@ -291,6 +293,7 @@ def scan_artifacts(
     c_rect = card_rect(win)
     page = 1
     consecutive_dupes = 0
+    consecutive_filtered = 0
     empty_pages = 0
 
     try:
@@ -303,12 +306,24 @@ def scan_artifacts(
                 card = backend.grab_rect(c_rect)
                 art = _parse_artifact_card(card, win.is_16_9, catalog, tlang)
                 if not art:
+                    # 1 retry curto para cobrir frame em transição de animação da UI
+                    time.sleep(0.08)
+                    card = backend.grab_rect(c_rect)
+                    art = _parse_artifact_card(card, win.is_16_9, catalog, tlang)
+                if not art:
                     continue
 
                 if art["rarity"] < min_rarity or (min_level > 0 and art["level"] < min_level):
-                    print(f"[Artefatos] Filtro atingido (raridade={art['rarity']}★, nv=+{art['level']}). Encerrando.")
-                    return results
+                    consecutive_filtered += 1
+                    if consecutive_filtered >= 12:
+                        print(
+                            f"[Artefatos] Filtro atingido ({consecutive_filtered} itens seguidos abaixo de "
+                            f"{min_rarity}★ / +{min_level}). Encerrando."
+                        )
+                        return results
+                    continue
 
+                consecutive_filtered = 0
                 sig = (
                     f"{art['setKey']}|{art['slotKey']}|{art['level']}|{art['mainStatKey']}|"
                     f"{art['location']}|{[(s['key'], s['value']) for s in art['substats']]}"

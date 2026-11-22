@@ -171,17 +171,21 @@ def parse_artifact_substats(
 
 
 def parse_equipped_character(ocr_text: str, catalog: GameCatalog) -> str:
-    """Extrai a chave GOOD do personagem em `'Equipped: Furina'` / `'Equipado por: Furina'`."""
-    cleaned = re.sub(
-        r"^(equipped\s*:?|equipado\s*(por)?\s*:?)\s*",
-        "",
-        (ocr_text or "").strip(),
-        flags=re.IGNORECASE,
-    )
+    """Extrai a chave GOOD do personagem em `'Equipped: Furina'` / `'Equipado por: Furina'`.
+
+    Exige o prefixo `Equipped`/`Equipado` e correspondência real no catálogo de personagens
+    para nunca confundir linhas da descrição de 4 peças com nomes de personagem.
+    """
+    text = (ocr_text or "").strip()
+    if not text:
+        return ""
+    m = re.match(r"^(?:equipped|equipado(?:\s+por)?)\s*:?\s*(.+)$", text, flags=re.IGNORECASE)
+    if not m:
+        return ""
+    cleaned = m.group(1).strip()
     if not cleaned:
         return ""
-    matched = catalog.match("characters", cleaned, cutoff=0.65)
-    return matched or to_good_key(cleaned)
+    return catalog.match("characters", cleaned, cutoff=0.70) or ""
 
 
 def parse_weapon_level_and_ascension(ocr_text: str) -> tuple[int, int]:

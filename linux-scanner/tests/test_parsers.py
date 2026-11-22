@@ -122,6 +122,7 @@ def test_parse_equipped_weapon_and_materials():
     cat = _make_catalog()
     assert parse_equipped_character("Equipped: Furina", cat) == "Furina"
     assert parse_equipped_character("Equipado por: Kaedehara Kazuha", cat) == "KaedeharaKazuha"
+    assert parse_equipped_character("Intensificação em 20% e o Dano", cat) == ""
     assert parse_equipped_character("", cat) == ""
 
     assert parse_weapon_level_and_ascension("Lv. 90/90") == (90, 6)
