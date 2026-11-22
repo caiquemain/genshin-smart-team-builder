@@ -1,11 +1,14 @@
-"""Camada de captura de tela e controle de input nativa para Linux (X11 + Wayland)."""
+"""Camada de captura de tela e controle de input nativa para Linux (X11 + Wayland/XWayland)."""
+from io import BytesIO
 import json
 import os
+from pathlib import Path
 import re
 import shutil
 import subprocess
+import tempfile
 import time
-from typing import Optional, Tuple
+from typing import Optional
 
 from PIL import Image
 
@@ -16,14 +19,79 @@ class ScanAbortedError(RuntimeError):
     """Disparado quando o usuário aciona o failsafe (mouse no canto 0,0 ou Ctrl+C)."""
 
 
-class LinuxScreenBackend:
-    """Abstração de captura de tela e mouse/teclado para X11 (mss+xdotool) e Wayland (grim+ydotool)."""
+def _detect_desktop() -> str:
+    return (os.environ.get("XDG_CURRENT_DESKTOP") or os.environ.get("DESKTOP_SESSION") or "").lower()
 
-    def __init__(self, display_server: Optional[str] = None, failsafe: bool = True) -> None:
+
+def _ydotool_socket_available() -> bool:
+    """Verifica se existe socket do ydotoold ativo (ydotool 1.0+) ou acesso a /dev/uinput."""
+    env_sock = os.environ.get("YDOTOOL_SOCKET")
+    candidates = [
+        env_sock,
+        f"/run/user/{os.getuid()}/.ydotool_socket",
+        "/tmp/.ydotool_socket",
+    ]
+    for path in candidates:
+        if path and os.path.exists(path):
+            return True
+    return False
+
+
+class LinuxScreenBackend:
+    """Abstração de captura de tela e mouse/teclado para X11, GNOME/KDE Wayland (XWayland) e wlroots."""
+
+    def __init__(
+        self,
+        display_server: Optional[str] = None,
+        failsafe: bool = True,
+        capture_backend: str = "auto",
+        input_backend: str = "auto",
+    ) -> None:
         session = (display_server or os.environ.get("XDG_SESSION_TYPE", "x11")).lower()
         self.is_wayland = session == "wayland"
+        self.desktop = _detect_desktop()
         self.failsafe = failsafe
         self._mss = None
+        self._ydotool_v1: Optional[bool] = None
+
+        self.capture_backend = self._resolve_capture_backend(capture_backend)
+        self.input_backend = self._resolve_input_backend(input_backend)
+
+    def _resolve_capture_backend(self, requested: str) -> str:
+        if requested != "auto":
+            return requested
+        # `grim` só funciona em compositors wlroots (Hyprland, Sway, River); falha em GNOME/KDE!
+        is_gnome_or_kde = "gnome" in self.desktop or "kde" in self.desktop or "plasma" in self.desktop
+        if self.is_wayland and not is_gnome_or_kde and shutil.which("grim"):
+            return "grim"
+        return "mss"
+
+    def _resolve_input_backend(self, requested: str) -> str:
+        if requested != "auto":
+            return requested
+        if not self.is_wayland:
+            return "xdotool"
+        # Em Wayland: prefere ydotool se instalado e com ydotoold ativo (ou uinput legível)
+        if shutil.which("ydotool") and (_ydotool_socket_available() or os.access("/dev/uinput", os.W_OK)):
+            return "ydotool"
+        # No Ubuntu GNOME 45+ / KDE Wayland, Genshin roda via XWayland e xdotool funciona via XTEST/libei!
+        if shutil.which("xdotool"):
+            return "xdotool"
+        if shutil.which("ydotool"):
+            return "ydotool"
+        return "xdotool"
+
+    def _is_ydotool_v1(self) -> bool:
+        if self._ydotool_v1 is None:
+            res = subprocess.run(
+                ["ydotool", "mousemove", "--help"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            out = (res.stdout + res.stderr).lower()
+            self._ydotool_v1 = "--absolute" in out or "--wheel" in out
+        return self._ydotool_v1
 
     def _get_mss(self):
         if self._mss is None:
@@ -40,12 +108,7 @@ class LinuxScreenBackend:
     # --- Detecção da janela do Genshin Impact ---
 
     def find_genshin_window(self) -> Optional[WindowGeometry]:
-        """Tenta localizar automaticamente a janela do Genshin Impact (X11, Hyprland ou Sway)."""
-        if not self.is_wayland and shutil.which("xdotool"):
-            geom = self._find_window_xdotool()
-            if geom:
-                return geom
-
+        """Tenta localizar automaticamente a janela do Genshin Impact (Hyprland, Sway ou X11/XWayland)."""
         if self.is_wayland:
             if shutil.which("hyprctl"):
                 geom = self._find_window_hyprland()
@@ -56,10 +119,16 @@ class LinuxScreenBackend:
                 if geom:
                     return geom
 
+        # Genshin no Linux (Wine/Proton/Steam/AAGL) quase sempre roda via XWayland — xdotool encontra!
+        if shutil.which("xdotool"):
+            geom = self._find_window_xdotool()
+            if geom:
+                return geom
+
         return None
 
     def _find_window_xdotool(self) -> Optional[WindowGeometry]:
-        for pattern in ("Genshin Impact", "GenshinImpact", "genshinimpact"):
+        for pattern in ("Genshin Impact", "GenshinImpact", "genshinimpact", "Genshin"):
             res = subprocess.run(
                 ["xdotool", "search", "--onlyvisible", "--name", pattern],
                 capture_output=True,
@@ -74,12 +143,16 @@ class LinuxScreenBackend:
                     text=True,
                     check=False,
                 )
-                kv = dict(re.findall(r"(\w+)=(\d+)", g.stdout))
+                kv = dict(re.findall(r"(\w+)=(-?\d+)", g.stdout))
                 w = int(kv.get("WIDTH", 0))
                 h = int(kv.get("HEIGHT", 0))
                 if w >= 640 and h >= 360:
-                    # Foca a janela do jogo
-                    subprocess.run(["xdotool", "windowactivate", "--sync", wid], check=False)
+                    try:
+                        # Evita --sync em Wayland porque o compositor pode não responder ao evento X11
+                        cmd = ["xdotool", "windowactivate", wid] if self.is_wayland else ["xdotool", "windowactivate", "--sync", wid]
+                        subprocess.run(cmd, check=False, timeout=1.5)
+                    except subprocess.TimeoutExpired:
+                        pass
                     return WindowGeometry(
                         x=int(kv.get("X", 0)),
                         y=int(kv.get("Y", 0)),
@@ -141,13 +214,30 @@ class LinuxScreenBackend:
 
     # --- Captura de tela ---
 
+    def _grab_via_gnome_screenshot(self, rect: Rect) -> Image.Image:
+        if not shutil.which("gnome-screenshot"):
+            raise RuntimeError(
+                "Backend `gnome-screenshot` não encontrado. Instale com: sudo apt install gnome-screenshot"
+            )
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+            tmp_path = Path(tmp.name)
+        try:
+            subprocess.run(["gnome-screenshot", "-f", str(tmp_path)], check=True)
+            full = Image.open(tmp_path).convert("RGB")
+            return full.crop((rect.x, rect.y, rect.right, rect.bottom))
+        finally:
+            tmp_path.unlink(missing_ok=True)
+
     def grab_rect(self, rect: Rect) -> Image.Image:
-        if self.is_wayland and shutil.which("grim"):
+        if self.capture_backend == "grim":
+            if not shutil.which("grim"):
+                raise RuntimeError("Backend `grim` não encontrado. Instale com: sudo apt install grim")
             geo = f"{rect.x},{rect.y} {rect.width}x{rect.height}"
             res = subprocess.run(["grim", "-g", geo, "-"], capture_output=True, check=True)
-            from io import BytesIO
-
             return Image.open(BytesIO(res.stdout)).convert("RGB")
+
+        if self.capture_backend == "gnome-screenshot":
+            return self._grab_via_gnome_screenshot(rect)
 
         sct = self._get_mss()
         shot = sct.grab(rect.as_mss_monitor())
@@ -159,7 +249,7 @@ class LinuxScreenBackend:
     # --- Failsafe & Controle de Mouse/Teclado ---
 
     def check_failsafe(self) -> None:
-        if not self.failsafe or self.is_wayland or not shutil.which("xdotool"):
+        if not self.failsafe or not shutil.which("xdotool"):
             return
         res = subprocess.run(
             ["xdotool", "getmouselocation", "--shell"],
@@ -167,24 +257,30 @@ class LinuxScreenBackend:
             text=True,
             check=False,
         )
-        kv = dict(re.findall(r"(\w+)=(\d+)", res.stdout))
+        kv = dict(re.findall(r"(\w+)=(-?\d+)", res.stdout))
         mx = int(kv.get("X", 999))
         my = int(kv.get("Y", 999))
-        if mx <= 4 and my <= 4:
+        if 0 <= mx <= 4 and 0 <= my <= 4:
             raise ScanAbortedError("Failsafe acionado (mouse movido para o canto superior esquerdo 0,0).")
 
     def move_and_click(self, x: int, y: int, delay: float = 0.08) -> None:
         self.check_failsafe()
-        if self.is_wayland:
+        if self.input_backend == "ydotool":
             if not shutil.which("ydotool"):
-                raise RuntimeError("Wayland requer `ydotool` instalado e daemon `ydotoold` ativo.")
-            subprocess.run(["ydotool", "mousemove", "--absolute", "-x", str(x), "-y", str(y)], check=False)
-            time.sleep(0.02)
-            subprocess.run(["ydotool", "click", "0xC0"], check=False)
+                raise RuntimeError("Backend `ydotool` selecionado, mas `ydotool` não está instalado.")
+            if self._is_ydotool_v1():
+                subprocess.run(["ydotool", "mousemove", "--absolute", "-x", str(x), "-y", str(y)], check=False)
+                time.sleep(0.02)
+                subprocess.run(["ydotool", "click", "0xC0"], check=False)
+            else:
+                subprocess.run(["ydotool", "mousemove", "-a", str(x), str(y)], check=False)
+                time.sleep(0.02)
+                subprocess.run(["ydotool", "click", "1"], check=False)
         else:
             if not shutil.which("xdotool"):
-                raise RuntimeError("X11 requer `xdotool` instalado (`sudo apt install xdotool`).")
-            subprocess.run(["xdotool", "mousemove", "--sync", str(x), str(y)], check=False)
+                raise RuntimeError("Requer `xdotool` instalado (`sudo apt install xdotool`).")
+            cmd = ["xdotool", "mousemove", str(x), str(y)] if self.is_wayland else ["xdotool", "mousemove", "--sync", str(x), str(y)]
+            subprocess.run(cmd, check=False)
             time.sleep(0.02)
             subprocess.run(["xdotool", "click", "1"], check=False)
         if delay > 0:
@@ -192,14 +288,18 @@ class LinuxScreenBackend:
 
     def scroll_down(self, clicks: int = 10, delay_per_click: float = 0.012) -> None:
         self.check_failsafe()
-        if self.is_wayland:
+        direction = -1 if clicks > 0 else 1
+        if self.input_backend == "ydotool":
             if not shutil.which("ydotool"):
-                raise RuntimeError("Wayland requer `ydotool` instalado.")
-            for _ in range(clicks):
-                subprocess.run(["ydotool", "mousemove", "--wheel", "-x", "0", "-y", "-1"], check=False)
+                raise RuntimeError("Backend `ydotool` selecionado, mas `ydotool` não está instalado.")
+            for _ in range(abs(clicks)):
+                if self._is_ydotool_v1():
+                    subprocess.run(["ydotool", "mousemove", "-w", "--", "0", str(direction)], check=False)
+                else:
+                    subprocess.run(["ydotool", "mousemove", "--wheel", "0", str(direction)], check=False)
                 time.sleep(delay_per_click)
         else:
-            # Em X11, botão 5 = scroll para baixo, botão 4 = scroll para cima
+            # Em X11/XWayland, botão 5 = scroll para baixo, botão 4 = scroll para cima
             btn = "5" if clicks > 0 else "4"
             for _ in range(abs(clicks)):
                 subprocess.run(["xdotool", "click", btn], check=False)
@@ -207,9 +307,8 @@ class LinuxScreenBackend:
 
     def press_key(self, key: str, delay: float = 0.15) -> None:
         self.check_failsafe()
-        if self.is_wayland:
-            if shutil.which("wtype"):
-                subprocess.run(["wtype", key], check=False)
+        if self.input_backend == "ydotool" and shutil.which("wtype"):
+            subprocess.run(["wtype", key], check=False)
         elif shutil.which("xdotool"):
             subprocess.run(["xdotool", "key", key], check=False)
         if delay > 0:

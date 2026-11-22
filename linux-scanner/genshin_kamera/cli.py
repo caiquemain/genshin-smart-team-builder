@@ -38,7 +38,19 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--delay", type=float, default=0.09, help="Pausa em segundos entre cliques (aumente se o PC estiver lento)")
     p.add_argument("--countdown", type=int, default=3, help="Segundos antes de iniciar o scan para focar o jogo (padrão: 3)")
     p.add_argument("--geometry", type=str, default=None, help="Força geometria manual da janela: 'X,Y,W,H' ou '1280x720'")
-    p.add_argument("--display", choices=("x11", "wayland"), default=None, help="Força backend X11 ou Wayland")
+    p.add_argument("--display", choices=("x11", "wayland"), default=None, help="Força sessão X11 ou Wayland")
+    p.add_argument(
+        "--capture",
+        choices=("auto", "mss", "grim", "gnome-screenshot"),
+        default="auto",
+        help="Backend de captura de tela (padrão: auto)",
+    )
+    p.add_argument(
+        "--input",
+        choices=("auto", "xdotool", "ydotool"),
+        default="auto",
+        help="Backend de mouse/scroll (padrão: auto; usa xdotool em XWayland/GNOME se ydotool não estiver ativo)",
+    )
     p.add_argument("--api-url", type=str, default="http://localhost:8000/api", help="URL da API local para carregar nomes atualizados")
     p.add_argument("--out", type=Path, default=Path("./output"), help="Pasta de saída do JSON GOOD v2 (padrão: ./output)")
     return p
@@ -51,11 +63,15 @@ def main(argv: list[str] | None = None) -> int:
     if not any([args.calibrate, args.artifacts, args.weapons, args.materials, args.characters]):
         parser.print_help()
         print("\nExemplo rápido:")
-        print("  genshin-kamera --calibrate")
+        print("  genshin-kamera --calibrate --lang pt")
         print("  genshin-kamera --artifacts --lang pt --min-rarity 5")
         return 0
 
-    backend = LinuxScreenBackend(display_server=args.display)
+    backend = LinuxScreenBackend(
+        display_server=args.display,
+        capture_backend=args.capture,
+        input_backend=args.input,
+    )
     try:
         if args.geometry:
             win = parse_geometry_arg(args.geometry)
@@ -65,6 +81,10 @@ def main(argv: list[str] | None = None) -> int:
                 print("[INFO] Janela do Genshin não encontrada automaticamente; usando tela principal.")
                 win = backend.primary_screen_geometry()
 
+        print(
+            f"[Backend] sessão={'wayland' if backend.is_wayland else 'x11'} "
+            f"captura={backend.capture_backend} input={backend.input_backend}"
+        )
         print(f"[Janela] x={win.x}, y={win.y}, {win.width}x{win.height} ({'16:9' if win.is_16_9 else '16:10'})")
 
         if args.countdown > 0:
@@ -73,13 +93,20 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"  {i}...")
                 time.sleep(1)
 
+        catalog = load_default_catalog(api_url=args.api_url)
+
         if args.calibrate:
-            out_img = save_calibration_overlay(backend, win, Path("./debug_crops"))
+            out_img = save_calibration_overlay(
+                backend,
+                win,
+                Path("./debug_crops"),
+                catalog=catalog,
+                lang=args.lang,
+            )
             print(f"[Calibração] Overlay salvo em: {out_img.resolve()}")
             print("Abra a imagem e confira se o retângulo verde envolve o card da direita e os círculos azuis batem nos ícones.")
             return 0
 
-        catalog = load_default_catalog(api_url=args.api_url)
         print(
             f"[Catálogo] Carregados {len(catalog.characters)} nomes de chars, "
             f"{len(catalog.weapons)} armas, {len(catalog.artifact_sets)} sets, {len(catalog.materials)} materiais."

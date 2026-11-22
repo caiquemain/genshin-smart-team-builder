@@ -54,10 +54,28 @@ def save_calibration_overlay(
     backend: LinuxScreenBackend,
     win: WindowGeometry,
     out_dir: Path,
+    *,
+    catalog: Optional[GameCatalog] = None,
+    lang: str = "en",
 ) -> Path:
-    """Captura a janela atual do Genshin e desenha as caixas de recorte para conferência visual."""
+    """Captura a janela atual do Genshin, desenha as caixas de recorte e testa o OCR ao vivo."""
+    import numpy as np
+
     out_dir.mkdir(parents=True, exist_ok=True)
     full_img = backend.grab_window(win)
+    arr = np.asarray(full_img)
+    mean_luma = float(arr.mean()) if arr.size else 0.0
+    max_val = int(arr.max()) if arr.size else 0
+    if max_val <= 2:
+        print(
+            "[AVISO] A captura veio TODA PRETA! No Ubuntu GNOME Wayland o `mss` (X11) "
+            "pode ser bloqueado pelo compositor."
+        )
+        print("        Tente: genshin-kamera --calibrate --capture gnome-screenshot")
+        print("        (ou instale `sudo apt install gnome-screenshot` / entre na sessão Ubuntu on Xorg).")
+    else:
+        print(f"[Calibração] Captura OK (brilho médio={mean_luma:.1f}, máx={max_val}).")
+
     overlay = full_img.copy()
     draw = ImageDraw.Draw(overlay)
 
@@ -73,11 +91,8 @@ def save_calibration_overlay(
 
     # 2. Contador de itens no topo direito (amarelo)
     cnt_rect = item_count_rect(win)
-    draw.rectangle(
-        (cnt_rect.x - win.x, cnt_rect.y - win.y, cnt_rect.right - win.x, cnt_rect.bottom - win.y),
-        outline=(251, 191, 36),
-        width=2,
-    )
+    rel_cnt = (cnt_rect.x - win.x, cnt_rect.y - win.y, cnt_rect.right - win.x, cnt_rect.bottom - win.y)
+    draw.rectangle(rel_cnt, outline=(251, 191, 36), width=2)
 
     # 3. Pontos da grade 8×5 (azul claro)
     for px, py in inventory_grid_centers(win):
@@ -105,6 +120,20 @@ def save_calibration_overlay(
 
     out_file = out_dir / "calibration_overlay.png"
     overlay.save(out_file)
+
+    # 5. Teste rápido de OCR se a imagem não veio preta
+    if max_val > 2 and catalog is not None:
+        tlang = _tess_lang(lang)
+        cnt_txt = read_text(full_img.crop(rel_cnt), lang="eng", psm=7, invert=True)
+        print(f"[Calibração OCR] Contador topo: {cnt_txt!r} -> {parse_item_count_header(cnt_txt)}")
+        parsed = _parse_artifact_card(card_img, win.is_16_9, catalog, tlang)
+        if parsed:
+            print(f"[Calibração OCR] Artefato lido com sucesso: {parsed}")
+        else:
+            slot_raw = read_text(card_img.crop(crop_artifact_slot(cw, ch, win.is_16_9).as_crop_box()), lang=tlang, psm=7, invert=True)
+            lv_raw = read_text(card_img.crop(crop_artifact_level(cw, ch, win.is_16_9).as_crop_box()), lang="eng", psm=7, invert=True)
+            print(f"[Calibração OCR] Card atual não bateu como artefato (slot={slot_raw!r}, level={lv_raw!r}).")
+
     return out_file
 
 
