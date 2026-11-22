@@ -13,7 +13,7 @@ import httpx
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from ..models import Character, Language, Weapon
+from ..models import ArtifactSet, Character, Language, Weapon
 from ..models.weapon import WeaponTranslation
 from .i18n import resolve_character
 
@@ -288,6 +288,108 @@ def _extract_weapon(
     return None
 
 
+RELIC_ICON_SET_RE = re.compile(r"UI_RelicIcon_(\d+)_")
+
+ENKA_EQUIP_TO_SLOT: dict[str, str] = {
+    "EQUIP_BRACER": "flower",
+    "EQUIP_NECKLACE": "plume",
+    "EQUIP_SHOES": "sands",
+    "EQUIP_RING": "goblet",
+    "EQUIP_DRESS": "circlet",
+}
+
+SLOT_SORT_ORDER: dict[str, int] = {
+    "flower": 0,
+    "plume": 1,
+    "sands": 2,
+    "goblet": 3,
+    "circlet": 4,
+}
+
+ENKA_PROP_TO_GOOD: dict[str, str] = {
+    "FIGHT_PROP_HP": "hp",
+    "FIGHT_PROP_HP_PERCENT": "hp_",
+    "FIGHT_PROP_ATTACK": "atk",
+    "FIGHT_PROP_ATTACK_PERCENT": "atk_",
+    "FIGHT_PROP_DEFENSE": "def",
+    "FIGHT_PROP_DEFENSE_PERCENT": "def_",
+    "FIGHT_PROP_ELEMENT_MASTERY": "eleMas",
+    "FIGHT_PROP_CHARGE_EFFICIENCY": "enerRech_",
+    "FIGHT_PROP_CRITICAL": "critRate_",
+    "FIGHT_PROP_CRITICAL_HURT": "critDMG_",
+    "FIGHT_PROP_HEAL_ADD": "heal_",
+    "FIGHT_PROP_FIRE_ADD_HURT": "pyro_dmg_",
+    "FIGHT_PROP_WATER_ADD_HURT": "hydro_dmg_",
+    "FIGHT_PROP_ICE_ADD_HURT": "cryo_dmg_",
+    "FIGHT_PROP_ELEC_ADD_HURT": "electro_dmg_",
+    "FIGHT_PROP_WIND_ADD_HURT": "anemo_dmg_",
+    "FIGHT_PROP_ROCK_ADD_HURT": "geo_dmg_",
+    "FIGHT_PROP_GRASS_ADD_HURT": "dendro_dmg_",
+    "FIGHT_PROP_PHYSICAL_ADD_HURT": "physical_dmg_",
+}
+
+
+def _extract_artifacts(
+    equip_list: list[dict[str, Any]],
+    artifact_sets_by_ambr_id: Optional[dict[int, str]] = None,
+) -> list[dict[str, Any]]:
+    """Extrai os artefatos equipados (ITEM_RELIQUARY) de um avatar do Enka.Network."""
+    sets_map = artifact_sets_by_ambr_id or {}
+    out: list[dict[str, Any]] = []
+    for eq in equip_list or []:
+        flat = eq.get("flat") or {}
+        if flat.get("itemType") != "ITEM_RELIQUARY":
+            continue
+        slot_key = ENKA_EQUIP_TO_SLOT.get(str(flat.get("equipType") or ""))
+        if not slot_key:
+            continue
+
+        rel = eq.get("reliquary") or {}
+        # No Enka, level=1 equivale a +0 e level=21 equivale a +20
+        raw_lv = int(rel.get("level") or 1)
+        level = max(0, min(20, raw_lv - 1))
+        rarity = int(flat.get("rankLevel") or 5)
+
+        icon = str(flat.get("icon") or "")
+        set_slug: Optional[str] = None
+        m = RELIC_ICON_SET_RE.search(icon)
+        if m:
+            ambr_id = int(m.group(1))
+            set_slug = sets_map.get(ambr_id)
+        if not set_slug:
+            # Fallback para setNameTextMapHash ou prefixo do ícone
+            set_slug = str(flat.get("setNameTextMapHash") or (f"set-{m.group(1)}" if m else "unknown-set"))
+
+        main_raw = flat.get("reliquaryMainstat") or {}
+        main_prop_id = str(main_raw.get("mainPropId") or "")
+        main_stat_key = ENKA_PROP_TO_GOOD.get(main_prop_id, main_prop_id)
+        if not main_stat_key:
+            continue
+
+        substats: list[dict[str, Any]] = []
+        for sub in flat.get("reliquarySubstats") or []:
+            prop_id = str(sub.get("appendPropId") or "")
+            good_key = ENKA_PROP_TO_GOOD.get(prop_id)
+            val = sub.get("statValue")
+            if good_key and val is not None:
+                try:
+                    substats.append({"key": good_key, "value": round(float(val), 1)})
+                except (TypeError, ValueError):
+                    pass
+
+        out.append({
+            "set_slug": set_slug,
+            "slot_key": slot_key,
+            "level": level,
+            "rarity": rarity,
+            "main_stat_key": main_stat_key,
+            "substats": substats[:4],
+        })
+
+    out.sort(key=lambda a: SLOT_SORT_ORDER.get(a["slot_key"], 99))
+    return out
+
+
 def parse_enka_payload(
     uid: str,
     raw: dict[str, Any],
@@ -296,6 +398,7 @@ def parse_enka_payload(
     chars_by_slug: dict[str, DbCharRef],
     weapons_by_ambr_id: dict[int, DbWeaponRef],
     weapons_by_icon: dict[str, DbWeaponRef],
+    artifact_sets_by_ambr_id: Optional[dict[int, str]] = None,
 ) -> dict[str, Any]:
     """Converte o JSON bruto do Enka.Network no payload normalizado da API."""
     player_info = raw.get("playerInfo") or {}
@@ -345,11 +448,13 @@ def parse_enka_payload(
             talent_id_list = av.get("talentIdList") or []
             cons = max(0, min(6, len(talent_id_list)))
             na, es, eb = _extract_talents(av.get("skillLevelMap") or {}, meta)
+            equip_list = av.get("equipList") or []
             weapon = _extract_weapon(
-                av.get("equipList") or [],
+                equip_list,
                 weapons_by_ambr_id,
                 weapons_by_icon,
             )
+            artifacts = _extract_artifacts(equip_list, artifact_sets_by_ambr_id)
 
             parsed_chars.append({
                 "slug": ref.slug,
@@ -366,6 +471,7 @@ def parse_enka_payload(
                 "eb": eb,
                 "has_detail": True,
                 "weapon": weapon,
+                "artifacts": artifacts,
             })
     elif show_list:
         # Detalhes ocultos no jogo: ainda conseguimos importar lista básica + nível
@@ -406,6 +512,7 @@ def parse_enka_payload(
                 "eb": 1,
                 "has_detail": False,
                 "weapon": None,
+                "artifacts": [],
             })
 
     return {
@@ -463,6 +570,15 @@ def fetch_and_parse_enka_uid(db: Session, uid: str, lang: Language) -> dict[str,
         if w.icon:
             weapons_by_icon[w.icon.lower()] = wref
 
+    artifact_sets_by_ambr_id: dict[int, str] = {}
+    for a in db.query(ArtifactSet).all():
+        if a.ambr_id is not None:
+            artifact_sets_by_ambr_id[int(a.ambr_id)] = a.slug
+        if a.icon:
+            m = RELIC_ICON_SET_RE.search(a.icon)
+            if m:
+                artifact_sets_by_ambr_id.setdefault(int(m.group(1)), a.slug)
+
     return parse_enka_payload(
         uid=clean_uid,
         raw=raw,
@@ -471,4 +587,5 @@ def fetch_and_parse_enka_uid(db: Session, uid: str, lang: Language) -> dict[str,
         chars_by_slug=chars_by_slug,
         weapons_by_ambr_id=weapons_by_ambr_id,
         weapons_by_icon=weapons_by_icon,
+        artifact_sets_by_ambr_id=artifact_sets_by_ambr_id,
     )

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  X, Gem, Plus, Trash2, Pencil, Save, ExternalLink, Swords, Copy, Check,
+  X, Gem, Plus, Trash2, Pencil, Save, ExternalLink, Swords, Copy, Check, Download,
 } from 'lucide-react'
 import { artifactIconUrl, iconUrl } from '../config'
 import type { GoodArtifact, GoodSlotKey, GoodSubstat } from '../types/good'
 import type { GoodCharState } from '../utils/good-parser'
 import {
+  analyzeStatTargets,
   buildArtifactSetLookup,
   buildWeaponLookup,
   computeArtifactCritValue,
@@ -17,6 +18,7 @@ import {
   SLOT_LABEL_PT,
   type CharacterStatsDataset,
 } from '../utils/char-stats-calc'
+import { downloadBuildCardPng } from '../utils/build-card-png'
 import { saveManualCharacterGear } from '../utils/planner-storage'
 import { normKey } from '../utils/slug-resolver'
 import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
@@ -320,6 +322,22 @@ export default function CharacterArtifactsModal({
     onClose()
   }
 
+  const [exportingPng, setExportingPng] = useState(false)
+
+  const liveStatTargets = useMemo(
+    () => analyzeStatTargets(liveStats, null),
+    [liveStats],
+  )
+
+  const handleDownloadPng = async () => {
+    setExportingPng(true)
+    try {
+      await downloadBuildCardPng(character, liveStats)
+    } finally {
+      setExportingPng(false)
+    }
+  }
+
   const charImg = iconUrl(character.icon)
   const editingPiece = editingSlot ? slotMap[editingSlot] : null
   const primaryBonus =
@@ -367,6 +385,15 @@ export default function CharacterArtifactsModal({
           </div>
 
           <div className="cam-header-actions">
+            <button
+              type="button"
+              className="btn-secondary cam-page-link"
+              onClick={handleDownloadPng}
+              disabled={exportingPng}
+              title="Baixar imagem PNG desta build (estilo Enka/Akasha)"
+            >
+              <Download size={13} /> {exportingPng ? 'Gerando...' : 'Card PNG'}
+            </button>
             <Link
               to={`/characters/${character.slug}#minha-build`}
               className="btn-secondary cam-page-link"
@@ -417,6 +444,16 @@ export default function CharacterArtifactsModal({
               <strong>{primaryBonus.value}</strong>
             </div>
           </div>
+
+          {liveStatTargets.length > 0 && (
+            <div className="cam-target-strip">
+              {liveStatTargets.map((t) => (
+                <div key={t.key} className={`cam-target-note target-${t.status}`}>
+                  <strong>{t.label}:</strong> {t.message}
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Barra rápida: Nível do Char & Arma Equipada */}
           <div className="cam-gear-bar">

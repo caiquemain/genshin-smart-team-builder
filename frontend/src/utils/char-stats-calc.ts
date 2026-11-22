@@ -723,3 +723,170 @@ export function auditEquippedBuild(
   }
   return { status: 'needs_farm', label: 'Precisa Farmar', notes }
 }
+
+export interface StatTargetAdvice {
+  key: 'er' | 'crit' | 'em'
+  label: string
+  status: 'ok' | 'warn' | 'low'
+  message: string
+}
+
+const FOUR_PC_CRIT_RATE_BONUS: Record<string, { bonus: number; label: string }> = {
+  'marechaussee-hunter': { bonus: 36, label: '4pc Caçador (+36%)' },
+  'obsidian-codex': { bonus: 40, label: '4pc Códice (+40%)' },
+  'blizzard-strayer': { bonus: 40, label: '4pc Herói Invernal (+40%)' },
+}
+
+export function parseErRequirementRange(erText: string | null | undefined): [number, number] | null {
+  if (!erText) return null
+  const matches = [...erText.matchAll(/(\d{3})\s*%/g)].map((m) => Number(m[1]))
+  if (matches.length === 0) return null
+  const valid = matches.filter((n) => n >= 100 && n <= 320)
+  if (valid.length === 0) return null
+  return [Math.min(...valid), Math.max(...valid)]
+}
+
+/**
+ * Compara os stats calculados do personagem contra metas da build recomendada:
+ * - Recarga de Energia (ER%) vs `er_requirement`
+ * - Proporção Crítica 1:2 (considerando bônus de Taxa de 4pc Caçador/Códice/Invernal)
+ * - Proficiência Elemental (EM) para personagens full-EM
+ */
+export function analyzeStatTargets(
+  computed: ComputedCharStats,
+  recommended: CharacterBuild | null | undefined,
+): StatTargetAdvice[] {
+  if (!computed.hasArtifacts) return []
+  const advice: StatTargetAdvice[] = []
+
+  // 1. Recarga de Energia (ER%)
+  const erRange = parseErRequirementRange(recommended?.er_requirement)
+  if (erRange) {
+    const [minEr, maxEr] = erRange
+    const targetLabel = minEr === maxEr ? `${minEr}%` : `${minEr}–${maxEr}%`
+    const curEr = Math.round(computed.er)
+    if (curEr >= minEr) {
+      advice.push({
+        key: 'er',
+        label: 'Recarga (ER)',
+        status: 'ok',
+        message: `Recarga em ${curEr}% — dentro da meta da build (${targetLabel}).`,
+      })
+    } else if (minEr - curEr <= 20) {
+      advice.push({
+        key: 'er',
+        label: 'Recarga (ER)',
+        status: 'warn',
+        message: `Recarga em ${curEr}% — faltam ~${minEr - curEr}% para a meta (${targetLabel}).`,
+      })
+    } else {
+      advice.push({
+        key: 'er',
+        label: 'Recarga (ER)',
+        status: 'low',
+        message: `Recarga baixa (${curEr}%) — meta da build é ${targetLabel} (faltam ~${minEr - curEr}%).`,
+      })
+    }
+  }
+
+  // 2. Proporção Crítica (1:2)
+  const recCirclets = (recommended?.circlet_stat ?? []).map((s) => normalizeGoodStatKey(s))
+  const recSubs = (recommended?.substat_priority ?? []).map((s) => s.toLowerCase())
+  const wantsCrit =
+    !recommended ||
+    recCirclets.includes('crit_rate') ||
+    recCirclets.includes('crit_dmg') ||
+    recSubs.some((s) => s.includes('crit'))
+
+  const emSlotCount = [
+    recommended?.sands_stat ?? [],
+    recommended?.goblet_stat ?? [],
+    recommended?.circlet_stat ?? [],
+  ].filter((list) => list.length > 0 && list.every((s) => normalizeGoodStatKey(s) === 'em')).length
+
+  if (wantsCrit && emSlotCount < 2) {
+    const setBonusInfo = computed.active4pcSlug
+      ? FOUR_PC_CRIT_RATE_BONUS[computed.active4pcSlug]
+      : undefined
+    const setCr = setBonusInfo?.bonus ?? 0
+    const rawEffCr = computed.critRate + setCr
+    const effCr = Math.min(100, rawEffCr)
+    const cd = computed.critDmg
+
+    if (rawEffCr > 104) {
+      advice.push({
+        key: 'crit',
+        label: 'Proporção Crítica',
+        status: 'warn',
+        message: `Overcap de Taxa Crítica (${Math.round(rawEffCr)}% com ${setBonusInfo?.label}) — troque rolls/Tiara para Dano Crítico.`,
+      })
+    } else if (effCr < 55 && cd >= 140) {
+      advice.push({
+        key: 'crit',
+        label: 'Proporção Crítica',
+        status: 'low',
+        message: `Proporção desequilibrada (${computed.critRate.toFixed(0)}% / ${cd.toFixed(0)}%) — mais Taxa Crítica (ex.: Tiara de Taxa) melhora o DPS médio.`,
+      })
+    } else if (effCr >= 65 && cd >= 135) {
+      const ratio = cd / Math.max(1, effCr)
+      if (ratio >= 1.5 && ratio <= 2.6) {
+        advice.push({
+          key: 'crit',
+          label: 'Proporção Crítica',
+          status: 'ok',
+          message: `Proporção Crítica bem equilibrada (${computed.critRate.toFixed(1)}% / ${cd.toFixed(1)}%${setBonusInfo ? ` · ${setBonusInfo.label}` : ''}).`,
+        })
+      } else if (ratio > 2.6) {
+        advice.push({
+          key: 'crit',
+          label: 'Proporção Crítica',
+          status: 'warn',
+          message: `Dano Crítico alto frente à Taxa (${computed.critRate.toFixed(0)}% / ${cd.toFixed(0)}%) — tente aproximar de 1:2.`,
+        })
+      } else {
+        advice.push({
+          key: 'crit',
+          label: 'Proporção Crítica',
+          status: 'warn',
+          message: `Taxa Crítica boa (${effCr.toFixed(0)}%), mas Dano Crítico pode subir mais (${cd.toFixed(0)}%).`,
+        })
+      }
+    } else if (effCr < 60 && cd < 140) {
+      advice.push({
+        key: 'crit',
+        label: 'Proporção Crítica',
+        status: 'low',
+        message: `Crítico ainda inicial (${computed.critRate.toFixed(0)}% / ${cd.toFixed(0)}%) — busque ~65%+ Taxa e 140%+ Dano Crítico.`,
+      })
+    }
+  }
+
+  // 3. Proficiência Elemental (EM) para personagens full-EM
+  if (emSlotCount >= 2) {
+    if (computed.em >= 750) {
+      advice.push({
+        key: 'em',
+        label: 'Proficiência (EM)',
+        status: 'ok',
+        message: `Proficiência excelente (${computed.em} EM) para build focada em reações/buff.`,
+      })
+    } else if (computed.em >= 500) {
+      advice.push({
+        key: 'em',
+        label: 'Proficiência (EM)',
+        status: 'warn',
+        message: `Proficiência em ${computed.em} EM — tente chegar perto de 750–900 EM (peças +20 e arma de EM).`,
+      })
+    } else {
+      advice.push({
+        key: 'em',
+        label: 'Proficiência (EM)',
+        status: 'low',
+        message: `Proficiência baixa (${computed.em} EM) — esta build pede Ampulheta/Cálice/Tiara de EM.`,
+      })
+    }
+  }
+
+  return advice
+}
+

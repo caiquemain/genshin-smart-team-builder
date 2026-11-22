@@ -7,12 +7,15 @@ from ..models import Language
 from ..schemas.pull_advisor import (
     ArtifactAdvisorRequest,
     ArtifactAdvisorResponse,
+    EndgameTeamsRequest,
+    EndgameTeamsResponse,
     PullAdvisorRequest,
     PullAdvisorResponse,
     UpgradeAdvisorRequest,
     UpgradeAdvisorResponse,
 )
 from ..services.artifact_advisor import build_artifact_advisor_response
+from ..services.endgame_composer import build_endgame_composer_response
 from ..services.pull_advisor import build_pull_advisor_response
 from ..services.upgrade_advisor import build_upgrade_advisor_response
 from .deps import get_language
@@ -75,3 +78,21 @@ def recommend_artifacts(
         limit=payload.limit,
     )
     return ArtifactAdvisorResponse(**result)
+
+
+@router.post("/endgame-teams", response_model=EndgameTeamsResponse)
+def recommend_endgame_teams(
+    payload: EndgameTeamsRequest,
+    lang: Language = Depends(get_language),
+    db: Session = Depends(get_db),
+) -> EndgameTeamsResponse:
+    result = build_endgame_composer_response(
+        db=db,
+        lang=lang,
+        owned_slugs=payload.owned_slugs,
+        mode=payload.mode,
+        locked_slugs=payload.locked_slugs,
+        excluded_slugs=payload.excluded_slugs,
+        limit=payload.limit,
+    )
+    return EndgameTeamsResponse(**result)

@@ -27,6 +27,8 @@ import type { Substitute, BuildPreset,
   UpgradeAdvisorResponse,
   ArtifactAdvisorRequest,
   ArtifactAdvisorResponse,
+  EndgameTeamsRequest,
+  EndgameTeamsResponse,
   EnkaImportResponse,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
@@ -197,6 +199,15 @@ export const api = {
     }).then(async (r) => {
       if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
       return r.json() as Promise<ArtifactAdvisorResponse>
+    }),
+  recommendEndgameTeams: (payload: EndgameTeamsRequest, lang: LanguageCode) =>
+    fetch(`${API_URL}/recommendations/endgame-teams?lang=${lang}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<EndgameTeamsResponse>
     }),
   importEnkaUid: (uid: string, lang: LanguageCode) =>
     fetch(`${API_URL}/enka/${encodeURIComponent(uid.trim())}?lang=${lang}`).then(async (r) => {

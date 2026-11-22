@@ -233,6 +233,12 @@ export default function UidImportModal({
                                 <span>C{c.cons}</span>
                                 <span>·</span>
                                 <span>{c.na}/{c.es}/{c.eb}</span>
+                                {(c.artifacts?.length ?? 0) > 0 && (
+                                  <>
+                                    <span>·</span>
+                                    <span>{c.artifacts!.length} art.</span>
+                                  </>
+                                )}
                               </>
                             )}
                           </div>

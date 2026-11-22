@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles,
-  UserCheck, BarChart3, Users, Swords, Gem,
+  UserCheck, BarChart3, Users, Swords, Gem, Lock, Repeat,
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -18,6 +18,10 @@ import {
   type CharacterStatsDataset,
   type ComputedCharStats,
 } from '../utils/char-stats-calc'
+import {
+  auditArtifactBag,
+  loadAllGoodArtifactsFromStorage,
+} from '../utils/artifact-bag-auditor'
 import UidImportModal from '../components/UidImportModal'
 import CharacterArtifactsModal from '../components/CharacterArtifactsModal'
 import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
@@ -34,7 +38,7 @@ const WEAPON_LABELS: Record<string, string> = {
 }
 
 type StatusFilter = 'all' | 'owned' | 'missing'
-type RosterViewMode = 'manage' | 'builds'
+type RosterViewMode = 'manage' | 'builds' | 'bag'
 type BuildSortKey = 'cv' | 'level' | 'atk' | 'hp' | 'crit_rate' | 'crit_dmg' | 'er' | 'em' | 'name'
 
 function cvClass(cv: number): string {
@@ -49,6 +53,10 @@ export default function RosterPage() {
   const roster = useRoster()
   const [viewMode, setViewMode] = useState<RosterViewMode>('manage')
   const [buildSort, setBuildSort] = useState<BuildSortKey>('cv')
+  const [bagTab, setBagTab] = useState<'gems' | 'recycle'>('gems')
+  const [bagIncludeLocked, setBagIncludeLocked] = useState(false)
+  const [bagSetFilter, setBagSetFilter] = useState('all')
+  const [bagSlotFilter, setBagSlotFilter] = useState('all')
   const [chars, setChars] = useState<CharacterSummary[]>([])
   const [weaponsCatalog, setWeaponsCatalog] = useState<WeaponSummary[]>([])
   const [artifactsCatalog, setArtifactsCatalog] = useState<ArtifactSetSummary[]>([])
@@ -77,17 +85,19 @@ export default function RosterPage() {
   }, [lang])
 
   useEffect(() => {
-    if (viewMode !== 'builds') return
+    if (viewMode !== 'builds' && viewMode !== 'bag') return
     let active = true
-    loadCharacterStatsDataset().then((d) => {
-      if (active) setStatsDataset(d)
-    })
-    api
-      .listWeapons(lang, { limit: 500 })
-      .then((r) => {
-        if (active) setWeaponsCatalog(r.items)
+    if (viewMode === 'builds') {
+      loadCharacterStatsDataset().then((d) => {
+        if (active) setStatsDataset(d)
       })
-      .catch(() => {})
+      api
+        .listWeapons(lang, { limit: 500 })
+        .then((r) => {
+          if (active) setWeaponsCatalog(r.items)
+        })
+        .catch(() => {})
+    }
     api
       .listArtifacts(lang, { limit: 200 })
       .then((r) => {
@@ -98,6 +108,34 @@ export default function RosterPage() {
       active = false
     }
   }, [viewMode, lang])
+
+  const bagAudit = useMemo(() => {
+    if (viewMode !== 'bag') return null
+    const allArts = loadAllGoodArtifactsFromStorage()
+    return auditArtifactBag(allArts, artifactsCatalog)
+  }, [viewMode, artifactsCatalog, roster])
+
+  const bagDisplayedItems = useMemo(() => {
+    if (!bagAudit) return []
+    const base = bagTab === 'gems' ? bagAudit.gems : bagAudit.recycle
+    return base.filter((item) => {
+      if (bagTab === 'recycle' && !bagIncludeLocked && item.locked) return false
+      if (bagSetFilter !== 'all' && item.setSlug !== bagSetFilter) return false
+      if (bagSlotFilter !== 'all' && item.slotKey !== bagSlotFilter) return false
+      return true
+    })
+  }, [bagAudit, bagTab, bagIncludeLocked, bagSetFilter, bagSlotFilter])
+
+  const bagAvailableSets = useMemo(() => {
+    if (!bagAudit) return [] as { slug: string; name: string }[]
+    const map = new Map<string, string>()
+    for (const item of [...bagAudit.gems, ...bagAudit.recycle]) {
+      map.set(item.setSlug, item.setName)
+    }
+    return [...map.entries()]
+      .map(([slug, name]) => ({ slug, name }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }, [bagAudit])
 
   const weaponLookup = useMemo(() => buildWeaponLookup(weaponsCatalog), [weaponsCatalog])
   const artifactSetLookup = useMemo(() => buildArtifactSetLookup(artifactsCatalog), [artifactsCatalog])
@@ -379,12 +417,23 @@ export default function RosterPage() {
         >
           <BarChart3 size={15} /> Minhas Builds & Stats ({roster.ownedCount})
         </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={viewMode === 'bag'}
+          className={`roster-view-tab ${viewMode === 'bag' ? 'active' : ''}`}
+          onClick={() => setViewMode('bag')}
+        >
+          <Gem size={15} /> Mochila de Artefatos
+        </button>
       </div>
 
       <p className="roster-hint">
         {viewMode === 'manage'
           ? 'Marque quem você tem. Importou GOOD/Seelie no Planner? Já vêm marcados automaticamente. Manual sempre sobrescreve o importado.'
-          : 'Stats calculados (Base do nível + Ascensão + Arma + 5 Artefatos + Bônus de 2pc) para todos os personagens da sua conta.'}
+          : viewMode === 'builds'
+            ? 'Stats calculados (Base do nível + Ascensão + Arma + 5 Artefatos + Bônus de 2pc) para todos os personagens da sua conta.'
+            : 'Auditoria dos artefatos 5★ não equipados do seu GOOD JSON: descubra joias paradas em +0 e peças seguras para reciclar no Strongbox.'}
       </p>
 
       {/* Zona de upload GOOD */}
@@ -403,7 +452,8 @@ export default function RosterPage() {
       {uploadError && <div className="roster-upload-feedback error">{uploadError}</div>}
       {uploadSuccess && <div className="roster-upload-feedback success">{uploadSuccess}</div>}
 
-      {/* Toolbar de busca + filtros */}
+      {/* Toolbar de busca + filtros (Roster e Builds) */}
+      {viewMode !== 'bag' && (
       <div className="premium-filters roster-filters">
         <div className="filter-group" style={{ flex: 1, minWidth: 220 }}>
           <span className="filter-label">Buscar</span>
@@ -516,6 +566,7 @@ export default function RosterPage() {
           </button>
         )}
       </div>
+      )}
 
       {viewMode === 'manage' && (
         <>
@@ -798,6 +849,169 @@ export default function RosterPage() {
                 )
               })}
             </div>
+          )}
+        </>
+      )}
+
+      {viewMode === 'bag' && bagAudit && (
+        <>
+          <div className="rb-summary-strip">
+            <div className="rb-summary-card">
+              <div className="rb-summary-label">5★ na Mochila (Livres)</div>
+              <div className="rb-summary-val">{bagAudit.bagFiveStarCount}</div>
+              <div className="rb-summary-sub">
+                {bagAudit.totalInGood} no GOOD ({bagAudit.equippedCount} equipados)
+              </div>
+            </div>
+            <div className="rb-summary-card">
+              <div className="rb-summary-label">Joias Escondidas (Upar!)</div>
+              <div className="rb-summary-val" style={{ color: '#86efac' }}>
+                {bagAudit.gems.length}
+              </div>
+              <div className="rb-summary-sub">Duplo Crítico / Cálices & Tiaras fortes em +0..+12</div>
+            </div>
+            <div className="rb-summary-card">
+              <div className="rb-summary-label">Seguras p/ Strongbox</div>
+              <div className="rb-summary-val" style={{ color: '#fde68a' }}>
+                {bagAudit.recycle.length}
+              </div>
+              <div className="rb-summary-sub">
+                ≈ <strong>{bagAudit.strongboxBoxes}</strong> caixas (3→1) só com peças destrancadas
+              </div>
+            </div>
+          </div>
+
+          {bagAudit.bagFiveStarCount === 0 ? (
+            <div className="rb-summary-card" style={{ textAlign: 'center', padding: 32 }}>
+              <p style={{ margin: 0, color: '#cbd5e1' }}>
+                Nenhum artefato 5★ não equipado foi encontrado no seu GOOD JSON.
+              </p>
+              <p style={{ margin: '8px 0 0', fontSize: 12.5, color: '#94a3b8' }}>
+                Arraste um arquivo <code>.json</code> completo do GOOD (ex.: Inventory Kamera / Artiscan) na caixa acima para auditar toda a sua mochila.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="bag-controls">
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    className={`filter-pill ${bagTab === 'gems' ? 'active' : ''}`}
+                    style={{ '--pill-color': '#4ade80' } as React.CSSProperties}
+                    onClick={() => setBagTab('gems')}
+                  >
+                    <Sparkles size={13} /> Joias Escondidas ({bagAudit.gems.length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`filter-pill ${bagTab === 'recycle' ? 'active' : ''}`}
+                    style={{ '--pill-color': '#fbbf24' } as React.CSSProperties}
+                    onClick={() => setBagTab('recycle')}
+                  >
+                    <Repeat size={13} /> Reciclar no Strongbox ({bagAudit.recycle.length})
+                  </button>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <select
+                    className="rb-sort-select"
+                    value={bagSetFilter}
+                    onChange={(e) => setBagSetFilter(e.target.value)}
+                  >
+                    <option value="all">Todos os Sets</option>
+                    {bagAvailableSets.map((s) => (
+                      <option key={s.slug} value={s.slug}>{s.name}</option>
+                    ))}
+                  </select>
+
+                  <select
+                    className="rb-sort-select"
+                    value={bagSlotFilter}
+                    onChange={(e) => setBagSlotFilter(e.target.value)}
+                  >
+                    <option value="all">Todos os Slots</option>
+                    <option value="flower">Flor</option>
+                    <option value="plume">Pena</option>
+                    <option value="sands">Ampulheta</option>
+                    <option value="goblet">Cálice</option>
+                    <option value="circlet">Tiara</option>
+                  </select>
+
+                  {bagTab === 'recycle' && (
+                    <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, color: '#cbd5e1', cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        checked={bagIncludeLocked}
+                        onChange={(e) => setBagIncludeLocked(e.target.checked)}
+                      />
+                      Incluir trancadas
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              {bagDisplayedItems.length === 0 ? (
+                <p className="status" style={{ padding: 36, textAlign: 'center' }}>
+                  Nenhuma peça nesta categoria com os filtros selecionados.
+                </p>
+              ) : (
+                <>
+                  <div className="bag-grid">
+                    {bagDisplayedItems.slice(0, 80).map((item) => {
+                      const artImg = artifactIconUrl(item.setIcon)
+                      return (
+                        <div
+                          key={item.index}
+                          className={`bag-art-card ${item.verdict === 'gem' ? 'is-gem' : 'is-recycle'}`}
+                        >
+                          <div className="eb-art-head">
+                            <div className="eb-art-icon">
+                              {artImg ? <img src={artImg} alt={item.setName} loading="lazy" /> : <Gem size={15} />}
+                            </div>
+                            <div className="eb-art-head-info">
+                              <div className="eb-art-slot-row">
+                                <span className="eb-art-slot">{item.slotLabel}</span>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                  {item.locked && <Lock size={11} color="#fbbf24" />}
+                                  <span className="eb-art-lv">+{item.level}</span>
+                                </span>
+                              </div>
+                              <Link to={`/artifacts/${item.setSlug}`} className="eb-art-set-name" title={item.setName}>
+                                {item.setName}
+                              </Link>
+                            </div>
+                          </div>
+
+                          <div className="eb-art-main">
+                            <span className="eb-art-main-label">{item.mainStatLabel}</span>
+                            <strong className="eb-art-main-val">{item.mainStatFormatted}</strong>
+                          </div>
+
+                          <ul className="eb-art-subs">
+                            {item.substats.map((sub, si) => {
+                              const isCrit = sub.key === 'crit_rate' || sub.key === 'crit_dmg'
+                              return (
+                                <li key={si} className={isCrit ? 'is-crit-sub' : ''}>
+                                  <span>{sub.label}</span>
+                                  <strong>+{sub.formatted}</strong>
+                                </li>
+                              )
+                            })}
+                          </ul>
+
+                          <p className="bag-art-reason">{item.reason}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  {bagDisplayedItems.length > 80 && (
+                    <p className="status" style={{ textAlign: 'center', marginTop: 14 }}>
+                      Mostrando as 80 peças mais prioritárias de {bagDisplayedItems.length}. Use os filtros de Set ou Slot acima para refinar.
+                    </p>
+                  )}
+                </>
+              )}
+            </>
           )}
         </>
       )}

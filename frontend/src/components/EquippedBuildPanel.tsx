@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2, Pencil } from 'lucide-react'
+import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2, Pencil, Download } from 'lucide-react'
 import { api } from '../api/client'
 import { artifactIconUrl, iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import type { GoodCharState } from '../utils/good-parser'
 import {
+  analyzeStatTargets,
   auditEquippedBuild,
   buildArtifactSetLookup,
   buildWeaponLookup,
@@ -15,6 +16,7 @@ import {
   STAT_SHORT_LABEL_PT,
   type CharacterStatsDataset,
 } from '../utils/char-stats-calc'
+import { downloadBuildCardPng } from '../utils/build-card-png'
 import CharacterArtifactsModal from './CharacterArtifactsModal'
 import type { ArtifactSetSummary, CharacterBuild, CharacterSummary, WeaponSummary } from '../types'
 
@@ -46,6 +48,7 @@ export default function EquippedBuildPanel({
   const [weapons, setWeapons] = useState<WeaponSummary[]>([])
   const [artifactSets, setArtifactSets] = useState<ArtifactSetSummary[]>([])
   const [showEditorModal, setShowEditorModal] = useState(false)
+  const [exportingPng, setExportingPng] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -89,6 +92,20 @@ export default function EquippedBuildPanel({
     () => auditEquippedBuild(computed, recommendedBuild),
     [computed, recommendedBuild],
   )
+
+  const statTargets = useMemo(
+    () => analyzeStatTargets(computed, recommendedBuild),
+    [computed, recommendedBuild],
+  )
+
+  const handleDownloadPng = async () => {
+    setExportingPng(true)
+    try {
+      await downloadBuildCardPng(character, computed)
+    } finally {
+      setExportingPng(false)
+    }
+  }
 
   const primaryBonus =
     computed.physicalDmgBonus > computed.elemDmgBonus && computed.physicalDmgBonus >= 20
@@ -134,6 +151,15 @@ export default function EquippedBuildPanel({
             {audit.status === 'built' ? <CheckCircle2 size={13} /> : <AlertCircle size={13} />}
             {audit.label}
           </span>
+          <button
+            type="button"
+            className="rb-detail-btn"
+            onClick={handleDownloadPng}
+            disabled={exportingPng}
+            title="Baixar card da build em imagem PNG (estilo Enka/Akasha)"
+          >
+            <Download size={12} /> {exportingPng ? 'Gerando...' : 'Card PNG'}
+          </button>
           <button
             type="button"
             className="rb-detail-btn"
@@ -231,15 +257,20 @@ export default function EquippedBuildPanel({
             <p className="eb-empty-note">Nenhuma arma equipada detectada no GOOD JSON.</p>
           )}
 
-          {audit.notes.length > 0 && (
+          {(audit.notes.length > 0 || statTargets.length > 0) && (
             <div className="eb-audit-box">
               <div className="eb-card-label">
                 <ShieldCheck size={12} style={{ verticalAlign: 'middle', marginRight: 5 }} />
-                Diagnóstico vs Build Recomendada
+                Diagnóstico & Metas de Stats
               </div>
               <ul className="eb-audit-notes">
                 {audit.notes.map((n, i) => (
-                  <li key={i}>{n}</li>
+                  <li key={`n-${i}`}>{n}</li>
+                ))}
+                {statTargets.map((t) => (
+                  <li key={t.key} className={`eb-target-item target-${t.status}`}>
+                    <strong>{t.label}:</strong> {t.message}
+                  </li>
                 ))}
               </ul>
             </div>

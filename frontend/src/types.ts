@@ -575,6 +575,20 @@ export interface EnkaWeaponOut {
   refinement: number
 }
 
+export interface EnkaSubstatOut {
+  key: string
+  value: number
+}
+
+export interface EnkaArtifactOut {
+  set_slug: string
+  slot_key: string
+  level: number
+  rarity: number
+  main_stat_key: string
+  substats: EnkaSubstatOut[]
+}
+
 export interface EnkaCharacterOut {
   slug: string
   avatar_id: number
@@ -590,6 +604,7 @@ export interface EnkaCharacterOut {
   eb: number
   has_detail: boolean
   weapon: EnkaWeaponOut | null
+  artifacts?: EnkaArtifactOut[]
 }
 
 export interface EnkaImportResponse {
@@ -696,4 +711,53 @@ export interface ArtifactAdvisorResponse {
   summary: ArtifactAdvisorSummary
   domains: ArtifactDomainRecommendation[]
   strongbox_targets: StrongboxTarget[]
+}
+
+// === Endgame Conflict-Free Team Composer (Abismo 2 Times / Stygian 3 Times) ===
+export type EndgameMode = 'abyss' | 'stygian'
+
+export interface EndgameTeamsRequest {
+  owned_slugs: string[]
+  mode: EndgameMode
+  locked_slugs?: string[]
+  excluded_slugs?: string[]
+  limit?: number
+}
+
+export interface EndgameMemberOut {
+  slug: string
+  name: string
+  icon: string | null
+  element: string
+  rarity: number
+  tier: string | null
+}
+
+export interface EndgameTeamOut {
+  id: number
+  name: string
+  archetype: string
+  score: number
+  tier: string
+  source: string | null
+  sources_count: number
+  members: EndgameMemberOut[]
+}
+
+export interface EndgameCombinationOut {
+  rank: number
+  total_score: number
+  avg_score: number
+  avg_tier: string
+  teams: EndgameTeamOut[]
+  reasons: string[]
+}
+
+export interface EndgameTeamsResponse {
+  mode: EndgameMode
+  team_count: number
+  playable_templates_count: number
+  owned_count: number
+  locked_slugs: string[]
+  combinations: EndgameCombinationOut[]
 }

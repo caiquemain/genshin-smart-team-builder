@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {
   Sparkles, Target, Compass, Flame, Users, ChevronDown, ChevronUp,
   ArrowRight, AlertTriangle, RefreshCw, Swords, Check, ArrowUpCircle,
-  TrendingUp, Layers, Gem, Repeat,
+  TrendingUp, Layers, Gem, Repeat, Trophy, X,
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -19,6 +19,8 @@ import type {
   ArtifactFocus,
   ArtifactSetSummary,
   CharacterSummary,
+  EndgameMode,
+  EndgameTeamsResponse,
   EquippedArtifactSummaryIn,
   OwnedCharProgress,
   PullAdvisorResponse,
@@ -30,7 +32,7 @@ import type {
   UpgradeStageFilter,
 } from '../types'
 
-type AdvisorTab = 'pulls' | 'upgrades' | 'artifacts'
+type AdvisorTab = 'pulls' | 'upgrades' | 'artifacts' | 'endgame'
 
 const ARTIFACT_FOCUSES: { key: ArtifactFocus; label: string; desc: string }[] = [
   { key: 'all', label: 'Toda a Conta', desc: 'Analisa todos os seus personagens possuídos (com peso extra para quem está no Planejador)' },
@@ -696,6 +698,12 @@ export default function PullAdvisorPage() {
   const [artifactResult, setArtifactResult] = useState<ArtifactAdvisorResponse | null>(null)
   const [artifactLoading, setArtifactLoading] = useState(false)
 
+  // Estado — Aba 4: Abismo & Stygian (Times sem Conflito)
+  const [endgameMode, setEndgameMode] = useState<EndgameMode>('abyss')
+  const [endgameLockedSlugs, setEndgameLockedSlugs] = useState<string[]>([])
+  const [endgameResult, setEndgameResult] = useState<EndgameTeamsResponse | null>(null)
+  const [endgameLoading, setEndgameLoading] = useState(false)
+
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -883,6 +891,28 @@ export default function PullAdvisorPage() {
     }
   }
 
+  const loadEndgameTeams = async () => {
+    if (chars.length === 0) return
+    setEndgameLoading(true)
+    try {
+      const data = await api.recommendEndgameTeams(
+        {
+          owned_slugs: ownedSlugs,
+          mode: endgameMode,
+          locked_slugs: endgameLockedSlugs,
+          limit: 8,
+        },
+        lang,
+      )
+      setEndgameResult(data)
+      setError(null)
+    } catch (e) {
+      setError(String(e))
+    } finally {
+      setEndgameLoading(false)
+    }
+  }
+
   useEffect(() => {
     loadPullRecommendations()
   }, [chars.length, ownedSlugs.join(','), goal, rarityFilter, elementFilter, targetSlug, lang])
@@ -899,6 +929,21 @@ export default function PullAdvisorPage() {
     }
   }, [activeTab, chars.length, ownedSlugs.join(','), plannerSlugs.join(','), equippedArtifactsKey, artifactFocus, lang])
 
+  useEffect(() => {
+    if (activeTab === 'endgame' || endgameResult !== null) {
+      loadEndgameTeams()
+    }
+  }, [activeTab, chars.length, ownedSlugs.join(','), endgameMode, endgameLockedSlugs.join(','), lang])
+
+  const ownedCharsSorted = useMemo(() => {
+    return chars
+      .filter((c) => roster.get(c.slug).owned)
+      .sort((a, b) => {
+        if (b.rarity !== a.rarity) return b.rarity - a.rarity
+        return a.name.localeCompare(b.name)
+      })
+  }, [chars, roster])
+
   const summary = result?.account_summary
   const upgradeSummary = upgradeResult?.summary
   const artifactSummary = artifactResult?.summary
@@ -906,7 +951,8 @@ export default function PullAdvisorPage() {
   const handleRefresh = () => {
     if (activeTab === 'pulls') loadPullRecommendations()
     else if (activeTab === 'upgrades') loadUpgradeRecommendations()
-    else loadArtifactRecommendations()
+    else if (activeTab === 'artifacts') loadArtifactRecommendations()
+    else loadEndgameTeams()
   }
 
   const isRefreshing =
@@ -914,7 +960,9 @@ export default function PullAdvisorPage() {
       ? loading
       : activeTab === 'upgrades'
         ? upgradeLoading
-        : artifactLoading
+        : activeTab === 'artifacts'
+          ? artifactLoading
+          : endgameLoading
 
   return (
     <div className="pull-advisor-page">
@@ -928,7 +976,9 @@ export default function PullAdvisorPage() {
               ? 'Análise personalizada da sua conta combinando Consenso Geral (7 fontes), times desbloqueados (3/4 → 4/4), cobertura de Main DPS por elemento e Endgame 30d.'
               : activeTab === 'upgrades'
                 ? 'Descubra em quais personagens da sua conta vale focar resina agora para subir até Lv.90 (ou 80/90) e quais talentos priorizar.'
-                : 'Veja em qual Domínio de Artefatos sua resina rende mais (onde ambos os sets servem à sua conta) e quais sets antigos buscar no Strongbox.'}
+                : activeTab === 'artifacts'
+                  ? 'Veja em qual Domínio de Artefatos sua resina rende mais (onde ambos os sets servem à sua conta) e quais sets antigos buscar no Strongbox.'
+                  : 'Monte combinações prontas de 2 times (Abismo Espiral) ou 3 times (Stygian Onslaught) com ZERO conflito de personagens entre os lados.'}
           </p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -981,6 +1031,19 @@ export default function PullAdvisorPage() {
           Artefatos & Domínios
           {artifactSummary && artifactSummary.domains_matched > 0 && (
             <span className="pa-tab-count">{artifactSummary.domains_matched}</span>
+          )}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'endgame'}
+          className={`pa-tab ${activeTab === 'endgame' ? 'active' : ''}`}
+          onClick={() => setActiveTab('endgame')}
+        >
+          <Trophy size={15} />
+          Abismo & Stygian
+          {endgameResult && endgameResult.combinations.length > 0 && (
+            <span className="pa-tab-count">{endgameResult.combinations.length}</span>
           )}
         </button>
       </div>
@@ -1462,6 +1525,229 @@ export default function PullAdvisorPage() {
                   domain={dom}
                   rank={idx + 1}
                 />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* ===================== ABA 4: ABISMO & STYGIAN (TIMES SEM CONFLITO) ===================== */}
+      {activeTab === 'endgame' && (
+        <>
+          {endgameResult && (
+            <div className="pa-account-strip">
+              <div className="pa-stat-card">
+                <div className="pa-stat-label">Modo Selecionado</div>
+                <div className="pa-stat-value pa-stat-value-sm" style={{ color: '#7dd3fc' }}>
+                  {endgameMode === 'abyss' ? 'Abismo Espiral (2 Times)' : 'Stygian Onslaught (3 Times)'}
+                </div>
+                <div className="pa-stat-sub" style={{ marginTop: 4 }}>
+                  {endgameResult.team_count * 4} personagens únicos — sem repetir suportes
+                </div>
+              </div>
+
+              <div className="pa-stat-card">
+                <div className="pa-stat-label">Times Prontos (4/4) na Conta</div>
+                <div className="pa-stat-value">
+                  {endgameResult.playable_templates_count}
+                </div>
+                <div className="pa-stat-sub" style={{ marginTop: 4 }}>
+                  Combinações únicas avaliadas a partir do seu Roster
+                </div>
+              </div>
+
+              <div className="pa-stat-card">
+                <div className="pa-stat-label">Favoritos Fixados</div>
+                <div className="pa-stat-value">
+                  {endgameLockedSlugs.length}
+                </div>
+                <div className="pa-stat-sub" style={{ marginTop: 4 }}>
+                  {endgameLockedSlugs.length > 0
+                    ? 'Todas as combinações abaixo incluem seus favoritos'
+                    : 'Opcional: fixe 1–3 carries para montar ao redor deles'}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <section className="pa-controls">
+            <div className="pa-goal-row">
+              <span className="filter-label" style={{ marginRight: 4 }}>
+                <Trophy size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} /> Modo:
+              </span>
+              <button
+                type="button"
+                className={`filter-pill ${endgameMode === 'abyss' ? 'active' : ''}`}
+                style={{ '--pill-color': '#38bdf8' } as React.CSSProperties}
+                onClick={() => setEndgameMode('abyss')}
+              >
+                Abismo Espiral (2 Times · 8 chars)
+              </button>
+              <button
+                type="button"
+                className={`filter-pill ${endgameMode === 'stygian' ? 'active' : ''}`}
+                style={{ '--pill-color': '#fb923c' } as React.CSSProperties}
+                onClick={() => setEndgameMode('stygian')}
+              >
+                Stygian Onslaught (3 Times · 12 chars)
+              </button>
+            </div>
+
+            <div className="pa-endgame-locks">
+              <span className="filter-label">Fixar favoritos:</span>
+              <select
+                className="pa-sim-select"
+                style={{ maxWidth: 260 }}
+                value=""
+                onChange={(e) => {
+                  const slug = e.target.value
+                  if (slug && !endgameLockedSlugs.includes(slug) && endgameLockedSlugs.length < 4) {
+                    setEndgameLockedSlugs((prev) => [...prev, slug])
+                  }
+                }}
+                disabled={endgameLockedSlugs.length >= 4}
+              >
+                <option value="">
+                  {endgameLockedSlugs.length >= 4
+                    ? 'Máximo de 4 favoritos fixados'
+                    : '+ Adicionar personagem obrigatório...'}
+                </option>
+                {ownedCharsSorted
+                  .filter((c) => !endgameLockedSlugs.includes(c.slug))
+                  .map((c) => (
+                    <option key={c.slug} value={c.slug}>
+                      {c.name} ({c.rarity}★ {c.element})
+                    </option>
+                  ))}
+              </select>
+
+              {endgameLockedSlugs.map((slug) => {
+                const c = charsMap.get(slug)
+                const cImg = c ? iconUrl(c.icon) : null
+                return (
+                  <span key={slug} className="pa-lock-chip">
+                    <span className="pa-set-user-avatar">
+                      {cImg ? <img src={cImg} alt={c?.name ?? slug} /> : null}
+                    </span>
+                    <span>{c?.name ?? slug}</span>
+                    <button
+                      type="button"
+                      onClick={() => setEndgameLockedSlugs((prev) => prev.filter((s) => s !== slug))}
+                      aria-label={`Remover ${c?.name ?? slug}`}
+                    >
+                      <X size={12} />
+                    </button>
+                  </span>
+                )
+              })}
+
+              {endgameLockedSlugs.length > 0 && (
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  style={{ padding: '4px 10px', fontSize: 12 }}
+                  onClick={() => setEndgameLockedSlugs([])}
+                >
+                  Limpar favoritos
+                </button>
+              )}
+            </div>
+          </section>
+
+          {endgameLoading && !endgameResult && (
+            <p className="status">Calculando melhores combinações sem conflito...</p>
+          )}
+
+          {endgameResult && endgameResult.combinations.length === 0 && (
+            <div className="pa-stat-card" style={{ textAlign: 'center', padding: 28 }}>
+              {endgameLockedSlugs.length > 0
+                ? 'Não foi possível montar times sem conflito incluindo todos esses favoritos juntos. Tente remover 1 favorito ou marcar mais personagens no Roster.'
+                : `Você precisa de pelo menos ${endgameMode === 'abyss' ? '2 times prontos (8 personagens)' : '3 times prontos (12 personagens)'} sem conflito no Roster para este modo.`}
+            </div>
+          )}
+
+          {endgameResult && endgameResult.combinations.length > 0 && (
+            <div className="pa-endgame-combos">
+              {endgameResult.combinations.map((combo) => (
+                <div key={combo.rank} className="pa-combo-card">
+                  <div className="pa-combo-head">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div className="pa-rank">#{combo.rank}</div>
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: 15, color: '#f8fafc' }}>
+                          Combinação Recomendada #{combo.rank}
+                        </div>
+                        <div style={{ fontSize: 12, color: '#94a3b8' }}>
+                          {combo.reasons.join(' · ')}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span className="pa-tier-pill" style={tierBadgeStyle(combo.avg_tier)}>
+                        Média <strong>{combo.avg_tier}</strong>
+                      </span>
+                      <div className="pa-score-num">{Math.round(combo.avg_score)}</div>
+                    </div>
+                  </div>
+
+                  <div className="pa-combo-teams-grid">
+                    {combo.teams.map((team, idx) => {
+                      const arch = archetypeInfo(team.archetype)
+                      const sideLabel =
+                        endgameMode === 'abyss' ? `Lado ${idx + 1}` : `Chefe ${idx + 1}`
+                      return (
+                        <div key={`${combo.rank}-${team.id}`} className="pa-combo-team-box">
+                          <div className="pa-combo-team-top">
+                            <div style={{ minWidth: 0 }}>
+                              <div className="pa-combo-side-label">{sideLabel}</div>
+                              <div className="pa-combo-team-name">{team.name}</div>
+                              <div className="pa-unlock-meta">
+                                <span
+                                  className="pa-unlock-arch-pill"
+                                  style={{ background: `${arch.color}22`, color: arch.color }}
+                                >
+                                  {arch.label}
+                                </span>
+                                <span className="pa-tier-pill" style={tierBadgeStyle(team.tier)}>
+                                  <strong>{team.tier}</strong>
+                                </span>
+                              </div>
+                            </div>
+                            <Link
+                              to={`/teams/new?template_id=${team.id}`}
+                              className="pa-unlock-use"
+                            >
+                              Montar <ArrowRight size={11} style={{ display: 'inline' }} />
+                            </Link>
+                          </div>
+
+                          <div className="pa-combo-members">
+                            {team.members.map((m) => {
+                              const mImg = iconUrl(m.icon)
+                              const elPal = ELEMENT_PALETTE[m.element]
+                              return (
+                                <Link
+                                  key={m.slug}
+                                  to={`/characters/${m.slug}`}
+                                  className="pa-combo-member"
+                                  title={`${m.name}${m.tier ? ` (Tier ${m.tier})` : ''}`}
+                                >
+                                  <span
+                                    className="pa-combo-member-av"
+                                    style={{ borderColor: elPal?.text ?? '#64748b' }}
+                                  >
+                                    {mImg ? <img src={mImg} alt={m.name} loading="lazy" /> : null}
+                                  </span>
+                                  <span className="pa-combo-member-name">{m.name}</span>
+                                </Link>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
               ))}
             </div>
           )}

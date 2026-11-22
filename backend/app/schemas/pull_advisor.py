@@ -275,3 +275,57 @@ class ArtifactAdvisorResponse(BaseModel):
     summary: ArtifactAdvisorSummaryOut
     domains: list[ArtifactDomainRecommendationOut]
     strongbox_targets: list[StrongboxTargetOut]
+
+
+# ============================================================
+# Endgame Conflict-Free Team Composer (Abismo 2 Times / Stygian 3 Times)
+# ============================================================
+
+EndgameMode = Literal["abyss", "stygian"]
+
+
+class EndgameTeamsRequest(BaseModel):
+    owned_slugs: list[str] = Field(default_factory=list)
+    mode: EndgameMode = "abyss"
+    locked_slugs: list[str] = Field(default_factory=list)
+    excluded_slugs: list[str] = Field(default_factory=list)
+    limit: int = Field(default=8, ge=1, le=20)
+
+
+class EndgameMemberOut(BaseModel):
+    slug: str
+    name: str
+    icon: Optional[str] = None
+    element: str
+    rarity: int
+    tier: Optional[str] = None
+
+
+class EndgameTeamOut(BaseModel):
+    id: int
+    name: str
+    archetype: str
+    score: float
+    tier: str
+    source: Optional[str] = None
+    sources_count: int = 1
+    members: list[EndgameMemberOut] = Field(default_factory=list)
+
+
+class EndgameCombinationOut(BaseModel):
+    rank: int
+    total_score: float
+    avg_score: float
+    avg_tier: str
+    teams: list[EndgameTeamOut] = Field(default_factory=list)
+    reasons: list[str] = Field(default_factory=list)
+
+
+class EndgameTeamsResponse(BaseModel):
+    mode: EndgameMode
+    team_count: int
+    playable_templates_count: int
+    owned_count: int
+    locked_slugs: list[str] = Field(default_factory=list)
+    combinations: list[EndgameCombinationOut] = Field(default_factory=list)
+

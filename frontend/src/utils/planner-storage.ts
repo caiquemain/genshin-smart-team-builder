@@ -771,6 +771,31 @@ export function mergeEnkaImportIntoStorage(
     } catch {}
   }
 
+  // 2.5) Persiste nível, talentos, arma e os 5 artefatos do Enka no estado GOOD local
+  // (garante stats calculados, CV e auditoria mesmo para quem nunca importou GOOD JSON!)
+  for (const ec of chosenChars) {
+    if (!ec.has_detail) continue
+    const enkaArts: GoodArtifact[] = (ec.artifacts ?? []).map((a) => ({
+      setKey: a.set_slug,
+      slotKey: a.slot_key,
+      level: a.level,
+      rarity: a.rarity,
+      mainStatKey: a.main_stat_key,
+      lock: true,
+      substats: (a.substats ?? []).map((s) => ({ key: s.key, value: s.value })),
+    }))
+    saveManualCharacterGear({
+      slug: ec.slug,
+      level: ec.level,
+      cons: ec.cons,
+      talents: { na: ec.na, es: ec.es, eb: ec.eb },
+      weaponSlug: ec.weapon?.slug ?? undefined,
+      weaponLevel: ec.weapon?.level,
+      weaponRefinement: ec.weapon?.refinement,
+      artifacts: enkaArts,
+    })
+  }
+
   // 3) Sincroniza no Planejador (atualiza atuais ou adiciona novos com custos calculados)
   let plannerAdded = 0
   let plannerUpdated = 0

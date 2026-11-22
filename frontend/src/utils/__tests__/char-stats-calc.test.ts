@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  analyzeStatTargets,
   auditEquippedBuild,
   buildArtifactSetLookup,
   buildWeaponLookup,
@@ -178,5 +179,16 @@ describe('char-stats-calc', () => {
     }
     const audit = auditEquippedBuild(res, rec)
     expect(audit.status).toBe('built')
+
+    // Metas de stats: ER baixo + 4pc Caçador (+36% CR) detectando overcap (70.3 + 36 = 106.3%)
+    const advice = analyzeStatTargets(res, {
+      ...rec,
+      er_requirement: '140-160%',
+    })
+    const erAdv = advice.find((a) => a.key === 'er')
+    const critAdv = advice.find((a) => a.key === 'crit')
+    expect(erAdv?.status).toBe('low')
+    expect(critAdv?.status).toBe('warn')
+    expect(critAdv?.message).toContain('Overcap')
   })
 })

@@ -14,6 +14,20 @@ class EnkaWeaponOut(BaseModel):
     refinement: int = 1
 
 
+class EnkaSubstatOut(BaseModel):
+    key: str
+    value: float
+
+
+class EnkaArtifactOut(BaseModel):
+    set_slug: str
+    slot_key: str
+    level: int = 0
+    rarity: int = 5
+    main_stat_key: str
+    substats: list[EnkaSubstatOut] = []
+
+
 class EnkaCharacterOut(BaseModel):
     slug: str
     avatar_id: int
@@ -29,6 +43,7 @@ class EnkaCharacterOut(BaseModel):
     eb: int = 1
     has_detail: bool = True
     weapon: Optional[EnkaWeaponOut] = None
+    artifacts: list[EnkaArtifactOut] = []
 
 
 class EnkaImportResponse(BaseModel):
