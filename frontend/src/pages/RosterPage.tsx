@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles,
-  UserCheck, BarChart3, Users, Swords, Gem, Lock, Repeat,
+  UserCheck, BarChart3, Users, Swords, Gem, Lock, Repeat, Share2,
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -24,6 +24,7 @@ import {
 } from '../utils/artifact-bag-auditor'
 import UidImportModal from '../components/UidImportModal'
 import CharacterArtifactsModal from '../components/CharacterArtifactsModal'
+import BuildCardStudioModal from '../components/BuildCardStudioModal'
 import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
 
 const ELEMENT_ORDER = ['pyro', 'hydro', 'electro', 'cryo', 'anemo', 'geo', 'dendro']
@@ -73,6 +74,10 @@ export default function RosterPage() {
   const [selectedBuildChar, setSelectedBuildChar] = useState<{
     char: CharacterSummary
     goodState: GoodCharState
+  } | null>(null)
+  const [shareCardTarget, setShareCardTarget] = useState<{
+    char: CharacterSummary
+    stats: ComputedCharStats
   } | null>(null)
   const [openConsPopover, setOpenConsPopover] = useState<string | null>(null)
   const consPopoverRef = useRef<HTMLDivElement>(null)
@@ -856,14 +861,24 @@ export default function RosterPage() {
                           ? `${stats.pieces.length}/5 peças · média +${Math.round(stats.avgArtifactLevel)}`
                           : 'Sem artefatos cadastrados'}
                       </span>
-                      <button
-                        type="button"
-                        className="rb-detail-btn"
-                        onClick={() => setSelectedBuildChar({ char: c, goodState })}
-                      >
-                        <Gem size={12} />
-                        {stats.pieces.length > 0 ? 'Ver / Editar Artefatos' : '+ Adicionar Artefatos'}
-                      </button>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        <button
+                          type="button"
+                          className="rb-detail-btn rb-share-btn"
+                          onClick={() => setShareCardTarget({ char: c, stats })}
+                          title="Abrir Estúdio de Card (trocar imagem, tema, baixar PNG ou copiar)"
+                        >
+                          <Share2 size={12} /> Compartilhar
+                        </button>
+                        <button
+                          type="button"
+                          className="rb-detail-btn"
+                          onClick={() => setSelectedBuildChar({ char: c, goodState })}
+                        >
+                          <Gem size={12} />
+                          {stats.pieces.length > 0 ? 'Artefatos' : '+ Artefatos'}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )
@@ -1082,6 +1097,14 @@ export default function RosterPage() {
           artifactsCatalog={artifactsCatalog}
           onClose={() => setSelectedBuildChar(null)}
           onSaved={() => roster.refresh()}
+        />
+      )}
+
+      {shareCardTarget && (
+        <BuildCardStudioModal
+          character={shareCardTarget.char}
+          stats={shareCardTarget.stats}
+          onClose={() => setShareCardTarget(null)}
         />
       )}
     </div>

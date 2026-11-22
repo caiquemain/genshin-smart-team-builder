@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  X, Gem, Plus, Trash2, Pencil, Save, ExternalLink, Swords, Copy, Check, Download,
+  X, Gem, Plus, Trash2, Pencil, Save, ExternalLink, Swords, Copy, Check, Share2,
 } from 'lucide-react'
 import { artifactIconUrl, iconUrl } from '../config'
 import type { GoodArtifact, GoodSlotKey, GoodSubstat } from '../types/good'
@@ -18,7 +18,7 @@ import {
   SLOT_LABEL_PT,
   type CharacterStatsDataset,
 } from '../utils/char-stats-calc'
-import { downloadBuildCardPng } from '../utils/build-card-png'
+import BuildCardStudioModal from './BuildCardStudioModal'
 import { saveManualCharacterGear } from '../utils/planner-storage'
 import { normKey } from '../utils/slug-resolver'
 import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
@@ -322,21 +322,12 @@ export default function CharacterArtifactsModal({
     onClose()
   }
 
-  const [exportingPng, setExportingPng] = useState(false)
+  const [showCardStudio, setShowCardStudio] = useState(false)
 
   const liveStatTargets = useMemo(
     () => analyzeStatTargets(liveStats, null),
     [liveStats],
   )
-
-  const handleDownloadPng = async () => {
-    setExportingPng(true)
-    try {
-      await downloadBuildCardPng(character, liveStats)
-    } finally {
-      setExportingPng(false)
-    }
-  }
 
   const charImg = iconUrl(character.icon)
   const editingPiece = editingSlot ? slotMap[editingSlot] : null
@@ -387,12 +378,11 @@ export default function CharacterArtifactsModal({
           <div className="cam-header-actions">
             <button
               type="button"
-              className="btn-secondary cam-page-link"
-              onClick={handleDownloadPng}
-              disabled={exportingPng}
-              title="Baixar imagem PNG desta build (estilo Enka/Akasha)"
+              className="btn-secondary cam-page-link rb-share-btn"
+              onClick={() => setShowCardStudio(true)}
+              title="Abrir Estúdio de Card da Build (trocar imagem, tema, baixar PNG ou copiar)"
             >
-              <Download size={13} /> {exportingPng ? 'Gerando...' : 'Card PNG'}
+              <Share2 size={13} /> Compartilhar Build
             </button>
             <Link
               to={`/characters/${character.slug}#minha-build`}
@@ -824,6 +814,14 @@ export default function CharacterArtifactsModal({
           </div>
         </div>
       </div>
+
+      {showCardStudio && (
+        <BuildCardStudioModal
+          character={character}
+          stats={liveStats}
+          onClose={() => setShowCardStudio(false)}
+        />
+      )}
     </div>
   )
 }

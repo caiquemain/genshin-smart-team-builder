@@ -1199,4 +1199,330 @@
   padding-top: 7px;
 }
 
+/* ============================================================
+   Build Card Studio Modal (Enka / Akasha HD Share Card)
+   ============================================================ */
+
+.rb-share-btn {
+  border-color: rgba(129, 140, 248, 0.45) !important;
+  color: #c7d2fe !important;
+  background: rgba(99, 102, 241, 0.14) !important;
+}
+
+.rb-share-btn:hover {
+  border-color: rgba(165, 180, 252, 0.75) !important;
+  background: rgba(99, 102, 241, 0.28) !important;
+  color: #fff !important;
+}
+
+.bcs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10500;
+  background: rgba(3, 6, 16, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.bcs-modal {
+  width: min(1340px, 100%);
+  max-height: 94vh;
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.98), rgba(9, 13, 28, 0.98));
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 18px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bcs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.bcs-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bcs-title-icon {
+  color: #a5b4fc;
+  flex-shrink: 0;
+}
+
+.bcs-title-group h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.bcs-title-group p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.bcs-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 18px;
+  padding: 18px 20px;
+  overflow-y: auto;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .bcs-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bcs-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(5, 8, 18, 0.72);
+  border: 1.5px dashed rgba(148, 163, 184, 0.24);
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.bcs-preview-wrap.is-drop-active {
+  border-color: #818cf8;
+  background: rgba(99, 102, 241, 0.14);
+}
+
+.bcs-canvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
+  border-radius: 12px;
+  display: block;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+.bcs-canvas:active {
+  cursor: grabbing;
+}
+
+.bcs-preview-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.bcs-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bcs-section {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bcs-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #cbd5e1;
+}
+
+.bcs-art-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bcs-upload-btn {
+  flex: 1;
+  justify-content: center;
+  font-size: 12.5px !important;
+  padding: 8px 12px !important;
+}
+
+.bcs-error {
+  font-size: 12px;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.bcs-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bcs-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.bcs-slider-row span {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bcs-slider-row strong {
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.bcs-slider-row input[type='range'] {
+  width: 100%;
+  accent-color: #818cf8;
+  cursor: pointer;
+}
+
+.bcs-link-btn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #93c5fd;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.bcs-link-btn:hover {
+  color: #bfdbfe;
+  text-decoration: underline;
+}
+
+.bcs-theme-pills {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.bcs-theme-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: rgba(30, 41, 59, 0.58);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.bcs-theme-pill:hover {
+  background: rgba(51, 65, 85, 0.72);
+}
+
+.bcs-theme-pill.is-active {
+  border-color: #818cf8;
+  background: rgba(99, 102, 241, 0.22);
+  color: #ffffff;
+}
+
+.bcs-theme-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.45);
+}
+
+.bcs-inputs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bcs-inputs-row input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0b1220;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 8px;
+  padding: 7px 9px;
+  color: #f8fafc;
+  font-size: 12.5px;
+}
+
+.bcs-inputs-row input:focus {
+  outline: none;
+  border-color: #818cf8;
+}
+
+.bcs-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bcs-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.bcs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 13px 20px;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(7, 10, 20, 0.65);
+}
+
+.bcs-footer-note {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.bcs-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
 

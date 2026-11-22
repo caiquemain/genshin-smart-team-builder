@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2, Pencil, Download } from 'lucide-react'
+import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2, Pencil, Share2 } from 'lucide-react'
 import { api } from '../api/client'
 import { artifactIconUrl, iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
@@ -16,7 +16,7 @@ import {
   STAT_SHORT_LABEL_PT,
   type CharacterStatsDataset,
 } from '../utils/char-stats-calc'
-import { downloadBuildCardPng } from '../utils/build-card-png'
+import BuildCardStudioModal from './BuildCardStudioModal'
 import CharacterArtifactsModal from './CharacterArtifactsModal'
 import type { ArtifactSetSummary, CharacterBuild, CharacterSummary, WeaponSummary } from '../types'
 
@@ -48,7 +48,7 @@ export default function EquippedBuildPanel({
   const [weapons, setWeapons] = useState<WeaponSummary[]>([])
   const [artifactSets, setArtifactSets] = useState<ArtifactSetSummary[]>([])
   const [showEditorModal, setShowEditorModal] = useState(false)
-  const [exportingPng, setExportingPng] = useState(false)
+  const [showCardStudio, setShowCardStudio] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -98,15 +98,6 @@ export default function EquippedBuildPanel({
     [computed, recommendedBuild],
   )
 
-  const handleDownloadPng = async () => {
-    setExportingPng(true)
-    try {
-      await downloadBuildCardPng(character, computed)
-    } finally {
-      setExportingPng(false)
-    }
-  }
-
   const primaryBonus =
     computed.physicalDmgBonus > computed.elemDmgBonus && computed.physicalDmgBonus >= 20
       ? { label: 'Dano Físico', value: `${computed.physicalDmgBonus.toFixed(1)}%` }
@@ -153,12 +144,11 @@ export default function EquippedBuildPanel({
           </span>
           <button
             type="button"
-            className="rb-detail-btn"
-            onClick={handleDownloadPng}
-            disabled={exportingPng}
-            title="Baixar card da build em imagem PNG (estilo Enka/Akasha)"
+            className="rb-detail-btn rb-share-btn"
+            onClick={() => setShowCardStudio(true)}
+            title="Abrir Estúdio de Card da Build (personalizar arte, tema, baixar PNG ou copiar)"
           >
-            <Download size={12} /> {exportingPng ? 'Gerando...' : 'Card PNG'}
+            <Share2 size={12} /> Compartilhar Build
           </button>
           <button
             type="button"
@@ -353,6 +343,14 @@ export default function EquippedBuildPanel({
           artifactsCatalog={artifactSets}
           onClose={() => setShowEditorModal(false)}
           onSaved={() => onUpdated?.()}
+        />
+      )}
+
+      {showCardStudio && (
+        <BuildCardStudioModal
+          character={character}
+          stats={computed}
+          onClose={() => setShowCardStudio(false)}
         />
       )}
     </section>
