@@ -54,6 +54,7 @@ export interface Roster {
   all: Map<string, RosterEntry>
   hasGoodData: boolean
   hasGoodOrSeelie: boolean
+  hasArtifactData: boolean
   ownedCount: number
 }
 
@@ -130,6 +131,7 @@ export function useRoster(): Roster {
           const primaryWeapon = c.weapons?.[0]
           map.set(normKey(c.slug), {
             level: c.char_goal?.current?.level ?? 1,
+            ascension: c.char_goal?.current?.ascension ?? 0,
             cons: c.char_goal?.cons ?? 0,
             talents: {
               na: c.talent_goal?.normal?.current ?? 1,
@@ -138,6 +140,8 @@ export function useRoster(): Roster {
             },
             weaponSlug: primaryWeapon?.slug ?? null,
             weaponLevel: primaryWeapon?.from_level ?? 0,
+            weaponRefinement: 1,
+            artifacts: [],
           })
         }
         setPlanState(map)
@@ -235,6 +239,11 @@ export function useRoster(): Roster {
     return good.get(nk) ?? planState.get(nk) ?? null
   }
 
+  let hasArtifactData = false
+  good.forEach((st) => {
+    if (st.artifacts.length > 0) hasArtifactData = true
+  })
+
   return {
     get,
     getGoodState,
@@ -246,6 +255,7 @@ export function useRoster(): Roster {
     all: manual,
     hasGoodData: good.size > 0 || planState.size > 0,
     hasGoodOrSeelie: good.size > 0 || seelieSlugs.size > 0,
+    hasArtifactData,
     ownedCount,
   }
 }

@@ -10,6 +10,7 @@ import WeaponTooltip from '../components/WeaponTooltip'
 import ArtifactTooltip from '../components/ArtifactTooltip'
 import TalentSection from '../components/TalentSection'
 import CharacterStatsTable from '../components/CharacterStatsTable'
+import EquippedBuildPanel from '../components/EquippedBuildPanel'
 import { archetypeInfo } from '../utils/archetypes'
 import { useRoster } from '../utils/roster'
 import { CheckCircle2, XCircle, RotateCcw, Pencil } from 'lucide-react'
@@ -246,10 +247,13 @@ export default function CharacterDetailPage() {
     [char?.passives],
   )
 
+  const goodState = slug ? roster.getGoodState(slug) : null
+
   const sections = useMemo(() => {
     if (!char) return []
     return [
       { id: 'visao-geral', label: 'Visão Geral' },
+      goodState && { id: 'minha-build', label: 'Minha Build' },
       kqmBuild && { id: 'kqm-build', label: 'Build Recomendada' },
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
@@ -259,7 +263,7 @@ export default function CharacterDetailPage() {
       { id: 'ascensao', label: 'Ascensão' },
       { id: 'talentos-custos', label: 'Custo de Talentos' },
     ].filter(Boolean) as { id: string; label: string }[]
-  }, [char, basePassives, kqmBuild])
+  }, [char, basePassives, kqmBuild, goodState, characterTeams.length])
 
   useEffect(() => {
     if (!char || sections.length === 0) return
@@ -425,6 +429,16 @@ export default function CharacterDetailPage() {
                 })}
               </div>
             </section>
+          )}
+
+          {goodState && (
+            <EquippedBuildPanel
+              slug={char.slug}
+              element={String(char.element)}
+              weaponType={String(char.weapon_type)}
+              goodState={goodState}
+              recommendedBuild={kqmBuild?.build_data ?? null}
+            />
           )}
 
           {kqmBuild && (

@@ -1,12 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles, UserCheck } from 'lucide-react'
+import {
+  Search, CheckCircle2, UserX, Upload, Trash2, CheckCheck, X, Star, Sparkles,
+  UserCheck, BarChart3, Users, ArrowRight, Swords,
+} from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
-import { iconUrl } from '../config'
+import { artifactIconUrl, iconUrl } from '../config'
 import { useRoster } from '../utils/roster'
+import {
+  buildArtifactSetLookup,
+  buildWeaponLookup,
+  computeCharacterBuildStats,
+  loadCharacterStatsDataset,
+  STAT_SHORT_LABEL_PT,
+  type CharacterStatsDataset,
+  type ComputedCharStats,
+} from '../utils/char-stats-calc'
 import UidImportModal from '../components/UidImportModal'
-import type { CharacterSummary } from '../types'
+import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
 
 const ELEMENT_ORDER = ['pyro', 'hydro', 'electro', 'cryo', 'anemo', 'geo', 'dendro']
 const ELEMENT_COLORS: Record<string, string> = {
@@ -20,11 +32,25 @@ const WEAPON_LABELS: Record<string, string> = {
 }
 
 type StatusFilter = 'all' | 'owned' | 'missing'
+type RosterViewMode = 'manage' | 'builds'
+type BuildSortKey = 'cv' | 'level' | 'atk' | 'hp' | 'crit_rate' | 'crit_dmg' | 'er' | 'em' | 'name'
+
+function cvClass(cv: number): string {
+  if (cv >= 210) return 'cv-insane'
+  if (cv >= 180) return 'cv-great'
+  if (cv >= 140) return 'cv-good'
+  return 'cv-mid'
+}
 
 export default function RosterPage() {
   const { lang } = useLanguage()
   const roster = useRoster()
+  const [viewMode, setViewMode] = useState<RosterViewMode>('manage')
+  const [buildSort, setBuildSort] = useState<BuildSortKey>('cv')
   const [chars, setChars] = useState<CharacterSummary[]>([])
+  const [weaponsCatalog, setWeaponsCatalog] = useState<WeaponSummary[]>([])
+  const [artifactsCatalog, setArtifactsCatalog] = useState<ArtifactSetSummary[]>([])
+  const [statsDataset, setStatsDataset] = useState<CharacterStatsDataset>({})
   const [search, setSearch] = useState('')
   const [elemFilter, setElemFilter] = useState('all')
   const [rarityFilter, setRarityFilter] = useState<'all' | '5' | '4'>('all')
@@ -43,6 +69,107 @@ export default function RosterPage() {
   useEffect(() => {
     api.listCharacters(lang, { limit: 200 }).then((r) => setChars(r.items))
   }, [lang])
+
+  useEffect(() => {
+    if (viewMode !== 'builds') return
+    let active = true
+    loadCharacterStatsDataset().then((d) => {
+      if (active) setStatsDataset(d)
+    })
+    api
+      .listWeapons(lang, { limit: 500 })
+      .then((r) => {
+        if (active) setWeaponsCatalog(r.items)
+      })
+      .catch(() => {})
+    api
+      .listArtifacts(lang, { limit: 200 })
+      .then((r) => {
+        if (active) setArtifactsCatalog(r.items)
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [viewMode, lang])
+
+  const weaponLookup = useMemo(() => buildWeaponLookup(weaponsCatalog), [weaponsCatalog])
+  const artifactSetLookup = useMemo(() => buildArtifactSetLookup(artifactsCatalog), [artifactsCatalog])
+
+  const computedBuilds = useMemo(() => {
+    if (viewMode !== 'builds') return [] as { char: CharacterSummary; stats: ComputedCharStats }[]
+    const rows: { char: CharacterSummary; stats: ComputedCharStats }[] = []
+    for (const c of chars) {
+      const o = roster.get(c.slug)
+      if (!o.owned) continue
+      if (elemFilter !== 'all' && c.element !== elemFilter) continue
+      if (rarityFilter !== 'all' && String(c.rarity) !== rarityFilter) continue
+      if (weaponFilter !== 'all' && c.weapon_type !== weaponFilter) continue
+      if (search && !c.name.toLowerCase().includes(search.toLowerCase())) continue
+
+      const g = roster.getGoodState(c.slug) ?? {
+        level: 1,
+        ascension: 0,
+        cons: o.cons,
+        talents: { na: 1, es: 1, eb: 1 },
+        weaponSlug: null,
+        weaponLevel: 0,
+        weaponRefinement: 1,
+        artifacts: [],
+      }
+      const stats = computeCharacterBuildStats({
+        slug: c.slug,
+        element: String(c.element),
+        goodState: g,
+        statsDataset,
+        weaponLookup,
+        artifactSetLookup,
+      })
+      rows.push({ char: c, stats })
+    }
+
+    rows.sort((a, b) => {
+      switch (buildSort) {
+        case 'cv':
+          if (b.stats.totalCritValue !== a.stats.totalCritValue)
+            return b.stats.totalCritValue - a.stats.totalCritValue
+          return b.stats.level - a.stats.level
+        case 'level':
+          if (b.stats.level !== a.stats.level) return b.stats.level - a.stats.level
+          return b.stats.totalCritValue - a.stats.totalCritValue
+        case 'atk':
+          return b.stats.totalAtk - a.stats.totalAtk
+        case 'hp':
+          return b.stats.totalHp - a.stats.totalHp
+        case 'crit_rate':
+          return b.stats.critRate - a.stats.critRate
+        case 'crit_dmg':
+          return b.stats.critDmg - a.stats.critDmg
+        case 'er':
+          return b.stats.er - a.stats.er
+        case 'em':
+          return b.stats.em - a.stats.em
+        case 'name':
+          return a.char.name.localeCompare(b.char.name)
+      }
+    })
+    return rows
+  }, [viewMode, chars, roster, elemFilter, rarityFilter, weaponFilter, search, statsDataset, weaponLookup, artifactSetLookup, buildSort])
+
+  const buildsSummary = useMemo(() => {
+    const withArts = computedBuilds.filter((r) => r.stats.hasArtifacts)
+    const avgCv =
+      withArts.length > 0
+        ? withArts.reduce((acc, r) => acc + r.stats.totalCritValue, 0) / withArts.length
+        : 0
+    const topCv = withArts.reduce<{ name: string; cv: number } | null>((best, r) => {
+      if (!best || r.stats.totalCritValue > best.cv) {
+        return { name: r.char.name, cv: r.stats.totalCritValue }
+      }
+      return best
+    }, null)
+    return { total: computedBuilds.length, withArts: withArts.length, avgCv, topCv }
+  }, [computedBuilds])
 
   const filtered = useMemo(() => {
     return chars
@@ -102,7 +229,10 @@ export default function RosterPage() {
       current.good = parsed
       localStorage.setItem('gsb.planner.v5', JSON.stringify(current))
       roster.refresh()
-      setUploadSuccess(`GOOD importado: ${parsed.characters.length} personagens.`)
+      const artCount = Array.isArray(parsed.artifacts) ? parsed.artifacts.length : 0
+      setUploadSuccess(
+        `GOOD importado: ${parsed.characters.length} personagens${artCount > 0 ? ` e ${artCount} artefatos` : ''}.`,
+      )
     } catch (e: any) {
       setUploadError(`Erro ao ler o arquivo: ${e?.message || String(e)}`)
     }
@@ -224,9 +354,31 @@ export default function RosterPage() {
         </div>
       </div>
 
+      <div className="roster-view-tabs" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={viewMode === 'manage'}
+          className={`roster-view-tab ${viewMode === 'manage' ? 'active' : ''}`}
+          onClick={() => setViewMode('manage')}
+        >
+          <Users size={15} /> Gerenciar Roster
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={viewMode === 'builds'}
+          className={`roster-view-tab ${viewMode === 'builds' ? 'active' : ''}`}
+          onClick={() => setViewMode('builds')}
+        >
+          <BarChart3 size={15} /> Minhas Builds & Stats ({roster.ownedCount})
+        </button>
+      </div>
+
       <p className="roster-hint">
-        Marque quem você tem. Importou GOOD/Seelie no Planner? Já vêm marcados automaticamente.
-        Manual sempre sobrescreve o importado.
+        {viewMode === 'manage'
+          ? 'Marque quem você tem. Importou GOOD/Seelie no Planner? Já vêm marcados automaticamente. Manual sempre sobrescreve o importado.'
+          : 'Stats calculados (Base do nível + Ascensão + Arma + 5 Artefatos + Bônus de 2pc) para todos os personagens da sua conta.'}
       </p>
 
       {/* Zona de upload GOOD */}
@@ -311,25 +463,46 @@ export default function RosterPage() {
           </select>
         </div>
 
-        <div className="filter-group">
-          <span className="filter-label">Status</span>
-          <div className="filter-pills">
-            <button
-              className={`filter-pill ${statusFilter === 'owned' ? 'active' : ''}`}
-              style={{ '--pill-color': '#4ade80' } as React.CSSProperties}
-              onClick={() => setStatusFilter(statusFilter === 'owned' ? 'all' : 'owned')}
-            >
-              <CheckCircle2 size={14} /> Tenho
-            </button>
-            <button
-              className={`filter-pill ${statusFilter === 'missing' ? 'active' : ''}`}
-              style={{ '--pill-color': '#f87171' } as React.CSSProperties}
-              onClick={() => setStatusFilter(statusFilter === 'missing' ? 'all' : 'missing')}
-            >
-              <UserX size={14} /> Faltam
-            </button>
+        {viewMode === 'manage' ? (
+          <div className="filter-group">
+            <span className="filter-label">Status</span>
+            <div className="filter-pills">
+              <button
+                className={`filter-pill ${statusFilter === 'owned' ? 'active' : ''}`}
+                style={{ '--pill-color': '#4ade80' } as React.CSSProperties}
+                onClick={() => setStatusFilter(statusFilter === 'owned' ? 'all' : 'owned')}
+              >
+                <CheckCircle2 size={14} /> Tenho
+              </button>
+              <button
+                className={`filter-pill ${statusFilter === 'missing' ? 'active' : ''}`}
+                style={{ '--pill-color': '#f87171' } as React.CSSProperties}
+                onClick={() => setStatusFilter(statusFilter === 'missing' ? 'all' : 'missing')}
+              >
+                <UserX size={14} /> Faltam
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="filter-group">
+            <span className="filter-label">Ordenar por</span>
+            <select
+              className="rb-sort-select"
+              value={buildSort}
+              onChange={(e) => setBuildSort(e.target.value as BuildSortKey)}
+            >
+              <option value="cv">Crit Value (CV)</option>
+              <option value="level">Nível</option>
+              <option value="atk">ATQ Total</option>
+              <option value="hp">Vida Total</option>
+              <option value="crit_rate">Taxa Crítica</option>
+              <option value="crit_dmg">Dano Crítico</option>
+              <option value="er">Recarga (ER)</option>
+              <option value="em">Proficiência (EM)</option>
+              <option value="name">Nome (A-Z)</option>
+            </select>
+          </div>
+        )}
 
         {activeFilters > 0 && (
           <button className="clear-filters-btn" onClick={clearFilters}>
@@ -338,6 +511,8 @@ export default function RosterPage() {
         )}
       </div>
 
+      {viewMode === 'manage' && (
+        <>
       {/* Bulk actions */}
       <div className="roster-bulk-bar">
         <span className="roster-bulk-label">
@@ -452,6 +627,168 @@ export default function RosterPage() {
 
       {filtered.length === 0 && (
         <p className="status" style={{ padding: 40, textAlign: 'center' }}>Nenhum personagem encontrado com esses filtros.</p>
+      )}
+        </>
+      )}
+
+      {viewMode === 'builds' && (
+        <>
+          <div className="rb-summary-strip">
+            <div className="rb-summary-card">
+              <div className="rb-summary-label">Personagens na Conta</div>
+              <div className="rb-summary-val">{buildsSummary.total}</div>
+              <div className="rb-summary-sub">
+                {buildsSummary.withArts} com artefatos lidos do GOOD
+              </div>
+            </div>
+            <div className="rb-summary-card">
+              <div className="rb-summary-label">Média de Crit Value</div>
+              <div className="rb-summary-val">
+                {buildsSummary.withArts > 0 ? `${buildsSummary.avgCv.toFixed(1)} CV` : '—'}
+              </div>
+              <div className="rb-summary-sub">Substats de Taxa/Dano Crít. nas 5 peças</div>
+            </div>
+            <div className="rb-summary-card">
+              <div className="rb-summary-label">Maior CV da Conta</div>
+              <div className="rb-summary-val" style={{ color: '#fde68a' }}>
+                {buildsSummary.topCv ? `${buildsSummary.topCv.cv.toFixed(1)} CV` : '—'}
+              </div>
+              <div className="rb-summary-sub">
+                {buildsSummary.topCv ? buildsSummary.topCv.name : 'Importe GOOD JSON acima para calcular'}
+              </div>
+            </div>
+          </div>
+
+          {computedBuilds.length === 0 ? (
+            <p className="status" style={{ padding: 40, textAlign: 'center' }}>
+              Nenhum personagem possuído encontrado com esses filtros.
+            </p>
+          ) : (
+            <div className="rb-grid">
+              {computedBuilds.map(({ char: c, stats }) => {
+                const img = iconUrl(c.icon)
+                const elColor = ELEMENT_COLORS[c.element] || '#38bdf8'
+                const primaryBonus =
+                  stats.physicalDmgBonus > stats.elemDmgBonus && stats.physicalDmgBonus >= 20
+                    ? { label: 'Dano Fís.', value: `${stats.physicalDmgBonus.toFixed(1)}%` }
+                    : stats.healingBonus > stats.elemDmgBonus && stats.healingBonus >= 15
+                      ? { label: 'Cura', value: `${stats.healingBonus.toFixed(1)}%` }
+                      : {
+                          label: (STAT_SHORT_LABEL_PT[stats.elemDmgKey] ?? 'Elem.').replace('Dano ', ''),
+                          value: `${stats.elemDmgBonus.toFixed(1)}%`,
+                        }
+
+                return (
+                  <div key={c.slug} className="rb-card" style={{ borderLeftColor: elColor }}>
+                    <div className="rb-card-head">
+                      <div className="rb-avatar" style={{ borderColor: elColor }}>
+                        {img ? <img src={img} alt={c.name} loading="lazy" /> : null}
+                      </div>
+                      <div className="rb-head-info">
+                        <div className="rb-name-row">
+                          <Link to={`/characters/${c.slug}#minha-build`} className="rb-name">
+                            {c.name}
+                          </Link>
+                        </div>
+                        <div className="rb-meta-line">
+                          Lv. {stats.level} · C{stats.cons} · Talentos {stats.talents.na}/{stats.talents.es}/{stats.talents.eb}
+                        </div>
+                      </div>
+                      {stats.hasArtifacts && (
+                        <span className={`eb-cv-badge ${cvClass(stats.totalCritValue)}`}>
+                          {stats.totalCritValue.toFixed(1)} CV
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="rb-gear-row">
+                      <div className="rb-gear-weapon" title={stats.weapon ? `${stats.weapon.name} Lv.${stats.weapon.level} R${stats.weapon.refinement}` : 'Sem arma no GOOD'}>
+                        {stats.weapon && iconUrl(stats.weapon.icon) ? (
+                          <img src={iconUrl(stats.weapon.icon)!} alt={stats.weapon.name} loading="lazy" />
+                        ) : (
+                          <Swords size={15} color="#64748b" />
+                        )}
+                        <span>
+                          {stats.weapon
+                            ? `${stats.weapon.name} (Lv.${stats.weapon.level} R${stats.weapon.refinement})`
+                            : 'Sem arma no GOOD'}
+                        </span>
+                      </div>
+
+                      <div className="rb-gear-sets">
+                        {stats.activeSets.length > 0 ? (
+                          stats.activeSets.map((s) => (
+                            <span key={s.slug} style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }} title={`${s.pieces}pc ${s.name}`}>
+                              {artifactIconUrl(s.icon) && (
+                                <img
+                                  src={artifactIconUrl(s.icon)!}
+                                  alt={s.name}
+                                  className="rb-gear-set-icon"
+                                  loading="lazy"
+                                />
+                              )}
+                              <span>{s.pieces}pc</span>
+                            </span>
+                          ))
+                        ) : (
+                          <span style={{ color: '#64748b' }}>
+                            {stats.hasArtifacts ? 'Sem set' : 'Sem artefatos'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="rb-stats-mini">
+                      <div className="rb-stat-cell">
+                        <span>Vida</span>
+                        <strong>{stats.hasBaseData ? stats.totalHp.toLocaleString('pt-BR') : '—'}</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>ATQ</span>
+                        <strong>{stats.hasBaseData ? stats.totalAtk.toLocaleString('pt-BR') : '—'}</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>DEF</span>
+                        <strong>{stats.hasBaseData ? stats.totalDef.toLocaleString('pt-BR') : '—'}</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>EM</span>
+                        <strong>{stats.em}</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>Taxa Crít.</span>
+                        <strong className="is-crit">{stats.critRate.toFixed(1)}%</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>Dano Crít.</span>
+                        <strong className="is-crit">{stats.critDmg.toFixed(1)}%</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>Recarga</span>
+                        <strong>{stats.er.toFixed(1)}%</strong>
+                      </div>
+                      <div className="rb-stat-cell">
+                        <span>{primaryBonus.label}</span>
+                        <strong>{primaryBonus.value}</strong>
+                      </div>
+                    </div>
+
+                    <div className="rb-card-foot">
+                      <span>
+                        {stats.pieces.length > 0
+                          ? `${stats.pieces.length}/5 peças · média +${Math.round(stats.avgArtifactLevel)}`
+                          : 'Importe GOOD JSON p/ ver peças'}
+                      </span>
+                      <Link to={`/characters/${c.slug}#minha-build`} className="rb-detail-link">
+                        Ver 5 artefatos <ArrowRight size={12} />
+                      </Link>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </>
       )}
 
       {showShortcuts && (

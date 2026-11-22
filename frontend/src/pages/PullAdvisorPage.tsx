@@ -9,13 +9,17 @@ import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { artifactIconUrl, iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
+import { buildArtifactSetLookup, computeArtifactCritValue } from '../utils/char-stats-calc'
 import { loadPlanFromStorage, PLANNER_UPDATED_EVENT } from '../utils/planner-storage'
+import { normKey } from '../utils/slug-resolver'
 import { useRoster } from '../utils/roster'
 import type {
   ArtifactAdvisorResponse,
   ArtifactDomainRecommendation,
   ArtifactFocus,
+  ArtifactSetSummary,
   CharacterSummary,
+  EquippedArtifactSummaryIn,
   OwnedCharProgress,
   PullAdvisorResponse,
   PullCandidate,
@@ -610,18 +614,25 @@ function ArtifactDomainCard({
                 <div className="pa-set-users">
                   {s.users.slice(0, 10).map((u) => {
                     const uImg = iconUrl(u.icon)
+                    const isBuilt = u.artifact_status === 'built'
                     return (
                       <Link
                         key={u.slug}
                         to={`/characters/${u.slug}`}
-                        className={`pa-set-user-chip ${u.is_bis ? 'is-bis' : ''}`}
-                        title={`${u.name} — ${u.usage_label}${u.is_in_planner ? ' · No Planejador' : ''}`}
+                        className={`pa-set-user-chip ${u.is_bis ? 'is-bis' : ''} ${isBuilt ? 'is-art-built' : ''}`}
+                        title={`${u.name} — ${u.usage_label}${u.equipped_note ? ` · ${u.equipped_note}` : ''}${u.is_in_planner ? ' · No Planejador' : ''}`}
                       >
                         <span className="pa-set-user-avatar">
                           {uImg ? <img src={uImg} alt={u.name} loading="lazy" /> : null}
                         </span>
                         <span className="pa-set-user-name">{u.name}</span>
-                        {u.is_bis && <span className="pa-bis-dot">BiS</span>}
+                        {u.equipped_note ? (
+                          <span className={`pa-art-note ${isBuilt ? 'is-built' : ''}`}>
+                            {u.equipped_note}
+                          </span>
+                        ) : (
+                          u.is_bis && <span className="pa-bis-dot">BiS</span>
+                        )}
                         {u.is_in_planner && <span className="pa-plan-dot" title="No Planejador" />}
                       </Link>
                     )
@@ -681,6 +692,7 @@ export default function PullAdvisorPage() {
 
   // Estado — Aba 3: Artefatos & Domínios
   const [artifactFocus, setArtifactFocus] = useState<ArtifactFocus>('all')
+  const [artifactSetsCatalog, setArtifactSetsCatalog] = useState<ArtifactSetSummary[]>([])
   const [artifactResult, setArtifactResult] = useState<ArtifactAdvisorResponse | null>(null)
   const [artifactLoading, setArtifactLoading] = useState(false)
 
@@ -696,6 +708,9 @@ export default function PullAdvisorPage() {
     api.listCharacters(lang, { limit: 200 })
       .then((res) => setChars(res.items))
       .catch((e) => setError(String(e)))
+    api.listArtifacts(lang)
+      .then((res) => setArtifactSetsCatalog(res.items))
+      .catch(() => {})
   }, [lang])
 
   const charsMap = useMemo(() => {
@@ -794,6 +809,57 @@ export default function PullAdvisorPage() {
     }
   }
 
+  const artifactSetLookup = useMemo(
+    () => buildArtifactSetLookup(artifactSetsCatalog),
+    [artifactSetsCatalog],
+  )
+
+  const equippedArtifactsPayload = useMemo<EquippedArtifactSummaryIn[]>(() => {
+    if (!roster.hasArtifactData) return []
+    const out: EquippedArtifactSummaryIn[] = []
+    for (const slug of ownedSlugs) {
+      const g = roster.getGoodState(slug)
+      if (!g) continue
+      const arts = g.artifacts ?? []
+      const counts = new Map<string, number>()
+      let lvSum = 0
+      let fiveStars = 0
+      let cv = 0
+      for (const a of arts) {
+        const meta = artifactSetLookup.get(normKey(a.setKey))
+        const resolvedSlug = meta?.slug ?? a.setKey
+        counts.set(resolvedSlug, (counts.get(resolvedSlug) ?? 0) + 1)
+        lvSum += a.level ?? 0
+        if ((a.rarity ?? 0) >= 5) fiveStars += 1
+        cv += computeArtifactCritValue(a)
+      }
+      let active4pc: string | null = null
+      const active2pc: string[] = []
+      counts.forEach((cnt, sSlug) => {
+        if (cnt >= 4) active4pc = sSlug
+        if (cnt >= 2) active2pc.push(sSlug)
+      })
+      out.push({
+        slug,
+        active_4pc_slug: active4pc,
+        active_2pc_slugs: active2pc,
+        pieces_count: arts.length,
+        avg_level: arts.length > 0 ? Math.round((lvSum / arts.length) * 10) / 10 : 0,
+        five_star_count: fiveStars,
+        crit_value: Math.round(cv * 10) / 10,
+      })
+    }
+    return out
+  }, [ownedSlugs, roster, artifactSetLookup])
+
+  const equippedArtifactsKey = useMemo(
+    () =>
+      equippedArtifactsPayload
+        .map((e) => `${e.slug}:${e.active_4pc_slug ?? ''}:${e.pieces_count}:${e.crit_value}`)
+        .join('|'),
+    [equippedArtifactsPayload],
+  )
+
   const loadArtifactRecommendations = async () => {
     if (chars.length === 0) return
     setArtifactLoading(true)
@@ -802,6 +868,7 @@ export default function PullAdvisorPage() {
         {
           owned_slugs: ownedSlugs,
           planner_slugs: plannerSlugs,
+          equipped_artifacts: equippedArtifactsPayload,
           focus: artifactFocus,
           limit: 20,
         },
@@ -830,7 +897,7 @@ export default function PullAdvisorPage() {
     if (activeTab === 'artifacts' || artifactResult !== null) {
       loadArtifactRecommendations()
     }
-  }, [activeTab, chars.length, ownedSlugs.join(','), plannerSlugs.join(','), artifactFocus, lang])
+  }, [activeTab, chars.length, ownedSlugs.join(','), plannerSlugs.join(','), equippedArtifactsKey, artifactFocus, lang])
 
   const summary = result?.account_summary
   const upgradeSummary = upgradeResult?.summary
@@ -1287,9 +1354,11 @@ export default function PullAdvisorPage() {
                   <span className="pa-stat-sub">personagens</span>
                 </div>
                 <div className="pa-stat-sub" style={{ marginTop: 4 }}>
-                  {plannerSlugs.length > 0
-                    ? `${artifactSummary.planner_characters_matched} deles ativos no Planejador`
-                    : 'Nenhum personagem ativo no Planejador'}
+                  {(artifactSummary.audited_characters ?? 0) > 0
+                    ? `${artifactSummary.audited_characters} auditados via GOOD (${artifactSummary.already_built_characters ?? 0} com set fechado)`
+                    : plannerSlugs.length > 0
+                      ? `${artifactSummary.planner_characters_matched} deles ativos no Planejador`
+                      : 'Importe GOOD JSON para auditar seus artefatos equipados'}
                 </div>
               </div>
             </div>

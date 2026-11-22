@@ -101,22 +101,48 @@ describe('slug-resolver & good-parser', () => {
           location: '',
         },
       ],
+      artifacts: [
+        {
+          setKey: 'GoldenTroupe',
+          slotKey: 'circlet',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'critRate_',
+          location: 'Furina',
+          substats: [{ key: 'critDMG_', value: 21.0 }],
+        },
+        {
+          setKey: 'GoldenTroupe',
+          slotKey: 'flower',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'hp',
+          location: 'Furina',
+          substats: [{ key: 'critRate_', value: 10.5 }],
+        },
+      ],
     }
 
     const parsed = parseGoodData(good)
     expect(parsed.size).toBe(2)
 
     const furina = parsed.get('furina')!
-    expect(furina).toEqual({
+    expect(furina).toMatchObject({
       level: 90,
+      ascension: 6,
       cons: 2,
       talents: { na: 6, es: 10, eb: 10 },
       weaponSlug: 'splendor-of-tranquil-waters',
       weaponLevel: 90,
+      weaponRefinement: 1,
     })
+    // Ordenado flower -> circlet
+    expect(furina.artifacts.map((a) => a.slotKey)).toEqual(['flower', 'circlet'])
 
     const kazuha = parsed.get('kaedehara-kazuha')!
     expect(kazuha.weaponSlug).toBeNull()
     expect(kazuha.weaponLevel).toBe(0)
+    expect(kazuha.artifacts).toEqual([])
   })
 })
+

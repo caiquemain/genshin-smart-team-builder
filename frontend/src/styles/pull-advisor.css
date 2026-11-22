@@ -1040,3 +1040,20 @@
   padding: 3px 6px;
 }
 
+.pa-set-user-chip.is-art-built {
+  opacity: 0.72;
+  border-color: rgba(74, 222, 128, 0.32);
+}
+
+.pa-art-note {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  padding-left: 2px;
+}
+
+.pa-art-note.is-built {
+  color: #86efac;
+}
+
+

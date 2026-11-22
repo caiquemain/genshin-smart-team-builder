@@ -70,6 +70,7 @@ def recommend_artifacts(
         lang=lang,
         owned_slugs=payload.owned_slugs,
         planner_slugs=payload.planner_slugs,
+        equipped_artifacts=[e.model_dump() for e in payload.equipped_artifacts],
         focus=payload.focus,
         limit=payload.limit,
     )

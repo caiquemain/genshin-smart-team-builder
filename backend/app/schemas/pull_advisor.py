@@ -185,11 +185,23 @@ class UpgradeAdvisorResponse(BaseModel):
 
 ArtifactFocus = Literal["all", "planner", "top_meta"]
 ArtifactDomainStrategy = Literal["farm_domain", "strongbox", "situational"]
+ArtifactAuditStatus = Literal["built", "partial", "needs_farm"]
+
+
+class EquippedArtifactSummaryIn(BaseModel):
+    slug: str
+    active_4pc_slug: Optional[str] = None
+    active_2pc_slugs: list[str] = Field(default_factory=list)
+    pieces_count: int = 0
+    avg_level: float = 0.0
+    five_star_count: int = 0
+    crit_value: float = 0.0
 
 
 class ArtifactAdvisorRequest(BaseModel):
     owned_slugs: list[str] = Field(default_factory=list)
     planner_slugs: list[str] = Field(default_factory=list)
+    equipped_artifacts: list[EquippedArtifactSummaryIn] = Field(default_factory=list)
     focus: ArtifactFocus = "all"
     limit: int = Field(default=20, ge=1, le=50)
 
@@ -204,6 +216,9 @@ class ArtifactUserCharOut(BaseModel):
     is_bis: bool = False
     is_in_planner: bool = False
     usage_label: str = "4pc"
+    artifact_status: Optional[ArtifactAuditStatus] = None
+    crit_value: Optional[float] = None
+    equipped_note: Optional[str] = None
 
 
 class ArtifactSetDemandOut(BaseModel):
@@ -251,6 +266,8 @@ class ArtifactAdvisorSummaryOut(BaseModel):
     best_domain_name: Optional[str] = None
     best_strongbox_name: Optional[str] = None
     planner_characters_matched: int = 0
+    audited_characters: int = 0
+    already_built_characters: int = 0
 
 
 class ArtifactAdvisorResponse(BaseModel):
@@ -258,5 +275,3 @@ class ArtifactAdvisorResponse(BaseModel):
     summary: ArtifactAdvisorSummaryOut
     domains: list[ArtifactDomainRecommendationOut]
     strongbox_targets: list[StrongboxTargetOut]
-
-

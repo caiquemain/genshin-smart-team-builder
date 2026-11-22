@@ -607,10 +607,22 @@ export interface EnkaImportResponse {
 // === Artifact Domain & Strongbox Advisor ("Artefatos & Domínios") ===
 export type ArtifactFocus = 'all' | 'planner' | 'top_meta'
 export type ArtifactDomainStrategy = 'farm_domain' | 'strongbox' | 'situational'
+export type ArtifactAuditStatus = 'built' | 'partial' | 'needs_farm'
+
+export interface EquippedArtifactSummaryIn {
+  slug: string
+  active_4pc_slug: string | null
+  active_2pc_slugs: string[]
+  pieces_count: number
+  avg_level: number
+  five_star_count: number
+  crit_value: number
+}
 
 export interface ArtifactAdvisorRequest {
   owned_slugs: string[]
   planner_slugs?: string[]
+  equipped_artifacts?: EquippedArtifactSummaryIn[]
   focus?: ArtifactFocus
   limit?: number
 }
@@ -625,6 +637,9 @@ export interface ArtifactUserChar {
   is_bis: boolean
   is_in_planner: boolean
   usage_label: string
+  artifact_status?: ArtifactAuditStatus | null
+  crit_value?: number | null
+  equipped_note?: string | null
 }
 
 export interface ArtifactSetDemand {
@@ -672,6 +687,8 @@ export interface ArtifactAdvisorSummary {
   best_domain_name: string | null
   best_strongbox_name: string | null
   planner_characters_matched: number
+  audited_characters?: number
+  already_built_characters?: number
 }
 
 export interface ArtifactAdvisorResponse {

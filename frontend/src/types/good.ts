@@ -1,3 +1,21 @@
+export type GoodSlotKey = 'flower' | 'plume' | 'sands' | 'goblet' | 'circlet'
+
+export interface GoodSubstat {
+  key: string
+  value: number
+}
+
+export interface GoodArtifact {
+  setKey: string
+  slotKey: GoodSlotKey | string
+  level: number
+  rarity: number
+  mainStatKey: string
+  location?: string | null
+  lock?: boolean
+  substats?: GoodSubstat[]
+}
+
 export interface GoodCharacter {
   key: string
   level: number
@@ -24,4 +42,5 @@ export interface GoodData {
   source: string
   characters: GoodCharacter[]
   weapons: GoodWeapon[]
+  artifacts?: GoodArtifact[]
 }

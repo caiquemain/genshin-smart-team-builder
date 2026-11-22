@@ -196,3 +196,91 @@ def test_planner_focus_restricts_to_planner_slugs():
     )
     assert empty_res["summary"]["evaluated_characters"] == 0
     assert empty_res["domains"] == []
+
+
+def test_equipped_good_artifacts_deprioritize_built_and_boost_unbuilt():
+    chars = [
+        _char("neuvillette", "Neuvillette", "hydro"),
+        _char("furina", "Furina", "hydro"),
+        _char("raiden", "Raiden Shogun", "electro"),
+        _char("yelan", "Yelan", "hydro"),
+    ]
+    arts = [
+        _art("marechaussee-hunter", "Caçador das Sombras"),
+        _art("golden-troupe", "Trupe Dourada"),
+        _art("emblem-of-severed-fate", "Selo da Insulação"),
+        _art("shimenawas-reminiscence", "Reminiscência Nostálgica"),
+    ]
+    builds = {
+        "neuvillette": CharArtifactBuildLite(artifacts_4pc=("marechaussee-hunter",)),
+        "furina": CharArtifactBuildLite(artifacts_4pc=("golden-troupe",)),
+        "raiden": CharArtifactBuildLite(artifacts_4pc=("emblem-of-severed-fate",)),
+        "yelan": CharArtifactBuildLite(artifacts_4pc=("emblem-of-severed-fate",)),
+    }
+    tiers = {
+        "neuvillette": _tier("S+", 1.0),
+        "furina": _tier("S+", 1.0),
+        "raiden": _tier("S", 0.9),
+        "yelan": _tier("S", 0.92),
+    }
+
+    # Neuvillette e Furina já estão 100% buildados (4pc BiS +20 com alto CV); Raiden e Yelan estão sem set!
+    equipped = [
+        {
+            "slug": "neuvillette",
+            "active_4pc_slug": "marechaussee-hunter",
+            "active_2pc_slugs": ["marechaussee-hunter"],
+            "pieces_count": 5,
+            "avg_level": 20.0,
+            "five_star_count": 5,
+            "crit_value": 205.0,
+        },
+        {
+            "slug": "furina",
+            "active_4pc_slug": "golden-troupe",
+            "active_2pc_slugs": ["golden-troupe"],
+            "pieces_count": 5,
+            "avg_level": 20.0,
+            "five_star_count": 5,
+            "crit_value": 195.0,
+        },
+        {
+            "slug": "raiden",
+            "active_4pc_slug": None,
+            "active_2pc_slugs": [],
+            "pieces_count": 5,
+            "avg_level": 12.0,
+            "five_star_count": 4,
+            "crit_value": 60.0,
+        },
+        {
+            "slug": "yelan",
+            "active_4pc_slug": None,
+            "active_2pc_slugs": [],
+            "pieces_count": 0,
+            "avg_level": 0.0,
+            "five_star_count": 0,
+            "crit_value": 0.0,
+        },
+    ]
+
+    res = compute_artifact_recommendations(
+        characters=chars,
+        artifact_sets=arts,
+        char_builds=builds,
+        general_tiers=tiers,
+        abyss_tiers={},
+        stygian_tiers={},
+        owned_slugs=["neuvillette", "furina", "raiden", "yelan"],
+        equipped_artifacts=equipped,
+    )
+
+    assert res["summary"]["audited_characters"] == 4
+    assert res["summary"]["already_built_characters"] == 2
+    # Momiji (Raiden + Yelan precisando farmar) deve ultrapassar Desfecho do Pecado (Neuvillette + Furina já prontos)!
+    assert res["domains"][0]["domain_id"] == "momiji-dyed-court"
+    neuvi_dom = next(d for d in res["domains"] if d["domain_id"] == "denouement-of-sin")
+    neuvi_user = neuvi_dom["sets"][0]["users"][0]
+    assert neuvi_user["artifact_status"] == "built"
+    assert neuvi_user["crit_value"] >= 195.0
+

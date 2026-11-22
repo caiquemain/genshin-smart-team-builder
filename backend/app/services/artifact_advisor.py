@@ -87,6 +87,74 @@ def _slugify_domain(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", (name or "unknown").lower()).strip("-") or "domain"
 
 
+SUPPORT_NON_CRIT_SETS = {
+    "viridescent-venerer",
+    "deepwood-memories",
+    "noblesse-oblige",
+    "tenacity-of-the-millelith",
+    "scroll-of-the-hero-of-cinder-city",
+    "ocean-hued-clam",
+    "song-of-days-past",
+    "maiden-beloved",
+    "archaic-petra",
+    "flower-of-paradise-lost",
+}
+
+
+def _evaluate_equipped_artifact_status(
+    equipped: Optional[dict[str, Any]],
+    build: CharArtifactBuildLite,
+) -> tuple[Optional[str], float, Optional[float], Optional[str]]:
+    """Retorna (status, weight_mult, crit_value, note) com base nos artefatos reais do GOOD."""
+    if not equipped:
+        return None, 1.0, None, None
+
+    pieces = int(equipped.get("pieces_count") or 0)
+    avg_lv = float(equipped.get("avg_level") or 0.0)
+    cv = round(float(equipped.get("crit_value") or 0.0), 1)
+    active_4pc = equipped.get("active_4pc_slug") or None
+    active_2pc = set(equipped.get("active_2pc_slugs") or [])
+
+    if pieces == 0:
+        return "needs_farm", 1.25, 0.0, "Sem artefatos"
+
+    rec_4pc = list(build.artifacts_4pc[:3])
+    bis_set = rec_4pc[0] if rec_4pc else None
+    is_support_set = bool(
+        (active_4pc and active_4pc in SUPPORT_NON_CRIT_SETS)
+        or (bis_set and bis_set in SUPPORT_NON_CRIT_SETS)
+    )
+    cv_built_threshold = 90.0 if is_support_set else 155.0
+
+    # Verifica se está usando um set 4pc recomendado
+    if active_4pc and active_4pc in rec_4pc:
+        is_bis = active_4pc == bis_set
+        if pieces >= 5 and avg_lv >= 18.0 and (is_support_set or cv >= cv_built_threshold):
+            note = f"4pc {'BiS' if is_bis else 'OK'} · {round(cv)} CV"
+            return "built", (0.20 if is_bis else 0.35), cv, note
+        note = f"4pc · {round(cv)} CV" if avg_lv >= 16.0 else f"4pc (+{round(avg_lv)})"
+        return "partial", 0.70, cv, note
+
+    # Verifica 2pc+2pc recomendado quando não tem 4pc BiS
+    if build.artifacts_2pc and len(active_2pc) >= 2:
+        matched_2pc = any(
+            (s1 in active_2pc and (not s2 or s2 in active_2pc))
+            for s1, s2 in build.artifacts_2pc
+            if s1
+        )
+        if matched_2pc and pieces >= 5 and avg_lv >= 18.0 and cv >= cv_built_threshold:
+            return "built", 0.35, cv, f"2+2pc · {round(cv)} CV"
+        if matched_2pc:
+            return "partial", 0.75, cv, f"2+2pc · {round(cv)} CV"
+
+    # Sem set recomendado -> alta prioridade para farmar!
+    if pieces < 5:
+        return "needs_farm", 1.25, cv, f"{pieces}/5 peças"
+    if active_4pc:
+        return "needs_farm", 1.18, cv, f"Outro set · {round(cv)} CV"
+    return "needs_farm", 1.22, cv, f"Sem set · {round(cv)} CV"
+
+
 def compute_artifact_recommendations(
     characters: list[CharacterLite],
     artifact_sets: list[ArtifactSetLite],
@@ -96,6 +164,7 @@ def compute_artifact_recommendations(
     stygian_tiers: dict[str, TierSummaryLite],
     owned_slugs: list[str],
     planner_slugs: list[str] = (),
+    equipped_artifacts: Optional[list[dict[str, Any]]] = None,
     focus: str = "all",
     limit: int = 20,
 ) -> dict[str, Any]:
@@ -105,6 +174,11 @@ def compute_artifact_recommendations(
 
     owned_set = {s for s in owned_slugs if s in chars_by_slug}
     planner_set = {s for s in planner_slugs if s in chars_by_slug}
+    equipped_by_slug: dict[str, dict[str, Any]] = {}
+    for ea in (equipped_artifacts or []):
+        slug = ea.get("slug")
+        if slug:
+            equipped_by_slug[slug] = ea
 
     # Seleciona pool de personagens avaliados conforme o foco escolhido
     if focus == "planner":
@@ -135,6 +209,9 @@ def compute_artifact_recommendations(
         usage_label: str,
         tier_label: Optional[str],
         in_planner: bool,
+        artifact_status: Optional[str],
+        crit_value: Optional[float],
+        equipped_note: Optional[str],
     ) -> None:
         if set_slug not in sets_by_slug:
             return
@@ -167,11 +244,17 @@ def compute_artifact_recommendations(
             "is_bis": is_bis,
             "is_in_planner": in_planner,
             "usage_label": usage_label,
+            "artifact_status": artifact_status,
+            "crit_value": crit_value,
+            "equipped_note": equipped_note,
             "_weight": weight,
         }
 
     evaluated_count = 0
     planner_matched = 0
+    audited_count = 0
+    already_built_count = 0
+
     for c_slug in eval_slugs:
         build = char_builds.get(c_slug)
         if not build or (not build.artifacts_4pc and not build.artifacts_2pc):
@@ -180,6 +263,13 @@ def compute_artifact_recommendations(
         in_planner = c_slug in planner_set
         if in_planner:
             planner_matched += 1
+
+        eq = equipped_by_slug.get(c_slug)
+        art_status, eq_mult, eq_cv, eq_note = _evaluate_equipped_artifact_status(eq, build)
+        if art_status is not None:
+            audited_count += 1
+            if art_status == "built":
+                already_built_count += 1
 
         char = chars_by_slug[c_slug]
         gen = general_tiers.get(c_slug)
@@ -195,9 +285,11 @@ def compute_artifact_recommendations(
         strength = max(meta_val, eg_val) / 100.0
 
         # Peso base do personagem (S+ ≈ 1.0, A ≈ 0.85, C ≈ 0.70) + bônus se está no Planejador
-        char_weight = 0.55 + 0.45 * strength
+        # Multiplicado pelo estado real dos artefatos do GOOD (built = 0.20x, needs_farm = 1.22x)
+        char_weight = (0.55 + 0.45 * strength)
         if in_planner and focus == "all":
             char_weight += 0.25
+        char_weight *= eq_mult
 
         tier_label = gen.consensus_tier if gen else None
 
@@ -206,13 +298,13 @@ def compute_artifact_recommendations(
         for idx, art_slug in enumerate(build.artifacts_4pc[:3]):
             w = char_weight * slot_weights[idx]
             label = "4pc BiS" if idx == 0 else "4pc Alt"
-            _add_vote(art_slug, char, w, idx == 0, label, tier_label, in_planner)
+            _add_vote(art_slug, char, w, idx == 0, label, tier_label, in_planner, art_status, eq_cv, eq_note)
 
         # 2pc+2pc (opção flexível)
         for s1, s2 in build.artifacts_2pc[:3]:
             for s in (s1, s2):
                 if s:
-                    _add_vote(s, char, char_weight * 0.32, False, "2pc+2pc", tier_label, in_planner)
+                    _add_vote(s, char, char_weight * 0.32, False, "2pc+2pc", tier_label, in_planner, art_status, eq_cv, eq_note)
 
     # Agrupa todos os sets 5★ relevantes em Domínios (curados + dinâmicos por `source`)
     domains_map: dict[str, dict[str, Any]] = {}
@@ -461,6 +553,8 @@ def compute_artifact_recommendations(
             "best_domain_name": best_farm_domain,
             "best_strongbox_name": best_strongbox,
             "planner_characters_matched": planner_matched,
+            "audited_characters": audited_count,
+            "already_built_characters": already_built_count,
         },
         "domains": domain_recs[:limit],
         "strongbox_targets": strongbox_candidates[:8],
@@ -472,6 +566,7 @@ def build_artifact_advisor_response(
     lang: Language,
     owned_slugs: list[str],
     planner_slugs: list[str] = (),
+    equipped_artifacts: Optional[list[dict[str, Any]]] = None,
     focus: str = "all",
     limit: int = 20,
 ) -> dict[str, Any]:
@@ -548,6 +643,7 @@ def build_artifact_advisor_response(
         stygian_tiers=stygian_tiers,
         owned_slugs=owned_slugs,
         planner_slugs=planner_slugs,
+        equipped_artifacts=equipped_artifacts,
         focus=focus,
         limit=limit,
     )
