@@ -145,9 +145,9 @@ describe('char-stats-calc', () => {
       artifactSetLookup: buildArtifactSetLookup(SAMPLE_SETS),
     })
 
-    // Base HP 14695 * (1 + (46.6 + 9.9)/100) + 4780 = 27778
-    expect(res.totalHp).toBeGreaterThan(27500)
-    expect(res.totalHp).toBeLessThan(28000)
+    // Base HP 14695 * (1 + (46.6 + 9.9 + 16 Tome R1)/100) + 4780 = 30129
+    expect(res.totalHp).toBe(30129)
+    expect(res.weaponPassiveBonuses).toContain('+16.0% Vida%')
     // Base ATK = 208 + 542 = 750; +311 plume = 1061
     expect(res.totalAtk).toBe(1061)
     // Crit Rate = 5 + 31.1 + 10.5 + 7.0 + 10.1 + 6.6 = 70.3%
@@ -190,5 +190,163 @@ describe('char-stats-calc', () => {
     expect(erAdv?.status).toBe('low')
     expect(critAdv?.status).toBe('warn')
     expect(critAdv?.message).toContain('Overcap')
+  })
+
+  it('matches in-game Enka stats for Columbina + Nocturne Curtain Call R1 (+10% HP passive)', () => {
+    const colDataset: CharacterStatsDataset = {
+      columbina: {
+        substat_name: 'CRIT Rate',
+        levels: {
+          '90': { hp: 14695, atk: 96, def: 515, substat: 19.2 },
+        },
+      },
+    }
+    const colWeapons: WeaponSummary[] = [
+      {
+        slug: 'nocturne-s-curtain-call',
+        name: 'Cortinas Noturnas',
+        icon: 'UI_EquipIcon_Catalyst_Nocturne',
+        rarity: 5,
+        weapon_type: 'catalyst',
+        base_atk: 44,
+        max_base_atk: 542,
+        secondary_stat: 'crit_dmg',
+        secondary_stat_value: 19.2,
+        max_secondary_stat_value: 88.2,
+        passive_name: null,
+        passive_description_r5: null,
+      },
+      {
+        slug: 'staff-of-homa',
+        name: 'Báculo de Homa',
+        icon: null,
+        rarity: 5,
+        weapon_type: 'polearm',
+        base_atk: 46,
+        max_base_atk: 608,
+        secondary_stat: 'crit_dmg',
+        secondary_stat_value: 14.4,
+        max_secondary_stat_value: 66.2,
+        passive_name: null,
+        passive_description_r5: null,
+      },
+    ]
+    const colSets: ArtifactSetSummary[] = [
+      {
+        slug: 'night-of-the-skys-unveiling',
+        name: 'Noite da Revelação do Céu',
+        icon: null,
+        rarity_max: 5,
+        two_piece_bonus: 'Increases Elemental Mastery by 80.',
+        four_piece_bonus: null,
+      },
+    ]
+    const colGood: GoodCharState = {
+      level: 90,
+      ascension: 6,
+      cons: 0,
+      talents: { na: 10, es: 10, eb: 10 },
+      weaponSlug: 'nocturne-s-curtain-call',
+      weaponLevel: 90,
+      weaponRefinement: 1,
+      artifacts: [
+        {
+          setKey: 'NightOfTheSkysUnveiling',
+          slotKey: 'flower',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'hp',
+          substats: [
+            { key: 'def_', value: 11.7 },
+            { key: 'critRate_', value: 2.7 },
+            { key: 'critDMG_', value: 29.5 },
+            { key: 'enerRech_', value: 4.5 },
+          ],
+        },
+        {
+          setKey: 'NightOfTheSkysUnveiling',
+          slotKey: 'plume',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'atk',
+          substats: [
+            { key: 'enerRech_', value: 5.2 },
+            { key: 'critDMG_', value: 27.2 },
+            { key: 'def', value: 39 },
+            { key: 'critRate_', value: 6.6 },
+          ],
+        },
+        {
+          setKey: 'NightOfTheSkysUnveiling',
+          slotKey: 'sands',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'hp_',
+          substats: [
+            { key: 'critRate_', value: 5.4 },
+            { key: 'def', value: 23 },
+            { key: 'atk_', value: 11.1 },
+            { key: 'critDMG_', value: 20.2 },
+          ],
+        },
+        {
+          setKey: 'NightOfTheSkysUnveiling',
+          slotKey: 'goblet',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'hp_',
+          substats: [
+            { key: 'critDMG_', value: 21.0 },
+            { key: 'critRate_', value: 3.9 },
+            { key: 'def', value: 21 },
+            { key: 'enerRech_', value: 17.5 },
+          ],
+        },
+        {
+          setKey: 'NightOfTheSkysUnveiling',
+          slotKey: 'circlet',
+          level: 20,
+          rarity: 5,
+          mainStatKey: 'critDMG_',
+          substats: [
+            { key: 'critRate_', value: 13.6 },
+            { key: 'enerRech_', value: 6.5 },
+            { key: 'hp', value: 538 },
+            { key: 'def', value: 44 },
+          ],
+        },
+      ],
+    }
+
+    const res = computeCharacterBuildStats({
+      slug: 'columbina',
+      element: 'hydro',
+      goodState: colGood,
+      statsDataset: colDataset,
+      weaponLookup: buildWeaponLookup(colWeapons),
+      artifactSetLookup: buildArtifactSetLookup(colSets),
+    })
+
+    // Exato como no Enka/Jogo!
+    expect(res.totalHp).toBe(35178)
+    expect(res.totalDef).toBe(702)
+    expect(res.em).toBe(80)
+    expect(res.er).toBeCloseTo(133.7, 1)
+    expect(res.totalCritValue).toBeCloseTo(162.3, 1)
+    expect(res.weaponPassiveBonuses).toEqual(['+10.0% Vida%'])
+
+    // Staff of Homa R1: +20% HP + 0.8% Max HP convertido em ATQ flat
+    const homaRes = computeCharacterBuildStats({
+      slug: 'columbina',
+      element: 'hydro',
+      goodState: { ...colGood, weaponSlug: 'staff-of-homa', weaponRefinement: 1 },
+      statsDataset: colDataset,
+      weaponLookup: buildWeaponLookup(colWeapons),
+      artifactSetLookup: buildArtifactSetLookup(colSets),
+    })
+    expect(homaRes.totalHp).toBe(36648)
+    // 0.8% de 36648 ≈ +293 ATQ adicionado ao ATQ total
+    expect(homaRes.totalAtk).toBeGreaterThan(1350)
+    expect(homaRes.weaponPassiveBonuses.length).toBe(2)
   })
 })

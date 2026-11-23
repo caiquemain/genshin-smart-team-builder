@@ -253,7 +253,127 @@ const STATIC_2PC_BONUS: Record<string, [CanonicalStatKey, number]> = {
   'maiden-beloved': ['healing_bonus', 15],
   'ocean-hued-clam': ['healing_bonus', 15],
   'song-of-days-past': ['healing_bonus', 15],
+  'night-of-the-skys-unveiling': ['em', 80],
+  'silken-moons-serenade': ['er', 20],
   berserker: ['crit_rate', 12],
+}
+
+type RefineCurve = [number, number, number, number, number]
+
+interface WeaponPassiveRule {
+  stats?: Partial<Record<CanonicalStatKey | 'all_elem_dmg', RefineCurve>>
+  /** % da Vida Máx. convertida em ATQ flat (ex.: Báculo de Homa, Cortador de Jade) */
+  hpToAtkPct?: RefineCurve
+  /** % da Recarga acima de 100% convertida em ATQ% com teto (ex.: Luz do Cortador de Grama) */
+  erOver100ToAtkPct?: { ratio: RefineCurve; cap: RefineCurve }
+  /** % da Proficiência Elemental convertida em ATQ flat (ex.: Areias Escarlates, Makhaira, Evenstar) */
+  emToAtkPct?: RefineCurve
+  /** % de Recarga ganha por cada ponto de EM (ex.: Luz Lunar de Xiphos) */
+  emToErPerPoint?: RefineCurve
+}
+
+/**
+ * Passivas incondicionais de armas que aparecem diretamente na tela de atributos do jogo
+ * (e no Enka.Network), indexadas por `normKey(slug)` com valores exatos [R1, R2, R3, R4, R5].
+ */
+const WEAPON_UNCONDITIONAL_PASSIVES: Record<string, WeaponPassiveRule> = {
+  // HP% incondicional
+  nocturnescurtaincall: { stats: { hp_pct: [10, 12, 14, 16, 18] } },
+  staffofhoma: {
+    stats: { hp_pct: [20, 25, 30, 35, 40] },
+    hpToAtkPct: [0.8, 1.0, 1.2, 1.4, 1.6],
+  },
+  primordialjadecutter: {
+    stats: { hp_pct: [20, 25, 30, 35, 40] },
+    hpToAtkPct: [1.2, 1.5, 1.8, 2.1, 2.4],
+  },
+  keyofkhajnisut: { stats: { hp_pct: [20, 25, 30, 35, 40] } },
+  aquasimulacra: { stats: { hp_pct: [16, 20, 24, 28, 32] } },
+  tomeoftheeternalflow: { stats: { hp_pct: [16, 20, 24, 28, 32] } },
+  surfsup: { stats: { hp_pct: [20, 25, 30, 35, 40] } },
+
+  // ATK% incondicional
+  thunderingpulse: { stats: { atk_pct: [20, 25, 30, 35, 40] } },
+  wolfsgravestone: { stats: { atk_pct: [20, 25, 30, 35, 40] } },
+  aquilafavonia: { stats: { atk_pct: [20, 25, 30, 35, 40] } },
+  verdict: { stats: { atk_pct: [20, 25, 30, 35, 40] } },
+  lumidouceelegy: { stats: { atk_pct: [15, 19, 23, 27, 31] } },
+  symphonistofscents: { stats: { atk_pct: [12, 15, 18, 21, 24] } },
+  cashflowsupervision: { stats: { atk_pct: [16, 20, 24, 28, 32] } },
+  songofbrokenpines: { stats: { atk_pct: [16, 20, 24, 28, 32] } },
+  vividnotions: { stats: { atk_pct: [28, 35, 42, 49, 56] } },
+  ultimateoverlordsmegamagicsword: { stats: { atk_pct: [12, 15, 18, 21, 24] } },
+
+  // DEF% / Crit / EM / Cura / Dano Elemental incondicionais
+  redhornstonethresher: { stats: { def_pct: [28, 35, 42, 49, 56] } },
+  skywardharp: { stats: { crit_dmg: [20, 25, 30, 35, 40] } },
+  absolution: { stats: { crit_dmg: [20, 25, 30, 35, 40] } },
+  skywardblade: { stats: { crit_rate: [4, 5, 6, 7, 8] } },
+  skywardspine: { stats: { crit_rate: [8, 10, 12, 14, 16] } },
+  lightoffoliarincision: { stats: { crit_rate: [4, 5, 6, 7, 8] } },
+  starcallerswatch: { stats: { em: [100, 125, 150, 175, 200] } },
+  elegyfortheend: { stats: { em: [60, 75, 90, 105, 120] } },
+  everlastingmoonglow: { stats: { healing_bonus: [10, 12.5, 15, 17.5, 20] } },
+  mistsplitterreforged: { stats: { all_elem_dmg: [12, 15, 18, 21, 24] } },
+  harangeppakufutsu: { stats: { all_elem_dmg: [12, 15, 18, 21, 24] } },
+  hunterspath: { stats: { all_elem_dmg: [12, 15, 18, 21, 24] } },
+  calamityqueller: { stats: { all_elem_dmg: [12, 15, 18, 21, 24] } },
+  skywardatlas: { stats: { all_elem_dmg: [12, 15, 18, 21, 24] } },
+
+  // Conversões incondicionais permanentes na tela de atributos
+  engulfinglightning: {
+    erOver100ToAtkPct: { ratio: [28, 35, 42, 49, 56], cap: [80, 90, 100, 110, 120] },
+  },
+  staffofthescarletsands: { emToAtkPct: [52, 65, 78, 91, 104] },
+  makhairaaquamarine: { emToAtkPct: [24, 30, 36, 42, 48] },
+  wanderingevenstar: { emToAtkPct: [24, 30, 36, 42, 48] },
+  xiphosmoonlight: { emToErPerPoint: [0.036, 0.045, 0.054, 0.063, 0.072] },
+}
+
+function scaleFromR5(r5Value: number, refinement: number): number {
+  // Padrão Genshin: R1 = 50% do R5, R2 = 62.5%, R3 = 75%, R4 = 87.5%, R5 = 100%
+  const r = Math.max(1, Math.min(5, Math.round(refinement || 1)))
+  const mult = 0.5 + (r - 1) * 0.125
+  return Math.round(r5Value * mult * 10) / 10
+}
+
+/**
+ * Fallback leve para armas futuras não listadas na tabela curada: lê apenas a
+ * primeira frase incondicional de `passive_description_r5` (antes de "When/After/Quando/Após").
+ */
+function parseFallbackUnconditionalWeaponPassive(
+  descR5: string | null | undefined,
+  refinement: number,
+): Array<[CanonicalStatKey | 'all_elem_dmg', number]> {
+  if (!descR5) return []
+  const firstSentence = descR5.split(/[.!?。\n]/)[0]?.trim() || ''
+  if (!firstSentence) return []
+  // Ignora frases que começam com condição de combate
+  if (/^(when|after|if|while|upon|hitting|quando|ap[oó]s|se\b|ao\b|enquanto)/i.test(firstSentence)) {
+    return []
+  }
+  const patterns: Array<[RegExp, CanonicalStatKey | 'all_elem_dmg']> = [
+    [/(?:max\s*hp|hp|vida\s*m[aá]x\.?|vida)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'hp_pct'],
+    [/(?:increases|aumenta)\s+(?:max\s*hp|hp|a\s+vida\s*m[aá]x\.?|a\s+vida)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'hp_pct'],
+    [/(?:atk|atq)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'atk_pct'],
+    [/(?:increases|aumenta)\s+(?:atk|o\s+atq)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'atk_pct'],
+    [/(?:def|defesa)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'def_pct'],
+    [/(?:crit\s*rate|taxa\s*cr[ií]t\.?)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'crit_rate'],
+    [/(?:crit\s*dmg|dano\s*cr[ií]t\.?)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'crit_dmg'],
+    [/(?:elemental\s*mastery|profici[eê]ncia\s*elemental)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+)/i, 'em'],
+    [/(?:healing\s*bonus|b[oô]nus\s*de\s*cura)\s+(?:is\s+)?(?:increased|increases|aumentad[oa]|aumenta)\s+(?:by|em)\s+(\d+(?:[.,]\d+)?)%/i, 'healing_bonus'],
+    [/(\d+(?:[.,]\d+)?)%\s+(?:all\s+)?elemental\s+dmg\s+bonus/i, 'all_elem_dmg'],
+  ]
+  for (const [re, stat] of patterns) {
+    const m = firstSentence.match(re)
+    if (m) {
+      const r5Val = parseFloat(m[1].replace(',', '.'))
+      if (Number.isFinite(r5Val) && r5Val > 0) {
+        return [[stat, scaleFromR5(r5Val, refinement)]]
+      }
+    }
+  }
+  return []
 }
 
 function parse2pcFromText(text: string | null | undefined): [CanonicalStatKey, number] | null {
@@ -411,6 +531,7 @@ export interface ComputedCharStats {
   activeSets: ActiveSetBonus[]
   active4pcSlug: string | null
   active2pcSlugs: string[]
+  weaponPassiveBonuses: string[]
   pieces: ComputedArtifactPiece[]
 }
 
@@ -578,12 +699,88 @@ export function computeCharacterBuildStats(params: {
 
   activeSets.sort((a, b) => b.pieces - a.pieces)
 
-  const totalHp = Math.round(baseHp * (1 + totals.hp_pct / 100) + totals.hp)
-  const totalAtk = Math.round(baseAtk * (1 + totals.atk_pct / 100) + totals.atk)
-  const totalDef = Math.round(baseDef * (1 + totals.def_pct / 100) + totals.def)
-
   const elemKey = (`${element.toLowerCase()}_dmg` as CanonicalStatKey)
   const validElemKey: CanonicalStatKey = elemKey in totals ? elemKey : 'pyro_dmg'
+
+  // Passiva incondicional da arma equipada (refletida diretamente na tela de atributos do jogo!)
+  const weaponPassiveBonuses: string[] = []
+  const weaponRefIdx = Math.max(0, Math.min(4, Math.round(goodState.weaponRefinement || 1) - 1))
+  const weaponRule = matchedWeapon
+    ? WEAPON_UNCONDITIONAL_PASSIVES[normKey(matchedWeapon.slug)]
+    : undefined
+
+  const applyWeaponStat = (stat: CanonicalStatKey | 'all_elem_dmg', val: number) => {
+    if (!Number.isFinite(val) || val <= 0) return
+    if (stat === 'all_elem_dmg') {
+      for (const ek of [
+        'pyro_dmg',
+        'hydro_dmg',
+        'cryo_dmg',
+        'electro_dmg',
+        'anemo_dmg',
+        'geo_dmg',
+        'dendro_dmg',
+      ] as CanonicalStatKey[]) {
+        addStat(ek, val)
+      }
+      weaponPassiveBonuses.push(`+${val.toFixed(1).replace(/\.0$/, '')}% Dano Elem.`)
+    } else {
+      addStat(stat, val)
+      weaponPassiveBonuses.push(
+        `+${formatCanonicalStatValue(stat, val)} ${STAT_SHORT_LABEL_PT[stat]}`,
+      )
+    }
+  }
+
+  if (weaponRule?.stats) {
+    for (const [statKey, curve] of Object.entries(weaponRule.stats)) {
+      if (!curve) continue
+      applyWeaponStat(statKey as CanonicalStatKey | 'all_elem_dmg', curve[weaponRefIdx])
+    }
+  } else if (matchedWeapon && !weaponRule) {
+    const fallbackStats = parseFallbackUnconditionalWeaponPassive(
+      matchedWeapon.passive_description_r5,
+      goodState.weaponRefinement || 1,
+    )
+    for (const [statKey, val] of fallbackStats) {
+      applyWeaponStat(statKey, val)
+    }
+  }
+
+  // Conversões baseadas em EM -> ER% (ex.: Luz Lunar de Xiphos) antes de calcular ER -> ATQ%
+  if (weaponRule?.emToErPerPoint && totals.em > 0) {
+    const bonusEr = totals.em * weaponRule.emToErPerPoint[weaponRefIdx]
+    addStat('er', bonusEr)
+    weaponPassiveBonuses.push(`+${bonusEr.toFixed(1)}% Recarga`)
+  }
+
+  // Conversão baseada em ER acima de 100% -> ATQ% (ex.: Luz do Cortador de Grama)
+  if (weaponRule?.erOver100ToAtkPct && totals.er > 100) {
+    const ratio = weaponRule.erOver100ToAtkPct.ratio[weaponRefIdx]
+    const cap = weaponRule.erOver100ToAtkPct.cap[weaponRefIdx]
+    const bonusAtkPct = Math.min(cap, ((totals.er - 100) * ratio) / 100)
+    if (bonusAtkPct > 0) {
+      addStat('atk_pct', bonusAtkPct)
+      weaponPassiveBonuses.push(`+${bonusAtkPct.toFixed(1)}% ATQ`)
+    }
+  }
+
+  const totalHp = Math.round(baseHp * (1 + totals.hp_pct / 100) + totals.hp)
+  const totalDef = Math.round(baseDef * (1 + totals.def_pct / 100) + totals.def)
+
+  // Conversões de Vida Máx. ou EM -> ATQ flat (ex.: Báculo de Homa, Cortador de Jade, Areias Escarlates)
+  if (weaponRule?.hpToAtkPct && totalHp > 0) {
+    const bonusAtkFlat = (totalHp * weaponRule.hpToAtkPct[weaponRefIdx]) / 100
+    addStat('atk', bonusAtkFlat)
+    weaponPassiveBonuses.push(`+${Math.round(bonusAtkFlat)} ATQ`)
+  }
+  if (weaponRule?.emToAtkPct && totals.em > 0) {
+    const bonusAtkFlat = (totals.em * weaponRule.emToAtkPct[weaponRefIdx]) / 100
+    addStat('atk', bonusAtkFlat)
+    weaponPassiveBonuses.push(`+${Math.round(bonusAtkFlat)} ATQ`)
+  }
+
+  const totalAtk = Math.round(baseAtk * (1 + totals.atk_pct / 100) + totals.atk)
 
   return {
     hasBaseData: baseHp > 0,
@@ -624,6 +821,7 @@ export function computeCharacterBuildStats(params: {
     activeSets,
     active4pcSlug,
     active2pcSlugs,
+    weaponPassiveBonuses,
     pieces,
   }
 }

@@ -163,25 +163,43 @@ export default function EquippedBuildPanel({
       {/* Stats finais calculados + Arma equipada */}
       <div className="eb-top-grid">
         <div className="eb-stats-card">
-          <div className="eb-card-label">Stats Calculados (Base + Arma + Artefatos + 2pc)</div>
+          <div className="eb-card-label">Stats Calculados (Base + Arma + Passiva Fixa + Artefatos + 2pc)</div>
           <div className="eb-stats-grid">
             <div className="eb-stat-item">
               <span className="eb-stat-name">Vida</span>
               <strong className="eb-stat-val">
                 {computed.hasBaseData ? computed.totalHp.toLocaleString('pt-BR') : '—'}
               </strong>
+              {computed.hasBaseData && (
+                <span className="eb-stat-breakdown">
+                  {computed.baseHp.toLocaleString('pt-BR')}{' '}
+                  <em>+{(computed.totalHp - computed.baseHp).toLocaleString('pt-BR')}</em>
+                </span>
+              )}
             </div>
             <div className="eb-stat-item">
               <span className="eb-stat-name">ATQ</span>
               <strong className="eb-stat-val">
                 {computed.hasBaseData ? computed.totalAtk.toLocaleString('pt-BR') : '—'}
               </strong>
+              {computed.hasBaseData && (
+                <span className="eb-stat-breakdown">
+                  {computed.baseAtk.toLocaleString('pt-BR')}{' '}
+                  <em>+{(computed.totalAtk - computed.baseAtk).toLocaleString('pt-BR')}</em>
+                </span>
+              )}
             </div>
             <div className="eb-stat-item">
               <span className="eb-stat-name">DEF</span>
               <strong className="eb-stat-val">
                 {computed.hasBaseData ? computed.totalDef.toLocaleString('pt-BR') : '—'}
               </strong>
+              {computed.hasBaseData && (
+                <span className="eb-stat-breakdown">
+                  {computed.baseDef.toLocaleString('pt-BR')}{' '}
+                  <em>+{(computed.totalDef - computed.baseDef).toLocaleString('pt-BR')}</em>
+                </span>
+              )}
             </div>
             <div className="eb-stat-item">
               <span className="eb-stat-name">Proficiência (EM)</span>
@@ -205,7 +223,7 @@ export default function EquippedBuildPanel({
             </div>
           </div>
           <div className="eb-stats-note">
-            * Não inclui buffs condicionais de passivas de 4pc, passivas de arma ou ressonância de time.
+            * Inclui passivas fixas de arma e bônus de 2pc. Não inclui buffs condicionais de combate (4pc, stacks ou ressonância).
           </div>
         </div>
 
@@ -241,6 +259,11 @@ export default function EquippedBuildPanel({
                     </span>
                   )}
                 </div>
+                {computed.weaponPassiveBonuses.length > 0 && (
+                  <div className="eb-weapon-passive-note">
+                    Passiva ativa: <strong>{computed.weaponPassiveBonuses.join(' · ')}</strong>
+                  </div>
+                )}
               </div>
             </div>
           ) : (

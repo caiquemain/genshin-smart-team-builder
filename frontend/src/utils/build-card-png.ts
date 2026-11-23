@@ -962,11 +962,31 @@ export async function renderBuildCardToCanvas(
     kind: 'hp' | 'atk' | 'def' | 'em' | 'cr' | 'cd' | 'er' | 'elem'
     label: string
     value: string
+    basePart?: string
+    bonusPart?: string
     highlight?: 'crit' | 'elem'
   }> = [
-    { kind: 'hp', label: 'Vida Máx.', value: stats.hasBaseData ? stats.totalHp.toLocaleString('pt-BR') : '—' },
-    { kind: 'atk', label: 'ATQ', value: stats.hasBaseData ? stats.totalAtk.toLocaleString('pt-BR') : '—' },
-    { kind: 'def', label: 'DEF', value: stats.hasBaseData ? stats.totalDef.toLocaleString('pt-BR') : '—' },
+    {
+      kind: 'hp',
+      label: 'Vida Máx.',
+      value: stats.hasBaseData ? stats.totalHp.toLocaleString('pt-BR') : '—',
+      basePart: stats.hasBaseData ? stats.baseHp.toLocaleString('pt-BR') : undefined,
+      bonusPart: stats.hasBaseData ? `+${(stats.totalHp - stats.baseHp).toLocaleString('pt-BR')}` : undefined,
+    },
+    {
+      kind: 'atk',
+      label: 'ATQ',
+      value: stats.hasBaseData ? stats.totalAtk.toLocaleString('pt-BR') : '—',
+      basePart: stats.hasBaseData ? stats.baseAtk.toLocaleString('pt-BR') : undefined,
+      bonusPart: stats.hasBaseData ? `+${(stats.totalAtk - stats.baseAtk).toLocaleString('pt-BR')}` : undefined,
+    },
+    {
+      kind: 'def',
+      label: 'DEF',
+      value: stats.hasBaseData ? stats.totalDef.toLocaleString('pt-BR') : '—',
+      basePart: stats.hasBaseData ? stats.baseDef.toLocaleString('pt-BR') : undefined,
+      bonusPart: stats.hasBaseData ? `+${(stats.totalDef - stats.baseDef).toLocaleString('pt-BR')}` : undefined,
+    },
     { kind: 'em', label: 'Proficiência Elemental', value: String(stats.em) },
     { kind: 'cr', label: 'Taxa Crítica', value: `${stats.critRate.toFixed(1)}%`, highlight: 'crit' },
     { kind: 'cd', label: 'Dano Crítico', value: `${stats.critDmg.toFixed(1)}%`, highlight: 'crit' },
@@ -1003,7 +1023,21 @@ export async function renderBuildCardToCanvas(
           : '#ffffff'
     ctx.font = '800 19px Inter, system-ui, sans-serif'
     ctx.textAlign = 'right'
-    ctx.fillText(row.value, midX + midW - 24, ry + 29)
+    const valX = midX + midW - 24
+    ctx.fillText(row.value, valX, ry + 29)
+
+    // Breakdown Enka-style: Base +Bonus à esquerda do total (Vida / ATQ / DEF)
+    if (row.basePart && row.bonusPart) {
+      const valW = ctx.measureText(row.value).width
+      const bonusEndX = valX - valW - 14
+      ctx.font = '700 12.5px Inter, system-ui, sans-serif'
+      ctx.fillStyle = '#4ade80'
+      ctx.fillText(row.bonusPart, bonusEndX, ry + 28)
+      const bonusW = ctx.measureText(row.bonusPart).width
+      ctx.font = '600 12.5px Inter, system-ui, sans-serif'
+      ctx.fillStyle = '#94a3b8'
+      ctx.fillText(row.basePart, bonusEndX - bonusW - 5, ry + 28)
+    }
     ctx.textAlign = 'left'
   })
 
