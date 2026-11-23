@@ -1,0 +1,946 @@
+/* ============================================================
+   Community Stats Dashboard & Per-Character Benchmark Panel
+   ============================================================ */
+
+.cs-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 40px;
+}
+
+.cs-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.cs-page-title {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.cs-page-sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.spin-icon {
+  animation: csSpin 0.9s linear infinite;
+}
+
+@keyframes csSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* KPI Grid */
+.cs-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1180px) {
+  .cs-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .cs-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.cs-kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 14px;
+  padding: 13px 14px;
+}
+
+.cs-kpi-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.18);
+  color: #a5b4fc;
+  flex-shrink: 0;
+}
+
+.cs-kpi-icon.is-purple { background: rgba(168, 85, 247, 0.18); color: #d8b4fe; }
+.cs-kpi-icon.is-gold { background: rgba(245, 158, 11, 0.18); color: #fde047; }
+.cs-kpi-icon.is-cyan { background: rgba(56, 189, 248, 0.18); color: #7dd3fc; }
+.cs-kpi-icon.is-green { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; }
+.cs-kpi-icon.is-pink { background: rgba(236, 72, 153, 0.18); color: #f9a8d4; }
+
+.cs-kpi-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cs-kpi-val {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-top: 2px;
+}
+
+.cs-kpi-val small {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Census Distribution Charts */
+.cs-census-charts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 980px) {
+  .cs-census-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cs-dist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-dist-row {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.cs-dist-label {
+  color: #cbd5e1;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-dist-pct {
+  text-align: right;
+  color: #f8fafc;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rankings */
+.cs-rankings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cs-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cs-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cs-tab:hover {
+  background: rgba(30, 41, 59, 0.85);
+  color: #fff;
+}
+
+.cs-tab.is-active {
+  background: rgba(99, 102, 241, 0.24);
+  border-color: rgba(129, 140, 248, 0.7);
+  color: #ffffff;
+}
+
+.cs-rank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.cs-rank-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: inherit;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.cs-rank-card:hover {
+  border-color: rgba(129, 140, 248, 0.6);
+  transform: translateY(-1px);
+}
+
+.cs-rank-card.is-selected {
+  border-color: #818cf8;
+  background: rgba(99, 102, 241, 0.16);
+}
+
+.cs-rank-badge {
+  font-size: 12px;
+  font-weight: 800;
+  color: #94a3b8;
+  min-width: 24px;
+}
+
+.cs-rank-badge.is-gold {
+  color: #fde047;
+}
+
+.cs-rank-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(30, 41, 59, 0.85);
+}
+
+.cs-rank-avatar.rarity-5 {
+  background: linear-gradient(135deg, #784814, #c87f24);
+}
+
+.cs-rank-avatar.rarity-4 {
+  background: linear-gradient(135deg, #44286e, #7c48b8);
+}
+
+.cs-rank-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cs-rank-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cs-rank-info strong {
+  font-size: 13.5px;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-rank-info span {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.cs-rank-sub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.cs-gold-text {
+  color: #fde047 !important;
+  font-weight: 700;
+}
+
+/* Explorer */
+.cs-explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.cs-explorer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cs-explorer-bar h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.cs-explorer-bar p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+}
+
+.cs-search-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  color: #94a3b8;
+}
+
+.cs-search-wrap input {
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  font-size: 13px;
+  outline: none;
+  width: 190px;
+}
+
+.cs-char-picker-strip {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  max-height: 156px;
+  overflow-y: auto;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(9, 13, 24, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.cs-char-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cs-char-chip img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cs-char-chip.is-active {
+  background: rgba(99, 102, 241, 0.28);
+  border-color: #818cf8;
+  color: #ffffff;
+}
+
+.cs-explorer-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-explorer-char-link {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ============================================================
+   Character Community Stats Panel (CharacterDetailPage + Explorer)
+   ============================================================ */
+
+.cs-panel {
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.82), rgba(9, 14, 28, 0.88));
+  border: 1px solid rgba(129, 140, 248, 0.25);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.cs-panel-loading {
+  font-size: 13px;
+  color: #94a3b8;
+  padding: 8px 0;
+}
+
+.cs-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cs-panel-title {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.cs-panel-sub {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+.cs-head-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cs-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(30, 41, 59, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.cs-benchmark-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 11px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.cs-benchmark-badge.is-elite {
+  color: #fde047;
+  background: rgba(234, 179, 8, 0.18);
+  border-color: rgba(250, 204, 21, 0.55);
+}
+
+.cs-benchmark-badge.is-high {
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+
+.cs-benchmark-badge.is-mid {
+  color: #7dd3fc;
+  background: rgba(56, 189, 248, 0.16);
+  border-color: rgba(56, 189, 248, 0.42);
+}
+
+.cs-benchmark-badge.is-low {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.cs-spikes-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.11);
+  border: 1px solid rgba(129, 140, 248, 0.28);
+}
+
+.cs-spikes-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #c7d2fe;
+}
+
+.cs-spike-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fde68a;
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+
+.cs-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 920px) {
+  .cs-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cs-card {
+  background: rgba(10, 15, 28, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-stack {
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cs-card-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+/* Stats Table */
+.cs-stats-table {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cs-st-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 86px 86px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  font-size: 12.5px;
+}
+
+.cs-st-row.has-user {
+  grid-template-columns: minmax(0, 1fr) 82px 82px 96px;
+}
+
+.cs-st-row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cs-st-head {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  background: transparent !important;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.cs-st-head span:not(:first-child),
+.cs-st-user,
+.cs-st-med,
+.cs-st-mean {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-st-label {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.cs-st-user {
+  color: #f8fafc;
+}
+
+.cs-st-med {
+  color: #a5b4fc;
+}
+
+.cs-st-mean {
+  color: #94a3b8;
+}
+
+.cs-delta-chip {
+  justify-self: end;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.cs-delta-chip.is-high {
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.16);
+}
+
+.cs-delta-chip.is-mid {
+  color: #cbd5e1;
+  background: rgba(148, 163, 184, 0.14);
+}
+
+.cs-delta-chip.is-low {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.16);
+}
+
+/* Constellations Bar Grid */
+.cs-cons-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.cs-cons-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-cons-circle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1.5px solid rgba(148, 163, 184, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.cs-cons-item.is-peak .cs-cons-circle {
+  border-color: #fbbf24;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
+}
+
+.cs-cons-circle img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.cs-cons-tag {
+  position: absolute;
+  bottom: -5px;
+  right: -4px;
+  font-size: 9.5px;
+  font-weight: 800;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 5px;
+  padding: 0 3px;
+}
+
+.cs-cons-bar-track {
+  width: 16px;
+  height: 62px;
+  border-radius: 6px;
+  background: rgba(30, 41, 59, 0.72);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.cs-cons-bar-fill {
+  width: 100%;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #818cf8, #4f46e5);
+}
+
+.cs-cons-item.is-peak .cs-cons-bar-fill {
+  background: linear-gradient(180deg, #fde047, #f59e0b);
+}
+
+.cs-cons-pct {
+  font-size: 11px;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Talents */
+.cs-talents-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-talents-row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cs-talent-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.cs-talent-pill.is-crowned {
+  border-color: rgba(250, 204, 21, 0.42);
+  background: rgba(234, 179, 8, 0.09);
+}
+
+.cs-talent-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cs-talent-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.cs-talent-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-talent-name {
+  display: block;
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.cs-talent-vals {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+  color: #f8fafc;
+}
+
+.cs-talent-vals .muted {
+  font-size: 11px;
+}
+
+.cs-crown-tag {
+  color: #fde047;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Usage Lists (Weapons & Artifacts) */
+.cs-usage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-usage-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  color: inherit;
+  text-decoration: none;
+}
+
+.cs-usage-row.is-link:hover {
+  border-color: rgba(129, 140, 248, 0.55);
+  background: rgba(30, 41, 59, 0.72);
+}
+
+.cs-rank-num {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #64748b;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.cs-item-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.cs-item-icon.rarity-5 { background: linear-gradient(135deg, #784814, #c87f24); }
+.cs-item-icon.rarity-4 { background: linear-gradient(135deg, #44286e, #7c48b8); }
+.cs-item-icon.rarity-3 { background: linear-gradient(135deg, #1e3a5f, #3b6ea5); }
+
+.cs-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cs-art-icons {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cs-art-thumb {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-art-thumb img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.cs-art-pc {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  font-size: 9.5px;
+  font-weight: 800;
+  background: #0f172a;
+  color: #6ee7b7;
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 4px;
+  padding: 0 3px;
+}
+
+.cs-usage-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cs-usage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cs-usage-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-usage-name.is-link-text {
+  color: #f8fafc;
+  text-decoration: none;
+}
+
+.cs-usage-name.is-link-text:hover {
+  color: #a5b4fc;
+}
+
+.cs-usage-pct {
+  font-size: 12.5px;
+  color: #a5b4fc;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.cs-bar-bg {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(30, 41, 59, 0.85);
+  overflow: hidden;
+}
+
+.cs-bar-fg {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6366f1, #38bdf8);
+}
+
+.cs-bar-fg.is-art {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}

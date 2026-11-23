@@ -15,6 +15,7 @@ import {
   loadCharacterStatsDataset,
   STAT_SHORT_LABEL_PT,
   type CharacterStatsDataset,
+  type ComputedCharStats,
 } from '../utils/char-stats-calc'
 import BuildCardStudioModal from './BuildCardStudioModal'
 import CharacterArtifactsModal from './CharacterArtifactsModal'
@@ -25,6 +26,7 @@ interface EquippedBuildPanelProps {
   goodState: GoodCharState
   recommendedBuild?: CharacterBuild | null
   onUpdated?: () => void
+  onStatsComputed?: (stats: ComputedCharStats) => void
 }
 
 function cvTierClass(cv: number): string {
@@ -39,6 +41,7 @@ export default function EquippedBuildPanel({
   goodState,
   recommendedBuild,
   onUpdated,
+  onStatsComputed,
 }: EquippedBuildPanelProps) {
   const { lang } = useLanguage()
   const slug = character.slug
@@ -87,6 +90,10 @@ export default function EquippedBuildPanel({
       }),
     [slug, element, goodState, statsDataset, weaponLookup, artifactSetLookup],
   )
+
+  useEffect(() => {
+    onStatsComputed?.(computed)
+  }, [computed, onStatsComputed])
 
   const audit = useMemo(
     () => auditEquippedBuild(computed, recommendedBuild),

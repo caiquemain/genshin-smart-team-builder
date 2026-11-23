@@ -30,6 +30,8 @@ import type { Substitute, BuildPreset,
   EndgameTeamsRequest,
   EndgameTeamsResponse,
   EnkaImportResponse,
+  CommunityStatsResponse,
+  CharacterCommunityStatsResponse,
 } from '../types'
 import type { TierlistResponse, CharacterTierlistResponse, TierlistSite } from '../types/tierlist'
 
@@ -220,5 +222,14 @@ export const api = {
         throw new Error(msg)
       }
       return r.json() as Promise<EnkaImportResponse>
+    }),
+  getCommunityStats: (lang: LanguageCode, refresh = false) =>
+    request<CommunityStatsResponse>('/community-stats', { lang, refresh: refresh ? 'true' : undefined }),
+  getCharacterCommunityStats: (slug: string, lang: LanguageCode) =>
+    request<CharacterCommunityStatsResponse>(`/community-stats/character/${slug}`, { lang }),
+  refreshCommunityStats: (lang: LanguageCode) =>
+    fetch(`${API_URL}/community-stats/refresh?lang=${lang}`, { method: 'POST' }).then(async (r) => {
+      if (!r.ok) throw new Error(`API ${r.status}: ${await r.text()}`)
+      return r.json() as Promise<{ status: string; updated_at: string | null; total_players: number; total_characters: number }>
     }),
 }

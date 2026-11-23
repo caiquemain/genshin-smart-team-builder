@@ -761,3 +761,136 @@ export interface EndgameTeamsResponse {
   locked_slugs: string[]
   combinations: EndgameCombinationOut[]
 }
+
+// === Estatísticas da Comunidade (Paimon.plus — Censo de 40k+ contas) ===
+export interface CommunityBucket {
+  label: string
+  count: number
+  pct: number
+}
+
+export interface CommunityPlayerCensus {
+  total_players: number
+  ar60_pct: number
+  abyss_floor12_pct: number
+  theater_act10_pct: number
+  achievements_median: number
+  achievements_mean: number
+  achievements_top: number
+  friendship10_median: number
+  ar_distribution: CommunityBucket[]
+  abyss_distribution: CommunityBucket[]
+  theater_distribution: CommunityBucket[]
+}
+
+export interface CommunityStatPair {
+  mean: number
+  median: number
+}
+
+export interface CommunityConstellationDist {
+  level: number
+  count: number
+  pct: number
+}
+
+export interface CommunityStoppingPoint {
+  constellation: number
+  pct: number
+  label: string
+}
+
+export interface CommunityTalentStat {
+  mean: number
+  median: number
+  mode: number
+}
+
+export interface CommunityWeaponUsage {
+  ambr_id: number
+  slug: string | null
+  name: string
+  icon: string | null
+  rarity: number
+  count: number
+  pct: number
+}
+
+export interface CommunityArtifactSetPart {
+  ambr_id: number
+  slug: string | null
+  name: string
+  icon: string | null
+  pieces: number
+}
+
+export interface CommunityArtifactSetCombo {
+  sets: CommunityArtifactSetPart[]
+  count: number
+  pct: number
+}
+
+export interface CommunityCharStats {
+  slug: string
+  name: string
+  icon: string | null
+  rarity: number
+  element: string
+  avatar_id: number
+  count: number
+  popularity_pct: number
+  avg_constellation: number
+  c6_pct: number
+  consts: CommunityConstellationDist[]
+  stopping_points: CommunityStoppingPoint[]
+  stats: Record<string, CommunityStatPair>
+  talents: {
+    na: CommunityTalentStat
+    es: CommunityTalentStat
+    eb: CommunityTalentStat
+  }
+  weapons: CommunityWeaponUsage[]
+  artifact_sets: CommunityArtifactSetCombo[]
+}
+
+export interface CommunityGlobalWeaponRank {
+  ambr_id: number
+  slug: string
+  name: string
+  icon: string | null
+  rarity: number
+  count: number
+  share_pct: number
+}
+
+export interface CommunityGlobalSetRank {
+  ambr_id: number
+  slug: string
+  name: string
+  icon: string | null
+  count: number
+  share_pct: number
+}
+
+export interface CommunityStatsResponse {
+  source: string
+  source_url: string
+  updated_at: string | null
+  total_characters: number
+  census: CommunityPlayerCensus
+  rankings: {
+    top_popular: CommunityCharStats[]
+    top_c6_5star: CommunityCharStats[]
+    top_weapons: CommunityGlobalWeaponRank[]
+    top_artifact_sets: CommunityGlobalSetRank[]
+  }
+  characters: Record<string, CommunityCharStats>
+}
+
+export interface CharacterCommunityStatsResponse {
+  source: string
+  updated_at: string | null
+  total_players: number
+  character: CommunityCharStats
+}
+

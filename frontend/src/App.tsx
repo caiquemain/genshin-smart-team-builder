@@ -25,6 +25,7 @@ import TierlistPage from './pages/TierlistPage'
 import PullAdvisorPage from './pages/PullAdvisorPage'
 import _DebugPage from './pages/_DebugPage' // <-- ADICIONADO
 import BestiaryPage from './pages/BestiaryPage';
+import CommunityStatsPage from './pages/CommunityStatsPage'
 import './styles.css'
 
 export default function App() {
@@ -52,6 +53,7 @@ export default function App() {
             <Link to="/inventory">Inventário</Link>
             <Link to="/bestiary">Bestiário</Link>
             <Link to="/tierlist">Tierlist</Link>
+            <Link to="/community-stats">Comunidade</Link>
             <Link to="/reactions">Reações</Link>
             <button
               type="button"
@@ -91,6 +93,7 @@ function MainContent() {
     || location.pathname === '/tierlist'
     || location.pathname === '/pull-advisor'
     || location.pathname === '/consultor'
+    || location.pathname === '/community-stats'
   )
 
   return (
@@ -114,6 +117,7 @@ function MainContent() {
         <Route path="/bestiary" element={<BestiaryPage />} />
         <Route path="/planner/characters" element={<PlannerCharactersPage />} />
         <Route path="/tierlist" element={<TierlistPage />} />
+        <Route path="/community-stats" element={<CommunityStatsPage />} />
         <Route path="/reactions" element={<ReactionsPage />} />
         <Route path="/_debug" element={<_DebugPage />} /> {/* <-- ADICIONADO */}
       </Routes>

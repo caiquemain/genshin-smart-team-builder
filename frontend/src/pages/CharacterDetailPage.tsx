@@ -11,6 +11,8 @@ import ArtifactTooltip from '../components/ArtifactTooltip'
 import TalentSection from '../components/TalentSection'
 import CharacterStatsTable from '../components/CharacterStatsTable'
 import EquippedBuildPanel from '../components/EquippedBuildPanel'
+import CharacterCommunityStatsPanel from '../components/CharacterCommunityStatsPanel'
+import type { ComputedCharStats } from '../utils/char-stats-calc'
 import { archetypeInfo } from '../utils/archetypes'
 import { useRoster } from '../utils/roster'
 import { CheckCircle2, XCircle, RotateCcw, Pencil } from 'lucide-react'
@@ -172,10 +174,11 @@ export default function CharacterDetailPage() {
   const [allChars, setAllChars] = useState<Map<string, any>>(new Map())
   const roster = useRoster()
   const [showRosterEditor, setShowRosterEditor] = useState(false)
+  const [equippedStats, setEquippedStats] = useState<ComputedCharStats | null>(null)
 
   useEffect(() => {
     if (!slug) return
-    setChar(null); setError(null); setKqmBuild(null)
+    setChar(null); setError(null); setKqmBuild(null); setEquippedStats(null)
     api.getCharacter(slug, lang).then(setChar).catch((e) => setError(String(e)))
     api.getCharacterBuild(slug, lang)
       .then((data) => setKqmBuild(data))
@@ -271,6 +274,7 @@ export default function CharacterDetailPage() {
     return [
       { id: 'visao-geral', label: 'Visão Geral' },
       effectiveGoodState && { id: 'minha-build', label: 'Minha Build' },
+      { id: 'estatisticas-comunidade', label: 'Comunidade (40k)' },
       kqmBuild && { id: 'kqm-build', label: 'Build Recomendada' },
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
@@ -454,8 +458,15 @@ export default function CharacterDetailPage() {
               goodState={effectiveGoodState}
               recommendedBuild={kqmBuild?.build_data ?? null}
               onUpdated={() => roster.refresh()}
+              onStatsComputed={setEquippedStats}
             />
           )}
+
+          <CharacterCommunityStatsPanel
+            slug={char.slug}
+            characterDetail={char}
+            userStats={effectiveGoodState ? equippedStats : null}
+          />
 
           {kqmBuild && (
             <section id="kqm-build" className="char-section-anchor">
