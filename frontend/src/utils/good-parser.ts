@@ -20,6 +20,28 @@ const SLOT_ORDER: Record<string, number> = {
   circlet: 4,
 }
 
+const CHAR_ALIASES: Record<string, string> = {
+  ayaka: 'kamisatoayaka',
+  ayato: 'kamisatoayato',
+  kazuha: 'kaedeharakazuha',
+  kokomi: 'sangonomiyakokomi',
+  raiden: 'raidenshogun',
+  shogun: 'raidenshogun',
+  shinobu: 'kukishinobu',
+  kuki: 'kukishinobu',
+  yae: 'yaemiko',
+  miko: 'yaemiko',
+  itto: 'aratakiitto',
+  sara: 'kujousara',
+  heizou: 'shikanoinheizou',
+  mizuki: 'yumemizukimizuki',
+}
+
+function aliasNorm(raw: string): string {
+  const n = normKey(raw)
+  return CHAR_ALIASES[n] || n
+}
+
 export function parseGoodData(data: GoodData): Map<string, GoodCharState> {
   const map = new Map<string, GoodCharState>()
   // Índice auxiliar por chave normalizada -> chave real no mapa (evita mismatch quando
@@ -47,15 +69,15 @@ export function parseGoodData(data: GoodData): Map<string, GoodCharState> {
       weaponRefinement: 1,
       artifacts: [],
     })
-    normToMapKey.set(normKey(c.key), slug)
-    normToMapKey.set(normKey(slug), slug)
+    normToMapKey.set(aliasNorm(c.key), slug)
+    normToMapKey.set(aliasNorm(slug), slug)
   }
 
   const findState = (location: string | null | undefined): GoodCharState | undefined => {
     if (!location) return undefined
     const direct = resolveCharSlug(location) || normKey(location)
     if (map.has(direct)) return map.get(direct)
-    const mapped = normToMapKey.get(normKey(location))
+    const mapped = normToMapKey.get(aliasNorm(location))
     return mapped ? map.get(mapped) : undefined
   }
 

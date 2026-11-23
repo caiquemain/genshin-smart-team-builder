@@ -516,6 +516,17 @@ export async function renderBuildCardToCanvas(
   const defaultSplash = `/splash_arts/${character.slug}.webp?v=2`
   const primaryHeroSrc = options.customImageUrl || defaultSplash
 
+  const FIXED_SLOTS: Array<'flower' | 'plume' | 'sands' | 'goblet' | 'circlet'> = [
+    'flower',
+    'plume',
+    'sands',
+    'goblet',
+    'circlet',
+  ]
+  const slotPieces: Array<ComputedPiece | null> = FIXED_SLOTS.map(
+    (sk) => stats.pieces.find((p) => p.slotKey === sk) ?? null,
+  )
+
   const [
     heroPrimary,
     heroFallbackSplash,
@@ -533,7 +544,7 @@ export async function renderBuildCardToCanvas(
     loadImageSafe(iconUrl(options.talentIcons?.na)),
     loadImageSafe(iconUrl(options.talentIcons?.es)),
     loadImageSafe(iconUrl(options.talentIcons?.eb)),
-    ...stats.pieces.slice(0, 5).map((p) => loadImageSafe(artifactIconUrl(p.setIcon))),
+    ...slotPieces.map((p) => loadImageSafe(p ? artifactIconUrl(p.setIcon) : null)),
     ...(options.constellationIcons ?? Array(6).fill(null))
       .slice(0, 6)
       .map((ic) => loadImageSafe(iconUrl(ic))),
@@ -1072,7 +1083,7 @@ export async function renderBuildCardToCanvas(
 
   for (let idx = 0; idx < 5; idx++) {
     const sy = 34 + idx * (stripH + stripGap)
-    const piece: ComputedPiece | undefined = stats.pieces[idx]
+    const piece: ComputedPiece | null = slotPieces[idx]
 
     // Fundo glass do strip
     ctx.fillStyle = 'rgba(10, 15, 28, 0.78)'
