@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText, ImageDown, Users } from 'lucide-react'
+import { Settings, RefreshCw, Swords, Link as LinkIcon, FileText, ImageDown, Users, Share2 } from 'lucide-react'
 import { toPng } from 'html-to-image'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -14,6 +14,7 @@ import WeaponTooltip from '../components/WeaponTooltip'
 import TeamTierBadge from '../components/TeamTierBadge'
 import ArtifactTooltip from '../components/ArtifactTooltip'
 import { KQMExportCard } from '../components/KQMExportCard'
+import TeamCardStudioModal from '../components/TeamCardStudioModal'
 import type {
   TeamDetail, TeamAnalysisResponse, CharacterSummary,
   WeaponSummary, ArtifactSetSummary, TeamMemberWithBuild, CharacterBuild
@@ -51,6 +52,7 @@ export default function TeamDetailPage() {
   const [showFallbackPicker, setShowFallbackPicker] = useState(false)
   const [editingBuild, setEditingBuild] = useState<TeamMemberWithBuild | null>(null)
   const [editingSubsMember, setEditingSubsMember] = useState<TeamMemberWithBuild | null>(null)
+  const [showTeamStudio, setShowTeamStudio] = useState(false)
   
   const [exportingMember, setExportingMember] = useState<TeamMemberWithBuild | null>(null)
   const [talentIcons, setTalentIcons] = useState<{ normal?: string; skill?: string; burst?: string }>({})
@@ -224,17 +226,47 @@ export default function TeamDetailPage() {
           {team.author_name && <p className="team-detail-author">Por {team.author_name}</p>}
         </div>
         
-        {/* BOTÃO GLOBAL DE EXPORTAR */}
-        {mainDpsMember && mainDpsMember.build && (
-          <button 
-            className="btn-export-hero" 
-            onClick={() => setExportingMember(mainDpsMember)}
+        {/* BOTÕES DE EXPORTAÇÃO */}
+        <div className="team-export-actions">
+          <button
+            type="button"
+            className="btn-export-hero"
+            onClick={() => setShowTeamStudio(true)}
             data-element={mainElement}
           >
-            <ImageDown size={20} /> Exportar Build
+            <Share2 size={18} /> Compartilhar Time (PNG)
           </button>
-        )}
+          {mainDpsMember && mainDpsMember.build && (
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => setExportingMember(mainDpsMember)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              <ImageDown size={16} /> Card DPS
+            </button>
+          )}
+        </div>
       </div>
+
+      {showTeamStudio && (
+        <TeamCardStudioModal
+          teamName={team.name}
+          description={team.description}
+          tier={team.team_tier?.tier ?? null}
+          synergyScore={analysis?.score ?? null}
+          reactions={analysis?.reactions?.map((r) => r.name) ?? []}
+          members={team.members.map((m) => ({
+            position: m.position,
+            character: m.character,
+            role: analysis?.roles?.find((r) => r.slug === m.character.slug)?.role ?? null,
+            guideBuild: m.build,
+          }))}
+          initialWeapons={weapons}
+          initialArtifacts={artifacts}
+          onClose={() => setShowTeamStudio(false)}
+        />
+      )}
 
       <div className="team-detail-members">
         {team.members.map((member) => (

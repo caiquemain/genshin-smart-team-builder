@@ -1548,5 +1548,195 @@
   gap: 10px;
 }
 
+/* ============================================================
+   Team Card Studio Modal (.tcs-*)
+   ============================================================ */
+.bcs-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bcs-close:hover {
+  background: rgba(51, 65, 85, 0.9);
+  color: #ffffff;
+}
+
+.tcs-modal {
+  max-width: 1380px !important;
+  width: min(96vw, 1380px) !important;
+}
+
+.tcs-preview-wrap {
+  cursor: default !important;
+}
+
+.tcs-canvas {
+  cursor: default !important;
+  max-height: 70vh;
+  width: auto !important;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.tcs-canvas.is-grid {
+  max-height: 72vh;
+}
+
+.tcs-loading-banner {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #c7d2fe;
+  background: rgba(99, 102, 241, 0.18);
+  border: 1px solid rgba(129, 140, 248, 0.35);
+}
+
+.tcs-segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tcs-seg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tcs-seg-btn:hover {
+  border-color: rgba(148, 163, 184, 0.45);
+  color: #ffffff;
+}
+
+.tcs-seg-btn.is-active {
+  color: #ffffff;
+  background: rgba(99, 102, 241, 0.28);
+  border-color: #818cf8;
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.22);
+}
+
+.tcs-helper-note {
+  margin: 0;
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.bcs-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bcs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tcs-field-full {
+  grid-column: 1 / -1;
+}
+
+.bcs-field span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.bcs-field input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0b1220;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: #f8fafc;
+  font-size: 12.5px;
+}
+
+.bcs-field input:focus {
+  outline: none;
+  border-color: #818cf8;
+}
+
+.bcs-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.bcs-btn-copy,
+.bcs-btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.bcs-btn-copy:disabled,
+.bcs-btn-download:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.bcs-btn-copy {
+  color: #e2e8f0;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+}
+
+.bcs-btn-copy:hover:not(:disabled) {
+  background: rgba(51, 65, 85, 0.95);
+  color: #ffffff;
+}
+
+.bcs-btn-download {
+  color: #ffffff;
+  background: linear-gradient(135deg, #6366f1, #38bdf8);
+  border: 1px solid rgba(129, 140, 248, 0.55);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.32);
+}
+
+.bcs-btn-download:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.team-export-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
 
 

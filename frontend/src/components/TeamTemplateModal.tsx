@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { X, ArrowRight, CheckCircle2, UserX, RefreshCw } from 'lucide-react'
+import { X, ArrowRight, CheckCircle2, UserX, RefreshCw, Share2 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
 import { useRoster } from '../utils/roster'
+import TeamCardStudioModal from './TeamCardStudioModal'
 import type { TeamTemplateDetail, CharacterSummary, BuildPreset } from '../types'
 
 interface Props {
@@ -21,6 +22,7 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
   const [presets, setPresets] = useState<Map<string, BuildPreset[]>>(new Map())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [showStudio, setShowStudio] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -197,7 +199,15 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
               })}
             </div>
 
-            <div className="template-modal-footer">
+            <div className="template-modal-footer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => setShowStudio(true)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
+                <Share2 size={15} /> Compartilhar Time (PNG)
+              </button>
               <Link to={`/teams/new?template_id=${template.id}`} className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                 Usar este time no Builder <ArrowRight size={16} />
               </Link>
@@ -205,6 +215,30 @@ export default function TeamTemplateModal({ templateId, chars, onClose }: Props)
           </>
         )}
       </div>
+
+      {showStudio && template && arch && (
+        <TeamCardStudioModal
+          teamName={template.name}
+          description={template.description}
+          archetypeLabel={arch.label}
+          synergyScore={template.analysis?.score ?? null}
+          reactions={template.analysis?.reactions?.map((r) => r.name) ?? []}
+          members={template.character_slugs
+            .map((slug, idx) => {
+              const c = chars.get(slug)
+              if (!c) return null
+              const preset = (presets.get(slug) ?? [])[0]
+              return {
+                position: idx + 1,
+                character: c,
+                role: template.analysis?.roles?.find((r) => r.slug === slug)?.role ?? null,
+                guideBuild: preset?.build_data ?? null,
+              }
+            })
+            .filter((x): x is NonNullable<typeof x> => Boolean(x))}
+          onClose={() => setShowStudio(false)}
+        />
+      )}
     </div>
   )
 }
