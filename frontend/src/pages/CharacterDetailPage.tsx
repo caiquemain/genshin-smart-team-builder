@@ -322,8 +322,8 @@ export default function CharacterDetailPage() {
     return [
       { id: 'visao-geral', label: 'Visão Geral' },
       effectiveGoodState && { id: 'minha-build', label: 'Minha Build' },
-      { id: 'estatisticas-comunidade', label: 'Comunidade (40k)' },
       kqmBuild && { id: 'kqm-build', label: 'Build Recomendada' },
+      { id: 'estatisticas-comunidade', label: 'Comunidade (40k)' },
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
       char.constellations.length > 0 && { id: 'constelacoes', label: 'Constelações' },
@@ -521,12 +521,6 @@ export default function CharacterDetailPage() {
             />
           )}
 
-          <CharacterCommunityStatsPanel
-            slug={char.slug}
-            characterDetail={char}
-            userStats={effectiveGoodState ? equippedStats : null}
-          />
-
           {kqmBuild && (
             <section id="kqm-build" className="char-section-anchor">
               <h2>Build Recomendada</h2>
@@ -657,6 +651,12 @@ export default function CharacterDetailPage() {
               </div>
             </section>
           )}
+
+          <CharacterCommunityStatsPanel
+            slug={char.slug}
+            characterDetail={char}
+            userStats={effectiveGoodState ? equippedStats : null}
+          />
 
           {char.talents.length > 0 && (
             <section id="talentos-info" className="talents-v2-section char-section-anchor">

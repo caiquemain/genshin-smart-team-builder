@@ -99,47 +99,22 @@ SKIP_SLUGS = {
 # Placeholders do KQM tipo "Core Dendro", "Secondary Hydro"
 PLACEHOLDER_PATTERN = re.compile(r'^(?:core|secondary)-')
 
-# Regras de detecção de arquétipo (ordem importa: mais específico primeiro)
-ARCHETYPE_RULES = [
-    # (archetype, required_in_team, forbidden_in_team)
-    ("hyperbloom",  {"nahida", "kuki-shinobu"}, set()),
-    ("hyperbloom",  {"nahida", "raiden-shogun", "xingqiu"}, set()),
-    ("bloom",       {"nilou"}, set()),
-    ("burgeon",     {"kinich"}, set()),
-    ("burgeon",     {"emilie", "xiangling", "bennett"}, set()),
-    ("aggravate",   {"fischl"}, {"nahida", "alhaitham", "tighnari"}),
-    ("spread",      {"nahida"}, {"nilou", "kuki-shinobu"}),
-    ("overload",    {"chevreuse"}, set()),
-    ("melt",        {"xiangling", "bennett"}, {"yelan", "xingqiu", "furina", "tartaglia"}),
-    ("melt",        {"nahida", "bennett", "thoma"}, set()),
-    ("freeze",      {"skirk"}, set()),
-    ("freeze",      {"kamisato-ayaka"}, set()),
-    ("freeze",      {"wriothesley", "furina"}, set()),
-    ("freeze",      {"shenhe", "kaedehara-kazuha", "sangonomiya-kokomi"}, set()),
-    ("superconduct", {"eula", "raiden-shogun"}, set()),
-    ("hypercarry",  {"eula", "bennett"}, set()),
-    ("hypercarry",  {"arataki-itto", "gorou"}, set()),
-    ("hypercarry",  {"navia", "zhongli"}, set()),
-    ("hypercarry",  {"neuvillette", "furina"}, set()),
-    ("hypercarry",  {"wanderer", "faruzan"}, set()),
-    ("hypercarry",  {"xiao", "faruzan"}, set()),
-    ("national",    {"tartaglia", "xiangling", "bennett"}, set()),
-    ("national",    {"xiangling", "bennett"}, set()),
-    ("vaporize",    {"hu-tao", "yelan"}, set()),
-    ("vaporize",    {"arlecchino"}, set()),
-    ("vaporize",    {"yoimiya", "xingqiu"}, set()),
-    ("vaporize",    {"mualani", "xiangling"}, set()),
-    ("vaporize",    {"klee", "bennett"}, set()),
-    ("vaporize",    {"diluc", "xingqiu"}, set()),
-]
+from app.services.archetype_classifier import classify_team_archetype
 
 
-def detect_archetype(character_slugs: list[str]) -> str:
-    team = set(character_slugs)
-    for archetype, required, forbidden in ARCHETYPE_RULES:
-        if required.issubset(team) and not (forbidden & team):
-            return archetype
-    return "unknown"
+def detect_archetype(
+    character_slugs: list[str],
+    elements_by_slug: dict[str, str] | None = None,
+    *,
+    main_character: str | None = None,
+    team_name: str | None = None,
+) -> str:
+    return classify_team_archetype(
+        character_slugs,
+        elements_by_slug,
+        main_character=main_character,
+        team_name=team_name,
+    )
 
 
 def normalize_slug(slug: str) -> str:
@@ -564,6 +539,10 @@ def import_teams(
     from app.services.substitutes import compute_slot_substitutes_for_slugs
 
     imported = 0
+    elements_by_slug = {
+        c.slug: (c.element.value if hasattr(c.element, "value") else str(c.element)).lower()
+        for c in db.query(Character).all()
+    }
     if existing_by_canonical is None or existing_names is None:
         loaded_canon, loaded_names = _load_template_caches(db)
         if existing_by_canonical is None:
@@ -608,7 +587,12 @@ def import_teams(
                 dup.source_url = source_url
                 dup.character_slugs = valid
                 dup.main_character = valid[0]
-                dup.archetype = detect_archetype(valid)
+                dup.archetype = detect_archetype(
+                    valid,
+                    elements_by_slug,
+                    main_character=valid[0],
+                    team_name=t.get("raw_line"),
+                )
                 if t.get("description"):
                     dup.description = t["description"]
                 new_name = (t.get("raw_line") or "")[:150]
@@ -621,13 +605,25 @@ def import_teams(
                 dup.slot_substitutes = _merge_slot_substitutes(dup.slot_substitutes, slot_subs_json)
                 if not dup.description and t.get("description"):
                     dup.description = t["description"]
+                if not dup.archetype or dup.archetype == "unknown":
+                    dup.archetype = detect_archetype(
+                        list(dup.character_slugs or valid),
+                        elements_by_slug,
+                        main_character=dup.main_character or valid[0],
+                        team_name=dup.name,
+                    )
             continue
 
         name = t["raw_line"][:150]
         if name in existing_names:
             continue
 
-        archetype = detect_archetype(valid)
+        archetype = detect_archetype(
+            valid,
+            elements_by_slug,
+            main_character=valid[0],
+            team_name=name,
+        )
         tpl = TeamTemplate(
             name=name,
             main_character=valid[0],
