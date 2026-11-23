@@ -4,8 +4,8 @@ import {
   Award,
   BarChart3,
   Crown,
+  Database,
   Gem,
-  RefreshCw,
   Search,
   Sparkles,
   Swords,
@@ -24,35 +24,34 @@ export default function CommunityStatsPage() {
   const { lang } = useLanguage()
   const [data, setData] = useState<CommunityStatsResponse | null>(null)
   const [loading, setLoading] = useState(true)
-  const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [rankTab, setRankTab] = useState<RankingTab>('popular')
   const [charSearch, setCharSearch] = useState('')
   const [selectedSlug, setSelectedSlug] = useState<string>('')
 
-  const loadStats = (forceRefresh = false) => {
-    if (forceRefresh) setRefreshing(true)
-    else setLoading(true)
+  useEffect(() => {
+    let active = true
+    setLoading(true)
     setError(null)
     api
-      .getCommunityStats(lang, forceRefresh)
+      .getCommunityStats(lang)
       .then((res) => {
+        if (!active) return
         setData(res)
-        if (!selectedSlug) {
-          const first = res.rankings.top_popular[0]?.slug ?? Object.keys(res.characters)[0] ?? ''
-          setSelectedSlug(first)
-        }
+        setSelectedSlug((prev) => {
+          if (prev && res.characters[prev]) return prev
+          return res.rankings.top_popular[0]?.slug ?? Object.keys(res.characters)[0] ?? ''
+        })
       })
-      .catch((err) => setError(String(err)))
+      .catch((err) => {
+        if (active) setError(String(err))
+      })
       .finally(() => {
-        setLoading(false)
-        setRefreshing(false)
+        if (active) setLoading(false)
       })
-  }
-
-  useEffect(() => {
-    loadStats(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      active = false
+    }
   }, [lang])
 
   const sortedChars = useMemo(() => {
@@ -86,16 +85,12 @@ export default function CommunityStatsPage() {
           </p>
         </div>
 
-        <button
-          type="button"
-          className="btn-secondary"
-          onClick={() => loadStats(true)}
-          disabled={refreshing || loading}
-          title="Consulta https://paimon.plus/api/statistics e atualiza o snapshot local"
-        >
-          <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />
-          {refreshing ? 'Atualizando...' : 'Atualizar do Paimon.plus'}
-        </button>
+        {formattedDate && (
+          <div className="cs-snapshot-badge" title="Snapshot local atualizado periodicamente pelo servidor">
+            <Database size={14} />
+            <span>Snapshot · {formattedDate}</span>
+          </div>
+        )}
       </div>
 
       {error && <div className="error-box">{error}</div>}

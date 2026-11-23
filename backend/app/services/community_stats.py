@@ -14,6 +14,7 @@ from __future__ import annotations
 from collections import defaultdict
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 import time
 from typing import Any, Optional
@@ -45,8 +46,8 @@ SNAPSHOT_PATH = (
     / "statistics.json"
 )
 
-# Cache em memória por idioma: lang -> (expires_at, payload)
-_parsed_cache: dict[str, tuple[float, dict[str, Any]]] = {}
+# Cache em memória por idioma: lang -> (snapshot_mtime_ns, expires_at, payload)
+_parsed_cache: dict[str, tuple[int, float, dict[str, Any]]] = {}
 _yatta_avatar_cache: tuple[float, dict[str, dict[str, Any]]] = (0.0, {})
 CACHE_TTL_SECONDS = 3600.0
 
@@ -67,7 +68,10 @@ def invalidate_community_stats_cache() -> None:
 
 
 def fetch_and_save_paimon_snapshot(dest: Path = SNAPSHOT_PATH) -> dict[str, Any]:
-    """Baixa o snapshot mais recente de `https://paimon.plus/api/statistics` e salva em disco."""
+    """Baixa o snapshot mais recente de `https://paimon.plus/api/statistics` e salva em disco.
+
+    Uso exclusivo via CLI (`python -m app.scripts.sync_paimon_stats`) — nunca chamado por rotas HTTP públicas.
+    """
     try:
         with httpx.Client(timeout=20.0, headers={"User-Agent": USER_AGENT}) as client:
             res = client.get(PAIMON_STATS_URL)
@@ -91,18 +95,34 @@ def fetch_and_save_paimon_snapshot(dest: Path = SNAPSHOT_PATH) -> dict[str, Any]
         raise HTTPException(status_code=502, detail="Formato inesperado retornado pelo Paimon.plus.")
 
     dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    tmp_path = dest.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    os.replace(tmp_path, dest)
     invalidate_community_stats_cache()
     return data
 
 
-def _load_raw_snapshot(force_refresh: bool = False) -> dict[str, Any]:
-    if force_refresh or not SNAPSHOT_PATH.is_file():
-        return fetch_and_save_paimon_snapshot(SNAPSHOT_PATH)
+def _load_raw_snapshot(snapshot_path: Path = SNAPSHOT_PATH) -> tuple[int, dict[str, Any]]:
+    """Lê exclusivamente o snapshot local em disco (jamais consulta a API externa em requisições públicas)."""
+    if not snapshot_path.is_file():
+        raise HTTPException(
+            status_code=503,
+            detail="Snapshot de estatísticas comunitárias indisponível no servidor.",
+        )
     try:
-        return json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        return fetch_and_save_paimon_snapshot(SNAPSHOT_PATH)
+        mtime_ns = snapshot_path.stat().st_mtime_ns
+        data = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        raise HTTPException(
+            status_code=503,
+            detail="Snapshot de estatísticas comunitárias corrompido ou ilegível.",
+        )
+    if not isinstance(data, dict) or "avatarInfoList" not in data:
+        raise HTTPException(
+            status_code=503,
+            detail="Snapshot de estatísticas comunitárias em formato inválido.",
+        )
+    return mtime_ns, data
 
 
 def _fetch_yatta_avatar_fallback() -> dict[str, dict[str, Any]]:
@@ -403,18 +423,25 @@ def _build_db_lookups(db: Session, lang: Language):
 def get_community_stats(
     db: Session,
     lang: Language = Language.PT,
-    *,
-    force_refresh: bool = False,
 ) -> dict[str, Any]:
-    """Retorna o relatório estatístico completo da comunidade (cacheado por idioma)."""
+    """Retorna o relatório estatístico completo da comunidade (cacheado por idioma e mtime do snapshot)."""
     lang_key = lang.value if hasattr(lang, "value") else str(lang)
     now = time.time()
-    if not force_refresh and lang_key in _parsed_cache:
-        exp, cached = _parsed_cache[lang_key]
-        if now < exp:
+
+    try:
+        current_mtime_ns = SNAPSHOT_PATH.stat().st_mtime_ns
+    except OSError:
+        raise HTTPException(
+            status_code=503,
+            detail="Snapshot de estatísticas comunitárias indisponível no servidor.",
+        )
+
+    if lang_key in _parsed_cache:
+        cached_mtime_ns, exp, cached = _parsed_cache[lang_key]
+        if cached_mtime_ns == current_mtime_ns and now < exp:
             return cached
 
-    raw = _load_raw_snapshot(force_refresh=force_refresh)
+    snapshot_mtime_ns, raw = _load_raw_snapshot()
     player_info = raw.get("playerInfo") or {}
     census = parse_player_census(player_info)
     total_players = census["total_players"] or 40000
@@ -586,7 +613,7 @@ def get_community_stats(
         "characters": characters_by_slug,
     }
 
-    _parsed_cache[lang_key] = (now + CACHE_TTL_SECONDS, payload)
+    _parsed_cache[lang_key] = (snapshot_mtime_ns, now + CACHE_TTL_SECONDS, payload)
     return payload
 
 
