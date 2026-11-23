@@ -23,7 +23,14 @@ import httpx
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from ..models import ArtifactSet, ArtifactSetTranslation, Character, Language, Weapon
+from ..models import (
+    ArtifactSet,
+    ArtifactSetTranslation,
+    Character,
+    CharacterTranslation,
+    Language,
+    Weapon,
+)
 from ..models.weapon import WeaponTranslation
 from .enka import (
     TRAVELER_AVATAR_IDS,
@@ -32,7 +39,6 @@ from .enka import (
     _resolve_db_char,
     _side_icon_to_avatar_icon,
 )
-from .i18n import resolve_character
 
 PAIMON_STATS_URL = "https://paimon.plus/api/statistics"
 YATTA_AVATAR_LIST_URL = "https://gi.yatta.moe/api/v2/en/avatar"
@@ -368,11 +374,16 @@ def parse_avatar_stats_entry(
 
 
 def _build_db_lookups(db: Session, lang: Language):
-    # Personagens
+    # Personagens (1 query em lote para traduções em vez de N+1)
+    c_trans: dict[int, str] = {}
+    if lang != Language.EN:
+        for ct in db.query(CharacterTranslation).filter(CharacterTranslation.language == lang).all():
+            c_trans[ct.character_id] = ct.name
+
     chars_by_icon: dict[str, DbCharRef] = {}
     chars_by_slug: dict[str, DbCharRef] = {}
     for ch in db.query(Character).all():
-        t_name, _, _ = resolve_character(db, ch, lang)
+        t_name = c_trans.get(ch.id, ch.name)
         ref = DbCharRef(
             slug=ch.slug,
             name=t_name,

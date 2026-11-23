@@ -106,3 +106,125 @@ def test_sync_cli_skips_when_snapshot_is_recent(tmp_path, monkeypatch):
     assert rc == 0
     assert not called
 
+
+def test_http_community_stats_endpoints_end_to_end(monkeypatch):
+    """Testa ponta a ponta GET /community-stats, GET /community-stats/character/{slug} e 404 em /refresh."""
+    from types import SimpleNamespace
+    from fastapi.testclient import TestClient
+    from app.database import get_db
+    from app.main import app
+    from app.models import (
+        ArtifactSet,
+        ArtifactSetTranslation,
+        Character,
+        CharacterTranslation,
+        Element,
+        Weapon,
+        WeaponTranslation,
+    )
+
+    sample_tables = {
+        Character: [
+            SimpleNamespace(
+                id=1,
+                slug="kamisato-ayaka",
+                name="Kamisato Ayaka",
+                icon="UI_AvatarIcon_Ayaka",
+                rarity=5,
+                element=Element.CRYO,
+            )
+        ],
+        CharacterTranslation: [
+            SimpleNamespace(character_id=1, name="Kamisato Ayaka (PT)")
+        ],
+        Weapon: [
+            SimpleNamespace(
+                id=10,
+                ambr_id=11509,
+                slug="mistsplitter-reforged",
+                name="Mistsplitter Reforged",
+                icon="UI_EquipIcon_Sword_Narukami",
+                rarity=5,
+            )
+        ],
+        WeaponTranslation: [
+            SimpleNamespace(weapon_id=10, name="Cortadora da Neblina Reforjada")
+        ],
+        ArtifactSet: [
+            SimpleNamespace(
+                id=20,
+                ambr_id=14001,
+                slug="blizzard-strayer",
+                name="Blizzard Strayer",
+                icon="UI_RelicIcon_14001_4",
+            )
+        ],
+        ArtifactSetTranslation: [
+            SimpleNamespace(artifact_set_id=20, name="Herói Invernal")
+        ],
+    }
+
+    class _FakeQuery:
+        def __init__(self, rows):
+            self._rows = rows
+
+        def filter(self, *args, **kwargs):
+            return self
+
+        def all(self):
+            return self._rows
+
+    class _FakeSession:
+        def query(self, model):
+            return _FakeQuery(sample_tables.get(model, []))
+
+    monkeypatch.setattr(
+        community_stats_service,
+        "_fetch_enka_char_store",
+        lambda: {
+            "10000002": {
+                "SideIconName": "UI_AvatarIcon_Side_Ayaka",
+                "SkillOrder": [10024, 10018, 10019],
+            }
+        },
+    )
+    monkeypatch.setattr(community_stats_service, "_fetch_yatta_avatar_fallback", lambda: {})
+    community_stats_service.invalidate_community_stats_cache()
+
+    def _override_db():
+        yield _FakeSession()
+
+    app.dependency_overrides[get_db] = _override_db
+    try:
+        client = TestClient(app)
+
+        res = client.get("/community-stats?lang=pt")
+        assert res.status_code == 200, res.text
+        body = res.json()
+        assert body["source"] == "Paimon.plus"
+        assert body["census"]["total_players"] == 40000
+        assert body["total_characters"] == 1
+        assert "kamisato-ayaka" in body["characters"]
+        ayaka = body["characters"]["kamisato-ayaka"]
+        assert ayaka["name"] == "Kamisato Ayaka (PT)"
+        assert ayaka["count"] == 3250
+        assert any(w["name"] == "Cortadora da Neblina Reforjada" for w in ayaka["weapons"])
+        assert any(
+            any(part["name"] == "Herói Invernal" for part in combo["sets"])
+            for combo in ayaka["artifact_sets"]
+        )
+
+        res_char = client.get("/community-stats/character/kamisato-ayaka?lang=pt")
+        assert res_char.status_code == 200, res_char.text
+        assert res_char.json()["character"]["slug"] == "kamisato-ayaka"
+
+        res_404 = client.get("/community-stats/character/nao-existe?lang=pt")
+        assert res_404.status_code == 404
+
+        res_refresh = client.post("/community-stats/refresh")
+        assert res_refresh.status_code == 404
+    finally:
+        app.dependency_overrides.pop(get_db, None)
+        community_stats_service.invalidate_community_stats_cache()
+
+
