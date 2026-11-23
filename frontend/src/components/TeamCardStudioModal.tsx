@@ -1,22 +1,29 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
+  BookOpen,
   Check,
   Columns4,
   Copy,
   Download,
+  ImagePlus,
   LayoutGrid,
+  RotateCcw,
   Sparkles,
+  Upload,
   UserCheck,
-  BookOpen,
   X,
 } from 'lucide-react'
 import { api } from '../api/client'
+import { iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import { getSavedEnkaUid } from '../utils/planner-storage'
 import { useRoster } from '../utils/roster'
 import {
   BUILD_CARD_THEMES,
+  clearCustomArt,
   loadCardPrefs,
+  loadSavedCustomArt,
+  processUploadedCharacterImage,
   saveCardPrefs,
   type BuildCardTheme,
 } from '../utils/build-card-png'
@@ -32,6 +39,8 @@ import {
   copyTeamCardToClipboard,
   downloadTeamCardPng,
   renderTeamCardToCanvas,
+  type MemberArtOverride,
+  type MemberTalentIcons,
   type TeamCardData,
   type TeamCardLayout,
   type TeamCardMemberInput,
@@ -93,17 +102,19 @@ export default function TeamCardStudioModal({
   const { lang } = useLanguage()
   const roster = useRoster()
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const teamMembers = useMemo(() => members.slice(0, 4), [members])
   const initialPrefs = useMemo(() => loadCardPrefs(), [])
 
   // Conta quantos membros do time possuem build real importada (Enka/GOOD)
   const importedCount = useMemo(
     () =>
-      members.filter((m) => {
+      teamMembers.filter((m) => {
         const gs = roster.getGoodState(m.character.slug)
         return Boolean(gs && (gs.artifacts.length > 0 || gs.weaponSlug))
       }).length,
-    [members, roster],
+    [teamMembers, roster],
   )
 
   const [sourceMode, setSourceMode] = useState<TeamCardSourceMode>(() =>
@@ -119,32 +130,73 @@ export default function TeamCardStudioModal({
   const [showMeta, setShowMeta] = useState(true)
   const [showNotes, setShowNotes] = useState(() => Boolean(description && description.trim()))
 
+  // Arte personalizada + enquadramento (zoom/pan) individual por personagem
+  const [selectedArtSlug, setSelectedArtSlug] = useState<string>(
+    () => teamMembers[0]?.character.slug ?? '',
+  )
+  const [artOverrides, setArtOverrides] = useState<Record<string, MemberArtOverride>>(() => {
+    const initial: Record<string, MemberArtOverride> = {}
+    for (const m of teamMembers) {
+      const saved = loadSavedCustomArt(m.character.slug)
+      initial[m.character.slug] = {
+        customImageUrl: saved,
+        scale: 1.0,
+        offsetX: 0,
+        offsetY: 0,
+      }
+    }
+    return initial
+  })
+  const [isDraggingFile, setIsDraggingFile] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+
   const [statsDataset, setStatsDataset] = useState<CharacterStatsDataset | null>(null)
   const [allWeapons, setAllWeapons] = useState<WeaponSummary[]>([])
   const [allArtifacts, setAllArtifacts] = useState<ArtifactSetSummary[]>([])
+  const [talentIconsBySlug, setTalentIconsBySlug] = useState<Record<string, MemberTalentIcons>>({})
   const [assetsReady, setAssetsReady] = useState(false)
 
   const [downloading, setDownloading] = useState(false)
   const [copyState, setCopyState] = useState<'idle' | 'copying' | 'copied' | 'unsupported'>('idle')
 
-  // Carrega catálogos para resolver armas, sets e stats reais de todos os 4 membros
+  // Carrega catálogos e ícones reais de talentos de todos os 4 membros
   useEffect(() => {
     let active = true
     Promise.all([
       loadCharacterStatsDataset(),
       api.listWeapons(lang, { limit: 350 }).then((r) => r.items).catch(() => [] as WeaponSummary[]),
       api.listArtifacts(lang, { limit: 200 }).then((r) => r.items).catch(() => [] as ArtifactSetSummary[]),
-    ]).then(([ds, wList, aList]) => {
+      Promise.all(
+        teamMembers.map((m) =>
+          api
+            .getCharacter(m.character.slug, lang)
+            .then((detail) => ({
+              slug: m.character.slug,
+              icons: {
+                na: detail.talents?.find((t) => t.talent_type === 'normal_attack')?.icon ?? null,
+                es: detail.talents?.find((t) => t.talent_type === 'elemental_skill')?.icon ?? null,
+                eb: detail.talents?.find((t) => t.talent_type === 'elemental_burst')?.icon ?? null,
+              },
+            }))
+            .catch(() => ({ slug: m.character.slug, icons: {} })),
+        ),
+      ),
+    ]).then(([ds, wList, aList, talList]) => {
       if (!active) return
       setStatsDataset(ds)
       setAllWeapons(wList)
       setAllArtifacts(aList)
+      const tMap: Record<string, MemberTalentIcons> = {}
+      for (const item of talList) {
+        tMap[item.slug] = item.icons
+      }
+      setTalentIconsBySlug(tMap)
       setAssetsReady(true)
     })
     return () => {
       active = false
     }
-  }, [lang])
+  }, [lang, teamMembers])
 
   // Fecha no ESC
   useEffect(() => {
@@ -186,7 +238,7 @@ export default function TeamCardStudioModal({
   )
 
   const enrichedMembers: TeamCardMemberInput[] = useMemo(() => {
-    return members.slice(0, 4).map((m) => {
+    return teamMembers.map((m) => {
       let accountStats: ComputedCharStats | null = null
       const gs = roster.getGoodState(m.character.slug)
       if (gs && statsDataset) {
@@ -205,9 +257,10 @@ export default function TeamCardStudioModal({
         role: m.role,
         guideBuild: m.guideBuild,
         accountStats,
+        talentIcons: talentIconsBySlug[m.character.slug],
       }
     })
-  }, [members, roster, statsDataset, normWeaponLookup, normArtifactLookup])
+  }, [teamMembers, roster, statsDataset, normWeaponLookup, normArtifactLookup, talentIconsBySlug])
 
   const cardData: TeamCardData = useMemo(
     () => ({
@@ -246,8 +299,21 @@ export default function TeamCardStudioModal({
       showUid,
       showMeta,
       showNotes,
+      artOverrides,
     }),
-    [layout, sourceMode, theme, customTitle, customNotes, nickname, uid, showUid, showMeta, showNotes],
+    [
+      layout,
+      sourceMode,
+      theme,
+      customTitle,
+      customNotes,
+      nickname,
+      uid,
+      showUid,
+      showMeta,
+      showNotes,
+      artOverrides,
+    ],
   )
 
   // Re-renderiza o preview HD ao vivo
@@ -264,6 +330,58 @@ export default function TeamCardStudioModal({
       window.clearTimeout(timer)
     }
   }, [cardData, cardOptions, assetsReady])
+
+  const activeArtSlug = selectedArtSlug || teamMembers[0]?.character.slug || ''
+  const activeArtMember = teamMembers.find((m) => m.character.slug === activeArtSlug) ?? teamMembers[0]
+  const activeArtOverride = artOverrides[activeArtSlug] ?? {
+    customImageUrl: null,
+    scale: 1.0,
+    offsetX: 0,
+    offsetY: 0,
+  }
+
+  const updateActiveOverride = (patch: Partial<MemberArtOverride>) => {
+    if (!activeArtSlug) return
+    setArtOverrides((prev) => ({
+      ...prev,
+      [activeArtSlug]: {
+        ...(prev[activeArtSlug] ?? { customImageUrl: null, scale: 1.0, offsetX: 0, offsetY: 0 }),
+        ...patch,
+      },
+    }))
+  }
+
+  const handleImageFile = async (file: File | null | undefined) => {
+    if (!file || !activeArtSlug) return
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Envie um arquivo de imagem válido (PNG, JPG, WebP ou GIF).')
+      return
+    }
+    setUploadError(null)
+    try {
+      const dataUrl = await processUploadedCharacterImage(file, activeArtSlug)
+      updateActiveOverride({
+        customImageUrl: dataUrl,
+        scale: 1.0,
+        offsetX: 0,
+        offsetY: 0,
+      })
+    } catch {
+      setUploadError('Não foi possível carregar essa imagem.')
+    }
+  }
+
+  const handleResetActiveArt = () => {
+    if (!activeArtSlug) return
+    clearCustomArt(activeArtSlug)
+    setUploadError(null)
+    updateActiveOverride({
+      customImageUrl: null,
+      scale: 1.0,
+      offsetX: 0,
+      offsetY: 0,
+    })
+  }
 
   const handleDownload = async () => {
     setDownloading(true)
@@ -292,7 +410,7 @@ export default function TeamCardStudioModal({
             <div>
               <h2>Estúdio de Card do Time (HD)</h2>
               <p>
-                Compartilhe o time completo com as builds dos 4 personagens em alta definição (2x Retina)
+                Personalize a imagem de cada personagem, tema, layout e exporte em 2x Retina HD
               </p>
             </div>
           </div>
@@ -305,7 +423,7 @@ export default function TeamCardStudioModal({
           {/* Preview ao vivo */}
           <div className="bcs-preview-wrap tcs-preview-wrap">
             {!assetsReady && (
-              <div className="tcs-loading-banner">Carregando dados e ícones do time...</div>
+              <div className="tcs-loading-banner">Carregando artes, talentos e ícones do time...</div>
             )}
             <canvas
               ref={canvasRef}
@@ -313,13 +431,142 @@ export default function TeamCardStudioModal({
             />
             <div className="bcs-preview-hint">
               <span>
-                Dica: clique em <strong>Copiar Imagem</strong> e dê <strong>Ctrl+V</strong> direto no Discord ou WhatsApp!
+                Dica: selecione qualquer personagem ao lado para enviar uma arte/fanart própria e ajustar zoom e posição!
               </span>
             </div>
           </div>
 
           {/* Painel de personalização */}
           <div className="bcs-controls">
+            {/* Trocar e enquadrar imagem de cada personagem */}
+            <div className="bcs-section">
+              <div className="bcs-section-title">
+                <ImagePlus size={13} /> Imagens dos Personagens
+              </div>
+
+              <div className="tcs-member-tabs">
+                {teamMembers.map((m) => {
+                  const slug = m.character.slug
+                  const isActive = slug === activeArtSlug
+                  const hasCustom = Boolean(artOverrides[slug]?.customImageUrl)
+                  const av = iconUrl(m.character.icon)
+                  return (
+                    <button
+                      key={slug}
+                      type="button"
+                      className={`tcs-member-tab ${isActive ? 'is-active' : ''}`}
+                      onClick={() => {
+                        setSelectedArtSlug(slug)
+                        setUploadError(null)
+                      }}
+                      title={`Personalizar arte de ${m.character.name}`}
+                    >
+                      <span className="tcs-member-tab-av">
+                        {av ? <img src={av} alt={m.character.name} /> : <span>{m.position}</span>}
+                        {hasCustom && <span className="tcs-custom-dot" title="Arte customizada ativa" />}
+                      </span>
+                      <span className="tcs-member-tab-name">{m.character.name}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {activeArtMember && (
+                <div
+                  className={`tcs-art-box ${isDraggingFile ? 'is-drag' : ''}`}
+                  onDragOver={(e) => {
+                    e.preventDefault()
+                    setIsDraggingFile(true)
+                  }}
+                  onDragLeave={() => setIsDraggingFile(false)}
+                  onDrop={(e) => {
+                    e.preventDefault()
+                    setIsDraggingFile(false)
+                    handleImageFile(e.dataTransfer.files?.[0])
+                  }}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      handleImageFile(e.target.files?.[0])
+                      e.target.value = ''
+                    }}
+                  />
+                  <div className="tcs-art-actions">
+                    <button
+                      type="button"
+                      className="bcs-upload-btn"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Upload size={13} />
+                      <span>
+                        {activeArtOverride.customImageUrl
+                          ? `Trocar arte (${activeArtMember.character.name})`
+                          : `Enviar imagem (${activeArtMember.character.name})`}
+                      </span>
+                    </button>
+                    {(activeArtOverride.customImageUrl ||
+                      (activeArtOverride.scale ?? 1) !== 1 ||
+                      (activeArtOverride.offsetX ?? 0) !== 0 ||
+                      (activeArtOverride.offsetY ?? 0) !== 0) && (
+                      <button
+                        type="button"
+                        className="bcs-link-btn"
+                        onClick={handleResetActiveArt}
+                        title="Voltar para a splash art oficial"
+                      >
+                        <RotateCcw size={12} /> Padrão
+                      </button>
+                    )}
+                  </div>
+
+                  {uploadError && <div className="bcs-error">{uploadError}</div>}
+
+                  <div className="bcs-sliders">
+                    <label className="bcs-slider-row">
+                      <span>Zoom</span>
+                      <input
+                        type="range"
+                        min={0.7}
+                        max={2.2}
+                        step={0.02}
+                        value={activeArtOverride.scale ?? 1.0}
+                        onChange={(e) => updateActiveOverride({ scale: Number(e.target.value) })}
+                      />
+                      <strong>{Math.round((activeArtOverride.scale ?? 1.0) * 100)}%</strong>
+                    </label>
+                    <label className="bcs-slider-row">
+                      <span>Pos. X</span>
+                      <input
+                        type="range"
+                        min={-100}
+                        max={100}
+                        step={1}
+                        value={activeArtOverride.offsetX ?? 0}
+                        onChange={(e) => updateActiveOverride({ offsetX: Number(e.target.value) })}
+                      />
+                      <strong>{activeArtOverride.offsetX ?? 0}%</strong>
+                    </label>
+                    <label className="bcs-slider-row">
+                      <span>Pos. Y</span>
+                      <input
+                        type="range"
+                        min={-100}
+                        max={100}
+                        step={1}
+                        value={activeArtOverride.offsetY ?? 0}
+                        onChange={(e) => updateActiveOverride({ offsetY: Number(e.target.value) })}
+                      />
+                      <strong>{activeArtOverride.offsetY ?? 0}%</strong>
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Fonte das Builds */}
             <div className="bcs-section">
               <div className="bcs-section-title">Fonte das Builds</div>
@@ -330,7 +577,7 @@ export default function TeamCardStudioModal({
                   onClick={() => setSourceMode('account')}
                 >
                   <UserCheck size={14} />
-                  <span>Minha Conta ({importedCount}/{members.length})</span>
+                  <span>Minha Conta ({importedCount}/{teamMembers.length})</span>
                 </button>
                 <button
                   type="button"
@@ -341,9 +588,9 @@ export default function TeamCardStudioModal({
                   <span>Build do Time</span>
                 </button>
               </div>
-              {sourceMode === 'account' && importedCount < members.length && (
+              {sourceMode === 'account' && importedCount < teamMembers.length && (
                 <p className="tcs-helper-note">
-                  Personagens sem build importada no Roster usam automaticamente a Build do Time como fallback.
+                  Personagens sem build importada usam automaticamente a Build do Time como fallback.
                 </p>
               )}
             </div>
