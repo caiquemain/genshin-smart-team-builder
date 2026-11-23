@@ -15,7 +15,7 @@ import CharacterCommunityStatsPanel from '../components/CharacterCommunityStatsP
 import type { ComputedCharStats } from '../utils/char-stats-calc'
 import { archetypeInfo } from '../utils/archetypes'
 import { useRoster } from '../utils/roster'
-import { CheckCircle2, XCircle, RotateCcw, Pencil } from 'lucide-react'
+import { CheckCircle2, XCircle, RotateCcw, Pencil, ChevronDown, ChevronUp, Search, Users } from 'lucide-react'
 
 const TALENT_LABELS: Record<string, string> = {
   normal_attack: 'Ataque Normal',
@@ -171,6 +171,10 @@ export default function CharacterDetailPage() {
   const [kqmWeaponsInfo, setKqmWeaponsInfo] = useState<Map<string, WeaponSummary>>(new Map())
   const [kqmArtifactsInfo, setKqmArtifactsInfo] = useState<Map<string, ArtifactSetSummary>>(new Map())
   const [characterTeams, setCharacterTeams] = useState<TeamTemplateSummary[]>([])
+  const [teamsOpen, setTeamsOpen] = useState(false)
+  const [teamSearch, setTeamSearch] = useState('')
+  const [teamArchFilter, setTeamArchFilter] = useState<string>('all')
+  const [teamsVisibleCount, setTeamsVisibleCount] = useState<number>(12)
   const [allChars, setAllChars] = useState<Map<string, any>>(new Map())
   const roster = useRoster()
   const [showRosterEditor, setShowRosterEditor] = useState(false)
@@ -179,6 +183,7 @@ export default function CharacterDetailPage() {
   useEffect(() => {
     if (!slug) return
     setChar(null); setError(null); setKqmBuild(null); setEquippedStats(null)
+    setTeamsOpen(false); setTeamSearch(''); setTeamArchFilter('all'); setTeamsVisibleCount(12)
     api.getCharacter(slug, lang).then(setChar).catch((e) => setError(String(e)))
     api.getCharacterBuild(slug, lang)
       .then((data) => setKqmBuild(data))
@@ -269,6 +274,49 @@ export default function CharacterDetailPage() {
     return null
   }, [rawGoodState, ownedEntry?.owned, ownedEntry?.cons])
 
+  const sortedCharacterTeams = useMemo(() => {
+    if (!slug) return characterTeams
+    return [...characterTeams].sort((a, b) => {
+      const aMain = a.main_character === slug ? 0 : 1
+      const bMain = b.main_character === slug ? 0 : 1
+      return aMain - bMain
+    })
+  }, [characterTeams, slug])
+
+  const teamArchetypes = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const t of sortedCharacterTeams) {
+      counts.set(t.archetype, (counts.get(t.archetype) ?? 0) + 1)
+    }
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([key, count]) => ({
+        key,
+        count,
+        info: archetypeInfo(key),
+      }))
+  }, [sortedCharacterTeams])
+
+  const filteredCharacterTeams = useMemo(() => {
+    const q = teamSearch.trim().toLowerCase()
+    return sortedCharacterTeams.filter((t) => {
+      if (teamArchFilter !== 'all' && t.archetype !== teamArchFilter) return false
+      if (!q) return true
+      if (t.name.toLowerCase().includes(q)) return true
+      if (archetypeInfo(t.archetype).label.toLowerCase().includes(q)) return true
+      return t.character_slugs.some((s) => {
+        if (s.toLowerCase().includes(q)) return true
+        const cName = allChars.get(s)?.name
+        return typeof cName === 'string' && cName.toLowerCase().includes(q)
+      })
+    })
+  }, [sortedCharacterTeams, teamArchFilter, teamSearch, allChars])
+
+  const visibleCharacterTeams = useMemo(
+    () => filteredCharacterTeams.slice(0, teamsVisibleCount),
+    [filteredCharacterTeams, teamsVisibleCount],
+  )
+
   const sections = useMemo(() => {
     if (!char) return []
     return [
@@ -279,8 +327,8 @@ export default function CharacterDetailPage() {
       char.talents.length > 0 && { id: 'talentos-info', label: 'Talentos' },
       basePassives.length > 0 && { id: 'passivos', label: 'Passivos' },
       char.constellations.length > 0 && { id: 'constelacoes', label: 'Constelações' },
-      { id: 'times', label: characterTeams.length > 0 ? `Times (${characterTeams.length})` : 'Times' },
       { id: 'stats', label: 'Stats' },
+      { id: 'times', label: characterTeams.length > 0 ? `Times (${characterTeams.length})` : 'Times' },
       { id: 'ascensao', label: 'Ascensão' },
       { id: 'talentos-custos', label: 'Custo de Talentos' },
     ].filter(Boolean) as { id: string; label: string }[]
@@ -319,7 +367,18 @@ export default function CharacterDetailPage() {
           <div className="char-toc-v2-title">Nesta página</div>
           <nav className="char-toc-v2-list">
             {sections.map((s) => (
-              <a key={s.id} href={`#${s.id}`} className={`char-toc-v2-link ${activeId === s.id ? 'active' : ''}`}>{s.label}</a>
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className={`char-toc-v2-link ${activeId === s.id ? 'active' : ''}`}
+                onClick={() => {
+                  if (s.id === 'times' && characterTeams.length > 0) {
+                    setTeamsOpen(true)
+                  }
+                }}
+              >
+                {s.label}
+              </a>
             ))}
           </nav>
         </aside>
@@ -631,50 +690,207 @@ export default function CharacterDetailPage() {
             <CharacterStatsTable slug={char.slug} />
           </section>
 
-          <section id="times" className="char-section-anchor">
+          <section id="times" className="char-section-anchor char-teams-section">
             {characterTeams.length > 0 ? (
-              <>
-              <h2>Times com {char.name}</h2>
-              <p className="teams-section-sub" style={{ marginBottom: 16 }}>
-                {characterTeams.length} {characterTeams.length === 1 ? 'time encontrado' : 'times encontrados'} nos templates recomendados.
-              </p>
-              <div className="templates-grid">
-                {characterTeams.map((t) => {
-                  const arch = archetypeInfo(t.archetype)
-                  const ArchIcon = arch.icon
-                  return (
-                    <Link
-                      key={t.id}
-                      to={`/teams/new?template_id=${t.id}`}
-                      className="template-card"
-                      style={{ borderLeftColor: arch.color }}
-                    >
-                      <div className="template-card-header">
-                        <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                          <ArchIcon size={14} /> {arch.label}
+              <div className={`char-teams-accordion ${teamsOpen ? 'is-open' : ''}`}>
+                <button
+                  type="button"
+                  className="char-teams-toggle"
+                  aria-expanded={teamsOpen}
+                  onClick={() => setTeamsOpen((v) => !v)}
+                >
+                  <div className="char-teams-toggle-left">
+                    <div className="char-teams-toggle-title-row">
+                      <Users size={18} className="char-teams-toggle-icon" />
+                      <h2>Times com {char.name}</h2>
+                      <span className="char-teams-count-pill">
+                        {characterTeams.length} {characterTeams.length === 1 ? 'time' : 'times'}
+                      </span>
+                    </div>
+                    {!teamsOpen && teamArchetypes.length > 0 && (
+                      <div className="char-teams-preview-pills">
+                        {teamArchetypes.slice(0, 5).map(({ key, count, info }) => {
+                          const ArchIcon = info.icon
+                          return (
+                            <span
+                              key={key}
+                              className="char-teams-mini-arch"
+                              style={{ background: `${info.color}1a`, color: info.color, borderColor: `${info.color}38` }}
+                            >
+                              <ArchIcon size={12} /> {info.label} <strong>{count}</strong>
+                            </span>
+                          )
+                        })}
+                        {teamArchetypes.length > 5 && (
+                          <span className="char-teams-mini-more">+{teamArchetypes.length - 5} arquétipos</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <span className="char-teams-toggle-action">
+                    {teamsOpen ? (
+                      <>
+                        <span>Recolher</span>
+                        <ChevronUp size={16} />
+                      </>
+                    ) : (
+                      <>
+                        <span>Ver times</span>
+                        <ChevronDown size={16} />
+                      </>
+                    )}
+                  </span>
+                </button>
+
+                {teamsOpen && (
+                  <div className="char-teams-body">
+                    {characterTeams.length > 6 && (
+                      <div className="char-teams-toolbar">
+                        <div className="char-teams-search">
+                          <Search size={14} />
+                          <input
+                            type="text"
+                            placeholder="Filtrar por nome do time ou aliado..."
+                            value={teamSearch}
+                            onChange={(e) => {
+                              setTeamSearch(e.target.value)
+                              setTeamsVisibleCount(12)
+                            }}
+                          />
                         </div>
+                        {teamArchetypes.length > 1 && (
+                          <div className="char-teams-arch-filters">
+                            <button
+                              type="button"
+                              className={`char-teams-arch-chip ${teamArchFilter === 'all' ? 'is-active' : ''}`}
+                              onClick={() => {
+                                setTeamArchFilter('all')
+                                setTeamsVisibleCount(12)
+                              }}
+                            >
+                              Todos ({characterTeams.length})
+                            </button>
+                            {teamArchetypes.map(({ key, count, info }) => {
+                              const ArchIcon = info.icon
+                              const active = teamArchFilter === key
+                              return (
+                                <button
+                                  key={key}
+                                  type="button"
+                                  className={`char-teams-arch-chip ${active ? 'is-active' : ''}`}
+                                  style={active ? { background: `${info.color}28`, borderColor: info.color, color: info.color } : undefined}
+                                  onClick={() => {
+                                    setTeamArchFilter(active ? 'all' : key)
+                                    setTeamsVisibleCount(12)
+                                  }}
+                                >
+                                  <ArchIcon size={12} /> {info.label} ({count})
+                                </button>
+                              )
+                            })}
+                          </div>
+                        )}
                       </div>
-                      <div className="template-card-name">{t.name}</div>
-                      <div className="template-card-members">
-                        {t.character_slugs.map((s) => (
-                          <span
-                            key={s}
-                            className={`template-member ${s === t.main_character ? 'template-member-main' : ''} ${s === slug ? 'is-current' : ''}`}
-                            title={allChars.get(s)?.name ?? s}
-                          >
-                            {(() => {
-                              const c = allChars.get(s)
-                              const img = c ? iconUrl(c.icon) : null
-                              return img ? <img src={img} alt={c?.name ?? s} /> : <span>?</span>
-                            })()}
+                    )}
+
+                    {filteredCharacterTeams.length > 0 ? (
+                      <>
+                        <div className="char-teams-grid">
+                          {visibleCharacterTeams.map((t) => {
+                            const arch = archetypeInfo(t.archetype)
+                            const ArchIcon = arch.icon
+                            return (
+                              <Link
+                                key={t.id}
+                                to={`/teams/new?template_id=${t.id}`}
+                                className="template-card"
+                                style={{ borderLeftColor: arch.color }}
+                              >
+                                <div className="template-card-header">
+                                  <div className="template-card-arch" style={{ background: `${arch.color}20`, color: arch.color, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                                    <ArchIcon size={14} /> {arch.label}
+                                  </div>
+                                </div>
+                                <div className="template-card-name">{t.name}</div>
+                                <div className="template-card-members">
+                                  {t.character_slugs.map((s) => (
+                                    <span
+                                      key={s}
+                                      className={`template-member ${s === t.main_character ? 'template-member-main' : ''} ${s === slug ? 'is-current' : ''}`}
+                                      title={allChars.get(s)?.name ?? s}
+                                    >
+                                      {(() => {
+                                        const c = allChars.get(s)
+                                        const cImg = c ? iconUrl(c.icon) : null
+                                        return cImg ? <img src={cImg} alt={c?.name ?? s} /> : <span>?</span>
+                                      })()}
+                                    </span>
+                                  ))}
+                                </div>
+                              </Link>
+                            )
+                          })}
+                        </div>
+
+                        <div className="char-teams-footer">
+                          <span className="char-teams-footer-info">
+                            Exibindo <strong>{visibleCharacterTeams.length}</strong> de <strong>{filteredCharacterTeams.length}</strong>{' '}
+                            {filteredCharacterTeams.length === 1 ? 'time' : 'times'}
                           </span>
-                        ))}
+                          <div className="char-teams-footer-actions">
+                            {visibleCharacterTeams.length < filteredCharacterTeams.length && (
+                              <>
+                                <button
+                                  type="button"
+                                  className="char-teams-btn"
+                                  onClick={() => setTeamsVisibleCount((n) => n + 12)}
+                                >
+                                  Mostrar mais (+{Math.min(12, filteredCharacterTeams.length - visibleCharacterTeams.length)})
+                                </button>
+                                {filteredCharacterTeams.length - visibleCharacterTeams.length > 12 && (
+                                  <button
+                                    type="button"
+                                    className="char-teams-btn is-subtle"
+                                    onClick={() => setTeamsVisibleCount(filteredCharacterTeams.length)}
+                                  >
+                                    Ver todos ({filteredCharacterTeams.length})
+                                  </button>
+                                )}
+                              </>
+                            )}
+                            <button
+                              type="button"
+                              className="char-teams-btn is-subtle"
+                              onClick={() => {
+                                setTeamsOpen(false)
+                                setTeamsVisibleCount(12)
+                                document.getElementById('times')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                              }}
+                            >
+                              <ChevronUp size={14} /> Recolher
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="char-teams-empty">
+                        <span>Nenhum time encontrado com esse filtro.</span>
+                        <button
+                          type="button"
+                          className="char-teams-btn is-subtle"
+                          onClick={() => {
+                            setTeamSearch('')
+                            setTeamArchFilter('all')
+                            setTeamsVisibleCount(12)
+                          }}
+                        >
+                          Limpar filtros
+                        </button>
                       </div>
-                    </Link>
-                  )
-                })}
+                    )}
+                  </div>
+                )}
               </div>
-              </>
             ) : (
               <p className="status" style={{ padding: 20 }}>Nenhum time encontrado com este personagem ainda.</p>
             )}
