@@ -10,23 +10,30 @@ export default function WeaponPickerModal({
   character,
   onSelect,
   onClose,
+  items,
 }: {
   character: CharacterSummary
   onSelect: (weapon: WeaponSummary) => void
   onClose: () => void
+  items?: WeaponSummary[]
 }) {
   const { lang } = useLanguage()
-  const [weapons, setWeapons] = useState<WeaponSummary[]>([])
+  const [weapons, setWeapons] = useState<WeaponSummary[]>(items ?? [])
   const [search, setSearch] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!items || items.length === 0)
 
   useEffect(() => {
+    if (items && items.length > 0) {
+      setWeapons(items)
+      setLoading(false)
+      return
+    }
     setLoading(true)
     api.listWeapons(lang, { weapon_type: character.weapon_type, limit: 200 })
       .then((d) => setWeapons(d.items))
       .catch(() => {})
       .finally(() => setLoading(false))
-  }, [lang, character.weapon_type])
+  }, [lang, character.weapon_type, items])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -37,7 +44,7 @@ export default function WeaponPickerModal({
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
     let list = weapons
-    if (q) list = list.filter((w) => w.name.toLowerCase().includes(q))
+    if (q) list = list.filter((w) => w.name.toLowerCase().includes(q) || w.slug.toLowerCase().includes(q))
     // Ordena por raridade desc, depois nome
     return [...list].sort((a, b) => b.rarity - a.rarity || a.name.localeCompare(b.name))
   }, [weapons, search])

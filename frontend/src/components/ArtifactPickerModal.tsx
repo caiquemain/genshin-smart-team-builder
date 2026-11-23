@@ -10,23 +10,32 @@ export default function ArtifactPickerModal({
   onSelect,
   onClose,
   title = 'Escolher artefato',
+  items,
+  subtitle,
 }: {
   onSelect: (artifact: ArtifactSetSummary) => void
   onClose: () => void
   title?: string
+  items?: ArtifactSetSummary[]
+  subtitle?: string
 }) {
   const { lang } = useLanguage()
-  const [artifacts, setArtifacts] = useState<ArtifactSetSummary[]>([])
+  const [artifacts, setArtifacts] = useState<ArtifactSetSummary[]>(items ?? [])
   const [search, setSearch] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!items || items.length === 0)
 
   useEffect(() => {
+    if (items && items.length > 0) {
+      setArtifacts(items)
+      setLoading(false)
+      return
+    }
     setLoading(true)
-    api.listArtifacts(lang, { rarity: 5, limit: 100 })
+    api.listArtifacts(lang, { rarity: 5, limit: 200 })
       .then((d) => setArtifacts(d.items))
       .catch(() => {})
       .finally(() => setLoading(false))
-  }, [lang])
+  }, [lang, items])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -36,7 +45,10 @@ export default function ArtifactPickerModal({
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
-    return q ? artifacts.filter((a) => a.name.toLowerCase().includes(q)) : artifacts
+    const list = q
+      ? artifacts.filter((a) => a.name.toLowerCase().includes(q) || a.slug.toLowerCase().includes(q))
+      : artifacts
+    return [...list].sort((a, b) => b.rarity_max - a.rarity_max || a.name.localeCompare(b.name))
   }, [artifacts, search])
 
   return (
@@ -45,9 +57,9 @@ export default function ArtifactPickerModal({
         <div className="picker-header">
           <div>
             <div className="picker-title">{title}</div>
-            <div className="picker-subtitle">Sets 5★ · ESC fecha</div>
+            <div className="picker-subtitle">{subtitle ?? (items ? 'Sets 5★ e 4★ · ESC fecha' : 'Sets 5★ · ESC fecha')}</div>
           </div>
-          <button className="picker-close" onClick={onClose} aria-label="Fechar"><X size={18} /></button>
+          <button type="button" className="picker-close" onClick={onClose} aria-label="Fechar"><X size={18} /></button>
         </div>
 
         <div className="picker-search">

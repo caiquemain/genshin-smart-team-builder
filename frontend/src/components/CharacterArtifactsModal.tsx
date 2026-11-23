@@ -18,7 +18,9 @@ import {
   SLOT_LABEL_PT,
   type CharacterStatsDataset,
 } from '../utils/char-stats-calc'
+import ArtifactPickerModal from './ArtifactPickerModal'
 import BuildCardStudioModal from './BuildCardStudioModal'
+import WeaponPickerModal from './WeaponPickerModal'
 import { saveManualCharacterGear } from '../utils/planner-storage'
 import { normKey } from '../utils/slug-resolver'
 import type { ArtifactSetSummary, CharacterSummary, WeaponSummary } from '../types'
@@ -188,15 +190,20 @@ export default function CharacterArtifactsModal({
 
   const [editingSlot, setEditingSlot] = useState<GoodSlotKey | null>(null)
   const [dirty, setDirty] = useState(false)
+  const [showCardStudio, setShowCardStudio] = useState(false)
+  const [showWeaponPicker, setShowWeaponPicker] = useState(false)
+  const [showArtifactPicker, setShowArtifactPicker] = useState(false)
 
-  // Fecha com ESC
+  // Fecha com ESC apenas quando nenhum modal filho estiver aberto
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape' && !showCardStudio && !showWeaponPicker && !showArtifactPicker) {
+        onClose()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  }, [onClose, showCardStudio, showWeaponPicker, showArtifactPicker])
 
   const currentArtifactsList = useMemo(
     () => SLOTS.map((s) => slotMap[s]).filter((a): a is GoodArtifact => a !== null),
@@ -321,8 +328,6 @@ export default function CharacterArtifactsModal({
     onSaved?.()
     onClose()
   }
-
-  const [showCardStudio, setShowCardStudio] = useState(false)
 
   const liveStatTargets = useMemo(
     () => analyzeStatTargets(liveStats, null),
@@ -461,26 +466,49 @@ export default function CharacterArtifactsModal({
               />
             </label>
 
-            <label className="cam-field cam-field-grow">
+            <div className="cam-field cam-field-grow">
               <span>
                 <Swords size={11} style={{ verticalAlign: 'middle', marginRight: 4 }} />
                 Arma Equipada
               </span>
-              <select
-                value={weaponSlug}
-                onChange={(e) => {
-                  setWeaponSlug(e.target.value)
-                  setDirty(true)
-                }}
-              >
-                <option value="">— Nenhuma arma selecionada —</option>
-                {charWeapons.map((w) => (
-                  <option key={w.slug} value={w.slug}>
-                    {'★'.repeat(w.rarity)} {w.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+              {(() => {
+                const selectedWeapon = weaponSlug ? weaponLookup.get(normKey(weaponSlug)) : null
+                const wImg = selectedWeapon ? iconUrl(selectedWeapon.icon) : null
+                return (
+                  <div className="cam-picker-row">
+                    <button
+                      type="button"
+                      className="cam-picker-trigger"
+                      onClick={() => setShowWeaponPicker(true)}
+                      title="Abrir modal para escolher arma"
+                    >
+                      <span className={`cam-picker-thumb rarity-${selectedWeapon?.rarity ?? 1}`}>
+                        {wImg ? <img src={wImg} alt={selectedWeapon?.name ?? ''} /> : <Swords size={14} />}
+                      </span>
+                      <span className="cam-picker-label">
+                        <strong>{selectedWeapon ? selectedWeapon.name : 'Escolher arma...'}</strong>
+                        {selectedWeapon && <small>{'★'.repeat(selectedWeapon.rarity)}</small>}
+                      </span>
+                      <span className="cam-picker-action">{selectedWeapon ? 'Trocar' : 'Escolher'}</span>
+                    </button>
+                    {weaponSlug && (
+                      <button
+                        type="button"
+                        className="cam-mini-btn is-danger"
+                        onClick={() => {
+                          setWeaponSlug('')
+                          setDirty(true)
+                        }}
+                        title="Remover arma equipada"
+                        aria-label="Remover arma"
+                      >
+                        <X size={13} />
+                      </button>
+                    )}
+                  </div>
+                )
+              })()}
+            </div>
 
             <label className="cam-field cam-field-sm">
               <span>Lv. Arma</span>
@@ -653,24 +681,30 @@ export default function CharacterArtifactsModal({
               </div>
 
               <div className="cam-editor-grid">
-                <label className="cam-field cam-field-grow">
+                <div className="cam-field cam-field-grow">
                   <span>Set de Artefato</span>
-                  <select
-                    value={editingPiece.setKey}
-                    onChange={(e) =>
-                      updateSlotPiece(editingSlot, (p) => ({ ...p, setKey: e.target.value }))
-                    }
-                  >
-                    {!sortedArtifactSets.some((s) => s.slug === editingPiece.setKey) && (
-                      <option value={editingPiece.setKey}>{editingPiece.setKey}</option>
-                    )}
-                    {sortedArtifactSets.map((s) => (
-                      <option key={s.slug} value={s.slug}>
-                        {'★'.repeat(s.rarity_max)} {s.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                  {(() => {
+                    const selectedSet = artifactSetLookup.get(normKey(editingPiece.setKey))
+                    const sImg = artifactIconUrl(selectedSet?.icon)
+                    return (
+                      <button
+                        type="button"
+                        className="cam-picker-trigger"
+                        onClick={() => setShowArtifactPicker(true)}
+                        title="Abrir modal para buscar e escolher set de artefato"
+                      >
+                        <span className={`cam-picker-thumb rarity-${selectedSet?.rarity_max ?? 5}`}>
+                          {sImg ? <img src={sImg} alt={selectedSet?.name ?? editingPiece.setKey} /> : <Gem size={14} />}
+                        </span>
+                        <span className="cam-picker-label">
+                          <strong>{selectedSet?.name ?? editingPiece.setKey}</strong>
+                          {selectedSet && <small>{'★'.repeat(selectedSet.rarity_max)}</small>}
+                        </span>
+                        <span className="cam-picker-action">Escolher Set</span>
+                      </button>
+                    )
+                  })()}
+                </div>
 
                 <label className="cam-field cam-field-sm">
                   <span>Raridade</span>
@@ -820,6 +854,36 @@ export default function CharacterArtifactsModal({
           character={character}
           stats={liveStats}
           onClose={() => setShowCardStudio(false)}
+        />
+      )}
+
+      {showWeaponPicker && (
+        <WeaponPickerModal
+          character={character}
+          items={charWeapons}
+          onSelect={(w) => {
+            setWeaponSlug(w.slug)
+            setDirty(true)
+            setShowWeaponPicker(false)
+          }}
+          onClose={() => setShowWeaponPicker(false)}
+        />
+      )}
+
+      {showArtifactPicker && editingSlot && (
+        <ArtifactPickerModal
+          title={`Escolher Set — ${SLOT_LABEL_PT[editingSlot]}`}
+          items={sortedArtifactSets}
+          onSelect={(a) => {
+            updateSlotPiece(editingSlot, (p) => ({
+              ...p,
+              setKey: a.slug,
+              rarity: Math.min(p.rarity, a.rarity_max),
+              level: Math.min(p.level, Math.min(p.rarity, a.rarity_max) >= 5 ? 20 : 16),
+            }))
+            setShowArtifactPicker(false)
+          }}
+          onClose={() => setShowArtifactPicker(false)}
         />
       )}
     </div>
