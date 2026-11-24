@@ -544,6 +544,23 @@
   gap: 10px;
 }
 
+.cs-card-full {
+  grid-column: 1 / -1;
+}
+
+.cs-cons-talents-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 920px) {
+  .cs-cons-talents-split {
+    grid-template-columns: 1fr;
+  }
+}
+
 .cs-stack {
   justify-content: space-between;
   gap: 16px;
@@ -558,6 +575,20 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #94a3b8;
+}
+
+/* Stats Table + Akasha-style Radar Chart layout */
+.cs-stats-compare-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.98fr);
+  gap: 18px;
+  align-items: center;
+}
+
+@media (max-width: 920px) {
+  .cs-stats-compare-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Stats Table */
@@ -575,6 +606,8 @@
   padding: 6px 8px;
   border-radius: 7px;
   font-size: 12.5px;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .cs-st-row.has-user {
@@ -585,12 +618,18 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
+.cs-st-row.is-hovered {
+  background: rgba(56, 189, 248, 0.11);
+  border-color: rgba(56, 189, 248, 0.34);
+}
+
 .cs-st-head {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   color: #64748b;
   background: transparent !important;
+  border-color: transparent !important;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.14);
 }
@@ -642,6 +681,279 @@
 .cs-delta-chip.is-low {
   color: #fca5a5;
   background: rgba(239, 68, 68, 0.16);
+}
+
+/* Akasha.cv-style SVG Radar Chart */
+.cs-radar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 6px;
+  border-radius: 11px;
+  background: radial-gradient(circle at 50% 48%, rgba(30, 41, 59, 0.45), rgba(9, 14, 28, 0.55));
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.cs-radar-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.cs-radar-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-radar-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.cs-radar-swatch.is-user {
+  background: rgba(56, 189, 248, 0.34);
+  border: 1.5px solid #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.45);
+}
+
+.cs-radar-swatch.is-mean {
+  background: rgba(251, 191, 36, 0.28);
+  border: 1.5px solid #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.35);
+}
+
+.cs-radar-swatch.is-median {
+  height: 0;
+  border-top: 2px dashed #a5b4fc;
+  border-radius: 0;
+}
+
+.cs-radar-stage {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+}
+
+.cs-radar-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.cs-radar-web-ring {
+  fill: none;
+  stroke: rgba(148, 163, 184, 0.14);
+  stroke-width: 1;
+}
+
+.cs-radar-web-ring.is-major {
+  stroke: rgba(148, 163, 184, 0.24);
+}
+
+.cs-radar-web-ring.is-median-ring {
+  stroke: rgba(165, 180, 252, 0.28);
+}
+
+.cs-radar-spoke {
+  stroke: rgba(148, 163, 184, 0.18);
+  stroke-width: 1;
+  transition: stroke 0.15s ease, stroke-width 0.15s ease;
+}
+
+.cs-radar-spoke.is-active {
+  stroke: rgba(56, 189, 248, 0.65);
+  stroke-width: 1.6;
+}
+
+.cs-radar-scale-label {
+  fill: #64748b;
+  font-size: 9px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.cs-radar-scale-label.is-median {
+  fill: #a5b4fc;
+}
+
+.cs-radar-poly-median {
+  fill: rgba(129, 140, 248, 0.08);
+  stroke: #a5b4fc;
+  stroke-width: 1.6;
+  stroke-dasharray: 4 3;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.cs-radar-poly-compare {
+  stroke-width: 2.1;
+  stroke-linejoin: round;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.cs-radar-poly-compare.is-user {
+  stroke: #38bdf8;
+}
+
+.cs-radar-poly-compare.is-mean {
+  stroke: #fbbf24;
+}
+
+.cs-radar-dot-median {
+  fill: #a5b4fc;
+  stroke: #0f172a;
+  stroke-width: 1;
+  pointer-events: none;
+  transition: r 0.15s ease, fill 0.15s ease;
+}
+
+.cs-radar-dot-median.is-active {
+  fill: #e0e7ff;
+  stroke: #818cf8;
+  stroke-width: 1.5;
+}
+
+.cs-radar-vertex-group {
+  cursor: pointer;
+  outline: none;
+}
+
+.cs-radar-dot {
+  stroke: #090e1c;
+  stroke-width: 1.5;
+  transition: r 0.15s ease, stroke 0.15s ease;
+}
+
+.cs-radar-dot.is-high { fill: #34d399; }
+.cs-radar-dot.is-mid { fill: #38bdf8; }
+.cs-radar-dot.is-low { fill: #f87171; }
+.cs-radar-dot.is-mean { fill: #fbbf24; }
+
+.cs-radar-dot.is-active {
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.cs-radar-dot-halo {
+  fill-opacity: 0.22;
+  pointer-events: none;
+}
+
+.cs-radar-dot-halo.is-high { fill: #34d399; }
+.cs-radar-dot-halo.is-mid { fill: #38bdf8; }
+.cs-radar-dot-halo.is-low { fill: #f87171; }
+.cs-radar-dot-halo.is-mean { fill: #fbbf24; }
+
+.cs-radar-axis-label {
+  fill: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: fill 0.15s ease;
+}
+
+.cs-radar-axis-label.is-active,
+.cs-radar-axis-label:hover {
+  fill: #f8fafc;
+}
+
+/* Interactive Vertex Tooltip */
+.cs-radar-tooltip {
+  position: absolute;
+  z-index: 12;
+  min-width: 196px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: rgba(9, 14, 28, 0.95);
+  border: 1px solid rgba(56, 189, 248, 0.42);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  font-size: 11.5px;
+  color: #e2e8f0;
+}
+
+.cs-radar-tooltip.is-above.is-center {
+  transform: translate(-50%, calc(-100% - 14px));
+}
+
+.cs-radar-tooltip.is-below.is-center {
+  transform: translate(-50%, 14px);
+}
+
+.cs-radar-tooltip.is-above.is-left {
+  transform: translate(calc(-100% - 10px), calc(-100% - 10px));
+}
+
+.cs-radar-tooltip.is-below.is-left {
+  transform: translate(calc(-100% - 10px), 10px);
+}
+
+.cs-radar-tooltip.is-above.is-right {
+  transform: translate(10px, calc(-100% - 10px));
+}
+
+.cs-radar-tooltip.is-below.is-right {
+  transform: translate(10px, 10px);
+}
+
+.cs-radar-tt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.cs-radar-tt-head strong {
+  font-size: 12px;
+  color: #f8fafc;
+}
+
+.cs-radar-tt-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  align-items: center;
+}
+
+.cs-radar-tt-grid span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.cs-radar-tt-grid strong {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-radar-tt-grid strong.is-user { color: #38bdf8; }
+.cs-radar-tt-grid strong.is-mean { color: #fbbf24; }
+.cs-radar-tt-grid strong.is-med { color: #a5b4fc; }
+.cs-radar-tt-grid strong.is-ratio { color: #e2e8f0; }
+
+.cs-radar-caption {
+  margin: 0;
+  font-size: 11px;
+  color: #64748b;
+  text-align: center;
+  line-height: 1.35;
 }
 
 /* Constellations Bar Grid */

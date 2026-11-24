@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BarChart3, Crown, Gem, Sparkles, Swords, TrendingUp, Users } from 'lucide-react'
 import { api } from '../api/client'
@@ -50,6 +50,353 @@ function deltaBadge(userVal: number, medianVal: number, isPercent: boolean): {
   }
 }
 
+interface RadarAxisDatum {
+  key: string
+  label: string
+  shortLabel: string
+  isPct: boolean
+  medianVal: number
+  compareVal: number
+  rawRatio: number | null
+  aboveZeroMedian: boolean
+  plotRatio: number
+  delta: { text: string; cls: 'is-high' | 'is-mid' | 'is-low' }
+}
+
+const RADAR_MAX_RATIO = 1.5
+const RADAR_MIN_PLOT_RATIO = 0.08
+const RADAR_WEB_RINGS = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5]
+const RADAR_LABELED_RINGS = [0.5, 1.0, 1.5]
+
+function radarPoint(cx: number, cy: number, radius: number, angle: number): { x: number; y: number } {
+  return {
+    x: cx + radius * Math.cos(angle),
+    y: cy + radius * Math.sin(angle),
+  }
+}
+
+function polygonPoints(
+  cx: number,
+  cy: number,
+  maxR: number,
+  ratios: number[],
+): string {
+  const n = ratios.length
+  return ratios
+    .map((ratio, i) => {
+      const angle = -Math.PI / 2 + (i * 2 * Math.PI) / n
+      const r = (ratio / RADAR_MAX_RATIO) * maxR
+      const { x, y } = radarPoint(cx, cy, r, angle)
+      return `${x.toFixed(1)},${y.toFixed(1)}`
+    })
+    .join(' ')
+}
+
+function CommunityRadarChart({
+  axes,
+  hasUserComparison,
+  sampleTotal,
+  hoveredKey,
+  onHoverKey,
+}: {
+  axes: RadarAxisDatum[]
+  hasUserComparison: boolean
+  sampleTotal: number
+  hoveredKey: string | null
+  onHoverKey: (key: string | null) => void
+}) {
+  const uid = useId()
+  if (axes.length < 3) return null
+
+  const userFillId = `cs-radar-user-fill-${uid}`
+  const meanFillId = `cs-radar-mean-fill-${uid}`
+  const glowId = `cs-radar-glow-${uid}`
+
+  const vbW = 340
+  const vbH = 304
+  const cx = vbW / 2
+  const cy = vbH / 2 + 2
+  const maxR = 98
+  const n = axes.length
+
+  const medianPolygon = polygonPoints(
+    cx,
+    cy,
+    maxR,
+    axes.map(() => 1.0),
+  )
+  const comparePolygon = polygonPoints(
+    cx,
+    cy,
+    maxR,
+    axes.map((a) => a.plotRatio),
+  )
+
+  const vertices = axes.map((axis, i) => {
+    const angle = -Math.PI / 2 + (i * 2 * Math.PI) / n
+    const cosA = Math.cos(angle)
+    const sinA = Math.sin(angle)
+    const outer = radarPoint(cx, cy, maxR, angle)
+    const medianPt = radarPoint(cx, cy, (1.0 / RADAR_MAX_RATIO) * maxR, angle)
+    const comparePt = radarPoint(cx, cy, (axis.plotRatio / RADAR_MAX_RATIO) * maxR, angle)
+    const labelPt = radarPoint(cx, cy, maxR + 22, angle)
+    const textAnchor: 'start' | 'middle' | 'end' =
+      cosA > 0.25 ? 'start' : cosA < -0.25 ? 'end' : 'middle'
+    const dy = sinA < -0.65 ? '-0.2em' : sinA > 0.65 ? '0.85em' : '0.32em'
+    return {
+      axis,
+      outer,
+      medianPt,
+      comparePt,
+      labelPt,
+      textAnchor,
+      dy,
+    }
+  })
+
+  const hoveredVertex = hoveredKey
+    ? vertices.find((v) => v.axis.key === hoveredKey) ?? null
+    : null
+
+  const sampleLabel =
+    sampleTotal >= 1000 ? `${Math.round(sampleTotal / 1000)}k` : sampleTotal.toLocaleString('pt-BR')
+
+  const compareSeriesLabel = hasUserComparison ? 'Sua Build' : 'Média Global'
+
+  const tooltipStyle = hoveredVertex
+    ? {
+        left: `${(hoveredVertex.comparePt.x / vbW) * 100}%`,
+        top: `${(hoveredVertex.comparePt.y / vbH) * 100}%`,
+      }
+    : undefined
+
+  const tooltipHorizontalCls = hoveredVertex
+    ? hoveredVertex.comparePt.x > vbW * 0.62
+      ? 'is-left'
+      : hoveredVertex.comparePt.x < vbW * 0.38
+        ? 'is-right'
+        : 'is-center'
+    : 'is-center'
+
+  const tooltipVerticalCls = hoveredVertex
+    ? hoveredVertex.comparePt.y < vbH * 0.34
+      ? 'is-below'
+      : 'is-above'
+    : 'is-above'
+
+  return (
+    <div className="cs-radar-col">
+      <div className="cs-radar-legend">
+        <span className="cs-radar-legend-item">
+          <span className={`cs-radar-swatch ${hasUserComparison ? 'is-user' : 'is-mean'}`} />
+          <span>{compareSeriesLabel}</span>
+        </span>
+        <span className="cs-radar-legend-item">
+          <span className="cs-radar-swatch is-median" />
+          <span>Mediana ({sampleLabel} contas · 100%)</span>
+        </span>
+      </div>
+
+      <div className="cs-radar-stage" onMouseLeave={() => onHoverKey(null)}>
+        <svg
+          className="cs-radar-svg"
+          viewBox={`0 0 ${vbW} ${vbH}`}
+          role="img"
+          aria-label={`Gráfico de teia comparando ${compareSeriesLabel} contra a mediana da comunidade`}
+        >
+          <defs>
+            <radialGradient id={userFillId} cx="50%" cy="50%" r="55%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.16" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.36" />
+            </radialGradient>
+            <radialGradient id={meanFillId} cx="50%" cy="50%" r="55%">
+              <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.28" />
+            </radialGradient>
+            <filter id={glowId} x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* Teia concêntrica */}
+          {RADAR_WEB_RINGS.map((ring) => {
+            const isMajor = RADAR_LABELED_RINGS.includes(ring)
+            const isMedianRing = ring === 1.0
+            return (
+              <polygon
+                key={ring}
+                points={polygonPoints(
+                  cx,
+                  cy,
+                  maxR,
+                  axes.map(() => ring),
+                )}
+                className={`cs-radar-web-ring ${isMajor ? 'is-major' : ''} ${isMedianRing ? 'is-median-ring' : ''}`}
+              />
+            )
+          })}
+
+          {/* Raios (eixos) */}
+          {vertices.map(({ axis, outer }) => {
+            const isActive = hoveredKey === axis.key
+            return (
+              <line
+                key={`spoke-${axis.key}`}
+                x1={cx}
+                y1={cy}
+                x2={outer.x}
+                y2={outer.y}
+                className={`cs-radar-spoke ${isActive ? 'is-active' : ''}`}
+              />
+            )
+          })}
+
+          {/* Rótulos de escala relativa à mediana no eixo superior */}
+          {RADAR_LABELED_RINGS.map((ring) => {
+            const y = cy - (ring / RADAR_MAX_RATIO) * maxR
+            return (
+              <text
+                key={`scale-${ring}`}
+                x={cx + 5}
+                y={y - 3}
+                className={`cs-radar-scale-label ${ring === 1.0 ? 'is-median' : ''}`}
+              >
+                {Math.round(ring * 100)}%
+              </text>
+            )
+          })}
+
+          {/* Polígono de referência: Mediana da comunidade (100%) */}
+          <polygon points={medianPolygon} className="cs-radar-poly-median" />
+
+          {/* Polígono da Build do Usuário (ou Média Global) */}
+          <polygon
+            points={comparePolygon}
+            className={`cs-radar-poly-compare ${hasUserComparison ? 'is-user' : 'is-mean'}`}
+            fill={hasUserComparison ? `url(#${userFillId})` : `url(#${meanFillId})`}
+            filter={`url(#${glowId})`}
+          />
+
+          {/* Vértices da Mediana (destacado no hover) */}
+          {vertices.map(({ axis, medianPt }) => {
+            const isActive = hoveredKey === axis.key
+            return (
+              <circle
+                key={`med-pt-${axis.key}`}
+                cx={medianPt.x}
+                cy={medianPt.y}
+                r={isActive ? 4 : 2.3}
+                className={`cs-radar-dot-median ${isActive ? 'is-active' : ''}`}
+              />
+            )
+          })}
+
+          {/* Vértices interativos da Build / Média */}
+          {vertices.map(({ axis, comparePt }) => {
+            const isActive = hoveredKey === axis.key
+            const dotTone = hasUserComparison ? axis.delta.cls : 'is-mean'
+            return (
+              <g
+                key={`cmp-pt-${axis.key}`}
+                className="cs-radar-vertex-group"
+                tabIndex={0}
+                role="button"
+                aria-label={`${axis.label}: ${fmtStat(axis.key, axis.compareVal)} vs mediana ${fmtStat(axis.key, axis.medianVal)}`}
+                onMouseEnter={() => onHoverKey(axis.key)}
+                onFocus={() => onHoverKey(axis.key)}
+                onBlur={() => onHoverKey(null)}
+              >
+                {isActive && (
+                  <circle
+                    cx={comparePt.x}
+                    cy={comparePt.y}
+                    r={9.5}
+                    className={`cs-radar-dot-halo ${dotTone}`}
+                  />
+                )}
+                <circle
+                  cx={comparePt.x}
+                  cy={comparePt.y}
+                  r={isActive ? 5.2 : 3.6}
+                  className={`cs-radar-dot ${dotTone} ${isActive ? 'is-active' : ''}`}
+                />
+                <circle
+                  cx={comparePt.x}
+                  cy={comparePt.y}
+                  r={14}
+                  fill="transparent"
+                  className="cs-radar-hit"
+                />
+              </g>
+            )
+          })}
+
+          {/* Rótulos dos atributos nos vértices externos */}
+          {vertices.map(({ axis, labelPt, textAnchor, dy }) => {
+            const isActive = hoveredKey === axis.key
+            return (
+              <text
+                key={`lbl-${axis.key}`}
+                x={labelPt.x}
+                y={labelPt.y}
+                dy={dy}
+                textAnchor={textAnchor}
+                className={`cs-radar-axis-label ${isActive ? 'is-active' : ''}`}
+                onMouseEnter={() => onHoverKey(axis.key)}
+              >
+                {axis.shortLabel}
+              </text>
+            )
+          })}
+        </svg>
+
+        {hoveredVertex && (
+          <div
+            className={`cs-radar-tooltip ${tooltipHorizontalCls} ${tooltipVerticalCls}`}
+            style={tooltipStyle}
+            role="status"
+          >
+            <div className="cs-radar-tt-head">
+              <strong>{hoveredVertex.axis.label}</strong>
+              <span className={`cs-delta-chip ${hoveredVertex.axis.delta.cls}`}>
+                {hoveredVertex.axis.delta.text}
+              </span>
+            </div>
+            <div className="cs-radar-tt-grid">
+              <span>{compareSeriesLabel}</span>
+              <strong className={hasUserComparison ? 'is-user' : 'is-mean'}>
+                {fmtStat(hoveredVertex.axis.key, hoveredVertex.axis.compareVal)}
+              </strong>
+              <span>Mediana ({sampleLabel})</span>
+              <strong className="is-med">
+                {fmtStat(hoveredVertex.axis.key, hoveredVertex.axis.medianVal)}
+              </strong>
+              <span>Escala relativa</span>
+              <strong className="is-ratio">
+                {hoveredVertex.axis.aboveZeroMedian
+                  ? '> Mediana (0)'
+                  : hoveredVertex.axis.rawRatio !== null
+                    ? `${Math.round(hoveredVertex.axis.rawRatio * 100)}% da mediana`
+                    : '—'}
+              </strong>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <p className="cs-radar-caption">
+        {hasUserComparison
+          ? 'Escala relativa à mediana (100% = mediana · limite visual = 150%). Passe o mouse nos vértices ou linhas.'
+          : 'Exibindo Média vs. Mediana (100%). Importe sua build para comparar seus atributos no radar.'}
+      </p>
+    </div>
+  )
+}
+
 export default function CharacterCommunityStatsPanel({
   slug,
   preloaded,
@@ -61,6 +408,7 @@ export default function CharacterCommunityStatsPanel({
   const [data, setData] = useState<CharacterCommunityStatsResponse | null>(null)
   const [loading, setLoading] = useState(!preloaded)
   const [missing, setMissing] = useState(false)
+  const [hoveredStatKey, setHoveredStatKey] = useState<string | null>(null)
 
   useEffect(() => {
     if (preloaded) {
@@ -113,19 +461,21 @@ export default function CharacterCommunityStatsPanel({
   const statRows: Array<{
     key: string
     label: string
+    shortLabel: string
     isPct: boolean
     userVal: number | null
   }> = [
-    { key: 'hp', label: 'Vida Máx.', isPct: false, userVal: userStats?.hasBaseData ? userStats.totalHp : null },
-    { key: 'atk', label: 'ATQ', isPct: false, userVal: userStats?.hasBaseData ? userStats.totalAtk : null },
-    { key: 'def', label: 'DEF', isPct: false, userVal: userStats?.hasBaseData ? userStats.totalDef : null },
-    { key: 'em', label: 'Proficiência (EM)', isPct: false, userVal: userStats?.hasArtifacts ? userStats.em : null },
-    { key: 'crit_rate', label: 'Taxa Crítica', isPct: true, userVal: userStats?.hasArtifacts ? userStats.critRate : null },
-    { key: 'crit_dmg', label: 'Dano Crítico', isPct: true, userVal: userStats?.hasArtifacts ? userStats.critDmg : null },
-    { key: 'er', label: 'Recarga (ER)', isPct: true, userVal: userStats?.hasArtifacts ? userStats.er : null },
+    { key: 'hp', label: 'Vida Máx.', shortLabel: 'Vida', isPct: false, userVal: userStats?.hasBaseData ? userStats.totalHp : null },
+    { key: 'atk', label: 'ATQ', shortLabel: 'ATQ', isPct: false, userVal: userStats?.hasBaseData ? userStats.totalAtk : null },
+    { key: 'def', label: 'DEF', shortLabel: 'DEF', isPct: false, userVal: userStats?.hasBaseData ? userStats.totalDef : null },
+    { key: 'em', label: 'Proficiência (EM)', shortLabel: 'EM', isPct: false, userVal: userStats?.hasArtifacts ? userStats.em : null },
+    { key: 'crit_rate', label: 'Taxa Crítica', shortLabel: 'Taxa Crít.', isPct: true, userVal: userStats?.hasArtifacts ? userStats.critRate : null },
+    { key: 'crit_dmg', label: 'Dano Crítico', shortLabel: 'Dano Crít.', isPct: true, userVal: userStats?.hasArtifacts ? userStats.critDmg : null },
+    { key: 'er', label: 'Recarga (ER)', shortLabel: 'Recarga', isPct: true, userVal: userStats?.hasArtifacts ? userStats.er : null },
     {
       key: 'elem_dmg',
       label: 'Bônus de Dano Elem.',
+      shortLabel: 'Elem.%',
       isPct: true,
       userVal: userStats?.hasArtifacts
         ? Math.max(userStats.elemDmgBonus, userStats.physicalDmgBonus, userStats.healingBonus)
@@ -134,6 +484,42 @@ export default function CharacterCommunityStatsPanel({
   ].filter((r) => Boolean(charStats.stats[r.key]))
 
   const hasUserComparison = Boolean(userStats?.hasArtifacts)
+
+  const radarAxes: RadarAxisDatum[] = statRows
+    .map((row) => {
+      const pair = charStats.stats[row.key]
+      const compareVal = hasUserComparison ? row.userVal : pair.mean
+      if (compareVal === null) return null
+
+      let rawRatio: number | null = null
+      let aboveZeroMedian = false
+      let plotRatio = 1.0
+
+      if (pair.median > 0) {
+        rawRatio = compareVal / pair.median
+        plotRatio = Math.max(RADAR_MIN_PLOT_RATIO, Math.min(RADAR_MAX_RATIO, rawRatio))
+      } else if (compareVal <= 0) {
+        rawRatio = 1.0
+        plotRatio = 1.0
+      } else {
+        aboveZeroMedian = true
+        plotRatio = RADAR_MAX_RATIO
+      }
+
+      return {
+        key: row.key,
+        label: row.label,
+        shortLabel: row.shortLabel,
+        isPct: row.isPct,
+        medianVal: pair.median,
+        compareVal,
+        rawRatio,
+        aboveZeroMedian,
+        plotRatio,
+        delta: deltaBadge(compareVal, pair.median, row.isPct),
+      }
+    })
+    .filter((axis): axis is RadarAxisDatum => axis !== null)
 
   // Calcula um índice comparativo simples baseado em CR, CD e stat principal (HP/ATK/DEF/EM)
   let benchmarkBadge: { label: string; cls: string } | null = null
@@ -196,50 +582,65 @@ export default function CharacterCommunityStatsPanel({
 
       {/* Grid principal: 2 colunas */}
       <div className="cs-grid-2">
-        {/* 1. Comparativo / Mediana de Atributos */}
-        <div className="cs-card">
+        {/* 1. Comparativo / Mediana de Atributos + Radar Chart estilo Akasha.cv */}
+        <div className="cs-card cs-card-full">
           <div className="cs-card-title">
             {hasUserComparison
               ? 'Sua Build vs. Mediana da Comunidade'
               : 'Atributos Típicos da Comunidade (Mediana & Média)'}
           </div>
-          <div className="cs-stats-table">
-            <div className={`cs-st-row cs-st-head ${hasUserComparison ? 'has-user' : ''}`}>
-              <span>Atributo</span>
-              {hasUserComparison && <span>Sua Build</span>}
-              <span>Mediana</span>
-              <span>{hasUserComparison ? 'vs. Comunidade' : 'Média'}</span>
+          <div className="cs-stats-compare-grid">
+            <div className="cs-stats-table" onMouseLeave={() => setHoveredStatKey(null)}>
+              <div className={`cs-st-row cs-st-head ${hasUserComparison ? 'has-user' : ''}`}>
+                <span>Atributo</span>
+                {hasUserComparison && <span>Sua Build</span>}
+                <span>Mediana</span>
+                <span>{hasUserComparison ? 'vs. Comunidade' : 'Média'}</span>
+              </div>
+              {statRows.map((row) => {
+                const pair = charStats.stats[row.key]
+                const delta =
+                  hasUserComparison && row.userVal !== null
+                    ? deltaBadge(row.userVal, pair.median, row.isPct)
+                    : null
+                const isHovered = hoveredStatKey === row.key
+                return (
+                  <div
+                    key={row.key}
+                    className={`cs-st-row ${hasUserComparison ? 'has-user' : ''} ${isHovered ? 'is-hovered' : ''}`}
+                    onMouseEnter={() => setHoveredStatKey(row.key)}
+                  >
+                    <span className="cs-st-label">{row.label}</span>
+                    {hasUserComparison && (
+                      <strong className="cs-st-user">
+                        {row.userVal !== null ? fmtStat(row.key, row.userVal) : '—'}
+                      </strong>
+                    )}
+                    <strong className="cs-st-med">{fmtStat(row.key, pair.median)}</strong>
+                    {hasUserComparison ? (
+                      <span className={`cs-delta-chip ${delta?.cls ?? 'is-mid'}`}>
+                        {delta?.text ?? '—'}
+                      </span>
+                    ) : (
+                      <span className="cs-st-mean">{fmtStat(row.key, pair.mean)}</span>
+                    )}
+                  </div>
+                )
+              })}
             </div>
-            {statRows.map((row) => {
-              const pair = charStats.stats[row.key]
-              const delta =
-                hasUserComparison && row.userVal !== null
-                  ? deltaBadge(row.userVal, pair.median, row.isPct)
-                  : null
-              return (
-                <div key={row.key} className={`cs-st-row ${hasUserComparison ? 'has-user' : ''}`}>
-                  <span className="cs-st-label">{row.label}</span>
-                  {hasUserComparison && (
-                    <strong className="cs-st-user">
-                      {row.userVal !== null ? fmtStat(row.key, row.userVal) : '—'}
-                    </strong>
-                  )}
-                  <strong className="cs-st-med">{fmtStat(row.key, pair.median)}</strong>
-                  {hasUserComparison ? (
-                    <span className={`cs-delta-chip ${delta?.cls ?? 'is-mid'}`}>
-                      {delta?.text ?? '—'}
-                    </span>
-                  ) : (
-                    <span className="cs-st-mean">{fmtStat(row.key, pair.mean)}</span>
-                  )}
-                </div>
-              )
-            })}
+
+            <CommunityRadarChart
+              axes={radarAxes}
+              hasUserComparison={hasUserComparison}
+              sampleTotal={sampleTotal}
+              hoveredKey={hoveredStatKey}
+              onHoverKey={setHoveredStatKey}
+            />
           </div>
         </div>
 
         {/* 2. Constelações C0-C6 + Talentos Típicos */}
-        <div className="cs-card cs-stack">
+        <div className="cs-card cs-card-full cs-cons-talents-split">
           <div>
             <div className="cs-card-title">Distribuição de Constelações (C0–C6)</div>
             <div className="cs-cons-grid">
