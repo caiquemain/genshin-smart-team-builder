@@ -37,6 +37,33 @@ export const XP_BOOK_ADVENTURER = 5_000
 export const XP_BOOK_WANDERER = 1_000
 export const MYSTIC_ORE_XP = 10_000
 
+export const HERO_WIT_SLUG = 'hero-s-wit'
+export const ADVENTURER_EXP_SLUG = 'adventurer-s-experience'
+export const WANDERER_ADVICE_SLUG = 'wanderer-s-advice'
+
+export function getOwnedCharXp(inventory: Record<string, number>): {
+  heroWits: number
+  adventurerExp: number
+  wandererAdvice: number
+  totalXp: number
+  heroWitEquivalent: number
+} {
+  const heroWits = Math.max(0, inventory[HERO_WIT_SLUG] ?? inventory['heros-wit'] ?? 0)
+  const adventurerExp = Math.max(0, inventory[ADVENTURER_EXP_SLUG] ?? inventory['adventurers-experience'] ?? 0)
+  const wandererAdvice = Math.max(0, inventory[WANDERER_ADVICE_SLUG] ?? inventory['wanderers-advice'] ?? 0)
+  const totalXp =
+    heroWits * XP_BOOK_HERO +
+    adventurerExp * XP_BOOK_ADVENTURER +
+    wandererAdvice * XP_BOOK_WANDERER
+  return {
+    heroWits,
+    adventurerExp,
+    wandererAdvice,
+    totalXp,
+    heroWitEquivalent: Math.floor(totalXp / XP_BOOK_HERO),
+  }
+}
+
 // Mora por XP de level up (não é ascensão)
 export const CHAR_MORA_PER_XP = 0.2
 export const WEAPON_MORA_PER_XP = 0.1

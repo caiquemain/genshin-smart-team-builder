@@ -11,6 +11,7 @@ import {
   computeWeaponXp,
   computeMoraLeyline,
   getLeylineXpPerRun,
+  getOwnedCharXp,
   LEYLINE_XP_RESIN_PER_RUN,
   XP_BOOK_HERO,
 } from './xp-costs'
@@ -223,10 +224,11 @@ export function recomputeAggregates(plan: Plan, inventory: Record<string, number
   const missingMora = Math.max(0, grand_mora - ownedMora)
   const moraLeyline = computeMoraLeyline(missingMora, wl)
 
-  const ownedHeroWits = Math.max(0, inventory['hero-s-wit'] ?? inventory['heros-wit'] ?? 0)
-  const missingHeroWits = Math.max(0, totalHeroWitsNeeded - ownedHeroWits)
-  const xpLeylineRuns = missingHeroWits > 0
-    ? Math.ceil((missingHeroWits * XP_BOOK_HERO) / getLeylineXpPerRun(wl))
+  const ownedXp = getOwnedCharXp(inventory)
+  const totalXpNeeded = totalHeroWitsNeeded * XP_BOOK_HERO
+  const missingXp = Math.max(0, totalXpNeeded - ownedXp.totalXp)
+  const xpLeylineRuns = missingXp > 0
+    ? Math.ceil(missingXp / getLeylineXpPerRun(wl))
     : 0
   const xpLeylineResin = xpLeylineRuns * LEYLINE_XP_RESIN_PER_RUN
 

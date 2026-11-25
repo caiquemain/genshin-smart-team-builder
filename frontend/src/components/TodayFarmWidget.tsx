@@ -11,6 +11,12 @@ import {
   type DailyDomainEntry,
 } from '../utils/domain-schedule'
 import { estimateResinRange, formatResin } from '../utils/resin'
+import {
+  ADVENTURER_EXP_SLUG,
+  getOwnedCharXp,
+  HERO_WIT_SLUG,
+  WANDERER_ADVICE_SLUG,
+} from '../utils/xp-costs'
 import { getXpMaterials } from '../utils/planner-recompute'
 import ItemTooltip from './ItemTooltip'
 
@@ -23,6 +29,8 @@ const RARITY_BORDER: Record<number, string> = {
 
 const MORA_ICON = 'UI_ItemIcon_202'
 const HERO_WIT_ICON = 'UI_ItemIcon_104003'
+const ADVENTURER_EXP_ICON = 'UI_ItemIcon_104002'
+const WANDERER_ADVICE_ICON = 'UI_ItemIcon_104001'
 
 function DomainCard({
   entry,
@@ -127,19 +135,21 @@ function LeylineCard({
   needed,
   have,
   wl,
-  onEdit,
+  xpBooks,
+  onEditMaterial,
 }: {
   kind: 'mora' | 'xp'
   needed: number
   have: number
   wl: number
-  onEdit: () => void
+  xpBooks?: { heroWits: number; adventurerExp: number; wandererAdvice: number }
+  onEditMaterial: (slug: string) => void
 }) {
   const isMora = kind === 'mora'
   const missing = Math.max(0, needed - have)
   const icon = iconUrl(isMora ? MORA_ICON : HERO_WIT_ICON)
   const title = isMora ? 'Linha Ley — Flor da Riqueza' : 'Linha Ley — Flor da Revelação'
-  const itemName = isMora ? 'Mora' : "Experiência do Herói (Hero's Wit)"
+  const itemName = isMora ? 'Mora' : "Livros de XP (eq. Hero's Wit)"
   const category = isMora ? 'mora' : 'character_exp'
   const resinRange = estimateResinRange(category, needed, have, { rarity: isMora ? 3 : 4, wl })
 
@@ -149,6 +159,14 @@ function LeylineCard({
       : isMora && n >= 10_000
         ? `${Math.round(n / 1_000)}k`
         : n.toLocaleString('pt-BR')
+
+  const xpBookTiers = !isMora && xpBooks
+    ? [
+        { slug: HERO_WIT_SLUG, name: "Experiência do Herói (20k XP)", icon: HERO_WIT_ICON, rarity: 4, count: xpBooks.heroWits },
+        { slug: ADVENTURER_EXP_SLUG, name: 'Experiência do Aventureiro (5k XP)', icon: ADVENTURER_EXP_ICON, rarity: 3, count: xpBooks.adventurerExp },
+        { slug: WANDERER_ADVICE_SLUG, name: 'Conselho do Andarilho (1k XP)', icon: WANDERER_ADVICE_ICON, rarity: 2, count: xpBooks.wandererAdvice },
+      ]
+    : null
 
   return (
     <ItemTooltip
@@ -163,15 +181,19 @@ function LeylineCard({
     >
       <div
         className={`today-domain-card today-leyline-card ${isMora ? 'is-mora' : 'is-xp'}`}
-        onClick={onEdit}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            onEdit()
-          }
-        }}
+        onClick={isMora ? () => onEditMaterial('mora') : undefined}
+        role={isMora ? 'button' : undefined}
+        tabIndex={isMora ? 0 : undefined}
+        onKeyDown={
+          isMora
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onEditMaterial('mora')
+                }
+              }
+            : undefined
+        }
       >
         <div className="today-domain-header">
           <div
@@ -196,16 +218,41 @@ function LeylineCard({
           </div>
         </div>
 
+        {xpBookTiers && (
+          <div className="today-domain-tiers">
+            {xpBookTiers.map((b) => (
+              <button
+                key={b.slug}
+                type="button"
+                className="today-tier-btn"
+                style={{ '--tier-color': RARITY_BORDER[b.rarity] ?? '#c084fc' } as React.CSSProperties}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onEditMaterial(b.slug)
+                }}
+                title={`${b.name} — clique para atualizar quantidade`}
+              >
+                <img src={iconUrl(b.icon)!} alt={b.name} loading="lazy" />
+                <span className="today-tier-counts">
+                  <strong>{b.count.toLocaleString('pt-BR')}</strong>
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="today-leyline-foot">
           <span>
             Falta <strong>{fmtQty(missing)}</strong>{' '}
             <small>
-              (tem {fmtQty(have)} / precisa {fmtQty(needed)})
+              (eq. {fmtQty(have)} / {fmtQty(needed)})
             </small>
           </span>
-          <span className="today-leyline-edit">
-            <Pencil size={11} /> Atualizar
-          </span>
+          {isMora && (
+            <span className="today-leyline-edit">
+              <Pencil size={11} /> Atualizar
+            </span>
+          )}
         </div>
       </div>
     </ItemTooltip>
@@ -239,16 +286,21 @@ export default function TodayFarmWidget({
       heroWitsNeeded += getXpMaterials(c, wl).heroWits
     }
     const moraHave = plan.inventory_resolved['mora'] ?? 0
-    const xpHave = plan.inventory_resolved['hero-s-wit'] ?? plan.inventory_resolved['heros-wit'] ?? 0
+    const ownedXp = getOwnedCharXp(plan.inventory_resolved)
     const moraMissing = Math.max(0, plan.grand_mora - moraHave)
-    const xpMissing = Math.max(0, heroWitsNeeded - xpHave)
+    const xpMissing = Math.max(0, heroWitsNeeded - ownedXp.heroWitEquivalent)
     return {
       moraNeeded: plan.grand_mora,
       moraHave,
       moraMissing,
       xpNeeded: heroWitsNeeded,
-      xpHave,
+      xpHave: ownedXp.heroWitEquivalent,
       xpMissing,
+      xpBooks: {
+        heroWits: ownedXp.heroWits,
+        adventurerExp: ownedXp.adventurerExp,
+        wandererAdvice: ownedXp.wandererAdvice,
+      },
     }
   }, [plan, wl])
 
@@ -321,7 +373,8 @@ export default function TodayFarmWidget({
               needed={leylines.xpNeeded}
               have={leylines.xpHave}
               wl={wl}
-              onEdit={() => onEditMaterial('hero-s-wit')}
+              xpBooks={leylines.xpBooks}
+              onEditMaterial={onEditMaterial}
             />
           )}
           {leylines.moraMissing > 0 && (
@@ -330,7 +383,7 @@ export default function TodayFarmWidget({
               needed={leylines.moraNeeded}
               have={leylines.moraHave}
               wl={wl}
-              onEdit={() => onEditMaterial('mora')}
+              onEditMaterial={onEditMaterial}
             />
           )}
         </div>

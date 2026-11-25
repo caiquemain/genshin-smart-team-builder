@@ -26,6 +26,7 @@ import { buildIndexes, resolveCharSlug, resolveWeaponSlug } from '../utils/slug-
 import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from '../utils/planner-compute'
 import { parseGoodData, type GoodCharState } from '../utils/good-parser'
 import { getXpMaterials, recomputeAggregates } from '../utils/planner-recompute'
+import { getOwnedCharXp } from '../utils/xp-costs'
 import { useRoster } from '../utils/roster'
 import {
   PLANNER_UPDATED_EVENT,
@@ -52,7 +53,9 @@ const FOCUS_STORAGE_KEY = 'gsb.planner.focus'
 
 const VIRTUAL_RESOURCES: Record<string, { name: string; icon: string; rarity: number }> = {
   mora: { name: 'Mora', icon: 'UI_ItemIcon_202', rarity: 3 },
-  'hero-s-wit': { name: "Experiência do Herói (Hero's Wit)", icon: 'UI_ItemIcon_104003', rarity: 4 },
+  'hero-s-wit': { name: "Experiência do Herói (20k XP)", icon: 'UI_ItemIcon_104003', rarity: 4 },
+  'adventurer-s-experience': { name: 'Experiência do Aventureiro (5k XP)', icon: 'UI_ItemIcon_104002', rarity: 3 },
+  'wanderer-s-advice': { name: 'Conselho do Andarilho (1k XP)', icon: 'UI_ItemIcon_104001', rarity: 2 },
   'mystic-enhancement-ore': { name: 'Minério de Refinamento Místico', icon: 'UI_ItemIcon_104012', rarity: 4 },
 }
 
@@ -1017,7 +1020,9 @@ export default function PlannerPage() {
   }, [plan, isFocusMode, focusedChars, wl])
 
   const displayXpTotals = useMemo(() => {
-    if (!displayPlan) return { heroWits: 0, ore: 0, heroWitsHave: 0, oreHave: 0 }
+    if (!displayPlan) {
+      return { heroWits: 0, ore: 0, heroWitsHave: 0, oreHave: 0, purple: 0, blue: 0, green: 0 }
+    }
     let heroWits = 0
     let ore = 0
     for (const c of displayPlan.chars) {
@@ -1027,9 +1032,17 @@ export default function PlannerPage() {
       ore += xp.ore
     }
     const inv = displayPlan.inventory_resolved
-    const heroWitsHave = inv['hero-s-wit'] ?? inv['heros-wit'] ?? 0
+    const ownedXp = getOwnedCharXp(inv)
     const oreHave = inv['mystic-enhancement-ore'] ?? 0
-    return { heroWits, ore, heroWitsHave, oreHave }
+    return {
+      heroWits,
+      ore,
+      heroWitsHave: ownedXp.heroWitEquivalent,
+      oreHave,
+      purple: ownedXp.heroWits,
+      blue: ownedXp.adventurerExp,
+      green: ownedXp.wandererAdvice,
+    }
   }, [displayPlan, wl])
 
   const focusPickerOptions = useMemo(() => {
@@ -1378,22 +1391,18 @@ export default function PlannerPage() {
               return (
                 <ItemTooltip
                   data={{
-                    name: "Experiência do Herói (Hero's Wit)",
+                    name: "Livros de XP (eq. Hero's Wit)",
                     icon: iconUrl('UI_ItemIcon_104003'),
                     rarity: 4,
                     category: 'character_exp',
-                    source: 'Linha Ley — Flor da Revelação (clique no card para informar seus livros)',
+                    source: 'Linha Ley — Flor da Revelação (soma livros Roxo 20k + Azul 5k + Verde 1k)',
                     resinRange: xpRange,
                   }}
                 >
-                  <button
-                    type="button"
-                    className="planner-stat is-editable"
-                    onClick={() => setEditingItem('hero-s-wit')}
-                  >
+                  <div className="planner-stat is-editable" onClick={() => setEditingItem('hero-s-wit')}>
                     <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                        <BookOpen size={14} /> Livros XP (Hero&apos;s Wit)
+                        <BookOpen size={14} /> Livros XP (eq. 20k)
                       </span>
                       <Pencil size={12} className="planner-stat-edit-icon" />
                     </div>
@@ -1403,11 +1412,25 @@ export default function PlannerPage() {
                     <small className="planner-stat-sub">
                       {displayXpTotals.heroWitsHave > 0
                         ? xpMissing === 0
-                          ? `✓ Você tem ${displayXpTotals.heroWitsHave.toLocaleString('pt-BR')}`
-                          : `Tem ${displayXpTotals.heroWitsHave.toLocaleString('pt-BR')} · falta ${xpMissing.toLocaleString('pt-BR')}`
-                        : 'Clique para informar seus livros'}
+                          ? `✓ Eq. ${displayXpTotals.heroWitsHave.toLocaleString('pt-BR')} livros`
+                          : `Eq. ${displayXpTotals.heroWitsHave.toLocaleString('pt-BR')} · falta ${xpMissing.toLocaleString('pt-BR')}`
+                        : 'Clique nos livros abaixo para informar'}
                     </small>
-                  </button>
+                    <div className="planner-xp-pills" onClick={(e) => e.stopPropagation()}>
+                      <button type="button" className="planner-xp-pill is-purple" onClick={() => setEditingItem('hero-s-wit')} title="Experiência do Herói (20k XP)">
+                        <img src={iconUrl('UI_ItemIcon_104003')!} alt="Roxo" />
+                        <span>{displayXpTotals.purple}</span>
+                      </button>
+                      <button type="button" className="planner-xp-pill is-blue" onClick={() => setEditingItem('adventurer-s-experience')} title="Experiência do Aventureiro (5k XP)">
+                        <img src={iconUrl('UI_ItemIcon_104002')!} alt="Azul" />
+                        <span>{displayXpTotals.blue}</span>
+                      </button>
+                      <button type="button" className="planner-xp-pill is-green" onClick={() => setEditingItem('wanderer-s-advice')} title="Conselho do Andarilho (1k XP)">
+                        <img src={iconUrl('UI_ItemIcon_104001')!} alt="Verde" />
+                        <span>{displayXpTotals.green}</span>
+                      </button>
+                    </div>
+                  </div>
                 </ItemTooltip>
               )
             })()}

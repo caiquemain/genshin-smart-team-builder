@@ -33,12 +33,34 @@ const CORE_RESOURCES: Array<{ slug: string; mat: PlannerMaterialData }> = [
   {
     slug: 'hero-s-wit',
     mat: {
-      name: { pt: "Experiência do Herói (Hero's Wit)", en: "Hero's Wit" },
+      name: { pt: "Experiência do Herói (20k XP)", en: "Hero's Wit (20k XP)" },
       icon: 'UI_ItemIcon_104003',
       rarity: 4,
       category: 'character_exp',
       description: { pt: 'Fornece 20.000 de EXP de Personagem.' },
       source: { pt: 'Linha Ley — Flor da Revelação' },
+    },
+  },
+  {
+    slug: 'adventurer-s-experience',
+    mat: {
+      name: { pt: 'Experiência do Aventureiro (5k XP)', en: "Adventurer's Experience (5k XP)" },
+      icon: 'UI_ItemIcon_104002',
+      rarity: 3,
+      category: 'character_exp',
+      description: { pt: 'Fornece 5.000 de EXP de Personagem (4 = 1 Experiência do Herói).' },
+      source: { pt: 'Linha Ley — Flor da Revelação' },
+    },
+  },
+  {
+    slug: 'wanderer-s-advice',
+    mat: {
+      name: { pt: 'Conselho do Andarilho (1k XP)', en: "Wanderer's Advice (1k XP)" },
+      icon: 'UI_ItemIcon_104001',
+      rarity: 2,
+      category: 'character_exp',
+      description: { pt: 'Fornece 1.000 de EXP de Personagem (20 = 1 Experiência do Herói).' },
+      source: { pt: 'Baús / Missões' },
     },
   },
   {

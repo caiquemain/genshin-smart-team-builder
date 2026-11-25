@@ -11,7 +11,7 @@ import type { BestiaryData } from '../types/bestiary'
 import { estimateResin, estimateResinRange } from '../utils/resin'
 import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import { recomputeChar, getXpMaterials, type CharEdit } from '../utils/planner-recompute'
-import { computeMoraLeyline } from '../utils/xp-costs'
+import { computeMoraLeyline, getOwnedCharXp } from '../utils/xp-costs'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
 import ItemEditModal from './ItemEditModal'
 import PlannerWeaponPicker from './PlannerWeaponPicker'
@@ -834,7 +834,11 @@ export default function PlannerCharacterModal({
                     <MaterialRow
                       key={m.slug}
                       material={m}
-                      have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
+                      have={
+                        m.slug === '__hero_wit__'
+                          ? getOwnedCharXp(inventory).heroWitEquivalent
+                          : (inventory[canonicalInventorySlug(m.slug)] ?? 0)
+                      }
                       lang={lang}
                       wl={wl}
                       bestiary={bestiary}
