@@ -434,7 +434,20 @@ export default function PlannerPage() {
   })
   const [showFocusPicker, setShowFocusPicker] = useState(false)
   const [focusSearch, setFocusSearch] = useState('')
+  const [focusFilter, setFocusFilter] = useState<'all' | 'focused' | 'pending'>('all')
   const [onlyMissingMats, setOnlyMissingMats] = useState(false)
+
+  useEffect(() => {
+    if (!showFocusPicker) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setShowFocusPicker(false)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [showFocusPicker])
 
   useEffect(() => {
     try {
@@ -994,14 +1007,19 @@ export default function PlannerPage() {
     const q = focusSearch.trim().toLowerCase()
     const focusSet = new Set(focusSlugs)
     return [...plan.chars]
-      .filter((c) => !q || c.name.toLowerCase().includes(q) || c.slug.includes(q))
+      .filter((c) => {
+        if (q && !c.name.toLowerCase().includes(q) && !c.slug.includes(q)) return false
+        if (focusFilter === 'focused') return focusSet.has(c.slug)
+        if (focusFilter === 'pending') return !c.is_complete
+        return true
+      })
       .sort((a, b) => {
         const aFocused = focusSet.has(a.slug) ? 0 : 1
         const bFocused = focusSet.has(b.slug) ? 0 : 1
         if (aFocused !== bFocused) return aFocused - bFocused
         return a.name.localeCompare(b.name)
       })
-  }, [plan, focusSearch, focusSlugs])
+  }, [plan, focusSearch, focusSlugs, focusFilter])
 
   const jsonImportSection = (
     <>
@@ -1196,14 +1214,18 @@ export default function PlannerPage() {
               <div className="planner-focus-actions">
                 <button
                   type="button"
-                  className={`planner-focus-btn ${showFocusPicker ? 'is-open' : ''}`}
-                  onClick={() => setShowFocusPicker((v) => !v)}
+                  className="planner-focus-btn is-accent"
+                  onClick={() => {
+                    setFocusSearch('')
+                    setFocusFilter('all')
+                    setShowFocusPicker(true)
+                  }}
                 >
-                  <Plus size={14} /> {showFocusPicker ? 'Fechar lista' : 'Escolher para focar'}
+                  <Target size={14} /> Escolher personagens
                 </button>
                 <button
                   type="button"
-                  className="planner-focus-btn is-accent"
+                  className="planner-focus-btn"
                   disabled={!plannerData}
                   onClick={() => {
                     setCharPickerMode('focus')
@@ -1272,47 +1294,6 @@ export default function PlannerPage() {
               <p className="planner-focus-hint">
                 Selecione 1 ou mais personagens (ex.: Linnea, Noelle e Chiori) para filtrar Mora, Resina, Livros de XP, Domínios de Hoje e Materiais faltantes apenas para eles.
               </p>
-            )}
-
-            {showFocusPicker && (
-              <div className="planner-focus-picker">
-                <div className="planner-focus-search">
-                  <Search size={14} />
-                  <input
-                    type="text"
-                    placeholder="Buscar personagem no plano para focar..."
-                    value={focusSearch}
-                    onChange={(e) => setFocusSearch(e.target.value)}
-                  />
-                  {focusSearch && (
-                    <button type="button" onClick={() => setFocusSearch('')} aria-label="Limpar busca">
-                      <X size={13} />
-                    </button>
-                  )}
-                </div>
-                <div className="planner-focus-grid">
-                  {focusPickerOptions.map((c) => {
-                    const selected = focusSlugs.includes(c.slug)
-                    return (
-                      <button
-                        key={c.slug}
-                        type="button"
-                        className={`planner-focus-opt ${selected ? 'is-selected' : ''}`}
-                        onClick={() => toggleFocusSlug(c.slug)}
-                      >
-                        {iconUrl(c.icon) && <img src={iconUrl(c.icon)!} alt={c.name} loading="lazy" />}
-                        <span>{c.name}</span>
-                        {selected && <CheckCircle2 size={13} className="planner-focus-check" />}
-                      </button>
-                    )
-                  })}
-                  {focusPickerOptions.length === 0 && (
-                    <span className="muted" style={{ fontSize: 12, padding: '6px 4px' }}>
-                      Nenhum personagem no plano corresponde à busca. Use &quot;Novo personagem no foco&quot; para adicionar.
-                    </span>
-                  )}
-                </div>
-              </div>
             )}
           </section>
 
@@ -1461,6 +1442,137 @@ export default function PlannerPage() {
             <p className="status">Carregando catálogo de materiais...</p>
           )}
         </>
+      )}
+
+      {showFocusPicker && plan && (
+        <div className="plan-modal-overlay" onClick={() => setShowFocusPicker(false)}>
+          <div className="plan-modal planner-focus-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="plan-modal-header">
+              <div className="plan-modal-header-info">
+                <h2 className="plan-modal-name" style={{ fontSize: 18, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  <Target size={18} /> Escolher Personagens em Foco
+                </h2>
+                <p className="muted" style={{ margin: '3px 0 0', fontSize: 12.5 }}>
+                  Clique nos personagens que deseja priorizar agora ({focusedChars.length} selecionado{focusedChars.length === 1 ? '' : 's'}).
+                </p>
+              </div>
+              <div className="plan-modal-header-actions">
+                <button
+                  type="button"
+                  className="plan-modal-close"
+                  onClick={() => setShowFocusPicker(false)}
+                  title="Fechar (Esc)"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            <div className="planner-focus-modal-body">
+              <div className="planner-focus-modal-toolbar">
+                <div className="planner-focus-search">
+                  <Search size={14} />
+                  <input
+                    type="text"
+                    autoFocus
+                    placeholder="Buscar personagem no plano..."
+                    value={focusSearch}
+                    onChange={(e) => setFocusSearch(e.target.value)}
+                  />
+                  {focusSearch && (
+                    <button type="button" onClick={() => setFocusSearch('')} aria-label="Limpar busca">
+                      <X size={13} />
+                    </button>
+                  )}
+                </div>
+
+                <div className="planner-focus-filter-pills">
+                  <button
+                    type="button"
+                    className={`planner-focus-btn ${focusFilter === 'all' ? 'is-accent' : ''}`}
+                    onClick={() => setFocusFilter('all')}
+                  >
+                    Todos ({plan.chars.length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`planner-focus-btn ${focusFilter === 'focused' ? 'is-accent' : ''}`}
+                    onClick={() => setFocusFilter('focused')}
+                  >
+                    No foco ({focusedChars.length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`planner-focus-btn ${focusFilter === 'pending' ? 'is-accent' : ''}`}
+                    onClick={() => setFocusFilter('pending')}
+                  >
+                    Pendentes
+                  </button>
+                </div>
+              </div>
+
+              <div className="planner-focus-modal-grid">
+                {focusPickerOptions.map((c) => {
+                  const selected = focusSlugs.includes(c.slug)
+                  const curLv = c.char_goal?.current?.level ?? 1
+                  const goalLv = c.char_goal?.goal?.level ?? 90
+                  return (
+                    <button
+                      key={c.slug}
+                      type="button"
+                      className={`planner-focus-card ${selected ? 'is-selected' : ''}`}
+                      onClick={() => toggleFocusSlug(c.slug)}
+                    >
+                      <div className="planner-focus-card-av">
+                        {iconUrl(c.icon) ? <img src={iconUrl(c.icon)!} alt={c.name} loading="lazy" /> : <span>{c.name[0]}</span>}
+                      </div>
+                      <div className="planner-focus-card-info">
+                        <strong>{c.name}</strong>
+                        <small>Nv. {curLv}→{goalLv}{c.is_inactive ? ' · inativo' : ''}</small>
+                      </div>
+                      {selected && <CheckCircle2 size={16} className="planner-focus-check" />}
+                    </button>
+                  )
+                })}
+                {focusPickerOptions.length === 0 && (
+                  <p className="muted" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '24px 8px', margin: 0 }}>
+                    Nenhum personagem encontrado. Use &quot;Novo personagem fora do plano&quot; abaixo para adicionar.
+                  </p>
+                )}
+              </div>
+
+              <div className="planner-focus-modal-foot">
+                <button
+                  type="button"
+                  className="planner-focus-btn"
+                  disabled={!plannerData}
+                  onClick={() => {
+                    setShowFocusPicker(false)
+                    setCharPickerMode('focus')
+                    setShowCharPicker(true)
+                  }}
+                >
+                  <Plus size={14} /> Novo personagem fora do plano
+                </button>
+
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  {isFocusMode && (
+                    <button type="button" className="planner-focus-btn is-clear" onClick={clearFocus}>
+                      <X size={14} /> Limpar foco
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() => setShowFocusPicker(false)}
+                  >
+                    Concluir ({focusedChars.length})
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {showSettings && (
