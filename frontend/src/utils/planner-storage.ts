@@ -551,6 +551,7 @@ export interface AddCharOptions {
   na?: { current: number; goal: number }
   es?: { current: number; goal: number }
   eb?: { current: number; goal: number }
+  weapon?: { slug: string; level?: number; goalLevel?: number }
 }
 
 export function buildManualCharBreakdown(
@@ -581,7 +582,27 @@ export function buildManualCharBreakdown(
   const hasTalentPending = na.current < na.goal || es.current < es.goal || eb.current < eb.goal
   const talents = hasTalentPending ? computeTalentCost(data, slug, na, es, eb, lang) : null
 
+  const weapons: WeaponBreakdown[] = []
+  if (opts.weapon?.slug) {
+    const wMeta = data.weapons[opts.weapon.slug]
+    if (wMeta) {
+      const wFrom = Math.max(1, Math.min(90, Math.round(opts.weapon.level ?? 1)))
+      const wTo = Math.max(wFrom, Math.min(90, Math.round(opts.weapon.goalLevel ?? 90)))
+      const wCost = wFrom < wTo ? computeWeaponAscension(data, opts.weapon.slug, wFrom, wTo, lang) : null
+      weapons.push({
+        slug: opts.weapon.slug,
+        name: pickLang(wMeta.name, lang) || opts.weapon.slug,
+        icon: wMeta.icon ?? null,
+        rarity: wMeta.rarity ?? 4,
+        from_level: wFrom,
+        to_level: wTo,
+        cost: wCost,
+      })
+    }
+  }
+
   const hasAscensionPending = curLevel < goalLevel
+  const hasWeaponPending = weapons.some((w) => w.from_level < w.to_level)
   const displayName =
     pickLang(charMeta.name, lang) ||
     slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
@@ -592,7 +613,7 @@ export function buildManualCharBreakdown(
     icon: charMeta.icon ?? null,
     ascension,
     talents,
-    weapons: [],
+    weapons,
     char_goal: {
       type: 'character',
       character: slug,
@@ -612,8 +633,8 @@ export function buildManualCharBreakdown(
     is_inactive: false,
     has_ascension_pending: hasAscensionPending,
     has_talent_pending: hasTalentPending,
-    has_weapon_pending: false,
-    is_complete: !hasAscensionPending && !hasTalentPending,
+    has_weapon_pending: hasWeaponPending,
+    is_complete: !hasAscensionPending && !hasTalentPending && !hasWeaponPending,
   }
 }
 

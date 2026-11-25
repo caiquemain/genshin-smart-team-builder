@@ -12,7 +12,8 @@ import { estimateResin, estimateResinRange, type ResinSpendMode } from '../utils
 import { loadPlannerSettings } from '../utils/planner-storage'
 import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import { recomputeChar, getXpMaterials, type CharEdit } from '../utils/planner-recompute'
-import { computeMoraLeyline, getOwnedCharXp, getOwnedWeaponXp } from '../utils/xp-costs'
+import { getPlannerDataOrNull } from '../utils/planner-data'
+import { computeMoraLeyline, computeWeaponXp, getOwnedCharXp, getOwnedWeaponXp } from '../utils/xp-costs'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
 import ItemEditModal from './ItemEditModal'
 import PlannerWeaponPicker from './PlannerWeaponPicker'
@@ -317,7 +318,7 @@ export default function PlannerCharacterModal({
 
   const buildEditPayload = (): CharEdit => {
     const weaponEdits = draftWeapons.map((dw, i) => {
-      const toLevel = Math.max(dw.from_level, draftGoalLevel)
+      const toLevel = Math.max(dw.from_level, dw.to_level || draftGoalLevel)
       const validW = validMilestonesForRange(dw.from_level, toLevel)
       const activeW = weaponActivePhases[i] !== undefined
         ? weaponActivePhases[i].filter((m) => validW.includes(m))
@@ -734,7 +735,19 @@ export default function PlannerCharacterModal({
             <section className="plan-modal-section">
               <h3 className="plan-modal-section-title"><Sword size={16} /> Armas ({editing ? draftWeapons.length : renderChar.weapons.length})</h3>
               <div className="plan-modal-weapons">
-                {(editing ? draftWeapons : renderChar.weapons).map((w, i) => (
+                {(editing ? draftWeapons : renderChar.weapons).map((w, i) => {
+                  const previewW = editing ? (renderChar.weapons[i] ?? w) : w
+                  const effectiveTo = Math.max(w.from_level, w.to_level || 90)
+                  const wXp = computeWeaponXp(w.from_level, effectiveTo, w.rarity)
+                  const wAscMora = previewW.cost?.total_mora ?? 0
+                  const wTotalMora = wAscMora + wXp.moraLevelUp
+                  const wResin = (previewW.cost?.materials ?? []).reduce(
+                    (sum: number, m: { category: string; quantity: number; slug: string }) =>
+                      sum + estimateResin(m.category, Math.max(0, m.quantity - (inventory[m.slug] ?? 0))),
+                    0,
+                  )
+                  const isMaxed = w.from_level >= effectiveTo
+                  return (
                   <div key={`${w.slug}-${i}`} className="plan-modal-weapon">
                     <div className="plan-modal-weapon-header">
                       <div className="plan-modal-weapon-icon" style={{ background: RARITY_GRADIENTS[w.rarity] }}>
@@ -742,12 +755,10 @@ export default function PlannerCharacterModal({
                       </div>
                       <div className="plan-modal-weapon-info">
                         <div className="plan-modal-weapon-name">{w.name}</div>
-                        {!editing && (
-                          <div className="plan-modal-weapon-meta">
-                            Nv. {w.from_level} → {w.to_level}
-                            {w.cost?.total_mora > 0 && ` · ${formatMoraShort(w.cost.total_mora)} Mora`}
-                          </div>
-                        )}
+                        <div className="plan-modal-weapon-meta">
+                          {'★'.repeat(w.rarity)} · Nv. {w.from_level} → {effectiveTo}
+                          {isMaxed && ' · ✓ Concluída'}
+                        </div>
                       </div>
                       {editing && (
                         <div className="plan-modal-weapon-actions">
@@ -774,6 +785,25 @@ export default function PlannerCharacterModal({
                         </div>
                       )}
                     </div>
+                    {!isMaxed && (wTotalMora > 0 || wXp.mysticOres > 0 || wResin > 0) && (
+                      <div className="plan-modal-weapon-costs">
+                        {wTotalMora > 0 && (
+                          <span className="plan-modal-weapon-cost-pill is-mora" title={`Ascensão: ${wAscMora.toLocaleString('pt-BR')} · Level up: ${wXp.moraLevelUp.toLocaleString('pt-BR')}`}>
+                            <Coins size={12} /> {formatMoraShort(wTotalMora)} Mora
+                          </span>
+                        )}
+                        {wXp.mysticOres > 0 && (
+                          <span className="plan-modal-weapon-cost-pill is-ore" title={`${wXp.xp.toLocaleString('pt-BR')} XP total`}>
+                            <Gem size={12} /> {wXp.mysticOres} Minérios (10k)
+                          </span>
+                        )}
+                        {wResin > 0 && (
+                          <span className="plan-modal-weapon-cost-pill is-resin" title="Resina estimada para materiais de ascensão faltantes desta arma">
+                            <Zap size={12} /> ~{wResin} ⚡
+                          </span>
+                        )}
+                      </div>
+                    )}
                     {editing && (
                       <div className="plan-modal-weapon-body">
                         <div className="plan-modal-weapon-level-row">
@@ -782,9 +812,10 @@ export default function PlannerCharacterModal({
                             <LevelInput
                               value={w.from_level}
                               onChange={(v) => {
-                                const prevValid = validMilestonesForRange(w.from_level, Math.max(w.from_level, draftGoalLevel))
-                                const nextValid = validMilestonesForRange(v, Math.max(v, draftGoalLevel))
-                                setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v } : p))
+                                const nextTo = Math.max(v, effectiveTo)
+                                const prevValid = validMilestonesForRange(w.from_level, effectiveTo)
+                                const nextValid = validMilestonesForRange(v, nextTo)
+                                setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v, to_level: nextTo } : p))
                                 setWeaponActivePhases((prev) => {
                                   const existing = prev[i] ?? prevValid
                                   const kept = existing.filter((m) => nextValid.includes(m))
@@ -798,22 +829,36 @@ export default function PlannerCharacterModal({
                           </label>
                           <label>
                             <span>Meta</span>
-                            <div className="plan-modal-weapon-fixed-to">
-                              <strong>{Math.max(w.from_level, draftGoalLevel)}</strong>
-                              <small>seguindo o char</small>
-                            </div>
+                            <LevelInput
+                              value={effectiveTo}
+                              onChange={(v) => {
+                                const nextFrom = Math.min(w.from_level, v)
+                                const prevValid = validMilestonesForRange(w.from_level, effectiveTo)
+                                const nextValid = validMilestonesForRange(nextFrom, v)
+                                setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: nextFrom, to_level: v } : p))
+                                setWeaponActivePhases((prev) => {
+                                  const existing = prev[i] ?? prevValid
+                                  const kept = existing.filter((m) => nextValid.includes(m))
+                                  const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
+                                  return { ...prev, [i]: [...kept, ...added].sort((a, b) => a - b) }
+                                })
+                              }}
+                              min={1}
+                              max={90}
+                            />
                           </label>
                         </div>
                         <MilestoneCheckboxes
                           current={w.from_level}
-                          goal={Math.max(w.from_level, draftGoalLevel)}
-                          active={weaponActivePhases[i] ?? validMilestonesForRange(w.from_level, Math.max(w.from_level, draftGoalLevel))}
+                          goal={effectiveTo}
+                          active={weaponActivePhases[i] ?? validMilestonesForRange(w.from_level, effectiveTo)}
                           onChange={(next) => setWeaponActivePhases((prev) => ({ ...prev, [i]: next }))}
                         />
                       </div>
                     )}
                   </div>
-                ))}
+                  )
+                })}
                 {editing && (
                   <button className="plan-modal-add-weapon" onClick={() => setAddingWeapon(true)}>
                     <Plus size={14} /> Adicionar arma
@@ -936,6 +981,7 @@ export default function PlannerCharacterModal({
           <PlannerWeaponPicker
             weaponsMap={weaponsMap}
             currentSlug={weaponPickerIndex !== null ? (draftWeapons[weaponPickerIndex]?.slug ?? '') : ''}
+            weaponType={getPlannerDataOrNull()?.characters[char.slug]?.weapon_type}
             onSelect={(newSlug) => {
               const w = weaponsMap.get(newSlug)
               if (!w) return

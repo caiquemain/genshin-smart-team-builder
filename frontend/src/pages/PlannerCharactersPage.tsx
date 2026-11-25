@@ -91,6 +91,7 @@ export default function PlannerCharactersPage() {
       na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
       es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
       eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+      weapon: g?.weaponSlug ? { slug: g.weaponSlug, level: g.weaponLevel } : undefined,
     })
 
     if (res) {
@@ -133,6 +134,7 @@ export default function PlannerCharactersPage() {
       na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
       es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
       eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+      weapon: g?.weaponSlug ? { slug: g.weaponSlug, level: g.weaponLevel } : undefined,
     })
     if (res) {
       setPlan(res.plan)
@@ -170,6 +172,7 @@ export default function PlannerCharactersPage() {
         na: g ? { current: g.talents.na, goal: Math.max(g.talents.na, 1) } : undefined,
         es: g ? { current: g.talents.es, goal: Math.max(g.talents.es, 9) } : undefined,
         eb: g ? { current: g.talents.eb, goal: Math.max(g.talents.eb, 9) } : undefined,
+        weapon: g?.weaponSlug ? { slug: g.weaponSlug, level: g.weaponLevel } : undefined,
       })
       if (res) current = res.plan
     }

@@ -606,5 +606,77 @@ describe('planner-storage', () => {
     expect(neuviArt.substats).toEqual([{ key: 'critDMG_', value: 35 }])
     expect(furinaArt.setKey).toBe('golden-troupe')
   })
-})
 
+  it('includes equipped 3-star weapon and its ascension cost when adding a character via addCharToPlan', () => {
+    const dataWith3StarWeapon: PlannerData = {
+      ...SAMPLE_DATA,
+      characters: {
+        chiori: {
+          name: { pt: 'Chiori', en: 'Chiori' },
+          icon: 'UI_AvatarIcon_Chiori',
+          element: 'geo',
+          weapon_type: 'sword',
+          rarity: 5,
+          region: 'inazuma',
+          ascension_phases: [],
+          talent_phases: { normal_attack: [], elemental_skill: [], elemental_burst: [] },
+        },
+      },
+      weapons: {
+        'harbinger-of-dawn': {
+          name: { pt: 'Prenúncio do Alvorecer', en: 'Harbinger of Dawn' },
+          icon: 'UI_EquipIcon_Sword_Dawn',
+          rarity: 3,
+          weapon_type: 'sword',
+          ascension_phases: [
+            { phase: 1, max_level: 40, mora: 5_000, materials: [{ slug: 'boreal-wolf-s-milk-tooth', qty: 2 }] },
+            { phase: 6, max_level: 90, mora: 30_000, materials: [{ slug: 'boreal-wolf-s-nostalgia', qty: 3 }] },
+          ],
+        },
+      },
+      materials: {
+        ...SAMPLE_DATA.materials,
+        'boreal-wolf-s-milk-tooth': {
+          name: { pt: 'Dente de Leite do Lobo Boreal', en: "Boreal Wolf's Milk Tooth" },
+          icon: 'UI_ItemIcon_114005',
+          rarity: 2,
+          category: 'weapon_ascension',
+          description: {},
+          source: {},
+          is_weekly: false,
+        },
+        'boreal-wolf-s-nostalgia': {
+          name: { pt: 'Nostalgia do Lobo Boreal', en: "Boreal Wolf's Nostalgia" },
+          icon: 'UI_ItemIcon_114008',
+          rarity: 5,
+          category: 'weapon_ascension',
+          description: {},
+          source: {},
+          is_weekly: false,
+        },
+      },
+    }
+
+    const res = addCharToPlan(null, 'chiori', dataWith3StarWeapon, 'pt', 9, {
+      currentLevel: 90,
+      goalLevel: 90,
+      na: { current: 1, goal: 1 },
+      es: { current: 9, goal: 9 },
+      eb: { current: 9, goal: 9 },
+      weapon: { slug: 'harbinger-of-dawn', level: 20, goalLevel: 90 },
+    })
+
+    expect(res).not.toBeNull()
+    expect(res!.char.weapons).toHaveLength(1)
+    expect(res!.char.weapons[0].slug).toBe('harbinger-of-dawn')
+    expect(res!.char.weapons[0].rarity).toBe(3)
+    expect(res!.char.weapons[0].cost?.total_mora).toBe(35_000)
+    expect(res!.char.weapons[0].cost?.materials.map((m: { slug: string }) => m.slug)).toEqual([
+      'boreal-wolf-s-milk-tooth',
+      'boreal-wolf-s-nostalgia',
+    ])
+    expect(res!.char.has_weapon_pending).toBe(true)
+    expect(res!.char.is_complete).toBe(false)
+    expect(res!.plan.grand_mora).toBeGreaterThan(35_000)
+  })
+})
