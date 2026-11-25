@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Award,
   BarChart3,
   Crown,
   Database,
+  Flame,
   Gem,
+  Network,
   Search,
   Sparkles,
   Swords,
@@ -16,18 +18,43 @@ import { api } from '../api/client'
 import { artifactIconUrl, iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import CharacterCommunityStatsPanel from '../components/CharacterCommunityStatsPanel'
-import type { CommunityStatsResponse } from '../types'
+import CommunityDataScienceLab, {
+  type UserAccountBenchmarkItem,
+} from '../components/CommunityDataScienceLab'
+import {
+  analyzeCommunityDataset,
+  findNearestNeighbors,
+} from '../utils/community-analytics'
+import {
+  buildArtifactSetLookup,
+  buildWeaponLookup,
+  computeCharacterBuildStats,
+  loadCharacterStatsDataset,
+  type CharacterStatsDataset,
+  type ComputedCharStats,
+} from '../utils/char-stats-calc'
+import { useRoster } from '../utils/roster'
+import type {
+  ArtifactSetSummary,
+  CommunityStatsResponse,
+  WeaponSummary,
+} from '../types'
 
-type RankingTab = 'popular' | 'c6' | 'weapons' | 'artifacts'
+type RankingTab = 'popular' | 'c6' | 'cv' | 'weapons' | 'artifacts'
 
 export default function CommunityStatsPage() {
   const { lang } = useLanguage()
+  const roster = useRoster()
+  const explorerRef = useRef<HTMLElement | null>(null)
   const [data, setData] = useState<CommunityStatsResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [rankTab, setRankTab] = useState<RankingTab>('popular')
   const [charSearch, setCharSearch] = useState('')
   const [selectedSlug, setSelectedSlug] = useState<string>('')
+  const [statsDataset, setStatsDataset] = useState<CharacterStatsDataset | null>(null)
+  const [weaponsList, setWeaponsList] = useState<WeaponSummary[]>([])
+  const [artifactsList, setArtifactsList] = useState<ArtifactSetSummary[]>([])
 
   useEffect(() => {
     let active = true
@@ -54,6 +81,81 @@ export default function CommunityStatsPage() {
     }
   }, [lang])
 
+  // Carrega lookups leves apenas se o usuário tiver builds GOOD/Enka importadas
+  useEffect(() => {
+    if (!roster.hasGoodData) return
+    let active = true
+    Promise.all([
+      loadCharacterStatsDataset().catch(() => null),
+      api.listWeapons(lang, { limit: 300 }).then((r) => r.items).catch(() => [] as WeaponSummary[]),
+      api.listArtifacts(lang, { limit: 200 }).then((r) => r.items).catch(() => [] as ArtifactSetSummary[]),
+    ]).then(([ds, weaps, arts]) => {
+      if (!active) return
+      if (ds) setStatsDataset(ds)
+      setWeaponsList(weaps)
+      setArtifactsList(arts)
+    })
+    return () => {
+      active = false
+    }
+  }, [roster.hasGoodData, lang])
+
+  const analytics = useMemo(() => {
+    if (!data) return null
+    return analyzeCommunityDataset(Object.values(data.characters), 6)
+  }, [data])
+
+  const { userStatsBySlug, userBenchmarks } = useMemo(() => {
+    const map = new Map<string, ComputedCharStats>()
+    const benches: UserAccountBenchmarkItem[] = []
+    if (!data || !roster.hasGoodData || !statsDataset) {
+      return { userStatsBySlug: map, userBenchmarks: benches }
+    }
+    const weaponLookup = buildWeaponLookup(weaponsList)
+    const artifactSetLookup = buildArtifactSetLookup(artifactsList)
+
+    for (const c of Object.values(data.characters)) {
+      const goodState = roster.getGoodState(c.slug)
+      if (!goodState || goodState.artifacts.length === 0) continue
+      const computed = computeCharacterBuildStats({
+        slug: c.slug,
+        element: c.element,
+        goodState,
+        statsDataset,
+        weaponLookup,
+        artifactSetLookup,
+      })
+      map.set(c.slug, computed)
+      if (computed.hasArtifacts) {
+        const medCr = c.stats.crit_rate?.median ?? 0
+        const medCd = c.stats.crit_dmg?.median ?? 0
+        const medCv = medCr * 2 + medCd
+        const userCv = computed.critRate * 2 + computed.critDmg
+        if (medCv > 80) {
+          const ratio = userCv / medCv
+          const tier: UserAccountBenchmarkItem['tier'] =
+            ratio >= 1.15 ? 'elite' : ratio >= 1.03 ? 'high' : ratio >= 0.92 ? 'mid' : 'low'
+          benches.push({
+            slug: c.slug,
+            name: c.name,
+            icon: c.icon,
+            rarity: c.rarity,
+            userCv,
+            medianCv: medCv,
+            ratio,
+            tier,
+          })
+        }
+      }
+    }
+    return { userStatsBySlug: map, userBenchmarks: benches }
+  }, [data, roster, statsDataset, weaponsList, artifactsList])
+
+  const handleSelectAndScroll = (slug: string) => {
+    setSelectedSlug(slug)
+    explorerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   const sortedChars = useMemo(() => {
     if (!data) return []
     const q = charSearch.trim().toLowerCase()
@@ -63,6 +165,11 @@ export default function CommunityStatsPage() {
   }, [data, charSearch])
 
   const selectedChar = data && selectedSlug ? data.characters[selectedSlug] ?? null : null
+  const selectedEnriched = analytics && selectedSlug ? analytics.bySlug.get(selectedSlug) ?? null : null
+  const nearestNeighbors = useMemo(() => {
+    if (!analytics || !selectedSlug) return []
+    return findNearestNeighbors(selectedSlug, analytics.items, 6)
+  }, [analytics, selectedSlug])
 
   const formattedDate = data?.updated_at
     ? new Date(data.updated_at).toLocaleDateString('pt-BR', {
@@ -193,6 +300,13 @@ export default function CommunityStatsPage() {
               </button>
               <button
                 type="button"
+                className={`cs-tab ${rankTab === 'cv' ? 'is-active' : ''}`}
+                onClick={() => setRankTab('cv')}
+              >
+                <Flame size={14} /> Elite Crítica — CV (Top 15)
+              </button>
+              <button
+                type="button"
                 className={`cs-tab ${rankTab === 'weapons' ? 'is-active' : ''}`}
                 onClick={() => setRankTab('weapons')}
               >
@@ -257,6 +371,31 @@ export default function CommunityStatsPage() {
               </div>
             )}
 
+            {rankTab === 'cv' && analytics && (
+              <div className="cs-rank-grid">
+                {analytics.topCritValue.map((c, idx) => (
+                  <button
+                    key={c.slug}
+                    type="button"
+                    className={`cs-rank-card ${selectedSlug === c.slug ? 'is-selected' : ''}`}
+                    onClick={() => setSelectedSlug(c.slug)}
+                  >
+                    <span className="cs-rank-badge is-cyan">#{idx + 1}</span>
+                    <div className={`cs-rank-avatar rarity-${c.rarity}`}>
+                      {iconUrl(c.icon) ? <img src={iconUrl(c.icon)!} alt={c.name} loading="lazy" /> : null}
+                    </div>
+                    <div className="cs-rank-info">
+                      <strong>{c.name}</strong>
+                      <span className="cs-cyan-text">{c.cvEff.toFixed(1)} CV Efetivo</span>
+                      <div className="cs-rank-sub">
+                        CR {c.crMed.toFixed(1)}% · CD {c.cdMed.toFixed(1)}% ({c.count.toLocaleString('pt-BR')} builds)
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+
             {rankTab === 'weapons' && (
               <div className="cs-rank-grid">
                 {data.rankings.top_weapons.map((w, idx) => (
@@ -280,7 +419,7 @@ export default function CommunityStatsPage() {
                 {data.rankings.top_artifact_sets.map((s, idx) => (
                   <Link key={s.ambr_id} to={`/artifacts/${s.slug}`} className="cs-rank-card">
                     <span className="cs-rank-badge">#{idx + 1}</span>
-                    <div className="cs-rank-avatar rarity-5">
+                    <div className={`cs-rank-avatar rarity-5`}>
                       {artifactIconUrl(s.icon) ? (
                         <img src={artifactIconUrl(s.icon)!} alt={s.name} loading="lazy" />
                       ) : (
@@ -298,13 +437,24 @@ export default function CommunityStatsPage() {
             )}
           </section>
 
+          {/* 3.5 Laboratório de Ciência de Dados (K-Means, PCA 2D, Entropia, Bimodal, Spearman & Sua Conta) */}
+          {analytics && (
+            <CommunityDataScienceLab
+              analytics={analytics}
+              selectedSlug={selectedSlug}
+              onSelectChar={handleSelectAndScroll}
+              totalPlayers={data.census.total_players}
+              userBenchmarks={userBenchmarks}
+            />
+          )}
+
           {/* 4. Explorador Interativo de Qualquer Personagem */}
-          <section className="cs-explorer">
+          <section ref={explorerRef} className="cs-explorer">
             <div className="cs-explorer-bar">
               <div>
                 <h2>Explorar Estatísticas por Personagem</h2>
                 <p className="muted">
-                  Selecione qualquer um dos {data.total_characters} personagens para ver constelações, armas, sets, talentos e medianas.
+                  Selecione qualquer um dos {data.total_characters} personagens para ver constelações, armas, sets, talentos, radar e vizinhos mais parecidos.
                 </p>
               </div>
               <div className="cs-search-wrap">
@@ -335,6 +485,15 @@ export default function CommunityStatsPage() {
             {selectedChar && (
               <div className="cs-explorer-detail">
                 <div className="cs-explorer-char-link">
+                  {selectedEnriched && (
+                    <span className="cs-cluster-pill is-static">
+                      <span
+                        className="cs-cluster-dot"
+                        style={{ background: selectedEnriched.clusterColor }}
+                      />
+                      <span>Arquétipo K-Means: <strong>{selectedEnriched.clusterName}</strong></span>
+                    </span>
+                  )}
                   <Link to={`/characters/${selectedChar.slug}`} className="btn-primary">
                     Abrir Página Completa de {selectedChar.name} →
                   </Link>
@@ -343,7 +502,41 @@ export default function CommunityStatsPage() {
                   slug={selectedChar.slug}
                   preloaded={selectedChar}
                   totalPlayers={data.census.total_players}
+                  userStats={userStatsBySlug.get(selectedChar.slug) ?? null}
                 />
+
+                {nearestNeighbors.length > 0 && (
+                  <div className="cs-card cs-neighbors-card">
+                    <div className="cs-card-title">
+                      <Network size={13} /> 6 Personagens com Perfil de Build Mais Parecido com {selectedChar.name} (Distância Euclidiana em 8D)
+                    </div>
+                    <div className="cs-neighbors-grid">
+                      {nearestNeighbors.map(({ item, distance }) => (
+                        <button
+                          key={item.slug}
+                          type="button"
+                          className="cs-neighbor-chip"
+                          onClick={() => setSelectedSlug(item.slug)}
+                        >
+                          <div className={`cs-bench-avatar rarity-${item.rarity}`}>
+                            {iconUrl(item.icon) ? (
+                              <img src={iconUrl(item.icon)!} alt={item.name} loading="lazy" />
+                            ) : null}
+                          </div>
+                          <div className="cs-neighbor-info">
+                            <strong>{item.name}</strong>
+                            <span>
+                              CV {item.cvEff.toFixed(0)} · ER {Math.round(item.erMed)}% · EM {Math.round(item.emMed)}
+                            </span>
+                          </div>
+                          <span className="cs-neighbor-dist" title="Distância euclidiana nos 8 stats padronizados">
+                            d={distance.toFixed(2)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </section>
