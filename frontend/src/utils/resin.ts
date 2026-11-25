@@ -66,6 +66,28 @@ export function estimateResin(category: string, quantity: number): number {
    NOVO: estimateResinRange — faixa min/avg/max de runs e resina
    ============================================================ */
 
+export type ResinSpendMode = 20 | 40 | 60
+
+export function computeRunModes(baseRuns20: number): {
+  runs20: number
+  runs40: number
+  runs60: number
+} {
+  const runs20 = Math.max(0, Math.ceil(baseRuns20))
+  return {
+    runs20,
+    runs40: Math.ceil(runs20 / 2),
+    runs60: Math.ceil(runs20 / 3),
+  }
+}
+
+export function runsForMode(baseRuns20: number, mode: ResinSpendMode = 20): number {
+  const m = computeRunModes(baseRuns20)
+  if (mode === 60) return m.runs60
+  if (mode === 40) return m.runs40
+  return m.runs20
+}
+
 export interface ResinRange {
   kind: 'free' | 'mora' | 'resin' | 'complete'
   tier: ResinTier
@@ -79,11 +101,13 @@ export interface ResinRange {
   maxResin: number
   unitLabel?: string
   perRunNote?: string
+  preferredResinMode?: ResinSpendMode
 }
 
 export interface ResinRangeOptions {
   rarity?: number | null
   wl?: number
+  resinMode?: ResinSpendMode
 }
 
 /**
@@ -134,6 +158,7 @@ export function estimateResinRange(
 ): ResinRange {
   const wl = options.wl ?? 9
   const rarity = options.rarity ?? null
+  const preferredResinMode = options.resinMode ?? 20
   const tier = tierOf(category)
   const missing = Math.max(0, quantity - have)
   const empty: Omit<ResinRange, 'kind' | 'tier' | 'quantity' | 'have'> = {
@@ -170,6 +195,7 @@ export function estimateResinRange(
       maxResin: resin,
       unitLabel: 'Mora',
       perRunNote: `${(perRun / 1000).toFixed(0)}k Mora/run (WL ${wl})`,
+      preferredResinMode,
     }
   }
 
@@ -201,6 +227,7 @@ export function estimateResinRange(
       maxResin: maxRuns * LEYLINE_XP_RESIN_PER_RUN,
       unitLabel: 'livros',
       perRunNote: `≈${booksPerRunAvg.toFixed(1)} Hero's Wit/run (WL ${wl})`,
+      preferredResinMode,
     }
   }
 
@@ -227,6 +254,7 @@ export function estimateResinRange(
     avgResin: avgRuns * tier.resinPerRun,
     maxResin: maxRuns * tier.resinPerRun,
     unitLabel: 'un.',
+    preferredResinMode,
   }
 }
 

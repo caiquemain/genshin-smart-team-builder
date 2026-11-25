@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { tierOf, estimateResin, estimateResinRange, formatDays } from '../resin'
+import { tierOf, estimateResin, estimateResinRange, computeRunModes, runsForMode, formatDays } from '../resin'
 
 describe('resin', () => {
   it('maps material categories to expected resin tiers', () => {
@@ -33,15 +33,17 @@ describe('resin', () => {
   })
 
   it('computes Leyline runs for Mora and Hero\'s Wit and calibrates by rarity and WL', () => {
-    const mora = estimateResinRange('mora', 600_000, 120_000, { wl: 9 })
+    const mora = estimateResinRange('mora', 600_000, 120_000, { wl: 9, resinMode: 60 })
     expect(mora.kind).toBe('mora')
-    expect(mora.avgRuns).toBe(8) // 480k / 60k = 8 runs
+    expect(mora.avgRuns).toBe(8) // 480k / 60k = 8 runs (20 resin)
     expect(mora.avgResin).toBe(160)
+    expect(mora.preferredResinMode).toBe(60)
 
-    const xp = estimateResinRange('character_exp', 122, 0, { rarity: 4, wl: 9 })
+    const xp = estimateResinRange('character_exp', 122, 0, { rarity: 4, wl: 9, resinMode: 40 })
     expect(xp.kind).toBe('resin')
     expect(xp.avgRuns).toBe(20) // 122 / 6.125 = 19.9 -> 20 runs
     expect(xp.avgResin).toBe(400)
+    expect(xp.preferredResinMode).toBe(40)
 
     const bossWl9 = estimateResinRange('boss_material', 46, 0, { wl: 9 })
     const bossWl8 = estimateResinRange('boss_material', 46, 0, { wl: 8 })
@@ -50,6 +52,18 @@ describe('resin', () => {
     const goldBook = estimateResinRange('talent_book', 38, 0, { rarity: 4, wl: 9 })
     const blueBook = estimateResinRange('talent_book', 38, 0, { rarity: 3, wl: 9 })
     expect(goldBook.avgRuns).toBeGreaterThan(blueBook.avgRuns)
+  })
+
+  it('computes 20 / 40 / 60 Condensed Resin (3x) run modes accurately', () => {
+    expect(computeRunModes(0)).toEqual({ runs20: 0, runs40: 0, runs60: 0 })
+    expect(computeRunModes(1)).toEqual({ runs20: 1, runs40: 1, runs60: 1 })
+    expect(computeRunModes(6)).toEqual({ runs20: 6, runs40: 3, runs60: 2 })
+    expect(computeRunModes(7)).toEqual({ runs20: 7, runs40: 4, runs60: 3 })
+    expect(computeRunModes(12)).toEqual({ runs20: 12, runs40: 6, runs60: 4 })
+
+    expect(runsForMode(10, 20)).toBe(10)
+    expect(runsForMode(10, 40)).toBe(5)
+    expect(runsForMode(10, 60)).toBe(4)
   })
 
   it('formats resin into human-readable days/months', () => {

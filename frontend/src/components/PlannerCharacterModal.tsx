@@ -8,7 +8,8 @@ import { useLanguage } from '../context/LanguageContext'
 import type { AggregateMaterial, CharBreakdown, WeaponBreakdown } from '../types/planner'
 import type { WeaponSummary } from '../types'
 import type { BestiaryData } from '../types/bestiary'
-import { estimateResin, estimateResinRange } from '../utils/resin'
+import { estimateResin, estimateResinRange, type ResinSpendMode } from '../utils/resin'
+import { loadPlannerSettings } from '../utils/planner-storage'
 import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import { recomputeChar, getXpMaterials, type CharEdit } from '../utils/planner-recompute'
 import { computeMoraLeyline, getOwnedCharXp } from '../utils/xp-costs'
@@ -99,6 +100,7 @@ function MaterialRow({
   have,
   lang,
   wl,
+  resinMode,
   bestiary,
   onEdit,
 }: {
@@ -106,6 +108,7 @@ function MaterialRow({
   have: number
   lang: string
   wl: number
+  resinMode: ResinSpendMode
   bestiary: BestiaryData | null
   onEdit?: (material: AggregateMaterial) => void
 }) {
@@ -118,6 +121,7 @@ function MaterialRow({
   const resinRange = estimateResinRange(effectiveCategory, material.quantity, have, {
     rarity: material.rarity,
     wl,
+    resinMode,
   })
 
   const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
@@ -228,7 +232,7 @@ function MilestoneCheckboxes({ current, goal, active, onChange, disabled }: {
 interface TalentDraft { current: number; goal: number }
 
 export default function PlannerCharacterModal({
-  char, element, inventory, onClose, onUpdate, onRemove, onSaveInventory, weaponsMap, wl = 9, initialEditing = false,
+  char, element, inventory, onClose, onUpdate, onRemove, onSaveInventory, weaponsMap, wl = 9, resinMode, initialEditing = false,
 }: {
   char: CharBreakdown
   element: string | undefined
@@ -239,8 +243,10 @@ export default function PlannerCharacterModal({
   onSaveInventory?: (slug: string, newQty: number) => void
   weaponsMap?: Map<string, WeaponSummary>
   wl?: number
+  resinMode?: ResinSpendMode
   initialEditing?: boolean
 }) {
+  const effectiveResinMode = resinMode ?? loadPlannerSettings().resinMode
   const { lang } = useLanguage()
   const canEdit = !!onUpdate && !!weaponsMap
 
@@ -841,6 +847,7 @@ export default function PlannerCharacterModal({
                       }
                       lang={lang}
                       wl={wl}
+                      resinMode={effectiveResinMode}
                       bestiary={bestiary}
                       onEdit={onSaveInventory ? setEditingMaterial : undefined}
                     />
@@ -859,6 +866,7 @@ export default function PlannerCharacterModal({
                       have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
                       lang={lang}
                       wl={wl}
+                      resinMode={effectiveResinMode}
                       bestiary={bestiary}
                       onEdit={onSaveInventory ? setEditingMaterial : undefined}
                     />
@@ -877,6 +885,7 @@ export default function PlannerCharacterModal({
                       have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
                       lang={lang}
                       wl={wl}
+                      resinMode={effectiveResinMode}
                       bestiary={bestiary}
                       onEdit={onSaveInventory ? setEditingMaterial : undefined}
                     />

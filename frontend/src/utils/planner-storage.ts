@@ -492,17 +492,20 @@ export function loadManualInventory(): Record<string, number> {
   }
 }
 
-export function loadPlannerSettings(): { ar: number; wl: number } {
+export function loadPlannerSettings(): { ar: number; wl: number; resinMode: 20 | 40 | 60 } {
   try {
     const rawV5 = localStorage.getItem(PLANNER_V5_KEY)
-    if (!rawV5) return { ar: 60, wl: 9 }
+    if (!rawV5) return { ar: 60, wl: 9, resinMode: 20 }
     const parsed = JSON.parse(rawV5)
+    const rawMode = parsed?.resinMode
+    const resinMode: 20 | 40 | 60 = rawMode === 60 || rawMode === 40 ? rawMode : 20
     return {
       ar: parsed?.ar ?? parsed?.seelie?.ar ?? 60,
       wl: parsed?.wl ?? parsed?.seelie?.wl ?? 9,
+      resinMode,
     }
   } catch {
-    return { ar: 60, wl: 9 }
+    return { ar: 60, wl: 9, resinMode: 20 }
   }
 }
 

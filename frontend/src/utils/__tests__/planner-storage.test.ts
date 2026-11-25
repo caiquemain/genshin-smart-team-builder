@@ -521,7 +521,11 @@ describe('planner-storage', () => {
 
     expect(summary).toEqual({ rosterUpdated: 1, plannerAdded: 1, plannerUpdated: 0 })
     expect(getSavedEnkaUid()).toBe('612345678')
-    expect(loadPlannerSettings()).toEqual({ ar: 59, wl: 8 })
+    expect(loadPlannerSettings()).toEqual({ ar: 59, wl: 8, resinMode: 20 })
+
+    const rawV5 = JSON.parse(localStorage.getItem(PLANNER_V5_KEY)!)
+    localStorage.setItem(PLANNER_V5_KEY, JSON.stringify({ ...rawV5, resinMode: 60 }))
+    expect(loadPlannerSettings()).toEqual({ ar: 59, wl: 8, resinMode: 60 })
 
     const roster = JSON.parse(localStorage.getItem(ROSTER_KEY)!)
     expect(roster.furina).toEqual({ owned: true, cons: 2 }) // preservado!

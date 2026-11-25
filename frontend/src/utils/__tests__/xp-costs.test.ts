@@ -7,6 +7,7 @@ import {
   FORGE_MORA_PER_ORE,
   getLeylineMoraPerRun,
   getLeylineXpPerRun,
+  getOwnedCharXp,
   computeCharXp,
   computeWeaponXp,
   computeMoraLeyline,
@@ -63,5 +64,18 @@ describe('xp-costs', () => {
     expect(computeMoraLeyline(120_000, 9)).toEqual({ runs: 2, resin: 40 })
     expect(computeMoraLeyline(120_001, 9)).toEqual({ runs: 3, resin: 60 })
     expect(computeMoraLeyline(60_000, 0)).toEqual({ runs: 5, resin: 100 })
+  })
+
+  it('combines all 3 XP book tiers into total XP and Hero\'s Wit equivalent', () => {
+    const res = getOwnedCharXp({
+      'hero-s-wit': 10, // 200,000
+      'adventurer-s-experience': 8, // 40,000 (= 2 Hero's Wit)
+      'wanderer-s-advice': 25, // 25,000 (= 1.25 Hero's Wit)
+    })
+    expect(res.heroWits).toBe(10)
+    expect(res.adventurerExp).toBe(8)
+    expect(res.wandererAdvice).toBe(25)
+    expect(res.totalXp).toBe(265_000)
+    expect(res.heroWitEquivalent).toBe(13) // floor(265,000 / 20,000)
   })
 })

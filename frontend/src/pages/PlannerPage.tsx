@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import ItemTooltip from '../components/ItemTooltip'
-import { tierOf, estimateResin, estimateResinRange, formatDays, formatResin, TIERS } from '../utils/resin'
+import { tierOf, estimateResin, estimateResinRange, formatDays, formatResin, TIERS, type ResinSpendMode } from '../utils/resin'
 import { resolveGoodMaterials, resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
 import { getBestiaryData, calculateKills, calculateFamilyKills } from '../utils/kills-compute'
 import type { BestiaryData } from '../types/bestiary'
@@ -104,7 +104,7 @@ function mergeMats(target: Map<string, AggregateMaterial>, mats: AscensionMateri
 }
 
 function MaterialCard({ 
-  material, have, globalMax, inventory, family, solvents, isWeekly = false, onEdit, wl, bestiary
+  material, have, globalMax, inventory, family, solvents, isWeekly = false, onEdit, wl, resinMode = 20, bestiary
 }: { 
   material: AggregateMaterial
   have: number
@@ -115,6 +115,7 @@ function MaterialCard({
   isWeekly?: boolean
   onEdit: (slug: string) => void
   wl: number
+  resinMode?: ResinSpendMode
   bestiary: BestiaryData | null
 }) {
   const img = iconUrl(material.icon)
@@ -159,6 +160,7 @@ function MaterialCard({
   const resinRange = estimateResinRange(effectiveCategory, material.quantity, have, {
     rarity: material.rarity,
     wl,
+    resinMode,
   })
 
   return (
@@ -223,7 +225,7 @@ function MaterialCard({
   )
 }
 
-function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWeekly = false, onEdit, wl, bestiary }: {
+function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWeekly = false, onEdit, wl, resinMode = 20, bestiary }: {
   mats: AggregateMaterial[]
   inventory: Record<string, number>
   globalMax: Record<string, number>
@@ -232,6 +234,7 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
   isWeekly?: boolean
   onEdit: (slug: string) => void
   wl: number
+  resinMode?: ResinSpendMode
   bestiary: BestiaryData | null
 }) {
   if (mats.length === 1 || isWeekly) {
@@ -249,6 +252,7 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
             isWeekly={isWeekly} 
             onEdit={onEdit}
             wl={wl}
+            resinMode={resinMode}
             bestiary={bestiary}
           />
         ))}
@@ -311,7 +315,7 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
     mainMat.category,
     Math.ceil(eqNeeded),
     Math.floor(eqHave),
-    { rarity: highestRarity, wl },
+    { rarity: highestRarity, wl, resinMode },
   )
 
   return (
@@ -447,6 +451,7 @@ export default function PlannerPage() {
   
   const [ar, setAr] = useState(() => loadPlannerSettings().ar)
   const [wl, setWl] = useState(() => loadPlannerSettings().wl)
+  const [resinMode, setResinMode] = useState<20 | 40 | 60>(() => loadPlannerSettings().resinMode)
   const [showSettings, setShowSettings] = useState(false)
   const [showCharPicker, setShowCharPicker] = useState(false)
   const [charPickerMode, setCharPickerMode] = useState<'plan' | 'focus'>('plan')
@@ -609,10 +614,15 @@ export default function PlannerPage() {
     } catch (err) { setError(String(err)) }
   }
 
-  const handleSaveSettings = (newAr: number, newWl: number) => {
+  const handleSaveSettings = (newAr: number, newWl: number, newResinMode: 20 | 40 | 60) => {
     setAr(newAr)
     setWl(newWl)
+    setResinMode(newResinMode)
     saveToStorage(seelieData, goodData, newAr, newWl)
+    try {
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...existing, ar: newAr, wl: newWl, resinMode: newResinMode }))
+    } catch {}
     setShowSettings(false)
     if (plan) {
       const updated = recomputeAggregates({ ...plan, tier_groups: [] }, plan.inventory_resolved, newWl)
@@ -1135,7 +1145,7 @@ export default function PlannerPage() {
             <UserCheck size={16} /> Importar por UID
           </button>
           <button className="btn-secondary" onClick={() => setShowSettings(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <Settings size={16} /> AR {ar} / WL {wl}
+            <Settings size={16} /> AR {ar} / WL {wl} · {resinMode}⚡
           </button>
           {(hasActivePlan || seelieData || goodData) && (
             <button className="btn-danger" onClick={handleClear}>Limpar plano</button>
@@ -1344,7 +1354,7 @@ export default function PlannerPage() {
             {(() => {
               const moraHave = displayPlan.inventory_resolved['mora'] ?? 0
               const moraMissing = Math.max(0, displayPlan.grand_mora - moraHave)
-              const moraRange = estimateResinRange('mora', displayPlan.grand_mora, moraHave, { wl })
+              const moraRange = estimateResinRange('mora', displayPlan.grand_mora, moraHave, { wl, resinMode })
               return (
                 <ItemTooltip
                   data={{
@@ -1386,7 +1396,7 @@ export default function PlannerPage() {
               <div className="planner-stat-value resin">{formatResin(displayPlan.grand_resin)} ⚡</div>
             </div>
             {(() => {
-              const xpRange = estimateResinRange('character_exp', displayXpTotals.heroWits, displayXpTotals.heroWitsHave, { rarity: 4, wl })
+              const xpRange = estimateResinRange('character_exp', displayXpTotals.heroWits, displayXpTotals.heroWitsHave, { rarity: 4, wl, resinMode })
               const xpMissing = Math.max(0, displayXpTotals.heroWits - displayXpTotals.heroWitsHave)
               return (
                 <ItemTooltip
@@ -1466,6 +1476,7 @@ export default function PlannerPage() {
               plan={displayPlan}
               data={plannerData}
               wl={wl}
+              resinMode={resinMode}
               onEditMaterial={(slug) => setEditingItem(slug)}
             />
           )}
@@ -1541,6 +1552,7 @@ export default function PlannerPage() {
                           isWeekly={tg.tier.key === 'weekly'}
                           onEdit={(slug) => setEditingItem(slug)}
                           wl={wl}
+                          resinMode={resinMode}
                           bestiary={bestiary}
                         />
                       )
@@ -1689,6 +1701,7 @@ export default function PlannerPage() {
         <SettingsModal
           ar={ar}
           wl={wl}
+          resinMode={resinMode}
           onSave={handleSaveSettings}
           onClose={() => setShowSettings(false)}
         />
@@ -1735,6 +1748,7 @@ export default function PlannerPage() {
           onSaveInventory={handleSaveItem}
           weaponsMap={weapons}
           wl={wl}
+          resinMode={resinMode}
           initialEditing={editingCharInitialEdit}
         />
       )}

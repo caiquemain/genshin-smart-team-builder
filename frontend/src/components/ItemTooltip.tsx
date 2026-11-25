@@ -24,7 +24,7 @@ import {
 } from '@floating-ui/react'
 import { Check, Swords, AlertTriangle } from 'lucide-react'
 import { categoryInfo } from '../utils/categories'
-import { formatResin, type ResinRange } from '../utils/resin'
+import { computeRunModes, formatResin, type ResinRange } from '../utils/resin'
 
 const RARITY_COLORS: Record<number, string> = {
   1: '#8b8b8b',
@@ -86,6 +86,9 @@ function ResinBlock({ range }: { range: ResinRange }) {
   const qtyLabel = range.have > 0 ? 'que falta' : 'no total'
   const unit = range.unitLabel ?? 'un.'
   const isExact = range.minRuns === range.maxRuns
+  const supportsMultiSpend = range.tier.resinPerRun === 20 && range.avgRuns > 0
+  const modes = supportsMultiSpend ? computeRunModes(range.avgRuns) : null
+  const pref = range.preferredResinMode ?? 20
 
   return (
     <div className="item-tooltip-resin">
@@ -98,8 +101,8 @@ function ResinBlock({ range }: { range: ResinRange }) {
         <div className="item-tooltip-resin-runs" style={{ gridTemplateColumns: '1fr' }}>
           <div className="is-avg">
             <span>{range.perRunNote ?? 'Custo fixo'}</span>
-            <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'}</strong>
-            <small>{formatResin(range.avgResin)} resina</small>
+            <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'} (20⚡)</strong>
+            <small>{formatResin(range.avgResin)} resina total</small>
           </div>
         </div>
       ) : (
@@ -118,6 +121,22 @@ function ResinBlock({ range }: { range: ResinRange }) {
             <span>Sem sorte</span>
             <strong>{range.maxRuns} {range.maxRuns === 1 ? 'run' : 'runs'}</strong>
             <small>{formatResin(range.maxResin)} resina</small>
+          </div>
+        </div>
+      )}
+      {modes && (
+        <div className="item-tooltip-spend-modes">
+          <div className={`item-tooltip-spend-pill ${pref === 20 ? 'is-pref' : ''}`}>
+            <span>20⚡ (1×)</span>
+            <strong>{modes.runs20} {modes.runs20 === 1 ? 'run' : 'runs'}</strong>
+          </div>
+          <div className={`item-tooltip-spend-pill ${pref === 40 ? 'is-pref' : ''}`}>
+            <span>40⚡ (2×)</span>
+            <strong>{modes.runs40} {modes.runs40 === 1 ? 'run' : 'runs'}</strong>
+          </div>
+          <div className={`item-tooltip-spend-pill ${pref === 60 ? 'is-pref' : ''}`}>
+            <span>60⚡ Cond. (3×)</span>
+            <strong>{modes.runs60} {modes.runs60 === 1 ? 'run' : 'runs'}</strong>
           </div>
         </div>
       )}

@@ -4339,6 +4339,99 @@ details.planner-notmapped[open] > summary {
   object-fit: contain;
 }
 
+/* Equivalência de runs 20 / 40 / 60 Condensada (3x) na ItemTooltip */
+.item-tooltip-spend-modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px dashed rgba(148, 163, 184, 0.22);
+}
+
+.item-tooltip-spend-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 5px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  font-variant-numeric: tabular-nums;
+}
+
+.item-tooltip-spend-pill span {
+  font-size: 9.5px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.item-tooltip-spend-pill strong {
+  font-size: 11px;
+  color: #e2e8f0;
+  font-weight: 800;
+}
+
+.item-tooltip-spend-pill.is-pref {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: rgba(56, 189, 248, 0.55);
+}
+
+.item-tooltip-spend-pill.is-pref span {
+  color: #7dd3fc;
+}
+
+.item-tooltip-spend-pill.is-pref strong {
+  color: #ffffff;
+}
+
+/* Seletor de gasto de resina no SettingsModal */
+.resin-mode-selector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.resin-mode-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 9px 6px;
+  border-radius: 9px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.resin-mode-opt strong {
+  font-size: 12.5px;
+  color: #f8fafc;
+}
+
+.resin-mode-opt small {
+  font-size: 10.5px;
+  color: #94a3b8;
+}
+
+.resin-mode-opt:hover {
+  border-color: rgba(125, 211, 252, 0.5);
+}
+
+.resin-mode-opt.is-active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.resin-mode-opt.is-active small {
+  color: #bae6fd;
+}
+
+
 
 
 

@@ -121,6 +121,21 @@ describe('planner-recompute', () => {
       'water-that-failed-to-transcend': 20,
       'lightless-mass': 2,
     })
+
+    // Owned Mora and all 3 XP book tiers must reduce grand_resin
+    const withMoraAndXp = recomputeAggregates(
+      basePlan,
+      {
+        'water-that-failed-to-transcend': 20,
+        'lightless-mass': 2,
+        mora: 5_000_000,
+        'hero-s-wit': 100,
+        'adventurer-s-experience': 400,
+        'wanderer-s-advice': 500,
+      },
+      9,
+    )
+    expect(withMoraAndXp.grand_resin).toBeLessThan(updated.grand_resin)
   })
 
   it('updates skill/burst talents, clamps goal >= current, preserves active ascension phases, and removes deleted weapons', async () => {

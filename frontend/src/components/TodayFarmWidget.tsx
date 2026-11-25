@@ -10,7 +10,7 @@ import {
   getGenshinDayOfWeek,
   type DailyDomainEntry,
 } from '../utils/domain-schedule'
-import { estimateResinRange, formatResin } from '../utils/resin'
+import { estimateResinRange, formatResin, runsForMode, type ResinSpendMode } from '../utils/resin'
 import {
   ADVENTURER_EXP_SLUG,
   getOwnedCharXp,
@@ -35,10 +35,12 @@ const WANDERER_ADVICE_ICON = 'UI_ItemIcon_104001'
 function DomainCard({
   entry,
   wl,
+  resinMode,
   onEditMaterial,
 }: {
   entry: DailyDomainEntry
   wl: number
+  resinMode: ResinSpendMode
   onEditMaterial: (slug: string) => void
 }) {
   const img = iconUrl(entry.icon)
@@ -94,6 +96,7 @@ function DomainCard({
           const resinRange = estimateResinRange(category, t.needed, t.have, {
             rarity: t.rarity,
             wl,
+            resinMode,
           })
           return (
             <ItemTooltip
@@ -135,6 +138,7 @@ function LeylineCard({
   needed,
   have,
   wl,
+  resinMode,
   xpBooks,
   onEditMaterial,
 }: {
@@ -142,6 +146,7 @@ function LeylineCard({
   needed: number
   have: number
   wl: number
+  resinMode: ResinSpendMode
   xpBooks?: { heroWits: number; adventurerExp: number; wandererAdvice: number }
   onEditMaterial: (slug: string) => void
 }) {
@@ -151,7 +156,8 @@ function LeylineCard({
   const title = isMora ? 'Linha Ley — Flor da Riqueza' : 'Linha Ley — Flor da Revelação'
   const itemName = isMora ? 'Mora' : "Livros de XP (eq. Hero's Wit)"
   const category = isMora ? 'mora' : 'character_exp'
-  const resinRange = estimateResinRange(category, needed, have, { rarity: isMora ? 3 : 4, wl })
+  const resinRange = estimateResinRange(category, needed, have, { rarity: isMora ? 3 : 4, wl, resinMode })
+  const displayRuns = runsForMode(resinRange.avgRuns, resinMode)
 
   const fmtQty = (n: number) =>
     isMora && n >= 1_000_000
@@ -175,7 +181,7 @@ function LeylineCard({
         icon,
         rarity: isMora ? 3 : 4,
         category,
-        source: `${title} · Aberto todos os dias (20 resina/run)`,
+        source: `${title} · Aberto todos os dias (20/40/60 resina)`,
         resinRange,
       }}
     >
@@ -210,7 +216,7 @@ function LeylineCard({
               </span>
               <span>Todos os dias</span>
               <span>·</span>
-              <span>{resinRange.avgRuns} {resinRange.avgRuns === 1 ? 'run' : 'runs'}</span>
+              <span>{displayRuns} {displayRuns === 1 ? 'run' : 'runs'} ({resinMode}⚡)</span>
             </div>
           </div>
           <div className="today-domain-resin" title="Resina estimada na Linha Ley">
@@ -263,11 +269,13 @@ export default function TodayFarmWidget({
   plan,
   data,
   wl = 9,
+  resinMode = 20,
   onEditMaterial,
 }: {
   plan: Plan
   data: PlannerData
   wl?: number
+  resinMode?: ResinSpendMode
   onEditMaterial: (slug: string) => void
 }) {
   const { lang } = useLanguage()
@@ -362,10 +370,10 @@ export default function TodayFarmWidget({
       ) : (
         <div className="today-domains-grid">
           {daily.talentDomains.map((entry) => (
-            <DomainCard key={`tal-${entry.familyKey}`} entry={entry} wl={wl} onEditMaterial={onEditMaterial} />
+            <DomainCard key={`tal-${entry.familyKey}`} entry={entry} wl={wl} resinMode={resinMode} onEditMaterial={onEditMaterial} />
           ))}
           {daily.weaponDomains.map((entry) => (
-            <DomainCard key={`wpn-${entry.familyKey}`} entry={entry} wl={wl} onEditMaterial={onEditMaterial} />
+            <DomainCard key={`wpn-${entry.familyKey}`} entry={entry} wl={wl} resinMode={resinMode} onEditMaterial={onEditMaterial} />
           ))}
           {leylines.xpMissing > 0 && (
             <LeylineCard
@@ -373,6 +381,7 @@ export default function TodayFarmWidget({
               needed={leylines.xpNeeded}
               have={leylines.xpHave}
               wl={wl}
+              resinMode={resinMode}
               xpBooks={leylines.xpBooks}
               onEditMaterial={onEditMaterial}
             />
@@ -383,6 +392,7 @@ export default function TodayFarmWidget({
               needed={leylines.moraNeeded}
               have={leylines.moraHave}
               wl={wl}
+              resinMode={resinMode}
               onEditMaterial={onEditMaterial}
             />
           )}

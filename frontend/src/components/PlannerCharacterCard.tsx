@@ -3,7 +3,8 @@ import { Moon, Check, Flame, Droplets, Snowflake, Zap, Wind, Mountain, Leaf } fr
 import { iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
-import { estimateResinRange } from '../utils/resin'
+import { estimateResinRange, type ResinSpendMode } from '../utils/resin'
+import { loadPlannerSettings } from '../utils/planner-storage'
 import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import type { BestiaryData } from '../types/bestiary'
 import type { AggregateMaterial, CharBreakdown } from '../types/planner'
@@ -61,7 +62,7 @@ export function aggregateCharMaterials(c: CharBreakdown): AggregateMaterial[] {
   return Array.from(mats.values()).sort((a, b) => (b.rarity ?? 0) - (a.rarity ?? 0) || a.name.localeCompare(b.name))
 }
 
-function PlanMaterialIcon({ material, have, wl, bestiary }: { material: AggregateMaterial; have: number; wl: number; bestiary: BestiaryData | null }) {
+function PlanMaterialIcon({ material, have, wl, resinMode, bestiary }: { material: AggregateMaterial; have: number; wl: number; resinMode: ResinSpendMode; bestiary: BestiaryData | null }) {
   const isMora = material.slug === '__mora__'
   const img = isMora ? iconUrl('UI_ItemIcon_202') : iconUrl(material.icon)
   const missing = Math.max(0, material.quantity - have)
@@ -82,7 +83,8 @@ function PlanMaterialIcon({ material, have, wl, bestiary }: { material: Aggregat
   const resinRange = estimateResinRange(
     isMora ? 'mora' : material.category,
     material.quantity,
-    have
+    have,
+    { rarity: material.rarity, wl, resinMode }
   )
 
   const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
@@ -135,13 +137,15 @@ function PlanTalentBar({ label, current, goal, lang }: { label: string; current:
 }
 
 export default function PlannerCharacterCard({
-  char, element, inventory, wl = 9,
+  char, element, inventory, wl = 9, resinMode,
 }: {
   char: CharBreakdown
   element: string | undefined
   inventory: Record<string, number>
   wl?: number
+  resinMode?: ResinSpendMode
 }) {
+  const effectiveResinMode = resinMode ?? loadPlannerSettings().resinMode
   const { lang } = useLanguage()
   const inactiveLabel = lang === 'en' ? 'Inactive' : 'Inativo'
   const img = iconUrl(char.icon) || (element ? iconUrl(ELEMENT_ICON_NAME[element]) : null)
@@ -209,6 +213,7 @@ export default function PlannerCharacterCard({
               material={m}
               have={m.slug === '__mora__' ? 0 : inventory[m.slug] ?? 0}
               wl={wl}
+              resinMode={effectiveResinMode}
               bestiary={bestiary}
             />
           ))}
