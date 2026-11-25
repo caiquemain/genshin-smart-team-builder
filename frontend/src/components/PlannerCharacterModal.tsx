@@ -38,6 +38,7 @@ const RARITY_GRADIENTS: Record<number, string> = {
 const LEVEL_MILESTONES = [1, 20, 40, 50, 60, 70, 80, 90]
 const ASCENSION_MILESTONES = [20, 40, 50, 60, 70, 80]
 const PHASE_TO_LEVEL: Record<number, number> = { 1: 20, 2: 40, 3: 50, 4: 60, 5: 70, 6: 80 }
+const MILESTONE_NEXT_MAX: Record<number, number> = { 20: 40, 40: 50, 50: 60, 60: 70, 70: 80, 80: 90 }
 const TALENT_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const HERO_WIT_ICON = 'UI_ItemIcon_104003'
 const MYSTIC_ORE_ICON = 'UI_ItemIcon_104012'
@@ -50,33 +51,82 @@ function canonicalInventorySlug(slug: string): string {
   return slug
 }
 
+/** Marcos clicáveis no intervalo (inclui `m === goal` para permitir planejar 80/90, 70/80 etc.). */
+function selectableMilestonesForRange(current: number, goal: number): number[] {
+  return ASCENSION_MILESTONES.filter((m) => m >= current && m <= goal)
+}
+
+/** Marcos obrigatórios por padrão (estritamente abaixo da meta: `m >= current && m < goal`). */
 function validMilestonesForRange(current: number, goal: number): number[] {
   return ASCENSION_MILESTONES.filter((m) => m >= current && m < goal)
+}
+
+/**
+ * Atualiza os marcos marcados quando o usuário sobe OU volta o nível atual/meta:
+ * - Ao subir o nível atual: remove marcos que ficaram para trás (`m < nextCur`).
+ * - Ao voltar o nível atual para baixo: reativa automaticamente os marcos que voltaram a ser necessários (`nextCur <= m < nextGoal`).
+ * - Ao baixar a meta: remove marcos acima da nova meta e desmarca o marco que virou teto (`m === nextGoal`) para padrão `X/X`.
+ * - Ao subir a meta: ativa automaticamente os novos marcos obrigatórios.
+ */
+function reconcileActiveMilestones(
+  prevActive: number[],
+  prevCur: number,
+  prevGoal: number,
+  nextCur: number,
+  nextGoal: number,
+): number[] {
+  const selectable = selectableMilestonesForRange(nextCur, nextGoal)
+  const prevReq = validMilestonesForRange(prevCur, prevGoal)
+  const nextReq = validMilestonesForRange(nextCur, nextGoal)
+
+  const kept = prevActive.filter((m) => {
+    if (!selectable.includes(m)) return false
+    // Se a meta diminuiu e este marco agora é exatamente o nível meta (ex: 90 -> 80), desmarca por padrão (80/80)
+    if (nextGoal < prevGoal && m === nextGoal && prevReq.includes(m)) return false
+    return true
+  })
+
+  // Se o nível atual foi reduzido (voltando níveis), garante que todos os marcos obrigatórios do novo intervalo voltem marcados
+  const added = nextCur < prevCur
+    ? nextReq.filter((m) => !kept.includes(m))
+    : nextReq.filter((m) => !prevReq.includes(m) && !kept.includes(m))
+
+  return [...kept, ...added].sort((a, b) => a - b)
 }
 
 function getInitialCharPhases(c: CharBreakdown): number[] {
   const cur = c.char_goal?.current.level ?? 1
   const goal = c.char_goal?.goal.level ?? 90
-  const valid = validMilestonesForRange(cur, goal)
+  const selectable = selectableMilestonesForRange(cur, goal)
   if (Array.isArray(c.ascension?.phases_included)) {
-    const fromSaved = c.ascension.phases_included
+    return c.ascension.phases_included
       .map((p: number) => PHASE_TO_LEVEL[p])
-      .filter((m: number | undefined): m is number => m != null && valid.includes(m))
-    return fromSaved
+      .filter((m: number | undefined): m is number => m != null && selectable.includes(m))
   }
-  return valid
+  const curAsc = c.char_goal?.current.asc
+  const goalAsc = c.char_goal?.goal.asc
+  if (curAsc != null || goalAsc != null) {
+    const effFrom = curAsc ?? 0
+    const effTo = goalAsc ?? 0
+    return selectable.filter((m) => {
+      const p = Object.entries(PHASE_TO_LEVEL).find(([, lv]) => lv === m)?.[0]
+      const pNum = p ? Number(p) : 0
+      return pNum > effFrom && pNum <= Math.max(effFrom, effTo)
+    })
+  }
+  return validMilestonesForRange(cur, goal)
 }
 
 function getInitialWeaponPhases(c: CharBreakdown): Record<number, number[]> {
   const out: Record<number, number[]> = {}
   c.weapons.forEach((w, i) => {
-    const valid = validMilestonesForRange(w.from_level, w.to_level)
+    const selectable = selectableMilestonesForRange(w.from_level, w.to_level)
     if (Array.isArray(w.cost?.phases_included)) {
       out[i] = w.cost.phases_included
         .map((p: number) => PHASE_TO_LEVEL[p])
-        .filter((m: number | undefined): m is number => m != null && valid.includes(m))
+        .filter((m: number | undefined): m is number => m != null && selectable.includes(m))
     } else {
-      out[i] = valid
+      out[i] = validMilestonesForRange(w.from_level, w.to_level)
     }
   })
   return out
@@ -208,9 +258,21 @@ function MilestoneCheckboxes({ current, goal, active, onChange, disabled }: {
     <div className="plan-modal-milestones-read">
       {ASCENSION_MILESTONES.map((m) => {
         const passed = current > m
-        const notReached = goal <= m
+        const notReached = goal < m
         const isActive = active.includes(m)
         const isDisabled = passed || notReached || disabled
+        const nextMax = MILESTONE_NEXT_MAX[m]
+        const tooltip = passed
+          ? 'Ascensão já concluída (nível atual já passou deste marco)'
+          : notReached
+            ? 'Meta atual não alcança este marco'
+            : m === goal
+              ? isActive
+                ? `Planejando ascender no Nv. ${m} (${m}/${nextMax}) — clique para parar em ${m}/${m}`
+                : `Clique para incluir a ascensão do Nv. ${m} (${m}/${nextMax})`
+              : isActive
+                ? 'Clique para pular esta ascensão (já feita)'
+                : 'Clique para incluir esta ascensão'
         return (
           <button key={m} type="button" disabled={isDisabled}
             className={`milestone-chip ${passed ? 'passed' : notReached ? 'inactive' : isActive ? 'active' : 'unmarked'}`}
@@ -219,7 +281,7 @@ function MilestoneCheckboxes({ current, goal, active, onChange, disabled }: {
               if (isActive) onChange(active.filter((x) => x !== m))
               else onChange([...active, m].sort((a, b) => a - b))
             }}
-            title={passed ? 'Já passou desse nível' : notReached ? 'Meta não alcança esse marco' : isActive ? 'Clique para pular esta ascensão' : 'Clique para incluir esta ascensão'}
+            title={tooltip}
           >
             <span className="milestone-check">{passed ? '✓' : isActive ? '☑' : '☐'}</span>
             <span className="milestone-num">{m}</span>
@@ -279,50 +341,30 @@ export default function PlannerCharacterModal({
   }, [])
 
   const handleCurLevelChange = (nextCur: number) => {
-    const prevValid = validMilestonesForRange(draftCurLevel, draftGoalLevel)
     const nextGoal = Math.max(draftGoalLevel, nextCur)
-    const nextValid = validMilestonesForRange(nextCur, nextGoal)
     setDraftCurLevel(nextCur)
     if (nextGoal !== draftGoalLevel) setDraftGoalLevel(nextGoal)
-    setCharActivePhases((prev) => {
-      const kept = prev.filter((m) => nextValid.includes(m))
-      const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
-      return [...kept, ...added].sort((a, b) => a - b)
-    })
+    setCharActivePhases((prev) =>
+      reconcileActiveMilestones(prev, draftCurLevel, draftGoalLevel, nextCur, nextGoal),
+    )
   }
 
   const handleGoalLevelChange = (nextGoal: number) => {
-    const prevValid = validMilestonesForRange(draftCurLevel, draftGoalLevel)
     const nextCur = Math.min(draftCurLevel, nextGoal)
-    const nextValid = validMilestonesForRange(nextCur, nextGoal)
     setDraftGoalLevel(nextGoal)
     if (nextCur !== draftCurLevel) setDraftCurLevel(nextCur)
-    setCharActivePhases((prev) => {
-      const kept = prev.filter((m) => nextValid.includes(m))
-      const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
-      return [...kept, ...added].sort((a, b) => a - b)
-    })
-    setWeaponActivePhases((prev) => {
-      const next: Record<number, number[]> = {}
-      for (let i = 0; i < draftWeapons.length; i++) {
-        const w = draftWeapons[i]
-        const prevWValid = validMilestonesForRange(w.from_level, draftGoalLevel)
-        const nextWValid = validMilestonesForRange(w.from_level, Math.max(w.from_level, nextGoal))
-        const kept = (prev[i] ?? prevWValid).filter((m) => nextWValid.includes(m))
-        const added = nextWValid.filter((m) => !prevWValid.includes(m) && !kept.includes(m))
-        next[i] = [...kept, ...added].sort((a, b) => a - b)
-      }
-      return next
-    })
+    setCharActivePhases((prev) =>
+      reconcileActiveMilestones(prev, draftCurLevel, draftGoalLevel, nextCur, nextGoal),
+    )
   }
 
   const buildEditPayload = (): CharEdit => {
     const weaponEdits = draftWeapons.map((dw, i) => {
       const toLevel = Math.max(dw.from_level, dw.to_level || draftGoalLevel)
-      const validW = validMilestonesForRange(dw.from_level, toLevel)
+      const selectableW = selectableMilestonesForRange(dw.from_level, toLevel)
       const activeW = weaponActivePhases[i] !== undefined
-        ? weaponActivePhases[i].filter((m) => validW.includes(m))
-        : validW
+        ? weaponActivePhases[i].filter((m) => selectableW.includes(m))
+        : validMilestonesForRange(dw.from_level, toLevel)
       return {
         index: i,
         weaponSlug: dw.slug,
@@ -331,14 +373,14 @@ export default function PlannerCharacterModal({
         activePhases: activeW,
       }
     })
-    const validChar = validMilestonesForRange(draftCurLevel, draftGoalLevel)
+    const selectableChar = selectableMilestonesForRange(draftCurLevel, draftGoalLevel)
     return {
       isInactive: draftInactive,
       goal: {
         currentLevel: draftCurLevel,
         goalLevel: draftGoalLevel,
         cons: draftCons,
-        activePhases: charActivePhases.filter((m) => validChar.includes(m)),
+        activePhases: charActivePhases.filter((m) => selectableChar.includes(m)),
       },
       talent: {
         na: { ...draftNa },
@@ -813,15 +855,17 @@ export default function PlannerCharacterModal({
                               value={w.from_level}
                               onChange={(v) => {
                                 const nextTo = Math.max(v, effectiveTo)
-                                const prevValid = validMilestonesForRange(w.from_level, effectiveTo)
-                                const nextValid = validMilestonesForRange(v, nextTo)
                                 setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: v, to_level: nextTo } : p))
-                                setWeaponActivePhases((prev) => {
-                                  const existing = prev[i] ?? prevValid
-                                  const kept = existing.filter((m) => nextValid.includes(m))
-                                  const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
-                                  return { ...prev, [i]: [...kept, ...added].sort((a, b) => a - b) }
-                                })
+                                setWeaponActivePhases((prev) => ({
+                                  ...prev,
+                                  [i]: reconcileActiveMilestones(
+                                    prev[i] ?? validMilestonesForRange(w.from_level, effectiveTo),
+                                    w.from_level,
+                                    effectiveTo,
+                                    v,
+                                    nextTo,
+                                  ),
+                                }))
                               }}
                               min={1}
                               max={90}
@@ -833,15 +877,17 @@ export default function PlannerCharacterModal({
                               value={effectiveTo}
                               onChange={(v) => {
                                 const nextFrom = Math.min(w.from_level, v)
-                                const prevValid = validMilestonesForRange(w.from_level, effectiveTo)
-                                const nextValid = validMilestonesForRange(nextFrom, v)
                                 setDraftWeapons((prev) => prev.map((p, idx) => idx === i ? { ...p, from_level: nextFrom, to_level: v } : p))
-                                setWeaponActivePhases((prev) => {
-                                  const existing = prev[i] ?? prevValid
-                                  const kept = existing.filter((m) => nextValid.includes(m))
-                                  const added = nextValid.filter((m) => !prevValid.includes(m) && !kept.includes(m))
-                                  return { ...prev, [i]: [...kept, ...added].sort((a, b) => a - b) }
-                                })
+                                setWeaponActivePhases((prev) => ({
+                                  ...prev,
+                                  [i]: reconcileActiveMilestones(
+                                    prev[i] ?? validMilestonesForRange(w.from_level, effectiveTo),
+                                    w.from_level,
+                                    effectiveTo,
+                                    nextFrom,
+                                    v,
+                                  ),
+                                }))
                               }}
                               min={1}
                               max={90}

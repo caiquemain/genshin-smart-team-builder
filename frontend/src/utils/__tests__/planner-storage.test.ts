@@ -679,4 +679,61 @@ describe('planner-storage', () => {
     expect(res!.char.is_complete).toBe(false)
     expect(res!.plan.grand_mora).toBeGreaterThan(35_000)
   })
+
+  it('lowers saved ascension in GOOD and Seelie when user lowers character level', () => {
+    localStorage.setItem(
+      PLANNER_V5_KEY,
+      JSON.stringify({
+        good: {
+          format: 'GOOD',
+          version: 2,
+          characters: [{ key: 'Furina', level: 80, ascension: 6, constellation: 0, talent: { auto: 1, skill: 8, burst: 8 } }],
+          weapons: [],
+          materials: {},
+        },
+        seelie: {
+          goals: [
+            {
+              type: 'character',
+              character: 'furina',
+              id: 1,
+              cons: 0,
+              current: { level: 80, asc: 6 },
+              goal: { level: 90, asc: 6 },
+            },
+          ],
+          inventory: [],
+          inactive: {},
+        },
+      }),
+    )
+
+    syncCharEditToPlannerStorage({
+      slug: 'furina',
+      name: 'Furina',
+      icon: null,
+      ascension: null,
+      talents: null,
+      weapons: [],
+      char_goal: {
+        type: 'character',
+        character: 'furina',
+        current: { level: 40, asc: 1 },
+        goal: { level: 90, asc: 6 },
+        cons: 0,
+      },
+      talent_goal: null,
+      is_inactive: false,
+      has_ascension_pending: true,
+      has_talent_pending: false,
+      has_weapon_pending: false,
+      is_complete: false,
+    })
+
+    const v5 = JSON.parse(localStorage.getItem(PLANNER_V5_KEY)!)
+    expect(v5.good.characters[0].level).toBe(40)
+    expect(v5.good.characters[0].ascension).toBe(1)
+    expect(v5.seelie.goals[0].current).toEqual({ level: 40, asc: 1 })
+    expect(v5.seelie.goals[0].goal).toEqual({ level: 90, asc: 6 })
+  })
 })

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
+  clampAscForLevel,
   computeAscensionCost,
   computeWeaponAscension,
   computeTalentCost,
@@ -131,5 +132,53 @@ describe('planner-compute', () => {
     expect(subset.mora).toBe(40_000)
     expect(subset.materials).toHaveLength(1)
     expect(subset.materials[0].quantity).toBe(10)
+  })
+
+  it('handles intermediate levels, 80/80 -> 80/90, 80/90 -> 90, and lowering levels accurately', () => {
+    const full6Data: PlannerData = {
+      ...mockData,
+      characters: {
+        furina: {
+          ...mockData.characters.furina,
+          ascension_phases: [
+            { phase: 1, max_level: 40, mora: 20_000, materials: [{ slug: 'lakelight-lily', qty: 3 }] },
+            { phase: 2, max_level: 50, mora: 40_000, materials: [{ slug: 'lakelight-lily', qty: 10 }] },
+            { phase: 3, max_level: 60, mora: 60_000, materials: [{ slug: 'lakelight-lily', qty: 20 }] },
+            { phase: 4, max_level: 70, mora: 80_000, materials: [{ slug: 'lakelight-lily', qty: 30 }] },
+            { phase: 5, max_level: 80, mora: 100_000, materials: [{ slug: 'lakelight-lily', qty: 45 }] },
+            { phase: 6, max_level: 90, mora: 120_000, materials: [{ slug: 'lakelight-lily', qty: 60 }] },
+          ],
+        },
+      },
+    }
+
+    // 75 -> 90: fase 5 (Nv.70) já foi concluída, só cobra fase 6 (Nv.80)
+    expect(computeAscensionCost(full6Data, 'furina', 75, 90, 'pt').phases_included).toEqual([6])
+
+    // 81 -> 90: já passou do Nv.80, nenhuma ascensão pendente
+    expect(computeAscensionCost(full6Data, 'furina', 81, 90, 'pt').phases_included).toEqual([])
+
+    // 1 -> 75: precisa da fase 5 (Nv.70) para chegar a 75
+    expect(computeAscensionCost(full6Data, 'furina', 1, 75, 'pt').phases_included).toEqual([1, 2, 3, 4, 5])
+
+    // 80/80 -> 80/90 (toAsc = 6 ou activePhases = [6]): cobra apenas fase 6
+    const asc80to90 = computeAscensionCost(full6Data, 'furina', 80, 80, 'pt', { fromAsc: 5, toAsc: 6 })
+    expect(asc80to90.phases_included).toEqual([6])
+    expect(asc80to90.total_mora).toBe(120_000)
+
+    // 80/90 -> 90 (fromAsc = 6): já ascendido, 0 fases
+    expect(computeAscensionCost(full6Data, 'furina', 80, 90, 'pt', { fromAsc: 6 }).phases_included).toEqual([])
+
+    // activePhases deduplica materiais iguais entre fases
+    const multi = computeAscensionCost(full6Data, 'furina', 1, 90, 'pt', { activePhases: [1, 2, 6] })
+    expect(multi.phases_included).toEqual([1, 2, 6])
+    expect(multi.materials).toHaveLength(1)
+    expect(multi.materials[0].quantity).toBe(3 + 10 + 60)
+
+    // Voltar níveis para baixo rebaixa a ascensão fisicamente
+    expect(clampAscForLevel(40, 6)).toBe(2)
+    expect(clampAscForLevel(55, 6)).toBe(3)
+    expect(clampAscForLevel(1, 6)).toBe(0)
+    expect(clampAscForLevel(80, 6)).toBe(6)
   })
 })

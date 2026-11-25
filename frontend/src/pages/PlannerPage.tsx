@@ -859,15 +859,31 @@ export default function PlannerPage() {
       let weaponsProcessed = 0
 
       for (const [slug, g] of bySlug.entries()) {
-        if (g.char_goal && g.char_goal.current.level < g.char_goal.goal.level) {
-          ascMap.set(slug, computeAscensionCost(data, slug, g.char_goal.current.level, g.char_goal.goal.level, lang) as any)
+        if (
+          g.char_goal &&
+          (g.char_goal.current.level < g.char_goal.goal.level ||
+            (g.char_goal.current.asc ?? 0) < (g.char_goal.goal.asc ?? 0))
+        ) {
+          ascMap.set(
+            slug,
+            computeAscensionCost(data, slug, g.char_goal.current.level, g.char_goal.goal.level, lang, {
+              fromAsc: g.char_goal.current.asc,
+              toAsc: g.char_goal.goal.asc,
+            }) as any,
+          )
         }
         if (g.talent_goal) {
           talMap.set(slug, computeTalentCost(data, slug, g.talent_goal.normal, g.talent_goal.skill, g.talent_goal.burst, lang) as any)
         }
         for (const wg of g.weapon_goals) {
-          if (wg.current.level < wg.goal.level) {
-            weaponAscMap.set(`${slug}::${wg.weapon}`, computeWeaponAscension(data, wg.weapon, wg.current.level, wg.goal.level, lang) as any)
+          if (wg.current.level < wg.goal.level || (wg.current.asc ?? 0) < (wg.goal.asc ?? 0)) {
+            weaponAscMap.set(
+              `${slug}::${wg.weapon}`,
+              computeWeaponAscension(data, wg.weapon, wg.current.level, wg.goal.level, lang, {
+                fromAsc: wg.current.asc,
+                toAsc: wg.goal.asc,
+              }) as any,
+            )
             weaponsProcessed++
           }
         }

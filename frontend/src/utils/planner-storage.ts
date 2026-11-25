@@ -11,7 +11,7 @@ import type {
 import { pickLang, type PlannerData } from './planner-data'
 import { normKey, resolveCharSlug, resolveWeaponSlug } from './slug-resolver'
 import { resolveInventory, type SeelieInventoryItem } from './inventory-mapper'
-import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from './planner-compute'
+import { clampAscForLevel, computeAscensionCost, computeTalentCost, computeWeaponAscension } from './planner-compute'
 import { recomputeAggregates } from './planner-recompute'
 
 export const PLANNER_V5_KEY = 'gsb.planner.v5'
@@ -258,13 +258,11 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
         if (idx >= 0) {
           const existing = chars[idx]
           const nextLevel = curLevel ?? existing.level
+          const desiredAsc = updatedChar.char_goal?.current?.asc ?? existing.ascension
           chars[idx] = {
             ...existing,
             level: nextLevel,
-            ascension:
-              nextLevel !== existing.level
-                ? Math.max(existing.ascension ?? 0, inferAscensionFromLevel(nextLevel))
-                : existing.ascension,
+            ascension: clampAscForLevel(nextLevel, desiredAsc),
             constellation: cons ?? existing.constellation,
             talent: {
               auto: na?.current ?? existing.talent?.auto ?? 1,
@@ -278,7 +276,7 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
           const newEntry: GoodCharacter = {
             key: updatedChar.slug,
             level: newLevel,
-            ascension: inferAscensionFromLevel(newLevel),
+            ascension: clampAscForLevel(newLevel, updatedChar.char_goal?.current?.asc),
             constellation: cons ?? 0,
             talent: {
               auto: na?.current ?? 1,
@@ -302,7 +300,7 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
             )
             if (gw && gw.level !== wb.from_level) {
               gw.level = wb.from_level
-              gw.ascension = inferAscensionFromLevel(wb.from_level)
+              gw.ascension = clampAscForLevel(wb.from_level, gw.ascension)
               dirty = true
             }
           }
@@ -332,6 +330,8 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
 
         // Character goal
         if (updatedChar.char_goal && curLevel != null && goalLevel != null) {
+          const nextCurAsc = clampAscForLevel(curLevel, updatedChar.char_goal.current.asc)
+          const nextGoalAsc = Math.max(nextCurAsc, clampAscForLevel(goalLevel, updatedChar.char_goal.goal.asc))
           const cIdx = goals.findIndex(
             (g) => g.type === 'character' && canonicalCharKey(g.character) === targetKey,
           )
@@ -340,8 +340,8 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
             goals[cIdx] = {
               ...existing,
               cons: cons ?? existing.cons,
-              current: { ...existing.current, level: curLevel },
-              goal: { ...existing.goal, level: goalLevel },
+              current: { ...existing.current, level: curLevel, asc: nextCurAsc },
+              goal: { ...existing.goal, level: goalLevel, asc: nextGoalAsc },
             }
           } else {
             goals.push({
@@ -349,8 +349,8 @@ export function syncCharEditToPlannerStorage(updatedChar: CharBreakdown): boolea
               character: updatedChar.slug,
               id: Date.now(),
               cons: cons ?? 0,
-              current: { level: curLevel, asc: inferAscensionFromLevel(curLevel) },
-              goal: { level: goalLevel, asc: inferAscensionFromLevel(goalLevel) },
+              current: { level: curLevel, asc: nextCurAsc },
+              goal: { level: goalLevel, asc: nextGoalAsc },
             })
           }
         }

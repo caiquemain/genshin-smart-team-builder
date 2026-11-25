@@ -1,8 +1,10 @@
 import { loadPlannerData } from './planner-data'
 import {
+  clampAscForLevel,
   computeAscensionCost,
   computeTalentCost,
   computeWeaponAscension,
+  minAscForLevel,
   type AscensionCostComputed,
 } from './planner-compute'
 import { estimateResin, tierOf, TIERS } from './resin'
@@ -71,9 +73,42 @@ export interface CharEdit {
 
 const LEVEL_TO_PHASE: Record<number, number> = { 20: 1, 40: 2, 50: 3, 60: 4, 70: 5, 80: 6 }
 
-function filterPhasesByLevels(phases: any[], activeLevels: number[]): any[] {
-  const activePhaseNums = new Set(activeLevels.map((l) => LEVEL_TO_PHASE[l]).filter(Boolean))
-  return phases.filter((p) => activePhaseNums.has(p.phase))
+function milestoneLevelsToPhaseNums(activeLevels: number[]): number[] {
+  return activeLevels.map((l) => LEVEL_TO_PHASE[l]).filter((p): p is number => Boolean(p))
+}
+
+function deriveAscPair(
+  curLevel: number,
+  goalLevel: number,
+  activeLevels: number[] | undefined,
+  prevCurAsc: number | undefined,
+  prevGoalAsc: number | undefined,
+): { curAsc: number; goalAsc: number } {
+  if (activeLevels !== undefined) {
+    const chosen = new Set(activeLevels)
+    const curGatePhase = LEVEL_TO_PHASE[curLevel]
+    // Se estamos exatamente num marco (ex: 80) indo acima dele (ex: 90) e o marco 80 foi desmarcado,
+    // significa que o personagem já está ascendido (80/90 -> asc=6).
+    const curAsc =
+      curGatePhase && goalLevel > curLevel && !chosen.has(curLevel)
+        ? curGatePhase
+        : minAscForLevel(curLevel)
+
+    const goalGatePhase = LEVEL_TO_PHASE[goalLevel]
+    const goalAsc =
+      goalGatePhase && chosen.has(goalLevel)
+        ? goalGatePhase
+        : Math.max(curAsc, minAscForLevel(goalLevel))
+
+    return {
+      curAsc: clampAscForLevel(curLevel, curAsc),
+      goalAsc: Math.max(clampAscForLevel(curLevel, curAsc), clampAscForLevel(goalLevel, goalAsc)),
+    }
+  }
+
+  const curAsc = clampAscForLevel(curLevel, prevCurAsc)
+  const goalAsc = Math.max(curAsc, clampAscForLevel(goalLevel, prevGoalAsc))
+  return { curAsc, goalAsc }
 }
 
 function normalizeTalentPair(pair: { current: number; goal: number }): { current: number; goal: number } {
@@ -97,22 +132,38 @@ export async function recomputeChar(
     const curLevel = Math.max(1, Math.min(90, Math.round(edit.goal.currentLevel ?? next.char_goal?.current.level ?? 1)))
     const goalLevel = Math.max(curLevel, Math.min(90, Math.round(edit.goal.goalLevel ?? next.char_goal?.goal.level ?? 90)))
     const cons = Math.max(0, Math.min(6, Math.round(edit.goal.cons ?? next.char_goal?.cons ?? 0)))
+    const { curAsc, goalAsc } = deriveAscPair(
+      curLevel,
+      goalLevel,
+      edit.goal.activePhases,
+      next.char_goal?.current.asc,
+      next.char_goal?.goal.asc,
+    )
+
     next.char_goal = {
       ...(next.char_goal ?? { type: 'character', character: next.slug }),
-      current: { ...(next.char_goal?.current ?? {}), level: curLevel },
-      goal: { ...(next.char_goal?.goal ?? {}), level: goalLevel },
+      current: { ...(next.char_goal?.current ?? {}), level: curLevel, asc: curAsc },
+      goal: { ...(next.char_goal?.goal ?? {}), level: goalLevel, asc: goalAsc },
       cons,
     }
-    if (curLevel < goalLevel) {
-      let finalAscension: AscensionCostComputed | null = computeAscensionCost(data, next.slug, curLevel, goalLevel, lang)
-      if (edit.goal.activePhases !== undefined) {
-        const filtered = filterPhasesByLevels(finalAscension.phases ?? [], edit.goal.activePhases)
-        const mats: any[] = []
-        let mora = 0
-        for (const p of filtered) { mora += p.mora; mats.push(...p.materials) }
-        finalAscension = { ...finalAscension, phases: filtered, materials: mats, total_mora: mora, phases_included: filtered.map((p: any) => p.phase) }
-      }
-      next.ascension = finalAscension
+
+    const activePhaseNums = edit.goal.activePhases !== undefined
+      ? milestoneLevelsToPhaseNums(edit.goal.activePhases)
+      : undefined
+    const shouldCompute = curLevel < goalLevel || (activePhaseNums !== undefined && activePhaseNums.length > 0) || curAsc < goalAsc
+
+    if (shouldCompute) {
+      const computed: AscensionCostComputed = computeAscensionCost(
+        data,
+        next.slug,
+        curLevel,
+        goalLevel,
+        lang,
+        activePhaseNums !== undefined
+          ? { activePhases: activePhaseNums }
+          : { fromAsc: curAsc, toAsc: goalAsc },
+      )
+      next.ascension = computed.phases_included.length > 0 || curLevel < goalLevel ? computed : null
     } else {
       next.ascension = null
     }
@@ -140,18 +191,21 @@ export async function recomputeChar(
       const newTo = Math.max(newFrom, Math.min(90, Math.round(wEdit.toLevel ?? old?.to_level ?? 90)))
       if (!newSlug) continue
       const wInfo = weaponsMap.get(newSlug)
+      const activePhaseNums = wEdit.activePhases !== undefined
+        ? milestoneLevelsToPhaseNums(wEdit.activePhases)
+        : undefined
+      const shouldComputeW = newFrom < newTo || (activePhaseNums !== undefined && activePhaseNums.length > 0)
       let cost = null
-      if (newFrom < newTo) {
-        const full = computeWeaponAscension(data, newSlug, newFrom, newTo, lang)
-        if (wEdit.activePhases !== undefined) {
-          const filtered = filterPhasesByLevels(full.phases ?? [], wEdit.activePhases)
-          const mats: any[] = []
-          let mora = 0
-          for (const p of filtered) { mora += p.mora; mats.push(...p.materials) }
-          cost = { ...full, phases: filtered, materials: mats, total_mora: mora, phases_included: filtered.map((p: any) => p.phase) }
-        } else {
-          cost = full
-        }
+      if (shouldComputeW) {
+        const computed = computeWeaponAscension(
+          data,
+          newSlug,
+          newFrom,
+          newTo,
+          lang,
+          activePhaseNums !== undefined ? { activePhases: activePhaseNums } : undefined,
+        )
+        cost = computed.phases_included.length > 0 || newFrom < newTo ? computed : null
       }
       rebuilt.push({
         slug: newSlug, name: wInfo?.name ?? old?.name ?? newSlug, icon: wInfo?.icon ?? old?.icon ?? null,
@@ -163,13 +217,17 @@ export async function recomputeChar(
     next.weapons.splice(edit.removeWeaponIndex, 1)
   }
 
-  next.has_ascension_pending = !!(next.char_goal && next.char_goal.current.level < next.char_goal.goal.level)
+  next.has_ascension_pending =
+    !!(next.char_goal && next.char_goal.current.level < next.char_goal.goal.level) ||
+    (next.ascension?.phases_included?.length ?? 0) > 0
   next.has_talent_pending = !!(next.talent_goal && (
     next.talent_goal.normal.current < next.talent_goal.normal.goal ||
     next.talent_goal.skill.current < next.talent_goal.skill.goal ||
     next.talent_goal.burst.current < next.talent_goal.burst.goal
   ))
-  next.has_weapon_pending = next.weapons.some((w) => w.from_level < w.to_level)
+  next.has_weapon_pending = next.weapons.some(
+    (w) => w.from_level < w.to_level || (w.cost?.phases_included?.length ?? 0) > 0,
+  )
   next.is_complete = !next.is_inactive && !next.has_ascension_pending && !next.has_talent_pending && !next.has_weapon_pending
 
   return next

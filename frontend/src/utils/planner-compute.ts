@@ -95,6 +95,80 @@ export function aggregatePhases(
   return { materials: aggregate(data, phases, lang), mora }
 }
 
+// ── regras de ascensão (marcos 20/40/50/60/70/80) ────────────────────────
+
+export const PHASE_GATE_LEVEL: Record<number, number> = {
+  1: 20, // Ascensão 1 no Nv. 20 (desbloqueia 20 -> 40)
+  2: 40, // Ascensão 2 no Nv. 40 (desbloqueia 40 -> 50)
+  3: 50, // Ascensão 3 no Nv. 50 (desbloqueia 50 -> 60)
+  4: 60, // Ascensão 4 no Nv. 60 (desbloqueia 60 -> 70)
+  5: 70, // Ascensão 5 no Nv. 70 (desbloqueia 70 -> 80)
+  6: 80, // Ascensão 6 no Nv. 80 (desbloqueia 80 -> 90)
+}
+
+/** Ascensão mínima obrigatória para alguém já estar neste nível (ex: Nv. 75 exige A5; Nv. 80 exige A5). */
+export function minAscForLevel(level: number): number {
+  if (level > 80) return 6
+  if (level > 70) return 5
+  if (level > 60) return 4
+  if (level > 50) return 3
+  if (level > 40) return 2
+  if (level > 20) return 1
+  return 0
+}
+
+/** Ascensão máxima possível neste nível (ex: Nv. 80 pode ser A5=80/80 ou A6=80/90; Nv. 75 só pode ser A5). */
+export function maxAscForLevel(level: number): number {
+  if (level >= 80) return 6
+  if (level >= 70) return 5
+  if (level >= 60) return 4
+  if (level >= 50) return 3
+  if (level >= 40) return 2
+  if (level >= 20) return 1
+  return 0
+}
+
+/** Garante que `asc` seja fisicamente válido para `level` (corrige inclusive ao voltar o nível para baixo). */
+export function clampAscForLevel(level: number, asc: number | undefined | null): number {
+  const min = minAscForLevel(level)
+  const max = maxAscForLevel(level)
+  if (asc == null || !Number.isFinite(asc)) return min
+  return Math.max(min, Math.min(max, Math.round(asc)))
+}
+
+export interface AscensionRangeOptions {
+  /** Ascensão atual já concluída (0..6). Se omitida, usa `minAscForLevel(fromLevel)`. */
+  fromAsc?: number | null
+  /** Ascensão alvo desejada (0..6). Se omitida, usa `minAscForLevel(toLevel)`. */
+  toAsc?: number | null
+  /** Lista explícita de números de fase (1..6) escolhidos manualmente (ex: checkboxes no modal). */
+  activePhases?: number[]
+}
+
+function selectAscensionPhases<T extends { phase: number; max_level: number }>(
+  allPhases: T[],
+  fromLevel: number,
+  toLevel: number,
+  opts?: AscensionRangeOptions,
+): T[] {
+  const minFromAsc = minAscForLevel(fromLevel)
+  const maxToAsc = maxAscForLevel(toLevel)
+
+  if (opts?.activePhases !== undefined) {
+    const chosen = new Set(opts.activePhases)
+    return allPhases.filter(
+      (p) => chosen.has(p.phase) && p.phase > minFromAsc && p.phase <= maxToAsc,
+    )
+  }
+
+  const effFromAsc = clampAscForLevel(fromLevel, opts?.fromAsc)
+  const effToAsc = Math.max(effFromAsc, clampAscForLevel(toLevel, opts?.toAsc))
+
+  return allPhases.filter(
+    (p) => p.phase > effFromAsc && p.phase <= effToAsc,
+  )
+}
+
 // ── ascensão personagem ─────────────────────────────────────────────────
 
 export function computeAscensionCost(
@@ -103,6 +177,7 @@ export function computeAscensionCost(
   fromLevel: number,
   toLevel: number,
   lang: string,
+  opts?: AscensionRangeOptions,
 ): AscensionCostComputed {
   const char = data.characters[slug]
   if (!char) {
@@ -112,9 +187,7 @@ export function computeAscensionCost(
     }
   }
 
-  const included = char.ascension_phases.filter(
-    (p) => fromLevel < p.max_level && p.max_level <= toLevel,
-  )
+  const included = selectAscensionPhases(char.ascension_phases, fromLevel, toLevel, opts)
 
   const phases: ComputedPhase[] = included.map((p) => ({
     phase: p.phase,
@@ -142,6 +215,7 @@ export function computeWeaponAscension(
   fromLevel: number,
   toLevel: number,
   lang: string,
+  opts?: AscensionRangeOptions,
 ): AscensionCostComputed {
   const weapon = data.weapons[slug]
   if (!weapon) {
@@ -151,9 +225,7 @@ export function computeWeaponAscension(
     }
   }
 
-  const included = weapon.ascension_phases.filter(
-    (p) => fromLevel < p.max_level && p.max_level <= toLevel,
-  )
+  const included = selectAscensionPhases(weapon.ascension_phases, fromLevel, toLevel, opts)
 
   const phases: ComputedPhase[] = included.map((p) => ({
     phase: p.phase,
