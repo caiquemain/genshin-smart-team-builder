@@ -26,7 +26,7 @@ import { buildIndexes, resolveCharSlug, resolveWeaponSlug } from '../utils/slug-
 import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from '../utils/planner-compute'
 import { parseGoodData, type GoodCharState } from '../utils/good-parser'
 import { getXpMaterials, recomputeAggregates } from '../utils/planner-recompute'
-import { getOwnedCharXp } from '../utils/xp-costs'
+import { getOwnedCharXp, getOwnedWeaponXp } from '../utils/xp-costs'
 import { useRoster } from '../utils/roster'
 import {
   PLANNER_UPDATED_EVENT,
@@ -56,7 +56,9 @@ const VIRTUAL_RESOURCES: Record<string, { name: string; icon: string; rarity: nu
   'hero-s-wit': { name: "Experiência do Herói (20k XP)", icon: 'UI_ItemIcon_104003', rarity: 4 },
   'adventurer-s-experience': { name: 'Experiência do Aventureiro (5k XP)', icon: 'UI_ItemIcon_104002', rarity: 3 },
   'wanderer-s-advice': { name: 'Conselho do Andarilho (1k XP)', icon: 'UI_ItemIcon_104001', rarity: 2 },
-  'mystic-enhancement-ore': { name: 'Minério de Refinamento Místico', icon: 'UI_ItemIcon_104012', rarity: 4 },
+  'mystic-enhancement-ore': { name: 'Minério de Refinamento Místico (10k XP)', icon: 'UI_ItemIcon_104012', rarity: 3 },
+  'fine-enhancement-ore': { name: 'Minério de Refinamento Fino (2k XP)', icon: 'UI_ItemIcon_104011', rarity: 2 },
+  'enhancement-ore': { name: 'Minério de Refinamento (400 XP)', icon: 'UI_ItemIcon_104011', rarity: 1 },
 }
 
 const SEELIE_ORDER = [
@@ -1031,7 +1033,11 @@ export default function PlannerPage() {
 
   const displayXpTotals = useMemo(() => {
     if (!displayPlan) {
-      return { heroWits: 0, ore: 0, heroWitsHave: 0, oreHave: 0, purple: 0, blue: 0, green: 0 }
+      return {
+        heroWits: 0, ore: 0, heroWitsHave: 0, oreHave: 0,
+        purple: 0, blue: 0, green: 0,
+        mysticOres: 0, fineOres: 0, enhancementOres: 0,
+      }
     }
     let heroWits = 0
     let ore = 0
@@ -1043,15 +1049,18 @@ export default function PlannerPage() {
     }
     const inv = displayPlan.inventory_resolved
     const ownedXp = getOwnedCharXp(inv)
-    const oreHave = inv['mystic-enhancement-ore'] ?? 0
+    const ownedWeaponXp = getOwnedWeaponXp(inv)
     return {
       heroWits,
       ore,
       heroWitsHave: ownedXp.heroWitEquivalent,
-      oreHave,
+      oreHave: ownedWeaponXp.mysticOreEquivalent,
       purple: ownedXp.heroWits,
       blue: ownedXp.adventurerExp,
       green: ownedXp.wandererAdvice,
+      mysticOres: ownedWeaponXp.mysticOres,
+      fineOres: ownedWeaponXp.fineOres,
+      enhancementOres: ownedWeaponXp.enhancementOres,
     }
   }, [displayPlan, wl])
 
@@ -1438,6 +1447,54 @@ export default function PlannerPage() {
                       <button type="button" className="planner-xp-pill is-green" onClick={() => setEditingItem('wanderer-s-advice')} title="Conselho do Andarilho (1k XP)">
                         <img src={iconUrl('UI_ItemIcon_104001')!} alt="Verde" />
                         <span>{displayXpTotals.green}</span>
+                      </button>
+                    </div>
+                  </div>
+                </ItemTooltip>
+              )
+            })()}
+            {(() => {
+              const oreMissing = Math.max(0, displayXpTotals.ore - displayXpTotals.oreHave)
+              return (
+                <ItemTooltip
+                  data={{
+                    name: 'Minérios de Refinamento (eq. Místico 10k)',
+                    icon: iconUrl('UI_ItemIcon_104012'),
+                    rarity: 3,
+                    category: 'weapon_exp',
+                    source: 'Ferreiro / Expedições / Baús (soma Místico 10k + Fino 2k + Comum 400)',
+                    resinRange: estimateResinRange('weapon_exp', displayXpTotals.ore, displayXpTotals.oreHave, { rarity: 3, wl, resinMode }),
+                  }}
+                >
+                  <div className="planner-stat is-editable" onClick={() => setEditingItem('mystic-enhancement-ore')}>
+                    <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                        <Sword size={14} /> XP Arma (eq. 10k)
+                      </span>
+                      <Pencil size={12} className="planner-stat-edit-icon" />
+                    </div>
+                    <div className="planner-stat-value" style={{ color: '#67e8f9' }}>
+                      {displayXpTotals.ore.toLocaleString('pt-BR')}
+                    </div>
+                    <small className="planner-stat-sub">
+                      {displayXpTotals.oreHave > 0
+                        ? oreMissing === 0
+                          ? `✓ Eq. ${displayXpTotals.oreHave.toLocaleString('pt-BR')} místico(s)`
+                          : `Eq. ${displayXpTotals.oreHave.toLocaleString('pt-BR')} · falta ${oreMissing.toLocaleString('pt-BR')}`
+                        : 'Clique nos minérios abaixo para informar'}
+                    </small>
+                    <div className="planner-xp-pills" onClick={(e) => e.stopPropagation()}>
+                      <button type="button" className="planner-xp-pill is-purple" onClick={() => setEditingItem('mystic-enhancement-ore')} title="Minério de Refinamento Místico (10k XP)">
+                        <img src={iconUrl('UI_ItemIcon_104012')!} alt="Místico" />
+                        <span>{displayXpTotals.mysticOres}</span>
+                      </button>
+                      <button type="button" className="planner-xp-pill is-blue" onClick={() => setEditingItem('fine-enhancement-ore')} title="Minério de Refinamento Fino (2k XP)">
+                        <img src={iconUrl('UI_ItemIcon_104011')!} alt="Fino" />
+                        <span>{displayXpTotals.fineOres}</span>
+                      </button>
+                      <button type="button" className="planner-xp-pill is-green" onClick={() => setEditingItem('enhancement-ore')} title="Minério de Refinamento (400 XP)">
+                        <img src={iconUrl('UI_ItemIcon_104011')!} alt="Comum" style={{ filter: 'saturate(0.25) brightness(1.05)' }} />
+                        <span>{displayXpTotals.enhancementOres}</span>
                       </button>
                     </div>
                   </div>

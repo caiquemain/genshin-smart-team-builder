@@ -36,10 +36,16 @@ export const XP_BOOK_HERO = 20_000
 export const XP_BOOK_ADVENTURER = 5_000
 export const XP_BOOK_WANDERER = 1_000
 export const MYSTIC_ORE_XP = 10_000
+export const FINE_ORE_XP = 2_000
+export const ENHANCEMENT_ORE_XP = 400
 
 export const HERO_WIT_SLUG = 'hero-s-wit'
 export const ADVENTURER_EXP_SLUG = 'adventurer-s-experience'
 export const WANDERER_ADVICE_SLUG = 'wanderer-s-advice'
+
+export const MYSTIC_ORE_SLUG = 'mystic-enhancement-ore'
+export const FINE_ORE_SLUG = 'fine-enhancement-ore'
+export const ENHANCEMENT_ORE_SLUG = 'enhancement-ore'
 
 export function getOwnedCharXp(inventory: Record<string, number>): {
   heroWits: number
@@ -61,6 +67,29 @@ export function getOwnedCharXp(inventory: Record<string, number>): {
     wandererAdvice,
     totalXp,
     heroWitEquivalent: Math.floor(totalXp / XP_BOOK_HERO),
+  }
+}
+
+export function getOwnedWeaponXp(inventory: Record<string, number>): {
+  mysticOres: number
+  fineOres: number
+  enhancementOres: number
+  totalXp: number
+  mysticOreEquivalent: number
+} {
+  const mysticOres = Math.max(0, inventory[MYSTIC_ORE_SLUG] ?? 0)
+  const fineOres = Math.max(0, inventory[FINE_ORE_SLUG] ?? 0)
+  const enhancementOres = Math.max(0, inventory[ENHANCEMENT_ORE_SLUG] ?? 0)
+  const totalXp =
+    mysticOres * MYSTIC_ORE_XP +
+    fineOres * FINE_ORE_XP +
+    enhancementOres * ENHANCEMENT_ORE_XP
+  return {
+    mysticOres,
+    fineOres,
+    enhancementOres,
+    totalXp,
+    mysticOreEquivalent: Math.floor(totalXp / MYSTIC_ORE_XP),
   }
 }
 

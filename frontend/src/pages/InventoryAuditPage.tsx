@@ -66,12 +66,34 @@ const CORE_RESOURCES: Array<{ slug: string; mat: PlannerMaterialData }> = [
   {
     slug: 'mystic-enhancement-ore',
     mat: {
-      name: { pt: 'Minério de Refinamento Místico', en: 'Mystic Enhancement Ore' },
+      name: { pt: 'Minério de Refinamento Místico (10k XP)', en: 'Mystic Enhancement Ore (10k XP)' },
       icon: 'UI_ItemIcon_104012',
-      rarity: 4,
+      rarity: 3,
       category: 'weapon_exp',
       description: { pt: 'Fornece 10.000 de EXP de Arma.' },
       source: { pt: 'Ferreiro / Expedições' },
+    },
+  },
+  {
+    slug: 'fine-enhancement-ore',
+    mat: {
+      name: { pt: 'Minério de Refinamento Fino (2k XP)', en: 'Fine Enhancement Ore (2k XP)' },
+      icon: 'UI_ItemIcon_104011',
+      rarity: 2,
+      category: 'weapon_exp',
+      description: { pt: 'Fornece 2.000 de EXP de Arma (5 = 1 Minério Místico).' },
+      source: { pt: 'Ferreiro / Expedições / Baús' },
+    },
+  },
+  {
+    slug: 'enhancement-ore',
+    mat: {
+      name: { pt: 'Minério de Refinamento (400 XP)', en: 'Enhancement Ore (400 XP)' },
+      icon: 'UI_ItemIcon_104011',
+      rarity: 1,
+      category: 'weapon_exp',
+      description: { pt: 'Fornece 400 de EXP de Arma (25 = 1 Minério Místico).' },
+      source: { pt: 'Ferreiro / Baús / Missões' },
     },
   },
 ];

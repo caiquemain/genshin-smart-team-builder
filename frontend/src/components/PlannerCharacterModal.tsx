@@ -12,7 +12,7 @@ import { estimateResin, estimateResinRange, type ResinSpendMode } from '../utils
 import { loadPlannerSettings } from '../utils/planner-storage'
 import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import { recomputeChar, getXpMaterials, type CharEdit } from '../utils/planner-recompute'
-import { computeMoraLeyline, getOwnedCharXp } from '../utils/xp-costs'
+import { computeMoraLeyline, getOwnedCharXp, getOwnedWeaponXp } from '../utils/xp-costs'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
 import ItemEditModal from './ItemEditModal'
 import PlannerWeaponPicker from './PlannerWeaponPicker'
@@ -474,8 +474,8 @@ export default function PlannerCharacterModal({
   }
   if (xp.ore > 0) {
     weaponMats.push({
-      slug: '__mystic_ore__', name: 'Minério Místico', icon: MYSTIC_ORE_ICON, rarity: 4,
-      category: 'weapon_exp', description: 'XP de arma.', source: null,
+      slug: '__mystic_ore__', name: 'Minério Místico (eq. 10k)', icon: MYSTIC_ORE_ICON, rarity: 3,
+      category: 'weapon_exp', description: 'XP de arma (soma Minério Místico 10k + Fino 2k + Comum 400).', source: null,
       quantity: xp.ore, resin_estimate: 0,
     })
   }
@@ -882,7 +882,11 @@ export default function PlannerCharacterModal({
                     <MaterialRow
                       key={m.slug}
                       material={m}
-                      have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
+                      have={
+                        m.slug === '__mystic_ore__'
+                          ? getOwnedWeaponXp(inventory).mysticOreEquivalent
+                          : (inventory[canonicalInventorySlug(m.slug)] ?? 0)
+                      }
                       lang={lang}
                       wl={wl}
                       resinMode={effectiveResinMode}

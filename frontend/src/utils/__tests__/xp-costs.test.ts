@@ -8,6 +8,7 @@ import {
   getLeylineMoraPerRun,
   getLeylineXpPerRun,
   getOwnedCharXp,
+  getOwnedWeaponXp,
   computeCharXp,
   computeWeaponXp,
   computeMoraLeyline,
@@ -77,5 +78,20 @@ describe('xp-costs', () => {
     expect(res.wandererAdvice).toBe(25)
     expect(res.totalXp).toBe(265_000)
     expect(res.heroWitEquivalent).toBe(13) // floor(265,000 / 20,000)
+  })
+
+  it('combines all 3 weapon XP ore tiers into total XP and Mystic Ore equivalent', () => {
+    const res = getOwnedWeaponXp({
+      'mystic-enhancement-ore': 10, // 100,000
+      'fine-enhancement-ore': 7,    //  14,000 (= 1.4 Mystic Ore)
+      'enhancement-ore': 25,        //  10,000 (= 1.0 Mystic Ore)
+    })
+    expect(res.mysticOres).toBe(10)
+    expect(res.fineOres).toBe(7)
+    expect(res.enhancementOres).toBe(25)
+    expect(res.totalXp).toBe(124_000)
+    expect(res.mysticOreEquivalent).toBe(12) // floor(124,000 / 10,000)
+
+    expect(getOwnedWeaponXp({}).totalXp).toBe(0)
   })
 })
