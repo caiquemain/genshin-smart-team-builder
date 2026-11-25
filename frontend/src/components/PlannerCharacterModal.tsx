@@ -13,6 +13,7 @@ import { getBestiaryData, calculateKills } from '../utils/kills-compute'
 import { recomputeChar, getXpMaterials, type CharEdit } from '../utils/planner-recompute'
 import { computeMoraLeyline } from '../utils/xp-costs'
 import ItemTooltip, { type ItemTooltipData } from './ItemTooltip'
+import ItemEditModal from './ItemEditModal'
 import PlannerWeaponPicker from './PlannerWeaponPicker'
 
 const ELEMENT_COLORS: Record<string, string> = {
@@ -39,6 +40,13 @@ const TALENT_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const HERO_WIT_ICON = 'UI_ItemIcon_104003'
 const MYSTIC_ORE_ICON = 'UI_ItemIcon_104012'
 const MORA_ICON = 'UI_ItemIcon_202'
+
+function canonicalInventorySlug(slug: string): string {
+  if (slug.startsWith('__mora_')) return 'mora'
+  if (slug === '__hero_wit__') return 'hero-s-wit'
+  if (slug === '__mystic_ore__') return 'mystic-enhancement-ore'
+  return slug
+}
 
 function validMilestonesForRange(current: number, goal: number): number[] {
   return ASCENSION_MILESTONES.filter((m) => m >= current && m < goal)
@@ -86,26 +94,60 @@ function mergeMatsIntoMap(target: Map<string, AggregateMaterial>, mats: any[]) {
   }
 }
 
-function MaterialRow({ material, have, lang, wl, bestiary }: { material: AggregateMaterial; have: number; lang: string; wl: number; bestiary: BestiaryData | null }) {
+function MaterialRow({
+  material,
+  have,
+  lang,
+  wl,
+  bestiary,
+  onEdit,
+}: {
+  material: AggregateMaterial
+  have: number
+  lang: string
+  wl: number
+  bestiary: BestiaryData | null
+  onEdit?: (material: AggregateMaterial) => void
+}) {
   const img = iconUrl(material.icon)
   const isComplete = have >= material.quantity && material.quantity > 0
   const missing = Math.max(0, material.quantity - have)
   const isMora = material.slug.startsWith('__mora_')
-  const isFree = material.category === 'character_exp' || material.category === 'weapon_exp'
-  const resinRange = estimateResinRange(isMora ? 'mora' : material.category, material.quantity, have)
+  const isWeaponXp = material.category === 'weapon_exp'
+  const effectiveCategory = isMora ? 'mora' : (material.is_weekly ? 'weekly_boss' : material.category)
+  const resinRange = estimateResinRange(effectiveCategory, material.quantity, have, {
+    rarity: material.rarity,
+    wl,
+  })
 
   const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
 
   const tooltipData: ItemTooltipData = {
     name: material.name, icon: img, rarity: material.rarity,
-    category: isMora ? 'mora' : material.category,
+    category: effectiveCategory,
     description: material.description, source: material.source,
     resinRange,
     killsNeeded: killsData ? { monsterName: killsData.monsterName, kills: killsData.kills, dropRate: killsData.dropRate } : null,
   }
 
   const row = (
-    <div className={`plan-modal-mat-row ${isComplete ? 'is-complete' : have > 0 ? 'is-partial' : ''}`} style={{ cursor: 'help' }}>
+    <div
+      className={`plan-modal-mat-row ${isComplete ? 'is-complete' : have > 0 ? 'is-partial' : ''} ${onEdit ? 'is-editable' : ''}`}
+      style={{ cursor: onEdit ? 'pointer' : 'help' }}
+      onClick={onEdit ? () => onEdit(material) : undefined}
+      role={onEdit ? 'button' : undefined}
+      tabIndex={onEdit ? 0 : undefined}
+      onKeyDown={
+        onEdit
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onEdit(material)
+              }
+            }
+          : undefined
+      }
+    >
       <div className="plan-modal-mat-icon" style={{ background: RARITY_GRADIENTS[material.rarity ?? 1] }}>
         {img ? <img src={img} alt={material.name} loading="lazy" /> : <span>?</span>}
       </div>
@@ -117,9 +159,14 @@ function MaterialRow({ material, have, lang, wl, bestiary }: { material: Aggrega
             <span className="plan-modal-qty-missing">(falta {missing.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US')})</span>
           )}
           {isComplete && <span className="plan-modal-qty-check"><Check size={12} /></span>}
-          {isFree && !isComplete && <span className="plan-modal-qty-free">grátis</span>}
+          {isWeaponXp && !isComplete && <span className="plan-modal-qty-free">forja</span>}
         </div>
       </div>
+      {onEdit && (
+        <span className="plan-modal-mat-edit-cue" title="Atualizar quantidade na mochila">
+          <Pencil size={12} />
+        </span>
+      )}
     </div>
   )
   return <ItemTooltip data={tooltipData}>{row}</ItemTooltip>
@@ -181,7 +228,7 @@ function MilestoneCheckboxes({ current, goal, active, onChange, disabled }: {
 interface TalentDraft { current: number; goal: number }
 
 export default function PlannerCharacterModal({
-  char, element, inventory, onClose, onUpdate, onRemove, weaponsMap, wl = 9, initialEditing = false,
+  char, element, inventory, onClose, onUpdate, onRemove, onSaveInventory, weaponsMap, wl = 9, initialEditing = false,
 }: {
   char: CharBreakdown
   element: string | undefined
@@ -189,6 +236,7 @@ export default function PlannerCharacterModal({
   onClose: () => void
   onUpdate?: (newChar: CharBreakdown) => boolean | void
   onRemove?: (slug: string) => void
+  onSaveInventory?: (slug: string, newQty: number) => void
   weaponsMap?: Map<string, WeaponSummary>
   wl?: number
   initialEditing?: boolean
@@ -201,6 +249,7 @@ export default function PlannerCharacterModal({
   const [saveError, setSaveError] = useState<string | null>(null)
   const [weaponPickerIndex, setWeaponPickerIndex] = useState<number | null>(null)
   const [addingWeapon, setAddingWeapon] = useState(false)
+  const [editingMaterial, setEditingMaterial] = useState<AggregateMaterial | null>(null)
 
   const [draftInactive, setDraftInactive] = useState(char.is_inactive ?? false)
   const [draftCurLevel, setDraftCurLevel] = useState(char.char_goal?.current.level ?? 1)
@@ -325,13 +374,14 @@ export default function PlannerCharacterModal({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return
-      if (weaponPickerIndex !== null || addingWeapon) { setWeaponPickerIndex(null); setAddingWeapon(false) }
+      if (editingMaterial) { setEditingMaterial(null) }
+      else if (weaponPickerIndex !== null || addingWeapon) { setWeaponPickerIndex(null); setAddingWeapon(false) }
       else if (editing) setEditing(false)
       else onClose()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onClose, editing, weaponPickerIndex, addingWeapon])
+  }, [onClose, editing, editingMaterial, weaponPickerIndex, addingWeapon])
 
   const handleCancel = () => {
     setEditing(false); setSaveError(null)
@@ -771,11 +821,26 @@ export default function PlannerCharacterModal({
           </div>
 
           <div className="plan-modal-col-right">
+            {onSaveInventory && (ascensionMats.length > 0 || talentMats.length > 0 || weaponMats.length > 0) && (
+              <div className="plan-modal-edit-hint">
+                <Pencil size={12} /> Clique em qualquer material, Mora ou XP para atualizar sua mochila
+              </div>
+            )}
             {ascensionMats.length > 0 && (
               <section className="plan-modal-section">
                 <h3 className="plan-modal-section-title"><Gem size={16} /> Ascensão & XP</h3>
                 <div className="plan-modal-mats-grid">
-                  {ascensionMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} wl={wl} bestiary={bestiary} />)}
+                  {ascensionMats.map((m) => (
+                    <MaterialRow
+                      key={m.slug}
+                      material={m}
+                      have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
+                      lang={lang}
+                      wl={wl}
+                      bestiary={bestiary}
+                      onEdit={onSaveInventory ? setEditingMaterial : undefined}
+                    />
+                  ))}
                 </div>
               </section>
             )}
@@ -783,7 +848,17 @@ export default function PlannerCharacterModal({
               <section className="plan-modal-section">
                 <h3 className="plan-modal-section-title"><Sparkles size={16} /> Talentos</h3>
                 <div className="plan-modal-mats-grid">
-                  {talentMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} wl={wl} bestiary={bestiary} />)}
+                  {talentMats.map((m) => (
+                    <MaterialRow
+                      key={m.slug}
+                      material={m}
+                      have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
+                      lang={lang}
+                      wl={wl}
+                      bestiary={bestiary}
+                      onEdit={onSaveInventory ? setEditingMaterial : undefined}
+                    />
+                  ))}
                 </div>
               </section>
             )}
@@ -791,7 +866,17 @@ export default function PlannerCharacterModal({
               <section className="plan-modal-section">
                 <h3 className="plan-modal-section-title"><Sword size={16} /> Armas & XP</h3>
                 <div className="plan-modal-mats-grid">
-                  {weaponMats.map((m) => <MaterialRow key={m.slug} material={m} have={inventory[m.slug] ?? 0} lang={lang} wl={wl} bestiary={bestiary} />)}
+                  {weaponMats.map((m) => (
+                    <MaterialRow
+                      key={m.slug}
+                      material={m}
+                      have={inventory[canonicalInventorySlug(m.slug)] ?? 0}
+                      lang={lang}
+                      wl={wl}
+                      bestiary={bestiary}
+                      onEdit={onSaveInventory ? setEditingMaterial : undefined}
+                    />
+                  ))}
                 </div>
               </section>
             )}
@@ -806,6 +891,29 @@ export default function PlannerCharacterModal({
         <div className="plan-modal-footer">
           <button className="btn-secondary" onClick={onClose}>Fechar</button>
         </div>
+
+        {editingMaterial && onSaveInventory && (
+          <ItemEditModal
+            name={
+              editingMaterial.slug.startsWith('__mora_')
+                ? 'Mora'
+                : editingMaterial.slug === '__hero_wit__'
+                  ? 'Experiência do Herói (Hero\'s Wit)'
+                  : editingMaterial.slug === '__mystic_ore__'
+                    ? 'Minério de Refinamento Místico'
+                    : editingMaterial.name
+            }
+            icon={editingMaterial.icon}
+            rarity={editingMaterial.rarity}
+            currentQty={inventory[canonicalInventorySlug(editingMaterial.slug)] ?? 0}
+            maxGlobal={0}
+            onSave={(newQty) => {
+              onSaveInventory(canonicalInventorySlug(editingMaterial.slug), newQty)
+              setEditingMaterial(null)
+            }}
+            onClose={() => setEditingMaterial(null)}
+          />
+        )}
 
         {(weaponPickerIndex !== null || addingWeapon) && weaponsMap && (
           <PlannerWeaponPicker

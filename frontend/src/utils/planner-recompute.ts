@@ -6,7 +6,14 @@ import {
   type AscensionCostComputed,
 } from './planner-compute'
 import { estimateResin, tierOf, TIERS } from './resin'
-import { computeCharXp, computeWeaponXp, computeMoraLeyline } from './xp-costs'
+import {
+  computeCharXp,
+  computeWeaponXp,
+  computeMoraLeyline,
+  getLeylineXpPerRun,
+  LEYLINE_XP_RESIN_PER_RUN,
+  XP_BOOK_HERO,
+} from './xp-costs'
 import type { AggregateMaterial, CharBreakdown, TierGroup, Plan, WeaponBreakdown } from '../types/planner'
 import type { LanguageCode, WeaponSummary } from '../types'
 
@@ -197,6 +204,7 @@ export function getXpMaterials(char: CharBreakdown, wl: number = 9): {
 export function recomputeAggregates(plan: Plan, inventory: Record<string, number>, wl: number = 9): Plan {
   const grand_mats = new Map<string, AggregateMaterial>()
   let grand_mora = 0
+  let totalHeroWitsNeeded = 0
 
   for (const c of plan.chars) {
     if (c.is_inactive) continue
@@ -208,9 +216,19 @@ export function recomputeAggregates(plan: Plan, inventory: Record<string, number
     }
     const xp = getXpMaterials(c, wl)
     grand_mora += xp.charMora + xp.weaponMora
+    totalHeroWitsNeeded += xp.heroWits
   }
 
-  const moraLeyline = computeMoraLeyline(grand_mora, wl)
+  const ownedMora = Math.max(0, inventory['mora'] ?? 0)
+  const missingMora = Math.max(0, grand_mora - ownedMora)
+  const moraLeyline = computeMoraLeyline(missingMora, wl)
+
+  const ownedHeroWits = Math.max(0, inventory['hero-s-wit'] ?? inventory['heros-wit'] ?? 0)
+  const missingHeroWits = Math.max(0, totalHeroWitsNeeded - ownedHeroWits)
+  const xpLeylineRuns = missingHeroWits > 0
+    ? Math.ceil((missingHeroWits * XP_BOOK_HERO) / getLeylineXpPerRun(wl))
+    : 0
+  const xpLeylineResin = xpLeylineRuns * LEYLINE_XP_RESIN_PER_RUN
 
   const allMats = Array.from(grand_mats.values())
 
@@ -231,7 +249,7 @@ export function recomputeAggregates(plan: Plan, inventory: Record<string, number
     return { tier, materials: mats, resin_total: mats.reduce((s, m) => s + m.resin_estimate, 0) }
   }).filter((tg) => tg.materials.length > 0)
 
-  const grand_resin = tierGroups.reduce((s, tg) => s + tg.resin_total, 0) + moraLeyline.resin
+  const grand_resin = tierGroups.reduce((s, tg) => s + tg.resin_total, 0) + moraLeyline.resin + xpLeylineResin
 
   let materialsComplete = 0, materialsPartial = 0
   for (const m of allMats) {

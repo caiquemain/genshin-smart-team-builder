@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { iconUrl } from '../config'
 import ItemTooltip from '../components/ItemTooltip'
-import { tierOf, estimateResin, formatDays, formatResin, TIERS } from '../utils/resin'
+import { tierOf, estimateResin, estimateResinRange, formatDays, formatResin, TIERS } from '../utils/resin'
 import { resolveGoodMaterials, resolveInventory, type SeelieInventoryItem } from '../utils/inventory-mapper'
 import { getBestiaryData, calculateKills, calculateFamilyKills } from '../utils/kills-compute'
 import type { BestiaryData } from '../types/bestiary'
@@ -49,6 +49,12 @@ import UidImportModal from '../components/UidImportModal'
 
 const STORAGE_KEY = 'gsb.planner.v5'
 const FOCUS_STORAGE_KEY = 'gsb.planner.focus'
+
+const VIRTUAL_RESOURCES: Record<string, { name: string; icon: string; rarity: number }> = {
+  mora: { name: 'Mora', icon: 'UI_ItemIcon_202', rarity: 3 },
+  'hero-s-wit': { name: "Experiência do Herói (Hero's Wit)", icon: 'UI_ItemIcon_104003', rarity: 4 },
+  'mystic-enhancement-ore': { name: 'Minério de Refinamento Místico', icon: 'UI_ItemIcon_104012', rarity: 4 },
+}
 
 const SEELIE_ORDER = [
   'horn', 'ley_line', 'ley-line', 'chaos', 'mist', 'sacrificial_knife', 'sacrificial-knife', 'bone-shard', 'chaos_g', 'chaos-g', 'prism', 'claw', 'statuette', 'fungal_nucleus', 'fungal-nucleus', 'chaos_s', 'chaos-s', 'd_prism', 'd-prism', 'shell', 'whopperflower', 'tainted_water', 'tainted-water', 'core', 'pocket_watch', 'pocket-watch', 'fin', 'hilt', 'will', 'ignited', 'secret_source', 'secret-source', 'bud', 'shellshard', 'frostnight', 'l_bone', 'l-bone', 'mistshroud', 'deep_shadow', 'deep-shadow', 'flaming_hilt', 'flaming-hilt', 'lunar_iron', 'lunar-iron', 'accreted', 'life',
@@ -146,6 +152,11 @@ function MaterialCard({
   }
 
   const killsData = bestiary ? calculateKills(material.slug, missing, wl, bestiary) : null
+  const effectiveCategory = isWeekly ? 'weekly_boss' : material.category
+  const resinRange = estimateResinRange(effectiveCategory, material.quantity, have, {
+    rarity: material.rarity,
+    wl,
+  })
 
   return (
     <ItemTooltip 
@@ -153,9 +164,10 @@ function MaterialCard({
         name: material.name, 
         icon: img ?? undefined, 
         rarity: material.rarity ?? undefined, 
-        category: material.category, 
+        category: effectiveCategory, 
         description: material.description ?? undefined, 
         source: material.source ?? undefined,
+        resinRange,
         killsNeeded: killsData ? { monsterName: killsData.monsterName, kills: killsData.kills, dropRate: killsData.dropRate } : null,
         customFooter: (
           <>
@@ -282,6 +294,23 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
     familyKills = calculateFamilyKills(sortedFamily, inventory, required, wl, bestiary)
   }
 
+  // Converte todos os tiers do grupo para equivalente do tier mais alto (alquimia 3:1)
+  const highestRarity = sortedMats[0].rarity ?? 4
+  let eqNeeded = 0
+  let eqHave = 0
+  for (const m of sortedMats) {
+    const rDiff = Math.max(0, highestRarity - (m.rarity ?? highestRarity))
+    const factor = Math.pow(3, rDiff)
+    eqNeeded += m.quantity / factor
+    eqHave += (inventory[m.slug] ?? 0) / factor
+  }
+  const groupResinRange = estimateResinRange(
+    mainMat.category,
+    Math.ceil(eqNeeded),
+    Math.floor(eqHave),
+    { rarity: highestRarity, wl },
+  )
+
   return (
     <ItemTooltip 
       data={{ 
@@ -289,8 +318,9 @@ function MaterialGroupCard({ mats, inventory, globalMax, family, solvents, isWee
         icon: img ?? undefined, 
         rarity: mainMat.rarity ?? undefined, 
         category: mainMat.category, 
-        description: `Materiais da mesma família. Cálculo de farm considera alquimia.`, 
+        description: `Materiais da mesma família. Cálculo de farm considera alquimia 3:1.`, 
         source: undefined,
+        resinRange: groupResinRange,
         killsNeeded: familyKills ? { monsterName: familyKills.monsterName, kills: familyKills.kills, dropRate: familyKills.dropRate } : null,
         customFooter: (
           <div style={{ marginTop: 12 }}>
@@ -1298,33 +1328,89 @@ export default function PlannerPage() {
           </section>
 
           <div className="planner-stats">
-            <div className="planner-stat">
-              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Coins size={14} /> {isFocusMode ? 'Mora (no foco)' : 'Mora total'}
-              </div>
-              <div className="planner-stat-value mora">{formatResin(displayPlan.grand_mora)}</div>
-            </div>
+            {(() => {
+              const moraHave = displayPlan.inventory_resolved['mora'] ?? 0
+              const moraMissing = Math.max(0, displayPlan.grand_mora - moraHave)
+              const moraRange = estimateResinRange('mora', displayPlan.grand_mora, moraHave, { wl })
+              return (
+                <ItemTooltip
+                  data={{
+                    name: 'Mora',
+                    icon: iconUrl('UI_ItemIcon_202'),
+                    rarity: 3,
+                    category: 'mora',
+                    source: 'Linha Ley — Flor da Riqueza (clique no card para informar sua Mora)',
+                    resinRange: moraRange,
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="planner-stat is-editable"
+                    onClick={() => setEditingItem('mora')}
+                  >
+                    <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                        <Coins size={14} /> {isFocusMode ? 'Mora (no foco)' : 'Mora total'}
+                      </span>
+                      <Pencil size={12} className="planner-stat-edit-icon" />
+                    </div>
+                    <div className="planner-stat-value mora">{formatResin(displayPlan.grand_mora)}</div>
+                    <small className="planner-stat-sub">
+                      {moraHave > 0
+                        ? moraMissing === 0
+                          ? `✓ Você tem ${formatResin(moraHave)}`
+                          : `Tem ${formatResin(moraHave)} · falta ${formatResin(moraMissing)}`
+                        : 'Clique para informar sua Mora'}
+                    </small>
+                  </button>
+                </ItemTooltip>
+              )
+            })()}
             <div className="planner-stat">
               <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Zap size={14} /> {isFocusMode ? 'Resina (no foco)' : 'Resina estimada'}
               </div>
               <div className="planner-stat-value resin">{formatResin(displayPlan.grand_resin)} ⚡</div>
             </div>
-            <div className="planner-stat">
-              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <BookOpen size={14} /> Livros XP (Hero&apos;s Wit)
-              </div>
-              <div className="planner-stat-value" style={{ color: '#c4b5fd' }}>
-                {displayXpTotals.heroWits.toLocaleString('pt-BR')}
-                {displayXpTotals.heroWits > 0 && displayXpTotals.heroWitsHave > 0 && (
-                  <small className="planner-stat-sub">
-                    {displayXpTotals.heroWitsHave >= displayXpTotals.heroWits
-                      ? ' ✓ completo'
-                      : ` (falta ${(displayXpTotals.heroWits - displayXpTotals.heroWitsHave).toLocaleString('pt-BR')})`}
-                  </small>
-                )}
-              </div>
-            </div>
+            {(() => {
+              const xpRange = estimateResinRange('character_exp', displayXpTotals.heroWits, displayXpTotals.heroWitsHave, { rarity: 4, wl })
+              const xpMissing = Math.max(0, displayXpTotals.heroWits - displayXpTotals.heroWitsHave)
+              return (
+                <ItemTooltip
+                  data={{
+                    name: "Experiência do Herói (Hero's Wit)",
+                    icon: iconUrl('UI_ItemIcon_104003'),
+                    rarity: 4,
+                    category: 'character_exp',
+                    source: 'Linha Ley — Flor da Revelação (clique no card para informar seus livros)',
+                    resinRange: xpRange,
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="planner-stat is-editable"
+                    onClick={() => setEditingItem('hero-s-wit')}
+                  >
+                    <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                        <BookOpen size={14} /> Livros XP (Hero&apos;s Wit)
+                      </span>
+                      <Pencil size={12} className="planner-stat-edit-icon" />
+                    </div>
+                    <div className="planner-stat-value" style={{ color: '#c4b5fd' }}>
+                      {displayXpTotals.heroWits.toLocaleString('pt-BR')}
+                    </div>
+                    <small className="planner-stat-sub">
+                      {displayXpTotals.heroWitsHave > 0
+                        ? xpMissing === 0
+                          ? `✓ Você tem ${displayXpTotals.heroWitsHave.toLocaleString('pt-BR')}`
+                          : `Tem ${displayXpTotals.heroWitsHave.toLocaleString('pt-BR')} · falta ${xpMissing.toLocaleString('pt-BR')}`
+                        : 'Clique para informar seus livros'}
+                    </small>
+                  </button>
+                </ItemTooltip>
+              )
+            })()}
             <div className="planner-stat">
               <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Users size={14} /> {isFocusMode ? 'No foco / Total' : 'Personagens'}
@@ -1356,6 +1442,7 @@ export default function PlannerPage() {
             <TodayFarmWidget
               plan={displayPlan}
               data={plannerData}
+              wl={wl}
               onEditMaterial={(slug) => setEditingItem(slug)}
             />
           )}
@@ -1622,23 +1709,32 @@ export default function PlannerPage() {
           onClose={() => { setEditingChar(null); setEditingCharInitialEdit(false) }}
           onUpdate={handleUpdateChar}
           onRemove={handleRemoveChar}
+          onSaveInventory={handleSaveItem}
           weaponsMap={weapons}
           wl={wl}
           initialEditing={editingCharInitialEdit}
         />
       )}
 
-      {editingItem && plan && plannerData && plannerData.materials[editingItem] && (
-        <ItemEditModal
-          name={pickLang(plannerData.materials[editingItem].name, lang)}
-          icon={plannerData.materials[editingItem].icon}
-          rarity={plannerData.materials[editingItem].rarity}
-          currentQty={plan.inventory_resolved[editingItem] ?? 0}
-          maxGlobal={plannerData.global_max[editingItem] ?? 0}
-          onSave={(qty) => handleSaveItem(editingItem, qty)}
-          onClose={() => setEditingItem(null)}
-        />
-      )}
+      {editingItem && plan && (() => {
+        const matMeta = plannerData?.materials[editingItem]
+        const virtMeta = VIRTUAL_RESOURCES[editingItem]
+        if (!matMeta && !virtMeta) return null
+        const resolvedName = virtMeta ? virtMeta.name : pickLang(matMeta!.name, lang)
+        const resolvedIcon = virtMeta ? virtMeta.icon : matMeta!.icon
+        const resolvedRarity = virtMeta ? virtMeta.rarity : matMeta!.rarity
+        return (
+          <ItemEditModal
+            name={resolvedName}
+            icon={resolvedIcon}
+            rarity={resolvedRarity}
+            currentQty={plan.inventory_resolved[editingItem] ?? 0}
+            maxGlobal={plannerData?.global_max[editingItem] ?? 0}
+            onSave={(qty) => handleSaveItem(editingItem, qty)}
+            onClose={() => setEditingItem(null)}
+          />
+        )
+      })()}
     </div>
   )
 }

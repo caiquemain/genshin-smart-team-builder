@@ -32,6 +32,26 @@ describe('resin', () => {
     expect(range.maxResin).toBe(range.maxRuns * 40)
   })
 
+  it('computes Leyline runs for Mora and Hero\'s Wit and calibrates by rarity and WL', () => {
+    const mora = estimateResinRange('mora', 600_000, 120_000, { wl: 9 })
+    expect(mora.kind).toBe('mora')
+    expect(mora.avgRuns).toBe(8) // 480k / 60k = 8 runs
+    expect(mora.avgResin).toBe(160)
+
+    const xp = estimateResinRange('character_exp', 122, 0, { rarity: 4, wl: 9 })
+    expect(xp.kind).toBe('resin')
+    expect(xp.avgRuns).toBe(20) // 122 / 6.125 = 19.9 -> 20 runs
+    expect(xp.avgResin).toBe(400)
+
+    const bossWl9 = estimateResinRange('boss_material', 46, 0, { wl: 9 })
+    const bossWl8 = estimateResinRange('boss_material', 46, 0, { wl: 8 })
+    expect(bossWl9.avgRuns).toBeLessThan(bossWl8.avgRuns)
+
+    const goldBook = estimateResinRange('talent_book', 38, 0, { rarity: 4, wl: 9 })
+    const blueBook = estimateResinRange('talent_book', 38, 0, { rarity: 3, wl: 9 })
+    expect(goldBook.avgRuns).toBeGreaterThan(blueBook.avgRuns)
+  })
+
   it('formats resin into human-readable days/months', () => {
     expect(formatDays(0)).toBe('—')
     expect(formatDays(180)).toBe('~1 dia')

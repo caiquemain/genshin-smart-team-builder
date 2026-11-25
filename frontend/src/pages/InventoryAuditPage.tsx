@@ -16,6 +16,43 @@ import {
 } from '../utils/planner-storage';
 import { InventoryMaterialCard } from '../components/InventoryMaterialCard';
 import { useLanguage } from '../context/LanguageContext';
+import { getXpMaterials } from '../utils/planner-recompute';
+
+const CORE_RESOURCES: Array<{ slug: string; mat: PlannerMaterialData }> = [
+  {
+    slug: 'mora',
+    mat: {
+      name: { pt: 'Mora', en: 'Mora' },
+      icon: 'UI_ItemIcon_202',
+      rarity: 3,
+      category: 'mora',
+      description: { pt: 'Moeda universal de Teyvat.' },
+      source: { pt: 'Linha Ley — Flor da Riqueza' },
+    },
+  },
+  {
+    slug: 'hero-s-wit',
+    mat: {
+      name: { pt: "Experiência do Herói (Hero's Wit)", en: "Hero's Wit" },
+      icon: 'UI_ItemIcon_104003',
+      rarity: 4,
+      category: 'character_exp',
+      description: { pt: 'Fornece 20.000 de EXP de Personagem.' },
+      source: { pt: 'Linha Ley — Flor da Revelação' },
+    },
+  },
+  {
+    slug: 'mystic-enhancement-ore',
+    mat: {
+      name: { pt: 'Minério de Refinamento Místico', en: 'Mystic Enhancement Ore' },
+      icon: 'UI_ItemIcon_104012',
+      rarity: 4,
+      category: 'weapon_exp',
+      description: { pt: 'Fornece 10.000 de EXP de Arma.' },
+      source: { pt: 'Ferreiro / Expedições' },
+    },
+  },
+];
 
 const TABS = [
   { id: 'all', label: 'Todos' },
@@ -75,6 +112,22 @@ export default function InventoryAuditPage() {
                 targetMap[mat.slug] = (targetMap[mat.slug] || 0) + mat.quantity;
               });
             });
+          }
+          if (typeof plan.grand_mora === 'number' && plan.grand_mora > 0) {
+            targetMap['mora'] = plan.grand_mora;
+          }
+          if (Array.isArray(plan.chars)) {
+            const { wl } = loadPlannerSettings();
+            let heroWits = 0;
+            let ores = 0;
+            for (const c of plan.chars) {
+              if (c.is_inactive) continue;
+              const xp = getXpMaterials(c, wl);
+              heroWits += xp.heroWits;
+              ores += xp.ore;
+            }
+            if (heroWits > 0) targetMap['hero-s-wit'] = heroWits;
+            if (ores > 0) targetMap['mystic-enhancement-ore'] = ores;
           }
           setTargets(targetMap);
         } catch {}
@@ -193,6 +246,23 @@ export default function InventoryAuditPage() {
           <h1 style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Database size={32} /> Inventário
           </h1>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-3)', marginBottom: 10 }}>
+          Recursos Principais (Mora &amp; XP)
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+          {CORE_RESOURCES.map(({ slug, mat }) => (
+            <InventoryMaterialCard
+              key={slug}
+              material={{ ...mat, slug }}
+              currentQty={inventory[slug] || 0}
+              targetQty={targets[slug] || 0}
+              onUpdateQty={handleUpdateQty}
+            />
+          ))}
         </div>
       </div>
 

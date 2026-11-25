@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { CalendarDays, BookOpen, Sword, Zap, CheckCircle2 } from 'lucide-react'
+import { CalendarDays, BookOpen, Sword, Zap, CheckCircle2, Coins, Pencil } from 'lucide-react'
 import { iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import type { Plan } from '../types/planner'
@@ -10,7 +10,9 @@ import {
   getGenshinDayOfWeek,
   type DailyDomainEntry,
 } from '../utils/domain-schedule'
-import { formatResin } from '../utils/resin'
+import { estimateResinRange, formatResin } from '../utils/resin'
+import { getXpMaterials } from '../utils/planner-recompute'
+import ItemTooltip from './ItemTooltip'
 
 const RARITY_BORDER: Record<number, string> = {
   2: '#4ade80',
@@ -19,15 +21,21 @@ const RARITY_BORDER: Record<number, string> = {
   5: '#fbbf24',
 }
 
+const MORA_ICON = 'UI_ItemIcon_202'
+const HERO_WIT_ICON = 'UI_ItemIcon_104003'
+
 function DomainCard({
   entry,
+  wl,
   onEditMaterial,
 }: {
   entry: DailyDomainEntry
+  wl: number
   onEditMaterial: (slug: string) => void
 }) {
   const img = iconUrl(entry.icon)
   const isTalent = entry.kind === 'talent'
+  const category = isTalent ? 'talent_book' : 'weapon_ascension'
 
   return (
     <div className="today-domain-card">
@@ -70,29 +78,43 @@ function DomainCard({
         )}
       </div>
 
-      {/* Tiers faltantes (clique para atualizar estoque) */}
+      {/* Tiers faltantes (hover = tooltip de runs, clique = atualizar estoque) */}
       <div className="today-domain-tiers">
         {entry.tiers.map((t) => {
           const tImg = iconUrl(t.icon)
           const done = t.missing === 0
+          const resinRange = estimateResinRange(category, t.needed, t.have, {
+            rarity: t.rarity,
+            wl,
+          })
           return (
-            <button
+            <ItemTooltip
               key={t.slug}
-              type="button"
-              className={`today-tier-btn ${done ? 'is-done' : ''}`}
-              style={{ '--tier-color': RARITY_BORDER[t.rarity] ?? '#94a3b8' } as React.CSSProperties}
-              onClick={() => onEditMaterial(t.slug)}
-              title={`${t.name}: você tem ${t.have} de ${t.needed} — clique para atualizar`}
+              data={{
+                name: t.name,
+                icon: tImg,
+                rarity: t.rarity,
+                category,
+                source: `${entry.displayName} (${entry.region}) · ${entry.scheduleLabel}`,
+                resinRange,
+              }}
             >
-              {tImg && <img src={tImg} alt={t.name} loading="lazy" />}
-              <span className="today-tier-counts">
-                {done ? (
-                  <>✓ {t.have}/{t.needed}</>
-                ) : (
-                  <><strong>-{t.missing}</strong> <small>({t.have}/{t.needed})</small></>
-                )}
-              </span>
-            </button>
+              <button
+                type="button"
+                className={`today-tier-btn ${done ? 'is-done' : ''}`}
+                style={{ '--tier-color': RARITY_BORDER[t.rarity] ?? '#94a3b8' } as React.CSSProperties}
+                onClick={() => onEditMaterial(t.slug)}
+              >
+                {tImg && <img src={tImg} alt={t.name} loading="lazy" />}
+                <span className="today-tier-counts">
+                  {done ? (
+                    <>✓ {t.have}/{t.needed}</>
+                  ) : (
+                    <><strong>-{t.missing}</strong> <small>({t.have}/{t.needed})</small></>
+                  )}
+                </span>
+              </button>
+            </ItemTooltip>
           )
         })}
       </div>
@@ -100,13 +122,105 @@ function DomainCard({
   )
 }
 
+function LeylineCard({
+  kind,
+  needed,
+  have,
+  wl,
+  onEdit,
+}: {
+  kind: 'mora' | 'xp'
+  needed: number
+  have: number
+  wl: number
+  onEdit: () => void
+}) {
+  const isMora = kind === 'mora'
+  const missing = Math.max(0, needed - have)
+  const icon = iconUrl(isMora ? MORA_ICON : HERO_WIT_ICON)
+  const title = isMora ? 'Linha Ley — Flor da Riqueza' : 'Linha Ley — Flor da Revelação'
+  const itemName = isMora ? 'Mora' : "Experiência do Herói (Hero's Wit)"
+  const category = isMora ? 'mora' : 'character_exp'
+  const resinRange = estimateResinRange(category, needed, have, { rarity: isMora ? 3 : 4, wl })
+
+  const fmtQty = (n: number) =>
+    isMora && n >= 1_000_000
+      ? `${(n / 1_000_000).toFixed(2)}M`
+      : isMora && n >= 10_000
+        ? `${Math.round(n / 1_000)}k`
+        : n.toLocaleString('pt-BR')
+
+  return (
+    <ItemTooltip
+      data={{
+        name: itemName,
+        icon,
+        rarity: isMora ? 3 : 4,
+        category,
+        source: `${title} · Aberto todos os dias (20 resina/run)`,
+        resinRange,
+      }}
+    >
+      <div
+        className={`today-domain-card today-leyline-card ${isMora ? 'is-mora' : 'is-xp'}`}
+        onClick={onEdit}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onEdit()
+          }
+        }}
+      >
+        <div className="today-domain-header">
+          <div
+            className="today-domain-icon"
+            style={{ borderColor: isMora ? '#fbbf24' : '#a78bfa' }}
+          >
+            {icon ? <img src={icon} alt={itemName} loading="lazy" /> : <span>?</span>}
+          </div>
+          <div className="today-domain-title-wrap">
+            <div className="today-domain-name">{title}</div>
+            <div className="today-domain-meta">
+              <span className={`today-kind-pill ${isMora ? 'is-mora' : 'is-xp'}`}>
+                {isMora ? <><Coins size={11} /> Mora</> : <><BookOpen size={11} /> XP</>}
+              </span>
+              <span>Todos os dias</span>
+              <span>·</span>
+              <span>{resinRange.avgRuns} {resinRange.avgRuns === 1 ? 'run' : 'runs'}</span>
+            </div>
+          </div>
+          <div className="today-domain-resin" title="Resina estimada na Linha Ley">
+            <Zap size={13} /> {formatResin(resinRange.avgResin)}
+          </div>
+        </div>
+
+        <div className="today-leyline-foot">
+          <span>
+            Falta <strong>{fmtQty(missing)}</strong>{' '}
+            <small>
+              (tem {fmtQty(have)} / precisa {fmtQty(needed)})
+            </small>
+          </span>
+          <span className="today-leyline-edit">
+            <Pencil size={11} /> Atualizar
+          </span>
+        </div>
+      </div>
+    </ItemTooltip>
+  )
+}
+
 export default function TodayFarmWidget({
   plan,
   data,
+  wl = 9,
   onEditMaterial,
 }: {
   plan: Plan
   data: PlannerData
+  wl?: number
   onEditMaterial: (slug: string) => void
 }) {
   const { lang } = useLanguage()
@@ -118,8 +232,29 @@ export default function TodayFarmWidget({
     [plan, data, selectedDay, lang],
   )
 
+  const leylines = useMemo(() => {
+    let heroWitsNeeded = 0
+    for (const c of plan.chars) {
+      if (c.is_inactive) continue
+      heroWitsNeeded += getXpMaterials(c, wl).heroWits
+    }
+    const moraHave = plan.inventory_resolved['mora'] ?? 0
+    const xpHave = plan.inventory_resolved['hero-s-wit'] ?? plan.inventory_resolved['heros-wit'] ?? 0
+    const moraMissing = Math.max(0, plan.grand_mora - moraHave)
+    const xpMissing = Math.max(0, heroWitsNeeded - xpHave)
+    return {
+      moraNeeded: plan.grand_mora,
+      moraHave,
+      moraMissing,
+      xpNeeded: heroWitsNeeded,
+      xpHave,
+      xpMissing,
+    }
+  }, [plan, wl])
+
   const selectedDayInfo = DAY_LABELS_PT.find((d) => d.day === selectedDay)
   const isToday = selectedDay === todayGenshin
+  const hasLeylines = leylines.moraMissing > 0 || leylines.xpMissing > 0
 
   return (
     <section className="today-farm-widget">
@@ -132,13 +267,14 @@ export default function TodayFarmWidget({
           <p className="today-farm-sub">
             {daily.openCount > 0 ? (
               <>
-                <strong>{daily.openCount}</strong> domínio(s) do seu plano aberto(s) ·{' '}
+                <strong>{daily.openCount}</strong> domínio(s) aberto(s) ·{' '}
                 <strong>≈{formatResin(daily.totalMissingResin)} ⚡</strong> pendentes
+                {hasLeylines && ' · + Linhas Ley (Mora/XP)'}
                 {selectedDay === 0 && ' · Domingo todos os domínios abrem!'}
               </>
             ) : (
               <>
-                Nenhum domínio de talento/arma do seu plano pendente {isToday ? 'hoje' : 'neste dia'}.
+                Nenhum domínio de talento/arma pendente {isToday ? 'hoje' : 'neste dia'}.
                 {daily.otherDaysCount > 0 && ` (${daily.otherDaysCount} domínio(s) pendente(s) em outros dias)`}
               </>
             )}
@@ -163,24 +299,43 @@ export default function TodayFarmWidget({
         </div>
       </div>
 
-      {daily.openCount === 0 ? (
+      {daily.openCount === 0 && !hasLeylines ? (
         <div className="today-farm-empty">
           <CheckCircle2 size={18} color="#4ade80" />
           <span>
-            Ótimo dia para focar em <strong>Bosses Normais</strong>, <strong>Chefes Semanais</strong>,{' '}
-            <strong>Linhas Ley (XP/Mora)</strong> ou <strong>Artefatos</strong>!
+            Ótimo dia para focar em <strong>Bosses Normais</strong>, <strong>Chefes Semanais</strong> ou{' '}
+            <strong>Artefatos</strong>!
           </span>
         </div>
       ) : (
         <div className="today-domains-grid">
           {daily.talentDomains.map((entry) => (
-            <DomainCard key={`tal-${entry.familyKey}`} entry={entry} onEditMaterial={onEditMaterial} />
+            <DomainCard key={`tal-${entry.familyKey}`} entry={entry} wl={wl} onEditMaterial={onEditMaterial} />
           ))}
           {daily.weaponDomains.map((entry) => (
-            <DomainCard key={`wpn-${entry.familyKey}`} entry={entry} onEditMaterial={onEditMaterial} />
+            <DomainCard key={`wpn-${entry.familyKey}`} entry={entry} wl={wl} onEditMaterial={onEditMaterial} />
           ))}
+          {leylines.xpMissing > 0 && (
+            <LeylineCard
+              kind="xp"
+              needed={leylines.xpNeeded}
+              have={leylines.xpHave}
+              wl={wl}
+              onEdit={() => onEditMaterial('hero-s-wit')}
+            />
+          )}
+          {leylines.moraMissing > 0 && (
+            <LeylineCard
+              kind="mora"
+              needed={leylines.moraNeeded}
+              have={leylines.moraHave}
+              wl={wl}
+              onEdit={() => onEditMaterial('mora')}
+            />
+          )}
         </div>
       )}
     </section>
   )
 }
+

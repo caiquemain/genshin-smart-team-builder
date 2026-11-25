@@ -71,17 +71,6 @@ function ResinBlock({ range }: { range: ResinRange }) {
     )
   }
 
-  if (range.kind === 'mora') {
-    return (
-      <div className="item-tooltip-resin">
-        <div className="item-tooltip-resin-free">
-          <span>Farmável em qualquer atividade</span>
-          <span>Sem custo de resina</span>
-        </div>
-      </div>
-    )
-  }
-
   if (range.kind === 'free') {
     return (
       <div className="item-tooltip-resin">
@@ -93,7 +82,11 @@ function ResinBlock({ range }: { range: ResinRange }) {
     )
   }
 
+  const missingQty = Math.max(0, range.quantity - range.have)
   const qtyLabel = range.have > 0 ? 'que falta' : 'no total'
+  const unit = range.unitLabel ?? 'un.'
+  const isExact = range.minRuns === range.maxRuns
+
   return (
     <div className="item-tooltip-resin">
       <div className="item-tooltip-resin-header">
@@ -101,25 +94,36 @@ function ResinBlock({ range }: { range: ResinRange }) {
         <span>{range.tier.label}</span>
         <span>{range.tier.resinPerRun} resina/run</span>
       </div>
-      <div className="item-tooltip-resin-runs">
-        <div>
-          <span>Com sorte</span>
-          <strong>{range.minRuns} {range.minRuns === 1 ? 'run' : 'runs'}</strong>
-          <small>{formatResin(range.minResin)} resina</small>
+      {isExact ? (
+        <div className="item-tooltip-resin-runs" style={{ gridTemplateColumns: '1fr' }}>
+          <div className="is-avg">
+            <span>{range.perRunNote ?? 'Custo fixo'}</span>
+            <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'}</strong>
+            <small>{formatResin(range.avgResin)} resina</small>
+          </div>
         </div>
-        <div className="is-avg">
-          <span>Média</span>
-          <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'}</strong>
-          <small>{formatResin(range.avgResin)} resina</small>
+      ) : (
+        <div className="item-tooltip-resin-runs">
+          <div>
+            <span>Com sorte</span>
+            <strong>{range.minRuns} {range.minRuns === 1 ? 'run' : 'runs'}</strong>
+            <small>{formatResin(range.minResin)} resina</small>
+          </div>
+          <div className="is-avg">
+            <span>Média</span>
+            <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'}</strong>
+            <small>{formatResin(range.avgResin)} resina</small>
+          </div>
+          <div>
+            <span>Sem sorte</span>
+            <strong>{range.maxRuns} {range.maxRuns === 1 ? 'run' : 'runs'}</strong>
+            <small>{formatResin(range.maxResin)} resina</small>
+          </div>
         </div>
-        <div>
-          <span>Sem sorte</span>
-          <strong>{range.maxRuns} {range.maxRuns === 1 ? 'run' : 'runs'}</strong>
-          <small>{formatResin(range.maxResin)} resina</small>
-        </div>
-      </div>
+      )}
       <div className="item-tooltip-resin-meta">
-        Calculado para {qtyLabel} ({range.have > 0 ? range.quantity - range.have : range.quantity} un.)
+        Calculado para {qtyLabel} ({missingQty.toLocaleString('pt-BR')} {unit})
+        {range.perRunNote && !isExact ? ` · ${range.perRunNote}` : ''}
       </div>
       {range.tier.key === 'weekly' && (
         <div className="item-tooltip-resin-warn" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

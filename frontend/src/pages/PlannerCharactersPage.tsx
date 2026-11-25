@@ -23,6 +23,7 @@ import {
   removeCharFromPlan,
   savePlanToStorage,
   syncCharEditToPlannerStorage,
+  syncInventoryItemToPlannerStorage,
 } from '../utils/planner-storage'
 
 const ELEMENT_COLORS: Record<string, string> = {
@@ -109,6 +110,15 @@ export default function PlannerCharactersPage() {
     setPlan(updated)
     setSelectedChar(newChar)
     return v5Saved || planSaved
+  }
+
+  const handleSaveInventory = (slug: string, newQty: number) => {
+    if (!plan) return
+    const nextInv = { ...plan.inventory_resolved, [slug]: newQty }
+    const updated = recomputeAggregates(plan, nextInv, wl)
+    setPlan(updated)
+    savePlanToStorage(updated)
+    syncInventoryItemToPlannerStorage(slug, newQty, plannerData)
   }
 
   const handleAddChar = (chosen: CharacterSummary) => {
@@ -353,6 +363,7 @@ export default function PlannerCharactersPage() {
           onClose={() => { setSelectedChar(null); setModalInitialEdit(false) }}
           onUpdate={handleUpdate}
           onRemove={handleRemoveChar}
+          onSaveInventory={handleSaveInventory}
           weaponsMap={weaponsMap}
           wl={wl}
           initialEditing={modalInitialEdit}
