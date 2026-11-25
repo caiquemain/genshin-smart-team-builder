@@ -17,6 +17,7 @@ import {
   Coins, Users, Sword, Calculator, CheckCircle2, FlaskConical,
   Settings, Pencil, ClipboardList, AlertTriangle, Sprout,
   Shield, Skull, CalendarDays, Gem, BookOpen, MapPin, Star, Plus, Download, Upload, UserCheck,
+  Target, X, Search, Filter,
 } from 'lucide-react'
 import type { AggregateMaterial, CharBreakdown, WeaponBreakdown, TierGroup, Plan } from '../types/planner'
 
@@ -24,7 +25,7 @@ import { loadPlannerData, getPlannerData, getPlannerDataOrNull, elementOf, pickL
 import { buildIndexes, resolveCharSlug, resolveWeaponSlug } from '../utils/slug-resolver'
 import { computeAscensionCost, computeTalentCost, computeWeaponAscension } from '../utils/planner-compute'
 import { parseGoodData, type GoodCharState } from '../utils/good-parser'
-import { recomputeAggregates } from '../utils/planner-recompute'
+import { getXpMaterials, recomputeAggregates } from '../utils/planner-recompute'
 import { useRoster } from '../utils/roster'
 import {
   PLANNER_UPDATED_EVENT,
@@ -47,6 +48,7 @@ import TodayFarmWidget from '../components/TodayFarmWidget'
 import UidImportModal from '../components/UidImportModal'
 
 const STORAGE_KEY = 'gsb.planner.v5'
+const FOCUS_STORAGE_KEY = 'gsb.planner.focus'
 
 const SEELIE_ORDER = [
   'horn', 'ley_line', 'ley-line', 'chaos', 'mist', 'sacrificial_knife', 'sacrificial-knife', 'bone-shard', 'chaos_g', 'chaos-g', 'prism', 'claw', 'statuette', 'fungal_nucleus', 'fungal-nucleus', 'chaos_s', 'chaos-s', 'd_prism', 'd-prism', 'shell', 'whopperflower', 'tainted_water', 'tainted-water', 'core', 'pocket_watch', 'pocket-watch', 'fin', 'hilt', 'will', 'ignited', 'secret_source', 'secret-source', 'bud', 'shellshard', 'frostnight', 'l_bone', 'l-bone', 'mistshroud', 'deep_shadow', 'deep-shadow', 'flaming_hilt', 'flaming-hilt', 'lunar_iron', 'lunar-iron', 'accreted', 'life',
@@ -414,11 +416,32 @@ export default function PlannerPage() {
   const [wl, setWl] = useState(() => loadPlannerSettings().wl)
   const [showSettings, setShowSettings] = useState(false)
   const [showCharPicker, setShowCharPicker] = useState(false)
+  const [charPickerMode, setCharPickerMode] = useState<'plan' | 'focus'>('plan')
   const [showUidModal, setShowUidModal] = useState(false)
   const [editingChar, setEditingChar] = useState<CharBreakdown | null>(null)
   const [editingCharInitialEdit, setEditingCharInitialEdit] = useState(false)
   const [editingItem, setEditingItem] = useState<string | null>(null)
   const [bestiary, setBestiary] = useState<BestiaryData | null>(null)
+  const [focusSlugs, setFocusSlugs] = useState<string[]>(() => {
+    try {
+      const raw = localStorage.getItem(FOCUS_STORAGE_KEY)
+      if (!raw) return []
+      const parsed = JSON.parse(raw)
+      return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === 'string') : []
+    } catch {
+      return []
+    }
+  })
+  const [showFocusPicker, setShowFocusPicker] = useState(false)
+  const [focusSearch, setFocusSearch] = useState('')
+  const [onlyMissingMats, setOnlyMissingMats] = useState(false)
+
+  useEffect(() => {
+    try {
+      if (focusSlugs.length > 0) localStorage.setItem(FOCUS_STORAGE_KEY, JSON.stringify(focusSlugs))
+      else localStorage.removeItem(FOCUS_STORAGE_KEY)
+    } catch {}
+  }, [focusSlugs])
 
   useEffect(() => {
     getBestiaryData().then(setBestiary)
@@ -570,8 +593,19 @@ export default function PlannerPage() {
     )
   }, [plannerData, plan, roster])
 
+  const toggleFocusSlug = (slug: string) => {
+    setFocusSlugs((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]))
+  }
+
+  const clearFocus = () => {
+    setFocusSlugs([])
+    setShowFocusPicker(false)
+  }
+
   const handleAddChar = (chosen: CharacterSummary) => {
+    const mode = charPickerMode
     setShowCharPicker(false)
+    setCharPickerMode('plan')
     if (!plannerData) return
     const r = roster.get(chosen.slug)
     const g = roster.getGoodState(chosen.slug)
@@ -585,6 +619,9 @@ export default function PlannerPage() {
     })
     if (res) {
       setPlan(res.plan)
+      if (mode === 'focus') {
+        setFocusSlugs((prev) => (prev.includes(chosen.slug) ? prev : [...prev, chosen.slug]))
+      }
       setEditingChar(res.char)
       setEditingCharInitialEdit(res.added)
     }
@@ -900,8 +937,8 @@ export default function PlannerPage() {
 
   const handleClear = () => {
     if (!confirm('Limpar todo o plano e as importações atuais?')) return
-    setSeelieData(null); setGoodData(null); setPlan(null)
-    localStorage.removeItem(STORAGE_KEY); localStorage.removeItem('gsb.planner.plan'); setError(null)
+    setSeelieData(null); setGoodData(null); setPlan(null); setFocusSlugs([])
+    localStorage.removeItem(STORAGE_KEY); localStorage.removeItem('gsb.planner.plan'); localStorage.removeItem(FOCUS_STORAGE_KEY); setError(null)
   }
 
   const summary = useMemo(() => {
@@ -917,6 +954,54 @@ export default function PlannerPage() {
 
   const hasActivePlan = !!(plan && plan.chars.length > 0)
   const existingSlugs = useMemo(() => (plan?.chars ?? []).map((c) => c.slug), [plan])
+
+  const focusedChars = useMemo(() => {
+    if (!plan || focusSlugs.length === 0) return []
+    const bySlug = new Map(plan.chars.map((c) => [c.slug, c]))
+    return focusSlugs.map((s) => bySlug.get(s)).filter((c): c is CharBreakdown => Boolean(c))
+  }, [plan, focusSlugs])
+
+  const isFocusMode = focusedChars.length > 0
+
+  const displayPlan = useMemo(() => {
+    if (!plan) return null
+    if (!isFocusMode) return plan
+    const focusedSubPlan: Plan = {
+      ...plan,
+      chars: focusedChars.map((c) => ({ ...c, is_inactive: false })),
+    }
+    return recomputeAggregates(focusedSubPlan, plan.inventory_resolved, wl)
+  }, [plan, isFocusMode, focusedChars, wl])
+
+  const displayXpTotals = useMemo(() => {
+    if (!displayPlan) return { heroWits: 0, ore: 0, heroWitsHave: 0, oreHave: 0 }
+    let heroWits = 0
+    let ore = 0
+    for (const c of displayPlan.chars) {
+      if (c.is_inactive) continue
+      const xp = getXpMaterials(c, wl)
+      heroWits += xp.heroWits
+      ore += xp.ore
+    }
+    const inv = displayPlan.inventory_resolved
+    const heroWitsHave = inv['hero-s-wit'] ?? inv['heros-wit'] ?? 0
+    const oreHave = inv['mystic-enhancement-ore'] ?? 0
+    return { heroWits, ore, heroWitsHave, oreHave }
+  }, [displayPlan, wl])
+
+  const focusPickerOptions = useMemo(() => {
+    if (!plan) return []
+    const q = focusSearch.trim().toLowerCase()
+    const focusSet = new Set(focusSlugs)
+    return [...plan.chars]
+      .filter((c) => !q || c.name.toLowerCase().includes(q) || c.slug.includes(q))
+      .sort((a, b) => {
+        const aFocused = focusSet.has(a.slug) ? 0 : 1
+        const bFocused = focusSet.has(b.slug) ? 0 : 1
+        if (aFocused !== bFocused) return aFocused - bFocused
+        return a.name.localeCompare(b.name)
+      })
+  }, [plan, focusSearch, focusSlugs])
 
   const jsonImportSection = (
     <>
@@ -1077,7 +1162,7 @@ export default function PlannerPage() {
 
       {error && <p className="error">Erro: {error}</p>}
 
-      {hasActivePlan && plan && (
+      {hasActivePlan && plan && displayPlan && (
         <>
           {plan.warnings.length > 0 && (
             <details className="planner-warnings">
@@ -1090,18 +1175,182 @@ export default function PlannerPage() {
             </details>
           )}
 
+          {/* Barra de Foco de Farm */}
+          <section className={`planner-focus-bar ${isFocusMode ? 'is-active' : ''}`}>
+            <div className="planner-focus-head">
+              <div className="planner-focus-title-wrap">
+                <span className="planner-focus-title">
+                  <Target size={16} /> Foco de Farm
+                </span>
+                {isFocusMode ? (
+                  <span className="planner-focus-badge is-focused">
+                    Focando em {focusedChars.length} {focusedChars.length === 1 ? 'personagem' : 'personagens'}
+                  </span>
+                ) : (
+                  <span className="planner-focus-badge">
+                    Todos os ativos ({plan.chars.filter((c) => !c.is_inactive).length})
+                  </span>
+                )}
+              </div>
+
+              <div className="planner-focus-actions">
+                <button
+                  type="button"
+                  className={`planner-focus-btn ${showFocusPicker ? 'is-open' : ''}`}
+                  onClick={() => setShowFocusPicker((v) => !v)}
+                >
+                  <Plus size={14} /> {showFocusPicker ? 'Fechar lista' : 'Escolher para focar'}
+                </button>
+                <button
+                  type="button"
+                  className="planner-focus-btn is-accent"
+                  disabled={!plannerData}
+                  onClick={() => {
+                    setCharPickerMode('focus')
+                    setShowCharPicker(true)
+                  }}
+                  title="Adicionar um personagem novo ao plano e já colocar no foco"
+                >
+                  <Plus size={14} /> Novo personagem no foco
+                </button>
+                {isFocusMode && (
+                  <button
+                    type="button"
+                    className="planner-focus-btn is-clear"
+                    onClick={clearFocus}
+                  >
+                    <X size={14} /> Ver todos
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {isFocusMode ? (
+              <div className="planner-focus-selected">
+                {focusedChars.map((c) => {
+                  const curLv = c.char_goal?.current?.level ?? 1
+                  const goalLv = c.char_goal?.goal?.level ?? 90
+                  const tGoal = c.talent_goal
+                  const talStr = tGoal
+                    ? `${tGoal.normal?.current ?? 1}/${tGoal.skill?.current ?? 1}/${tGoal.burst?.current ?? 1} → ${tGoal.normal?.goal ?? 1}/${tGoal.skill?.goal ?? 1}/${tGoal.burst?.goal ?? 1}`
+                    : null
+                  return (
+                    <div key={c.slug} className="planner-focus-chip">
+                      <button
+                        type="button"
+                        className="planner-focus-chip-main"
+                        onClick={() => {
+                          setEditingChar(c)
+                          setEditingCharInitialEdit(false)
+                        }}
+                        title={`Editar metas de ${c.name}`}
+                      >
+                        {iconUrl(c.icon) && <img src={iconUrl(c.icon)!} alt={c.name} />}
+                        <span className="planner-focus-chip-info">
+                          <strong>{c.name}</strong>
+                          <small>
+                            Nv. {curLv}→{goalLv}
+                            {talStr ? ` · Tal. ${talStr}` : ''}
+                          </small>
+                        </span>
+                        <Pencil size={12} className="planner-focus-chip-edit" />
+                      </button>
+                      <button
+                        type="button"
+                        className="planner-focus-chip-remove"
+                        onClick={() => toggleFocusSlug(c.slug)}
+                        aria-label={`Remover ${c.name} do foco`}
+                        title="Remover do foco"
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : (
+              <p className="planner-focus-hint">
+                Selecione 1 ou mais personagens (ex.: Linnea, Noelle e Chiori) para filtrar Mora, Resina, Livros de XP, Domínios de Hoje e Materiais faltantes apenas para eles.
+              </p>
+            )}
+
+            {showFocusPicker && (
+              <div className="planner-focus-picker">
+                <div className="planner-focus-search">
+                  <Search size={14} />
+                  <input
+                    type="text"
+                    placeholder="Buscar personagem no plano para focar..."
+                    value={focusSearch}
+                    onChange={(e) => setFocusSearch(e.target.value)}
+                  />
+                  {focusSearch && (
+                    <button type="button" onClick={() => setFocusSearch('')} aria-label="Limpar busca">
+                      <X size={13} />
+                    </button>
+                  )}
+                </div>
+                <div className="planner-focus-grid">
+                  {focusPickerOptions.map((c) => {
+                    const selected = focusSlugs.includes(c.slug)
+                    return (
+                      <button
+                        key={c.slug}
+                        type="button"
+                        className={`planner-focus-opt ${selected ? 'is-selected' : ''}`}
+                        onClick={() => toggleFocusSlug(c.slug)}
+                      >
+                        {iconUrl(c.icon) && <img src={iconUrl(c.icon)!} alt={c.name} loading="lazy" />}
+                        <span>{c.name}</span>
+                        {selected && <CheckCircle2 size={13} className="planner-focus-check" />}
+                      </button>
+                    )
+                  })}
+                  {focusPickerOptions.length === 0 && (
+                    <span className="muted" style={{ fontSize: 12, padding: '6px 4px' }}>
+                      Nenhum personagem no plano corresponde à busca. Use &quot;Novo personagem no foco&quot; para adicionar.
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </section>
+
           <div className="planner-stats">
             <div className="planner-stat">
-              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Coins size={14} /> Mora total</div>
-              <div className="planner-stat-value mora">{formatResin(plan.grand_mora)}</div>
+              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Coins size={14} /> {isFocusMode ? 'Mora (no foco)' : 'Mora total'}
+              </div>
+              <div className="planner-stat-value mora">{formatResin(displayPlan.grand_mora)}</div>
             </div>
             <div className="planner-stat">
-              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Zap size={14} /> Resina estimada</div>
-              <div className="planner-stat-value resin">{formatResin(plan.grand_resin)} ⚡</div>
+              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Zap size={14} /> {isFocusMode ? 'Resina (no foco)' : 'Resina estimada'}
+              </div>
+              <div className="planner-stat-value resin">{formatResin(displayPlan.grand_resin)} ⚡</div>
             </div>
             <div className="planner-stat">
-              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Users size={14} /> Personagens</div>
-              <div className="planner-stat-value">{plan.chars.length}</div>
+              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <BookOpen size={14} /> Livros XP (Hero&apos;s Wit)
+              </div>
+              <div className="planner-stat-value" style={{ color: '#c4b5fd' }}>
+                {displayXpTotals.heroWits.toLocaleString('pt-BR')}
+                {displayXpTotals.heroWits > 0 && displayXpTotals.heroWitsHave > 0 && (
+                  <small className="planner-stat-sub">
+                    {displayXpTotals.heroWitsHave >= displayXpTotals.heroWits
+                      ? ' ✓ completo'
+                      : ` (falta ${(displayXpTotals.heroWits - displayXpTotals.heroWitsHave).toLocaleString('pt-BR')})`}
+                  </small>
+                )}
+              </div>
+            </div>
+            <div className="planner-stat">
+              <div className="planner-stat-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Users size={14} /> {isFocusMode ? 'No foco / Total' : 'Personagens'}
+              </div>
+              <div className="planner-stat-value">
+                {isFocusMode ? `${focusedChars.length} / ${plan.chars.length}` : plan.chars.length}
+              </div>
             </div>
           </div>
 
@@ -1117,20 +1366,31 @@ export default function PlannerPage() {
           <div className="resin-counter">
             <label>Resina atual: <input type="number" min={0} max={2000} value={currentResin} onChange={(e) => setCurrentResin(Math.max(0, parseInt(e.target.value) || 0))} /></label>
             <div className="resin-days">
-              Falta: <strong>{formatDays(Math.max(0, plan.grand_resin - currentResin))}</strong>
-              <span className="resin-hint">({formatResin(Math.max(0, plan.grand_resin - currentResin))} ⚡ @ 180/dia)</span>
+              Falta{isFocusMode ? ' (foco)' : ''}: <strong>{formatDays(Math.max(0, displayPlan.grand_resin - currentResin))}</strong>
+              <span className="resin-hint">({formatResin(Math.max(0, displayPlan.grand_resin - currentResin))} ⚡ @ 180/dia)</span>
             </div>
           </div>
 
           {plannerData && (
             <TodayFarmWidget
-              plan={plan}
+              plan={displayPlan}
               data={plannerData}
               onEditMaterial={(slug) => setEditingItem(slug)}
             />
           )}
 
-          <h2 style={{ marginTop: 32 }}>Materiais por resina</h2>
+          <div className="planner-mats-header">
+            <h2 style={{ margin: 0 }}>
+              Materiais por resina{isFocusMode ? ` — Foco (${focusedChars.map((c) => c.name).join(', ')})` : ''}
+            </h2>
+            <button
+              type="button"
+              className={`planner-focus-btn ${onlyMissingMats ? 'is-accent' : ''}`}
+              onClick={() => setOnlyMissingMats((v) => !v)}
+            >
+              <Filter size={13} /> {onlyMissingMats ? 'Mostrando só o que falta' : 'Mostrar só o que falta'}
+            </button>
+          </div>
           
           {plannerData ? (() => {
              const data = plannerData
@@ -1139,13 +1399,33 @@ export default function PlannerPage() {
              const solventItem = invRaw.find(i => i.item === 'dream_solvent')
              if (solventItem) solvents = solventItem.value
 
-             if (plan.tier_groups.length === 0) {
-               return <p className="status">Todos os personagens ativos deste plano já atingiram suas metas!</p>
+             if (displayPlan.tier_groups.length === 0) {
+               return (
+                 <p className="status">
+                   {isFocusMode
+                     ? 'Os personagens em foco já atingiram suas metas atuais! Clique no card do personagem acima para ajustar nível/talentos.'
+                     : 'Todos os personagens ativos deste plano já atingiram suas metas!'}
+                 </p>
+               )
              }
 
-             return plan.tier_groups.map((tg) => {
-               const groupedMats = groupMaterials(tg.materials, data.families)
-               return (
+             const renderedGroups = displayPlan.tier_groups
+               .map((tg) => {
+                 const groupedMats = groupMaterials(tg.materials, data.families)
+                 const visibleMats = onlyMissingMats
+                   ? groupedMats.filter(([, mats]) =>
+                       mats.some((m) => (displayPlan.inventory_resolved[m.slug] ?? 0) < m.quantity),
+                     )
+                   : groupedMats
+                 return { tg, visibleMats }
+               })
+               .filter(({ visibleMats }) => visibleMats.length > 0)
+
+             if (renderedGroups.length === 0) {
+               return <p className="status">Você já possui todos os materiais necessários no inventário para essas metas!</p>
+             }
+
+             return renderedGroups.map(({ tg, visibleMats }) => (
                 <details key={tg.tier.key} className="tier-group" open>
                   <summary>
                     <span className="tier-title">
@@ -1154,16 +1434,16 @@ export default function PlannerPage() {
                       </span>
                       <span style={{ color: tg.tier.color }}>{tg.tier.label}</span>
                     </span>
-                    <span className="tier-meta">{groupedMats.length} grupo(s) {tg.resin_total > 0 && ` · ≈${formatResin(tg.resin_total)} ⚡`}</span>
+                    <span className="tier-meta">{visibleMats.length} grupo(s) {tg.resin_total > 0 && ` · ≈${formatResin(tg.resin_total)} ⚡`}</span>
                   </summary>
                   <div className="ascension-grid">
-                    {groupedMats.map(([key, mats]) => {
+                    {visibleMats.map(([key, mats]) => {
                       const family = data.families[key]
                       return (
                         <MaterialGroupCard 
                           key={key} 
                           mats={mats} 
-                          inventory={plan.inventory_resolved}
+                          inventory={displayPlan.inventory_resolved}
                           globalMax={data.global_max}
                           family={family}
                           solvents={solvents}
@@ -1176,8 +1456,7 @@ export default function PlannerPage() {
                     })}
                   </div>
                 </details>
-              )
-             })
+              ))
           })() : (
             <p className="status">Carregando catálogo de materiais...</p>
           )}
@@ -1195,10 +1474,17 @@ export default function PlannerPage() {
 
       {showCharPicker && (
         <CharacterPickerModal
-          title="Adicionar personagem ao planejador"
+          title={
+            charPickerMode === 'focus'
+              ? 'Adicionar personagem ao plano e focar'
+              : 'Adicionar personagem ao planejador'
+          }
           excludeSlugs={existingSlugs}
           onSelect={handleAddChar}
-          onClose={() => setShowCharPicker(false)}
+          onClose={() => {
+            setShowCharPicker(false)
+            setCharPickerMode('plan')
+          }}
         />
       )}
 
