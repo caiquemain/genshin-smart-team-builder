@@ -1,4 +1,4 @@
-import { artifactIconUrl, iconUrl } from '../config'
+import { artifactPieceIconUrl, iconUrl } from '../config'
 import {
   formatCanonicalStatValue,
   STAT_SHORT_LABEL_PT,
@@ -544,7 +544,7 @@ export async function renderBuildCardToCanvas(
     loadImageSafe(iconUrl(options.talentIcons?.na)),
     loadImageSafe(iconUrl(options.talentIcons?.es)),
     loadImageSafe(iconUrl(options.talentIcons?.eb)),
-    ...slotPieces.map((p) => loadImageSafe(p ? artifactIconUrl(p.setIcon) : null)),
+    ...slotPieces.map((p) => loadImageSafe(p ? artifactPieceIconUrl(p.setIcon, p.slotKey) : null)),
     ...(options.constellationIcons ?? Array(6).fill(null))
       .slice(0, 6)
       .map((ic) => loadImageSafe(iconUrl(ic))),

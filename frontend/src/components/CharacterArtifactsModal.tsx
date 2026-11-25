@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {
   X, Gem, Plus, Trash2, Pencil, Save, ExternalLink, Swords, Copy, Check, Share2,
 } from 'lucide-react'
-import { artifactIconUrl, iconUrl } from '../config'
+import { artifactPieceIconUrl, iconUrl } from '../config'
 import type { GoodArtifact, GoodSlotKey, GoodSubstat } from '../types/good'
 import type { GoodCharState } from '../utils/good-parser'
 import {
@@ -570,7 +570,7 @@ export default function CharacterArtifactsModal({
               }
 
               const meta = artifactSetLookup.get(normKey(piece.setKey))
-              const artImg = artifactIconUrl(meta?.icon)
+              const artImg = artifactPieceIconUrl(meta?.icon, slot)
               const mainCanon = normalizeGoodStatKey(piece.mainStatKey)
               const mainVal = getArtifactMainStatValue(piece.mainStatKey, piece.rarity, piece.level)
               const cv = computeArtifactCritValue(piece)
@@ -685,7 +685,7 @@ export default function CharacterArtifactsModal({
                   <span>Set de Artefato</span>
                   {(() => {
                     const selectedSet = artifactSetLookup.get(normKey(editingPiece.setKey))
-                    const sImg = artifactIconUrl(selectedSet?.icon)
+                    const sImg = artifactPieceIconUrl(selectedSet?.icon, editingSlot)
                     return (
                       <button
                         type="button"

@@ -1,4 +1,4 @@
-import { artifactIconUrl, iconUrl } from '../config'
+import { artifactIconUrl, artifactPieceIconUrl, iconUrl } from '../config'
 import { formatStatLabel } from './stats'
 import {
   BUILD_CARD_THEMES,
@@ -534,7 +534,7 @@ async function preloadMemberAssets(
     const bySlot = new Map(st.pieces.map((p) => [p.slotKey, p]))
     for (const sk of slotOrder) {
       const p = bySlot.get(sk as any)
-      pieceUrls.push(p ? artifactIconUrl(p.setIcon) : null)
+      pieceUrls.push(p ? artifactPieceIconUrl(p.setIcon, sk) : null)
     }
   } else if (mode === 'guide' && member.guideBuild) {
     const b = member.guideBuild

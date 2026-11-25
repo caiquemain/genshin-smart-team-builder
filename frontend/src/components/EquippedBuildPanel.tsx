@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Gem, ShieldCheck, Swords, AlertCircle, CheckCircle2, Pencil, Share2 } from 'lucide-react'
 import { api } from '../api/client'
-import { artifactIconUrl, iconUrl } from '../config'
+import { artifactPieceIconUrl, iconUrl } from '../config'
 import { useLanguage } from '../context/LanguageContext'
 import type { GoodCharState } from '../utils/good-parser'
 import {
@@ -302,7 +302,7 @@ export default function EquippedBuildPanel({
       {computed.hasArtifacts ? (
         <div className="eb-artifacts-grid">
           {computed.pieces.map((p, idx) => {
-            const artImg = artifactIconUrl(p.setIcon)
+            const artImg = artifactPieceIconUrl(p.setIcon, p.slotKey)
             return (
               <div key={`${p.slotKey}-${idx}`} className="eb-art-card">
                 <div className="eb-art-head">

@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
-import { artifactIconUrl, iconUrl } from '../config'
+import { artifactIconUrl, artifactPieceIconUrl, iconUrl } from '../config'
 import { useRoster } from '../utils/roster'
 import type { GoodCharState } from '../utils/good-parser'
 import {
@@ -993,7 +993,7 @@ export default function RosterPage() {
                 <>
                   <div className="bag-grid">
                     {bagDisplayedItems.slice(0, 80).map((item) => {
-                      const artImg = artifactIconUrl(item.setIcon)
+                      const artImg = artifactPieceIconUrl(item.setIcon, item.slotKey)
                       return (
                         <div
                           key={item.index}
