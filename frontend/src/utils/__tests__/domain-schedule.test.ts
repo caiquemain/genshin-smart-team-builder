@@ -141,6 +141,18 @@ describe('domain-schedule', () => {
     expect(mon.talentDomains[0].tiers[0].missing).toBe(8)
     expect(mon.weaponDomains.map((d) => d.familyKey)).toEqual(['pale_star'])
     expect(mon.otherDaysCount).toBe(1)
+    expect(mon.otherDaysDomains.map((d) => d.familyKey)).toEqual(['elysium'])
+
+    // Terça (2): elysium aberto; moonlight (talento) e pale_star (arma) aparecem em otherDaysDomains
+    const tue = computeDailyFarmPlan(plan, data, 2, 'pt')
+    expect(tue.weaponDomains).toEqual([])
+    expect(tue.otherDaysDomains.map((d) => d.familyKey).sort()).toEqual(['moonlight', 'pale_star'])
+
+    // Todos os dias (-1): TODOS os 3 abertos (talentos + armas)
+    const all = computeDailyFarmPlan(plan, data, -1, 'pt')
+    expect(all.openCount).toBe(3)
+    expect(all.weaponDomains.map((d) => d.familyKey)).toEqual(['pale_star'])
+    expect(all.otherDaysDomains).toEqual([])
 
     // Domingo (0): TODOS os 3 abertos
     const sun = computeDailyFarmPlan(plan, data, 0, 'pt')

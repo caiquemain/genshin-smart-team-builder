@@ -4516,6 +4516,30 @@ details.planner-notmapped[open] > summary {
   border-color: rgba(56, 189, 248, 0.3);
 }
 
+.today-other-days {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(148, 163, 184, 0.22);
+}
+
+.today-other-days-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.today-domains-grid.is-other-days .today-domain-card {
+  opacity: 0.82;
+  border-style: dashed;
+}
+
+.today-domains-grid.is-other-days .today-domain-card:hover {
+  opacity: 1;
+}
+
 
 
 

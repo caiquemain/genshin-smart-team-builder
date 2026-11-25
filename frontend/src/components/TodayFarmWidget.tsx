@@ -313,6 +313,7 @@ export default function TodayFarmWidget({
   }, [plan, wl])
 
   const selectedDayInfo = DAY_LABELS_PT.find((d) => d.day === selectedDay)
+  const isAllDays = selectedDay === -1
   const isToday = selectedDay === todayGenshin
   const hasLeylines = leylines.moraMissing > 0 || leylines.xpMissing > 0
 
@@ -322,26 +323,40 @@ export default function TodayFarmWidget({
         <div>
           <h2 className="today-farm-heading">
             <CalendarDays size={18} />
-            {isToday ? 'O que farmar HOJE' : `Domínios de ${selectedDayInfo?.full}`}
+            {isAllDays
+              ? 'Todos os domínios pendentes'
+              : isToday
+                ? 'O que farmar HOJE'
+                : `Domínios de ${selectedDayInfo?.full}`}
           </h2>
           <p className="today-farm-sub">
             {daily.openCount > 0 ? (
               <>
-                <strong>{daily.openCount}</strong> domínio(s) aberto(s) ·{' '}
+                <strong>{daily.openCount}</strong> domínio(s) {isAllDays ? 'pendente(s)' : 'aberto(s)'} ·{' '}
                 <strong>≈{formatResin(daily.totalMissingResin)} ⚡</strong> pendentes
                 {hasLeylines && ' · + Linhas Ley (Mora/XP)'}
                 {selectedDay === 0 && ' · Domingo todos os domínios abrem!'}
               </>
             ) : (
               <>
-                Nenhum domínio de talento/arma pendente {isToday ? 'hoje' : 'neste dia'}.
-                {daily.otherDaysCount > 0 && ` (${daily.otherDaysCount} domínio(s) pendente(s) em outros dias)`}
+                Nenhum domínio de talento/arma pendente {isAllDays ? '' : isToday ? 'hoje' : 'neste dia'}.
+                {daily.otherDaysCount > 0 && ` (${daily.otherDaysCount} domínio(s) pendente(s) em outros dias abaixo)`}
               </>
             )}
           </p>
         </div>
 
         <div className="today-day-pills" role="tablist" aria-label="Dia da semana">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={isAllDays}
+            className={`today-day-pill ${isAllDays ? 'active' : ''}`}
+            onClick={() => setSelectedDay(-1)}
+            title="Mostrar todos os domínios de talento e arma pendentes (qualquer dia)"
+          >
+            Todos
+          </button>
           {DAY_LABELS_PT.map((d) => (
             <button
               key={d.day}
@@ -396,6 +411,25 @@ export default function TodayFarmWidget({
               onEditMaterial={onEditMaterial}
             />
           )}
+        </div>
+      )}
+
+      {!isAllDays && daily.otherDaysDomains.length > 0 && (
+        <div className="today-other-days">
+          <div className="today-other-days-label">
+            Pendentes em outros dias ({daily.otherDaysDomains.length})
+          </div>
+          <div className="today-domains-grid is-other-days">
+            {daily.otherDaysDomains.map((entry) => (
+              <DomainCard
+                key={`other-${entry.kind}-${entry.familyKey}`}
+                entry={entry}
+                wl={wl}
+                resinMode={resinMode}
+                onEditMaterial={onEditMaterial}
+              />
+            ))}
+          </div>
         </div>
       )}
     </section>

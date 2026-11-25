@@ -161,6 +161,7 @@ export interface DailyFarmPlan {
   dayOfWeek: number
   talentDomains: DailyDomainEntry[]
   weaponDomains: DailyDomainEntry[]
+  otherDaysDomains: DailyDomainEntry[]
   totalMissingResin: number
   openCount: number
   otherDaysCount: number
@@ -227,7 +228,7 @@ export function computeDailyFarmPlan(
   const inv = plan.inventory_resolved || {}
   const talentDomains: DailyDomainEntry[] = []
   const weaponDomains: DailyDomainEntry[] = []
-  let otherDaysCount = 0
+  const otherDaysDomains: DailyDomainEntry[] = []
 
   for (const [famKey, usersMap] of usersByFamily.entries()) {
     const sched = getFamilySchedule(famKey)
@@ -261,12 +262,6 @@ export function computeDailyFarmPlan(
 
     if (familyMissingTotal <= 0) continue
 
-    const isOpen = sched.days.includes(dayOfWeek)
-    if (!isOpen) {
-      otherDaysCount++
-      continue
-    }
-
     tiers.sort((a, b) => a.rarity - b.rarity)
     const topTier = tiers[tiers.length - 1]
     // Nome limpo da família baseado no maior tier
@@ -286,12 +281,19 @@ export function computeDailyFarmPlan(
       usedBy: Array.from(usersMap.values()),
     }
 
+    const isOpen = dayOfWeek === -1 || sched.days.includes(dayOfWeek)
+    if (!isOpen) {
+      otherDaysDomains.push(entry)
+      continue
+    }
+
     if (sched.kind === 'talent') talentDomains.push(entry)
     else weaponDomains.push(entry)
   }
 
   talentDomains.sort((a, b) => b.resinMissing - a.resinMissing || a.displayName.localeCompare(b.displayName))
   weaponDomains.sort((a, b) => b.resinMissing - a.resinMissing || a.displayName.localeCompare(b.displayName))
+  otherDaysDomains.sort((a, b) => b.resinMissing - a.resinMissing || a.displayName.localeCompare(b.displayName))
 
   const totalMissingResin =
     talentDomains.reduce((s, d) => s + d.resinMissing, 0) +
@@ -301,8 +303,9 @@ export function computeDailyFarmPlan(
     dayOfWeek,
     talentDomains,
     weaponDomains,
+    otherDaysDomains,
     totalMissingResin,
     openCount: talentDomains.length + weaponDomains.length,
-    otherDaysCount,
+    otherDaysCount: otherDaysDomains.length,
   }
 }
