@@ -22,7 +22,7 @@ import {
   useRole,
   safePolygon,
 } from '@floating-ui/react'
-import { Check, Swords, AlertTriangle } from 'lucide-react'
+import { Check, Swords, AlertTriangle, Zap } from 'lucide-react'
 import { categoryInfo } from '../utils/categories'
 import { computeRunModes, formatResin, type ResinRange } from '../utils/resin'
 
@@ -101,7 +101,9 @@ function ResinBlock({ range }: { range: ResinRange }) {
         <div className="item-tooltip-resin-runs" style={{ gridTemplateColumns: '1fr' }}>
           <div className="is-avg">
             <span>{range.perRunNote ?? 'Custo fixo'}</span>
-            <strong>{range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'} (20⚡)</strong>
+            <strong style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+              {range.avgRuns} {range.avgRuns === 1 ? 'run' : 'runs'} (20 <Zap size={11} />)
+            </strong>
             <small>{formatResin(range.avgResin)} resina total</small>
           </div>
         </div>
@@ -127,15 +129,21 @@ function ResinBlock({ range }: { range: ResinRange }) {
       {modes && (
         <div className="item-tooltip-spend-modes">
           <div className={`item-tooltip-spend-pill ${pref === 20 ? 'is-pref' : ''}`}>
-            <span>20⚡ (1×)</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+              20 <Zap size={10} /> (1x)
+            </span>
             <strong>{modes.runs20} {modes.runs20 === 1 ? 'run' : 'runs'}</strong>
           </div>
           <div className={`item-tooltip-spend-pill ${pref === 40 ? 'is-pref' : ''}`}>
-            <span>40⚡ (2×)</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+              40 <Zap size={10} /> (2x)
+            </span>
             <strong>{modes.runs40} {modes.runs40 === 1 ? 'run' : 'runs'}</strong>
           </div>
           <div className={`item-tooltip-spend-pill ${pref === 60 ? 'is-pref' : ''}`}>
-            <span>60⚡ Cond. (3×)</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+              60 <Zap size={10} /> Cond. (3x)
+            </span>
             <strong>{modes.runs60} {modes.runs60 === 1 ? 'run' : 'runs'}</strong>
           </div>
         </div>

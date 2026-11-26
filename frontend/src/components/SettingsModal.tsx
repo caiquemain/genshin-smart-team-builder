@@ -3,9 +3,9 @@ import { X, Check, Minus, Plus, Zap } from 'lucide-react'
 import type { ResinSpendMode } from '../utils/resin'
 
 const RESIN_MODES: Array<{ value: ResinSpendMode; label: string; desc: string }> = [
-  { value: 20, label: '20⚡ (1×)', desc: 'Original' },
-  { value: 40, label: '40⚡ (2×)', desc: 'Direto' },
-  { value: 60, label: '60⚡ (3×)', desc: 'Condensada' },
+  { value: 20, label: '20 (1x)', desc: 'Original' },
+  { value: 40, label: '40 (2x)', desc: 'Direto' },
+  { value: 60, label: '60 (3x)', desc: 'Condensada' },
 ]
 
 export default function SettingsModal({
@@ -106,13 +106,13 @@ export default function SettingsModal({
                   className={`resin-mode-opt ${draftMode === m.value ? 'is-active' : ''}`}
                   onClick={() => setDraftMode(m.value)}
                 >
-                  <strong>{m.label}</strong>
+                  <strong style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}><Zap size={12} /> {m.label}</strong>
                   <small>{m.desc}</small>
                 </button>
               ))}
             </div>
             <p style={{ fontSize: 11.5, color: 'var(--text-3)', marginTop: 8 }}>
-              Destaca seu modo preferido nas tooltips e cards (60⚡ = Resina Condensada com Núcleo de Cristal, 3× recompensas).
+              Destaca seu modo preferido nas tooltips e cards (60 resina = Resina Condensada com Núcleo de Cristal, 3x recompensas).
             </p>
           </div>
 

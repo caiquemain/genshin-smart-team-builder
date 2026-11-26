@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {
   Sparkles, Target, Compass, Flame, Users, ChevronDown, ChevronUp,
   ArrowRight, AlertTriangle, RefreshCw, Swords, Check, ArrowUpCircle,
-  TrendingUp, Layers, Gem, Repeat, Trophy, X,
+  TrendingUp, Layers, Gem, Repeat, Trophy, X, Calculator, Sword,
 } from 'lucide-react'
 import { api } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -11,8 +11,18 @@ import { artifactIconUrl, iconUrl } from '../config'
 import { archetypeInfo } from '../utils/archetypes'
 import { buildArtifactSetLookup, computeArtifactCritValue } from '../utils/char-stats-calc'
 import { loadPlanFromStorage, PLANNER_UPDATED_EVENT } from '../utils/planner-storage'
+import { loadPlannerData, type PlannerData } from '../utils/planner-data'
+import {
+  computeReachableCharMilestone,
+  computeReachableWeaponMilestone,
+  loadFocusSlugs,
+  saveFocusSlugs,
+  type ReachableMilestone,
+} from '../utils/investment-simulator'
 import { normKey } from '../utils/slug-resolver'
 import { useRoster } from '../utils/roster'
+import InvestmentSimulatorModal from '../components/InvestmentSimulatorModal'
+import type { Plan } from '../types/planner'
 import type {
   ArtifactAdvisorResponse,
   ArtifactDomainRecommendation,
@@ -285,10 +295,20 @@ function UpgradeCard({
   candidate,
   rank,
   charsMap,
+  isFocused = false,
+  charReach = null,
+  weaponReach = null,
+  onToggleFocus,
+  onSimulate,
 }: {
   candidate: UpgradeCandidate
   rank: number
   charsMap: Map<string, CharacterSummary>
+  isFocused?: boolean
+  charReach?: ReachableMilestone | null
+  weaponReach?: ReachableMilestone | null
+  onToggleFocus?: (slug: string) => void
+  onSimulate?: (slug: string) => void
 }) {
   const [expanded, setExpanded] = useState(false)
   const elPal = ELEMENT_PALETTE[candidate.element] ?? { text: '#38bdf8', bg: 'rgba(56,189,248,0.14)', border: 'rgba(56,189,248,0.4)' }
@@ -296,7 +316,7 @@ function UpgradeCard({
   const levelDone = candidate.current_level !== null && candidate.current_level >= candidate.recommended_level
 
   return (
-    <div className="pa-card" style={{ borderLeftColor: elPal.text }}>
+    <div className={`pa-card ${isFocused ? 'is-focused' : ''}`} style={{ borderLeftColor: elPal.text }}>
       <div className="pa-card-head">
         <div className="pa-rank">#{rank}</div>
         <div className="pa-avatar" style={{ borderColor: elPal.text }}>
@@ -313,6 +333,11 @@ function UpgradeCard({
             </span>
             {candidate.cons !== null && (
               <span className="pa-cons-pill">C{candidate.cons}</span>
+            )}
+            {isFocused && (
+              <span className="pa-focus-badge" title="Personagem selecionado no Foco de Farm do Planejador">
+                <Target size={11} /> No Foco
+              </span>
             )}
           </div>
           <div className="pa-tier-pills">
@@ -387,9 +412,11 @@ function UpgradeCard({
                   {isOptional ? (
                     t.current !== null ? `Lv.${t.current} (opcional)` : 'Opcional'
                   ) : isDone ? (
-                    `Lv.${t.current} ✓`
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+                      Lv.{t.current} <Check size={11} />
+                    </span>
                   ) : t.current !== null ? (
-                    `${t.current} → ${t.recommended}`
+                    `${t.current} -> ${t.recommended}`
                   ) : (
                     `Meta Lv.${t.recommended}`
                   )}
@@ -398,6 +425,23 @@ function UpgradeCard({
             )
           })}
         </div>
+
+        {(charReach?.canAdvanceNow || weaponReach?.canAdvanceNow) && (
+          <div className="pa-reach-row">
+            {charReach?.canAdvanceNow && (
+              <span className="pa-reach-pill" title="Com sua Mora, livros de XP e materiais atuais na mochila">
+                <ArrowUpCircle size={12} />
+                Dá pra subir agora: Nv. {charReach.startLevel} <ArrowRight size={10} /> {charReach.reachableLabel}
+              </span>
+            )}
+            {weaponReach?.canAdvanceNow && (
+              <span className="pa-reach-pill is-weapon" title="Com sua Mora, minérios e materiais de arma atuais na mochila">
+                <Sword size={12} />
+                Arma pronta: Nv. {weaponReach.startLevel} <ArrowRight size={10} /> {weaponReach.reachableLabel}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* 4 sinais transparentes */}
@@ -506,8 +550,28 @@ function UpgradeCard({
       )}
 
       <div className="pa-card-actions">
+        {onToggleFocus && (
+          <button
+            type="button"
+            className={`pa-card-btn ${isFocused ? 'is-active' : ''}`}
+            onClick={() => onToggleFocus(candidate.slug)}
+            title={isFocused ? 'Remover do Foco de Farm' : 'Adicionar ao Foco de Farm'}
+          >
+            <Target size={12} /> {isFocused ? 'No Foco' : 'Focar'}
+          </button>
+        )}
+        {onSimulate && (
+          <button
+            type="button"
+            className="pa-card-btn"
+            onClick={() => onSimulate(candidate.slug)}
+            title="Simular investimento com sua mochila atual"
+          >
+            <Calculator size={12} /> Simular
+          </button>
+        )}
         <Link to={`/characters/${candidate.slug}`} className="pa-card-link">
-          Ver Build & Materiais <ArrowRight size={12} />
+          Ver Build &amp; Materiais <ArrowRight size={12} />
         </Link>
         <Link
           to={`/planner/characters?add=${encodeURIComponent(candidate.slug)}&goal=${candidate.recommended_level}`}
@@ -691,6 +755,13 @@ export default function PullAdvisorPage() {
   const [upgradeElement, setUpgradeElement] = useState<string>('all')
   const [upgradeResult, setUpgradeResult] = useState<UpgradeAdvisorResponse | null>(null)
   const [upgradeLoading, setUpgradeLoading] = useState(false)
+  const [focusSlugs, setFocusSlugs] = useState<string[]>(() => loadFocusSlugs())
+  const [onlyFocusedUpgrades, setOnlyFocusedUpgrades] = useState(false)
+  const [pinFocusFirst, setPinFocusFirst] = useState(true)
+  const [plan, setPlan] = useState<Plan | null>(() => loadPlanFromStorage())
+  const [plannerData, setPlannerData] = useState<PlannerData | null>(null)
+  const [simModalOpen, setSimModalOpen] = useState(false)
+  const [simInitialSlugs, setSimInitialSlugs] = useState<string[] | undefined>(undefined)
 
   // Estado — Aba 3: Artefatos & Domínios
   const [artifactFocus, setArtifactFocus] = useState<ArtifactFocus>('all')
@@ -706,10 +777,30 @@ export default function PullAdvisorPage() {
 
   const [error, setError] = useState<string | null>(null)
 
+  const toggleFocusSlug = (slug: string) => {
+    setFocusSlugs((prev) => {
+      const next = prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+      saveFocusSlugs(next)
+      return next
+    })
+  }
+
   useEffect(() => {
-    const syncPlanner = () => setPlannerSlugs(readActivePlannerSlugs())
+    const syncPlanner = () => {
+      setPlannerSlugs(readActivePlannerSlugs())
+      setPlan(loadPlanFromStorage())
+      setFocusSlugs(loadFocusSlugs())
+    }
     window.addEventListener(PLANNER_UPDATED_EVENT, syncPlanner)
-    return () => window.removeEventListener(PLANNER_UPDATED_EVENT, syncPlanner)
+    window.addEventListener('storage', syncPlanner)
+    return () => {
+      window.removeEventListener(PLANNER_UPDATED_EVENT, syncPlanner)
+      window.removeEventListener('storage', syncPlanner)
+    }
+  }, [])
+
+  useEffect(() => {
+    loadPlannerData().then(setPlannerData).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -1356,31 +1447,127 @@ export default function PullAdvisorPage() {
                 ))}
               </div>
             </div>
+
+            <div className="pa-focus-toolbar">
+              <div className="pa-focus-toolbar-left">
+                <button
+                  type="button"
+                  className={`filter-pill ${onlyFocusedUpgrades ? 'active' : ''}`}
+                  style={{ '--pill-color': '#38bdf8' } as React.CSSProperties}
+                  onClick={() => setOnlyFocusedUpgrades((v) => !v)}
+                  title="Filtrar apenas personagens que estão no seu Foco de Farm"
+                >
+                  <Target size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                  Só meu foco ({focusSlugs.length})
+                </button>
+                <button
+                  type="button"
+                  className={`filter-pill ${pinFocusFirst ? 'active' : ''}`}
+                  style={{ '--pill-color': '#818cf8' } as React.CSSProperties}
+                  onClick={() => setPinFocusFirst((v) => !v)}
+                  title="Manter os personagens em foco destacados no topo da lista"
+                >
+                  Fixar foco no topo
+                </button>
+              </div>
+              <button
+                type="button"
+                className="pa-sim-launch-btn"
+                disabled={!plannerData || !upgradeResult}
+                onClick={() => {
+                  setSimInitialSlugs(undefined)
+                  setSimModalOpen(true)
+                }}
+                title="Simular até que nível você consegue subir seus personagens e armas agora com sua mochila"
+              >
+                <Calculator size={14} /> Simular com minha mochila
+              </button>
+            </div>
           </section>
 
           {upgradeLoading && !upgradeResult && (
             <p className="status">Analisando níveis e talentos da sua conta...</p>
           )}
 
-          {upgradeResult && upgradeResult.recommendations.length === 0 && (
-            <div className="pa-stat-card" style={{ textAlign: 'center', padding: 28 }}>
-              {ownedSlugs.length === 0
-                ? 'Adicione seus personagens no Roster (ou importe seu GOOD JSON) para ver em quem focar agora.'
-                : 'Nenhum personagem encontrado nesse filtro. Tente mudar o estágio para "Todos" ou limpar o elemento.'}
-            </div>
-          )}
+          {upgradeResult && (() => {
+            const focusSet = new Set(focusSlugs)
+            const inv = plan?.inventory_resolved ?? {}
+            const planCharBySlug = new Map((plan?.chars ?? []).map((c) => [c.slug, c]))
+            const list = upgradeResult.recommendations
+              .filter((c) => !onlyFocusedUpgrades || focusSet.has(c.slug))
+              .sort((a, b) => {
+                if (pinFocusFirst) {
+                  const af = focusSet.has(a.slug) ? 0 : 1
+                  const bf = focusSet.has(b.slug) ? 0 : 1
+                  if (af !== bf) return af - bf
+                }
+                return 0
+              })
 
-          {upgradeResult && upgradeResult.recommendations.length > 0 && (
-            <div className="pa-grid">
-              {upgradeResult.recommendations.map((cand, idx) => (
-                <UpgradeCard
-                  key={cand.slug}
-                  candidate={cand}
-                  rank={idx + 1}
-                  charsMap={charsMap}
-                />
-              ))}
-            </div>
+            if (list.length === 0) {
+              return (
+                <div className="pa-stat-card" style={{ textAlign: 'center', padding: 28 }}>
+                  {onlyFocusedUpgrades
+                    ? 'Nenhum personagem do seu Foco de Farm corresponde aos filtros atuais. Desative "Só meu foco" ou mude o estágio para "Todos".'
+                    : ownedSlugs.length === 0
+                      ? 'Adicione seus personagens no Roster (ou importe seu GOOD JSON) para ver em quem focar agora.'
+                      : 'Nenhum personagem encontrado nesse filtro. Tente mudar o estágio para "Todos" ou limpar o elemento.'}
+                </div>
+              )
+            }
+
+            return (
+              <div className="pa-grid">
+                {list.map((cand, idx) => {
+                  const g = roster.getGoodState(cand.slug)
+                  const pChar = planCharBySlug.get(cand.slug)
+                  const curLv = cand.current_level ?? pChar?.char_goal?.current?.level ?? g?.level ?? 1
+                  const curAsc = pChar?.char_goal?.current?.asc ?? g?.ascension ?? null
+                  const targetLv = Math.max(curLv, cand.recommended_level ?? 80)
+                  const targetAsc = targetLv >= 80 ? 6 : null
+                  const charReach = plannerData
+                    ? computeReachableCharMilestone(cand.slug, curLv, curAsc, targetLv, targetAsc, inv, plannerData, lang)
+                    : null
+
+                  const planWeapon = pChar?.weapons?.[0] ?? null
+                  const weaponSlug = planWeapon?.slug ?? g?.weaponSlug ?? null
+                  const weaponLv = planWeapon?.from_level ?? g?.weaponLevel ?? 1
+                  const weaponReach = plannerData && weaponSlug
+                    ? computeReachableWeaponMilestone(weaponSlug, weaponLv, null, 90, inv, plannerData, lang)
+                    : null
+
+                  return (
+                    <UpgradeCard
+                      key={cand.slug}
+                      candidate={cand}
+                      rank={idx + 1}
+                      charsMap={charsMap}
+                      isFocused={focusSet.has(cand.slug)}
+                      charReach={charReach}
+                      weaponReach={weaponReach}
+                      onToggleFocus={toggleFocusSlug}
+                      onSimulate={(slug) => {
+                        setSimInitialSlugs([slug])
+                        setSimModalOpen(true)
+                      }}
+                    />
+                  )
+                })}
+              </div>
+            )
+          })()}
+
+          {simModalOpen && plannerData && upgradeResult && (
+            <InvestmentSimulatorModal
+              candidates={upgradeResult.recommendations}
+              focusSlugs={focusSlugs}
+              initialSelectedSlugs={simInitialSlugs}
+              plan={plan}
+              plannerData={plannerData}
+              getGoodState={roster.getGoodState}
+              lang={lang}
+              onClose={() => setSimModalOpen(false)}
+            />
           )}
         </>
       )}

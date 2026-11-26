@@ -216,7 +216,9 @@ function LeylineCard({
               </span>
               <span>Todos os dias</span>
               <span>·</span>
-              <span>{displayRuns} {displayRuns === 1 ? 'run' : 'runs'} ({resinMode}⚡)</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                {displayRuns} {displayRuns === 1 ? 'run' : 'runs'} ({resinMode} <Zap size={10} />)
+              </span>
             </div>
           </div>
           <div className="today-domain-resin" title="Resina estimada na Linha Ley">
@@ -333,7 +335,10 @@ export default function TodayFarmWidget({
             {daily.openCount > 0 ? (
               <>
                 <strong>{daily.openCount}</strong> domínio(s) {isAllDays ? 'pendente(s)' : 'aberto(s)'} ·{' '}
-                <strong>≈{formatResin(daily.totalMissingResin)} ⚡</strong> pendentes
+                <strong style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                  ~{formatResin(daily.totalMissingResin)} <Zap size={12} />
+                </strong>{' '}
+                pendentes
                 {hasLeylines && ' · + Linhas Ley (Mora/XP)'}
                 {selectedDay === 0 && ' · Domingo todos os domínios abrem!'}
               </>

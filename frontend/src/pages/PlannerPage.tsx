@@ -1172,7 +1172,7 @@ export default function PlannerPage() {
             <UserCheck size={16} /> Importar por UID
           </button>
           <button className="btn-secondary" onClick={() => setShowSettings(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <Settings size={16} /> AR {ar} / WL {wl} · {resinMode}⚡
+            <Settings size={16} /> AR {ar} / WL {wl} · <Zap size={13} /> {resinMode}
           </button>
           {(hasActivePlan || seelieData || goodData) && (
             <button className="btn-danger" onClick={handleClear}>Limpar plano</button>

@@ -841,7 +841,7 @@ export default function PlannerCharacterModal({
                         )}
                         {wResin > 0 && (
                           <span className="plan-modal-weapon-cost-pill is-resin" title="Resina estimada para materiais de ascensão faltantes desta arma">
-                            <Zap size={12} /> ~{wResin} ⚡
+                            <Zap size={12} /> ~{wResin}
                           </span>
                         )}
                       </div>
